@@ -1,0 +1,49 @@
+<apex:component controller="Service_FolderComments" allowDML="true">
+   
+    <apex:attribute name="distributorId" description="Distributor Id" type="ID" required="true"/>
+    <apex:attribute name="folderId" description="Folder Id" type="ID" required="true"/>
+    <apex:attribute name="fileOptions" description="List of file options" type="list" required="true"/>
+
+    <div class="moreInfoWrapper">
+        <div class="moreInfoDescriptionWrapper sectionBackground">
+            <div class="moreInfoDescription">Add Post</div>
+            <div class="moreInfoClose close">&nbsp;</div>
+        </div>
+		<div class="moreInfoError">
+			<apex:outputPanel id="moreInfoError">
+				<apex:messages styleClass="errorMessagesList" />
+			</apex:outputPanel>
+		</div>              
+		<div class="moreInfoContentWrapper">
+			<apex:form >
+				<apex:actionFunction status="ajax-status" name="addCommentMsg" action="{!addCommentMsg}" rerender="addComment, moreInfoError"/>
+				<apex:actionFunction status="ajax-status" name="closeCommentMsg" action="{!closeCommentMsg}" rerender="addComment, moreInfoError"/>
+
+				<apex:pageBlock id="addComment">
+					<div class="shareRecipientInformation">
+					<apex:variable var="tmpIsAdded" value="{!isAdded}"/>
+						<apex:outputPanel rendered="{!tmpIsAdded != true}">
+							Your Post: <span style="color: #aaaaaa; font-size: 10px;">Limited to 1000 characters</span>
+							<apex:inputTextarea value="{!commentBody}"/><br/>
+							<div style="position: relative;  height: 40px;">
+								<div style="position: absolute; top: 5px; left: 0px;">
+									Reference a file in your post: 
+								</div>
+								<div style="position: absolute; top: -10px; left: 235px;">
+									<c:selectList options="{!fileOptions}"  value="{!fileId}" useSectionTheme="true"/>
+								</div>
+							</div>
+							<apex:inputHidden value="{!distributorId}"/><apex:inputHidden value="{!folderId}"/>
+							<button class="green" onclick="addCommentMsg(); return false;">SEND</button> <span class="close defaultTheme">cancel</span>
+						</apex:outputPanel>
+						<apex:outputPanel rendered="{!tmpIsAdded==true}">
+							Comment added. Thank You.<br/><br/>
+							<button class="green close" onclick="closeCommentMsg(); refreshPageContent(); return false;">CLOSE</button>
+						</apex:outputPanel>
+					</div>		
+				</apex:pageBlock>	
+			</apex:form>
+		</div>
+	</div>
+ 
+</apex:component>

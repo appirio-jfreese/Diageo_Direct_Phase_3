@@ -1,0 +1,11 @@
+<apex:component >
+    <apex:attribute name="isInternal" description="Tell if user is Innternal or not" type="Boolean" required="true"/>
+    <div class="footer">
+        <a href="">&copy; Diageo 2011</a><span>|</span>
+        <a href="{!$Page.TermsAndConditions}">Terms &amp; Conditions</a><span>|</span>
+        <a href="{!$Page.PrivacyPolicy}">Privacy &amp; Cookies Notice</a><span>|</span>
+        <a href="{!$Page.Links}">Industry Related Links</a><span>|</span>
+        <a href="{!$Page.FAQ}">FAQ</a><span>|</span>
+        <a href="{!$Page.Cases}?caseType=new">Contact Us</a>
+    </div>
+</apex:component>

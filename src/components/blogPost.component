@@ -1,0 +1,117 @@
+<!-----------------------------------------------------------------------------------------------------------------
+Name        : blogPost.component
+
+Updated By  : Basant Verma (Appirio OffShore)
+Date        : 5/31/13
+Story/Task  : US503/TA907
+------------------------------------------------------------------------------------------------------------------->
+<apex:component controller="Controller_BlogPost" >
+	<style type="text/css">
+		div.blogPost-wrap{
+			width:      960px;
+	    margin:     0px auto;
+	    padding:    0px;
+	    overflow:   hidden;
+	    border:     1px solid #C5C5C5;
+		}
+		
+		div.blogPost-item{
+			background: #ffffff;
+			margin: 0px auto;
+			padding: 10px;
+	    overflow: hidden;
+	    font-family: Tahoma, Arial;
+    	text-align: left;
+	    border-bottom: 1px solid #C5C5C5;
+		}
+		
+		div.blogPost-item-title{
+			color: #ff0000;
+			font-size: 20px;
+    	font-weight: bold;
+		}
+		
+		a.blogPost-item-title-link{
+			color: #ff0000;
+    	text-decoration: none;
+		}
+		
+		div.blogPost-item-tittle-info{
+			color: #5e5d5d;
+			font-size: 12px;
+		}
+		
+		span.blogPost-item-tittle-info-spcl{
+			color: #ff0000;
+		}
+		
+		div.blogPost-item-desc{
+			color: #000000;
+			font-size: 15px;
+			padding-top: 10px;
+			padding-bottom: 10px;
+		}	
+		
+	</style>
+	
+	<script type="text/javascript">
+		function truncateDescription(){
+			if('{!blogFormat}' == 'TitlesAndShortDesc' || '{!blogFormat}' == 'TitlesAndLongDesc'){
+				var maxLen = 100;
+				if('{!blogFormat}' == 'TitlesAndLongDesc')
+					maxLen = 200;
+				var allDescElement = document.getElementsByClassName("_summaryText");
+				var i = 0;
+				
+				for(i=0; i < allDescElement.length; i++) {
+					if(allDescElement[i].innerHTML.length > maxLen){
+						allDescElement[i].innerHTML = allDescElement[i].innerHTML.substring(0, maxLen) + "...<span class=\"blogPost-item-tittle-info-spcl\">read more</span>";
+						
+					}
+				}
+			}
+		}
+	</script>
+	<apex:attribute name="isLoggedIn" type="Boolean" required="true" description="" />
+	<apex:attribute name="url" type="String" default="" required="false" assignTo="{!blogUrl}" description=""/>
+	<apex:attribute name="tags" type="String" default="" required="false" assignTo="{!blogTag}" description=""/>
+	<apex:attribute name="smartTag" type="String" default="" required="false" assignTo="{!blogSTag}" description=""/>
+	<apex:attribute name="maxAllowdBlogs" type="Integer" default="5" required="true" assignTo="{!blogCount}" description="" />
+	<apex:attribute name="format" type="String" default="TitlesAndShortDesc" required="true" assignTo="{!blogFormat}" description="format for blog post, possible values (Titles, TitlesAndShortDesc, TitlesAndLongDesc)" />
+		
+		<div class="blogPost-wrap">
+			<!-- 
+				Titles 							: DISPLAY TITLE ONLY
+				TitlesAndShortDesc	: DISPLAY TITLE AND 100 CHAR OF BLOG
+				TitlesAndLongDesc	: DISPLAY TITLE AND 200 CHAR OF BLOG 
+			-->
+			<apex:outputPanel >
+				<apex:repeat value="{!blogPosts}" var="bp">
+					<div class="blogPost-item">
+						<div class="blogPost-item-title">
+							<a href="{!$Page.BlogPosts}" class="blogPost-item-title-link" onclick="pageViewed('BlogPosts - {!bp.Name}');">{!bp.Name}</a>
+						</div>
+						<div class="blogPost-item-tittle-info">
+							Posted By : <span class="blogPost-item-tittle-info-spcl"> {!bp.CreatedBy.Name} </span> | {!bp.CreatedDate}
+						</div>
+						<apex:outputPanel rendered="{!IF(OR(blogFormat = 'TitlesAndLongDesc', format = 'TitlesAndShortDesc'), true, false)}">	
+							<div class="blogPost-item-desc">
+								<apex:outputText styleClass="_summaryText" value="{!bp.Summary__c}" escape="false"/>
+							</div>
+							<div class="blogPost-item-tittle-info">
+								{!bp.Comment__r.size} Comments | Tags : 
+								<span class="blogPost-item-tittle-info-spcl">
+									<apex:repeat value="{!bp.Blog2Tag__r}" var="tg">
+										{!tg.Tag__r.Name},
+									</apex:repeat>
+								</span>
+							</div>
+						</apex:outputPanel>
+					</div>
+				</apex:repeat>
+			</apex:outputPanel>
+		</div>
+		<script type="text/javascript">
+			truncateDescription();
+		</script>
+</apex:component>

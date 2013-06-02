@@ -1,0 +1,6 @@
+<apex:page controller="ControllerControlMarketCases" contentType="text/csv#Case_List.csv" language="en-US" cache="true">
+    "Case Number","User name" ,"Subject","Age of Case","Case Open Date","Appirio Request Type","Description","Last Case Comment"
+    <apex:repeat value="{!WrapperCaseList}" var="c">           
+            "{!c.CaseNumber}", "{!c.userName}","{!c.subject}","{!c.age}","{!c.openDate}","{!c.Appirio_Request_Type}","{!c.Description}","{!c.caseComement}"
+            </apex:repeat>       
+</apex:page>

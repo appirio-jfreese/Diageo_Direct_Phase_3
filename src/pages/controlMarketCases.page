@@ -1,0 +1,19 @@
+<apex:page controller="ControllerControlMarketCases">
+    <apex:form >
+    <apex:pageBlock title="Cases">
+    <apex:pageBlockButtons >
+     <apex:commandButton value="Export Case List" onclick="location.href='/apex/ExportCsvForControlMarketCase';return false;"/>
+    </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!WrapperCaseList}" var="c">
+            <apex:column value="{!c.CaseNumber}" headerValue="Case Number"/>
+               <apex:column value="{!c.userName}" headerValue="User name"/>
+                <apex:column value="{!c.subject}" headerValue="Subject"/>
+                <apex:column value="{!c.age}" headerValue="Age"/>
+                <apex:column value="{!c.openDate}" headerValue="Time Opened"/>
+                <apex:column value="{!c.Appirio_Request_Type}" headerValue="Appirio Request Type"/>
+                <apex:column value="{!c.Description}" headerValue="Description"/>
+                <apex:column value="{!c.caseComement}" headerValue="Case Comment"/>     
+            </apex:pageBlockTable>
+     </apex:pageBlock>       
+    </apex:form>        
+</apex:page>

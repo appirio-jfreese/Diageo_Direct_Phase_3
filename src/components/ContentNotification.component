@@ -1,0 +1,12 @@
+<apex:component controller="ContentNotificationController" access="global">
+    <apex:dataTable value="{!ContentSubs}" var="conSub">
+        <apex:column >
+            <apex:facet name="header">User</apex:facet>
+            {!conSub.User__c}
+        </apex:column>
+        <apex:column >
+            <apex:facet name="header">Content</apex:facet>
+            {!conSub.Content__c}
+        </apex:column>
+    </apex:dataTable>
+</apex:component>

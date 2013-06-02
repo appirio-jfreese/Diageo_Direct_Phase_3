@@ -1,0 +1,1014 @@
+/*****************************************************************************************************************
+Name        : Controller_Base.cls
+
+Updated By  : Basant Verma (Appirio Offshore)   
+Date        : 5/27/13
+Story/Task  : US85/TA910 - DE550
+
+Updated By  : Basant Verma (Appirio Offshore)   
+Date        : 5/22/13
+Story/Task  : US491/TA920
+
+Updated By  : Jonathan Freese (Appirio)   
+Date        : 5/23/13
+Story/Task  : US493/TA922
+*******************************************************************************************************************/
+
+global public without sharing virtual class Controller_Base {
+		// Start : Changes for TA920 - Basant Verma
+		public String clickedTheme {public get; public set;}
+		private String defSiteThemeTemp;
+		public boolean isNeedToggle {
+			get{
+        if(currentUserPage().equalsIgnoreCase('/apex/HomePage'))
+        	return true;
+        else
+        	return false;
+	    }
+	  }
+	  public String planningTheme {get; set;}
+		// End : Changes for TA920
+    // Begin Appirio Case 4632 - Mark Ellis
+    public boolean firstload {public get; public set;}
+    // Begin Appirio Case 4632
+ 
+	public String pageUrl {public get; public set;}
+    public String siteTheme {public get; public set;}
+    public String siteThemeDef {public get; public set;}
+    public Boolean isSiteThemeDef {public get; public set;}
+	 
+	public string hexDiageowines {get; private set;}
+    public string hexDwsacademies {get;private set;}
+    public string ssoId {get;private set;}
+	 
+	protected Boolean shareFromContentDescription {protected get; protected set;}
+	 
+	public Set<Id> currentBasketIds {public get; protected set;}
+	public Set<Id> currentFollowIds {public get; protected set;}
+		
+    public Boolean isLoggedIn{get; protected set;}
+    public Boolean isExport{get; protected set;}
+    
+    public list<pageLink> breadCrumbLinks{get; protected set;}
+    public list<pageLink> menuLinks{get; protected set;}
+
+    public String videoPlayerId{get; protected set;}
+    public String videoPlayerKey{get; protected set;}
+
+    public String searchPhrase {public get; public set;}
+    
+    public String googleAnalyticsUID {public get; protected set;}
+    public String userType {public get; protected set;}
+    public Boolean expandFilter {get;set;}   
+        
+    public String myuserAgent{get;set;}
+    public Boolean isIpad{get;set;}
+    public Boolean isInternalUser {
+	    get{
+	    	if (isInternalUser == null) {
+		    	isInternalUSer = false;
+		    	try{
+			    	Account diageo = [select Id from Account where Name = 'DIAGEO'];
+			    	List<Account_Member__c> members = [select Account__c from Account_Member__c where User__c = :Service_API.getUID()];
+			    	for(Account_Member__c member : members){
+			    		if(member.Account__c == diageo.id){
+			    			isInternalUser = true;
+			    			break;
+			    		}
+			    	}
+		    	} catch(Exception ex){
+		    		//nothing
+		    	}
+	    	}
+	    	return isInternalUser;
+	    } private set;
+	}
+    
+    public List<String> distributorNames {
+	    get{
+	    	List<String> distributorNames = Service_API.getDistributorNames();
+	    	return distributorNames;
+	    } private set;
+	}
+	
+    public Integer basketItemsNo {
+	    get{
+	    	Integer noBasketItems = Service_Basket.getNumberOfItems();
+	    	return noBasketItems;
+	    } private set;
+	} 
+	
+	// pages
+    public Integer numberOfPages {public get; public set;}
+    public Integer numberOfItems {public get; public set {
+			pageNumbers = new list<Integer>(); 			
+			if(value > 0 && numberOfItemsOnPage > 0){
+    			numberOfItems = value;
+				showFromIndex = (numberOfCurrentPage-1)*numberOfItemsOnPage;
+				if(showFromIndex + numberOfItemsOnPage <= numberOfItems){
+					showToIndex = showFromIndex + numberOfItemsOnPage;
+				} else {
+					showToIndex = numberOfItems;
+				}
+				if(numberOfItems > numberOfItemsOnPage){
+					numberOfPages = Integer.valueOf(math.ceil(decimal.valueOf(numberOfItems)/numberOfItemsOnPage));		
+				} else {
+					numberOfPages = 1;
+				}
+				
+				if(numberOfCurrentPage == 1){
+					pageNumbers.add(1);
+					if(numberOfCurrentPage+1 <= numberOfPages && numberOfCurrentPage+1 != 0){
+						pageNumbers.add(numberOfCurrentPage+1);
+					}
+					if(numberOfCurrentPage+2 <= numberOfPages && numberOfCurrentPage+2 != 0){
+						pageNumbers.add(numberOfCurrentPage+2);
+					}						
+				} else if(numberOfCurrentPage == numberOfPages){
+					if(numberOfCurrentPage-2 <= numberOfPages && numberOfCurrentPage-2 != 0){
+						pageNumbers.add(numberOfCurrentPage-2);
+					}
+					if(numberOfCurrentPage-1 <= numberOfPages && numberOfCurrentPage-1 != 0){
+						pageNumbers.add(numberOfCurrentPage-1);
+					}
+					if(numberOfCurrentPage <= numberOfPages && numberOfCurrentPage != 0){
+						pageNumbers.add(numberOfCurrentPage);
+					}
+				} else {
+					if(numberOfCurrentPage-1 <= numberOfPages && numberOfCurrentPage-1 != 0){
+						pageNumbers.add(numberOfCurrentPage-1);
+					}
+					if(numberOfCurrentPage <= numberOfPages && numberOfCurrentPage != 0){			
+						pageNumbers.add(numberOfCurrentPage);
+					}
+					if(numberOfCurrentPage+1 <= numberOfPages && numberOfCurrentPage+1 != 0){
+						pageNumbers.add(numberOfCurrentPage+1);
+					}
+				}
+			} else {
+				numberOfItems = 0;
+				showFromIndex = 0;
+				showToIndex = 0;
+				numberOfPages = 1;
+				//numberOfCurrentPage = 1;
+			}
+			
+    	}}
+	public Integer numberOfItemsOnPage {public get; public set;}   
+    public Integer numberOfCurrentPage {public get; public set;}    
+    public Integer showFromIndex {public get; public set; }
+    public Integer showToIndex {public get; public set; }        
+    public List<Integer> pageNumbers {public get; public set; }
+    public String cShareLink {public get; public set; }
+    public String cShareLinkLow {public get; public set; }
+	public Boolean isNewContent {public get; protected set; }
+
+    //Site navigation menu links list
+    public list<pageLink> menuLinksBase {public get {
+		PageLink dws = (siteTheme == 'Spirits') ? (new PageLink('/idp/login?app='+ssoId+'&RelayState='+hexDwsacademies,Constant.DWS, 'menu-plan')) : (new PageLink('/idp/login?app='+ssoId+'&RelayState='+hexDiageowines,Constant.DIAGEOWINESCOM, 'menu-plan'));
+							
+		return new list<pageLink>
+        	{
+	           new PageLink(Page.MonthlyExecutionPlan.getUrl(),Constant.MONTHLY_EXECUTION_PLAN, 'menu-mep'),
+	           new PageLink(Page.InnovationAndVAP.getUrl(),((Service_API.getSectionTheme() == 'Spirits') ? Constant.INNOVATION_AND_SUSTAINOVATION : Constant.INNOVATION_SUSTAINOVATION_AND_VINTAGE) , 'menu-isv'),
+	           new PageLink(Page.SMIntro.getUrl(),Constant.SELLING_MATERILAS, 'menu-sm'),
+	           new PageLink(Page.CDIntro.getUrl(),Constant.CATEGOTY_DEVELOPMENT, 'menu-pm'),
+	           new PageLink(Page.BMIIntro.getUrl(),Constant.BRAND_MARKETING_INFORMATION, 'menu-bmi'),
+	           new PageLink(Page.PIL.getUrl(),Constant.PRODUCT_IMAGES_AND_LOGOS, 'menu-pil'),
+	           new PageLink(Page.POS_LegalDisclaimer.getUrl(),Constant.POS, 'menu-pos'),
+	           new PageLink(Page.Collaboration.getUrl(),Constant.COLLABORATION, 'menu-col'),
+	           dws,
+	           new PageLink(Page.Multicultural.getUrl(),Constant.MULTICULTURAL, 'menu-dws')
+	        }; 
+    	}
+    	protected set;}
+        
+	// content overview/share
+	public String cVersionId {public get; public set; }
+	public String cDescr {public get; public set; }
+	public String cVideoId {public get; public set; }	
+	public Boolean cIsVideo {public get; public set; }
+	public Boolean cIsPreview {public get; public set; }		        
+	public String cPreviewId {public get; public set; }
+	
+	
+	// multiple share
+	public String cVersionIds {public get; public set; }
+	
+	public DateTime lastLoginDate {
+		public get{
+			if (lastLoginDate==null) {
+                 lastLoginDate = Service_API.getLastLoginDate();
+			}
+			return lastLoginDate;
+		} 
+		private set;
+	}
+	
+	private void setGAUID(){
+		if(googleAnalyticsUID==null)
+			googleAnalyticsUID = Service_API.getSetting('googleanaliticsuid');
+	}
+		
+    public Controller_Base() {
+    	myuserAgent = ApexPages.currentPage().getHeaders().get('USER-AGENT');
+    	if(myuserAgent != null && myuserAgent != '' && myuserAgent.contains('iPad')){
+    		isIpad = true;	
+    	}else{
+    		isIpad = false;
+    	}
+    	
+			String siteThemeDefault = Service_API.getSectionThemeDefault();
+    	if(siteThemeDefault != null && siteThemeDefault != ''){
+    		isSiteThemeDef = true;
+    	} else {
+    		isSiteThemeDef = false;
+    	}
+    	
+    	siteTheme = Service_API.getSectionTheme();
+			
+			// Start : Changes for TA920 - Basant Verma    	
+    	defSiteThemeTemp = siteThemeDefault;   
+    	clickedTheme = siteTheme;
+    	// End : Changes for TA920
+    	
+    	currentBasketIds = new set<id>();
+    	currentFollowIds = new set<id>();
+    	
+    	ssoId = Service_API.getSSOId();
+		User u = [select Id, FirstName, LastName, Title from User where Id = : UserInfo.getUserId()];
+        
+        String usrInfo = 'first_name=' + u.FirstName + ',last_name=' + u.LastName+', title=' + u.Title;
+        
+        Blob spBlob    = Blob.ValueOf('dest=diageowines.com,'+usrInfo );
+        hexDiageowines = EncodingUtil.base64Encode(spBlob);
+        
+        spBlob          = Blob.ValueOf('dest=www.dwsacademies.com,'+usrInfo );
+        hexDwsacademies = EncodingUtil.base64Encode(spBlob);   
+    	
+    	shareFromContentDescription = true;
+        isLoggedIn      = Userinfo.getUserName() != null;
+        breadCrumbLinks = new list<pageLink>();
+        menuLinks       = new list<pageLink>();
+	    
+	    videoPlayerId  = Service_API.getVideoPlayerId();
+        videoPlayerKey = Service_API.getVideoPlayerKey();
+        
+        setGAUID();
+        
+        setUserType();
+	
+		// pages
+		initPager();       
+        
+        preapareSiteNavigationMenu();
+        
+        // content share/overview
+       	cDescr     = null;
+		cVideoId   = null;
+		cVersionId = null;
+		cVersionIds = null;
+		cIsVideo   = false;
+		cShareLink = null;
+		cShareLinkLow = null;
+	
+    }
+    
+    public List<SelectOption> getNumberOfItemsPerPageList() {
+        return Service_UserInput.getNumberOfItemsPerPageList();
+    }
+    
+    //Case 4632 
+    public void changeNumberOfItemPerPage(){
+    	Service_API.setUserNumberOfItemsPerPage(String.valueOf(numberOfItemsOnPage));
+    	initPager();
+    	refreshPageContent();
+    	expandFilter = false;
+    }
+
+	public void changeListOrder(){
+    	refreshPageContent();
+    }
+
+    public List<SelectOption> getSiteThemes() {
+    	List<SelectOption> options = new List<SelectOption>();
+    	List<SelectOption> tmp = Service_UserInput.getSiteThemes();
+    	SelectOption lastOpt;
+    	for(SelectOption so : tmp){
+    		if(so.getLabel() != siteTheme)
+    			options.add(so);
+    		else {
+    			lastOpt = so;
+    		}
+    	}
+    	options.add(lastOpt);
+        return options;
+    }
+    
+    public String themeOptionsString { get {
+    	String resultStr = '';
+		map<String,String> urlPrm = ApexPages.currentPage().getParameters();
+		String glueThmOpt = '';
+		for(String prm : urlPrm.keySet()){
+			String prmAfter = prm.replaceAll('themetype', '');
+			if(prm.length() != prmAfter.length()){ // this param contains information theme
+				resultStr += glueThmOpt + EncodingUtil.urlDecode(urlPrm.get(prm), 'UTF-8');
+				glueThmOpt = ', ';
+			}
+		}
+   		return resultStr;
+    } set;}
+    
+    public List<CheckboxOption> themeOptions {
+    	get {
+    		if(themeOptions == null){
+    			themeOptions = new List<CheckboxOption>();
+				map<String,String> urlPrm = ApexPages.currentPage().getParameters();
+				set<String> themesFromUrl = new set<string>();
+				for(String prm : urlPrm.keySet()){
+					String prmAfter = prm.replaceAll('themetype', '');
+					if(prm.length() != prmAfter.length()){ // this param contains information theme
+						themesFromUrl.add(EncodingUtil.urlDecode(urlPrm.get(prm), 'UTF-8'));
+					}
+				}
+    			for(SelectOption opt : getSiteThemes()){
+    				if(opt.getLabel() != siteTheme)
+    					themeOptions.add(new CheckboxOption(opt.getLabel(), themesFromUrl.contains(opt.getLabel()), false));
+    			}
+    			themeOptions.add(new CheckboxOption(siteTheme, true, true));
+    		}
+    		
+    		// Start : For US85/TA910
+		    // @description To Show Sub Options ( Catalyst,  Other) on 'Monthly execution plan'
+		    // Edited by Jonathan Freese per DE552 to change Other to US Spirits and place it above Catalyst
+    		if(currentUserPage().equalsIgnoreCase('/apex/MonthlyExecutionPlan')){
+    			for(CheckboxOption cbo : themeOptions){
+	    			if(cbo.name.equalsIgnoreCase(Label.CatalystParentTheme) && cbo.subOptions.size() == 0){
+	    				cbo.subOptions = new List<CheckboxOption>();
+	    				cbo.subOptions.add(new CheckboxOption('US Spirits', cbo.chosen, false));
+	    				cbo.subOptions.add(new CheckboxOption('Catalyst', cbo.chosen, false));
+	    			}
+	    		}
+    		} // End : For US85/TA910
+    		
+    		return themeOptions;
+    	}
+    	set;
+    }
+    
+    public Integer noOfThemesAvailable {
+    	get {
+    		return themeOptions.size();
+    	}
+    }
+    
+    protected Set<String> selectedThemes(){
+    	Set<String> str = new Set<String>();
+    	for(CheckboxOption o : themeOptions){
+    		if(o.chosen)
+    			str.add(o.name);
+				for(CheckboxOption subOp : o.subOptions){
+					if(subOp.chosen)
+						str.add(subOp.name);
+				}
+    	}
+    	return str;
+    }
+    
+    public Boolean isCalendarThemeMixed{
+    	get {
+    		return selectedThemes().size()>1;
+    	}
+    }
+    
+    protected String parseSelectedThemesToUrl(){
+    	String urlThemeParam = '';
+    	String glue = '';
+    	Integer i = 1;
+    	for(CheckboxOption o : themeOptions){
+    		if(o.chosen){
+    			urlThemeParam += glue+'themetype'+i+'='+EncodingUtil.urlEncode(o.name, 'UTF-8');
+    			glue = '&';
+    			i++;
+    		}
+    	}
+    	return urlThemeParam;
+    }
+    
+    public PageReference changeSiteTheme(){
+		if(siteTheme == null || siteTheme == ''){
+			ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Site theme is required.' ));
+			return null;
+		}
+		try {
+		
+			// update user profile
+			Service_API.setUserSiteTheme(siteTheme, isSiteThemeDef);
+			
+		} catch (Exception e){
+			ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to set site theme.' ));
+			return null;
+		}
+		PageReference p;
+
+        String currentUserPageUrl = ApexPages.currentPage().getUrl();
+        Integer ask = currentUserPageUrl.indexOf('?');
+        String currentUserPage = (ask==-1) ? currentUserPageUrl : currentUserPageUrl.substring(0, ask);
+
+		if(currentUserPage != null && currentUserPage != ''){
+			p = new PageReference(currentUserPage);
+		} else {
+			p = Page.HomePage;
+		}
+
+		p.setRedirect(true);    
+		return p;
+    }
+
+    public PageReference changeCurrentSiteTheme(){
+		if(siteTheme == null || siteTheme == ''){
+			ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Site theme is required.' ));
+			return null;
+		}
+		try {
+		
+			// update user profile
+			Service_API.setUserSiteTheme(siteTheme, false);
+			
+		} catch (Exception e){
+			ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to set site theme.' ));
+			return null;
+		}
+		PageReference p;
+
+        String currentUserPageUrl = ApexPages.currentPage().getUrl();
+        Integer ask = currentUserPageUrl.indexOf('?');
+        String currentUserPage = (ask==-1) ? currentUserPageUrl : currentUserPageUrl.substring(0, ask);
+        //System.debug('^^^currentUserPageUrl='+currentUserPageUrl);
+
+		if(currentUserPage != null && currentUserPage != ''){
+			/* Start: changes for TA922 Jonathan Freese */
+      Boolean PlanningPage=false;
+			for (PlanningPage_Theme__c ppt : PlanningPage_Theme__c.getAll().values()){
+				if (ppt.Planning_Page__c == currentUserPage){
+					PlanningPage=true;
+				}
+			}
+			if(PlanningPage){
+	            String test_pp='';
+	            for (PlanningPage_Theme__c ppt : PlanningPage_Theme__c.getAll().values()){
+	                if (ppt.Name == siteTheme){
+	                  	test_pp=ppt.Planning_Page__c;
+  	                }
+	            }
+				if(test_pp != null && test_pp != ''){
+				   currentUserPage = test_pp;
+				}
+				else{
+					ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'PlanningPage_Theme not defined for selected theme: ' + siteTheme));
+					return null;
+				}
+			}            
+			p = new PageReference(currentUserPage);
+			/* end: changes for TA922 Jonathan Freese */
+		} else {
+			p = Page.HomePage;
+		}
+
+		p.setRedirect(true);    
+		return p;
+    } 
+   
+    protected void initPager(){
+			//Begin Appirio Case 4632 - Mark Ellis
+			if(firstload == true) {
+    		numberOfItemsOnPage = 12;
+     	} else {
+     		numberOfItemsOnPage = Service_API.getUserNumberOfItemsPerPage();
+    	}
+    	// End Appirio Case 4632 
+		numberOfCurrentPage = 1; // we display always one or more pages 
+        numberOfPages = 1; // we display always one or more pages
+		numberOfItems = 0;
+		showFromIndex = 0;
+		showToIndex   = 0;
+		pageNumbers   = new list<Integer>();   
+    	isNewContent = false;
+    }
+    
+    protected void preapareSiteNavigationMenu() {
+        String currentPageUrl = ApexPages.currentPage().getUrl();
+        Integer ask = currentPageUrl.indexOf('?');
+        String currentPage = (ask==-1) ? currentPageUrl : currentPageUrl.substring(0, ask);
+        for(pageLink pl: menuLinksBase) { 
+            if (pl.link != currentPage) {
+            	if((currentPage == Page.SellingMaterials.getUrl())&&(pl.linkName == Constant.SELLING_MATERILAS))
+            		continue;
+                menuLinks.add(pl);
+            }
+        }
+        if(isInternalUser){
+            pageLink planningPageLink = new PageLink('#',Constant.PLANNING, 'menu-plan');
+	        pageLink[] planningSubPageLinks = new pageLink[] {
+	            new PageLink(Page.SpiritsPlanning.getUrl(), 'Spirits Planning', 'menu-plan'),
+	            new PageLink(Page.NationalAccounts.getUrl(), 'National Accounts', 'menu-plan'),
+	            new PageLink(Page.WinePlanning.getUrl(), 'Wine Planning', 'menu-plan')
+	        };
+	        planningPageLink.addSubLinks(planningSubPageLinks);
+        	menuLinks.add(planningPageLink);
+        }
+    }
+    
+    protected void addBreadcrumbItem(String link, String linkName) {
+        if (linkName == '' || linkName == null) {
+            return;
+        }
+        if (link == '' || link == null) {
+            link = '#';
+        }
+        pageLink bl = new pageLink();
+        bl.link     = link;
+        bl.linkName = linkName;
+        breadCrumbLinks.add(bl);
+    }
+
+    protected void cleanBreadcrumbs() {
+        breadCrumbLinks.clear();
+    }
+
+    protected list<SelectOption> convertListToSelect ( sObject[] records, String idFieldName, String valueFieldName, String allText) {
+        list<SelectOption> result = new list<SelectOption>();
+        if(allText != null){
+        	result.add(new SelectOption('All', allText));
+        }         
+        for (sObject o : records) {
+            result.add(
+                new SelectOption(
+                    (string)o.get(idFieldName),
+                    (string)o.get(valueFieldName)
+                    )
+                );
+        }
+        return result;
+    }
+    
+    // pages functions
+    public void showPageRequested() {
+        if(numberOfCurrentPage < 0 || numberOfCurrentPage > numberOfPages) {
+            ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to show page.' ));
+   	        return;
+    	}
+		refreshPageContent();
+		expandFilter = false;   	
+    }
+    
+    public void showNextPage() {
+        if (this.numberOfCurrentPage + 1 <= this.numberOfPages && this.numberOfCurrentPage + 1 > 0) {
+            this.numberOfCurrentPage += 1;
+        } else {
+            ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to show next page.' ));
+   	        return;
+        }
+		refreshPageContent();  
+		expandFilter = false;         
+    }
+    
+    public void showPrevPage() {
+        if (this.numberOfCurrentPage - 1 <= this.numberOfPages && this.numberOfCurrentPage - 1 > 0) {
+            this.numberOfCurrentPage -= 1;
+        } else {
+            ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to show prev page.' ));
+   	        return;
+        }
+		refreshPageContent();  
+		expandFilter = false;         
+    }
+    
+    public void showFirstPage() {
+    	if(this.numberOfPages > 0){
+	        this.numberOfCurrentPage = 1;
+    	} else {
+            ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to show first page.' ));
+   	        return;
+    	}
+		refreshPageContent();
+		expandFilter = false;   
+    }
+    
+    public void showLastPage() {
+    	if(this.numberOfPages >= 1){
+	        this.numberOfCurrentPage = this.numberOfPages;
+    	} else {
+            ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to show last page.' ));
+   	        return;
+    	}
+		refreshPageContent();
+		expandFilter = false;   
+    }
+    
+    public list<sobject> getRequestedPage(list<sobject> all){
+		list<sobject> tempList = new List<sobject>();
+        isNewContent = false;
+		if(all.size() < showToIndex){
+			return new List<sobject>();
+		}
+   	
+		for (Integer i = showFromIndex; i < showToIndex; i++) {
+    		tempList.add(all.get(i));
+    		sObject currentItem = all.get(i);
+    		DateTime itemTime = datetime.valueOf((currentItem.get('createdDate') != null && currentItem.get('createdDate') != '') ? currentItem.get('createdDate') : system.now());
+	    	if(!isNewContent && lastLoginDate < itemTime){
+    			isNewContent = true;
+    		}	
+		}
+		all.clear();
+		all.addall(tempList);
+		return all;
+    }
+    
+    public Map<String, list<sobject>> getRequestedPageForMap(Map<String, list<sobject>> all, List<String> headers){
+		Map<String, list<sobject>> tmp = new Map<String, list<sobject>>();
+        isNewContent = false;
+        Integer size = 0;
+        for(list<sobject> lobj : all.values()){
+        	size += lobj.size();
+        }
+		if(size < showToIndex){
+			return new Map<String, list<sobject>>();
+		}
+   		
+   		Integer counter = -1;
+   		for(String key : headers){
+   			for(sobject obj : all.get(key)){
+   				counter++;
+   				if((counter >= showFromIndex)&&(counter < showToIndex)){
+   					list<sobject> tmplist = tmp.get(key);
+   					tmplist = (tmplist == null) ? new list<sobject>() : tmplist;
+   					tmplist.add(obj);
+   					tmp.put(key, tmplist);
+		    		DateTime itemTime = datetime.valueOf((obj.get('createdDate') != null && obj.get('createdDate') != '') ? obj.get('createdDate') : system.now());
+			    	if(!isNewContent && lastLoginDate < itemTime){
+		    			isNewContent = true;
+		    		}
+   				}
+   			}
+   		}
+		return tmp;
+    }
+    
+    public virtual void refreshPageContent(){
+    	
+    }
+    
+    public String getRandomId(){
+    	return String.valueOf(Math.abs(Crypto.getRandomLong()));
+    }
+    
+    public virtual PageReference userSearch(){
+    	PageReference pr = ApexPages.currentPage();
+    	if(searchPhrase.length() != 0){
+    		pr = new PageReference( Page.SearchResult.getUrl() + '?query='+EncodingUtil.urlEncode(searchPhrase,'UTF-8') );
+    		pr.setRedirect(true);
+    	}
+    	return pr;
+    }
+    
+    // Start : Changes for TA920 - Basant Verma 
+    public virtual PageReference toggleTheme(){
+    	PageReference pr = ApexPages.currentPage();
+    	try{
+	    		pr.getParameters().put('toggled','TRUE');
+				pr.getParameters().put('toggledTheme',clickedTheme);
+				pr.getParameters().put('toggledThemeDef',defSiteThemeTemp);
+				pr.getParameters().put('toggledNum',String.valueOf(numberOfItemsOnPage));
+        // Start : Changes for TA920/DE550 Jonathan Freese
+        Service_API.setUserSiteTheme(clickedTheme, true);
+				//   End : Changes for TA920/DE550 Jonathan Freese
+				pr.setRedirect(true);
+    	}catch (Exception e){
+				ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to toggle theme.' ));
+				return null;
+			}
+			return pr;
+    }
+    
+    public virtual PageReference toggleToSpirits(){
+    	clickedTheme = 'Spirits';
+			return toggleTheme();
+    }
+    
+    public virtual PageReference toggleToWine(){
+    	clickedTheme = 'Wine';
+    	return toggleTheme();
+    }
+    // End : Changes for TA920
+    // Start : Changes for DE550 : Basant
+    public virtual PageReference openPlanningPage(){
+    	PageReference pr = ApexPages.currentPage();
+    	String newTheme=''; 
+    	if(planningTheme != null && !planningTheme.trim().equals('')){
+    		if(planningTheme.equalsIgnoreCase('Wine')){
+    			pr = Page.WinePlanning;
+    			newTheme = 'Wine';
+    		}else if(planningTheme.equalsIgnoreCase('Spirits')){
+    			pr = Page.SpiritsPlanning;
+    			newTheme = 'Spirits';
+    		}
+    	}
+    	
+    	if(newTheme != '' && newTheme != siteTheme){
+    		Service_API.setUserSiteTheme(newTheme, false);
+    	}
+    	return pr;
+    }
+    
+    public virtual PageReference openSpiritsPlanningPage(){
+    	if(siteTheme != 'Spirits')
+    		Service_API.setUserSiteTheme('Spirits', false);
+    	return Page.SpiritsPlanning;
+    }
+    
+    public virtual PageReference openWinePlanningPage(){
+    	if(siteTheme != 'Wine')
+    		Service_API.setUserSiteTheme('Wine', false);
+    	return Page.WinePlanning;
+    }
+    // End : Changes for DE550
+    // set current overview/share
+    public void userShareOverview(){
+        cVersionIds = null;
+    	if(cVersionId == null || cVersionId == ''){
+    		ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to load content.' ));
+    		return;
+    	}
+    	try{
+    		try{
+				Content_Description__c contentDescription = [select Content_ID__c, Content_Version_Id__c, Description__c, filetype__c, Innovation__c, Is_Video__c, Title__c, Video_Id__c, Preview_Id__c, Preview_Available__c, share_link__c, share_link_low__c
+								  								from Content_Description__c
+								  								where Content_Version_Id__c = :cVersionId
+								  								limit 1 ];
+				cDescr     = contentDescription.Description__c;
+				cVideoId   = contentDescription.Video_Id__c;
+				cIsVideo   = contentDescription.Is_Video__c;
+				cIsPreview = contentDescription.Preview_Available__c;
+	            cPreviewId = contentDescription.Preview_Id__c;
+	            cShareLink = contentDescription.share_link__c;
+	            cShareLinkLow = contentDescription.share_link_low__c;
+    		} catch (Exception e) {
+                File__c fileObject = [select Content_ID__c, Content_Version_Id__c, Description__c, filetype__c, Is_Video__c, Title__c, Video_Id__c, Preview_Id__c, Preview_Available__c, share_link__c
+                                                                from File__c
+                                                                where Content_Version_Id__c = :cVersionId
+                                                                limit 1 ];
+                cDescr     = fileObject.Description__c;
+                cVideoId   = fileObject.Video_Id__c;
+                cIsVideo   = fileObject.Is_Video__c;
+                cIsPreview = fileObject.Preview_Available__c;
+                cPreviewId = fileObject.Preview_Id__c;
+                cShareLink = fileObject.share_link__c;
+    		}
+		}
+		catch (Exception e) {
+			ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to load content.' ));
+			cDescr = null;
+			cVideoId = null;
+			cIsVideo = false;
+			cIsPreview = false;
+			cPreviewId = null;
+			cShareLinkLow = null;
+			cShareLink =null;
+		}
+    } 
+
+    // set current overview/share
+    public void userMultipleShare(){
+    	//cVersionIds set by actionFunction 
+    	cVideoId = null;
+		cDescr = null;
+		cVideoId = null;
+		cIsVideo = false;
+		cIsPreview = false;
+		cPreviewId = null;	
+    }
+	
+	public Id fileToEdit {get;set;}
+	public void setFileToEdit(){}
+
+	public void addToBasket(){
+		try {
+			list<Id> cIds = new list<Id>();
+			if(cVersionId != null){
+				cIds.add(cVersionId);
+				Service_Basket.addToBasket(cIds);
+			}
+			currentBasketIds = Service_Basket.getBasketIds();
+			refreshPageContent();
+			expandFilter = false; 
+		}
+		catch (Exception e) {
+			ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to add item to basket.' ));
+		}
+	}
+	
+	public void addToBasketMultiple(){
+		try {
+			list<Id> cIds = new list<Id>();
+			
+			list<String> cvidList = cVersionIds.split(',');
+			for(String cvid : cvidList){
+				if(cvid != null && cvid != ''){
+					Id itemId = Id.valueOf(cvid);
+					if(itemId != null){
+						cIds.add(itemId);
+					}
+				}
+        	}
+        	
+			if(cIds.size() != 0){
+				Service_Basket.addToBasket(cIds);
+			}
+			currentBasketIds = Service_Basket.getBasketIds();
+			refreshPageContent();
+			expandFilter = false;
+		}
+		catch (Exception e) {
+			ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to add items to basket.' ));
+		}
+	}	
+	
+	public void removeFromBasket(){
+		try {
+			list<Id> cIds = new list<Id>();
+			if(cVersionId != null){
+				cIds.add(cVersionId);
+				Service_Basket.removeFromBasket(cIds);
+			}
+			currentBasketIds = Service_Basket.getBasketIds();
+	        initPager();
+			refreshPageContent();
+			expandFilter = false;
+		}
+		catch (Exception e) {
+			ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to remove item from basket.' ));
+		}
+	}
+
+	public void removeFromBasketMultiple(){
+		try {
+			list<Id> cIds = new list<Id>();
+			
+			list<String> cvidList = cVersionIds.split(',');
+			for(String cvid : cvidList){
+				if(cvid != null && cvid != ''){
+					Id itemId = Id.valueOf(cvid);
+					if(itemId != null){
+						cIds.add(itemId);
+					}
+				}
+        	}
+        	
+			if(cIds.size() != 0){
+				Service_Basket.removeFromBasket(cIds);
+			}
+			currentBasketIds = Service_Basket.getBasketIds();
+	        initPager();
+			refreshPageContent();
+			expandFilter = false;
+		}
+		catch (Exception e) {
+			ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to remove items from basket.' ));
+		}
+	}
+		
+	public String distributorBreadcrumbString {
+		public get{
+			String res = '';
+			String glue = '';
+			for(String s : distributorNames){
+				res += glue;
+				res += s;
+				glue = ', ';
+			}
+			return res;
+		}
+	}
+	
+	public void addToFollow(){
+		try {
+			list<Id> cIds = new list<Id>();
+			if(cVersionId != null){
+				cIds.add(cVersionId);
+				Service_Notification.addFollow(cIds);
+			}
+			currentFollowIds = Service_Notification.getFollowIds();
+			refreshPageContent();
+			expandFilter = false; 
+		}
+		catch (Exception e) {
+			ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to follow content.' ));
+		}
+	}
+	
+	public void addToFollowMultiple(){
+		try {
+			list<Id> cIds = new list<Id>();
+			
+			list<String> cvidList = cVersionIds.split(',');
+			for(String cvid : cvidList){
+				if(cvid != null && cvid != ''){
+					Id itemId = Id.valueOf(cvid);
+					if(itemId != null){
+						cIds.add(itemId);
+					}
+				}
+        	}
+        	
+			if(cIds.size() != 0){
+				Service_Notification.addFollow(cIds);
+			}
+			currentFollowIds = Service_Notification.getFollowIds();
+			refreshPageContent();
+			expandFilter = false;
+		}
+		catch (Exception e) {
+			ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to follow content.' ));
+		}
+	}	
+	
+	public void removeFromFollow(){
+		try {
+			list<Id> cIds = new list<Id>();
+			if(cVersionId != null){
+				cIds.add(cVersionId);
+				Service_Notification.removeFollow(cIds);
+			}
+			currentFollowIds = Service_Notification.getFollowIds();
+	        initPager();
+			refreshPageContent();
+			expandFilter = false;
+		}
+		catch (Exception e) {
+			ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to unfollow content.' ));
+		}
+	}
+
+	public void removeFromFollowMultiple(){
+		try {
+			list<Id> cIds = new list<Id>();
+			
+			list<String> cvidList = cVersionIds.split(',');
+			for(String cvid : cvidList){
+				if(cvid != null && cvid != ''){
+					Id itemId = Id.valueOf(cvid);
+					if(itemId != null){
+						cIds.add(itemId);
+					}
+				}
+        	}
+        	
+			if(cIds.size() != 0){
+				Service_Notification.removeFollow(cIds);
+			}
+			currentFollowIds = Service_Notification.getFollowIds();
+	        initPager();
+			refreshPageContent();
+			expandFilter = false;
+		}
+		catch (Exception e) {
+			ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to unfollow content.' ));
+		}
+	}
+	
+	/** For For TA910/US85
+    * @author Basant Kumar Verma (Appirio OffShore)
+    * @date 27/05/2013
+    * @description To fetch current page's name from URL
+    * @return String Current Page Name
+    */
+	private String currentUserPage(){
+		String currentUserPageUrl = ApexPages.currentPage().getUrl();
+    Integer ask = currentUserPageUrl.indexOf('?');
+    String currentUserPage = (ask==-1) ? currentUserPageUrl : currentUserPageUrl.substring(0, ask);
+    return currentUserPage;
+	}
+	
+	/** Task Ref TA914/US532
+    * @author Basant Kumar Verma (Appirio OffShore)
+    * @date 27/05/2013
+    * @description Sets user type
+    */
+	private void setUserType(){
+		if (userType == null){
+			
+			// Fetch custom setting that maps the Salesforce UserType values 
+			// to the values of "Internal" or "External".
+			Map<String, Google_Analytics_User_Type__c> userTypeMap = 
+    		Google_Analytics_User_Type__c.getAll();
+    		
+    		// Assign user type value   	    		
+			if (userTypeMap != null && userTypeMap.containsKey(UserInfo.getUserType())){
+				userType = userTypeMap.get(UserInfo.getUserType()).Google_Analytics_Value__c;
+			}
+		}
+	}
+
+}
