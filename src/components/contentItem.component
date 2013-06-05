@@ -319,6 +319,10 @@ Story/Task  : US79/TA996
             </div>
             <apex:outputPanel rendered="{!if(showButons != false, 'true','false')}">
                 <div class="content-item-list-buttons hidden">
+                
+                <!-- Start: changes for TA918 Jonathan Freese (for URL links, disable download/share/preview and create launch) -->
+                <!-- LIST VIEW FOR ALL BUT CONTENT OF TYPE LINK (wider wrapper) -->
+				<apex:outputPanel rendered="{!OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK'))}">
                     <div class="list-button-wrapper">
                         <div class="cion-clear"></div>
                         <div class="content-item-icons-wapper" style="width: 100%; text-align: center !important;">
@@ -331,7 +335,6 @@ Story/Task  : US79/TA996
                                                 <apex:outputPanel rendered="{!AND(isVideo1==true, NOT(ISNULL(videoId1)))}">
                                                     <div title="DOWNLOAD" class="cion list-cion-download pointer" target="_blank" href="{!$Page.VideoDownload}?videoId={!videoId1}&videodesc={!URLENCODE(description)}">&nbsp;</div>
                                                 </apex:outputPanel>                 
-	                                            <!-- Start: changes for TA918 Jonathan Freese (for URL links, disable download/share/preview and create launch) -->
                                                 <apex:outputPanel rendered="{!AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1!='LINK')}">
                                                     <div title="DOWNLOAD" class="cion list-cion-download pointer" href="/sfc/servlet.shepherd/version/download/{!cvid1}" onclick="addToDownloadCache('{!cvid1}');">&nbsp;</div>
                                                 </apex:outputPanel>
@@ -354,13 +357,6 @@ Story/Task  : US79/TA996
 		                                        </apex:outputPanel>
                                                 <!-- END DOWNLOAD ICONS -->
                                             </td>
-                                            <td>
-	                                            <!-- START LAUNCH LINK -->
-	                                            <apex:outputPanel rendered="{!AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1=='LINK')}">
-	                                                <div title="OPEN LINK" class="cion list-cion-openlink pointer" target="_blank" href="{!title1}">&nbsp;</div>
-	                                            </apex:outputPanel>
-	                                            <!-- END LAUNCH LINK -->
-                                        	</td>
                                             <td>    
                                                 <!-- START SHARE ICONS -->
                                                 <apex:outputPanel rendered="{!OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK'))}">
@@ -397,7 +393,6 @@ Story/Task  : US79/TA996
                                                 </apex:outputPanel>
                                                 <!-- END BASKET ICONS -->
                                             </td>
-	                                        <!-- End: changes for TA918 Jonathan Freese -->
 	                                        <!-- Start: changes for TA996 Jonathan Freese -->
                                             <td>    
                                                 <!-- START FOLLOW ICONS -->
@@ -435,7 +430,39 @@ Story/Task  : US79/TA996
                         <div class="cion-clear"></div>
                         <div class="content-item-tooltip" style="height: 50px; font-weight: bold; text-align: center; width: 100%; background-color: #736C6C; color: #ffffff;">&nbsp;</div>
                     </div>
-                    <div style="clear: both;"></div>
+				</apex:outputPanel>
+				
+				<!-- LIST VIEW FOR CONTENT OF TYPE LINK  (narrower wrapper) -->
+				<apex:outputPanel rendered="{!AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1=='LINK')}">
+                    <div class="list-button-wrapper-for-links">
+                        <div class="cion-clear"></div>
+                        <div class="content-item-icons-wapper" style="width: 100%; text-align: center !important;">
+                            <div class="content-item-icons" style="text-align: center !important; overflow: hidden; height: 25px;">
+                                <apex:outputtext styleClass="item-buttons">
+                                    <apex:outputPanel >
+                                        <table style="width: 100%; border-spacing: 0px; border-collapse:collapse; height: 25px;"><tr>
+                                             <td>
+	                                            <!-- START LAUNCH LINK -->
+	                                            <apex:outputPanel rendered="{!AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1=='LINK')}">
+	                                                <div title="OPEN LINK" class="cion list-cion-openlink pointer" target="_blank" href="{!title1}">&nbsp;</div>
+	                                            </apex:outputPanel>
+	                                            <!-- END LAUNCH LINK -->
+                                        	</td>
+ 	                                        <!-- End: changes for TA996 Jonathan Freese -->
+                                            </tr></table>
+                                        <div class="cion-clear"></div>
+                                    </apex:outputPanel>
+                                </apex:outputtext>
+                            </div>
+                        </div>
+                        <!-- TOOLTIP AREA -->
+                        <div class="cion-clear"></div>
+                        <div class="content-item-tooltip" style="height: 50px; font-weight: bold; text-align: center; width: 100%; background-color: #736C6C; color: #ffffff;">&nbsp;</div>
+                    </div>
+				</apex:outputPanel>
+                <!-- End: changes for TA918 Jonathan Freese -->
+
+                <div style="clear: both;"></div>
                 </div>
             </apex:outputPanel>
         </div>
