@@ -30,9 +30,14 @@ Story/Task  : US491/TA920
             var _gaq = _gaq || [];
             _gaq.push(['_setAccount', '{!googleAnalyticsUID}']);
             _gaq.push(['_trackPageview']);
-            <!-- Start : Appirio Changes - developer unknown -->
-            _gaq.push(['_setCustomVar',1,'userType','{!userType}',2]);
-            <!--   End : Appirio Changes - developer unknown -->
+            
+            <!-- Start : TA914, TA979 - Appirio Offshore Changes - developer - Parul Gupta -->
+        
+            _gaq.push(['_setCustomVar',1, 'userType', '{!userType}', 2]);          
+            _gaq.push(['_setCustomVar', 1, 'UserProfile', '{!userProfile}', 2]); 
+ 			_gaq.push(['_setCustomVar', 1, 'UserTitle', '{!userTitle}', 2]);
+ 			 
+ 			<!--   End : Appirio Offshore Changes - developer - Parul Gupta -->
             
             (function() {
                 var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
