@@ -1,3 +1,14 @@
+<!-----------------------------------------------------------------------------------------------------------------
+Name        : HomePage.page
+
+Updated By  : Basant Verma (Appirio Offshore)   
+Date        : 5/29/13
+Story/Task  : US491/TA920
+
+Updated By  : Basant Verma (Appirio OffShore)
+Date        : 6/3/13
+Story/Task  : US503/TA907 
+------------------------------------------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_Home">
     <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.HomePage, 'style'+siteTheme+'.css')}" />
@@ -76,13 +87,13 @@
                             </a>
                         </li>                       
                     </apex:repeat>
-                    	<!-- START : Test Changes for TA907 -->
+                    	<!-- START : Changes for TA907 -->
                     	<li>
                     		<a href="{!$Page.BlogPosts}" onclick="pageViewed('Home Page - Blog Posts');">
                             Blog Posts
                         </a>
 											</li>     
-											<!-- END : Test Changes for TA907 -->               
+											<!-- END : Changes for TA907 -->               
                   </ul>
                 </div>                    
             </div>
