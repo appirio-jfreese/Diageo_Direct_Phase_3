@@ -54,13 +54,6 @@
                 
         <!-- PAGE CONTENT -->
         <div class="content">
-        		<!-- Start: TestingOnly -->
-						<div class="box-link">
-							<a href="{!$Page.BlogPosts}" class="box-link" onclick="pageViewed('Home Page - BlogPosts');">
-								&nbsp;
-							</a>
-						</div>
-						<!-- End: TestingOnly -->
             <!-- First Row -->
             <a href="{!$Page.MonthlyExecutionPlan}" class="box-link" onclick="pageViewed('Home Page - MonthlyExecutionPlan');">
                 <div class="home-page-box home-page-box-mep">
@@ -82,7 +75,14 @@
                                 {! IF (len(article.Title__c)>34, LEFT(article.Title__c, 34)+'...', article.Title__c)}
                             </a>
                         </li>                       
-                    </apex:repeat>                    
+                    </apex:repeat>
+                    	<!-- START : Test Changes for TA907 -->
+                    	<li>
+                    		<a href="{!$Page.BlogPosts}" onclick="pageViewed('Home Page - Blog Posts');">
+                            Blog Posts
+                        </a>
+											</li>     
+											<!-- END : Test Changes for TA907 -->               
                   </ul>
                 </div>                    
             </div>
