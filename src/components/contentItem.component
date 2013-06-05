@@ -4,6 +4,10 @@ Name        : contentItem.component
 Updated By  : Jonathan Freese (Appirio)   
 Date        : 5/29/13
 Story/Task  : US507/TA918
+
+Updated By  : Jonathan Freese (Appirio)   
+Date        : 6/5//13
+Story/Task  : US79/TA996
 ------------------------------------------------------------------------------------------------------------------->
 <apex:component controller="Service_ContentItem">
     <apex:attribute name="cvid" description="ID" type="String" required="false" assignTo="{!cvid1}"/>
@@ -34,6 +38,9 @@ Story/Task  : US507/TA918
     <apex:attribute name="basketIds" description="Set of basket ids" type="Set" required="false" assignTo="{!basketIds}"/>
     <apex:attribute name="followIds" description="Set of follow ids" type="Set" required="false" assignTo="{!followIds}"/>
     <apex:attribute name="isBasketAction" description="Is add should be hidden" type="Boolean" required="false" default="false"/>
+    <!-- Start: changes for TA996 Jonathan Freese -->
+    <apex:attribute name="isFollowAction" description="Is follow should be hidden" type="Boolean" required="false" default="false"/>
+    <!-- End: changes for TA996 Jonathan Freese -->
     <apex:attribute name="allowFileEdit" description="Is file edit allowed" type="Boolean" required="false" default="false" />
     <apex:attribute name="isPil" description="Is pil section" type="Boolean" required="false" default="false" />
         
@@ -167,6 +174,23 @@ Story/Task  : US507/TA918
                                             <!-- END BASKET ICONS -->
                                         </td>
                                         <!-- End: changes for TA918 Jonathan Freese -->
+                                        <!-- Start: changes for TA996 Jonathan Freese -->
+                                        <td>                                            
+                                            <!-- START FOLLOW ICONS -->
+                                            <apex:outputPanel rendered="{!AND(NOT(isFollowAction),OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK')))}">
+                                                <apex:outputPanel rendered="{!AND(inFollow==false)}">
+                                                    <div title="FOLLOW" class="cion box-cion-follow pointer" onclick="addToFollow('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');">&nbsp;</div>
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!AND(inFollow==true)}">
+                                                    <div title="UN-FOLLOW" class="cion box-cion-unfollow pointer" onclick="removeFromFollow('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');">&nbsp;</div>
+                                                </apex:outputPanel>
+                                            </apex:outputPanel>
+                                            <apex:outputPanel rendered="{!AND(isFollowAction,OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK')))}">
+                                                <div title="UN-FOLLOW" class="cion box-cion-unfollow pointer" onclick="removeFromFollow('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');">&nbsp;</div>
+                                            </apex:outputPanel>
+                                            <!-- END FOLLOW ICONS -->
+                                        </td>
+                                        <!-- End: changes for TA996 Jonathan Freese -->
                                         <!--
                                         <td>                                            
                                             <apex:outputPanel rendered="{!AND(inFollow==false)}">
@@ -374,6 +398,23 @@ Story/Task  : US507/TA918
                                                 <!-- END BASKET ICONS -->
                                             </td>
 	                                        <!-- End: changes for TA918 Jonathan Freese -->
+	                                        <!-- Start: changes for TA996 Jonathan Freese -->
+                                            <td>    
+                                                <!-- START FOLLOW ICONS -->
+                                                <apex:outputPanel rendered="{!AND(NOT(isFollowAction),OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK')))}">
+                                                    <apex:outputPanel rendered="{!AND(inFollow==false)}">
+                                                        <div title="FOLLOW" class="cion list-cion-follow pointer" onclick="addToFollow('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');">&nbsp;</div>
+                                                    </apex:outputPanel>
+                                                    <apex:outputPanel rendered="{!AND(inFollow==true)}">
+                                                        <div title="UN-FOLLOW" class="cion list-cion-unfollow pointer" onclick="removeFromFollow('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');">&nbsp;</div>
+                                                    </apex:outputPanel>
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!AND(isFollowAction,OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK')))}">
+                                                    <div title="UN-FOLLOW" class="cion list-cion-unfollow pointer" onclick="removeFromFollow('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');">&nbsp;</div>
+                                                </apex:outputPanel>
+                                                <!-- END FOLLOW ICONS -->
+                                            </td>
+	                                        <!-- End: changes for TA996 Jonathan Freese -->
                                             <!-- 
                                             <td>    
                                                 <apex:outputPanel rendered="{!AND(inFollow==false)}">
