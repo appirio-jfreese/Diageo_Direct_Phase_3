@@ -944,6 +944,7 @@ Story/Task  : US79/TA1007
 
     <!-- Start : Changes for US507/TA918 - Jonathan Freese -->
     <apex:stylesheet value="{!URLFOR($Resource.PageHeader, 'styleHeader.css')}" />
+    <apex:attribute name="avatarUrl" description="" type="String" required="false"/>
     <!-- End : Changes for US507/TA918 - Jonathan Freese -->
 
     <apex:attribute name="isLoggedIn" description="Tell if user is logged in or not. Content of div.user-info depends on this value" type="Boolean" required="true"/>
@@ -975,7 +976,7 @@ Story/Task  : US79/TA1007
                         <div class="user-menu-value"><apex:outputLink value="{!$Page.ShareHistory}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">Share History</apex:outputLink></div>
                         <!-- Start : Changes for US79/TA1007 - Basant Verma -->
                         <apex:outputPanel rendered="{!AND(followUnFollowMenu != null, followUnFollowMenu != '')}">
-                        	<div class="user-menu-value"><apex:outputLink value="{!followUnfollowAction}" rendered="{!AND(followUnFollowMenu != null, followUnFollowMenu != '')}" onclick="showDialog('ajaxLoader', true);">{!followUnFollowMenu}</apex:outputLink></div>
+                        	<div class="user-menu-value"><apex:outputLink rendered="{!AND(followUnFollowMenu != null, followUnFollowMenu != '')}" onclick="{!followUnfollowAction} showDialog('ajaxLoader', true);">{!followUnFollowMenu}</apex:outputLink></div>
                         </apex:outputPanel>
                         <!-- End   : Changes for US79/TA1007 - Basant Verma -->
                         <div class="user-menu-value"><apex:outputLink value="{!$Site.Prefix}/secur/logout.jsp" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">{!$Label.site.logout}</apex:outputLink></div>
@@ -1075,7 +1076,8 @@ Story/Task  : US79/TA1007
             <apex:pageBlock rendered="{!AND(isLoggedIn, preview='false')}">
 	            <a href="{!$Page.Basket}" class="cart">###</a>
 	            <a href="javascript:;" class="avatar">
-	                <apex:image url="{!URLFOR($Resource.PageHeader, '/img/avatar.png')}"/>
+  	                <apex:image value="{!avatarUrl}" height="30px"/>
+<!--  	                <apex:image url="{!URLFOR($Resource.PageHeader, '/img/avatar.png')}"/> -->
 	                <!-- <img url="img/avatar.png"/> -->
 	            </a>
 <!-- 
@@ -1084,7 +1086,7 @@ Story/Task  : US79/TA1007
 	                <br></br>
 	                {!distributorBreadcrumbString}
 	            </div>
-
+	            
                 <div style="float: left; padding-top: 6px;">Welcome&nbsp;</div>
                 <div class="user-menu-dropdown" style="float: left;">
                     <div class="user-menu-name"><span class="bold">{!$User.FirstName} {!$User.LastName} <span class="user-menu-dropdown-ind"><img src="{!URLFOR($Resource.CommonPage, 'images/user-menu-arrow.png')}"/></span></span></div>
@@ -1098,7 +1100,7 @@ Story/Task  : US79/TA1007
 
 -->
 				<div class="desc">
-				    <div style="float: right; padding-top: 20px;">{!distributorBreadcrumbString}</div>
+	            <table style="width: 100%; border-spacing: 0px; border-collapse:collapse; height: 10px;"><tr><td>
 	                <div class="user-menu-dropdown" style="float: right;">
 	                    <div class="user-menu-name"><a href="javascript:;" class="name">{!$User.FirstName} {!$User.LastName}</a></div>
 	                    <div class="user-menu-values">
@@ -1109,9 +1111,12 @@ Story/Task  : US79/TA1007
 	                    </div>
 	                </div>
 				    <div style="float: right; padding-top: 6px;">Hello,&nbsp;</div>
+				</td></tr><tr><td>
+				    <div style="float: right;">{!distributorBreadcrumbString}</div>
+				</td></tr></table>
 	            </div>
-			    
-                <div class="clear"></div>
+
+			<div class="clear"></div>			    
             </apex:pageBlock>
             <apex:pageBlock rendered="{!AND(NOT(isLoggedIn),preview=='false')}">Please sign in</apex:pageBlock>
        </div>

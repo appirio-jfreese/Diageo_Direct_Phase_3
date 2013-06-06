@@ -103,6 +103,21 @@ global public without sharing virtual class Controller_Base {
 	    	return noBasketItems;
 	    } private set;
 	} 
+
+    public String photoUrl {
+	    get{
+	    	String result='/img/avatar.png';
+	    	try{
+				User u = [select Id, FirstName, LastName, SmallPhotoUrl, FULLPhotoUrl from User where Id = : UserInfo.getUserId()];
+		        if (u.SmallPhotoUrl != null && u.SmallPhotoUrl != ''){
+		        	result = u.SmallPhotoUrl;
+		        }
+	    	}catch(Exception ex){
+	    		//nothing
+	    	}
+	    	return result;
+	    } private set;
+	} 
 	
 	// pages
     public Integer numberOfPages {public get; public set;}
