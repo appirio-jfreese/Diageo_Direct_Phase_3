@@ -2,20 +2,24 @@
 Name        : PageHeader.component
 
 Updated By  : Basant Verma (Appirio OffShore)
-Date        : 5/30/13
-Story/Task  : US138/TA972
+Date        : 5/21/13
+Story/Task  : US491/TA920
 
 Updated By  : Jonathan Freese (Appirio)   
 Date        : 5/29/13
 Story/Task  : US507/TA918
 
 Updated By  : Basant Verma (Appirio OffShore)
-Date        : 5/21/13
-Story/Task  : US491/TA920
+Date        : 5/30/13
+Story/Task  : US138/TA972
 
 Updated By  : Jonathan Freese (Appirio)   
 Date        : 6/5/13
 Story/Task  : US507/TA918
+
+Updated By  : Basant Verma (Appirio OffShore)
+Date        : 6/6/13
+Story/Task  : US79/TA1007
 ------------------------------------------------------------------------------------------------------------------->
 <apex:component controller="Controller_Base" extensions="Controller_BaseRemote" allowDML="true"> 
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.js')}"></script>
@@ -950,6 +954,10 @@ Story/Task  : US507/TA918
     <!-- Start : Changes for US491/TA920 - Basant Verma -->
     <apex:attribute name="isHomePage" description="" type="Boolean" required="false"/>
     <!--   End : Changes for US491/TA920 - Basant Verma -->
+    <!-- Start : Changes for US79/TA1007 - Basant Verma -->
+    <apex:attribute name="followUnFollowMenu" description="" type="String" required="false"/>
+    <apex:attribute name="followUnfollowAction" description="" type="String" required="false"/>
+    <!-- End : Changes for US79/TA1007 - Basant Verma -->
     
     <!-- Start of existing header which will be replaced by the new one below under US507/TA918 - Jonathan Freese -->
    <apex:outputPanel rendered="true">
@@ -965,6 +973,11 @@ Story/Task  : US507/TA918
                         <div class="user-menu-value"><apex:outputLink value="{!$Page.UserProfile}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">User Profile</apex:outputLink></div>
                         <div class="user-menu-value"><apex:outputLink value="{!$Page.DownloadHistory}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">Download History</apex:outputLink></div>
                         <div class="user-menu-value"><apex:outputLink value="{!$Page.ShareHistory}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">Share History</apex:outputLink></div>
+                        <!-- Start : Changes for US79/TA1007 - Basant Verma -->
+                        <apex:outputPanel rendered="{!AND(followUnFollowMenu != null, followUnFollowMenu != '')}">
+                        	<div class="user-menu-value"><apex:outputLink value="{!followUnfollowAction}" rendered="{!AND(followUnFollowMenu != null, followUnFollowMenu != '')}" onclick="showDialog('ajaxLoader', true);">{!followUnFollowMenu}</apex:outputLink></div>
+                        </apex:outputPanel>
+                        <!-- End   : Changes for US79/TA1007 - Basant Verma -->
                         <div class="user-menu-value"><apex:outputLink value="{!$Site.Prefix}/secur/logout.jsp" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">{!$Label.site.logout}</apex:outputLink></div>
                     </div>
                 </div>
@@ -1056,7 +1069,7 @@ Story/Task  : US507/TA918
     <!-- Start : Changes for US507/TA918 - Jonathan Freese -->
    <apex:outputPanel rendered="false">
     <div id="overlayDisable"></div>
-    <div class="page-header" style="z-index: 31;">
+    <div class="page-header" style="z-index: 11;">
     	<!-- <a href="{!$Page.HomePage}" class="box-link"><div class="logo">&nbsp;</div></a> -->
         <div class="info">
             <apex:pageBlock rendered="{!AND(isLoggedIn, preview='false')}">
@@ -1085,13 +1098,9 @@ Story/Task  : US507/TA918
 
 -->
 				<div class="desc">
-					<div style="float: right; padding-top: 6px;">{!distributorBreadcrumbString}</div>
+				    <div style="float: right; padding-top: 20px;">{!distributorBreadcrumbString}</div>
 	                <div class="user-menu-dropdown" style="float: right;">
-	                    <div class="user-menu-name">
-	                    	<!-- <span class="bold"> -->
-		                    	<a href="javascript:;" class="name">{!$User.FirstName} {!$User.LastName}</a>
-		                	<!-- </span> -->
-	                    </div>
+	                    <div class="user-menu-name"><a href="javascript:;" class="name">{!$User.FirstName} {!$User.LastName}</a></div>
 	                    <div class="user-menu-values">
 	                        <div class="user-menu-value"><apex:outputLink value="{!$Page.UserProfile}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">User Profile</apex:outputLink></div>
 	                        <div class="user-menu-value"><apex:outputLink value="{!$Page.DownloadHistory}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">Download History</apex:outputLink></div>
@@ -1101,6 +1110,7 @@ Story/Task  : US507/TA918
 	                </div>
 				    <div style="float: right; padding-top: 6px;">Hello,&nbsp;</div>
 	            </div>
+			    
                 <div class="clear"></div>
             </apex:pageBlock>
             <apex:pageBlock rendered="{!AND(NOT(isLoggedIn),preview=='false')}">Please sign in</apex:pageBlock>
