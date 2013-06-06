@@ -1,0 +1,174 @@
+<!--
+    Name            : BlogHome.page
+    Author          : Randy Wandell (Appirio)
+    Created Date    : 6 June, 2013 
+    Task Ref        : US503/TA907
+    Usage           : Blog Home page 
+-->
+<apex:page showheader="false" standardStylesheets="false" sidebar="false"  controller="Controller_BlogPost" title="Diageo Blog">
+    <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.HomePage, 'style'+siteTheme+'.css')}" />
+
+    <apex:stylesheet value="{!URLFOR($Resource.BlogCSS, 'css/base.css')}" /> 
+    <apex:stylesheet value="{!URLFOR($Resource.BlogCSS, 'css/layout.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.BlogCSS, 'css/skeleton-fluid.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.BlogCSS, 'js/script.js')}" />
+   
+    <script type="text/javascript">
+        function showComments(showHide){
+            if(showHide == "Show"){
+                document.getElementById("showCommentsBlock").style.display = "none";
+                document.getElementById("j_id0:j_id179:commentBlock").style.display = "block";
+            }else{
+                document.getElementById("showCommentsBlock").style.display = "block";
+                document.getElementById("j_id0:j_id179:commentBlock").style.display = "none";
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        function openDetails(blogId){
+            var the_inputs=document.getElementsByTagName("input");
+            var clickedBlogHidden;
+            for(var n=0;n<the_inputs.length;n++){
+                if(the_inputs[n].type=="hidden" && the_inputs[n].name.indexOf("blogPostComp:blogPostComponent:blogPostFrm:clickedBlogPostId")>0){
+                    clickedBlogHidden = the_inputs[n];
+                }
+            }
+            
+            alert(clickedBlogHidden);
+            if(clickedBlogHidden != null){
+                clickedBlogHidden.value = blogId;
+            }
+            openBlogDetail();
+        }
+        
+        function pageChange(pageNumElement){
+            var pageNum  = pageNumElement.value;
+            if(pageNum <= {!pageCount} && pageNum != {!currPage})
+                pageChanged();
+            else
+                pageNumElement.value = {!currPage};
+        }
+        
+        function previous(){
+            if({!currPage} > 1)
+                previousPage();
+        }
+        
+        function next(){
+            if({!currPage} < {!pageCount})
+                nextPage();
+        }
+        
+        function changeDisplay(opt){
+            var shortDesc = document.getElementsByClassName('TitlesAndShortDesc_block');
+            var longDesc = document.getElementsByClassName('TitlesAndLongDesc_block');
+            var descBlock = document.getElementsByClassName('BlogPostDesc_block');
+            var blockDisplay, shortDisplay, longDisplay;
+            if(opt == 'Titles'){
+                blockDisplay = "none";
+                shortDisplay = "none";
+                longDisplay = "none";
+            }else if(opt == 'TitlesAndShortDesc'){
+                blockDisplay = "block";
+                shortDisplay = "block";
+                longDisplay = "none";
+            }else if(opt == 'TitlesAndLongDesc'){
+                blockDisplay = "block";
+                shortDisplay = "none";
+                longDisplay = "block";
+            }
+            for(var i=0; i<shortDesc.length; i++){
+                shortDesc[i].style.display = shortDisplay;
+                longDesc[i].style.display = longDisplay;
+                descBlock[i].style.display = blockDisplay;
+            }
+            
+            var the_inputs=document.getElementsByTagName("input");
+            var dispOpt;
+            for(var n=0;n<the_inputs.length;n++){
+                if(the_inputs[n].type=="hidden" && the_inputs[n].name.indexOf("blogPostComp:blogPostComponent:blogPostFrm:disOpt")>0){
+                    dispOpt = the_inputs[n];
+                }
+            }
+            if(dispOpt != null){
+                dispOpt.value = opt;
+            }
+        }
+        
+        function onLoad(){
+
+        }
+    </script>    
+    <c:loader />
+    <div class="wrapper">
+        <div class="container">
+        
+            <!-- PAGE HEADER -->
+            <c:pageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}"/>
+                    
+            <script type="text/javascript">
+                pageViewed('Blog Posts - Detail Page');
+            </script>
+            
+            <!--  BREADCRUMB -->
+           <c:pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/> 
+
+            <div class="content clearfix" style="text-align: left;">
+                <h1>
+                    <span>News Blog</span>
+                </h1>
+                <!-- main -->
+                <div class="main columns">
+                
+                    <apex:repeat value="{!blogPosts}" var="blogItem">
+                    <div class="blog-brief clearfix">
+                        <div class="image columns" style="height: 150px;">
+                        </div>
+                        <div class="summary">
+                            <a onClick="openDetails('{!blogItem.Id}'); pageViewed('BlogHome - {!IF(LEFT(blogItem.Name,20) = blogItem.Name, blogItem.Name, TRIM(LEFT(blogItem.Name,20))&'....')}');" class="title link">{!blogItem.Name}</a>
+                            <div class="info">
+                                Posted By : <a href="javascript:;" class="link">{!blogItem.CreatedBy.Name}</a>
+                                &nbsp;|&nbsp;<apex:outputText value="{0,date,MM'/'dd'/'yyyy}"><apex:param value="{!blogItem.CreatedDate}" /></apex:outputText>                                
+                            </div>
+                            <p class="short">                           
+                                <apex:outputText value="{!blogItem.Summary__c}" escape="false" />                              
+                            </p>
+                            <div class="info">{!blogItem.Comment__r.size} Comments&nbsp;|&nbsp;
+                                Tags : 
+                                <apex:repeat value="{!blogItem.Blog2Tag__r}" var="tg">
+                                <a href="javascript:;" class="link">{!tg.Tag__r.Name}&nbsp;</a>
+                                </apex:repeat>
+                            </div>
+                        </div>
+                    </div>
+                    </apex:repeat>
+                    
+                </div>
+                <div class="sidebar columns">
+                    <c:BlogSideTile />
+                </div>                 
+            </div>
+        </div>
+        <apex:form id="blogPostFrm">
+            <apex:actionFunction action="{!openBlogDetail}" name="openBlogDetail">
+            <!-- <apex:param name="firstParam" assignTo="{!clickedBlogId}" value="" /> -->
+            </apex:actionFunction>
+            <apex:inputHidden value="{!clickedBlogId}" id="clickedBlogPostId"/>
+        </apex:form>
+
+        <!-- PAGE FOOTER -->
+        <c:pageFooter isInternal="{!isInternalUser}" />
+    
+    </div>
+
+    <c:ajaxLoader />
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            hideDialog('startingLoader');
+            hideDialog('startingLoaderOverlayDisable');
+            jQuery("body").css("overflow","auto");
+            jQuery("html").css("overflow","auto");
+        });  
+    </script>    
+</apex:page>
