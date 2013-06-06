@@ -2,16 +2,16 @@
 Name        : Controller_Base.cls
 
 Updated By  : Basant Verma (Appirio Offshore)   
-Date        : 5/27/13
-Story/Task  : US85/TA910 - DE550
-
-Updated By  : Basant Verma (Appirio Offshore)   
 Date        : 5/22/13
 Story/Task  : US491/TA920
 
 Updated By  : Jonathan Freese (Appirio)   
 Date        : 5/23/13
 Story/Task  : US493/TA922
+
+Updated By  : Basant Verma (Appirio Offshore)   
+Date        : 5/27/13
+Story/Task  : US85/TA910 - DE550
 *******************************************************************************************************************/
 
 global public without sharing virtual class Controller_Base {
@@ -58,7 +58,13 @@ global public without sharing virtual class Controller_Base {
     public String searchPhrase {public get; public set;}
     
     public String googleAnalyticsUID {public get; protected set;}
+    
+    // TA914, TA979 : Varialbes used for setting Google Analytics 
+    // Custom Variable values
     public String userType {public get; protected set;}
+    public String userProfile {public get; protected set;}
+    public String userTitle {public get; protected set;}
+    
     public Boolean expandFilter {get;set;}   
         
     public String myuserAgent{get;set;}
@@ -236,7 +242,7 @@ global public without sharing virtual class Controller_Base {
     	currentFollowIds = new set<id>();
     	
     	ssoId = Service_API.getSSOId();
-		User u = [select Id, FirstName, LastName, Title from User where Id = : UserInfo.getUserId()];
+		User u = [select Id, FirstName, LastName, Title, Profile.Name from User where Id = : UserInfo.getUserId()];
         
         String usrInfo = 'first_name=' + u.FirstName + ',last_name=' + u.LastName+', title=' + u.Title;
         
@@ -256,7 +262,8 @@ global public without sharing virtual class Controller_Base {
         
         setGAUID();
         
-        setUserType();
+        // TA914, TA979 : Set Google Analytics custom variable values
+        setGACustomVariables(u);
 	
 		// pages
 		initPager();       
@@ -271,7 +278,6 @@ global public without sharing virtual class Controller_Base {
 		cIsVideo   = false;
 		cShareLink = null;
 		cShareLinkLow = null;
-	
     }
     
     public List<SelectOption> getNumberOfItemsPerPageList() {
@@ -321,10 +327,10 @@ global public without sharing virtual class Controller_Base {
     
     public List<CheckboxOption> themeOptions {
     	get {
+    		set<String> themesFromUrl = new set<string>();
     		if(themeOptions == null){
     			themeOptions = new List<CheckboxOption>();
 				map<String,String> urlPrm = ApexPages.currentPage().getParameters();
-				set<String> themesFromUrl = new set<string>();
 				for(String prm : urlPrm.keySet()){
 					String prmAfter = prm.replaceAll('themetype', '');
 					if(prm.length() != prmAfter.length()){ // this param contains information theme
@@ -341,12 +347,14 @@ global public without sharing virtual class Controller_Base {
     		// Start : For US85/TA910
 		    // @description To Show Sub Options ( Catalyst,  Other) on 'Monthly execution plan'
 		    // Edited by Jonathan Freese per DE552 to change Other to US Spirits and place it above Catalyst
-    		if(currentUserPage().equalsIgnoreCase('/apex/MonthlyExecutionPlan')){
+		    // Edited By Basant Verma per DE558 to show slected calendar on PDF also
+    		if(currentUserPage().equalsIgnoreCase('/apex/MonthlyExecutionPlan')
+    				|| currentUserPage().equalsIgnoreCase('/apex/MonthlyExecutionPlanPDF')){
     			for(CheckboxOption cbo : themeOptions){
 	    			if(cbo.name.equalsIgnoreCase(Label.CatalystParentTheme) && cbo.subOptions.size() == 0){
 	    				cbo.subOptions = new List<CheckboxOption>();
-	    				cbo.subOptions.add(new CheckboxOption('US Spirits', cbo.chosen, false));
-	    				cbo.subOptions.add(new CheckboxOption('Catalyst', cbo.chosen, false));
+	    				cbo.subOptions.add(new CheckboxOption('US Spirits', (cbo.chosen || themesFromUrl.contains('US Spirits')), false));
+	    				cbo.subOptions.add(new CheckboxOption('Catalyst', (cbo.chosen || themesFromUrl.contains('Catalyst')), false));
 	    			}
 	    		}
     		} // End : For US85/TA910
@@ -391,6 +399,15 @@ global public without sharing virtual class Controller_Base {
     			glue = '&';
     			i++;
     		}
+    		// Start : Changes for DE558 : Basant Verma
+    		for(CheckboxOption subOp : o.subOptions){
+					if(subOp.chosen){
+						urlThemeParam += glue+'themetype'+i+'='+EncodingUtil.urlEncode(subOp.name, 'UTF-8');
+	    			glue = '&';
+	    			i++;
+					}
+				}
+				// End : Changes for DE558 : Basant Verma
     	}
     	return urlThemeParam;
     }
@@ -984,19 +1001,23 @@ global public without sharing virtual class Controller_Base {
     * @description To fetch current page's name from URL
     * @return String Current Page Name
     */
-	private String currentUserPage(){
+	protected String currentUserPage(){
 		String currentUserPageUrl = ApexPages.currentPage().getUrl();
     Integer ask = currentUserPageUrl.indexOf('?');
     String currentUserPage = (ask==-1) ? currentUserPageUrl : currentUserPageUrl.substring(0, ask);
     return currentUserPage;
 	}
 	
-	/** Task Ref TA914/US532
-    * @author Basant Kumar Verma (Appirio OffShore)
+	/** Task Ref TA914/US532, TA979/US576
+    * @author Parul Gupta (Appirio OffShore)
     * @date 27/05/2013
-    * @description Sets user type
+    * @description method sets google analytics
+    * custom variable values for tracking
+    * userType, userProfile and userTitle
     */
-	private void setUserType(){
+	private void setGACustomVariables(User user){
+		
+		// TA914: Set user type - Internal/External
 		if (userType == null){
 			
 			// Fetch custom setting that maps the Salesforce UserType values 
@@ -1007,7 +1028,17 @@ global public without sharing virtual class Controller_Base {
     		// Assign user type value   	    		
 			if (userTypeMap != null && userTypeMap.containsKey(UserInfo.getUserType())){
 				userType = userTypeMap.get(UserInfo.getUserType()).Google_Analytics_Value__c;
-			}
+			}			
+		}
+		
+		// TA979 : Set user profile friendly name
+		if (userProfile == null){
+			userProfile = user.Profile.Name;
+		}
+		
+		// TA979 : Set user title
+		if(userTitle == null && user.title != null){
+			userTitle = user.title;
 		}
 	}
 
