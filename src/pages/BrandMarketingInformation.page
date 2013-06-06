@@ -1,3 +1,10 @@
+<!-----------------------------------------------------------------------------------------------------------------
+Name        : BrandMarketingInformation.page
+
+Updated By  : Basant Verma (Appirio OffShore)
+Date        : 6/6/13
+Story/Task  : US79/TA1007
+------------------------------------------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_BrandMarketingInformation">
     
     <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
@@ -10,7 +17,11 @@
     <c:loader />	
     <div class="content-wrapper">
         <!-- PAGE HEADER -->
-        <c:pageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
+        <!-- Start : Changes for US79/TA1007 - Basant Verma -->
+        <apex:outputPanel id="pageHeaderSection">
+        	<c:pageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" followUnFollowMenu="{!followUnFollowMenu}" followUnfollowAction="followUnfollow();" />
+        </apex:outputPanel>
+        <!-- End : Changes for US79/TA1007 - Basant Verma -->
 
 		<script type="text/javascript">
 	    	pageViewed('Brand Marketing Information');
@@ -24,9 +35,12 @@
         <!-- PAGE CONTENT -->
         <div class="content bggradient specialContent {!if(ISNULL(siteTheme),'hidden','')}">
 			<apex:form >	
-                <apex:actionFunction status="ajax-status" name="switchSection" action="{!switchSection}" rerender="messages, pageContent, downloadAllDialog, beadcrumblinks">
-					<apex:param name="switchSection" assignTo="{!currentSection}" value="" />
+								<!-- Start : Changes for US79/TA1007 - Basant Verma -->
+                <apex:actionFunction status="ajax-status" name="switchSection" action="{!switchSection}" rerender="messages, pageContent, downloadAllDialog, beadcrumblinks, pageHeaderSection">
+										<apex:param name="switchSection" assignTo="{!currentSection}" value="" />
                 </apex:actionFunction>
+                <apex:actionFunction status="ajax-status" name="followUnfollow" action="{!followUnfollowMenuAction}" rerender="messages, pageContent, downloadAllDialog, beadcrumblinks, pageHeaderSection"/>
+                <!-- End : Changes for US79/TA1007 - Basant Verma -->
 				<apex:actionFunction status="ajax-status" name="resetFilter" action="{!resetFilter}" rerender="messages, filterBrandItem, variantBrands, timeFilterItem, pageContentResult, downloadAllDialog"/>	                
 				<apex:actionFunction status="ajax-status" name="changeFilter" action="{!changeFilter}" rerender="messages, pageContent, downloadAllDialog"/>
 				<apex:actionFunction status="ajax-status" name="renderAsList" action="{!renderAsList}" rerender="messages, pageContent" oncomplete="calculateBoxHeight();"/>

@@ -77,7 +77,7 @@
                         var folderIdSelected = '{!currentSection}';
                         var subFolderIdSelected = '{!currentSubSection}';
                     </script>
-                    <apex:outputPanel id="resultContent" rendered="{!IF(currentDistributorId != '', 'true', 'false')}">
+                    <apex:outputPanel id="resultContent" rendered="{!IF(currentDistributorId != '', 'true', 'false')}"> 
                         <apex:outputPanel rendered="{!IF(sectionFolders.dirs.size > 0, 'true', 'false')}">
                             <div class="section-navigation">
                                 <div class="section-wrapper">
@@ -184,15 +184,19 @@
                                 </apex:outputPanel>
                                 <apex:outputPanel rendered="{!AND(!ISNULL(contentMap[headerKey]),contentSize!=0)}">
                                     <apex:repeat value="{!contentHolderMap[headerKey]}" var="contentItem">
+                                        
+                                        <!-- Start: Changes for TA993 Parul Gupta (Appirio Offshore) -->
+                                        <!--  Just updated new attribute value for attribute allowFileEdit -->
                                         <apex:outputPanel rendered="{!if(displayAsList != true,'true','false')}">
-                                           <c:contentItem followIds="{!currentFollowIds}" allowFileEdit="true" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" width="301" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true"/>
+                                           <c:contentItem followIds="{!currentFollowIds}" allowFileEdit="{!allowFileEdit}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" width="301" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true"/>
                                         </apex:outputPanel>
                                         <apex:outputPanel rendered="{!if(AND(displayAsList = true, isAddCommentAllowed = false),'true','false')}"> 
-                                            <c:contentItem showButons="true" followIds="{!currentFollowIds}" allowFileEdit="true" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" renderAsList="true" displayUploadDate="true" lastLoginDateItem="{!lastLoginDate}" />
+                                            <c:contentItem showButons="true" followIds="{!currentFollowIds}" allowFileEdit="{!allowFileEdit}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" renderAsList="true" displayUploadDate="true" lastLoginDateItem="{!lastLoginDate}" />
                                         </apex:outputPanel>
                                         <apex:outputPanel rendered="{!if(AND(displayAsList = true, isAddCommentAllowed = true),'true','false')}"> 
-                                            <c:contentItem showButons="false" followIds="{!currentFollowIds}" allowFileEdit="true" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" renderAsList="true" displayUploadDate="true" lastLoginDateItem="{!lastLoginDate}" />
-                                        </apex:outputPanel> 
+                                            <c:contentItem showButons="false" followIds="{!currentFollowIds}" allowFileEdit="{!allowFileEdit}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" renderAsList="true" displayUploadDate="true" lastLoginDateItem="{!lastLoginDate}" />
+                                        </apex:outputPanel>
+    
                                     </apex:repeat>
                                     <div class="clear-float"></div>
                                 </apex:outputPanel>

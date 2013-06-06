@@ -1,3 +1,10 @@
+<!--
+Name        : SMIntro.page
+
+Updated By  : Basant Verma (Appirio OffShore)
+Date        : 6/3/13
+Story/Task  : US503/TA907 
+ -->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_SMIntro">
     <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.SellingMaterialsPage, 'style'+siteTheme+'.css')}"/>
@@ -53,6 +60,11 @@
 						</apex:repeat>
 					</div>
 				</apex:repeat>
+				<!-- START : Changes for : TA907 -->
+				<div style="position: absolute; top: 200px; left: 10px; width=400; height=200; overflow: auto;">
+					<c:blogPost format="TitlesAndShortDesc" isLoggedIn="{!isLoggedIn}" url="" singleTag="Location:selling-materials" id="blogPostComp"/>
+				</div>
+				<!-- END : Changes for : TA907 -->
 			</div>
         </div>
         <!-- PAGE FOOTER -->
