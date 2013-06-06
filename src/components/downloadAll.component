@@ -1,3 +1,10 @@
+<!-----------------------------------------------------------------------------------------------------------------
+Name        : downloadAll.component
+
+Updated By  : Jonathan Freese (Appirio)   
+Date        : 6/6/13
+Story/Task  : US79/TA1007
+------------------------------------------------------------------------------------------------------------------->
 <apex:component >
 
     <apex:attribute name="content" description="Content to download" type="List" required="true"/>
@@ -5,6 +12,9 @@
 	<apex:attribute name="isFileObject" description="Is share should be hidden" type="Boolean" required="false" default="false"/>
 
 	<apex:attribute name="isBasketAction" description="Is add should be hidden" type="Boolean" required="false" default="false"/>
+	<!-- Start : Changes for US79/TA1007 - Jonathan Freese -->
+	<apex:attribute name="isFollowAction" description="Is add should be hidden" type="Boolean" required="false" default="false"/>
+	<!-- End : Changes for US79/TA1007 - Jonathan Freese -->
 
 	
     <div class="moreInfoWrapper">
@@ -23,7 +33,7 @@
 		<div class="moreInfoContentWrapper">
 			<div class="downloadAllInfoWrapper left">
 				<table style="width: 100%;"><tr>
-					<td class="left">Select the files you want to include</td>
+					<td class="left">Select the files you want to include.</td>
 					<td class="right">
 						<input type="checkbox" class="selectAllShareDownloaFilesChckbx"/> Select all					
 					</td>
@@ -43,7 +53,9 @@
 						</apex:outputPanel>
 						<apex:outputPanel rendered="{!IF(contentItem['is_video'] != true, 'true', 'false')}">
 							<apex:outputPanel rendered="{!NOT(isFileObject)}">
-								<apex:outputPanel rendered="{!AND(!ISNULL(contentItem['cvid']),!ISNULL(contentItem['cvidlow']))}">
+								<!-- Start : Changes for US79/TA1007 - Jonathan Freese -->
+								<apex:outputPanel rendered="{!AND(!ISNULL(contentItem['cvid']),!ISNULL(contentItem['cvidlow']),(contentItem['fileType'] != 'LINK'))}">
+								<!-- End : Changes for US79/TA1007 - Jonathan Freese -->
 									<div id="">
 										<input type="checkbox" id="{!contentItem['cvid']}" class="doc" name="{!if(OR(ISNULL(contentItem['fileSize']),contentItem['fileSize'] == ''), '0kB', contentItem['fileSize'])}" /> 
 										<label for="{!contentItem['cvid']}">
@@ -73,7 +85,9 @@
 										</label>
 									</div>
 				                </apex:outputPanel>
-				                <apex:outputPanel rendered="{!AND(!ISNULL(contentItem['cvid']),ISNULL(contentItem['cvidlow']),ISNULL(contentItem['imageRes']))}">
+								<!-- Start : Changes for US79/TA1007 - Jonathan Freese -->
+				                <apex:outputPanel rendered="{!AND(!ISNULL(contentItem['cvid']),ISNULL(contentItem['cvidlow']),ISNULL(contentItem['imageRes']),(contentItem['fileType'] != 'LINK'))}">
+								<!-- End : Changes for US79/TA1007 - Jonathan Freese -->
 									<div id="">
 										<input type="checkbox" id="{!contentItem['cvid']}" class="doc" name="{!if(OR(ISNULL(contentItem['fileSize']),contentItem['fileSize'] == ''), '0kB', contentItem['fileSize'])}" /> 
 										<label for="{!contentItem['cvid']}">
@@ -99,7 +113,9 @@
 										</label>
 									</div>
 				                </apex:outputPanel>
-				                <apex:outputPanel rendered="{!AND(!ISNULL(contentItem['cvid']),ISNULL(contentItem['imageRes']))}">
+								<!-- Start : Changes for US79/TA1007 - Jonathan Freese -->
+				                <apex:outputPanel rendered="{!AND(!ISNULL(contentItem['cvid']),ISNULL(contentItem['imageRes']),(contentItem['fileType'] != 'LINK'))}">
+								<!-- End : Changes for US79/TA1007 - Jonathan Freese -->
 									<div id="">
 										<input type="checkbox" id="{!contentItem['cvid']}" class="doc" name="{!if(OR(ISNULL(contentItem['fileSize']),contentItem['fileSize'] == ''), '0kB', contentItem['fileSize'])}" /> 
 										<label for="{!contentItem['cvid']}">
@@ -126,6 +142,12 @@
 					<button class="green multiBasketActionButton addToBasket" onclick="return false;">ADD</button>
 				</apex:outputPanel>
 				<button class="green multiBasketActionButton removeFromBasket" onclick="return false;">REMOVE</button>
+				<!-- Start : Changes for US79/TA1007 - Jonathan Freese -->
+				<apex:outputPanel rendered="{!NOT(isFollowAction)}">
+					<button class="green multiFollowActionButton addToFollow" onclick="return false;">FOLLOW</button>
+				</apex:outputPanel>
+				<button class="green multiFollowActionButton removeFromFollow" onclick="return false;">UN-FOLLOW</button>
+				<!-- Start : Changes for US79/TA1007 - Jonathan Freese -->
 
 				<span class="close defaultTheme">cancel</span>
 			</div>
