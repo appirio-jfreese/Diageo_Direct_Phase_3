@@ -30,15 +30,15 @@
             var the_inputs=document.getElementsByTagName("input");
             var clickedBlogHidden;
             for(var n=0;n<the_inputs.length;n++){
-                if(the_inputs[n].type=="hidden" && the_inputs[n].name.indexOf("blogPostComp:blogPostComponent:blogPostFrm:clickedBlogPostId")>0){
+                if(the_inputs[n].type=="hidden" && the_inputs[n].name.indexOf("blogPostFrm:clickedBlogPostId")>0){
                     clickedBlogHidden = the_inputs[n];
                 }
             }
             
-            alert(clickedBlogHidden);
             if(clickedBlogHidden != null){
                 clickedBlogHidden.value = blogId;
             }
+
             openBlogDetail();
         }
         
@@ -145,14 +145,13 @@
                     </apex:repeat>
                     
                 </div>
-                <div class="sidebar columns">
+                <div class="sidebar columns" style="display: {!IF(blogPostsCount == 0,'none','')};">
                     <c:BlogSideTile />
                 </div>                 
             </div>
         </div>
         <apex:form id="blogPostFrm">
             <apex:actionFunction action="{!openBlogDetail}" name="openBlogDetail">
-            <!-- <apex:param name="firstParam" assignTo="{!clickedBlogId}" value="" /> -->
             </apex:actionFunction>
             <apex:inputHidden value="{!clickedBlogId}" id="clickedBlogPostId"/>
         </apex:form>

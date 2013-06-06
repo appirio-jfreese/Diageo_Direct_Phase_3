@@ -5,7 +5,8 @@ Updated By  : Basant Verma (Appirio Offshore)
 Date        : 5/31/13
 Story/Task  : US503/TA907
 ***************************************************************************************************************-->
-<apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo Blogs" controller="Controller_Base">
+<apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo Blogs" 
+			controller="Controller_Base" id="postBlogPage">
 	<apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
   <apex:stylesheet value="{!URLFOR($Resource.HomePage, 'style'+siteTheme+'.css')}" />
     <style type="text/css">
@@ -27,7 +28,18 @@ Story/Task  : US503/TA907
 
 			<!-- PAGE CONTENT -->
 			<div class="content">
-				<c:blogPost format="TitlesAndShortDesc" isLoggedIn="{!isLoggedIn}" maxAllowdBlogs="2" url="" tags="TestTag"/>
+				<div style="width: 730px;">
+					<c:blogPost format="TitlesAndShortDesc" isLoggedIn="{!isLoggedIn}" maxAllowdBlogs="4" url="" id="blogPostComp"/>
+				</div>
+				<div style="position: absolute; top: 170px; left: 1060px; width:200px;">
+					<c:BlogSideTile show="Themes"/>
+				</div>
+				<div style="position: absolute; top: 270px; left: 1060px; width:200px;">
+					<c:BlogSideTile show="Archives"/>
+				</div>
+				<div style="position: absolute; top: 400px; left: 1060px; width:200px;">
+					<c:BlogSideTile show="Tags"/>
+				</div>
 			</div>
 		
 			<!-- PAGE FOOTER -->

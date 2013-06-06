@@ -134,6 +134,8 @@ public without sharing class Controller_Collaboration extends Controller_Base {
     public Boolean isAddCommentAllowed {get; protected set;}	
     public Boolean isUploadFileAllowed {get; protected set;}
 	public Boolean isUserAllowedToUploadFile {get; protected set;}
+	
+	public Boolean allowFileEdit {get; protected set;}
     
     public Controller_Collaboration() {
 		try {
@@ -158,6 +160,15 @@ public without sharing class Controller_Collaboration extends Controller_Base {
 			isAddCommentAllowed = false;
 			isUploadFileAllowed = false;
 			isUserAllowedToUploadFile = [select Collaboration_Upload_Allowed__c from user where id = :Service_API.getUID()].Collaboration_Upload_Allowed__c;
+	        
+	        // TA993 : Parul Gupta (Appirio Offshore)
+	        // Added new attribute allowFileEdit to allow Diageo Employees
+	        // to delete, rename, and replace existing files if they have access to upload section.
+	        if(isUserAllowedToUploadFile){
+	        	allowFileEdit = true;
+	        }else{
+	        	allowFileEdit = false;
+	        }
 	        currentDivision = '';
 		    currentDistributor = '';
 		    currentDistributorId = '';
@@ -275,7 +286,6 @@ public without sharing class Controller_Collaboration extends Controller_Base {
 			subSectionFolders = new Folder('CHILD','CHILD');
 			isAddCommentAllowed = false;
 			isUploadFileAllowed = false;
-			
 			if(currentDistributorId != null && currentDistributorId !=''){
 				List<Folder__c> folders = Service_API.getDocumentFolders(Constant.COLLABORATION, currentOrganizationalUnit, this.isInternalUser, currentDistributorId);
 				for(Folder__c folder : folders){

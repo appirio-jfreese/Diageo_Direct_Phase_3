@@ -5,7 +5,7 @@
     Task Ref        : US503/TA907
     Usage           : Blog Post detail page 
 -->
-<apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo Blogs" controller="Controller_BlogPost" action="{!initBPDetails}" >
+<apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo Blogs" controller="Controller_BlogPost" action="{!initBPDetails}">
     <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.HomePage, 'style'+siteTheme+'.css')}" />
 

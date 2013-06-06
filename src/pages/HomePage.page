@@ -19,12 +19,12 @@ Story/Task  : US503/TA907
     </apex:outputPanel>  
     <!-- Start changes for DE550 : Basant -->  
     <apex:form >
-    	<apex:actionFunction status="ajax-status" name="openSpiritsPlanningPage" action="{!openSpiritsPlanningPage}"/>
-    	<apex:actionFunction status="ajax-status" name="openWinePlanningPage" action="{!openWinePlanningPage}"/>
-    	
-    	<apex:actionFunction status="ajax-status" name="openPlanningPage" action="{!openPlanningPage}">
-    		<apex:param name="firstParam" assignTo="{!planningTheme}" value="" />
-    	</apex:actionFunction>
+        <apex:actionFunction status="ajax-status" name="openSpiritsPlanningPage" action="{!openSpiritsPlanningPage}"/>
+        <apex:actionFunction status="ajax-status" name="openWinePlanningPage" action="{!openWinePlanningPage}"/>
+        
+        <apex:actionFunction status="ajax-status" name="openPlanningPage" action="{!openPlanningPage}">
+            <apex:param name="firstParam" assignTo="{!planningTheme}" value="" />
+        </apex:actionFunction>
     </apex:form>
     <!-- End changes for DE550 : Basant -->
     <style type="text/css">
@@ -33,25 +33,25 @@ Story/Task  : US503/TA907
         }
         
         .home-page-box-pos {
-        	background: url({!URLFOR($Resource.POS_Blue)}) !important;
+            background: url({!URLFOR($Resource.POS_Blue)}) !important;
         }
         
         .home-page-box-title-bg-pos {
-        	/*background-color: #202B62 !important;
-        	background: #FBD100;*/
-			background: -moz-linear-gradient(top, #7580b7 1%, #202B62 100%) !important;
-			background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#7580b7), color-stop(100%,#202B62)) !important;
-			background: -webkit-linear-gradient(top, #7580b7 1%,#202B62 100%) !important;
-			background: -o-linear-gradient(top, #7580b7 1%,#202B62 100%) !important;
-			background: -ms-linear-gradient(top, #7580b7 1%,#202B62 100%) !important;
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7580b7', endColorstr='#202B62',GradientType=0 ) !important;
-			background: linear-gradient(top, #7580b7 1%,#202B62 100%) !important;
+            /*background-color: #202B62 !important;
+            background: #FBD100;*/
+            background: -moz-linear-gradient(top, #7580b7 1%, #202B62 100%) !important;
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#7580b7), color-stop(100%,#202B62)) !important;
+            background: -webkit-linear-gradient(top, #7580b7 1%,#202B62 100%) !important;
+            background: -o-linear-gradient(top, #7580b7 1%,#202B62 100%) !important;
+            background: -ms-linear-gradient(top, #7580b7 1%,#202B62 100%) !important;
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7580b7', endColorstr='#202B62',GradientType=0 ) !important;
+            background: linear-gradient(top, #7580b7 1%,#202B62 100%) !important;
         }
         
         .home-page-box-title-pos {
-        	border-color: #202B62 !important;
+            border-color: #202B62 !important;
         }
-	   
+       
     </style>
     <c:loader />
     <div class="content-wrapper">
@@ -87,13 +87,13 @@ Story/Task  : US503/TA907
                             </a>
                         </li>                       
                     </apex:repeat>
-                    	<!-- START : Changes for TA907 -->
-                    	<li>
-                    		<a href="{!$Page.BlogPosts}" onclick="pageViewed('Home Page - Blog Posts');">
+                        <!-- START : Changes for TA907 -->
+                        <li>
+                            <a href="{!$Page.BlogHome}" onclick="pageViewed('Home Page - Blog Home');">
                             Blog Posts
                         </a>
-											</li>     
-											<!-- END : Changes for TA907 -->               
+                                            </li>     
+                                            <!-- END : Changes for TA907 -->               
                   </ul>
                 </div>                    
             </div>
@@ -189,7 +189,7 @@ Story/Task  : US503/TA907
                      </div>
                      <div class="home-page-box-menu-items">
                         <ul>
-                        		<!-- Start changes for DE550 : Basant -->
+                                <!-- Start changes for DE550 : Basant -->
                             <!-- <li><a href="{!$Page.SpiritsPlanning}" onclick="pageViewed('Home Page - Spirits Planning');">Spirits Planning</a></li> -->
                             <li><apex:outputLabel value="Spirits Planning" onclick="openSpiritsPlanningPage();" style="text-decoration: none; cursor: pointer;"/></li>
                             <!-- End changes for DE550 : Basant -->
