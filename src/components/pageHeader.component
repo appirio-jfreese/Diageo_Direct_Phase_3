@@ -1150,7 +1150,6 @@ Story/Task  : US79/TA1007
 				</apex:outputPanel>
 			</apex:form>
 		</div>
-
 		<apex:outputPanel rendered="{!showSearch}" style="position:absolute; bottom:24px; right:16px; z-index:-1;">
             <div class="search {!If(OR(isLoggedIn!=true, preview=='true') ,'hidden','')}">
                 <apex:form >
