@@ -955,10 +955,6 @@ Story/Task  : US79/TA1007
     <!-- Start : Changes for US491/TA920 - Basant Verma -->
     <apex:attribute name="isHomePage" description="" type="Boolean" required="false"/>
     <!--   End : Changes for US491/TA920 - Basant Verma -->
-    <!-- Start : Changes for US79/TA1007 - Basant Verma -->
-    <apex:attribute name="followUnFollowMenu" description="" type="String" required="false"/>
-    <apex:attribute name="followUnfollowAction" description="" type="String" required="false"/>
-    <!-- End : Changes for US79/TA1007 - Basant Verma -->
     
     <!-- Start of existing header which will be replaced by the new one below under US507/TA918 - Jonathan Freese -->
    <apex:outputPanel rendered="true">
@@ -975,9 +971,7 @@ Story/Task  : US79/TA1007
                         <div class="user-menu-value"><apex:outputLink value="{!$Page.DownloadHistory}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">Download History</apex:outputLink></div>
                         <div class="user-menu-value"><apex:outputLink value="{!$Page.ShareHistory}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">Share History</apex:outputLink></div>
                         <!-- Start : Changes for US79/TA1007 - Basant Verma -->
-                        <apex:outputPanel rendered="{!AND(followUnFollowMenu != null, followUnFollowMenu != '')}">
-                        	<div class="user-menu-value"><apex:outputLink rendered="{!AND(followUnFollowMenu != null, followUnFollowMenu != '')}" onclick="{!followUnfollowAction} showDialog('ajaxLoader', true);">{!followUnFollowMenu}</apex:outputLink></div>
-                        </apex:outputPanel>
+                        <div class="user-menu-value"><apex:outputLink value="{!$Page.FollowedItems}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">Followed Items</apex:outputLink></div>
                         <!-- End   : Changes for US79/TA1007 - Basant Verma -->
                         <div class="user-menu-value"><apex:outputLink value="{!$Site.Prefix}/secur/logout.jsp" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">{!$Label.site.logout}</apex:outputLink></div>
                     </div>
@@ -1070,7 +1064,7 @@ Story/Task  : US79/TA1007
     <!-- Start : Changes for US507/TA918 - Jonathan Freese -->
    <apex:outputPanel rendered="false">
     <div id="overlayDisable"></div>
-    <div class="page-header" style="z-index: 11;">
+    <div class="page-header" style="z-index: 31;">
     	<!-- <a href="{!$Page.HomePage}" class="box-link"><div class="logo">&nbsp;</div></a> -->
         <div class="info">
             <apex:pageBlock rendered="{!AND(isLoggedIn, preview='false')}">
@@ -1120,7 +1114,7 @@ Story/Task  : US79/TA1007
             </apex:pageBlock>
             <apex:pageBlock rendered="{!AND(NOT(isLoggedIn),preview=='false')}">Please sign in</apex:pageBlock>
        </div>
-       
+ 
 <!--
        <div class="headerdistr {!If(OR(isLoggedIn!=true, preview=='true') ,'hidden','')}" style="bottom: 41px; height: 32px; position: absolute; right: 15px; width: 500px; color: #ffffff; font-family: Tahoma,Arial; font-size: 14px;">
                  <span style="float: right;">
@@ -1183,10 +1177,9 @@ Story/Task  : US79/TA1007
 		</div>
 -->
 
+
 		<div>
 			<a href="{!$Page.HomePage}" class="box-link"><div class="logo">&nbsp;</div></a>
-			<!-- <div style="position: absolute; top: 58px; left: 329px; font-size: 24px; color: #ffffff; font-family: Verdana !important;"> -->
-				<!-- Start : Changes for US491/TA920 - Basant Verma -->
 				<apex:form >
 					<apex:actionFunction status="ajax-status" name="toggleToWine" action="{!toggleToWine}"/>
 					<apex:actionFunction status="ajax-status" name="toggleToSpirits" action="{!toggleToSpirits}"/>
@@ -1205,22 +1198,9 @@ Story/Task  : US79/TA1007
 					</div>
 					</apex:outputPanel>
 				</apex:form>
-				<!-- End : Changes for US491/TA920-->
-			<!-- </div> -->
-			<!-- Start : Changes for US138/TA972 - Basant Verma -->
-<!--
-      <div style="position: absolute; top: 40px; left: 730px;">
-			<a href="{!$Label.SalesforceHomePage}" class="box-link">
-				<div style="text-decoration: none; font-size: 14px; color: #5db8cb; font-weight: bold; font-family: Verdana !important;">
-					Go To Salesforce
-				</div>
-			</a>
-		 </div>	
--->
-     <!-- End : Changes for US138/TA972 -->
 		</div>
 
-       <apex:outputPanel rendered="{!showSearch}">
+       <apex:outputPanel rendered="{!showSearch}" style="position:absolute; bottom:24px; right:16px; z-index:-1;">
             <div class="search {!If(OR(isLoggedIn!=true, preview=='true') ,'hidden','')}">
                 <apex:form >
                     <apex:actionFunction status="ajax-status" name="userSearch" action="{!userSearch}" rerender="messages, sValue"/>
@@ -1228,7 +1208,6 @@ Story/Task  : US79/TA1007
                         <div>
                         	<apex:inputText value="{!searchPhrase}" styleClass="text"/>
                         	<a href="javascript:;" class="btn" onclick="userSearch(); return false;">GO</a>
-                       	 	<!-- <button class="update-filter" onclick="userSearch(); return false;">GO</button> -->
                         </div>
                     </apex:outputPanel>
                 </apex:form>
