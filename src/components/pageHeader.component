@@ -1098,144 +1098,6 @@ Story/Task  : US79/TA1007
     <!-- End of existing header which will be replaced by the new one below under US507/TA918 - Jonathan Freese -->
 
     <!-- Start : Changes for US507/TA918 - Jonathan Freese -->
-   <apex:outputPanel rendered="false">
-    <div id="overlayDisable"></div>
-    <div class="page-header" style="z-index: 31;">
-        <div class="info">
-            <apex:pageBlock rendered="{!AND(isLoggedIn, preview='false')}">
-	            <a href="{!$Page.Basket}" class="cart">###</a>
-	            <a href="javascript:;" class="avatar"><apex:image value="{!avatarUrl}" height="30px"/></a>
-				<div class="desc">
-	            <table style="width: 100%; border-spacing: 0px; border-collapse:collapse; height: 10px;"><tr><td>
-	                <div class="user-menu-dropdown" style="float: right;">
-	                    <div class="user-menu-name"><a href="javascript:;" class="name">{!$User.FirstName} {!$User.LastName}</a></div>
-	                    <div class="user-menu-values">
-	                        <div class="user-menu-value"><apex:outputLink value="{!$Page.UserProfile}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">User Profile</apex:outputLink></div>
-	                        <div class="user-menu-value"><apex:outputLink value="{!$Page.DownloadHistory}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">Download History</apex:outputLink></div>
-	                        <div class="user-menu-value"><apex:outputLink value="{!$Page.ShareHistory}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">Share History</apex:outputLink></div>
-	                        <div class="user-menu-value"><apex:outputLink value="{!$Site.Prefix}/secur/logout.jsp" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">{!$Label.site.logout}</apex:outputLink></div>
-	                    </div>
-	                </div>
-				    <div style="float: right; padding-top: 6px;">Hello,&nbsp;</div>
-				</td></tr><tr><td>
-				    <div style="float: right;">{!distributorBreadcrumbString}</div>
-				</td></tr></table>
-	            </div>
-			<div class="clear"></div>			    
-            </apex:pageBlock>
-            <apex:pageBlock rendered="{!AND(NOT(isLoggedIn),preview=='false')}">Please sign in</apex:pageBlock>
-        </div>
-		<div>
-	        <a href="{!$Label.SalesforceHomePage}" class="gotoSF"><strong>Go To Salesforce</strong></a>
-	    </div>
-		<div class="clear"></div>
-		<div>
-			<a href="{!$Page.HomePage}" class="box-link"><div class="logo">&nbsp;</div></a>
-			<apex:form >
-				<apex:actionFunction status="ajax-status" name="toggleToWine" action="{!toggleToWine}"/>
-				<apex:actionFunction status="ajax-status" name="toggleToSpirits" action="{!toggleToSpirits}"/>
-	      		<apex:outputPanel id="sTheme">
-	      		<div class="btns">
-					<apex:outputPanel rendered="{!AND(siteTheme == 'Spirits',isNeedToggle)}">
-			            <a href="javascript:;" class="active btn">Spirits</a>
-			            <a href="javascript:;" class="btn" styleClass="pointer" onclick="toggleToWine()">Wine</a>
-			            <a href="javascript:;" class="btn last">Beer</a>
-					</apex:outputPanel>
-					<apex:outputPanel rendered="{!AND(siteTheme == 'Wine',isNeedToggle)}">
-			            <a href="javascript:;" class="btn"  styleClass="pointer" onclick="toggleToSpirits()">Spirits</a>
-			            <a href="javascript:;" class="active btn">Wine</a>
-			            <a href="javascript:;" class="btn last">Beer</a>
-					</apex:outputPanel>
-				</div>
-				</apex:outputPanel>
-			</apex:form>
-		</div>
-		<apex:outputPanel rendered="{!showSearch}">
-            <div class="search {!If(OR(isLoggedIn!=true, preview=='true') ,'hidden','')}">
-                <apex:form >
-                    <apex:actionFunction status="ajax-status" name="userSearch" action="{!userSearch}" rerender="messages, sValue"/>
-                    <apex:outputPanel id="sValue">
-                        <div>
-                        	<apex:inputText value="{!searchPhrase}" styleClass="text"/>
-                        	<a href="javascript:;" class="btn" onclick="userSearch(); return false;">GO</a>
-                        </div>
-                    </apex:outputPanel>
-                </apex:form>
-            </div>
-        </apex:outputPanel>
-    </div>
-   </apex:outputPanel>
-    <!-- End : Changes for US507/TA918 - Jonathan Freese -->
-
-    <!-- TEST Start : Changes for US507/TA918 - Jonathan Freese -->
-   <apex:outputPanel rendered="false">
-    <div id="overlayDisable"></div>
-    <div class="page-header" style="z-index: 31;">
-        <div class="info">
-            <apex:pageBlock rendered="{!AND(isLoggedIn, preview='false')}">
-	            <a href="{!$Page.Basket}" class="cart">###</a>
-	            <a href="javascript:;" class="avatar"><apex:image value="{!avatarUrl}" height="30px"/></a>
-				<div class="desc" style="float: right; padding-right: 25px;">
-	                <div class="user-menu-dropdown" style="float: right;">
-	                    <div class="user-menu-name"><a href="javascript:;" class="name">{!$User.FirstName} {!$User.LastName}</a></div>
-	                    <div class="user-menu-values">
-	                        <div class="user-menu-value"><apex:outputLink value="{!$Page.UserProfile}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">User Profile</apex:outputLink></div>
-	                        <div class="user-menu-value"><apex:outputLink value="{!$Page.DownloadHistory}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">Download History</apex:outputLink></div>
-	                        <div class="user-menu-value"><apex:outputLink value="{!$Page.ShareHistory}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">Share History</apex:outputLink></div>
-	                        <div class="user-menu-value"><apex:outputLink value="{!$Site.Prefix}/secur/logout.jsp" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">{!$Label.site.logout}</apex:outputLink></div>
-	                    </div>
-	                </div>
-				    <div style="float: right; padding-top: 6px;">Hello,&nbsp;</div>
-				    <div class="clear"></div>
-				    <div style="float: right; padding-right: 25px;">{!distributorBreadcrumbString}</div>
-	            </div>
-			<div class="clear"></div>			    
-            </apex:pageBlock>
-            <apex:pageBlock rendered="{!AND(NOT(isLoggedIn),preview=='false')}">Please sign in</apex:pageBlock>
-        </div>
-		<div>
-	        <a href="{!$Label.SalesforceHomePage}" class="gotoSF"><strong>Go To Salesforce</strong></a>
-	    </div>
-		<div class="clear"></div>
-		<div>
-			<a href="{!$Page.HomePage}" class="box-link"><div class="logo">&nbsp;</div></a>
-			<apex:form >
-				<apex:actionFunction status="ajax-status" name="toggleToWine" action="{!toggleToWine}"/>
-				<apex:actionFunction status="ajax-status" name="toggleToSpirits" action="{!toggleToSpirits}"/>
-	      		<apex:outputPanel id="sTheme">
-	      		<div class="btns">
-					<apex:outputPanel rendered="{!AND(siteTheme == 'Spirits',isNeedToggle)}">
-			            <a href="javascript:;" class="active btn">Spirits</a>
-			            <a href="javascript:;" class="btn" styleClass="pointer" onclick="toggleToWine()">Wine</a>
-			            <a href="javascript:;" class="btn last">Beer</a>
-					</apex:outputPanel>
-					<apex:outputPanel rendered="{!AND(siteTheme == 'Wine',isNeedToggle)}">
-			            <a href="javascript:;" class="btn"  styleClass="pointer" onclick="toggleToSpirits()">Spirits</a>
-			            <a href="javascript:;" class="active btn">Wine</a>
-			            <a href="javascript:;" class="btn last">Beer</a>
-					</apex:outputPanel>
-				</div>
-				</apex:outputPanel>
-			</apex:form>
-		</div>
-		<apex:outputPanel rendered="{!showSearch}">
-            <div class="search {!If(OR(isLoggedIn!=true, preview=='true') ,'hidden','')}">
-                <apex:form >
-                    <apex:actionFunction status="ajax-status" name="userSearch" action="{!userSearch}" rerender="messages, sValue"/>
-                    <apex:outputPanel id="sValue">
-                        <div>
-                        	<apex:inputText value="{!searchPhrase}" styleClass="text"/>
-                        	<a href="javascript:;" class="btn" onclick="userSearch(); return false;">GO</a>
-                        </div>
-                    </apex:outputPanel>
-                </apex:form>
-            </div>
-        </apex:outputPanel>
-    </div>
-   </apex:outputPanel>
-    <!-- TEST End : Changes for US507/TA918 - Jonathan Freese -->
-
-    <!-- TEST2 Start : Changes for US507/TA918 - Jonathan Freese -->
    <apex:outputPanel rendered="true">
     <div id="overlayDisable"></div>
     <div class="page-header" style="z-index: 31;">
@@ -1260,7 +1122,6 @@ Story/Task  : US79/TA1007
 					    <div style="float: right; padding-top: 6px;">Hello,</div>
 					    <div class="clear"></div>
 		            </div>
-				<!-- <div class="clear"></div> -->			    
 	            </apex:pageBlock>
 	            <apex:pageBlock rendered="{!AND(NOT(isLoggedIn),preview=='false')}">Please sign in</apex:pageBlock>
 			    <div class="crumb">{!distributorBreadcrumbString}</div>
@@ -1309,7 +1170,7 @@ Story/Task  : US79/TA1007
 	    </div>
     </div>
    </apex:outputPanel>
-    <!-- TEST2 End : Changes for US507/TA918 - Jonathan Freese -->
+   <!-- End : Changes for US507/TA918 - Jonathan Freese -->
     
     <!-- site theme select -->
     <div id="selectTheme" class="hidden dialog {!if(OR(siteTheme == null, siteTheme == ''), 'selectThemeRequired','')} ">
