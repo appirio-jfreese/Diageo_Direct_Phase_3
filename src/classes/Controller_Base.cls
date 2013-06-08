@@ -929,9 +929,9 @@ global public without sharing virtual class Controller_Base {
 			list<Id> cIds = new list<Id>();
 			if(cVersionId != null){
 				cIds.add(cVersionId);
-				Service_Notification.addFollow(cIds);
+				Service_Follow.addFollow(cIds);
 			}
-			currentFollowIds = Service_Notification.getFollowIds();
+			currentFollowIds = Service_Follow.getFollowIds();
 			refreshPageContent();
 			expandFilter = false; 
 		}
@@ -955,9 +955,9 @@ global public without sharing virtual class Controller_Base {
         	}
         	
 			if(cIds.size() != 0){
-				Service_Notification.addFollow(cIds);
+				Service_Follow.addFollow(cIds);
 			}
-			currentFollowIds = Service_Notification.getFollowIds();
+			currentFollowIds = Service_Follow.getFollowIds();
 			refreshPageContent();
 			expandFilter = false;
 		}
@@ -971,9 +971,9 @@ global public without sharing virtual class Controller_Base {
 			list<Id> cIds = new list<Id>();
 			if(cVersionId != null){
 				cIds.add(cVersionId);
-				Service_Notification.removeFollow(cIds);
+				Service_Follow.removeFollow(cIds);
 			}
-			currentFollowIds = Service_Notification.getFollowIds();
+			currentFollowIds = Service_Follow.getFollowIds();
 	        initPager();
 			refreshPageContent();
 			expandFilter = false;
@@ -998,9 +998,9 @@ global public without sharing virtual class Controller_Base {
         	}
         	
 			if(cIds.size() != 0){
-				Service_Notification.removeFollow(cIds);
+				Service_Follow.removeFollow(cIds);
 			}
-			currentFollowIds = Service_Notification.getFollowIds();
+			currentFollowIds = Service_Follow.getFollowIds();
 	        initPager();
 			refreshPageContent();
 			expandFilter = false;
