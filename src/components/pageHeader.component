@@ -1106,6 +1106,7 @@ Story/Task  : US79/TA1007
 	            <apex:pageBlock rendered="{!AND(isLoggedIn, preview='false')}">
 		            <a href="{!$Page.Basket}" class="cart">###</a>
 		            <a href="javascript:;" class="avatar"><apex:image value="{!avatarUrl}" height="30px"/></a>
+		            <!-- <a href="javascript:;" class="avatar"><apex:image url="{!URLFOR($Resource.PageHeader, '/img/avatar.png')}" height="30px"/></a> -->
 					<div class="descx" style="line-height: 10px;">
 		                <div class="user-menu-dropdown" style="float:right;">
 		                    <div class="user-menu-name"><a href="javascript:;" class="name">{!$User.FirstName} {!$User.LastName}</a></div>

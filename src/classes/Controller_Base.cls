@@ -12,6 +12,14 @@ Story/Task  : US493/TA922
 Updated By  : Basant Verma (Appirio Offshore)   
 Date        : 5/27/13
 Story/Task  : US85/TA910 - DE550
+
+Updated By  : Basant Verma (Appirio Offshore)   
+Date        : 6/6/13
+Story/Task  : US79/TA997
+
+Updated By  : Jonathan Freese (Appirio)   
+Date        : 6/6/13
+Story/Task  : US491/TA973 - header updates
 *******************************************************************************************************************/
 
 global public without sharing virtual class Controller_Base {
@@ -104,12 +112,39 @@ global public without sharing virtual class Controller_Base {
 	    } private set;
 	} 
 
+    // Start : Changes for TA973 - Jonathan Freese
+    // lifted from http://boards.developerforce.com/t5/Apex-Code-Development/Apex-URLFOR-equivalent/td-p/261377
+    public static String GetResourceURL(String resourceName) {
+		List<StaticResource> resourceList = [
+		SELECT Name, NamespacePrefix, SystemModStamp
+		FROM StaticResource
+		WHERE Name = :resourceName
+		];
+		
+		if (resourceList.size() == 1) {
+			String namespace = resourceList[0].NamespacePrefix;
+			return '/resource/'
+			+ resourceList[0].SystemModStamp.getTime() + '/'
+			+ (namespace != null && namespace != '' ? namespace + '__' : '')
+			+ resourceName;
+		} else return '';
+	}
+    
     public String photoUrl {
 	    get{
-	    	String result='/img/avatar.png';
+	    	String result=GetResourceURL('PageHeader') + '/img/avatar.png';
+	    	//(e.g.) resource/1370646082000/PageHeader/img/avatar.png
+	    	
+	    	//It appears that SmallPhotoUrl is never null; if the user has not uploaded an image it defaults to:
+	    	//https://c.cs10.content.force.com/profilephoto/005/T
+	    	//whereas an uploaded image will be have a full Id, such as
+	    	//https://c.cs10.content.force.com/profilephoto/729J0000000Cd34/T
 	    	try{
 				User u = [select Id, FirstName, LastName, SmallPhotoUrl, FULLPhotoUrl from User where Id = : UserInfo.getUserId()];
-		        if (u.SmallPhotoUrl != null && u.SmallPhotoUrl != ''){
+				List<String> parts = u.SmallPhotoUrl.split('/');
+		        Boolean chatterIcon=true;
+		        if (parts.size() >= 5 && parts[4].length() == 15){chatterIcon=false;}
+		        if (u.SmallPhotoUrl != null && u.SmallPhotoUrl != '' && ! chatterIcon){
 		        	result = u.SmallPhotoUrl;
 		        }
 	    	}catch(Exception ex){
@@ -118,6 +153,7 @@ global public without sharing virtual class Controller_Base {
 	    	return result;
 	    } private set;
 	} 
+    // End : Changes for TA973 - Jonathan Freese
 	
 	// pages
     public Integer numberOfPages {public get; public set;}
@@ -929,9 +965,11 @@ global public without sharing virtual class Controller_Base {
 			list<Id> cIds = new list<Id>();
 			if(cVersionId != null){
 				cIds.add(cVersionId);
+				// Start : Changes for TA997 - Basant Verma
 				Service_Follow.addFollow(cIds);
 			}
 			currentFollowIds = Service_Follow.getFollowIds();
+			// End: Changes for TA997 - Basant Verma
 			refreshPageContent();
 			expandFilter = false; 
 		}
@@ -955,9 +993,11 @@ global public without sharing virtual class Controller_Base {
         	}
         	
 			if(cIds.size() != 0){
+				// Start: Changes for TA997 - Basant Verma
 				Service_Follow.addFollow(cIds);
 			}
 			currentFollowIds = Service_Follow.getFollowIds();
+			// End: Changes for TA997 - Basant Verma
 			refreshPageContent();
 			expandFilter = false;
 		}
@@ -971,9 +1011,11 @@ global public without sharing virtual class Controller_Base {
 			list<Id> cIds = new list<Id>();
 			if(cVersionId != null){
 				cIds.add(cVersionId);
+				// Start: Changes for TA997 - Basant Verma
 				Service_Follow.removeFollow(cIds);
 			}
 			currentFollowIds = Service_Follow.getFollowIds();
+	        // End: Changes for TA997 - Basant Verma
 	        initPager();
 			refreshPageContent();
 			expandFilter = false;
@@ -998,9 +1040,11 @@ global public without sharing virtual class Controller_Base {
         	}
         	
 			if(cIds.size() != 0){
+				// Start: Changes for TA997 - Basant Verma
 				Service_Follow.removeFollow(cIds);
 			}
 			currentFollowIds = Service_Follow.getFollowIds();
+	        // End: Changes for TA997 - Basant Verma
 	        initPager();
 			refreshPageContent();
 			expandFilter = false;
