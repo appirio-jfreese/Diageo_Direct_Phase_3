@@ -1098,16 +1098,32 @@ Story/Task  : US79/TA1007
     <!-- End of existing header which will be replaced by the new one below under US507/TA918 - Jonathan Freese -->
 
     <!-- Start : Changes for US507/TA918 - Jonathan Freese -->
-   <apex:outputPanel rendered="true">
+    <!-- Header update notes
+         The header updates and enhancements were developed by Christina Hamlin as documented in header-proto_v3.zip uploaded to Rally 5/29/13 under US138/TA930.
+         The prototype called for all header elements to float, which is admirable in concept but was difficult to fully implement, due to the profile dropdown,
+         which was not addressed in the prototype.
+         
+         The dropdown pushed the breadcrumb, Salesforce link, search input box and toggle buttons out of the way.  This was fixed by making their position absolute
+         relative to the edges of their respective (position:relative) parent containers.  However, the dropdown then slid beneath the Salesforce link and search text box.
+         An attempt was made to deal with this by lowering the z-index of the position:absolute elements, but floating elements effectively have a z-index
+         of unassigned (aka zero).  Therefore, the position:absolute elements would need to have a z-index of -1 (e.g.), but that would mean that the page-header
+         div would need an even lower z-index of -2 (e.g.).  But that would hide the header behind the content-wrapper div (the white base), which has
+         an undefined default z-index of zero.  There was reluctance to tamper with the z-index of the base-level content-wrapper.  
+         
+         Therefore, the desc class was also set to position:absolute, with a z-index above the other position:absolute elements, which themselves have a z-index
+         above that of the page-header.  (Its z-index of 31 was set during previous work.)-->
+         
+    <apex:outputPanel rendered="true">
     <div id="overlayDisable"></div>
     <div class="page-header" style="z-index: 31;">
 		<div class="name_avatar_basket">
 	        <div class="info">
 	            <apex:pageBlock rendered="{!AND(isLoggedIn, preview='false')}">
 		            <a href="{!$Page.Basket}" class="cart">###</a>
-		            <a href="javascript:;" class="avatar"><apex:image value="{!avatarUrl}" height="30px"/></a>
-		            <!-- <a href="javascript:;" class="avatar"><apex:image url="{!URLFOR($Resource.PageHeader, '/img/avatar.png')}" height="30px"/></a> -->
-					<div class="descx" style="line-height: 10px;">
+		            <a href="/_ui/core/userprofile/UserProfilePage" class="avatar"><apex:image value="{!avatarUrl}" height="30px"/></a>
+		            <!-- <a href="javascript:;" class="avatar"><apex:image value="{!avatarUrl}" height="30px"/></a> -->
+		            <!-- <a href="javascript:;" class="avatar"><apex:image url="{!URLFOR($Resource.PageHeader, '/img/avatar.png')}"/></a> -->
+					<div class="desc">
 		                <div class="user-menu-dropdown" style="float:right;">
 		                    <div class="user-menu-name"><a href="javascript:;" class="name">{!$User.FirstName} {!$User.LastName}</a></div>
 		                    <div class="user-menu-values">
@@ -1130,7 +1146,7 @@ Story/Task  : US79/TA1007
         </div>
 		<div class="sfdc_link">
 			<div>
-		        <a href="{!$Label.SalesforceHomePage}" class="gotoSFx"><strong>Go To Salesforce</strong></a>
+		        <a href="{!$Label.SalesforceHomePage}" class="gotoSF"><strong>Go To Salesforce</strong></a>
 		    </div>
 		</div>
 		<div class="logo_buttons_search">
@@ -1140,7 +1156,7 @@ Story/Task  : US79/TA1007
 					<apex:actionFunction status="ajax-status" name="toggleToWine" action="{!toggleToWine}"/>
 					<apex:actionFunction status="ajax-status" name="toggleToSpirits" action="{!toggleToSpirits}"/>
 		      		<apex:outputPanel id="sTheme">
-			      		<div class="btnsx">
+			      		<div class="btns">
 							<apex:outputPanel rendered="{!AND(siteTheme == 'Spirits',isNeedToggle)}">
 					            <a href="javascript:;" class="active btn">Spirits</a>
 					            <a href="javascript:;" class="btn" styleClass="pointer" onclick="toggleToWine()">Wine</a>
@@ -1156,7 +1172,7 @@ Story/Task  : US79/TA1007
 				</apex:form>
 			</div>
 			<apex:outputPanel rendered="{!showSearch}">
-	            <div class="searchx {!If(OR(isLoggedIn!=true, preview=='true') ,'hidden','')}">
+	            <div class="search {!If(OR(isLoggedIn!=true, preview=='true') ,'hidden','')}">
 	                <apex:form >
 	                    <apex:actionFunction status="ajax-status" name="userSearch" action="{!userSearch}" rerender="messages, sValue"/>
 	                    <apex:outputPanel id="sValue">
