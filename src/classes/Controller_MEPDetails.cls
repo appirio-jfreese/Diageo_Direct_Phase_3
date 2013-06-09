@@ -1,60 +1,7 @@
 /*******************************************************************************
 Name        : Controller_MEPDetails.cls
-
-Updated By  : Basant Verma (Appirio Offshore)   
-Date        : 6/6/13
-Story/Task  : US79/TA1007 
 *******************************************************************************/
 public with sharing class Controller_MEPDetails extends Controller_Base {
-	// Start : Changes for TA1007 - Basant Verma
-	public String currentTab {set; get;}
-	public String followUnFollowMenu {set; 
-		get{
-			Set<String> detailOpt = new Set<String>();
-			detailOpt.addAll(detailsMapOrder);
-			if(detailOpt.contains(currentTab)){
-				Set<ID> currentPageCV = getCurrnetPageContentVersionIds();
-				Set<ID> allCV = new Set<ID>();
-				allCV.addALL(currentFollowIds);
-				allCV.addALL(currentPageCV);
-				if(allCV.size() < currentPageCV.size() + currentFollowIds.size())
-					followUnFollowMenu = 'Unfollow';
-				else
-					followUnFollowMenu = 'Follow';
-			}else{
-				followUnFollowMenu = null;
-			}
-			return followUnFollowMenu;
-		}
-	}
-	
-	private Set<Id> getCurrnetPageContentVersionIds(){
-		Set<ID> cvSet = new Set<ID>();
-		if(contentHolderMap != null && currentTab != null && contentHolderMap.get(currentTab) != null){
-			List<AggregateResultHolder> contentHolder = contentHolderMap.get(currentTab);
-			for(AggregateResultHolder arg : contentHolder){
-				if(arg.result.get('cvid') != null && !((String)arg.result.get('cvid')).trim().equals('')){
-					cvSet.add(Id.valueOf((String)arg.result.get('cvid')));
-				}else if(arg.result.get('cvidlow') != null && !((String)arg.result.get('cvidlow')).trim().equals('')){
-					cvSet.add(Id.valueOf((String)arg.result.get('cvidlow')));
-				}
-			}
-		}
-		return cvSet; 
-	}
-		
-	public void followUnfollowMenuAction(){
-		if(followUnFollowMenu != null && followUnFollowMenu.trim().equals('')){
-			List<ID> cvList = new List<ID>(); 
-			cvList.addAll(getCurrnetPageContentVersionIds());
-			if(cvList.size() > 0 && followUnFollowMenu.trim().equalsIgnoreCase('Follow')){
-				Service_Notification.addFollow(cvList);
-			}else if(cvList.size() > 0 && followUnFollowMenu.trim().equalsIgnoreCase('Unfollow')){
-				Service_Notification.removeFollow(cvList);
-			}
-		}
-	}
-	// End : Changes for TA1007 - Basant Verma 
 	// display as list (true) or box (false)
     public Boolean displayAsList {get; set;}
     
