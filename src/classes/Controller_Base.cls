@@ -522,7 +522,7 @@ global public without sharing virtual class Controller_Base {
 
 		if(currentUserPage != null && currentUserPage != ''){
 			/* Start: changes for TA922 Jonathan Freese */
-      Boolean PlanningPage=false;
+		    Boolean PlanningPage=false;
 			for (PlanningPage_Theme__c ppt : PlanningPage_Theme__c.getAll().values()){
 				if (ppt.Planning_Page__c == currentUserPage){
 					PlanningPage=true;
@@ -749,17 +749,49 @@ global public without sharing virtual class Controller_Base {
     
     // Start : Changes for TA920 - Basant Verma 
     public virtual PageReference toggleTheme(){
-    	PageReference pr = ApexPages.currentPage();
+		PageReference pr = ApexPages.currentPage();
+		
+		// Start : Changes for TA973 Jonathan Freese
+		/* If we are currently on a planning page, need to switch the page reference to a different planning page (the one indicated by the clickedTheme) */
+        String currentUserPageUrl = ApexPages.currentPage().getUrl();
+        Integer ask = currentUserPageUrl.indexOf('?');
+        String currentUserPage = (ask==-1) ? currentUserPageUrl : currentUserPageUrl.substring(0, ask);
+
+		if(currentUserPage != null && currentUserPage != ''){
+		    Boolean onPlanningPage=false;
+			for (PlanningPage_Theme__c ppt : PlanningPage_Theme__c.getAll().values()){
+				if (ppt.Planning_Page__c == currentUserPage){
+					onPlanningPage=true;
+				}
+			}
+			if(onPlanningPage){
+	            String goToPlanningPage='';
+	            for (PlanningPage_Theme__c ppt : PlanningPage_Theme__c.getAll().values()){
+	                if (ppt.Name == clickedTheme){
+	                  	goToPlanningPage=ppt.Planning_Page__c;
+  	                }
+	            }
+				if(goToPlanningPage != null && goToPlanningPage != ''){
+				   pr = new PageReference(goToPlanningPage);
+				}
+				else{
+					ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'PlanningPage_Theme not defined for selected theme: ' + clickedTheme));
+					return null;
+				}
+			}
+		}
+		// End : Changes for TA973 Jonathan Freese
+
     	try{
 	    		pr.getParameters().put('toggled','TRUE');
 				pr.getParameters().put('toggledTheme',clickedTheme);
 				pr.getParameters().put('toggledThemeDef',defSiteThemeTemp);
 				pr.getParameters().put('toggledNum',String.valueOf(numberOfItemsOnPage));
-        // Start : Changes for TA920/DE550 Jonathan Freese
-        Service_API.setUserSiteTheme(clickedTheme, true);
+        		// Start : Changes for TA920/DE550 Jonathan Freese
+       			Service_API.setUserSiteTheme(clickedTheme, true);
 				//   End : Changes for TA920/DE550 Jonathan Freese
 				pr.setRedirect(true);
-    	}catch (Exception e){
+    		}catch (Exception e){
 				ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to toggle theme.' ));
 				return null;
 			}
@@ -776,6 +808,7 @@ global public without sharing virtual class Controller_Base {
     	return toggleTheme();
     }
     // End : Changes for TA920
+
     // Start : Changes for DE550 : Basant
     public virtual PageReference openPlanningPage(){
     	PageReference pr = ApexPages.currentPage();
