@@ -1152,14 +1152,14 @@ Story/Task  : US79/TA1007
 				<apex:form >
 					<apex:actionFunction status="ajax-status" name="toggleToWine" action="{!toggleToWine}"/>
 					<apex:actionFunction status="ajax-status" name="toggleToSpirits" action="{!toggleToSpirits}"/>
-		      		<apex:outputPanel id="sTheme">
+		      		<apex:outputPanel id="sTheme" rendered="{!showThemeSelector}">
 			      		<div class="btns">
-							<apex:outputPanel rendered="{!AND(siteTheme == 'Spirits',isNeedToggle)}">
+							<apex:outputPanel rendered="{!siteTheme == 'Spirits'}">
 					            <a href="javascript:;" class="active btn">Spirits</a>
 					            <a href="javascript:;" class="btn" styleClass="pointer" onclick="toggleToWine()">Wine</a>
 					            <a href="javascript:;" class="btn last">Beer</a>
 							</apex:outputPanel>
-							<apex:outputPanel rendered="{!AND(siteTheme == 'Wine',isNeedToggle)}">
+							<apex:outputPanel rendered="{!siteTheme == 'Wine'}">
 					            <a href="javascript:;" class="btn"  styleClass="pointer" onclick="toggleToSpirits()">Spirits</a>
 					            <a href="javascript:;" class="active btn">Wine</a>
 					            <a href="javascript:;" class="btn last">Beer</a>
