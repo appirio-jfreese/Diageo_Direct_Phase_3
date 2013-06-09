@@ -136,7 +136,7 @@ global public without sharing virtual class Controller_Base {
 		} else return '';
 	}
     
-    public String photoUrl {
+    public String avatarUrl {
 	    get{
 	    	String result=GetResourceURL('PageHeader') + '/img/avatar.png';
 	    	//(e.g.) resource/1370646082000/PageHeader/img/avatar.png
