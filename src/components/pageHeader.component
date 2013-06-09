@@ -1038,7 +1038,7 @@ Story/Task  : US79/TA1007
             <a href="{!$Page.Basket}">
                 <span id="basketItemsNo">
                     <apex:outputPanel id="currentBasketItemsNo">
-                        ({!basketItemsNumber} items)
+                        (# items)
                     </apex:outputPanel>
                 </span>
             </a>
@@ -1116,7 +1116,7 @@ Story/Task  : US79/TA1007
 		<div class="name_avatar_basket">
 	        <div class="info">
 	            <apex:pageBlock rendered="{!AND(isLoggedIn, preview='false')}">
-		            <a href="{!$Page.Basket}" class="cart">###</a>
+		            <a href="{!$Page.Basket}" class="cart">{!basketItemsNumber}</a>
 		            <a href="/_ui/core/userprofile/UserProfilePage" class="avatar"><apex:image value="{!avatarUrl}" height="30px"/></a>
 		            <!-- <a href="javascript:;" class="avatar"><apex:image value="{!avatarUrl}" height="30px"/></a> -->
 		            <!-- <a href="javascript:;" class="avatar"><apex:image url="{!URLFOR($Resource.PageHeader, '/img/avatar.png')}"/></a> -->
