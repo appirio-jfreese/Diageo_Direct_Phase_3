@@ -13,7 +13,7 @@
     <apex:stylesheet value="{!URLFOR($Resource.BlogCSS, 'css/layout.css')}" />
     <apex:stylesheet value="{!URLFOR($Resource.BlogCSS, 'css/skeleton-fluid.css')}" />
     <apex:stylesheet value="{!URLFOR($Resource.BlogCSS, 'js/script.js')}" />
-   
+  
     <script type="text/javascript">
         function showComments(showHide){
             if(showHide == "Show"){
@@ -101,7 +101,7 @@
         }
     </script>    
     <c:loader />
-    <div class="wrapper">
+    <div class="content-wrapper">
         <div class="container">
         
             <!-- PAGE HEADER -->
@@ -112,13 +112,15 @@
             </script>
             
             <!--  BREADCRUMB -->
-           <c:pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/> 
-
+<!--           <c:pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>  -->
+             
             <div class="content clearfix" style="text-align: left;">
-                <h1>
+                <h1 style="width: 940px;">
                     <span>News Blog</span>
                 </h1>
-                <!-- main -->
+                
+                <apex:form id="blogPostFrm">  
+                <!-- main -->    
                 <div class="main columns">
                 
                     <apex:repeat value="{!blogPosts}" var="blogItem">
@@ -126,7 +128,7 @@
                         <div class="image columns" style="height: 150px;">
                         </div>
                         <div class="summary">
-                            <a onClick="openDetails('{!blogItem.Id}'); pageViewed('BlogHome - {!IF(LEFT(blogItem.Name,20) = blogItem.Name, blogItem.Name, TRIM(LEFT(blogItem.Name,20))&'....')}');" class="title link">{!blogItem.Name}</a>
+                            <a style="cursor: pointer;" onClick="openDetails('{!blogItem.Id}'); pageViewed('BlogHome - {!IF(LEFT(blogItem.Name,20) = blogItem.Name, blogItem.Name, TRIM(LEFT(blogItem.Name,20))&'....')}');" class="title link">{!blogItem.Name}</a>
                             <div class="info">
                                 Posted By : <a href="javascript:;" class="link">{!blogItem.CreatedBy.Name}</a>
                                 &nbsp;|&nbsp;<apex:outputText value="{0,date,MM'/'dd'/'yyyy}"><apex:param value="{!blogItem.CreatedDate}" /></apex:outputText>                                
@@ -142,19 +144,23 @@
                             </div>
                         </div>
                     </div>
-                    </apex:repeat>
+                    </apex:repeat>                 
                     
                 </div>
                 <div class="sidebar columns" style="display: {!IF(blogPostsCount == 0,'none','')};">
                     <c:BlogSideTile />
-                </div>                 
-            </div>
+                </div> 
+                                
+                <apex:actionFunction action="{!openBlogDetail}" name="openBlogDetail">
+                </apex:actionFunction>
+                <apex:inputHidden value="{!clickedBlogId}" id="clickedBlogPostId"/>
+            </apex:form>
+        
+            </div>      
         </div>
-        <apex:form id="blogPostFrm">
-            <apex:actionFunction action="{!openBlogDetail}" name="openBlogDetail">
-            </apex:actionFunction>
-            <apex:inputHidden value="{!clickedBlogId}" id="clickedBlogPostId"/>
-        </apex:form>
+                                
+        
+
 
         <!-- PAGE FOOTER -->
         <c:pageFooter isInternal="{!isInternalUser}" />

@@ -8,6 +8,7 @@ Story/Task  : US503/TA907
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_BMIIntro">
     <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.BrandMarketingInformationPage, 'style'+siteTheme+'.css')}"/>
+    
     <style type="text/css">
         body, html{
             overflow: hidden;
@@ -61,9 +62,7 @@ Story/Task  : US503/TA907
                     </div>
                 </apex:repeat>
                 <!-- START : Changes for : TA907 -->
-                <div style="position: absolute; top: 200px; left: 10px; width=300; height=200; overflow: auto;">
-                    <c:blogPost format="TitlesAndShortDesc" isLoggedIn="{!isLoggedIn}" url="" singleTag="Location:brand-marketing-information" id="blogPostComp"/>
-                </div>
+                    <c:blogPost format="Titles" isLoggedIn="{!isLoggedIn}" url="" singleTag="Location:brand-marketing-information" id="blogPostComp"/>
                 <!-- END : Changes for : TA907 -->
             </div>
         </div>

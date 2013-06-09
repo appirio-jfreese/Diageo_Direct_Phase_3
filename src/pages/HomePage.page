@@ -57,7 +57,7 @@ Story/Task  : US503/TA907
     <div class="content-wrapper">
         <!-- PAGE HEADER -->
         <!-- Start : Changes for TA920 - Basant Verma -->
-        <c:pageHeader showThemeSelector="false" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" avatarUrl="{!photoUrl}"/>
+        <c:pageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" avatarUrl="{!photoUrl}"/>
         <!-- End : Changes for TA920 - Basant Verma -->
         <script type="text/javascript">
             pageViewed('Home Page');

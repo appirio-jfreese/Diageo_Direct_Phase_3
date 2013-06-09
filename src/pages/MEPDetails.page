@@ -1,9 +1,5 @@
 <!------------------------------------------------------------------------------
 Name        : MEPDetails.page
-
-Updated By  : Basant Verma (Appirio OffShore)
-Date        : 6/6/13
-Story/Task  : US79/TA1007
 ------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_MEPDetails" action="{!initTheme}">>
     <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
@@ -16,12 +12,8 @@ Story/Task  : US79/TA1007
     <c:loader />
     <div class="content-wrapper">
         <!-- PAGE HEADER -->
-        <!-- Start : Changes for US79/TA1007 - Basant Verma -->
-        <apex:outputPanel id="pageHeaderSection">
-        	<c:pageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" followUnFollowMenu="{!followUnFollowMenu}" followUnfollowAction="followUnfollow();" />
-        </apex:outputPanel>
-        <!-- End : Changes for US79/TA1007 - Basant Verma -->
-
+        <c:pageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
+        
 		<script type="text/javascript">
 	    	pageViewed('Monthly Execution Plan - Detail Page');
 	    </script>
@@ -36,12 +28,9 @@ Story/Task  : US79/TA1007
 				<apex:outputPanel id="messages">
 					<apex:messages styleClass="errorMessagesList" />
 				</apex:outputPanel>
-				<!-- Start : Changes for US79/TA1007 - Basant Verma -->
-				<apex:actionFunction status="ajax-status" name="renderAsListSlider" action="{!renderAsListSlider}" rerender="messages, sliderContentItemsBxLs, pageHeaderSection"/>
-				<apex:actionFunction status="ajax-status" name="renderAsBoxSlider" action="{!renderAsBoxSlider}" rerender="messages, sliderContentItemsBxLs, pageHeaderSection"/>
-				<apex:actionFunction status="ajax-status" name="followUnfollow" action="{!followUnfollowMenuAction}" rerender="messages, sliderContentItemsBxLs, pageHeaderSection"/>
-        <!-- End : Changes for US79/TA1007 - Basant Verma -->        
-                <apex:outputPanel rendered="{! if( detailId != null, 'true','false' )}" id="pageContent">
+				<apex:actionFunction status="ajax-status" name="renderAsListSlider" action="{!renderAsListSlider}" rerender="messages, sliderContentItemsBxLs"/>
+				<apex:actionFunction status="ajax-status" name="renderAsBoxSlider" action="{!renderAsBoxSlider}" rerender="messages, sliderContentItemsBxLs"/>
+				        <apex:outputPanel rendered="{! if( detailId != null, 'true','false' )}" id="pageContent">
 	                <!-- Slider -->
 	                <div class="horizontal-slider">
 						<!-- Slider navigation buttons -->
