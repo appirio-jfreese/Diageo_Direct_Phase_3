@@ -26,6 +26,12 @@ global public without sharing virtual class Controller_Base {
 		// Start : Changes for TA920 - Basant Verma
 		public String clickedTheme {public get; public set;}
 		private String defSiteThemeTemp;
+		/*Note by Jonathan Freese 6/9/13:
+		     With the changes under US507/TA918, the theme selector will be discarded from all pages in favor of
+		     of theme toggle buttons.  The Boolean showThemeSelector defined for each page will henceforth be used
+		     to indicate which pages should include theme toggles in the header.  (Under the previous configuration,
+		     15 pages in addition to the homePage had showThemeSelector="false".)  The Boolean isNeedToggle will not
+		     be needed at all, but is retained (for now) to demonstrate the workings of the previous header.*/
 		public boolean isNeedToggle {
 			get{
         if(currentUserPage().equalsIgnoreCase('/apex/HomePage'))
