@@ -1156,13 +1156,13 @@ Story/Task  : US79/TA1007
 			      		<div class="btns">
 							<apex:outputPanel rendered="{!siteTheme == 'Spirits'}">
 					            <a href="javascript:;" class="active btn">Spirits</a>
-					            <a href="javascript:;" class="btn" styleClass="pointer" onclick="toggleToWine()">Wine</a>
-					            <a href="javascript:;" class="btn last">Beer</a>
+					            <a href="javascript:;" class="btn last" styleClass="pointer" onclick="toggleToWine()">Wine</a>
+					            <!--  <a href="javascript:;" class="btn last">Beer</a> -->
 							</apex:outputPanel>
 							<apex:outputPanel rendered="{!siteTheme == 'Wine'}">
 					            <a href="javascript:;" class="btn"  styleClass="pointer" onclick="toggleToSpirits()">Spirits</a>
-					            <a href="javascript:;" class="active btn">Wine</a>
-					            <a href="javascript:;" class="btn last">Beer</a>
+					            <a href="javascript:;" class="active btn last">Wine</a>
+					            <!--  <a href="javascript:;" class="btn last">Beer</a> -->
 							</apex:outputPanel>
 						</div>
 					</apex:outputPanel>
