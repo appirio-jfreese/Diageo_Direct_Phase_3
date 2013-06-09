@@ -988,9 +988,6 @@ Story/Task  : US79/TA1007
     <apex:attribute name="showSearch" description="" type="Boolean" required="false" default="true"/>
     <apex:attribute name="showThemeSelector" description="" type="Boolean" required="false"/>
     <apex:attribute name="basketItemsNumber" description="" type="String" required="false"/>
-    <!-- Start : Changes for US491/TA920 - Basant Verma -->
-    <apex:attribute name="isHomePage" description="" type="Boolean" required="false"/>
-    <!--   End : Changes for US491/TA920 - Basant Verma -->
     
     <!-- Start of existing header which will be replaced by the new one below under US507/TA918 - Jonathan Freese -->
    <apex:outputPanel rendered="true">
