@@ -138,7 +138,8 @@ global public without sharing virtual class Controller_Base {
     
     public String avatarUrl {
 	    get{
-	    	String result=GetResourceURL('PageHeader') + '/img/avatar.png';
+	    	String result='';
+	    	//String result=GetResourceURL('PageHeader') + '/img/avatar.png';
 	    	//(e.g.) resource/1370646082000/PageHeader/img/avatar.png
 	    	
 	    	//It appears that SmallPhotoUrl is never null; if the user has not uploaded an image it defaults to:
@@ -147,11 +148,26 @@ global public without sharing virtual class Controller_Base {
 	    	//https://c.cs10.content.force.com/profilephoto/729J0000000Cd34/T
 	    	try{
 				User u = [select Id, FirstName, LastName, SmallPhotoUrl, FULLPhotoUrl from User where Id = : UserInfo.getUserId()];
-				List<String> parts = u.SmallPhotoUrl.split('/');
-		        Boolean chatterIcon=true;
-		        if (parts.size() >= 5 && parts[4].length() == 15){chatterIcon=false;}
-		        if (u.SmallPhotoUrl != null && u.SmallPhotoUrl != '' && ! chatterIcon){
+				//List<String> parts = u.SmallPhotoUrl.split('/');
+		        //Boolean chatterIcon=true;
+		        //if (parts.size() >= 5 && parts[4].length() == 15){chatterIcon=false;}
+		        //if (u.SmallPhotoUrl != null && u.SmallPhotoUrl != '' && ! chatterIcon){
 		        	result = u.SmallPhotoUrl;
+		        //}
+	    	}catch(Exception ex){
+	    		//nothing
+	    	}
+	    	return result;
+	    } private set;
+	} 
+
+    public Boolean showAvatar {
+	    get{
+	    	Boolean result=true;
+	    	try{
+				User u = [select Id, FirstName, LastName, profile.userlicense.name from User where Id = : UserInfo.getUserId()];
+		        if(u.profile.userlicense.name == 'Customer Portal Manager Custom'){
+		        	result=false;
 		        }
 	    	}catch(Exception ex){
 	    		//nothing
