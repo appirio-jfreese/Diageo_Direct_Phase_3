@@ -25,11 +25,11 @@ Story/Task  : US503/TA907
         <h2>Archive</h2>
         <ul class="plain">
             <apex:repeat value="{!archiveList}" var="arch" rows="10">
-                <l1 class="sideTile-Item">
-                    <apex:outputLabel styleClass="link" onclick="">
+                <li class="sideTile-Item">
+                    <a href="javascript:;" class="link">
                         {!arch}
-                    </apex:outputLabel>
-                </l1>
+                    </a>
+                </li>
             </apex:repeat>
         </ul>
      </apex:outputPanel>

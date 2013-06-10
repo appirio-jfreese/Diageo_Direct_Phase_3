@@ -322,5 +322,70 @@ private class Test_ControllerBase {
             Controller_Base bController = new Controller_Base();
             system.assertEquals('Spirits', bController.themeOptionsString);
         }
-    }    
+    } 
+    
+    // Start : Code Covergae For Controller Base : Toggle Functionality
+    static testmethod void testToggelAndMisc(){
+    	User testUser = Test_Helper.generateTestUser('TUser', true, 'System Administrator');
+    	Test.startTest();
+    	System.runAs (testUser) {
+ 				PageReference pageRef = Page.HomePage;
+ 				Test.setCurrentPage(pageRef);
+ 				Controller_Base bController = new Controller_Base();
+ 				System.assert(bController.isNeedToggle);
+ 				bController.toggleToWine();
+ 				System.assertEquals(bController.clickedTheme, 'Wine');
+ 				
+ 				bController.toggleToSpirits();
+ 				System.assertEquals(bController.clickedTheme, 'Spirits');
+ 				
+ 				bController.planningTheme = 'Spirits';
+ 				pageRef = bController.openPlanningPage();
+ 				
+ 				bController.planningTheme = '';
+ 				pageRef = bController.openPlanningPage();
+ 				
+ 				bController.planningTheme = 'Wine';
+ 				pageRef = bController.openPlanningPage();
+ 				
+ 				bController.planningTheme = 'Spirits';
+ 				pageRef = bController.openPlanningPage();
+ 				Test.setCurrentPage(pageRef);
+ 				ApexPages.currentPage().getParameters().put('themetype1','Spirits');
+ 				System.assert(!bController.isNeedToggle);
+ 				//List<CheckboxOption> lst = bController.themeOptions;
+ 				
+ 				bController.siteTheme = 'Wine';
+ 				bController.changeCurrentSiteTheme();
+ 				System.assertEquals(bController.siteTheme, 'Wine');
+ 				bController.toggleToSpirits();
+ 				bController.toggleToWine();
+ 				
+ 				bController.siteTheme = '';
+ 				bController.changeCurrentSiteTheme();
+ 				System.assertNotEquals(ApexPages.getMessages(), null);
+ 				bController.siteTheme = 'Spirits';
+ 				bController.changeCurrentSiteTheme();
+ 				System.assertEquals(bController.siteTheme, 'Spirits');
+ 				bController.toggleToWine();
+ 				bController.toggleToSpirits();
+ 				
+ 				bController.changeListOrder();
+ 				
+ 				bController.siteTheme = '';
+ 				bController.changeSiteTheme();
+ 				System.assertNotEquals(ApexPages.getMessages(), null);
+ 				
+ 				bController.siteTheme = 'Spirits';
+ 				bController.openSpiritsPlanningPage();
+ 				
+ 				bController.siteTheme = 'Wine';
+ 				bController.openWinePlanningPage();
+ 				
+ 				String str = bController.avatarUrl;
+ 				
+    	}
+    	Test.stopTest();
+    }
+    // End : Code Covergae For Controller Base : Toggle Functionality
 }

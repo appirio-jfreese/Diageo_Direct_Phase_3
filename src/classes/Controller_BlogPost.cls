@@ -39,12 +39,14 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     
     private Set<String> monthSet(DateTime startDate, DateTime endDate){
         Set<String> mSet = new Set<String>();
-        if(startDate.month() != endDate.month() && startDate.year() != endDate.year()){
-            mSet.add(getMonthName(endDate.year(), endDate.month()));
-        }
-        while(startDate < endDate){
-            mSet.add(getMonthName(startDate.year(), startDate.month()));
-            startDate = startDate.addMonths(1);
+        if(startDate != null && endDate != null){
+            if(startDate.month() != endDate.month() && startDate.year() != endDate.year()){
+                mSet.add(getMonthName(endDate.year(), endDate.month()));
+            }
+            while(startDate < endDate){
+                mSet.add(getMonthName(startDate.year(), startDate.month()));
+                startDate = startDate.addMonths(1);
+            }
         }
         return mSet;
     }
@@ -98,6 +100,12 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     public String blogFormat {set; get;} // Blogs Display Format - Can be Titles, TitlesAndShortDesc or TitlesAndLongDesc
     public String clickedBlogId {set; get;} // Store Blog Id which is clicked for Detail View
     public List<Blog__c> allBlogPosts {public get; private set;}
+    
+    public String blogId { get; set; }
+    public integer commentsSize { get; set; }
+    public String newCommentBlogId = '';
+    public String newCommentText = '';
+    public Map<Id, List<Comment__c>> blogComments { get; set; }
     
     // Start For TA906
     // Return a list of Select Option for Dislpay Option, Current Selected Value is stored in 'blogFormat'
@@ -181,6 +189,8 @@ public without sharing class Controller_BlogPost extends Controller_Base{
         Integer currEnd = ((currStart + blogCount)>allBlogPosts.size()) 
                                                         ? allBlogPosts.size() : (currStart + blogCount);
         
+        System.Debug('<----- currStart: ' + currStart + ' ----->');
+        System.Debug('<----- currEnd: ' + currEnd + ' ----->');
         for(Integer iCount=currStart; iCount<currEnd; iCount++){
             currData.add(allBlogPosts.get(iCount));
         }
@@ -195,19 +205,19 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     
     // Navigate to Previous Page
     public Pagereference previousPage(){
-        if(currPage > 1){
+//        if(currPage > 1){
             currPage--;
             blogPosts = getCurrentPageData(false);
-        }
+//        }
         return null;
     }
     
     // Navigate to Next Page
     public Pagereference nextPage(){
-        if(currPage < pageCount){
+//        if(currPage < pageCount){
             currPage++;
             blogPosts = getCurrentPageData(false);
-        }
+//        }
         return null;
     }
     
@@ -280,7 +290,7 @@ public without sharing class Controller_BlogPost extends Controller_Base{
         insert newComment;
         blogItem.Comment__r.add(newComment);
         p.getParameters().put('BlogPostIndex', String.valueOf(bpIndex));
-        p.setRedirect(true);
+//        p.setRedirect(true);
         return p;
     }
     
@@ -300,5 +310,5 @@ public without sharing class Controller_BlogPost extends Controller_Base{
             blogItem = allBlogPosts.get(bpIndex); 
         return null;
     }
-    // End Detail Page : By Parul
+    // End Detail Page : By Parul    
 }

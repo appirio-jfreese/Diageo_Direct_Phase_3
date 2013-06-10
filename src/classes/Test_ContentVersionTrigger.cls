@@ -53,27 +53,30 @@ private class Test_ContentVersionTrigger {
 	}
 	
 	private static void createTestDate(){
-		testUser = Test_Helper.generateTestUser('TUser', true, 'System Administrator');
+		testUser = Test_Helper.generateTestUser('TUser', false, 'System Administrator');
+		testUser.content_Notification_Frequency__c = 'Real Time';
+        insert testUser;
 		
 		selectedWorkspace = [SELECT Name, Id, DefaultRecordTypeId  
                                 FROM ContentWorkspace WHERE 
                                 DefaultRecordTypeId != NULL LIMIT 1 ];
     
-    //Insert ContentVersion to get contentDocument Id for first time;
-    cVersion = new ContentVersion();
-    cVersion.pathOnClient = 'test1.xml';
-	  cVersion.VersionData = Blob.valueOf('Hello');
-	  cVersion.FirstPublishLocationId = selectedWorkspace.Id;
-	  cVersion.RecordTypeId = selectedWorkspace.defaultRecordTypeId;
-    insert cVersion;
+    	//Insert ContentVersion to get contentDocument Id for first time;
+    	cVersion = new ContentVersion();
+    	cVersion.pathOnClient = 'test1.xml';
+	  	cVersion.VersionData = Blob.valueOf('Hello');
+	  	cVersion.ReasonForChange = 'Created';
+	  	cVersion.FirstPublishLocationId = selectedWorkspace.Id;
+	  	cVersion.RecordTypeId = selectedWorkspace.defaultRecordTypeId;
+    	insert cVersion;
     
-    // Fetch ContentDocument
-    cDoc = [Select id from ContentDocument where id = :[select ContentDocumentId 
+    	// Fetch ContentDocument
+    	cDoc = [Select id from ContentDocument where id = :[select ContentDocumentId 
     					from ContentVersion where id = :cVersion.id].ContentDocumentId];
     
-    sub = new Content_Subscription__c();
-    sub.User__c = testUser.Id;
-    sub.Content__c = cDoc.Id;
-    insert sub;
+    	sub = new Content_Subscription__c();
+    	sub.User__c = testUser.Id;
+    	sub.Content__c = cDoc.Id;
+    	insert sub;
 	}
 }

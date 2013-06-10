@@ -18,13 +18,13 @@ global class BatchContentChangeNotification implements Database.Batchable<sObjec
         System.debug('BatchContentChangeNotification :: Batch Process start()');
         Date dt = Date.today();
         queryStr = 'Select id, email, Content_Notification_Frequency__c,'
-        			+ ' (Select id, User__c,'
+        			+ ' (Select id, User__c, Retry_Count__c, '
         			+ ' Content__c,'
         			+ ' Content_Version__c, '
     				+ ' Content_Subscription__c, Change_Description__c, Send_Date__c,'
         			+ ' Status__c, Error_Message__c'
         			+ ' from Content_Change_Notifications__r'
-        			+ ' where Status__c = \'Pending\''
+        			+ ' where Status__c != \'Sent\''
         			+ ' and Send_Date__c < : dt order by createddate desc limit 50)' 
         			+ ' from user'
         			+ ' where Content_Notification_Frequency__c = \'Daily\''
@@ -45,11 +45,14 @@ global class BatchContentChangeNotification implements Database.Batchable<sObjec
     global void processNotifications(List<sObject> scope){
         System.debug('processUnsentNotifications :::::::::::::::::::'+scope);
         
+        // Get notification custom setting
+        Content_Notification__c notificationSetting = Content_Notification__c.getOrgDefaults();
+        
         // Process unsent notifications
-        processUnsentNotifications(scope);
+        processUnsentNotifications(scope, notificationSetting);
        
         // Delete sent notifications
-		deleteSentNotifications();      
+		deleteSentNotifications(notificationSetting);      
     }
                  
     // Completes the batch process.
@@ -58,7 +61,8 @@ global class BatchContentChangeNotification implements Database.Batchable<sObjec
         // Add logging information
         System.debug('Process Completed');
          // Query the AsyncApexJob object to retrieve the current job's information.
-        AsyncApexJob a = [Select Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems, CreatedBy.Email 
+        AsyncApexJob a = [Select Id, Status, NumberOfErrors, JobItemsProcessed, 
+        				  TotalJobItems, CreatedBy.Email 
                           from AsyncApexJob 
                           where Id = :BC.getJobId()];
         
@@ -68,18 +72,21 @@ global class BatchContentChangeNotification implements Database.Batchable<sObjec
             String[] toAddresses = new String[] {a.CreatedBy.Email};
             mail.setToAddresses(toAddresses);
             mail.setSubject('BatchContentChangeNotification status :: ' + a.Status);
-            mail.setPlainTextBody('The batch Apex job processed ' + a.TotalJobItems + ' batches with '+ a.NumberOfErrors + ' failures.');
+            mail.setPlainTextBody('The batch Apex job processed ' + a.TotalJobItems + ' batches with '
+            + a.NumberOfErrors + ' failures.');
             Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
         }
         
         System.debug('Batch :: BatchContentChangeNotification status :: ' + a.Status);
-        System.debug('The batch Apex job processed ' + a.TotalJobItems + ' batches with '+ a.NumberOfErrors + ' failures.');
+        System.debug('The batch Apex job processed ' + a.TotalJobItems + ' batches with '
+        				+ a.NumberOfErrors + ' failures.');
     }
     
     /*********************************************************************
     // Method processes pending/unsent notifications
     *********************************************************************/
-    public static void processUnsentNotifications(List<sObject> scope){
+    public static void processUnsentNotifications(List<sObject> scope, 
+    						Content_Notification__c notificationSetting){
     	
     	 // List of email messages 
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
@@ -91,8 +98,15 @@ global class BatchContentChangeNotification implements Database.Batchable<sObjec
 		// Get latest content versions
         Map<id, ContentVersion> contentVersionMap = getContentVersions(scope);
         
+        Integer allowedRetryCount = 0;
+        if(notificationSetting != null 
+        && notificationSetting.Content_Notification_Retries__c != null){
+        	allowedRetryCount = Integer.valueOf(notificationSetting.Content_Notification_Retries__c);
+        }
+        
         // Get unsent email messages
-        emailMessages = getEmailMessages(scope, changeNotifications, contentVersionMap);  
+        emailMessages = getEmailMessages(scope, changeNotifications, contentVersionMap,
+        				allowedRetryCount);  
         
         if(emailMessages.size() > 0){
 	        try{
@@ -110,7 +124,10 @@ global class BatchContentChangeNotification implements Database.Batchable<sObjec
 				
 				// If exception occurs, update status = 'Error'
 				for(Content_Change_Notification__c changeNotification : changeNotifications){
-	        		changeNotification.status__c = 'Error';
+					changeNotification.status__c = 'Error';					
+					if(allowedRetryCount > 0 && changeNotification.Retry_Count__c > 0){
+						changeNotification.Retry_Count__c--;
+					}
 	        		changeNotification.Error_Message__c = e.getMessage();
 	        	}
 			}
@@ -146,7 +163,8 @@ global class BatchContentChangeNotification implements Database.Batchable<sObjec
     *********************************************************************/
     private static List<Messaging.SingleEmailMessage> getEmailMessages(List<sObject> scope, 
     					List<Content_Change_Notification__c> changeNotificaitons,
-    					Map<Id, ContentVersion> contentVersionMap){
+    					Map<Id, ContentVersion> contentVersionMap,
+    					Integer allowedRetries){
         List<Messaging.SingleEmailMessage> unsentEmailMessages = new List<Messaging.SingleEmailMessage>();
     	User user;
         String notificationStr;
@@ -177,7 +195,11 @@ global class BatchContentChangeNotification implements Database.Batchable<sObjec
 				notificationHtmlStr = '';
 				changeDesc = '';		
 	        	for(Content_Change_Notification__c changeNotification : user.Content_Change_Notifications__r){
-	        		if(changeNotification.content_Version__c != null 
+	        		if((changeNotification.status__c == 'Pending'
+	        		|| (changeNotification.status__c == 'Error' 
+	        			&& changeNotification.Retry_Count__c > 0 
+	        			&& changeNotification.Retry_Count__c < allowedRetries)) 
+	        		&& changeNotification.content_Version__c != null 
 	        		&& contentVersionMap.get(changeNotification.content_Version__c) != null){
 	        			if(contentVersionMap.get(changeNotification.content_Version__c).ReasonForChange != null){
 	        				changeDesc = contentVersionMap.get(changeNotification.content_Version__c).ReasonForChange;
@@ -237,10 +259,7 @@ global class BatchContentChangeNotification implements Database.Batchable<sObjec
     // Method deletes sent notifications which are created before 
     // the period of time specified in custom setting.
     *********************************************************************/
-    private static void deleteSentNotifications(){
-    	
-    	// Get threashold month value
-        Content_Notification__c notificationSetting = Content_Notification__c.getOrgDefaults();
+    private static void deleteSentNotifications(Content_Notification__c notificationSetting){  	
         if(notificationSetting != null 
         && notificationSetting.Delete_Sent_Notification_Threshhold__c != null){
 	    	Date dateToCompare 

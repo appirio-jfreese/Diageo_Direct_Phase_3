@@ -59,17 +59,23 @@ private class Test_BatchContentChangeNotification {
     
     // Create test data
     private static void createTestData() {
+    	
+    	// Create test user
         User testUser = Test_Helper.generateTestUser('TUser', false, 'System Administrator');
         testUser.content_Notification_Frequency__c = 'Daily';
         insert testUser;
 		system.assert(testUser.id != null);
 		
-		ContentWorkspace selectedWorkspace = [SELECT Name, Id, DefaultRecordTypeId  
+		// Get contentworkspace
+		ContentWorkspace selectedWorkspace;
+		for(ContentWorkspace workspace : [SELECT Name, Id, DefaultRecordTypeId  
                                 FROM ContentWorkspace WHERE 
-                                DefaultRecordTypeId != NULL LIMIT 1 ];
+                                DefaultRecordTypeId != NULL LIMIT 1 ]){
+        	selectedWorkspace = workspace;
+        }
     	system.assert(selectedWorkspace.id != null);
     	
-    	//Insert ContentVersion to get contentDocument Id for first time;
+    	// Insert ContentVersion to get contentDocument Id for first time;
     	ContentVersion cVersion = new ContentVersion();
     	cVersion.pathOnClient = 'test1.xml';
 	  	cVersion.VersionData = Blob.valueOf('Hello');
@@ -84,12 +90,14 @@ private class Test_BatchContentChangeNotification {
     					from ContentVersion where id = :cVersion.id].ContentDocumentId];
     	system.assert(cDoc.id != null);
     	
+    	// Create Content_Subscription__c
     	Content_Subscription__c sub = new Content_Subscription__c();
     	sub.User__c = testUser.Id;
     	sub.Content__c = cDoc.Id;
     	insert sub;
     	system.assert(sub.id != null); 
     	
+    	// Create new ContentVersion
     	cVersion = new ContentVersion();
     	cVersion.pathOnClient = 'test2.xml';
 	  	cVersion.VersionData = Blob.valueOf('Hello1');
@@ -99,11 +107,17 @@ private class Test_BatchContentChangeNotification {
     	insert cVersion;
     	system.assert(cVersion.id != null); 
     	
-    	
+    	// Create Content_Change_Notification__c with the past date
     	List<Content_Change_Notification__c> contentNotList = [Select id, Send_Date__c, Content_Version__c
     													from Content_Change_Notification__c
     													where content_version__c =: cVersion.id];
     	contentNotList[0].Send_Date__c = system.today().addDays(-5);												 	
-		update contentNotList;                     
+		update contentNotList; 
+		
+		// Insert notificaiton setting
+        Content_Notification__c notificationSetting = new Content_Notification__c();
+        notificationSetting.Content_Notification_Retries__c = 3;
+        notificationSetting.Delete_Sent_Notification_Threshhold__c = 6;
+        insert notificationSetting;                    
     }   
 }
