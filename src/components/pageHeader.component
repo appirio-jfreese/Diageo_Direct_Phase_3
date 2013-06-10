@@ -980,7 +980,7 @@ Story/Task  : US79/TA1007
 
     <!-- Start : Changes for US507/TA918 - Jonathan Freese -->
     <apex:stylesheet value="{!URLFOR($Resource.PageHeader, 'styleHeader.css')}" />
-    <apex:attribute name="avatarUrl" description="" type="String" required="false"/>
+    <!--  <apex:attribute name="thisAvatarUrl" description="" type="String" required="false"/> -->
     <!-- End : Changes for US507/TA918 - Jonathan Freese -->
 
     <apex:attribute name="isLoggedIn" description="Tell if user is logged in or not. Content of div.user-info depends on this value" type="Boolean" required="true"/>
@@ -990,7 +990,7 @@ Story/Task  : US79/TA1007
     <apex:attribute name="basketItemsNumber" description="" type="String" required="false"/>
     
     <!-- Start of existing header which will be replaced by the new one below under US507/TA918 - Jonathan Freese -->
-   <apex:outputPanel rendered="true">
+   <apex:outputPanel rendered="false">
     <div id="overlayDisable"></div>
     <div class="header" style="z-index: 31;">
     	<a href="{!$Page.HomePage}" class="box-link"><div class="logotype">&nbsp;</div></a>
@@ -1096,19 +1096,29 @@ Story/Task  : US79/TA1007
 
     <!-- Start : Changes for US507/TA918 - Jonathan Freese -->
     <!-- Header update notes
-         The header updates and enhancements were developed by Christina Hamlin as documented in header-proto_v3.zip uploaded to Rally 5/29/13 under US138/TA930.
-         The prototype called for all header elements to float, which is admirable in concept but was difficult to fully implement, due to the profile dropdown,
-         which was not addressed in the prototype.
+         1) The header updates and enhancements were developed by Christina Hamlin as documented in header-proto_v3.zip uploaded to Rally 5/29/13 under US138/TA930.
+         	The prototype called for all header elements to float, which is admirable in concept but was difficult to fully implement, due to the profile dropdown,
+ 	        which was not addressed in the prototype.
          
-         The dropdown pushed the breadcrumb, Salesforce link, search input box and toggle buttons out of the way.  This was fixed by making their position absolute
-         relative to the edges of their respective (position:relative) parent containers.  However, the dropdown then slid beneath the Salesforce link and search text box.
-         An attempt was made to deal with this by lowering the z-index of the position:absolute elements, but floating elements effectively have a z-index
-         of unassigned (aka zero).  Therefore, the position:absolute elements would need to have a z-index of -1 (e.g.), but that would mean that the page-header
-         div would need an even lower z-index of -2 (e.g.).  But that would hide the header behind the content-wrapper div (the white base), which has
-         an undefined default z-index of zero.  There was reluctance to tamper with the z-index of the base-level content-wrapper.  
+	         The dropdown pushed the breadcrumb, Salesforce link, search input box and toggle buttons out of the way.  This was fixed by making their position absolute
+	         relative to the edges of their respective (position:relative) parent containers.  However, the dropdown then slid beneath the Salesforce link and search text box.
+	         An attempt was made to deal with this by lowering the z-index of the position:absolute elements, but floating elements effectively have a z-index
+	         of unassigned (aka zero).  Therefore, the position:absolute elements would need to have a z-index of -1 (e.g.), but that would mean that the page-header
+	         div would need an even lower z-index of -2 (e.g.).  But that would hide the header behind the content-wrapper div (the white base), which has
+	         an undefined default z-index of zero.  There was reluctance to tamper with the z-index of the base-level content-wrapper.  
          
-         Therefore, the desc class was also set to position:absolute, with a z-index above the other position:absolute elements, which themselves have a z-index
-         above that of the page-header.  (Its z-index of 31 was set during previous work.)-->
+	         Therefore, the desc class was also set to position:absolute, with a z-index above the other position:absolute elements, which themselves have a z-index
+	         above that of the page-header.  (Its z-index of 31 was set during previous work.)
+	      
+	     2)  The avatar was originally set up so that the avatarUrl method was called from the HomePage and passed to pageHeader, which worked.  Then it was changed so
+	         that the avatarUrl method was called directly from pageHeader, which is preferable in that all of the pages do not need editing.  This worked fine for the
+	         six hours of subsequent editing.  Then four hours later the site was revisited and the avatar was missing.  The developer console was launched and set to
+	         do several heap dumps within the avatarUrl method, but none were triggered.
+	         
+	         So the next day things were restored to the original method, this time calling avaratUrl from HomePage to pass a variable called thisAvatarUrl.  Initially this
+	         did not work.  So the (last week of the) cache was flushed, I logged out/in and it worked.  Then the HomePage parts were commented out and the call to avatarURL
+	         was moved to pageHeader once again, and it worked, even after cache flushing, logging out/in and testing on other boxes.  Tentative victory has been declared.
+         -->
          
     <apex:outputPanel rendered="true">
     <div id="overlayDisable"></div>
@@ -1117,6 +1127,7 @@ Story/Task  : US79/TA1007
 	        <div class="info">
 	            <apex:pageBlock rendered="{!AND(isLoggedIn, preview='false')}">
 		            <a href="{!$Page.Basket}" class="cart">{!basketItemsNumber}</a>
+		            <!-- <a href="/_ui/core/userprofile/UserProfilePage" class="avatar"><apex:image value="{!thisAvatarUrl}" height="30px"/></a> -->
 		            <a href="/_ui/core/userprofile/UserProfilePage" class="avatar"><apex:image value="{!avatarUrl}" height="30px"/></a>
 		            <!-- <a href="javascript:;" class="avatar"><apex:image value="{!avatarUrl}" height="30px"/></a> -->
 		            <!-- <a href="javascript:;" class="avatar"><apex:image url="{!URLFOR($Resource.PageHeader, '/img/avatar.png')}"/></a> -->
