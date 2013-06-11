@@ -326,9 +326,20 @@ private class Test_ControllerBase {
     
     // Start : Code Covergae For Controller Base : Toggle Functionality
     static testmethod void testToggelAndMisc(){
-    	User testUser = Test_Helper.generateTestUser('TUser', true, 'System Administrator');
+    	Account account = Test_Helper.testInsertAccount('test_account1');
+	    Contact contact = Test_Helper.testInsertContact('firstName', 'lastName', account.id);
+	    User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
+	    User user; 
+	    System.runAs (thisUser) {
+    		user = Test_Helper.testInsertDistributorPortalUser(contact.id);
+	    }     
+	 		
+	 		Brand__c brand = Test_Helper.testInsertBrand('brand1');
+	 		Test_Helper.testInsertAccountBrand(account.id, brand.id);
+	 		
     	Test.startTest();
-    	System.runAs (testUser) {
+    	System.runAs (user) {
+    		Integer num = Service_API.getUserNumberOfItemsPerPage();
  				PageReference pageRef = Page.HomePage;
  				Test.setCurrentPage(pageRef);
  				Controller_Base bController = new Controller_Base();
@@ -338,6 +349,10 @@ private class Test_ControllerBase {
  				
  				bController.toggleToSpirits();
  				System.assertEquals(bController.clickedTheme, 'Spirits');
+ 				num = Service_API.getUserNumberOfItemsPerPage();
+ 				System.assertEquals(Service_API.getSectionTheme(), 'Spirits');
+ 				String sDefTheme = Service_API.getSectionThemeDefault();
+ 				String goalFolderId = Service_API.getGoalsFolderId();
  				
  				bController.planningTheme = 'Spirits';
  				pageRef = bController.openPlanningPage();
@@ -353,7 +368,6 @@ private class Test_ControllerBase {
  				Test.setCurrentPage(pageRef);
  				ApexPages.currentPage().getParameters().put('themetype1','Spirits');
  				System.assert(!bController.isNeedToggle);
- 				//List<CheckboxOption> lst = bController.themeOptions;
  				
  				bController.siteTheme = 'Wine';
  				bController.changeCurrentSiteTheme();
@@ -381,11 +395,114 @@ private class Test_ControllerBase {
  				
  				bController.siteTheme = 'Wine';
  				bController.openWinePlanningPage();
- 				
- 				String str = bController.avatarUrl;
- 				
     	}
     	Test.stopTest();
+    }
+    
+    static testmethod void testMEPThemes(){
+    	Account account = Test_Helper.testInsertAccount('test_account1');
+	    Contact contact = Test_Helper.testInsertContact('firstName', 'lastName', account.id);
+	    User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
+	    User user; 
+	    System.runAs (thisUser) {
+    		user = Test_Helper.testInsertDistributorPortalUser(contact.id);
+	    }     
+	 		
+	 		Brand__c brand = Test_Helper.testInsertBrand('brand1');
+	 		Test_Helper.testInsertAccountBrand(account.id, brand.id);
+	 		
+	    System.RunAs(user){
+		    PageReference pageRef = Page.MonthlyExecutionPlanPDF;
+		    Test.setCurrentPage(pageRef);
+		    Controller_MonthlyExecutionPlan bController = new Controller_MonthlyExecutionPlan();
+		    bController.toggleToSpirits();
+		    List<SelectOption> tmp = Service_UserInput.getSiteThemes();
+		    for(CheckboxOption cbo : bController.themeOptions){
+		    	if(cbo.name.equalsIgnoreCase(Label.CatalystParentTheme)){
+		    		System.assert(true);
+		    		cbo.chosen = true;
+		    		System.assertEquals(cbo.subOptions.size(), 2);
+		    		for(CheckboxOption cb : cbo.subOptions){
+		    			cb.chosen = true;
+		    		}
+		    	}
+		    }
+		    bController.refreshContent();
+		    System.assertEquals(bController.themeOptions.size(), tmp.size());
+		    
+		    for(CheckboxOption cbo : bController.themeOptions){
+		    	if(cbo.name.equalsIgnoreCase(Label.CatalystParentTheme)){
+		    		System.assert(true);
+		    		cbo.chosen = true;
+		    		System.assertEquals(cbo.subOptions.size(), 2);
+		    		for(CheckboxOption cb : cbo.subOptions){
+		    			if(cb.name.equalsIgnoreCase('US Spirits'))
+		    				cb.chosen = true;
+		    			else
+		    				cb.chosen = false;
+		    		}
+		    	}
+		    }
+		    bController.refreshContent();
+		    System.assertEquals(bController.themeOptions.size(), tmp.size());
+	    }
+    }
+    
+    static testmethod void testAllMisc(){
+    	Account account = Test_Helper.testInsertAccount('test_account1');
+	    Contact contact = Test_Helper.testInsertContact('firstName', 'lastName', account.id);
+	    User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
+	    User user; 
+	    System.runAs (thisUser) {
+    		user = Test_Helper.testInsertDistributorPortalUser(contact.id);
+	    }     
+	 		
+	 		Brand__c brand = Test_Helper.testInsertBrand('brand1');
+	 		Test_Helper.testInsertAccountBrand(account.id, brand.id);
+	 		
+	 		Brand__c brand2 = Test_Helper.testInsertBrand('brand2');
+	 		Brand__c brand3 = Test_Helper.testInsertChildBrand('ChildBrand1', brand2.Id);
+	 		Test_Helper.testInsertAccountBrand(account.id, brand2.id);
+	 		Test_Helper.testInsertAccountBrand(account.id, brand3.id);
+	 		
+	    System.RunAs(user){
+	    	PageReference pageRef = Page.HomePage;
+		    Test.setCurrentPage(pageRef);
+		    Controller_Base bController = new Controller_Base();
+		    
+	    	String str = bController.avatarUrl;
+	    	String result=Controller_Base.GetResourceURL('PageHeader');
+	    	
+	    	System.assertEquals(user.Diageo_Direct_Theme__c, 'Spirits');
+	    	System.assertEquals(Service_API.getSectionTheme(), 'Spirits');
+	    	user.Diageo_Direct_Theme__c = 'Wine';
+	    	update user;
+	    	Service_API.prepareSiteThemeAfterLogin(user.Id);
+	    	Service_API.refreshUserPreferances();
+	    	System.assertNotEquals(Service_API.getSectionTheme(), 'Wine');
+	    	
+	    	Set<Id> accBrandSet = Service_API.getAccBrandIdsForUser(user.Id);
+	    	List<Brand__c> lst = Service_API.getBrandsByCategories(null);
+	    	lst = Service_API.getBrandsForFilters('');
+	    	lst = Service_API.getParentBrands();
+	    	Set<Id> idSet = Service_API.getCalendarBrands();
+	    	idSet = Service_API.getAllContentBrandIDs();
+	    }
+    }
+    
+    static testmethod void testCheckBoxOption(){
+    	CheckBoxOption opParent1 = new CheckboxOption('Parent1', true, false);
+    	CheckBoxOption opParent2 = new CheckboxOption('Parent2', true, false);
+    	
+    	List<CheckBoxOption> subOp = new List<CheckBoxOption>();
+    	subOp.add(new CheckboxOption('SubOp1', true, false));
+    	subOp.add(new CheckboxOption('SubOp2', true, false));
+    	
+    	CheckBoxOption opParent3 = new CheckboxOption('Parent3', true, false, subOp);
+    	
+    	System.assertEquals(opParent1.subOptions.size(), 0);
+    	System.assertEquals(opParent2.subOptions.size(), 0);
+    	System.assertEquals(opParent3.subOptions.size(), subOp.size());
     }
     // End : Code Covergae For Controller Base : Toggle Functionality
 }

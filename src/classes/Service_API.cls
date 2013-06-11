@@ -3,7 +3,7 @@
 * Updated By  : Basant Verma (Appirio Offshore)   
 * Date        : 6/31/13
 * Story/Task  : US503/TA906/TA907/TA908
-*	
+*   
 * Updated By  : Basant Verma (Appirio Offshore)   
 * Date        : 5/27/13
 * Story/Task  : US85/TA910
@@ -100,15 +100,15 @@ public without sharing class Service_API {
     * @return Integer Number of content per page
     */
      public static Integer getUserNumberOfItemsPerPage(){
-     		// Start : Changes for TA920 - Basant Verma 
-     		if(ApexPages.currentPage().getParameters().containsKey('toggled')){
-     			siteThemeDefault = ApexPages.currentPage().getParameters().get('toggledThemeDef');
-         	siteTheme = ApexPages.currentPage().getParameters().get('toggledTheme');
-     			userNumberOfItemsPerPage = ApexPages.currentPage().getParameters().get('toggledNum');
-	        if(userNumberOfItemsPerPage == null || userNumberOfItemsPerPage == ''){
-	            userNumberOfItemsPerPage = '12';
-	        }
-     		}else if (userNumberOfItemsPerPage==null) {
+            // Start : Changes for TA920 - Basant Verma 
+            if(ApexPages.currentPage().getParameters().containsKey('toggled')){
+                siteThemeDefault = ApexPages.currentPage().getParameters().get('toggledThemeDef');
+            siteTheme = ApexPages.currentPage().getParameters().get('toggledTheme');
+                userNumberOfItemsPerPage = ApexPages.currentPage().getParameters().get('toggledNum');
+            if(userNumberOfItemsPerPage == null || userNumberOfItemsPerPage == ''){
+                userNumberOfItemsPerPage = '12';
+            }
+            }else if (userNumberOfItemsPerPage==null) {
             User usr = [SELECT Use_current_theme_as_default__c, Diageo_Direct_Theme__c,Number_of_items_per_page__c FROM USER WHERE ID =: getUID()][0];
             siteThemeDefault = usr.Use_current_theme_as_default__c;
             siteTheme = usr.Diageo_Direct_Theme__c;
@@ -132,16 +132,16 @@ public without sharing class Service_API {
     *planning sections
     */
      public static String getSectionTheme(){
-     		// Start : Changes for TA920 - Basant Verma 
-     		if(ApexPages.currentPage().getParameters().containsKey('toggled')){
-     			siteThemeDefault = ApexPages.currentPage().getParameters().get('toggledThemeDef');
-         	siteTheme = ApexPages.currentPage().getParameters().get('toggledTheme');
-     			userNumberOfItemsPerPage = ApexPages.currentPage().getParameters().get('toggledNum');
-	        if(userNumberOfItemsPerPage == null || userNumberOfItemsPerPage == ''){
-	            userNumberOfItemsPerPage = '12';
-	        }
-     		}// End : Changes for TA920 - Basant Verma 
-     		else if (siteTheme==null) {
+            // Start : Changes for TA920 - Basant Verma 
+            if(ApexPages.currentPage().getParameters().containsKey('toggled')){
+                siteThemeDefault = ApexPages.currentPage().getParameters().get('toggledThemeDef');
+            siteTheme = ApexPages.currentPage().getParameters().get('toggledTheme');
+                userNumberOfItemsPerPage = ApexPages.currentPage().getParameters().get('toggledNum');
+            if(userNumberOfItemsPerPage == null || userNumberOfItemsPerPage == ''){
+                userNumberOfItemsPerPage = '12';
+            }
+            }// End : Changes for TA920 - Basant Verma 
+            else if (siteTheme==null) {
             User usr = [SELECT Use_current_theme_as_default__c, Diageo_Direct_Theme__c,Number_of_items_per_page__c FROM USER WHERE ID =: getUID()][0];
              // Modified by Jai Gupta [Appirio Jaipur] on Feb 21,2013 for case 00040450
              system.debug('----------------APexPages.CurrentPage().getUrl();-------------'+ApexPages.CurrentPage());
@@ -185,16 +185,16 @@ public without sharing class Service_API {
     *planning sections
     */
      public static String getSectionThemeDefault(){
-     		// Start : Changes for TA920 - Basant Verma 
+            // Start : Changes for TA920 - Basant Verma 
         if(ApexPages.currentPage().getParameters().containsKey('toggled')){
-     			siteThemeDefault = ApexPages.currentPage().getParameters().get('toggledThemeDef');
-         	siteTheme = ApexPages.currentPage().getParameters().get('toggledTheme');
-     			userNumberOfItemsPerPage = ApexPages.currentPage().getParameters().get('toggledNum');
-	        if(userNumberOfItemsPerPage == null || userNumberOfItemsPerPage == ''){
-	            userNumberOfItemsPerPage = '12';
-	        }
-     		}// End : Changes for TA920 - Basant Verma
-     		else if (siteThemeDefault==null) {
+                siteThemeDefault = ApexPages.currentPage().getParameters().get('toggledThemeDef');
+            siteTheme = ApexPages.currentPage().getParameters().get('toggledTheme');
+                userNumberOfItemsPerPage = ApexPages.currentPage().getParameters().get('toggledNum');
+            if(userNumberOfItemsPerPage == null || userNumberOfItemsPerPage == ''){
+                userNumberOfItemsPerPage = '12';
+            }
+            }// End : Changes for TA920 - Basant Verma
+            else if (siteThemeDefault==null) {
             User usr = [SELECT Use_current_theme_as_default__c, Diageo_Direct_Theme__c,Number_of_items_per_page__c FROM USER WHERE ID =: getUID()][0];
             String pageName = APexPages.CurrentPage().getUrl();
             if(pageName.contains('WinePlanning') || pageName.contains('wineplanning')){
@@ -620,38 +620,38 @@ public without sharing class Service_API {
     }
     
     public static Set<Id> getAccBrandIds(Set<String> themes){
-    		// Start : For US85/TA910
-    		// Edited by Jonathan Freese to per DE552 to change Other to US Spirits
-				List<AggregateResult> userAccountBrands;
-				if((themes.contains('Catalyst') && themes.contains('US Spirits')) 
-						|| !(themes.contains('Catalyst') || themes.contains('US Spirits'))){
-					userAccountBrands = [
-		        SELECT id FROM Brand__c WHERE diageo_direct_visible__c = true AND Classification__c IN :themes AND Id IN 
-	            (
-		            SELECT Brand__c
-		            FROM AccountBrand__c                    
-			            WHERE Account__c IN :getAIDs() AND Brand__r.diageo_direct_visible__c = true 
-			            AND Brand__r.Classification__c IN :themes AND Account__r.RecordTypeId IN :Service_API.getAccountRecordTypeIds()
-	            )
-		        GROUP BY id];
-				}else if(themes.contains('Catalyst') || themes.contains('US Spirits')){
-					themes.add(Label.CatalystParentTheme);
-					Set<Id> selectedBrandIds = new Set<Id>();
-					boolean catalyst = (themes.contains('Catalyst') ? true : false);
-					for(AccountBrand__c accBrand : [SELECT Brand__c, Brand__r.Classification__c, Brand__r.Catalyst__c 
-							FROM AccountBrand__c WHERE Account__c IN :getAIDs() 
-							AND Brand__r.diageo_direct_visible__c = true AND Brand__r.Classification__c IN :themes 
-							AND Account__r.RecordTypeId IN :Service_API.getAccountRecordTypeIds()]){
-						if(!accBrand.Brand__r.Classification__c.equalsIgnoreCase(Label.CatalystParentTheme)
-								|| (accBrand.Brand__r.Classification__c.equalsIgnoreCase(Label.CatalystParentTheme) 
-											&& accBrand.Brand__r.Catalyst__c == catalyst)){
-							selectedBrandIds.add(accBrand.Brand__c);
-						}
-					}
-					userAccountBrands = [
-		        SELECT id FROM Brand__c WHERE diageo_direct_visible__c = true AND Classification__c IN :themes AND Id IN :selectedBrandIds
-		        GROUP BY id];
-				}
+            // Start : For US85/TA910
+            // Edited by Jonathan Freese to per DE552 to change Other to US Spirits
+                List<AggregateResult> userAccountBrands;
+                if((themes.contains('Catalyst') && themes.contains('US Spirits')) 
+                        || !(themes.contains('Catalyst') || themes.contains('US Spirits'))){
+                    userAccountBrands = [
+                SELECT id FROM Brand__c WHERE diageo_direct_visible__c = true AND Classification__c IN :themes AND Id IN 
+                (
+                    SELECT Brand__c
+                    FROM AccountBrand__c                    
+                        WHERE Account__c IN :getAIDs() AND Brand__r.diageo_direct_visible__c = true 
+                        AND Brand__r.Classification__c IN :themes AND Account__r.RecordTypeId IN :Service_API.getAccountRecordTypeIds()
+                )
+                GROUP BY id];
+                }else if(themes.contains('Catalyst') || themes.contains('US Spirits')){
+                    themes.add(Label.CatalystParentTheme);
+                    Set<Id> selectedBrandIds = new Set<Id>();
+                    boolean catalyst = (themes.contains('Catalyst') ? true : false);
+                    for(AccountBrand__c accBrand : [SELECT Brand__c, Brand__r.Classification__c, Brand__r.Catalyst__c 
+                            FROM AccountBrand__c WHERE Account__c IN :getAIDs() 
+                            AND Brand__r.diageo_direct_visible__c = true AND Brand__r.Classification__c IN :themes 
+                            AND Account__r.RecordTypeId IN :Service_API.getAccountRecordTypeIds()]){
+                        if(!accBrand.Brand__r.Classification__c.equalsIgnoreCase(Label.CatalystParentTheme)
+                                || (accBrand.Brand__r.Classification__c.equalsIgnoreCase(Label.CatalystParentTheme) 
+                                            && accBrand.Brand__r.Catalyst__c == catalyst)){
+                            selectedBrandIds.add(accBrand.Brand__c);
+                        }
+                    }
+                    userAccountBrands = [
+                SELECT id FROM Brand__c WHERE diageo_direct_visible__c = true AND Classification__c IN :themes AND Id IN :selectedBrandIds
+                GROUP BY id];
+                }
         // End : For US85/TA910
                   
         Set<Id> brandIDs1 = new Set<Id>();
@@ -1130,7 +1130,7 @@ public without sharing class Service_API {
     } 
 
     public static List<Brand__c> getAllBrands(Set<String> themes){
-    		Set<Id> tmpSetOfIds = Service_API.getAccBrandIds(themes);
+            Set<Id> tmpSetOfIds = Service_API.getAccBrandIds(themes);
         return [
             SELECT Id, Name, brand_description__c, brand_priority__c, brand_type__c, category__c, classification__c, generic_brand__c,
                 parent_brand__c, reserve_brand__c
@@ -1976,7 +1976,7 @@ public without sharing class Service_API {
     * @return List<NewsAndArticles__c> A list of articles & news
     */
     public static List<NewsAndArticles__c> getNewsAndArticles(){
-    	  return [
+          return [
             SELECT Id, Title__c, BodyText__c, CreatedDate, LastModifiedDate 
                 FROM NewsAndArticles__c WHERE Classification__c includes (:getSectionTheme())
                 ORDER BY CreatedDate DESC
@@ -2612,68 +2612,68 @@ public without sharing class Service_API {
     * @Story US503/TA907
     * @description It will return all Blogs and it's related lists filtered by current Theme and tags 
     */
-		public static List<Blog__c> getBlogRecords(List<String> fromUrl, List<String> blogTags){
-			String soql = 'Select Id, Name, AllowComments__c, Detail__c, EndDate__c, ' + 
-				' StartDate__c, Sub_Title__c, Summary__c, Theme__c, CreatedById, CreatedBy.Name, CreatedDate, ' + 
-				' (Select Id, Comment__c, CreatedById, CreatedBy.Name, CreatedDate From Comment__r Order By CreatedDate), ' + 
-				' (Select Id, Tag__c, Tag__r.Name From Blog2Tag__r), ' + 
-				' (Select Id, Brand__c, Brand__r.Name, Brand__r.Brand_Type__c From Blog2Brand__r) ' + 
-				' From Blog__c Where Theme__c = :siteTheme ';
-			if(blogTags != null && blogTags.size() > 0){  
-				soql += 'AND Id IN ( Select Blog__c From Blog2Tag__c Where ' +
-					' Tag__r.Tag__c IN :blogTags )'; 
-			}
-			soql += ' ORDER BY CreatedDate';
-			System.debug('================= SOQL : '+soql);
-			System.debug('================= blogTags : '+blogTags);
-			System.debug('================= siteTheme : '+siteTheme);
-			List<Blog__c> blgList = (List<Blog__c>)Database.query(soql);
-			
-			return filterBlogsByBrandSecurity(blgList);
-		}
-		
-		/**
+        public static List<Blog__c> getBlogRecords(List<String> fromUrl, List<String> blogTags){
+            String soql = 'Select Id, Name, AllowComments__c, Detail__c, EndDate__c, ' + 
+                ' StartDate__c, Sub_Title__c, Summary__c, Theme__c, CreatedById, CreatedBy.Name, CreatedDate, ' + 
+                ' (Select Id, Comment__c, CreatedById, CreatedBy.Name, CreatedDate From Comment__r Order By CreatedDate), ' + 
+                ' (Select Id, Tag__c, Tag__r.Name From Blog2Tag__r), ' + 
+                ' (Select Id, Brand__c, Brand__r.Name, Brand__r.Brand_Type__c From Blog2Brand__r) ' + 
+                ' From Blog__c Where Theme__c = :siteTheme ';
+            if(blogTags != null && blogTags.size() > 0){  
+                soql += 'AND Id IN ( Select Blog__c From Blog2Tag__c Where ' +
+                    ' Tag__r.Tag__c IN :blogTags )'; 
+            }
+            soql += ' ORDER BY CreatedDate';
+            System.debug('================= SOQL : '+soql);
+            System.debug('================= blogTags : '+blogTags);
+            System.debug('================= siteTheme : '+siteTheme);
+            List<Blog__c> blgList = (List<Blog__c>)Database.query(soql);
+            
+            return filterBlogsByBrandSecurity(blgList);
+        }
+        
+        /**
     * @author Basant Verma
     * @Story US503/TA907
     * @description Filter Blogs By Brand Security 
     */
-		public static List<Blog__c> filterBlogsByBrandSecurity(List<Blog__c> blgList){
-			// Below code check for Brand Security
-			Map<String, Set<Id>> blogBrandSet = new Map<String, set<Id>>();
-			for(Blog2Brand__c b : [Select Id, Brand__c, Blog__c 
-					From Blog2Brand__c Where Blog__c IN :blgList]){
-				if(!blogBrandSet.containsKey(b.Blog__c))
-					blogBrandSet.put(b.Blog__c, new Set<Id>());
-				blogBrandSet.get(b.Blog__c).add((ID)b.Brand__c);
-			}
-			
-			Set<Id> accBrandIds = getAccBrandIds();
-			List<Blog__c> blgWithB2bSecurity = new List<Blog__c>();
-			for(Blog__c b : blgList){
-				if(blogBrandSet.containsKey(b.Id)){
-					// Logic to check it ATLEAST ONE Brand Exist
-					if(accBrandIds != null){
-						Set<Id> tempSet = new Set<Id>();
-						tempSet.addAll(accBrandIds);
-						tempSet.addAll(blogBrandSet.get(b.Id));
-						if(tempSet.size() < (accBrandIds.size() + blogBrandSet.get(b.Id).size())){
-							blgWithB2bSecurity.add(b);
-						}
-					}
-				}else{
-					blgWithB2bSecurity.add(b);
-				}
-			}
-			return blgWithB2bSecurity;
-		}
-		
-		/**
+        public static List<Blog__c> filterBlogsByBrandSecurity(List<Blog__c> blgList){
+            // Below code check for Brand Security
+            Map<String, Set<Id>> blogBrandSet = new Map<String, set<Id>>();
+            for(Blog2Brand__c b : [Select Id, Brand__c, Blog__c 
+                    From Blog2Brand__c Where Blog__c IN :blgList]){
+                if(!blogBrandSet.containsKey(b.Blog__c))
+                    blogBrandSet.put(b.Blog__c, new Set<Id>());
+                blogBrandSet.get(b.Blog__c).add((ID)b.Brand__c);
+            }
+            
+            Set<Id> accBrandIds = getAccBrandIds();
+            List<Blog__c> blgWithB2bSecurity = new List<Blog__c>();
+            for(Blog__c b : blgList){
+                if(blogBrandSet.containsKey(b.Id)){
+                    // Logic to check it ATLEAST ONE Brand Exist
+                    if(accBrandIds != null){
+                        Set<Id> tempSet = new Set<Id>();
+                        tempSet.addAll(accBrandIds);
+                        tempSet.addAll(blogBrandSet.get(b.Id));
+                        if(tempSet.size() < (accBrandIds.size() + blogBrandSet.get(b.Id).size())){
+                            blgWithB2bSecurity.add(b);
+                        }
+                    }
+                }else{
+                    blgWithB2bSecurity.add(b);
+                }
+            }
+            return blgWithB2bSecurity;
+        }
+        
+        /**
     * @author Basant Verma
     * @Story US503/TA907
     * @description Returns all available tags
     */
-		public static List<Tag__c> getAllTags(){
-			return [Select Id, Name, Type__c From Tag__c];
-		}
-		// End : Changes for US503/TA907 - Basant
+        public static List<Tag__c> getAllTags(){
+            return [Select Id, Name, Type__c, Tag__c From Tag__c];
+        }
+        // End : Changes for US503/TA907 - Basant
 }

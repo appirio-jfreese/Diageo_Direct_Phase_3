@@ -42,41 +42,40 @@ private class Test_ControllerFollow {
         ContentBrand__c cbB = Test_Helper.testInsertContentBrand(contentB.id, brandA.id);
         ContentBrand__c cbC = Test_Helper.testInsertContentBrand(contentC.id, brandA.id);
         
-        Content_Subscription__c sub = new Content_Subscription__c();
-        sub.User__c = u.Id;
-				sub.Content__c = contentD.Content_ID__c;
-				insert sub;
-        
         Test.startTest();
 
-        PageReference pageRef = Page.FollowedItems;
-        Test.setCurrentPage(pageRef);
-                
         System.runAs(u){
+	        	Content_Subscription__c sub = new Content_Subscription__c();
+		        sub.User__c = u.Id;
+						sub.Content__c = contentD.Content_ID__c;
+						insert sub;
+						
+						PageReference pageRef = Page.FollowedItems;
+        		Test.setCurrentPage(pageRef);
             Controller_Follow cFollow = new Controller_Follow();
            
-            System.assertEquals(0, Service_Follow.getNumberOfItems());
+            System.assertEquals(1, Service_Follow.getNumberOfItems());
             
             // add single
             cFollow.cVersionId = contentB.Content_Version_Id__c;
             
             cFollow.addToFollow();
-            System.assertEquals(1, Service_Follow.getNumberOfItems());
+            System.assertEquals(2, Service_Follow.getNumberOfItems());
             
             //remove single
             cFollow.removeFromFollow();
-            System.assertEquals(0 , Service_Follow.getNumberOfItems());
+            System.assertEquals(1 , Service_Follow.getNumberOfItems());
             
             // add multiple
             cFollow.cVersionIds = contentA.Content_Version_Id_Low__c+','+contentB.Content_Version_Id__c;
             cFollow.addToFollowMultiple();
-            System.assertEquals(2, Service_Follow.getNumberOfItems());
+            System.assertEquals(3, Service_Follow.getNumberOfItems());
             
             cFollow.refreshPageContent();
             
             //remove multiple
             cFollow.removeFromFollowMultiple();
-            System.assertEquals(0, Service_Follow.getNumberOfItems());
+            System.assertEquals(1, Service_Follow.getNumberOfItems());
 
 
             Service_Follow.getNumberOfItems();

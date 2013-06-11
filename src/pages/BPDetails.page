@@ -99,6 +99,7 @@
                                     </div>
                                     <apex:actionFunction name="postComment" action="{!postComment}">
                                     </apex:actionFunction>
+                                    
                                 </div>
                                                                                              
                             </div>
@@ -109,6 +110,12 @@
                         <a href="BlogHome" class="big-button">Blog Home</a>
                         <c:BlogSideTile />
                     </div> 
+                    
+                    <!-- Filter by Tag -->
+                    <apex:actionFunction action="{!switchToTag}" name="showForTag" onComplete="location.href='BlogHome';">
+                        <apex:param id="aparam2" name="tag" value="" assignTo="{!filterByTag}"/>
+                    </apex:actionFunction>
+                                                      
                 </apex:form>
             </div>
         </div>

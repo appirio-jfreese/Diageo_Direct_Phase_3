@@ -36,7 +36,7 @@ public without sharing class Controller_BlogPost extends Controller_Base{
         }
         return archMap;
     }
-    
+       
     private Set<String> monthSet(DateTime startDate, DateTime endDate){
         Set<String> mSet = new Set<String>();
         if(startDate != null && endDate != null){
@@ -105,6 +105,7 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     public integer commentsSize { get; set; }
     public String newCommentBlogId = '';
     public String newCommentText = '';
+    public String filterByTag { get; set; }
     public Map<Id, List<Comment__c>> blogComments { get; set; }
     
     // Start For TA906
@@ -117,7 +118,7 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     return options; 
   }
   // End For TA906
-  // List of Tages On which we have to filter all blogs
+  // List of Tags On which we have to filter all blogs
     public List<String> blogTags {set; 
         get{
             if(blogTag != null && !blogTag.trim().equals('')){
@@ -152,27 +153,17 @@ public without sharing class Controller_BlogPost extends Controller_Base{
         Pagereference pr = Page.BPDetails;
         pr.getParameters().put('BlogPostIndex', String.valueOf(iCount));
         pr.getParameters().put('rtUrl', currentUserPage());
-        pr.getParameters().put('blogTagesParam', blogTagesUrlPram());
+        pr.getParameters().put('blogTagsParam', blogTagsUrlPram());
         pr.setRedirect(true);
         return pr;
         
-        /*backToBlogPostsUrl = currentUserPage();
-        pageUrl = Page.BPDetails.getUrl();
-        bpIndex = iCount;
-        blogItem = allBlogPosts.get(bpIndex);
-    newComment = new Comment__c();
-    
-    System.debug('=========== backToBlogPostsUrl : '+backToBlogPostsUrl);
-    System.debug('=========== pageUrl : '+pageUrl);
-    System.debug('=========== bpIndex : '+bpIndex);
-    System.debug('=========== blogItem : '+blogItem);
-    System.debug('=========== newComment : '+newComment);
-    
-        return Page.BPDetails;*/
     }
     
     // Prepare Data for Current Page
     public List<Blog__c> getCurrentPageData(boolean loadAnyway){
+        if(ApexPages.currentPage().getParameters().containsKey('blogTagsParam')){
+            blogTags = blogTagsFromUrlPram(ApexPages.currentPage().getParameters().get('blogTagsParam'));
+        }    
         List<Blog__c> currData = new List<Blog__c>();
         if(blogCount == null || blogCount == 0)
             blogCount = 5;
@@ -197,9 +188,32 @@ public without sharing class Controller_BlogPost extends Controller_Base{
         return currData;
     }
     
+    public PageReference showForTag() {
+        blogTags = new List<String>();
+        blogTags.add(filterByTag);
+        
+        blogUrls = new List<String>();
+        
+        blogCount = null;
+        pageCount = null;
+        currPage = null;
+
+        System.Debug('<----- filterByTag: ' + filterByTag + ' ----->');
+        System.Debug('<----- blogTags: ' + blogTags + ' ----->');
+        System.Debug('<----- blogUrls: ' + blogUrls + ' ----->');
+        blogPosts = getCurrentPageData(true);                
+
+        return null;    
+    }
+    
+    public PageReference switchToTag() {
+        
+        return null;
+    }
+    
     // Called when Page Number Changed on UI or Next/Previous Button clicked
     public Pagereference pageChanged(){
-        blogPosts = getCurrentPageData(false);
+        blogPosts = getCurrentPageData(true);
         return null;
     }
     
@@ -222,7 +236,7 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     }
     
     // Create A single URL Parameter String from Current Tag List (filter Criteria)
-    private String blogTagesUrlPram(){
+    private String blogTagsUrlPram(){
         String parmStr = '';
         if(blogTags != null){
             for(String str : blogTags){
@@ -235,14 +249,14 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     }
     
     // Regain Tag List from URL Parameter
-    private List<String> blogTagesFromUrlPram(String parmStr){
-        List<String> bTages = new List<String>();
+    private List<String> blogTagsFromUrlPram(String parmStr){
+        List<String> bTags = new List<String>();
         if(!parmStr.trim().equals('')){
             for(String str : parmStr.split('~~~')){
-                bTages.add(str);
+                bTags.add(str);
             }
         }
-        return bTages;
+        return bTags;
     }
     // END BlogPost Component : Basant
     
@@ -259,8 +273,8 @@ public without sharing class Controller_BlogPost extends Controller_Base{
         pageUrl = Page.BPDetails.getUrl();
         
         System.Debug('<----- pageUrl: ' + pageUrl + ' ----->');
-        if(ApexPages.currentPage().getParameters().containsKey('blogTagesParam')){
-            blogTags = blogTagesFromUrlPram(ApexPages.currentPage().getParameters().get('blogTagesParam'));
+        if(ApexPages.currentPage().getParameters().containsKey('blogTagsParam')){
+            blogTags = blogTagsFromUrlPram(ApexPages.currentPage().getParameters().get('blogTagsParam'));
             blogPosts = getCurrentPageData(true);
         }
         if(ApexPages.currentPage().getParameters().get('BlogPostIndex') != null){
@@ -278,6 +292,7 @@ public without sharing class Controller_BlogPost extends Controller_Base{
         if(ApexPages.currentPage().getParameters().get('rtUrl') != null){
             backToBlogPostsUrl = ApexPages.currentPage().getParameters().get('rtUrl');
         }
+        
         addBreadcrumbItem(backToBlogPostsUrl, 'Previous Page');
         
         return null;

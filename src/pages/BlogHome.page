@@ -166,13 +166,18 @@
                 </apex:actionFunction>
                 <apex:inputHidden value="{!clickedBlogId}" id="clickedBlogPostId"/>
 
+                <!-- pagination -->
                 <apex:actionFunction action="{!pageChanged}" name="pageChanged" reRender="currentPageBlogItems">
                     <apex:param id="aparam1" name="pageNumElement" value="" assignTo="{!currPage}"/>
                 </apex:actionFunction>
                 <apex:actionFunction action="{!previousPage}" name="previousPage" reRender="currentPageBlogItems"/>
                 <apex:actionFunction action="{!nextPage}" name="nextPage" reRender="currentPageBlogItems"/>
                 <apex:inputHidden value="{!currPage}" id="pageNumber"/>
-              
+
+                <!-- Filter by Tag -->
+                <apex:actionFunction action="{!showForTag}" name="showForTag" reRender="currentPageBlogItems">
+                    <apex:param id="aparam2" name="tag" value="" assignTo="{!filterByTag}"/>
+                </apex:actionFunction>
                 </apex:form>
             
         

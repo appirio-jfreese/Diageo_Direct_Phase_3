@@ -40,7 +40,7 @@ Story/Task  : US503/TA907
         <div class="tags" style="text-align: left;">
 
             <apex:repeat value="{!tagList}" var="tg" rows="10">
-                <a href="javascript:;">{!tg.Name}</a>
+                <a href="javascript: showForTag('{!tg.Tag__c}');">{!tg.Name}</a>
             </apex:repeat>
 <!--            
             <apex:outputLabel rendered="{!(tagList.size > 10)}" onclick="">
