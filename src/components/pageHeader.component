@@ -43,9 +43,9 @@ Story/Task  : US79/TA1007
         
             _gaq.push(['_setCustomVar',1, 'userType', '{!userType}', 2]);          
             _gaq.push(['_setCustomVar', 1, 'UserProfile', '{!userProfile}', 2]); 
- 			_gaq.push(['_setCustomVar', 1, 'UserTitle', '{!userTitle}', 2]);
- 			 
- 			<!--   End : Appirio Offshore Changes - developer - Parul Gupta -->
+            _gaq.push(['_setCustomVar', 1, 'UserTitle', '{!userTitle}', 2]);
+             
+            <!--   End : Appirio Offshore Changes - developer - Parul Gupta -->
             
             (function() {
                 var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -80,16 +80,16 @@ Story/Task  : US79/TA1007
         }       
         
         div.input-holder input {
-			width: 240px;        
+            width: 240px;        
         }
         
         div.textarea-holder textarea {
-        	width: 510px;
+            width: 510px;
         }
         
         button.update-filter{
-        	height: 34px !important;
-        	*height: 36px !important;
+            height: 34px !important;
+            *height: 36px !important;
         }
     </style>
          
@@ -101,31 +101,31 @@ Story/Task  : US79/TA1007
     <script type="text/javascript">
     jQuery.noConflict();
 
-	function checkHeaderThemeSelector() {
-    	if(jQuery('.horizontal-slider').length != 0){
-	   		if(! jQuery('.content').hasClass('pilsite')){	   		
-	   			jQuery('#headerSiteThemeDropdown').addClass('hidden');
-	   		}
-    	
-    	} else {
-    		jQuery('#headerSiteThemeDropdown').removeClass('hidden');
-    	}
-	}
-	
+    function checkHeaderThemeSelector() {
+        if(jQuery('.horizontal-slider').length != 0){
+            if(! jQuery('.content').hasClass('pilsite')){           
+                jQuery('#headerSiteThemeDropdown').addClass('hidden');
+            }
+        
+        } else {
+            jQuery('#headerSiteThemeDropdown').removeClass('hidden');
+        }
+    }
+    
     function addToDownloadCache(ids){
         if(typeof ids != 'undefined' && ids != null && ids.length != 0){
             try {
-	            Controller_BaseRemote.cacheDownload(ids, function(data, event){
-	                if (event.status) {
-	                    //sucess
-	                } else if (event.type === 'exception') {
-	                    alert(event.message);
-	                } else {
-	                    alert(event.message);
-	                }
-	            }, {escape:true});
-	        } catch (err){
-	        }
+                Controller_BaseRemote.cacheDownload(ids, function(data, event){
+                    if (event.status) {
+                        //sucess
+                    } else if (event.type === 'exception') {
+                        alert(event.message);
+                    } else {
+                        alert(event.message);
+                    }
+                }, {escape:true});
+            } catch (err){
+            }
             if(jQuery('#possibleItemsToRemove').length == 1){
                 jQuery('#possibleItemsToRemove').val(ids);
                 showDialog('confirmDelete');
@@ -212,29 +212,29 @@ Story/Task  : US79/TA1007
 
     
     jQuery(document).ready(function() {
-    	var isiPad = navigator.userAgent.match(/iPad/i) != null;    
-    	
-	    jQuery('.selectFile').live('click',function(){
-	    	fInputReal = jQuery(this).parent().parent().find('input.fileinput');
-	    	if(fInputReal.length == 1){
-	    		fInputReal.trigger('click');
-	    		return false;
-	    	}
-	    });
-    	
+        var isiPad = navigator.userAgent.match(/iPad/i) != null;    
+        
+        jQuery('.selectFile').live('click',function(){
+            fInputReal = jQuery(this).parent().parent().find('input.fileinput');
+            if(fInputReal.length == 1){
+                fInputReal.trigger('click');
+                return false;
+            }
+        });
+        
         jQuery("div.theme-page-box").live('click', function() {
-    		thm = jQuery(this).attr('name');
-    		jQuery('input.themeWrapperSelector').val(thm);
+            thm = jQuery(this).attr('name');
+            jQuery('input.themeWrapperSelector').val(thm);
 
-			jQuery("div.theme-page-box-title", this).stop(true).animate({'top': 35}, 500);
-			jQuery("div.theme-page-box-title-bg", this).stop(true).animate({'opacity':'0.75'}, 500);
-			
-			jQuery("div.theme-page-box").not(this).each(function() {
-				jQuery("div.theme-page-box-title", this).animate({'top': 75}, 500);
-            	jQuery("div.theme-page-box-title-bg", this).animate({'opacity':'0.95'}, 500);
+            jQuery("div.theme-page-box-title", this).stop(true).animate({'top': 35}, 500);
+            jQuery("div.theme-page-box-title-bg", this).stop(true).animate({'opacity':'0.75'}, 500);
+            
+            jQuery("div.theme-page-box").not(this).each(function() {
+                jQuery("div.theme-page-box-title", this).animate({'top': 75}, 500);
+                jQuery("div.theme-page-box-title-bg", this).animate({'opacity':'0.95'}, 500);
             });
-		});
-    	
+        });
+        
         if(jQuery('#selectTheme').length == 1){
             if(jQuery('#selectTheme').hasClass('selectThemeRequired')){
                 showDialog('selectTheme');
@@ -368,7 +368,7 @@ Story/Task  : US79/TA1007
                 }
                 var offset = 45;
                 if(jQuery(this).hasClass('custom-select-box-header-slim')){
-                	offset = 35;
+                    offset = 35;
                 }
                 selectBox.animate({height: selectBoxHeight+offset}, 600);
                 jQuery('.custom-select-button',selectBox).animate({'rotate': 180}, 600);                
@@ -424,12 +424,12 @@ Story/Task  : US79/TA1007
             
             valDescription = jQuery.trim( jQuery(this).html() );
             if(!customSelectBox.find('.custom-select-box-val').hasClass('multi')){
-	            if(valDescription.length > 18 && customSelectBox.hasClass('trim')){
-	                customSelectBox.find('.custom-select-box-val').html(valDescription.substring(0, 18)+'...');         
-	            } else {
-	                customSelectBox.find('.custom-select-box-val').html(valDescription);
-	            }
-	        }
+                if(valDescription.length > 18 && customSelectBox.hasClass('trim')){
+                    customSelectBox.find('.custom-select-box-val').html(valDescription.substring(0, 18)+'...');         
+                } else {
+                    customSelectBox.find('.custom-select-box-val').html(valDescription);
+                }
+            }
 
             selectBox = jQuery("select.orgSelect-"+customSelectBox.attr('id')+"");
             if(selectBox.length == 0){
@@ -451,12 +451,12 @@ Story/Task  : US79/TA1007
 
                 dialog = jQuery(this).parents('.dialog');
                 dialogId = jQuery(this).parents('.dialog').attr('id');
-				if(dialog.find('.dialogUploadContentDiv').length == 0){
-	                dialog.find('input[type="text"]').val('');
-	                dialog.find('input[type="checkbox"]').attr('checked', false);
-	                jQuery('span.totalDownloadSizeValue', dialog).html('0.00');         
-	                jQuery('span.totalDownloadTimeValue', dialog).html('0 second');
-				}                
+                if(dialog.find('.dialogUploadContentDiv').length == 0){
+                    dialog.find('input[type="text"]').val('');
+                    dialog.find('input[type="checkbox"]').attr('checked', false);
+                    jQuery('span.totalDownloadSizeValue', dialog).html('0.00');         
+                    jQuery('span.totalDownloadTimeValue', dialog).html('0 second');
+                }                
                 if(jQuery(this).parents('.dialog').attr('name') !== undefined){
                     dialogName = jQuery(this).parents('.dialog').attr('name');
                 } else {
@@ -494,18 +494,18 @@ Story/Task  : US79/TA1007
         });
         
         jQuery(".content-item-list").live('mouseenter', function() {
-        	if( isiPad != true){
-	            jQuery("div.content-item-list-buttons", this).css('opacity', 0);
-	            jQuery("div.content-item-list-buttons", this).removeClass('hidden');
-	            jQuery("div.content-item-list-buttons", this).stop().animate({opacity: 1}, 400);
-	    	}
+            if( isiPad != true){
+                jQuery("div.content-item-list-buttons", this).css('opacity', 0);
+                jQuery("div.content-item-list-buttons", this).removeClass('hidden');
+                jQuery("div.content-item-list-buttons", this).stop().animate({opacity: 1}, 400);
+            }
         });
                         
         jQuery(".content-item-list").live('mouseleave', function() {
-        	if( isiPad != true){
-            	jQuery("div.content-item-list-buttons", this).removeClass('hidden');    
-           		jQuery("div.content-item-list-buttons", this).stop().animate({opacity: 0});
-           	}
+            if( isiPad != true){
+                jQuery("div.content-item-list-buttons", this).removeClass('hidden');    
+                jQuery("div.content-item-list-buttons", this).stop().animate({opacity: 0});
+            }
         });   
              
         jQuery(".showResolution").live('click',function() {
@@ -525,29 +525,29 @@ Story/Task  : US79/TA1007
             jQuery('.user-menu-dropdown-ind',this).stop().animate({'rotate': 0}, 400);  
         });
   
-		var dropdownmenu = null;
-  		jQuery("body").live('touchstart',function(event) {
-  			if (jQuery(event.target).hasClass("user-menu-dropdown") || jQuery(event.target).parents().hasClass("user-menu-dropdown")){
-  			 
-  			}else{
-  				if(dropdownmenu != null){
-	  				dropdownmenu.stop().animate({height: jQuery('.user-menu-name', this).outerHeight()}, 400, function(){
-		                dropdownmenu.removeClass('user-menu-dropdown-active');
-		            }); 
-		            jQuery('.user-menu-dropdown-ind',dropdownmenu).stop().animate({'rotate': 0}, 400);
-		        }  			
-  			}
-  			
-   		});	
+        var dropdownmenu = null;
+        jQuery("body").live('touchstart',function(event) {
+            if (jQuery(event.target).hasClass("user-menu-dropdown") || jQuery(event.target).parents().hasClass("user-menu-dropdown")){
+             
+            }else{
+                if(dropdownmenu != null){
+                    dropdownmenu.stop().animate({height: jQuery('.user-menu-name', this).outerHeight()}, 400, function(){
+                        dropdownmenu.removeClass('user-menu-dropdown-active');
+                    }); 
+                    jQuery('.user-menu-dropdown-ind',dropdownmenu).stop().animate({'rotate': 0}, 400);
+                }           
+            }
+            
+        }); 
   
-		jQuery(".user-menu-dropdown").live('touchstart', function () {
-	        	jQuery(this).addClass('user-menu-dropdown-active');
-	            jQuery(this).stop().animate({height: jQuery('.user-menu-values', this).outerHeight()+jQuery('.user-menu-name', this).outerHeight()}, 400, function(){
-	            });
-	            jQuery('.user-menu-dropdown-ind',this).stop().animate({'rotate': 180}, 400);
-	            dropdownmenu = jQuery(this);
-   		});
-   		    
+        jQuery(".user-menu-dropdown").live('touchstart', function () {
+                jQuery(this).addClass('user-menu-dropdown-active');
+                jQuery(this).stop().animate({height: jQuery('.user-menu-values', this).outerHeight()+jQuery('.user-menu-name', this).outerHeight()}, 400, function(){
+                });
+                jQuery('.user-menu-dropdown-ind',this).stop().animate({'rotate': 180}, 400);
+                dropdownmenu = jQuery(this);
+        });
+            
         jQuery(".user-menu-value").live('mouseenter',function() {
             jQuery(this).addClass('user-menu-value-acitve');
         });
@@ -723,7 +723,7 @@ Story/Task  : US79/TA1007
             }
         });
 
-				jQuery('.multiFollowActionButton').live('click', function(){
+                jQuery('.multiFollowActionButton').live('click', function(){
             dataContainer = jQuery(this).parents('.dialog');
             if(dataContainer.find('input[type=checkbox]').length != 0){
                 var stringIds = '';
@@ -933,47 +933,47 @@ Story/Task  : US79/TA1007
                 alert('Video ID not found.');
             }
         });
-    	  
-	    jQuery('.cion').live('mouseenter', function(){
-			if(typeof jQuery(this).attr('title') != 'undefined' && jQuery(this).attr('title').length != 0){
-	    		jQuery(this).parents('.cionwrapper').first().find('.content-item-tooltip').html(jQuery(this).attr('title'));
-	    	} else {
-	    		jQuery(this).parents('.cionwrapper').first().find('.content-item-tooltip').html('&nbsp;');
-	    	}
-	   	});
-	    	
-	    jQuery('.cion').live('mouseleave', function(){
-	    	jQuery(this).parents('.cionwrapper').first().find('.content-item-tooltip').html('&nbsp;');
-	    });
-	    
-	    var clickedHovers=new Array();	     	
-	    jQuery(".cion").live('touchstart',function() {	    		
-	    	if(typeof jQuery(this).attr('title') != 'undefined' && jQuery(this).attr('title').length != 0){
-	    		var unique = jQuery(this).parent().attr('id')+ jQuery(this).attr('title');
-	    		var uniquetab = jQuery(this).parent().attr('id');	    			
-	    		if(jQuery.inArray(unique, clickedHovers) == 0 && jQuery.inArray(uniquetab, clickedHovers) == 1){    			
-	    			jQuery(this).trigger('click');
-	    		}else{
-	    			clickedHovers=new Array();
-	    			clickedHovers.push(unique);
-	    			clickedHovers.push(uniquetab); 
-	    			jQuery(".content-item-wrapper").find('.content-item-tooltip').html('&nbsp;');
-	    			jQuery(this).parents('.cionwrapper').first().find('.content-item-tooltip').html(jQuery(this).attr('title'));
-	    			return false;
-	    		}   		    		
-	    	} else {	    	
-	    		jQuery(this).parents('.cionwrapper').first().find('.content-item-tooltip').html('&nbsp;');
-	    	}		 
-	   	});  	
-	   	
-	   	   	
-	   	<!--  Start: changes for TA918 Jonathan Freese	-->
-    	jQuery('.box-cion-download, .list-cion-download, .box-cion-openlink, .list-cion-openlink').live('click', function(){
-    		if(typeof jQuery(this).attr('href') != 'undefined' && jQuery(this).attr('href').length != 0){
-    			window.open(jQuery(this).attr('href'));
-    		}
-    	});
-	   	<!--  End: changes for TA918 Jonathan Freese  -->	
+          
+        jQuery('.cion').live('mouseenter', function(){
+            if(typeof jQuery(this).attr('title') != 'undefined' && jQuery(this).attr('title').length != 0){
+                jQuery(this).parents('.cionwrapper').first().find('.content-item-tooltip').html(jQuery(this).attr('title'));
+            } else {
+                jQuery(this).parents('.cionwrapper').first().find('.content-item-tooltip').html('&nbsp;');
+            }
+        });
+            
+        jQuery('.cion').live('mouseleave', function(){
+            jQuery(this).parents('.cionwrapper').first().find('.content-item-tooltip').html('&nbsp;');
+        });
+        
+        var clickedHovers=new Array();          
+        jQuery(".cion").live('touchstart',function() {              
+            if(typeof jQuery(this).attr('title') != 'undefined' && jQuery(this).attr('title').length != 0){
+                var unique = jQuery(this).parent().attr('id')+ jQuery(this).attr('title');
+                var uniquetab = jQuery(this).parent().attr('id');                   
+                if(jQuery.inArray(unique, clickedHovers) == 0 && jQuery.inArray(uniquetab, clickedHovers) == 1){                
+                    jQuery(this).trigger('click');
+                }else{
+                    clickedHovers=new Array();
+                    clickedHovers.push(unique);
+                    clickedHovers.push(uniquetab); 
+                    jQuery(".content-item-wrapper").find('.content-item-tooltip').html('&nbsp;');
+                    jQuery(this).parents('.cionwrapper').first().find('.content-item-tooltip').html(jQuery(this).attr('title'));
+                    return false;
+                }                       
+            } else {            
+                jQuery(this).parents('.cionwrapper').first().find('.content-item-tooltip').html('&nbsp;');
+            }        
+        });     
+        
+            
+        <!--  Start: changes for TA918 Jonathan Freese  -->
+        jQuery('.box-cion-download, .list-cion-download, .box-cion-openlink, .list-cion-openlink').live('click', function(){
+            if(typeof jQuery(this).attr('href') != 'undefined' && jQuery(this).attr('href').length != 0){
+                window.open(jQuery(this).attr('href'));
+            }
+        });
+        <!--  End: changes for TA918 Jonathan Freese  -->   
 
     }); 
     </script>
@@ -989,11 +989,11 @@ Story/Task  : US79/TA1007
     <apex:attribute name="showThemeSelector" description="" type="Boolean" required="false"/>
     <apex:attribute name="basketItemsNumber" description="" type="String" required="false"/>
     
-    <!-- Start of existing header which will be replaced by the new one below under US507/TA918 - Jonathan Freese -->
-   <apex:outputPanel rendered="false">
+    <!-- Start of existing header replaced by the new one below under US507/TA918 - Jonathan Freese --
+   <apex:outputPanel rendered="true">
     <div id="overlayDisable"></div>
     <div class="header" style="z-index: 31;">
-    	<a href="{!$Page.HomePage}" class="box-link"><div class="logotype">&nbsp;</div></a>
+        <a href="{!$Page.HomePage}" class="box-link"><div class="logotype">&nbsp;</div></a>
         <div class="user-info">
             <apex:pageBlock rendered="{!AND(isLoggedIn, preview='false')}">
                 <div style="float: left; padding-top: 6px;">Welcome&nbsp;</div>
@@ -1003,9 +1003,7 @@ Story/Task  : US79/TA1007
                         <div class="user-menu-value"><apex:outputLink value="{!$Page.UserProfile}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">User Profile</apex:outputLink></div>
                         <div class="user-menu-value"><apex:outputLink value="{!$Page.DownloadHistory}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">Download History</apex:outputLink></div>
                         <div class="user-menu-value"><apex:outputLink value="{!$Page.ShareHistory}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">Share History</apex:outputLink></div>
-                        <!-- Start : Changes for US79/TA1007 - Basant Verma -->
                         <div class="user-menu-value"><apex:outputLink value="{!$Page.FollowedItems}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">Followed Items</apex:outputLink></div>
-                        <!-- End   : Changes for US79/TA1007 - Basant Verma -->
                         <div class="user-menu-value"><apex:outputLink value="{!$Site.Prefix}/secur/logout.jsp" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">{!$Label.site.logout}</apex:outputLink></div>
                     </div>
                 </div>
@@ -1016,7 +1014,7 @@ Story/Task  : US79/TA1007
        
        <div class="headerdistr {!If(OR(isLoggedIn!=true, preview=='true') ,'hidden','')}" style="bottom: 41px; height: 32px; position: absolute; right: 15px; width: 500px; color: #ffffff; font-family: Tahoma,Arial; font-size: 14px;">
                  <span style="float: right;">
-	                 {!distributorBreadcrumbString}
+                     {!distributorBreadcrumbString}
                  </span>
        </div>
        <apex:outputPanel rendered="{!showSearch}">
@@ -1025,186 +1023,169 @@ Story/Task  : US79/TA1007
                     <apex:actionFunction status="ajax-status" name="userSearch" action="{!userSearch}" rerender="messages, sValue"/>
                     <apex:outputPanel id="sValue">
                         <div>
-                        	<apex:inputText value="{!searchPhrase}" styleClass="search forceSubmit"/>
-                       	 	<button class="update-filter" onclick="userSearch(); return false;">GO</button>
+                            <apex:inputText value="{!searchPhrase}" styleClass="search forceSubmit"/>
+                            <button class="update-filter" onclick="userSearch(); return false;">GO</button>
                         </div>
                     </apex:outputPanel>
                 </apex:form>
             </div>
         </apex:outputPanel>
-		
-		<a href="{!$Page.Basket}"><div class="header-basket-icon" style="border: 0px;">&nbsp;</div></a>
+        <a href="{!$Page.Basket}"><div class="header-basket-icon" style="border: 0px;">&nbsp;</div></a>
         <div class="basket-item {!If(OR(isLoggedIn!=true, preview=='true') ,'hidden','')}">
             <a href="{!$Page.Basket}">
                 <span id="basketItemsNo">
                     <apex:outputPanel id="currentBasketItemsNo">
-                        (# items)
+                        ({!basketItemsNumber} items)
                     </apex:outputPanel>
                 </span>
             </a>
         </div>
         <div>
-        	<apex:outputPanel rendered="{!AND(showThemeSelector=true)}">
-				<apex:form >
-					<apex:actionFunction status="ajax-status" name="changeCurrentSiteTheme" action="{!changeCurrentSiteTheme}"/>
-					<div title="Select theme" style="position: absolute; top: 109px; right: -3px;" id="headerSiteThemeDropdown">
-						<c:selectList darkTheme="true" slim="true" width="135" options="{!SiteThemes}" noOfOptions="{!noOfThemesAvailable}" value="{!siteTheme}" onchange="changeCurrentSiteTheme();" />
-					</div>
-				</apex:form>
-			</apex:outputPanel>
-		</div>
-		<div>
-			<div style="position: absolute; top: 58px; left: 329px; font-size: 24px; color: #ffffff; font-family: Verdana !important;">
-				<!-- Start : Changes for US491/TA920 - Basant Verma -->
-				<apex:form >
-					<apex:actionFunction status="ajax-status" name="toggleToWine" action="{!toggleToWine}"/>
-					<apex:actionFunction status="ajax-status" name="toggleToSpirits" action="{!toggleToSpirits}"/>
-		      <apex:outputPanel id="sTheme">
-						<!-- Start: Changes for DE553 - Jonathan Freese -->
-						<apex:outputPanel rendered="{!AND(siteTheme == 'Spirits',isNeedToggle)}">
-							<apex:image url="{!URLFOR($Resource.HomePage, '/images/spirits_sel.png')}"/>
-							<apex:image url="{!URLFOR($Resource.HomePage, '/images/wine_unsel.png')}" styleClass="pointer" onclick="toggleToWine()"/>
-						</apex:outputPanel>
-						<apex:outputPanel rendered="{!AND(siteTheme == 'Wine',isNeedToggle)}">
-							<apex:image url="{!URLFOR($Resource.HomePage, '/images/spirits_unsel.png')}" styleClass="pointer" onclick="toggleToSpirits()"/>
-							<apex:image url="{!URLFOR($Resource.HomePage, '/images/wine_sel.png')}"/>
-						</apex:outputPanel>
-						<!-- End: Changes for DE553 - Jonathan Freese -->
-
-						<!-- <apex:repeat value="{!SiteThemes}" var="theme">
-							<apex:outputPanel rendered="{!IF(theme == siteTheme, false, true)}">
-								| <button class="update-filter" style="background:#669933;" onclick="toggleToWine()">{!theme["label"]}</button>
-							</apex:outputPanel>
-						</apex:repeat> -->
-					</apex:outputPanel>
-				</apex:form>
-				<!-- End : Changes for US491/TA920-->
-			</div>
-			<!-- Start : Changes for US138/TA972 - Basant Verma -->
+            <apex:outputPanel rendered="{!AND(showThemeSelector=true)}">
+                <apex:form >
+                    <apex:actionFunction status="ajax-status" name="changeCurrentSiteTheme" action="{!changeCurrentSiteTheme}"/>
+                    <div title="Select theme" style="position: absolute; top: 109px; right: -3px;" id="headerSiteThemeDropdown">
+                        <c:selectList darkTheme="true" slim="true" width="135" options="{!SiteThemes}" noOfOptions="{!noOfThemesAvailable}" value="{!siteTheme}" onchange="changeCurrentSiteTheme();" />
+                    </div>
+                </apex:form>
+            </apex:outputPanel>
+        </div>
+        <div>
+            <div style="position: absolute; top: 58px; left: 329px; font-size: 24px; color: #ffffff; font-family: Verdana !important;">
+                <apex:form >
+                    <apex:actionFunction status="ajax-status" name="toggleToWine" action="{!toggleToWine}"/>
+                    <apex:actionFunction status="ajax-status" name="toggleToSpirits" action="{!toggleToSpirits}"/>
+              <apex:outputPanel id="sTheme">
+                        <apex:outputPanel rendered="{!AND(siteTheme == 'Spirits',isNeedToggle)}">
+                            <apex:image url="{!URLFOR($Resource.HomePage, '/images/spirits_sel.png')}"/>
+                            <apex:image url="{!URLFOR($Resource.HomePage, '/images/wine_unsel.png')}" styleClass="pointer" onclick="toggleToWine()"/>
+                        </apex:outputPanel>
+                        <apex:outputPanel rendered="{!AND(siteTheme == 'Wine',isNeedToggle)}">
+                            <apex:image url="{!URLFOR($Resource.HomePage, '/images/spirits_unsel.png')}" styleClass="pointer" onclick="toggleToSpirits()"/>
+                            <apex:image url="{!URLFOR($Resource.HomePage, '/images/wine_sel.png')}"/>
+                        </apex:outputPanel>
+                    </apex:outputPanel>
+                </apex:form>
+            </div>
       <div style="position: absolute; top: 40px; left: 730px;">
-			<a href="{!$Label.SalesforceHomePage}" class="box-link">
-				<div style="text-decoration: none; font-size: 14px; color: #5db8cb; font-weight: bold; font-family: Verdana !important;">
-					Go To Salesforce
-				</div>
-			</a>
-		 </div>	
-     <!-- End : Changes for US138/TA972 -->
-		</div>
+            <a href="{!$Label.SalesforceHomePage}" class="box-link">
+                <div style="text-decoration: none; font-size: 14px; color: #5db8cb; font-weight: bold; font-family: Verdana !important;">
+                    Go To Salesforce
+                </div>
+            </a>
+         </div> 
+        </div>
     </div>
    </apex:outputPanel>
-    <!-- End of existing header which will be replaced by the new one below under US507/TA918 - Jonathan Freese -->
+   !-- End of existing header replaced by the new one below under US507/TA918 - Jonathan Freese -->
 
     <!-- Start : Changes for US507/TA918 - Jonathan Freese -->
     <!-- Header update notes
          1) The header updates and enhancements were developed by Christina Hamlin as documented in header-proto_v3.zip uploaded to Rally 5/29/13 under US138/TA930.
-         	The prototype called for all header elements to float, which is admirable in concept but was difficult to fully implement, due to the profile dropdown,
- 	        which was not addressed in the prototype.
+            The prototype called for all header elements to float, which is admirable in concept but was difficult to fully implement, due to the profile dropdown,
+            which was not addressed in the prototype.
          
-	         The dropdown pushed the breadcrumb, Salesforce link, search input box and toggle buttons out of the way.  This was fixed by making their position absolute
-	         relative to the edges of their respective (position:relative) parent containers.  However, the dropdown then slid beneath the Salesforce link and search text box.
-	         An attempt was made to deal with this by lowering the z-index of the position:absolute elements, but floating elements effectively have a z-index
-	         of unassigned (aka zero).  Therefore, the position:absolute elements would need to have a z-index of -1 (e.g.), but that would mean that the page-header
-	         div would need an even lower z-index of -2 (e.g.).  But that would hide the header behind the content-wrapper div (the white base), which has
-	         an undefined default z-index of zero.  There was reluctance to tamper with the z-index of the base-level content-wrapper.  
+             The dropdown pushed the breadcrumb, Salesforce link, search input box and toggle buttons out of the way.  This was fixed by making their position absolute
+             relative to the edges of their respective (position:relative) parent containers.  However, the dropdown then slid beneath the Salesforce link and search text box.
+             An attempt was made to deal with this by lowering the z-index of the position:absolute elements, but floating elements effectively have a z-index
+             of unassigned (aka zero).  Therefore, the position:absolute elements would need to have a z-index of -1 (e.g.), but that would mean that the page-header
+             div would need an even lower z-index of -2 (e.g.).  But that would hide the header behind the content-wrapper div (the white base), which has
+             an undefined default z-index of zero.  There was reluctance to tamper with the z-index of the base-level content-wrapper.  
          
-	         Therefore, the desc class was also set to position:absolute, with a z-index above the other position:absolute elements, which themselves have a z-index
-	         above that of the page-header.  (Its z-index of 31 was set during previous work.)
-	      
-	     2)  The avatar was originally set up so that the avatarUrl method was called from the HomePage and passed to pageHeader, which worked.  Then it was changed so
-	         that the avatarUrl method was called directly from pageHeader, which is preferable in that all of the pages do not need editing.  This worked fine for the
-	         six hours of subsequent editing.  Then four hours later the site was revisited and the avatar was missing.  The developer console was launched and set to
-	         do several heap dumps within the avatarUrl method, but none were triggered.
-	         
-	         So the next day things were restored to the original method, this time calling avaratUrl from HomePage to pass a variable called thisAvatarUrl.  Initially this
-	         did not work.  So the (last week of the) cache was flushed, I logged out/in and it worked.  Then the HomePage parts were commented out and the call to avatarURL
-	         was moved to pageHeader once again, and it worked, even after cache flushing, logging out/in and testing on other boxes.  Tentative victory has been declared.
+             Therefore, the desc class was also set to position:absolute, with a z-index above the other position:absolute elements, which themselves have a z-index
+             above that of the page-header.  (Its z-index of 31 was set during previous work.)
+          
+         2)  The avatar was originally set up so that the avatarUrl method was called from the HomePage and passed to pageHeader, which worked.  Then it was changed so
+             that the avatarUrl method was called directly from pageHeader, which is preferable in that all of the pages do not need editing.  This worked fine for the
+             six hours of subsequent editing.  Then four hours later the site was revisited and the avatar was missing.  The developer console was launched and set to
+             do several heap dumps within the avatarUrl method, but none were triggered.
+             
+             So the next day things were restored to the original method, this time calling avaratUrl from HomePage to pass a variable called thisAvatarUrl.  Initially this
+             did not work.  So the (last week of the) cache was flushed, I logged out/in and it worked.  Then the HomePage parts were commented out and the call to avatarURL
+             was moved to pageHeader once again, and it worked, even after cache flushing, logging out/in and testing on other boxes.  Tentative victory has been declared.
          -->
          
     <apex:outputPanel rendered="true">
     <div id="overlayDisable"></div>
     <div class="page-header" style="z-index: 31;">
-		<div class="name_avatar_basket">
-	        <div class="info">
-	            <apex:pageBlock rendered="{!AND(isLoggedIn, preview='false')}">
-		            <a href="{!$Page.Basket}" class="cart">{!basketItemsNumber}</a>
-		            <apex:outputPanel rendered="{!showAvatar}">
-			            <!-- <a href="/_ui/core/userprofile/UserProfilePage" class="avatar"><apex:image value="{!thisAvatarUrl}" height="30px"/></a> -->
-			            <a href="/_ui/core/userprofile/UserProfilePage" class="avatar"><apex:image value="{!avatarUrl}" height="30px"/></a>
-			            <!-- <a href="javascript:;" class="avatar"><apex:image value="{!avatarUrl}" height="30px"/></a> -->
-			            <!-- <a href="javascript:;" class="avatar"><apex:image url="{!URLFOR($Resource.PageHeader, '/img/avatar.png')}"/></a> -->
-					</apex:outputpanel>
-					<div class="desc">
-		                <div class="user-menu-dropdown" style="float:right;">
-		                    <div class="user-menu-name"><a href="javascript:;" class="name">{!$User.FirstName} {!$User.LastName}</a></div>
-		                    <div class="user-menu-values">
-		                        <div class="user-menu-value"><apex:outputLink value="{!$Page.UserProfile}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">User Profile</apex:outputLink></div>
-		                        <div class="user-menu-value"><apex:outputLink value="{!$Page.DownloadHistory}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">Download History</apex:outputLink></div>
-		                        <div class="user-menu-value"><apex:outputLink value="{!$Page.ShareHistory}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">Share History</apex:outputLink></div>
-		                        <!-- Start : Changes for US79/TA1007 - Basant Verma -->
-		                        <div class="user-menu-value"><apex:outputLink value="{!$Page.FollowedItems}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">Followed Items</apex:outputLink></div>
-		                        <!-- End   : Changes for US79/TA1007 - Basant Verma -->
-		                        <div class="user-menu-value"><apex:outputLink value="{!$Site.Prefix}/secur/logout.jsp" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">{!$Label.site.logout}</apex:outputLink></div>
-		                    </div>
-		                </div>
-					    <div style="float: right; padding-top: 6px;">Hello,</div>
-					    <div class="clear"></div>
-		            </div>
-	            </apex:pageBlock>
-	            <apex:pageBlock rendered="{!AND(NOT(isLoggedIn),preview=='false')}">Please sign in</apex:pageBlock>
-			    <div class="crumb">{!distributorBreadcrumbString}</div>
-	        </div>
+        <div class="name_avatar_basket">
+            <div class="info">
+                <apex:pageBlock rendered="{!AND(isLoggedIn, preview='false')}">
+                    <a href="{!$Page.Basket}" class="cart"><apex:outputPanel id="currentBasketItemsNo">{!basketItemsNumber}</apex:outputPanel></a>
+                    <apex:outputPanel rendered="{!showAvatar}">
+                        <a href="/_ui/core/userprofile/UserProfilePage" class="avatar"><apex:image value="{!avatarUrl}" height="30px"/></a>
+                        <!-- <a href="/_ui/core/userprofile/UserProfilePage" class="avatar"><apex:image value="{!thisAvatarUrl}" height="30px"/></a> -->
+                    </apex:outputpanel>
+                    <div class="desc">
+                        <div class="user-menu-dropdown" style="float:right;">
+                            <div class="user-menu-name"><a href="javascript:;" class="name">{!$User.FirstName} {!$User.LastName}</a></div>
+                            <div class="user-menu-values">
+                                <div class="user-menu-value"><apex:outputLink value="{!$Page.UserProfile}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">User Profile</apex:outputLink></div>
+                                <div class="user-menu-value"><apex:outputLink value="{!$Page.DownloadHistory}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">Download History</apex:outputLink></div>
+                                <div class="user-menu-value"><apex:outputLink value="{!$Page.ShareHistory}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">Share History</apex:outputLink></div>
+                                <!-- Start : Changes for US79/TA1007 - Basant Verma -->
+                                <div class="user-menu-value"><apex:outputLink value="{!$Page.FollowedItems}" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">Followed Items</apex:outputLink></div>
+                                <!-- End   : Changes for US79/TA1007 - Basant Verma -->
+                                <div class="user-menu-value"><apex:outputLink value="{!$Site.Prefix}/secur/logout.jsp" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">{!$Label.site.logout}</apex:outputLink></div>
+                            </div>
+                        </div>
+                        <div style="float: right; padding-top: 6px;">Hello,</div>
+                        <div class="clear"></div>
+                    </div>
+                </apex:pageBlock>
+                <apex:pageBlock rendered="{!AND(NOT(isLoggedIn),preview=='false')}">Please sign in</apex:pageBlock>
+                <div class="crumb">{!distributorBreadcrumbString}</div>
+            </div>
         </div>
-		<div class="sfdc_link">
-			<div>
-		        <apex:outputPanel rendered="{!showAvatar}">
-			        <a href="{!$Label.SalesforceHomePage}" class="gotoSF"><strong>Go To Salesforce</strong></a>
-			    </apex:outputpanel>
-		    </div>
-		</div>
-		<div class="logo_buttons_search">
-			<div>
-				<a href="{!$Page.HomePage}" class="box-link"><div class="logo">&nbsp;</div></a>
-				<apex:form >
-					<apex:actionFunction status="ajax-status" name="toggleToWine" action="{!toggleToWine}"/>
-					<apex:actionFunction status="ajax-status" name="toggleToSpirits" action="{!toggleToSpirits}"/>
-		      		<apex:outputPanel id="sTheme" rendered="{!showThemeSelector}">
-			      		<div class="btns">
-							<apex:outputPanel rendered="{!siteTheme == 'Spirits'}">
-					            <a href="javascript:;" class="active btn">Spirits</a>
-					            <a href="javascript:;" class="btn last" styleClass="pointer" onclick="toggleToWine()">Wine</a>
-					            <!--  <a href="javascript:;" class="btn last">Beer</a> -->
-							</apex:outputPanel>
-							<apex:outputPanel rendered="{!siteTheme == 'Wine'}">
-					            <a href="javascript:;" class="btn"  styleClass="pointer" onclick="toggleToSpirits()">Spirits</a>
-					            <a href="javascript:;" class="active btn last">Wine</a>
-					            <!--  <a href="javascript:;" class="btn last">Beer</a> -->
-							</apex:outputPanel>
-						</div>
-					</apex:outputPanel>
-				</apex:form>
-			</div>
-			<apex:outputPanel rendered="{!showSearch}">
-	            <div class="search {!If(OR(isLoggedIn!=true, preview=='true') ,'hidden','')}">
-	                <apex:form >
-	                    <apex:actionFunction status="ajax-status" name="userSearch" action="{!userSearch}" rerender="messages, sValue"/>
-	                    <apex:outputPanel id="sValue">
-	                        <div>
-	                        	<apex:inputText value="{!searchPhrase}" styleClass="text"/>
-	                        	<a href="javascript:;" class="btn" onclick="userSearch(); return false;">GO</a>
-	                        </div>
-	                    </apex:outputPanel>
-	                </apex:form>
-	            </div>
-	        </apex:outputPanel>
-	    </div>
+        <div class="sfdc_link">
+            <div>
+                <apex:outputPanel rendered="{!showAvatar}">
+                    <a href="{!$Label.SalesforceHomePage}" class="gotoSF"><strong>Go To Salesforce</strong></a>
+                </apex:outputpanel>
+            </div>
+        </div>
+        <div class="logo_buttons_search">
+            <div>
+                <a href="{!$Page.HomePage}" class="box-link"><div class="logo">&nbsp;</div></a>
+                <apex:form >
+                    <apex:actionFunction status="ajax-status" name="toggleToWine" action="{!toggleToWine}"/>
+                    <apex:actionFunction status="ajax-status" name="toggleToSpirits" action="{!toggleToSpirits}"/>
+                    <apex:outputPanel id="sTheme" rendered="{!showThemeSelector}">
+                        <div class="btns">
+                            <apex:outputPanel rendered="{!siteTheme == 'Spirits'}">
+                                <a href="javascript:;" class="active btn">Spirits</a>
+                                <a href="javascript:;" class="btn last" styleClass="pointer" onclick="toggleToWine()">Wine</a>
+                                <!--  <a href="javascript:;" class="btn last">Beer</a> -->
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!siteTheme == 'Wine'}">
+                                <a href="javascript:;" class="btn"  styleClass="pointer" onclick="toggleToSpirits()">Spirits</a>
+                                <a href="javascript:;" class="active btn last">Wine</a>
+                                <!--  <a href="javascript:;" class="btn last">Beer</a> -->
+                            </apex:outputPanel>
+                        </div>
+                    </apex:outputPanel>
+                </apex:form>
+            </div>
+            <apex:outputPanel rendered="{!showSearch}">
+                <div class="search {!If(OR(isLoggedIn!=true, preview=='true') ,'hidden','')}">
+                    <apex:form >
+                        <apex:actionFunction status="ajax-status" name="userSearch" action="{!userSearch}" rerender="messages, sValue"/>
+                        <apex:outputPanel id="sValue">
+                            <div>
+                                <apex:inputText value="{!searchPhrase}" styleClass="text"/>
+                                <a href="javascript:;" class="btn" onclick="userSearch(); return false;">GO</a>
+                            </div>
+                        </apex:outputPanel>
+                    </apex:form>
+                </div>
+            </apex:outputPanel>
+        </div>
     </div>
    </apex:outputPanel>
    <!-- End : Changes for US507/TA918 - Jonathan Freese -->
     
     <!-- site theme select -->
-    <!-- Start : Changes for US507/TA918 - Jonathan Freese -->
-    <apex:outputPanel rendered="false">
-    <!-- End : Changes for US507/TA918 - Jonathan Freese -->
+    <!-- Start : Changes for US507/TA975 - Jonathan Freese (disable the theme selector)
     <div id="selectTheme" class="hidden dialog {!if(OR(siteTheme == null, siteTheme == ''), 'selectThemeRequired','')} ">
         <apex:outputPanel id="selectThemeHolder">
             <div class="themeSelectorWrapper">
@@ -1218,35 +1199,35 @@ Story/Task  : US79/TA1007
                     </div>        
                     <div class="themeSelectorContentWrapper">
                         <apex:form >
-							<apex:actionFunction status="ajax-status" name="changeSiteTheme" action="{!changeSiteTheme}" rerender="moreInfoError, selectThemeHolder"/>
-							<apex:inputText value="{!siteTheme}" id="themeWrapperSelector" styleClass="themeWrapperSelector hidden"/>
-                        	<div class="theme-box-wrapper">
-                        		<apex:repeat value="{!SiteThemes}" var="theme">
-					         		<div class="theme-page-box theme-page-box-{!theme['value']}" name="{!theme['value']}">
-					                    <div class="theme-page-box-title theme-page-box-title-{!theme['value']}">
-					                        <div class="theme-page-box-title-hidden-bg">&nbsp;</div>
-					                        <div class="theme-page-box-title-bg theme-page-box-title-bg-{!theme['value']}">&nbsp;</div>
-					                        <div class="theme-page-box-title-text">{!theme["label"]}</div>
-					                    </div>
-					                </div>
-                              	</apex:repeat>
-                              	<div class="clear-float"></div>
-                        	</div>
-                        	<div class="clear-float"></div>
-							<div class="theme-action-wrapper">
-								<div style="width: 50%; text-align: left; float: left; margin-top: 20px; font-size: 14px;">
-                            		&nbsp;&nbsp;Use as default: 
-                            		<apex:inputCheckbox value="{!isSiteThemeDef}"/>
-                            	</div>
-                            	<div style="width: 50%; text-align: right; float: right; margin-top: 14px;">
-                            		<button class="green" onclick="changeSiteTheme(); return false;">Go</button>&nbsp;
-                            	</div>
+                            <apex:actionFunction status="ajax-status" name="changeSiteTheme" action="{!changeSiteTheme}" rerender="moreInfoError, selectThemeHolder"/>
+                            <apex:inputText value="{!siteTheme}" id="themeWrapperSelector" styleClass="themeWrapperSelector hidden"/>
+                            <div class="theme-box-wrapper">
+                                <apex:repeat value="{!SiteThemes}" var="theme">
+                                    <div class="theme-page-box theme-page-box-{!theme['value']}" name="{!theme['value']}">
+                                        <div class="theme-page-box-title theme-page-box-title-{!theme['value']}">
+                                            <div class="theme-page-box-title-hidden-bg">&nbsp;</div>
+                                            <div class="theme-page-box-title-bg theme-page-box-title-bg-{!theme['value']}">&nbsp;</div>
+                                            <div class="theme-page-box-title-text">{!theme["label"]}</div>
+                                        </div>
+                                    </div>
+                                </apex:repeat>
+                                <div class="clear-float"></div>
+                            </div>
+                            <div class="clear-float"></div>
+                            <div class="theme-action-wrapper">
+                                <div style="width: 50%; text-align: left; float: left; margin-top: 20px; font-size: 14px;">
+                                    &nbsp;&nbsp;Use as default: 
+                                    <apex:inputCheckbox value="{!isSiteThemeDef}"/>
+                                </div>
+                                <div style="width: 50%; text-align: right; float: right; margin-top: 14px;">
+                                    <button class="green" onclick="changeSiteTheme(); return false;">Go</button>&nbsp;
+                                </div>
                             </div>
                         </apex:form>
                     </div>
                 </div>
         </apex:outputPanel>
     </div>
-    </apex:outputPanel>
+    -- End : Changes for US507/TA975 - Jonathan Freese (disable the theme selector) -->
 
 </apex:component>
