@@ -142,7 +142,7 @@ Story/Task  : US79/TA996
                                         <td>    
                                             <!-- START SHARE ICONS -->
 											<apex:outputPanel rendered="{!OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK'))}">
-                                            <div title="SHARE" class="cion box-cion-share pointer" onclick="userTryToShare('{!cvid1}'); userShareOverview('{!cvid1}');showDialog('shareInfo');">&nbsp;</div>
+                                            	<div title="SHARE" class="cion box-cion-share pointer" onclick="userTryToShare('{!cvid1}'); userShareOverview('{!cvid1}');showDialog('shareInfo');">&nbsp;</div>
 											</apex:outputPanel>
                                             <!-- END SHARE ICONS -->
                                         </td>
@@ -299,7 +299,6 @@ Story/Task  : US79/TA996
                             </apex:outputPanel>
                         </span> 
                     </apex:outputPanel>
-                    
                 </apex:outputPanel>
                 <apex:outputPanel rendered="{!isVideo1==true}">
                     <span onclick="addToDownloadCache('{!cvid1}');">
@@ -329,7 +328,6 @@ Story/Task  : US79/TA996
             </div>
             <apex:outputPanel rendered="{!if(showButons != false, 'true','false')}">
                 <div class="content-item-list-buttons hidden">
-				
                 <!-- Start: changes for TA918 Jonathan Freese (for URL links, disable download/share/preview and create launch) -->
                 <!-- LIST VIEW FOR ALL BUT CONTENT OF TYPE LINK (wider wrapper) -->
 				<apex:outputPanel rendered="{!OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK'))}">
@@ -360,7 +358,6 @@ Story/Task  : US79/TA996
                                                     <apex:outputPanel rendered="{!AND(!ISNULL(cvid1),ISNULL(cvidlow1),imageRes1=='Low')}">
                                                         <div title="Download LOW RES." class="cion list-cion-download pointer" href="/sfc/servlet.shepherd/version/download/{!cvid1}" onclick="addToDownloadCache('{!cvid1}');">&nbsp;</div>
                                                     </apex:outputPanel>
-                
                                                 </apex:outputPanel>
 												<apex:outputPanel rendered="{!AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1=='LINK')}">
 		                                            <!-- hack: add a space for URL links to balance having one empty td to the left vs 4 empty td to the right -->
@@ -371,7 +368,7 @@ Story/Task  : US79/TA996
                                             <td>    
                                                 <!-- START SHARE ICONS -->
 												<apex:outputPanel rendered="{!OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK'))}">
-                                                <div title="SHARE" class="cion list-cion-share pointer" onclick="userTryToShare('{!cvid1}'); userShareOverview('{!cvid1}');showDialog('shareInfo');">&nbsp;</div>
+                                                	<div title="SHARE" class="cion list-cion-share pointer" onclick="userTryToShare('{!cvid1}'); userShareOverview('{!cvid1}');showDialog('shareInfo');">&nbsp;</div>
                                                 </apex:outputPanel>
 												<!-- END SHARE ICONS -->
                                             </td>
