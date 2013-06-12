@@ -112,7 +112,7 @@
                     </div> 
                     
                     <!-- Filter by Tag -->
-                    <apex:actionFunction action="{!switchToTag}" name="showForTag" onComplete="location.href='BlogHome';">
+                    <apex:actionFunction action="{!switchToTag}" name="showForTag">
                         <apex:param id="aparam2" name="tag" value="" assignTo="{!filterByTag}"/>
                     </apex:actionFunction>
                                                       

@@ -1,3 +1,6 @@
+/*******************************************************************************
+Name        : Controller_SearchResult.cls
+*******************************************************************************/
 public with sharing class Controller_SearchResult extends Controller_Base {
 
     public Integer minNoOfChar {

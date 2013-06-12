@@ -1,6 +1,16 @@
+/*******************************************************************************
+Name        : Controller_Basket.cls
+
+ Updated By  : Basant Verma (Appirio Offshore)   
+ Date        : 6/12/13
+ Story/Task  : US79/DE569
+*******************************************************************************/
 public with sharing class Service_Notification {
 	
     public static void addFollow(list<ID> contentvIds){
+    	// Start : Changes for US79/DE569 by Basant Verma
+			Service_Follow.addFollow(contentvIds);
+			// End : Changes for US79/DE569 by Basant Verma
     	/*
     	try{
     		list<File__c> files1 = [select Id from File__c where Content_Version_Id__c in :contentvIds];
@@ -21,8 +31,9 @@ public with sharing class Service_Notification {
 
     
     public static Set<Id> getFollowIds(){
-    	Set<Id> contentIds = new Set<Id>();
-    	return contentIds;
+    	// Start : Changes for US79/DE569 by Basant Verma
+			return Service_Follow.getFollowIds();
+			// End : Changes for US79/DE569 by Basant Verma
     	/*
     	try{
 			Id userId = Service_API.getUID();
@@ -55,6 +66,9 @@ public with sharing class Service_Notification {
        
     
     public static void removeFollow(list<ID> contentvIds){
+    	// Start : Changes for US79/DE569 by Basant Verma
+			Service_Follow.removeFollow(contentvIds);
+			// End : Changes for US79/DE569 by Basant Verma
     	/*
     	try{
     		list<ID> contentIds = new list<Id>();

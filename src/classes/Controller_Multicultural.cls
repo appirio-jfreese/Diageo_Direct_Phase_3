@@ -1,3 +1,6 @@
+/*******************************************************************************
+Name        : Controller_Multicultural.cls
+*******************************************************************************/
 public with sharing class Controller_Multicultural  extends Controller_Base {
 
     // ******************

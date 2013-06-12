@@ -2,7 +2,7 @@
     <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.CollaborationPage, 'style'+siteTheme+'.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.jquery, 'customDatePicker.css')}"/> 
-     <style type="text/css">
+    <style type="text/css">
         body, html {
             overflow: hidden;
         }
@@ -12,6 +12,17 @@
         .ui-datepicker {
             z-index: 3000 !important;
         }
+		.readyToShowInvisible {
+		  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0) !important";
+		  filter: alpha(opacity=1) !important;
+		  -moz-opacity: 0.0 !important;
+		  -khtml-opacity: 0.0 !important;
+		  opacity: 0.0 !important;
+		}
+		.underlineText {
+			text-decoration: underline;
+		}
+		
     </style>    
     
     
@@ -26,6 +37,7 @@
  
         <!--  BREADCRUMB -->  
         <apex:outputPanel id="beadcrumblinks"> 
+        
             <c:pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}" showExtendedBreancrumbs="true" breadcrumbHolder="{!organizationalUnitBreadcrumbs}"/>
         </apex:outputPanel> 
             
@@ -70,14 +82,16 @@
                 </apex:actionFunction>
                 <apex:actionFunction status="ajax-status" name="renderAsList" action="{!renderAsList}" rerender="messages, beadcrumblinks, pageContent, uploadDialog, editDialog"/>                         
                 <apex:actionFunction status="ajax-status" name="renderAsBox" action="{!renderAsBox}" rerender="messages, beadcrumblinks, pageContent, uploadDialog, editDialog" oncomplete="calculateBoxHeight();"/>                            
-                <apex:actionFunction status="ajax-status" name="userAddComment" action="{!userAddComment}" rerender="messages, beadcrumblinks, addCommentDialog, uploadDialog, editDialog"/>                            
+                <apex:actionFunction status="ajax-status" name="userAddComment" action="{!userAddComment}" rerender="messages, beadcrumblinks, addCommentDialog, uploadDialog, editDialog">                            
+					<apex:param name="conversationFile" assignTo="{!currentConversationFileId}" value="" />
+                </apex:actionFunction>   
                 
                 <apex:outputPanel id="pageContent">
                     <script>
                         var folderIdSelected = '{!currentSection}';
                         var subFolderIdSelected = '{!currentSubSection}';
                     </script>
-                    <apex:outputPanel id="resultContent" rendered="{!IF(currentDistributorId != '', 'true', 'false')}"> 
+                    <apex:outputPanel id="resultContent" rendered="{!IF(currentDistributorId != '', 'true', 'false')}">
                         <apex:outputPanel rendered="{!IF(sectionFolders.dirs.size > 0, 'true', 'false')}">
                             <div class="section-navigation">
                                 <div class="section-wrapper">
@@ -145,7 +159,7 @@
                             <apex:outputPanel rendered="{!isAddCommentAllowed}">
                                 <div class="comment-wrapper">
                                     <div class="right">
-                                        <button class="green addComments" onclick="userAddComment(); showDialog('addCommentInfo');  return false;">Add Post</button>
+                                        <button class="green addComments" onclick="userAddComment(''); jQuery('#addCommentInfo').addClass('readyToShowInvisible'); showDialog('addCommentInfo', true); return false;">Add Post</button>
                                     </div>
                                     <div class="left comment-wrapper-spacer">
                                         <div class="comment-holder">
@@ -159,8 +173,11 @@
                                                             </apex:outputText>
                                                         </span><br/>
                                                         <span class="comment-body">{!comment.Comment_Body__c}</span>
-                                                        <apex:outputPanel rendered="{!AND(!ISNULL(comment.File__r.Description__c))}">
-                                                            <br/><span class="reference">Reference to: <a href="/sfc/servlet.shepherd/version/download/{!comment.File__r.Content_Version_Id__c}" onclick="pageViewed('Collaboration - {!comment.File__r.Description__c}');">{!comment.File__r.Description__c}</a></span>
+                                                        <apex:outputPanel rendered="{!AND(!ISNULL(comment.File__r.Id))}">
+                                                            <br/><span class="reference">Reference to: <a href="/sfc/servlet.shepherd/version/download/{!comment.File__r.Content_Version_Id__c}" onclick="pageViewed('Collaboration - {!comment.File__r.Description__c}');">{!comment.File__r.Description__c}</a> <br/><span class="comment-header pointer underlineText" onclick="userAddComment('{!comment.File__r.Id}'); jQuery('#addCommentInfo').addClass('readyToShowInvisible'); showDialog('addCommentInfo', true); ">Show all conversation</span></span>
+                                                        </apex:outputPanel>
+                                                        <apex:outputPanel rendered="{!AND(ISNULL(comment.File__r.Id))}">
+                                                            <br/><span class="reference"><span class="comment-header pointer underlineText" onclick="userAddComment(''); jQuery('#addCommentInfo').addClass('readyToShowInvisible'); showDialog('addCommentInfo', true); ">Show all conversation</span></span>
                                                         </apex:outputPanel>
                                                     </div>
                                                 </apex:repeat>
@@ -174,32 +191,25 @@
                             </apex:outputPanel>
                         </div>
                         <div class="float-left" style="width: {!IF(isAddCommentAllowed, '630','940')}px;">
-                            <div id="downloadAllInfo" class="hidden dialog" >
-                                <c:downloadAll content="{!contentList}" isFileObject="true"/>
-                            </div>
-                            <apex:repeat value="{!headers}" var="headerKey" id="headersRepeat">
-                                <div class="sub-header">{!headerKey}</div>
-                                <apex:outputPanel rendered="{!OR(ISNULL(contentMap[headerKey]),contentSize=0)}">
-                                    <div class="content-no-items-msg">No items.</div>
-                                </apex:outputPanel>
-                                <apex:outputPanel rendered="{!AND(!ISNULL(contentMap[headerKey]),contentSize!=0)}">
-                                    <apex:repeat value="{!contentHolderMap[headerKey]}" var="contentItem">
-                                        
-                                        <!-- Start: Changes for TA993 Parul Gupta (Appirio Offshore) -->
-                                        <!--  Just updated new attribute value for attribute allowFileEdit -->
-                                        <apex:outputPanel rendered="{!if(displayAsList != true,'true','false')}">
-                                           <c:contentItem followIds="{!currentFollowIds}" allowFileEdit="{!allowFileEdit}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" width="301" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true"/>
-                                        </apex:outputPanel>
-                                        <apex:outputPanel rendered="{!if(AND(displayAsList = true, isAddCommentAllowed = false),'true','false')}"> 
-                                            <c:contentItem showButons="true" followIds="{!currentFollowIds}" allowFileEdit="{!allowFileEdit}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" renderAsList="true" displayUploadDate="true" lastLoginDateItem="{!lastLoginDate}" />
-                                        </apex:outputPanel>
-                                        <apex:outputPanel rendered="{!if(AND(displayAsList = true, isAddCommentAllowed = true),'true','false')}"> 
-                                            <c:contentItem showButons="false" followIds="{!currentFollowIds}" allowFileEdit="{!allowFileEdit}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" renderAsList="true" displayUploadDate="true" lastLoginDateItem="{!lastLoginDate}" />
-                                        </apex:outputPanel>
-    
-                                    </apex:repeat>
-                                    <div class="clear-float"></div>
-                                </apex:outputPanel>
+	                        <div id="downloadAllInfo" class="hidden dialog" >
+	                            <c:downloadAll content="{!contentList}" isFileObject="true"/>
+	                        </div>
+		                    <apex:repeat value="{!headers}" var="headerKey" id="headersRepeat">
+	                            <div class="sub-header">{!headerKey}</div>
+	                            <apex:outputPanel rendered="{!OR(ISNULL(contentMap[headerKey]),contentSize=0)}">
+	                                <div class="content-no-items-msg">No items.</div>
+	                            </apex:outputPanel>
+	                            <apex:outputPanel rendered="{!AND(!ISNULL(contentMap[headerKey]),contentSize!=0)}">
+	                                <apex:repeat value="{!contentHolderMap[headerKey]}" var="contentItem">
+	                                    <apex:outputPanel rendered="{!if(displayAsList != true,'true','false')}">
+	                                       <c:contentItem followIds="{!currentFollowIds}" numberOfComments="{!contentComments[contentItem.contentId]}" allowFileConversation="{!isAddCommentAllowed}" allowFileEdit="{!allowFileEdit}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" width="301" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true"/>
+	                                    </apex:outputPanel>
+	                                    <apex:outputPanel rendered="{!if(displayAsList = true,'true','false')}"> 
+	                                        <c:contentItem followIds="{!currentFollowIds}" numberOfComments="{!contentComments[contentItem.contentId]}" allowFileConversation="{!isAddCommentAllowed}" allowFileEdit="{!allowFileEdit}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" renderAsList="true" displayUploadDate="true" lastLoginDateItem="{!lastLoginDate}"/>
+	                                    </apex:outputPanel>
+	                                </apex:repeat>
+                                   <div class="clear-float"></div>
+                               </apex:outputPanel>
                             </apex:repeat>
                             <c:pagination totalNumberOfPages="{!numberOfPages}" isNewContent="{!isNewContent}" pageNumbers="{!pageNumbers}" numberOfCurrentPage="{!numberOfCurrentPage}" />
                         </div>
@@ -281,7 +291,7 @@
 
         <div id="addCommentInfo" class="hidden dialog" >
             <apex:outputPanel id="addCommentDialog" rendered="{!AND(!ISNULL(requestedFolder))}">
-                <c:addComment distributorId="{!currentDistributorId}" folderId="{!requestedFolder}" fileOptions="{!fileOptions}"/>
+                <c:addComment distributor="{!currentDistributor}" distributorId="{!currentDistributorId}" folderName="{!requestedFolderName}" folderId="{!requestedFolder}" fileId="{!currentConversationFileId}" isInternalUser="{!isInternalUser}"/>
             </apex:outputPanel>
         </div>                              
 
@@ -331,9 +341,10 @@
             jQuery("div.item-description", elem).css('bottom', -bottomValue+"px");
          });
     }
+    
     function bindJs(){
         var isiPad = navigator.userAgent.match(/iPad/i) != null;
-                    
+        jQuery('#addCommentInfo').removeClass('readyToShowInvisible');            
         if( isiPad == true){
             jQuery("div.content-item-list-description").live('touchstart', function(){
                 jQuery("div.content-item-list-buttons").addClass("hidden");
@@ -342,12 +353,19 @@
             });
         }
         
+        if(!jQuery(".file-comment-holder").hasClass('js-scroll')){
+            jQuery(".file-comment-holder").jScrollPane();
+            jQuery(".file-comment-holder").addClass('js-scroll');
+            jQuery('.file-comment-content').last().css('border-color', 'transparent');
+        }
+
         if(!jQuery(".comment-holder").hasClass('js-scroll')){
             jQuery(".comment-holder").jScrollPane();
             jQuery(".comment-holder").addClass('js-scroll');
         }
 
         calculateBoxHeight();
+        
         jQuery('.extrabreadcrumbs').each(function(){
             var wdth = jQuery(this).find('.button-bread').width();
             jQuery(this).find('.breadcrumbs-wrapper-ext').css('width', wdth+5);
@@ -407,6 +425,7 @@
                     return;
                 }
                 showDialog('ajaxLoader');
+                
                 Controller_BaseRemote.getDistributorsForOrgUnit(geographyUpload, function(data, event){
                     if (event.status) {
                         // clear current selectbox

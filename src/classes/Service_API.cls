@@ -1,6 +1,10 @@
 /**
 *
 * Updated By  : Basant Verma (Appirio Offshore)   
+* Date        : 5/27/13
+* Story/Task  : US79/DE565 
+*
+* Updated By  : Basant Verma (Appirio Offshore)   
 * Date        : 6/31/13
 * Story/Task  : US503/TA906/TA907/TA908
 *   
@@ -101,7 +105,8 @@ public without sharing class Service_API {
     */
      public static Integer getUserNumberOfItemsPerPage(){
             // Start : Changes for TA920 - Basant Verma 
-            if(ApexPages.currentPage().getParameters().containsKey('toggled')){
+            // Chnaged for US79/DE565 : to Checked ApexPages.currentPage() for NULL
+                if(ApexPages.currentPage() != null && ApexPages.currentPage().getParameters().containsKey('toggled')){
                 siteThemeDefault = ApexPages.currentPage().getParameters().get('toggledThemeDef');
             siteTheme = ApexPages.currentPage().getParameters().get('toggledTheme');
                 userNumberOfItemsPerPage = ApexPages.currentPage().getParameters().get('toggledNum');
@@ -133,7 +138,8 @@ public without sharing class Service_API {
     */
      public static String getSectionTheme(){
             // Start : Changes for TA920 - Basant Verma 
-            if(ApexPages.currentPage().getParameters().containsKey('toggled')){
+            // Chnaged for US79/DE565 : to Checked ApexPages.currentPage() for NULL
+                if(ApexPages.currentPage() != null && ApexPages.currentPage().getParameters().containsKey('toggled')){
                 siteThemeDefault = ApexPages.currentPage().getParameters().get('toggledThemeDef');
             siteTheme = ApexPages.currentPage().getParameters().get('toggledTheme');
                 userNumberOfItemsPerPage = ApexPages.currentPage().getParameters().get('toggledNum');
@@ -186,7 +192,8 @@ public without sharing class Service_API {
     */
      public static String getSectionThemeDefault(){
             // Start : Changes for TA920 - Basant Verma 
-        if(ApexPages.currentPage().getParameters().containsKey('toggled')){
+                // Chnaged for US79/DE565 : to Checked ApexPages.currentPage() for NULL
+                if(ApexPages.currentPage() != null && ApexPages.currentPage().getParameters().containsKey('toggled')){
                 siteThemeDefault = ApexPages.currentPage().getParameters().get('toggledThemeDef');
             siteTheme = ApexPages.currentPage().getParameters().get('toggledTheme');
                 userNumberOfItemsPerPage = ApexPages.currentPage().getParameters().get('toggledNum');
@@ -2294,6 +2301,40 @@ public without sharing class Service_API {
     
     /**
     * @author Bartosz Dudziak
+    * @date 10/05/2013
+    * @description Get list of file comments.
+    * @return List<Folder_Comment__c> A list of comments.
+    */
+    public static List<Folder_Comment__c> getFileComments(String distributor, String folder, String file){
+          return [
+              SELECT Id, Name, Comment_Body__c, Distributor_Access__c, Distributor_Name__r.Name, File__r.Description__c, File__r.Content_Version_Id__c, Folder__c, LastModifiedDate, LastModifiedBy.name, OwnerID 
+                FROM Folder_Comment__c
+                WHERE Distributor_Access__c =: distributor 
+                    AND Folder__c =: folder AND Classification__c = :getSectionTheme()
+                    AND File__c = :file
+                ORDER BY LastModifiedDate DESC
+        ];
+    }
+    /**
+    * @author Bartosz Dudziak
+    * @date 10/05/2013
+    * @description Get file comment.
+    * @return Folder_Comment__c file comment.
+    */
+    public static Folder_Comment__c getFileComment(String distributor, String folder, String file, String comment){
+          return [
+              SELECT Id, Name, Comment_Body__c, Distributor_Access__c, Distributor_Name__r.Name, File__r.Description__c, File__r.Content_Version_Id__c, Folder__c, LastModifiedDate, LastModifiedBy.name, OwnerID 
+                FROM Folder_Comment__c
+                WHERE Distributor_Access__c =: distributor 
+                    AND Folder__c =: folder AND Classification__c = :getSectionTheme()
+                    AND File__c = :file
+                    AND id = :comment
+                LIMIT 1
+        ];
+    }
+    
+    /**
+    * @author Bartosz Dudziak
     * @date 24/11/2011
     * @description Get child folders.
     * @return List<Folder> A list of Folders
@@ -2606,6 +2647,20 @@ public without sharing class Service_API {
         getAllChildOUr(parentIds);
     }
     
+    // Start : Changes for US503/TA907 - Randy
+    /**
+    * @author Randy Wandell
+    * @Story US503/TA907
+    * @description It will return all Blogs and it's related lists filtered by current Theme and tags 
+    */
+        public static List<Blog__c> getBlogRecords(List<String> fromUrl, List<String> blogTags, String theme){
+            String tempSiteTheme = siteTheme;
+            siteTheme = theme;
+            List<Blog__c> blogRecords = getBlogRecords(fromUrl, blogTags);
+            siteTheme = tempSiteTheme;
+            return blogRecords;
+        }
+        
     // Start : Changes for US503/TA907 - Basant
     /**
     * @author Basant Verma
@@ -2623,7 +2678,7 @@ public without sharing class Service_API {
                 soql += 'AND Id IN ( Select Blog__c From Blog2Tag__c Where ' +
                     ' Tag__r.Tag__c IN :blogTags )'; 
             }
-            soql += ' ORDER BY CreatedDate';
+            soql += ' ORDER BY StartDate__c DESC';
             System.debug('================= SOQL : '+soql);
             System.debug('================= blogTags : '+blogTags);
             System.debug('================= siteTheme : '+siteTheme);
@@ -2667,13 +2722,47 @@ public without sharing class Service_API {
             return blgWithB2bSecurity;
         }
         
-        /**
+    /**
     * @author Basant Verma
     * @Story US503/TA907
     * @description Returns all available tags
     */
-        public static List<Tag__c> getAllTags(){
-            return [Select Id, Name, Type__c, Tag__c From Tag__c];
+    public static List<Tag__c> getAllTags(){
+        return [Select Id, Name, Type__c, Tag__c From Tag__c];
+    }
+    // End : Changes for US503/TA907 - Basant
+    
+    /**
+    * @author Basant Verma
+    * @Story US85/DE576
+    * @description Return a list of sObject Records
+    * It will be helpfull when we fec the error 'Too many query rows: 50001' 
+    */
+    public static List<sObject> queryRecords(String soql, Map<String, sObject> paramMap){
+        List<sObject> allRecords = new List<sObject>();
+        if(soql != null && !soql.trim().equals('')){
+	        boolean flag = true;
+	        Integer lastFromIndex = soql.lastIndexOfIgnoreCase(' FROM ')+6;
+	        Integer grpByIndex = soql.indexOfIgnoreCase(' GROUP BY ', lastFromIndex);
+	        Integer ordByIndex = soql.indexOfIgnoreCase(' ORDER BY ', lastFromIndex);
+	        Integer whereIndex = soql.indexOfIgnoreCase(' WHERE ', lastFromIndex);
+	        if( grpByIndex > 0 )
+	        	soql = soql.substring(0, grpByIndex) + (whereIndex > 0 ? ' AND ' : ' WHERE ') + ' Id NOT IN :allRecords ' +  soql.substring(grpByIndex);
+	        else if( ordByIndex > 0 )
+	        	soql = soql.substring(0, ordByIndex) + (whereIndex > 0 ? ' AND ' : ' WHERE ') + ' Id NOT IN :allRecords ' +  soql.substring(ordByIndex);
+	        else
+	        	soql = soql.substring(0, ordByIndex) + (whereIndex > 0 ? ' AND ' : ' WHERE ') + ' Id NOT IN :allRecords ' +  soql.substring(ordByIndex);
+	        
+	        soql += ' LIMIT 5000';
+	        
+	        while(flag){
+	        	List<sObject> records = Database.query(soql);
+	        	if(records != null && records.size() > 0)
+	        		 allRecords.addAll(records);
+	        	else
+	        		flag = false;
+	        }
         }
-        // End : Changes for US503/TA907 - Basant
+        return allRecords;
+    }
 }

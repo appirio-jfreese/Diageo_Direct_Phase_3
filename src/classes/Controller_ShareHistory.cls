@@ -1,3 +1,6 @@
+/*******************************************************************************
+Name        : Controller_ShareHistory.cls
+*******************************************************************************/
 public with sharing class Controller_ShareHistory extends Controller_Base {
     
     public List<Share_cache__c> content {public get; protected set;}
@@ -161,7 +164,8 @@ public with sharing class Controller_ShareHistory extends Controller_Base {
             }
                 
             currentBasketIds = Service_Basket.getBasketIds();
-			currentFollowIds = Service_Notification.getFollowIds();
+						currentFollowIds = Service_Notification.getFollowIds();
+
 			
             contentDate = new Map<Id, DateTime>();
             for(Share_cache__c basket : content){

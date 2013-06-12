@@ -39,6 +39,7 @@ private class Test_Service_ContentItem {
         Boolean inFollow = sci.inFollow;
         Date getcreatedDate2 = sci.getcreatedDate2();
         Boolean getisNew = sci.getisNew();
+        String id = sci.cid;
         sci.setlastLoginDateItem(getcreatedDate2);
     }
     

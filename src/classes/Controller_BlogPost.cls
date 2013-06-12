@@ -40,13 +40,7 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     private Set<String> monthSet(DateTime startDate, DateTime endDate){
         Set<String> mSet = new Set<String>();
         if(startDate != null && endDate != null){
-            if(startDate.month() != endDate.month() && startDate.year() != endDate.year()){
-                mSet.add(getMonthName(endDate.year(), endDate.month()));
-            }
-            while(startDate < endDate){
-                mSet.add(getMonthName(startDate.year(), startDate.month()));
-                startDate = startDate.addMonths(1);
-            }
+            mSet.add(getMonthName(startDate.year(), startDate.month()));
         }
         return mSet;
     }
@@ -107,6 +101,10 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     public String newCommentText = '';
     public String filterByTag { get; set; }
     public Map<Id, List<Comment__c>> blogComments { get; set; }
+    public String theme { get; set; }
+    public String archive { get; set; }
+    public String startDate { get; set; }
+    public String endDate { get; set; }
     
     // Start For TA906
     // Return a list of Select Option for Dislpay Option, Current Selected Value is stored in 'blogFormat'
@@ -141,40 +139,56 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     
     // Called when User Click on A single blog Title/ReadMore link to open Detail Page
     public Pagereference openBlogDetail(){
-        Integer iCount = 0;
-        System.Debug('<----- clickedBlogId: ' + clickedBlogId + ' ----->');
-        for(Blog__c b : blogPosts){
-            if(b.Id == clickedBlogId)
-                break;
-            iCount++;
-        }
-        iCount = (currPage-1)*blogCount + iCount;
-
         Pagereference pr = Page.BPDetails;
-        pr.getParameters().put('BlogPostIndex', String.valueOf(iCount));
-        pr.getParameters().put('rtUrl', currentUserPage());
-        pr.getParameters().put('blogTagsParam', blogTagsUrlPram());
+        pr.getParameters().put('blogId',clickedBlogId);
         pr.setRedirect(true);
         return pr;
-        
     }
     
     // Prepare Data for Current Page
     public List<Blog__c> getCurrentPageData(boolean loadAnyway){
+        Date beginningDate = Date.today();
+        Date endingDate = Date.today();
+        
         if(ApexPages.currentPage().getParameters().containsKey('blogTagsParam')){
             blogTags = blogTagsFromUrlPram(ApexPages.currentPage().getParameters().get('blogTagsParam'));
-        }    
+        }
         List<Blog__c> currData = new List<Blog__c>();
         if(blogCount == null || blogCount == 0)
             blogCount = 5;
         if(pageCount == null || pageCount == 0)
             pageCount = 0;
         if(currPage == null || currPage == 0)
-            currPage = 1;   
-        if(allBlogPosts == null || loadAnyway){
+            currPage = 1;
+        if(startDate == null) {
+            Date myDate = Date.today();
+            beginningDate = beginningDate.toStartOfMonth();
+            endingDate = beginningDate.addMonths(1);
+        } else {
+            beginningDate = date.parse(startDate);
+            beginningDate = beginningDate.toStartOfMonth();
+            endingDate = beginningDate.addMonths(1);
+        }
+        if((allBlogPosts == null || loadAnyway) && theme == null ){
             allBlogPosts = Service_API.getBlogRecords(blogUrls, blogTags);
             pageCount = (Integer)Math.ceil(Double.valueOf(String.valueOf(allBlogPosts.size()))/blogCount); 
         }
+        
+        if((allBlogPosts == null || loadAnyway) && theme != null ){
+            allBlogPosts = Service_API.getBlogRecords(blogUrls, blogTags, theme);
+            pageCount = (Integer)Math.ceil(Double.valueOf(String.valueOf(allBlogPosts.size()))/blogCount); 
+        }
+        
+        List<Blog__c> dateSubset = new List<Blog__c>();
+        for(Blog__c blog : allBlogPosts) {
+            if(blog.StartDate__c >= beginningDate && blog.StartDate__c < endingDate) {
+                dateSubset.add(blog);
+            }
+        }
+        
+        allBlogPosts = dateSubset;
+       
+        pageCount = (Integer)Math.ceil(Double.valueOf(String.valueOf(allBlogPosts.size()))/blogCount);
         
         Integer currStart = (currPage-1)*blogCount;
         Integer currEnd = ((currStart + blogCount)>allBlogPosts.size()) 
@@ -182,13 +196,20 @@ public without sharing class Controller_BlogPost extends Controller_Base{
         
         System.Debug('<----- currStart: ' + currStart + ' ----->');
         System.Debug('<----- currEnd: ' + currEnd + ' ----->');
+        
+        
         for(Integer iCount=currStart; iCount<currEnd; iCount++){
             currData.add(allBlogPosts.get(iCount));
         }
+        
+        blogPosts = currData;
+        
         return currData;
     }
     
     public PageReference showForTag() {
+        theme = null;
+        
         blogTags = new List<String>();
         blogTags.add(filterByTag);
         
@@ -207,7 +228,61 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     }
     
     public PageReference switchToTag() {
+        theme = null;
+        Pagereference pr = Page.BlogHome;
+        pr.getParameters().put('filterByTag',filterbyTag);
+        pr.setRedirect(true);
+        return pr;
+    }
+    
+    public PageReference switchToTheme() {
+        blogTags = new List<String>();
+        blogUrls = new List<String>();
         
+        blogCount = null;
+        pageCount = null;
+        currPage = null;
+
+        System.Debug('<----- filterByTag: ' + filterByTag + ' ----->');
+        System.Debug('<----- blogTags: ' + blogTags + ' ----->');
+        System.Debug('<----- blogUrls: ' + blogUrls + ' ----->');
+        blogPosts = getCurrentPageData(true);                  
+
+        return null;     
+    }
+    
+    public PageReference switchToArchive() {
+        String arcMonth = archive.substring(0,archive.indexOf(' '));
+        archive = archive.substring(archive.indexOf(' ') + 1);
+        String arcYear = archive.substring(0,archive.indexOf(' '));
+        
+        if(arcMonth == 'January') { arcMonth = '01'; }
+        else if(arcMonth == 'February') { arcMonth = '02'; }
+        else if(arcMonth == 'March') { arcMonth = '03'; }
+        else if(arcMonth == 'April') { arcMonth = '04'; }
+        else if(arcMonth == 'May') { arcMonth = '05'; }
+        else if(arcMonth == 'June') { arcMonth = '06'; }
+        else if(arcMonth == 'July') { arcMonth = '07'; }
+        else if(arcMonth == 'August') { arcMonth = '08'; }
+        else if(arcMonth == 'September') { arcMonth = '09'; }
+        else if(arcMonth == 'October') { arcMonth = '10'; }
+        else if(arcMonth == 'November') { arcMonth = '11'; }
+        else if(arcMonth == 'December') { arcMonth = '12'; }
+        
+        startDate = arcMonth + '/01/' + arcYear;
+        
+        blogTags = new List<String>();
+        blogUrls = new List<String>();
+        
+        blogCount = null;
+        pageCount = null;
+        currPage = null;
+
+        System.Debug('<----- filterByTag: ' + filterByTag + ' ----->');
+        System.Debug('<----- blogTags: ' + blogTags + ' ----->');
+        System.Debug('<----- blogUrls: ' + blogUrls + ' ----->');
+        blogPosts = getCurrentPageData(true); 
+                
         return null;
     }
     
@@ -219,19 +294,15 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     
     // Navigate to Previous Page
     public Pagereference previousPage(){
-//        if(currPage > 1){
-            currPage--;
-            blogPosts = getCurrentPageData(false);
-//        }
+        currPage--;
+        blogPosts = getCurrentPageData(false);
         return null;
     }
     
     // Navigate to Next Page
     public Pagereference nextPage(){
-//        if(currPage < pageCount){
-            currPage++;
-            blogPosts = getCurrentPageData(false);
-//        }
+        currPage++;
+        blogPosts = getCurrentPageData(false);
         return null;
     }
     
@@ -266,6 +337,16 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     public Blog__c blogItem {public get; protected set;} // Current Blog Record
     public Comment__c newComment {public get; protected set;} // New Comment can be made by user through UI
     
+    // Process any filters passed from another page before displaying the list
+    public PageReference processFilters() {
+        if(ApexPages.currentPage().getParameters().get('filterByTag') != null){
+            filterByTag = ApexPages.currentPage().getParameters().get('filterByTag');
+            System.Debug('<----- processFilters:filterByTag: ' + filterByTag + ' ----->');
+            showForTag();
+        }
+        return null;
+    }
+    
     // Called whne Detail Page Loaded first Time just After Clicking on a Blog from List
     public PageReference initBPDetails() {
     
@@ -273,28 +354,20 @@ public without sharing class Controller_BlogPost extends Controller_Base{
         pageUrl = Page.BPDetails.getUrl();
         
         System.Debug('<----- pageUrl: ' + pageUrl + ' ----->');
-        if(ApexPages.currentPage().getParameters().containsKey('blogTagsParam')){
-            blogTags = blogTagsFromUrlPram(ApexPages.currentPage().getParameters().get('blogTagsParam'));
-            blogPosts = getCurrentPageData(true);
+      
+        if(ApexPages.currentPage().getParameters().get('blogId') != null){
+            String blogId = ApexPages.currentPage().getParameters().get('blogId');
+            
+            String myQuery = 'Select Id, Name, AllowComments__c, Detail__c, EndDate__c, ' + 
+                ' StartDate__c, Sub_Title__c, Summary__c, Theme__c, CreatedById, CreatedBy.Name, CreatedDate, ' + 
+                ' (Select Id, Comment__c, CreatedById, CreatedBy.Name, CreatedDate From Comment__r Order By CreatedDate), ' + 
+                ' (Select Id, Tag__c, Tag__r.Name From Blog2Tag__r), ' + 
+                ' (Select Id, Brand__c, Brand__r.Name, Brand__r.Brand_Type__c From Blog2Brand__r) ' + 
+                ' From Blog__c Where ID =: blogId';
+            
+            blogItem = Database.query(myQuery);                    
         }
-        if(ApexPages.currentPage().getParameters().get('BlogPostIndex') != null){
-            try {
-                bpIndex = Integer.valueOf(ApexPages.currentPage().getParameters().get('BlogPostIndex')); 
-                blogItem = allBlogPosts.get(bpIndex);
-                newComment = new Comment__c();
-            } 
-            catch( Exception err ){
-                bpIndex = 0;
-                ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to load details.'));
-                return new PageReference(backToBlogPostsUrl);
-            }       
-        }
-        if(ApexPages.currentPage().getParameters().get('rtUrl') != null){
-            backToBlogPostsUrl = ApexPages.currentPage().getParameters().get('rtUrl');
-        }
-        
-        addBreadcrumbItem(backToBlogPostsUrl, 'Previous Page');
-        
+      
         return null;
     }
   

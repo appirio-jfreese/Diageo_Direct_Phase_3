@@ -5,6 +5,10 @@ Updated By  : Basant Verma (Appirio Offshore)
 Date        : 6/10/13
 Description	: Test Class which provide code coverage for 
 									Controller_Follow.cls and Service_Follow  
+									
+Updated By  : Basant Verma (Appirio Offshore)   
+Date        : 6/12/13
+Story/Task  : US79/DE569
 *******************************************************************************/
 @isTest
 private class Test_ControllerFollow {
@@ -76,8 +80,23 @@ private class Test_ControllerFollow {
             //remove multiple
             cFollow.removeFromFollowMultiple();
             System.assertEquals(1, Service_Follow.getNumberOfItems());
-
-
+            
+            // Start : Changes for US79/DE569 by Basant Verma
+            // For Service Notification 
+            // add single
+            cFollow.cVersionId = contentB.Content_Version_Id__c;
+            List<Id> cvIds = new List<Id>();
+            cvIds.add(cFollow.cVersionId);
+            Service_Notification.addFollow(cvIds);
+            System.assertEquals(2, Service_Follow.getNumberOfItems());
+            
+            //remove single
+            cvIds = new List<Id>();
+            cvIds.add(cFollow.cVersionId);
+            Service_Notification.removeFollow(cvIds);
+            System.assertEquals(1 , Service_Notification.getFollowIds().size());
+						// End : Changes for US79/DE569 by Basant Verma
+						
             Service_Follow.getNumberOfItems();
 
             cFollow.showFirstPage();

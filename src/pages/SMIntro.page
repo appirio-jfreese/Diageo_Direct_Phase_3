@@ -61,7 +61,7 @@ Story/Task  : US503/TA907
                     </div>
                 </apex:repeat>
                 <!-- START : Changes for : TA907 -->
-                    <c:blogPost format="Titles" isLoggedIn="{!isLoggedIn}" url="" singleTag="Location:selling-materials" id="blogPostComp"/>
+                    <c:blogPost format="Titles" isLoggedIn="{!isLoggedIn}" url="" singleTag="Location:selling-materials" id="blogPostComp"/> 
                 <!-- END : Changes for : TA907 -->
             </div>
         </div>

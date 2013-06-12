@@ -850,6 +850,7 @@ global without sharing class Service_UploadFile {
             return pr;
         }
         catch (Exception ex) {
+        	system.debug('File upload exception==============='+ex);
             ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to upload files. Please re-select Your files again.'));
             isError = true;
             database.rollback(sp);

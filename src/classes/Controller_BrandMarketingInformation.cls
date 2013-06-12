@@ -699,7 +699,7 @@ public with sharing class Controller_BrandMarketingInformation extends Controlle
 			}
 			if(!Test.isRunningTest()){
 				currentBasketIds = Service_Basket.getBasketIds();
-	            currentFollowIds = Service_Notification.getFollowIds();
+				currentFollowIds = Service_Notification.getFollowIds();
 			}
 				} catch( Exception err ){
 	        ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to load content.'));

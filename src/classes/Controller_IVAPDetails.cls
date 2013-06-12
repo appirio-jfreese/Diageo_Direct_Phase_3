@@ -1,3 +1,6 @@
+/*******************************************************************************
+Name        : Controller_IVAPDetails.cls
+*******************************************************************************/
 public with sharing class Controller_IVAPDetails extends Controller_Base {
 
 	// display as list (true) or box (false)

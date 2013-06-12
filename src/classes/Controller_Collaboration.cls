@@ -1,5 +1,7 @@
 public without sharing class Controller_Collaboration extends Controller_Base {
     public class CollaborationException extends Exception {}
+
+	public String currentConversationFileId {get;set;}
     
 	private list<Account> distributors;
 	private list<Organizational_Unit__c> organizationalUnits;
@@ -13,13 +15,12 @@ public without sharing class Controller_Collaboration extends Controller_Base {
 	public String currentDivision {get; set;}
 	public String currentDistributor {get; set;}
     public String currentDistributorId {get; set;}
-    
    	public Id organizationalHierarchy{
    		get { return currentOrganizationalUnit;} set;
    	}
    	public String organizationalHierarchyName{
 		get {
-			if(organizationalUnitBreadcrumbs.organizationalUnitsMap.containsKey(currentOrganizationalUnit)){ 
+			if(organizationalUnitBreadcrumbs.organizationalUnitsMap.containsKey(currentOrganizationalUnit)){ 				
 				return organizationalUnitBreadcrumbs.organizationalUnitsMap.get(currentOrganizationalUnit).Name;
 			} else {
 				return '';
@@ -31,6 +32,7 @@ public without sharing class Controller_Collaboration extends Controller_Base {
       
     private String mainFoldername = '';
     public Map<String, List<AggregateResult>> contentMap {get; protected set;}
+    public Map<String, String> contentComments {get; protected set;}
     public MAP<string, List<AggregateResultHolder>> contentHolderMap {
     	get {
     		MAP<string, List<AggregateResultHolder>> contentHolder1 = new MAP<string, List<AggregateResultHolder>>();
@@ -40,6 +42,7 @@ public without sharing class Controller_Collaboration extends Controller_Base {
 		    		for(AggregateResult ar : contentMap.get(key)){
 		    			AggregateResultHolder tmp = new AggregateResultHolder();
 		    			tmp.result = ar;
+		    			tmp.contentId = String.valueOf(ar.get('id'));
 		    			tmpList.add(tmp);
 		    		}
 		    		contentHolder1.put(key,tmpList);
@@ -133,10 +136,10 @@ public without sharing class Controller_Collaboration extends Controller_Base {
     public Boolean displayAsList {get; set;}	
     public Boolean isAddCommentAllowed {get; protected set;}	
     public Boolean isUploadFileAllowed {get; protected set;}
-	public Boolean isUserAllowedToUploadFile {get; protected set;}
-	
-	public Boolean allowFileEdit {get; protected set;}
-    
+		public Boolean isUserAllowedToUploadFile {get; protected set;}
+		// Start : TA993 : Parul Gupta (Appirio Offshore)
+    public Boolean allowFileEdit {get; protected set;}
+    // End : TA993 : Parul Gupta (Appirio Offshore)
     public Controller_Collaboration() {
 		try {
 			pageUrl = Page.Collaboration.getUrl();
@@ -160,16 +163,18 @@ public without sharing class Controller_Collaboration extends Controller_Base {
 			isAddCommentAllowed = false;
 			isUploadFileAllowed = false;
 			isUserAllowedToUploadFile = [select Collaboration_Upload_Allowed__c from user where id = :Service_API.getUID()].Collaboration_Upload_Allowed__c;
-	        
-	        // TA993 : Parul Gupta (Appirio Offshore)
-	        // Added new attribute allowFileEdit to allow Diageo Employees
-	        // to delete, rename, and replace existing files if they have access to upload section.
-	        if(isUserAllowedToUploadFile){
-	        	allowFileEdit = true;
-	        }else{
-	        	allowFileEdit = false;
-	        }
-	        currentDivision = '';
+			
+			// Start : TA993 : Parul Gupta (Appirio Offshore)
+	    	// Added new attribute allowFileEdit to allow Diageo Employees
+	    	// to delete, rename, and replace existing files if they have access to upload section.
+	    	if(isUserAllowedToUploadFile){
+	    		allowFileEdit = true;
+	    	}else{
+	    		allowFileEdit = false;
+	    	}
+	    	// END : TA993 : Parul Gupta (Appirio Offshore)
+	    	
+	      	currentDivision = '';
 		    currentDistributor = '';
 		    currentDistributorId = '';
 			// sub sections
@@ -286,6 +291,7 @@ public without sharing class Controller_Collaboration extends Controller_Base {
 			subSectionFolders = new Folder('CHILD','CHILD');
 			isAddCommentAllowed = false;
 			isUploadFileAllowed = false;
+			
 			if(currentDistributorId != null && currentDistributorId !=''){
 				List<Folder__c> folders = Service_API.getDocumentFolders(Constant.COLLABORATION, currentOrganizationalUnit, this.isInternalUser, currentDistributorId);
 				for(Folder__c folder : folders){
@@ -569,6 +575,7 @@ public without sharing class Controller_Collaboration extends Controller_Base {
 		try{
 			
 			contentMap = new Map<String, List<AggregateResult>>();
+			contentComments = new Map<String, String>();
 			headersTmp = new List<String>();
 			
 			comments = new List<Folder_Comment__c>();
@@ -640,9 +647,38 @@ public without sharing class Controller_Collaboration extends Controller_Base {
 	            } else {
 					numberOfItems = 0; 
 	            }
-				comments = Service_API.getFolderComments(currentDistributorId, requestedFolder);
 				currentBasketIds = Service_Basket.getBasketIds();
 				currentFollowIds = Service_Notification.getFollowIds();
+				
+				comments = Service_API.getFolderComments(currentDistributorId, requestedFolder);
+				// get number of comments for each item
+				set<string> fileIdsOnCurrentPage = new set<string>();
+				for(List<AggregateResult> underHeader : contentMap.values()){
+					for(AggregateResult ch : underHeader){
+						String fileIdOnPage = String.valueOf(ch.get('id'));
+						fileIdsOnCurrentPage.add(fileIdOnPage);
+						contentComments.put(fileIdOnPage, '0');
+					}
+				}
+				if(!fileIdsOnCurrentPage.isEmpty()){
+					list<AggregateResult> numberOfComments = [
+						select 
+							file__r.id fileId, count(id) numberOfComments 
+						from 
+							folder_comment__c 
+						where 
+							file__c in :fileIdsOnCurrentPage 
+							and Distributor_Access__c = :currentDistributorId 
+                    		and Folder__c = :requestedFolder
+                    		and Classification__c = :Service_API.getSectionTheme() 
+                    	group by 
+                    		file__r.id
+					];
+					for(AggregateResult num : numberOfComments){
+						String fileIdOnPage = String.valueOf(num.get('fileId'));
+						contentComments.put(fileIdOnPage, String.valueOf(num.get('numberOfComments')));
+					}
+				}
 			} else {
 				numberOfItems = 0;			
 			}

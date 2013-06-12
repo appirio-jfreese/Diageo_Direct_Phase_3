@@ -14,7 +14,7 @@ Story/Task  : US503/TA907
         <apex:repeat value="{!siteThemes}" var="thm">
             <ul class="plain">
                 <li>
-                    <a href="javascript:;" class="link">{!thm["label"]}</a>
+                    <a href="javascript: switchToTheme('{!thm["label"]}');" class="link">{!thm["label"]}</a>
                 </li>
             </ul>
         </apex:repeat>
@@ -26,7 +26,7 @@ Story/Task  : US503/TA907
         <ul class="plain">
             <apex:repeat value="{!archiveList}" var="arch" rows="10">
                 <li class="sideTile-Item">
-                    <a href="javascript:;" class="link">
+                    <a href="javascript: switchToArchive('{!arch}');" class="link">
                         {!arch}
                     </a>
                 </li>

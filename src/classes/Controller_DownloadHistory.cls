@@ -1,3 +1,6 @@
+/*******************************************************************************
+Name        : Controller_DownloadHistory.cls
+*******************************************************************************/
 public with sharing class Controller_DownloadHistory extends Controller_Base {
     
     public List<Download_cache__c> content {public get; protected set;}
@@ -161,7 +164,8 @@ public with sharing class Controller_DownloadHistory extends Controller_Base {
             }
                 
             currentBasketIds = Service_Basket.getBasketIds();
-			currentFollowIds = Service_Notification.getFollowIds();
+						currentFollowIds = Service_Notification.getFollowIds();
+
 			
             contentDate = new Map<Id, DateTime>();
             for(Download_cache__c basket : content){

@@ -5,7 +5,7 @@
     Task Ref        : US503/TA907
     Usage           : Blog Home page 
 -->
-<apex:page showheader="false" standardStylesheets="false" sidebar="false"  controller="Controller_BlogPost" title="Diageo Blog">
+<apex:page showheader="false" standardStylesheets="false" sidebar="false"  controller="Controller_BlogPost" title="Diageo Blog" action="{!processFilters}">
     <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.HomePage, 'style'+siteTheme+'.css')}" />
 
@@ -13,7 +13,7 @@
     <apex:stylesheet value="{!URLFOR($Resource.BlogCSS, 'css/layout.css')}" />
     <apex:stylesheet value="{!URLFOR($Resource.BlogCSS, 'css/skeleton-fluid.css')}" />
     <apex:stylesheet value="{!URLFOR($Resource.BlogCSS, 'js/script.js')}" />
-  
+
     <script type="text/javascript">
         function showComments(showHide){
             if(showHide == "Show"){
@@ -120,10 +120,9 @@
                 </h1>
                         
                 <apex:form id="blogPostFrm">  
-                <!-- main -->    
-                <div class="main columns">
-                
-                    <apex:outputPanel id="currentPageBlogItems">
+                <!-- main -->
+                <apex:outputPanel id="currentPageBlogItems">
+                    <div class="main columns">
                         <apex:repeat value="{!blogPosts}" var="blogItem">
                         <div class="blog-brief clearfix">
                             <div class="image columns" style="height: 150px;">
@@ -156,11 +155,10 @@
                             <a href="javascript: nextPage();" class="button" style="display: {!IF(pageCount>1 && currPage<pageCount,'','none')};">Next</a>
                             <a href="javascript: previousPage();" class="button" style="display: {!IF(pageCount>1 && currPage>1,'','none')};">Previous</a>
                         </div>
-                    </apex:outputPanel>                    
-                </div>
-                <div class="sidebar columns" style="display: {!IF(blogPostsCount == 0,'none','')};">
-                    <c:BlogSideTile />
-                </div> 
+                  
+                    </div>
+                          
+                </apex:outputPanel>                  
                                 
                 <apex:actionFunction action="{!openBlogDetail}" name="openBlogDetail">
                 </apex:actionFunction>
@@ -178,15 +176,24 @@
                 <apex:actionFunction action="{!showForTag}" name="showForTag" reRender="currentPageBlogItems">
                     <apex:param id="aparam2" name="tag" value="" assignTo="{!filterByTag}"/>
                 </apex:actionFunction>
+
+                <!-- Filter by Theme -->
+                <apex:actionFunction action="{!switchToTheme}" name="switchToTheme" reRender="currentPageBlogItems">
+                    <apex:param id="aparam3" name="theme" value="" assignTo="{!theme}"/>
+                </apex:actionFunction>
+
+                <!-- Filter by Date -->
+                <apex:actionFunction action="{!switchToArchive}" name="switchToArchive" reRender="currentPageBlogItems">
+                    <apex:param id="aparam4" name="startDate" value="" assignTo="{!archive}"/>
+                </apex:actionFunction>
                 </apex:form>
             
-        
+                <div class="sidebar columns" style="display: {!IF(blogPostsCount == 0,'none','')};">
+                    <c:BlogSideTile />
+                </div>         
             </div>
               
         </div>
-                                
-      
-
 
         <!-- PAGE FOOTER -->
         <c:pageFooter isInternal="{!isInternalUser}" />

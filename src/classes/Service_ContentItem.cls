@@ -292,4 +292,20 @@ global public with sharing class Service_ContentItem {
 	public Boolean canEdit(){
 		return aggregated.result.get('OwnerId') == UserInfo.getUserId();
 	}
+	
+	public String cid {
+    	get{
+    		try{
+    			String tmp = (String)aggregated.result.get('id');
+    			if(tmp != null && tmp != ''){
+    				return tmp;
+    			} else {
+    				return null;
+    			} 
+    		} catch(Exception ex){
+    			return null;
+    		}
+    	}
+    	set;
+    }
 }

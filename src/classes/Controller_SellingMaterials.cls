@@ -1,3 +1,6 @@
+/*******************************************************************************
+Name        : Controller_SellingMaterials.cls
+*******************************************************************************/
 public with sharing class Controller_SellingMaterials extends Controller_Base {
 
 	// display as list (true) or box (false)
@@ -679,6 +682,7 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
 			
 			currentBasketIds = Service_Basket.getBasketIds();
 			currentFollowIds = Service_Notification.getFollowIds();
+
 			
         } catch( Exception err ){
 	        ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to load content.'));
