@@ -1129,7 +1129,7 @@ Story/Task  : US79/TA1007
                                 <div class="user-menu-value"><apex:outputLink value="{!$Site.Prefix}/secur/logout.jsp" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}" onclick="showDialog('ajaxLoader', true);">{!$Label.site.logout}</apex:outputLink></div>
                             </div>
                         </div>
-                        <div style="float: right; padding-top: 6px;">Hello,</div>
+                        <div style="float: right; padding-top: 6px; cursor:default;">Hello,</div>
                         <div class="clear"></div>
                     </div>
                 </apex:pageBlock>
@@ -1173,7 +1173,8 @@ Story/Task  : US79/TA1007
                         <apex:outputPanel id="sValue">
                             <div>
                                 <apex:inputText value="{!searchPhrase}" styleClass="text"/>
-                                <a href="javascript:;" class="btn" onclick="userSearch(); return false;">GO</a>
+                                <!-- <a href="javascript:;" class="btn" onclick="userSearch(); return false;">GO</a> -->
+                                <button class="go_btn" onclick="userSearch(); return false;">GO</button>
                             </div>
                         </apex:outputPanel>
                     </apex:form>
