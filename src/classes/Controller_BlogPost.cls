@@ -181,7 +181,7 @@ public without sharing class Controller_BlogPost extends Controller_Base{
         
         List<Blog__c> dateSubset = new List<Blog__c>();
         for(Blog__c blog : allBlogPosts) {
-            if(blog.StartDate__c >= beginningDate && blog.StartDate__c < endingDate) {
+            if((startDate == null && (blog.StartDate__c >= beginningDate || blog.EndDate__c<= endingDate)) || (startDate!= null && blog.StartDate__c >= beginningDate && blog.StartDate__c < endingDate)) {
                 dateSubset.add(blog);
             }
         }
@@ -367,7 +367,8 @@ public without sharing class Controller_BlogPost extends Controller_Base{
             
             blogItem = Database.query(myQuery);                    
         }
-      
+
+        newComment = new Comment__c();
         return null;
     }
   

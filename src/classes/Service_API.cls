@@ -1,6 +1,10 @@
 /**
 *
 * Updated By  : Basant Verma (Appirio Offshore)   
+* Date        : 6/13/13
+* Story/Task  : US85/DE576-DE583 
+*
+* Updated By  : Basant Verma (Appirio Offshore)   
 * Date        : 5/27/13
 * Story/Task  : US79/DE565 
 *
@@ -645,19 +649,19 @@ public without sharing class Service_API {
                     themes.add(Label.CatalystParentTheme);
                     Set<Id> selectedBrandIds = new Set<Id>();
                     boolean catalyst = (themes.contains('Catalyst') ? true : false);
-                    for(AccountBrand__c accBrand : [SELECT Brand__c, Brand__r.Classification__c, Brand__r.Catalyst__c 
-                            FROM AccountBrand__c WHERE Account__c IN :getAIDs() 
-                            AND Brand__r.diageo_direct_visible__c = true AND Brand__r.Classification__c IN :themes 
-                            AND Account__r.RecordTypeId IN :Service_API.getAccountRecordTypeIds()]){
-                        if(!accBrand.Brand__r.Classification__c.equalsIgnoreCase(Label.CatalystParentTheme)
-                                || (accBrand.Brand__r.Classification__c.equalsIgnoreCase(Label.CatalystParentTheme) 
-                                            && accBrand.Brand__r.Catalyst__c == catalyst)){
-                            selectedBrandIds.add(accBrand.Brand__c);
-                        }
-                    }
+                    // Start : Changes for US85/DE583-DE576 : Basant Verma
                     userAccountBrands = [
-                SELECT id FROM Brand__c WHERE diageo_direct_visible__c = true AND Classification__c IN :themes AND Id IN :selectedBrandIds
-                GROUP BY id];
+		                SELECT id FROM Brand__c WHERE diageo_direct_visible__c = true AND Classification__c IN :themes AND Id IN 
+		                (
+		                    SELECT Brand__c
+		                    FROM AccountBrand__c                    
+		                        WHERE Account__c IN :getAIDs() AND Brand__r.diageo_direct_visible__c = true 
+		                        AND Brand__r.Classification__c IN :themes AND Account__r.RecordTypeId IN :Service_API.getAccountRecordTypeIds()
+		                        AND (Brand__r.Classification__c != :Label.CatalystParentTheme 
+		                        			OR (Brand__r.Classification__c = :Label.CatalystParentTheme AND Brand__r.Catalyst__c = :catalyst))
+		                )
+		                GROUP BY id];
+		                // End : Changes for US85/DE583-DE576 : Basant Verma
                 }
         // End : For US85/TA910
                   

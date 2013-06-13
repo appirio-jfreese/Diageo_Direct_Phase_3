@@ -504,5 +504,25 @@ private class Test_ControllerBase {
     	System.assertEquals(opParent2.subOptions.size(), 0);
     	System.assertEquals(opParent3.subOptions.size(), subOp.size());
     }
+
+	static testMethod void testShowAvatar() {
+	     Account a = Test_Helper.testInsertAccount('Test Account');
+	     Contact c = Test_Helper.testInsertContact('TestFirst', 'TestLast', a.ID);
+	     User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
+	     User u; 
+	     System.runAs (thisUser) {
+	         u = Test_Helper.testInsertDiageoPortalUser(c.ID);
+	     }
+	             
+	     Test.StartTest();
+	
+	     System.runAs(u){
+             PageReference pageRef = Page.HomePage;
+             Test.setCurrentPage(pageRef);
+	         Controller_Base bController = new Controller_Base();
+	         System.assertEquals(bController.showAvatar,false);
+	     }
+	     Test.StopTest();
+    }
     // End : Code Covergae For Controller Base : Toggle Functionality
 }
