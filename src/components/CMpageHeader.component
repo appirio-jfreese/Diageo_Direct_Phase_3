@@ -1000,7 +1000,7 @@ Story/Task  : US507/TA918
     </div>
     
     <!-- site theme select -->
-    <!-- <div id="selectTheme" class="hidden dialog {!if(OR(siteTheme == null, siteTheme == ''), 'selectThemeRequired','')} ">
+    <div id="selectTheme" class="hidden dialog {!if(OR(siteTheme == null, siteTheme == ''), 'selectThemeRequired','')} ">
         <apex:outputPanel id="selectThemeHolder">
             <div class="themeSelectorWrapper">
                     <div class="themeSelectorDescriptionWrapper">
@@ -1041,6 +1041,6 @@ Story/Task  : US507/TA918
                     </div>
                 </div>
         </apex:outputPanel>
-    </div> -->
+    </div>
 
 </apex:component>

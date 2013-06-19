@@ -1,3 +1,10 @@
+<!------------------------------------------------------------------------------
+Name				: Collaboration.page
+
+Updated By  : Basant Verma (AppirioOffShore)   
+Date        : 6/17/13
+Story/Task  : US495/DE600
+------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_Collaboration">
     <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.CollaborationPage, 'style'+siteTheme+'.css')}"/>
@@ -201,11 +208,15 @@
 	                            </apex:outputPanel>
 	                            <apex:outputPanel rendered="{!AND(!ISNULL(contentMap[headerKey]),contentSize!=0)}">
 	                                <apex:repeat value="{!contentHolderMap[headerKey]}" var="contentItem">
-	                                    <apex:outputPanel rendered="{!if(displayAsList != true,'true','false')}">
-	                                       <c:contentItem followIds="{!currentFollowIds}" numberOfComments="{!contentComments[contentItem.contentId]}" allowFileConversation="{!isAddCommentAllowed}" allowFileEdit="{!allowFileEdit}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" width="301" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true"/>
+	                                		<apex:outputPanel rendered="{!if(displayAsList != true,'true','false')}">
+	                                       <!-- START : Changed for US495/DE600 - Basant verma (Added one more attribute editableIds) -->
+	                                       <c:contentItem editableIds="{!contentCanEditIds}" followIds="{!currentFollowIds}" numberOfComments="{!contentComments[contentItem.contentId]}" allowFileConversation="{!isAddCommentAllowed}" allowFileEdit="{!allowFileEdit}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" width="301" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true"/> 
+	                                       <!-- END : Changed for US495/DE600 - Basant verma (Added one more attribute editableIds) -->
 	                                    </apex:outputPanel>
 	                                    <apex:outputPanel rendered="{!if(displayAsList = true,'true','false')}"> 
-	                                        <c:contentItem followIds="{!currentFollowIds}" numberOfComments="{!contentComments[contentItem.contentId]}" allowFileConversation="{!isAddCommentAllowed}" allowFileEdit="{!allowFileEdit}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" renderAsList="true" displayUploadDate="true" lastLoginDateItem="{!lastLoginDate}"/>
+	                                        <!-- START : Changed for US495/DE600 - Basant verma (Added one more attribute editableIds) -->
+	                                        <c:contentItem editableIds="{!contentCanEditIds}" followIds="{!currentFollowIds}" numberOfComments="{!contentComments[contentItem.contentId]}" allowFileConversation="{!isAddCommentAllowed}" allowFileEdit="{!allowFileEdit}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" renderAsList="true" displayUploadDate="true" lastLoginDateItem="{!lastLoginDate}"/> 
+	                                        <!-- END : Changed for US495/DE600 - Basant verma (Added one more attribute editableIds) -->
 	                                    </apex:outputPanel>
 	                                </apex:repeat>
                                    <div class="clear-float"></div>

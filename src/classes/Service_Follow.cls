@@ -9,8 +9,7 @@ public with sharing class Service_Follow {
     private static Set<Id> followIds;
     
     public static void addFollow(list<ID> contentvIds){
-    		
-        if(contentvIds != null && contentvIds.size() > 0){
+    		if(contentvIds != null && contentvIds.size() > 0){
             // If content is already following.
             getFollowIds();
             List<Id> cvIds = new List<Id>();
@@ -42,6 +41,7 @@ public with sharing class Service_Follow {
                 }
             }
         }
+        
     }
 
     

@@ -470,9 +470,6 @@ private class Test_ControllerBase {
 		    Test.setCurrentPage(pageRef);
 		    Controller_Base bController = new Controller_Base();
 		    
-	    	String str = bController.avatarUrl;
-	    	String result=Controller_Base.GetResourceURL('PageHeader');
-	    	
 	    	System.assertEquals(user.Diageo_Direct_Theme__c, 'Spirits');
 	    	System.assertEquals(Service_API.getSectionTheme(), 'Spirits');
 	    	user.Diageo_Direct_Theme__c = 'Wine';
@@ -513,6 +510,10 @@ private class Test_ControllerBase {
 	     System.runAs (thisUser) {
 	         u = Test_Helper.testInsertDiageoPortalUser(c.ID);
 	     }
+         User u2; 
+         System.runAs (thisUser) {
+             u2 = Test_Helper.testInsertDiageoEmployee();
+         }
 	             
 	     Test.StartTest();
 	
@@ -522,6 +523,23 @@ private class Test_ControllerBase {
 	         Controller_Base bController = new Controller_Base();
 	         System.assertEquals(bController.showAvatar,false);
 	     }
+
+         System.runAs(u2){
+             PageReference pageRef = Page.HomePage;
+             Test.setCurrentPage(pageRef);
+             Controller_Base bController = new Controller_Base();
+             System.assertEquals(bController.showAvatar,true);
+
+             String str = bController.avatarUrl;
+             List<String> parts = str.split('/');
+             if (parts.size() == 6){
+             	String photo='/'+parts[3]+'/'+parts[4]+'/'+parts[5];
+                System.assertEquals(photo,'/profilephoto/005/T');
+             }
+             else{
+                System.assertEquals(str,'https://c.cs9.content.force.com/profilephoto/005/T');
+             }
+         }
 	     Test.StopTest();
     }
     // End : Code Covergae For Controller Base : Toggle Functionality

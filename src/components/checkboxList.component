@@ -3,21 +3,21 @@
 	<script type="text/javascript">
 		var allChildClasses = new Array();
 		function subOptionChange(childClass, calledOnClick, currentCB){
-			//var childClass = childOption.className;
-			var allChild = document.getElementsByClassName(childClass);
 			var bIndeterminate = false;
 			var bChecked = false;
-			var i;
-			for(i=0; i < allChild.length; i++) { 
-				if(allChild[i].checked){
-			  	bIndeterminate = true
+			var i=0;
+			jQuery("."+childClass).each(function() {
+    		if(jQuery(this).is(':checked')){
+    			bIndeterminate = true
 			  	if(!bChecked && i == 0)
 			  		bChecked = true;
-			  }else if(bChecked){
+    		}else if(bChecked){
 			  	bChecked = false;
 			  }
-			}
-			if(bChecked && i == allChild.length && bIndeterminate){
+			  i++;
+			});
+
+			if(bChecked && bIndeterminate && i == jQuery("."+childClass).length){
 				bChecked = true;
 				bIndeterminate = false;
 			}
@@ -28,8 +28,12 @@
 				calledOnClick = false;
 			}
 			else{
-				document.getElementsByClassName(childClass+"_P")[0].indeterminate = bIndeterminate;
-				document.getElementsByClassName(childClass+"_P")[0].checked = bChecked;
+				var parentCheckBoxId;
+				jQuery("."+childClass+"_P").each(function() {
+					parentCheckBoxId = jQuery(this).attr('id');
+					jQuery(this).prop('indeterminate',bIndeterminate);
+					jQuery(this).prop('checked',bChecked);
+				});
 			}
 			
 			if(calledOnClick)
@@ -37,16 +41,19 @@
 		}
 		
 		function parentOptionChange(childClass, calledOnClick){
-			//var childClass = parentOption.className.substring(0, parentOption.className.length-2);
-			var allChild = document.getElementsByClassName(childClass);
-			var bChecked = document.getElementsByClassName(childClass+"_P")[0].checked;
-			for(i=0; i < allChild.length; i++) {
-				allChild[i].checked = bChecked;
-			}
+			var bChecked;
+			jQuery("."+childClass+"_P").each(function() {
+					bChecked = jQuery(this).is(':checked');
+			});
+			
+			jQuery("."+childClass).each(function() {
+    		jQuery(this).prop('checked',bChecked);
+			});
 			
 			if(calledOnClick)
 				{!onchange};
 		}
+		
 		
 		function onLoadForChildOptions(){
 			var i;

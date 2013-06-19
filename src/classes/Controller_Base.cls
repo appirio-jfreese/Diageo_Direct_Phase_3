@@ -1,6 +1,14 @@
 /*****************************************************************************************************************
 Name        : Controller_Base.cls
 
+Updated By  : Basant Verma (AppirioOffShore)   
+Date        : 6/17/13
+Story/Task  : US495/DE600
+
+Updated By 	: Basant Kumar Verma (Appirio OffShore)
+Date				: 15/6/2013
+Story/Task	: US79/DE594
+
 Updated By  : Basant Verma (Appirio Offshore)   
 Date        : 5/22/13
 Story/Task  : US491/TA920
@@ -119,41 +127,12 @@ global public without sharing virtual class Controller_Base {
 	} 
 
     // Start : Changes for TA973 - Jonathan Freese
-    // lifted from http://boards.developerforce.com/t5/Apex-Code-Development/Apex-URLFOR-equivalent/td-p/261377
-    public static String GetResourceURL(String resourceName) {
-		List<StaticResource> resourceList = [
-		SELECT Name, NamespacePrefix, SystemModStamp
-		FROM StaticResource
-		WHERE Name = :resourceName
-		];
-		
-		if (resourceList.size() == 1) {
-			String namespace = resourceList[0].NamespacePrefix;
-			return '/resource/'
-			+ resourceList[0].SystemModStamp.getTime() + '/'
-			+ (namespace != null && namespace != '' ? namespace + '__' : '')
-			+ resourceName;
-		} else return '';
-	}
-    
     public String avatarUrl {
 	    get{
 	    	String result='';
-	    	//String result=GetResourceURL('PageHeader') + '/img/avatar.png';
-	    	//(e.g.) resource/1370646082000/PageHeader/img/avatar.png
-	    	
-	    	//It appears that SmallPhotoUrl is never null; if the user has not uploaded an image it defaults to:
-	    	//https://c.cs10.content.force.com/profilephoto/005/T
-	    	//whereas an uploaded image will be have a full Id, such as
-	    	//https://c.cs10.content.force.com/profilephoto/729J0000000Cd34/T
 	    	try{
 				User u = [select Id, FirstName, LastName, SmallPhotoUrl, FULLPhotoUrl from User where Id = : UserInfo.getUserId()];
-				//List<String> parts = u.SmallPhotoUrl.split('/');
-		        //Boolean chatterIcon=true;
-		        //if (parts.size() >= 5 && parts[4].length() == 15){chatterIcon=false;}
-		        //if (u.SmallPhotoUrl != null && u.SmallPhotoUrl != '' && ! chatterIcon){
 		        	result = u.SmallPhotoUrl;
-		        //}
 	    	}catch(Exception ex){
 	    		//nothing
 	    	}
@@ -1155,5 +1134,131 @@ global public without sharing virtual class Controller_Base {
 			userTitle = user.title;
 		}
 	}
-
+	
+	// Start : Changes for US79/DE594 - Basant Verma
+	public List<SelectOption> getNotificationFrequency() {
+		List<SelectOption> options = new List<SelectOption>();
+		List<SelectOption> tmp = Service_UserInput.getNotificationFrequency();
+		SelectOption lastOpt;
+		for(SelectOption so : tmp){
+			if(so.getLabel() != siteTheme)
+				options.add(so);
+			else {
+				lastOpt = so;
+			}
+		}
+		options.add(lastOpt);
+	  return options;
+	}
+	// End : Changes for US79/DE594 - Basant Verma
+	
+	// Start : Changes For US495/DE600 : Basant Kumar Verma
+		public Set<Id> checkCanEdit(List<AggregateResultHolder> agrList){
+	 		Set<Id> canEditIdSet = new Set<Id>();
+	 		Map<Id, Set<Id>> ownerAccIds = new Map<Id, Set<Id>>();
+	 		Map<Id, Set<Id>> ownerCvIds = new Map<Id, Set<Id>>();
+	 		for(AggregateResultHolder agr : agrList){
+	 			if(agr != null && agr.result != null){
+	 				try{ 
+						if(agr.result.get('OwnerID') != null){
+			 				ownerAccIds.put((Id)agr.result.get('OwnerID'), new Set<Id>());
+			 				if(!ownerCvIds.containsKey((Id)agr.result.get('OwnerID')))
+			 					ownerCvIds.put((Id)agr.result.get('OwnerID'), new Set<Id>());
+			 				if(agr.result.get('cvid') != null)
+			 					ownerCvIds.get((Id)agr.result.get('OwnerID')).add((Id)agr.result.get('cvid'));
+			 				else
+			 					ownerCvIds.get((Id)agr.result.get('OwnerID')).add((Id)agr.result.get('cvidlow'));
+			 			}
+	 				}catch(Exception e){
+	 					System.debug(e.getMessage());
+	 				}
+	 			}
+	 		}
+	 		
+	 		for(AggregateResult memberAgr : [SELECT Account__c, User__c FROM Account_Member__c 
+	 				WHERE User__c IN :ownerAccIds.keySet() GROUP BY Account__c, User__c]){
+	 			ownerAccIds.get((Id)memberAgr.get('User__c')).add((Id)memberAgr.get('Account__c'));
+	 		}
+	 		
+	 		Set<Id> currentUserAccIds = Service_API.getAIDs();
+	 		Set<Id> tempIds = new Set<Id>();
+	 		tempIds.addAll(currentUserAccIds);
+	 		for(Id ownerId : ownerAccIds.keySet()){
+	 			tempIds.addAll(ownerAccIds.get(ownerId));
+	 			if(tempIds.size() < (ownerAccIds.get(ownerId).size() + currentUserAccIds.size())){
+	 				canEditIdSet.addAll(ownerCvIds.get(ownerId));
+	 			}
+	 			tempIds.removeAll(ownerAccIds.get(ownerId));
+	 		}
+	 		
+	 		return canEditIdSet;
+	 	}
+	 	
+	 	public String getStringFromSet(Set<Id> idSet){
+	 		String str = '';
+	 		for(String e : idSet)
+	 			str += e + ', ';
+	 		if(str != '')
+	 			str = str.substring(0, str.length()-2);
+	 		return str;
+	 	}
+	 	
+	 	private Set<id> contentCanEditIdSet;
+	 	
+	 	public String contentCanEditIds {
+	 		get{
+	 			String currantPageName = currentUserPage();
+	 			
+	 			if(contentCanEditIdSet == null && currantPageName != null 
+	 							&& !currantPageName.trim().equals('')){
+		 			MAP<string, List<AggregateResultHolder>> contentMap = new MAP<string, List<AggregateResultHolder>>();
+		 			if(currantPageName.trim().equalsIgnoreCase('/apex/Collaboration')){
+		 				contentMap = ((Controller_Collaboration) this).contentHolderMap;
+		 			}/*else if(currantPageName.trim().equalsIgnoreCase('/apex/Basket')){
+		 				contentMap.put('contentDetailsMap',((Controller_Basket) this).contentDetailsMap.values());
+		 			}else if(currantPageName.trim().equalsIgnoreCase('/apex/BrandMarketingInformation')){
+		 				contentMap.put('contentHolder',((Controller_BrandMarketingInformation) this).contentHolder);
+		 			}else if(currantPageName.trim().equalsIgnoreCase('/apex/CategoryDevelopment')){
+		 				contentMap.put('contentHolder',((Controller_CategoryDevelopment) this).contentHolder);
+		 			}else if(currantPageName.trim().equalsIgnoreCase('/apex/Compliance')){
+		 				contentMap.put('contentHolder',((Controller_Compliance) this).contentHolder);
+		 			}else if(currantPageName.trim().equalsIgnoreCase('/apex/DownloadHistory')){
+		 				contentMap.put('contentDetailsMap',((Controller_DownloadHistory) this).contentDetailsMap.values());
+		 			}else if(currantPageName.trim().equalsIgnoreCase('/apex/FollowedItems')){
+		 				contentMap.put('contentDetailsMap',((Controller_Follow) this).contentDetailsMap.values());
+		 			}else if(currantPageName.trim().equalsIgnoreCase('/apex/IVAPDetails')){
+		 				contentMap = ((Controller_IVAPDetails) this).detailsHolderMap;
+		 			}else if(currantPageName.trim().equalsIgnoreCase('/apex/MEPDetails')){
+		 				contentMap = ((Controller_MEPDetails) this).contentHolderMap;
+		 			}else if(currantPageName.trim().equalsIgnoreCase('/apex/Multicultural')){
+		 				contentMap = ((Controller_Multicultural) this).contentHolderMap;
+		 			}else if(currantPageName.trim().equalsIgnoreCase('/apex/NationalAccounts')){
+		 				contentMap = ((Controller_NationalAccounts) this).contentHolderMap;
+		 			}else if(currantPageName.trim().equalsIgnoreCase('/apex/PIL')){
+		 				contentMap.put('contentHolder',((Controller_PIL) this).contentHolder);
+		 			}else if(currantPageName.trim().equalsIgnoreCase('/apex/SearchResult')){
+		 				contentMap = ((Controller_SearchResult) this).contentHolderMap;
+		 			}else if(currantPageName.trim().equalsIgnoreCase('/apex/SellingMaterials')){
+		 				contentMap.put('contentHolder',((Controller_SellingMaterials) this).contentHolder);
+		 			}else if(currantPageName.trim().equalsIgnoreCase('/apex/ShareHistory')){
+		 				contentMap.put('contentDetailsMap',((Controller_ShareHistory) this).contentDetailsMap.values());
+		 			}else if(currantPageName.trim().equalsIgnoreCase('/apex/SpiritsPlanning')){
+		 				contentMap = ((Controller_SpiritsPlanning) this).contentHolderMap;
+		 			}else if(currantPageName.trim().equalsIgnoreCase('/apex/WinePlanning')){
+		 				contentMap = ((Controller_WinePlanning) this).contentHolderMap;
+		 			}*/
+		 					 			
+		 			List<AggregateResultHolder> allAggrList = new List<AggregateResultHolder>();
+			 		for(String key : contentMap.keySet()){
+			 			allAggrList.addAll(contentMap.get(key));
+			 		}
+			 		
+			 		contentCanEditIdSet = checkCanEdit(allAggrList);
+	 			}
+	 			
+		 		return getStringFromSet(contentCanEditIdSet);
+	 		}
+	 		protected set;
+	 	}
+	 	// END : Changes For US495/DE600 : Basant Kumar Verma
 }

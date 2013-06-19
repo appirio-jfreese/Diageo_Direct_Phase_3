@@ -1,3 +1,10 @@
+<!------------------------------------------------------------------------------
+Name 				: FollowedItems.page
+
+Updated By 	: Basant Verma
+Date 				: 6/13/2013
+Story/Task	: US79/DE580
+------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_Follow">
     <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.SearchResultPage, 'style'+siteTheme+'.css')}"/>
@@ -28,6 +35,20 @@
             <input type="hidden" id="possibleItemsToRemove"/>
             <apex:outputPanel id="allPage">
             <apex:form >
+            				<!-- Start : Changes for US79/DE580 : Basnat Verma -->
+            				<apex:actionFunction status="ajax-status" name="addToBasket" action="{!addToBasket}" rerender="messages, currentBasketItemsNo, pageContent, downloadAllDialog">
+											<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
+										</apex:actionFunction>
+										<apex:actionFunction status="ajax-status" name="removeFromBasket" action="{!removeFromBasket}" rerender="messages, currentBasketItemsNo, pageContent, downloadAllDialog">
+											<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
+										</apex:actionFunction>
+										<apex:actionFunction status="ajax-status" name="addToBasketMultiple" action="{!addToBasketMultiple}" rerender="messages, currentBasketItemsNo, pageContent, downloadAllDialog">
+											<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+										</apex:actionFunction>
+										<apex:actionFunction status="ajax-status" name="removeFromBasketMultiple" action="{!removeFromBasketMultiple}" rerender="messages, currentBasketItemsNo, pageContent, downloadAllDialog">
+											<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+										</apex:actionFunction>
+										<!-- End : Changes for US79/DE580 : Basnat Verma -->
                     <apex:actionFunction status="ajax-status" name="removeTrashFromFollowed" action="{!removeTrashFromFollowed}"/>
                     <apex:actionFunction status="ajax-status" name="changeNumberOfItemPerPage" action="{!changeNumberOfItemPerPage}" rerender="messages, pageContent, downloadAllDialog"/>
                     <apex:actionFunction status="ajax-status" name="showFirstPage" action="{!showFirstPage}" rerender="messages, pageContent, downloadAllDialog"/>
@@ -94,47 +115,19 @@
         <apex:actionFunction status="ajax-status" name="userMultipleShare" action="{!userMultipleShare}" rerender="overviewDialog, shareDialog, messages">
             <apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
         </apex:actionFunction>
-        
-        <apex:actionFunction status="ajax-status" name="removeFromBasket" action="{!removeFromBasket}" rerender="messages, currentBasketItemsNo, allPage, downloadAllDialog">
-            <apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
-        </apex:actionFunction>
-        <apex:actionFunction status="ajax-status" name="removeFromBasketMultiple" action="{!removeFromBasketMultiple}" rerender="messages, currentBasketItemsNo, allPage, downloadAllDialog">
-            <apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
-        </apex:actionFunction>
-
-
-		<apex:actionFunction status="ajax-status" name="addToFollow" action="{!addToFollow}" rerender="messages,currentBasketItemsNo, allPage, downloadAllDialog">
-			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
-		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="removeFromFollow" action="{!removeFromFollow}"  rerender="messages,currentBasketItemsNo, allPage, downloadAllDialog">
-			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
-		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="addToFollowMultiple" action="{!addToFollowMultiple}"  rerender="messages,currentBasketItemsNo, allPage, downloadAllDialog">
-			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
-		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="removeFromFollowMultiple" action="{!removeFromFollowMultiple}"  rerender="messages,currentBasketItemsNo, allPage, downloadAllDialog">
-			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
-		</apex:actionFunction>
+				<apex:actionFunction status="ajax-status" name="addToFollow" action="{!addToFollow}" rerender="messages,currentBasketItemsNo, allPage, downloadAllDialog">
+					<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
+				</apex:actionFunction>
+				<apex:actionFunction status="ajax-status" name="removeFromFollow" action="{!removeFromFollow}"  rerender="messages,currentBasketItemsNo, allPage, downloadAllDialog">
+					<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
+				</apex:actionFunction>
+				<apex:actionFunction status="ajax-status" name="addToFollowMultiple" action="{!addToFollowMultiple}"  rerender="messages,currentBasketItemsNo, allPage, downloadAllDialog">
+					<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+				</apex:actionFunction>
+				<apex:actionFunction status="ajax-status" name="removeFromFollowMultiple" action="{!removeFromFollowMultiple}"  rerender="messages,currentBasketItemsNo, allPage, downloadAllDialog">
+					<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+				</apex:actionFunction>
     </apex:form>
-
-    <div id="confirmDelete" class="hidden dialog">
-        <div class="moreInfoWrapper">
-            <div class="moreInfoDescriptionWrapper sectionBackground">
-                <div class="moreInfoDescription">Complete</div>
-            </div>
-            <div class="moreInfoError"></div>
-            <div class="moreInfoContentWrapper">
-                <div style="font-size: 14px; padding: 10px; text-align: left;">
-                    Would you like to remove the items from your basket?<br/>
-                    <div style="float: right; margin-top: 10px;">
-                        <button class="green confirm-yes" onclick="return false;">Yes</button>
-                        <button class="green confirm-no" onclick="return false;">No</button>
-                    </div>
-                    <div class="clear-float"></div>
-                </div>
-            </div>
-        </div>
-    </div>  
     
     <div id="downloadAllInfo" class="hidden dialog" >
         <apex:outputPanel id="downloadAllDialog">
@@ -167,7 +160,7 @@
             </div>        
             <div class="moreInfoContentWrapper">
                 <div class="shareRecipientInformation">
-                    {!$Label.Basket_Warning}
+                    {!$Label.Follow_Warning}
                     <br/><br/>
                     <button class="green close" onclick="removeTrashFromFollowed(); showDialog('ajaxLoader');">OK</button>
                 </div>
@@ -218,12 +211,14 @@
             hideDialog('confirmDelete');
         });
 
-        jQuery('.emptyBasketPopupRequired').live('click',function(){
+        // Start : Changes for US79/DE581 : Basant Verma
+        /*jQuery('.emptyBasketPopupRequired').live('click',function(){
             if(jQuery('#possibleItemsToRemove').length == 1){
                 showDialog('confirmDelete');
             }
-        });
-
+        });*/
+        // End : Changes for US79/DE581 : Basant Verma
+        
         calculateBoxHeight();
         bindFilterJs();
        

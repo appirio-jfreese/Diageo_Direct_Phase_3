@@ -2,6 +2,10 @@
 Name        : HomePage.page
 
 Updated By  : Basant Verma (Appirio Offshore)   
+Date 				: 6/14/13
+Story/Task	: US503/TA1011
+
+Updated By  : Basant Verma (Appirio Offshore)   
 Date        : 5/29/13
 Story/Task  : US491/TA920
 
@@ -87,13 +91,17 @@ Story/Task  : US503/TA907
                             </a>
                         </li>                       
                     </apex:repeat>
-                        <!-- START : Changes for TA907 -->
+                    		<!-- START : Changes for TA907 -->
+                    		<!-- START : Changes for US503/TA1011 : Comment Blog Code - Basant Verma -->
+                    		<!-- 
                         <li>
                             <a href="{!$Page.BlogHome}" onclick="pageViewed('Home Page - Blog Home');">
-                            Blog Posts
-                        </a>
-                                            </li>     
-                                            <!-- END : Changes for TA907 -->               
+                            	Blog Posts
+                        		</a>
+                        </li>
+                        -->     
+                        <!-- END : Changes for US503/TA1011 : Comment Blog Code - Basant Verma -->
+                        <!-- END : Changes for TA907 -->               
                   </ul>
                 </div>                    
             </div>

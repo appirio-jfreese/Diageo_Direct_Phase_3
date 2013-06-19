@@ -25,7 +25,7 @@ global class BatchContentChangeNotification implements Database.Batchable<sObjec
         			+ ' Status__c, Error_Message__c'
         			+ ' from Content_Change_Notifications__r'
         			+ ' where Status__c != \'Sent\''
-        			+ ' and Send_Date__c < : dt order by createddate desc limit 50)' 
+        			+ ' and Send_Date__c <= : dt order by createddate desc limit 50)' 
         			+ ' from user'
         			+ ' where Content_Notification_Frequency__c = \'Daily\''
         			+ ' or Content_Notification_Frequency__c = \'Weekly\'';
@@ -90,13 +90,28 @@ global class BatchContentChangeNotification implements Database.Batchable<sObjec
     	
     	 // List of email messages 
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
-		
+        
+        // DE606 : Decides how share_link will be populated
+        Id collaborationDefaultRecordTypeId;
+        Id distributorPortalDefaultRecordTypeId;
+		for(ContentWorkspace CW : [SELECT Id, Name, DefaultRecordTypeId FROM ContentWorkspace 
+									WHERE Name =: Constant.COLLABORATION_LIBRARY
+									or Name = : Constant.DISTRIBUTOR_PORTAL_LIBRARY]){
+			if(CW.Name == Constant.COLLABORATION_LIBRARY){
+				collaborationDefaultRecordTypeId = CW.DefaultRecordTypeId;
+			}else{
+				distributorPortalDefaultRecordTypeId = CW.DefaultRecordTypeId;
+			}						
+		}
+		        
 		// List of content change notifications
 		List<Content_Change_Notification__c> changeNotifications 
         				= new List<Content_Change_Notification__c>();
 							
 		// Get latest content versions
-        Map<id, ContentVersion> contentVersionMap = getContentVersions(scope);
+        Map<id, List<String>> contentVersionMap = getContentVersions(scope, 
+        						collaborationDefaultRecordTypeId, 
+        						distributorPortalDefaultRecordTypeId);
         
         Integer allowedRetryCount = 0;
         if(notificationSetting != null 
@@ -139,20 +154,67 @@ global class BatchContentChangeNotification implements Database.Batchable<sObjec
     }
     
     /*********************************************************************
-    // Method returns content document map
+    // Method returns content version map with key as content version Id
+    // and value as List of String contains 1.) Title 2.) Share_Link
     *********************************************************************/
-    private static Map<Id, ContentVersion> getContentVersions(List<sObject> scope){
-    	Set<Id> contentVersionIds = new Set<Id>(); 
+    private static Map<Id, List<String>> getContentVersions(List<sObject> scope,
+								    	Id collaborationDefaultRecordTypeId,
+								        Id distributorPortalDefaultRecordTypeId){
+    	Set<Id> fileContentVersionIds = new Set<Id>();
+    	Set<Id> desContentVersionIds = new Set<Id>(); 
+    	Set<Id> contentVersionIds = new Set<Id>();
+    	List<String> titleShareList;
     	User user;
     	for(sObject obj : scope){
         	user = (User)obj;
         	for(Content_Change_Notification__c changeNotification : user.Content_Change_Notifications__r){
-	        	contentVersionIds.add(changeNotification.Content_Version__c);
+        		if(changeNotification.Content_Version__c != null){
+        			contentVersionIds.add(changeNotification.Content_Version__c);
+        		}		        		
         	}
         }
-        Map<Id, ContentVersion> contentVersionMap 
-        	= new Map<Id, ContentVersion>([Select id, title, ReasonForChange from ContentVersion 
-        										where id in : contentVersionIds]);
+        system.debug('=======contentVersionIds============='+contentVersionIds);        
+        if(contentVersionIds.size() > 0){
+        	for(ContentVersion cVersion : [Select id, RecordTypeId 
+        									from ContentVersion
+        									where id in : contentVersionIds]){
+        		if(cVersion.RecordTypeId == collaborationDefaultRecordTypeId){
+        			fileContentVersionIds.add(cVersion.id);
+        		}else if(cVersion.RecordTypeId == distributorPortalDefaultRecordTypeId){
+        			desContentVersionIds.add(cVersion.id);
+        		}
+        	}	
+        }
+        system.debug('=======fileContentVersionIds============='+fileContentVersionIds);
+        system.debug('=======desContentVersionIds============='+desContentVersionIds);
+        Map<Id, List<String>> contentVersionMap = new Map<Id, List<String>>();
+        if(desContentVersionIds.size() > 0){
+		        for(Content_Description__c contentDesc : [select title__c, share_link__c, Content_Version_Id__c
+											   			  from Content_Description__c
+											   			  where Content_Version_Id__c in :desContentVersionIds
+											   			  and title__c != null]){
+					titleShareList = new List<String>();
+					titleShareList.add(contentDesc.title__c);
+					if(contentDesc.share_link__c != null){
+						titleShareList.add(contentDesc.share_link__c);
+					}
+					contentVersionMap.put(contentDesc.Content_Version_Id__c, titleShareList);						   	
+				}
+        }
+		
+		if(fileContentVersionIds.size() > 0){
+			for(File__c file : [select title__c, share_link__c, Content_Version_Id__c
+										   			  from File__c
+										   			  where Content_Version_Id__c in :fileContentVersionIds
+										   			  and title__c != null]){
+				titleShareList = new List<String>();
+				titleShareList.add(file.title__c);
+				if(file.share_link__c != null){
+					titleShareList.add(file.share_link__c);
+				}
+				contentVersionMap.put(file.Content_Version_Id__c, titleShareList);						   	
+			}
+		}
     	system.debug('========contentVersionMap================'+contentVersionMap);
     	return contentVersionMap;
     }
@@ -163,7 +225,7 @@ global class BatchContentChangeNotification implements Database.Batchable<sObjec
     *********************************************************************/
     private static List<Messaging.SingleEmailMessage> getEmailMessages(List<sObject> scope, 
     					List<Content_Change_Notification__c> changeNotificaitons,
-    					Map<Id, ContentVersion> contentVersionMap,
+    					Map<Id, List<String>> contentVersionMap,
     					Integer allowedRetries){
         List<Messaging.SingleEmailMessage> unsentEmailMessages = new List<Messaging.SingleEmailMessage>();
     	User user;
@@ -172,16 +234,19 @@ global class BatchContentChangeNotification implements Database.Batchable<sObjec
         Messaging.SingleEmailMessage mail;        
         DateTime todayDT = (DateTime)Date.today();
 		String dayOfWeek = todayDT.format('E');
-		String changeDesc = '';
+		String sharelink;
+		String documentName;
+		String reasonForChange;
         system.debug('===dayOfWeek========='+dayOfWeek);
         
         // Get sender email	
-		User sender;
-		for(User currentUser : [select id, Email, Name from User where Id = :Service_API.getUID()]){
-			sender = currentUser;
-		}
-        
-        // Iterage through each user and create email message for each user contianing
+		OrgWideEmailAddress sender;
+        for(OrgWideEmailAddress owea : [select Id from OrgWideEmailAddress 
+        								where Address = 'diageodirect@diageo.com']){
+        	sender = owea;
+        }
+       
+        // Iterage through each user and create email message for each user containing
         // list of change notifications
         for(sObject obj : scope){
         	user = (User)obj; 
@@ -193,36 +258,43 @@ global class BatchContentChangeNotification implements Database.Batchable<sObjec
         		mail = new Messaging.SingleEmailMessage();				
 				notificationStr = '';	
 				notificationHtmlStr = '';
-				changeDesc = '';		
+				shareLink = '';	
+				documentName = '';
+				reasonForChange = '';	
 	        	for(Content_Change_Notification__c changeNotification : user.Content_Change_Notifications__r){
 	        		if((changeNotification.status__c == 'Pending'
 	        		|| (changeNotification.status__c == 'Error' 
 	        			&& changeNotification.Retry_Count__c > 0 
 	        			&& changeNotification.Retry_Count__c < allowedRetries)) 
 	        		&& changeNotification.content_Version__c != null 
-	        		&& contentVersionMap.get(changeNotification.content_Version__c) != null){
-	        			if(contentVersionMap.get(changeNotification.content_Version__c).ReasonForChange != null){
-	        				changeDesc = contentVersionMap.get(changeNotification.content_Version__c).ReasonForChange;
+	        		&& contentVersionMap.get(changeNotification.content_Version__c) != null){	        			
+	        			
+	        			documentName = contentVersionMap.get(changeNotification.content_Version__c).get(0);	
+	        			if(contentVersionMap.get(changeNotification.content_Version__c).size() > 1){
+	        				shareLink = contentVersionMap.get(changeNotification.content_Version__c).get(1);
 	        			}
-		        		system.debug('====reasonForChange========'+contentVersionMap.get(changeNotification.content_Version__c).ReasonForChange);
-		        		if(notificationStr == ''){
-		        			notificationStr = '\n\n' + contentVersionMap.get(changeNotification.content_Version__c).title
-		        							+ ' - ' + changeDesc;
-		        			notificationHtmlStr += '\n\n<a href="https://cs10.salesforce.com/'+ changeNotification.Content__c + '">' 
-		        				+ contentVersionMap.get(changeNotification.content_Version__c).title + '</a>'
-		        				+ ' - ' + changeDesc;
-		        		}else{
-		        			notificationStr = '\n' + contentVersionMap.get(changeNotification.content_Version__c).title
-		        							+ ' - ' + changeDesc;
-		        			notificationHtmlStr += '\n' + '<a href="https://cs10.salesforce.com/'+ changeNotification.Content__c + '">' 
-		        				+ contentVersionMap.get(changeNotification.content_Version__c).title + '</a>'
-		        				+ ' - ' + changeDesc;
-		        		}
-		        		changeNotificaitons.add(changeNotification);
+	        				
+	        			reasonForChange = changeNotification.Change_Description__c;       			
+			        	system.debug('====sharelink========'+shareLink);
+			        	system.debug('====title========'+documentName);
+			        	system.debug('====reasonForChange========'+reasonForChange);
+			        	if(notificationStr == ''){
+			        		notificationStr += '\n';
+			        		notificationHtmlStr += '\n';
+			        	}
+			        	notificationStr += '\n' + documentName +  ' - ' + reasonForChange;
+			        	if(shareLink != null && shareLink != ''){
+			        		notificationStr += ' - ' + shareLink;			        		
+			        	}	
+			        	notificationHtmlStr += '\n' + '<a href="' + shareLink + '">' 
+			        								+ documentName + ' - ' + reasonForChange + '</a>';		        				        		
+			        	changeNotificaitons.add(changeNotification);
+	        			
 	        		}
 	        	} 
 	        	if(notificationStr != '' && notificationHtmlStr != ''){
-		        	populateEmailParameters(mail, user, sender, notificationStr, notificationHtmlStr);	        	
+		        	populateEmailParameters(mail, user, sender, notificationStr, 
+		        				notificationHtmlStr, documentName);	        	
 		        	unsentEmailMessages.add(mail); 
 	        	}     	
         	}                   	
@@ -234,19 +306,27 @@ global class BatchContentChangeNotification implements Database.Batchable<sObjec
     // Method populates email parameters
     *********************************************************************/
     private static void populateEmailParameters(Messaging.SingleEmailMessage mail,
-    											User receiver, User sender,
+    											User receiver, OrgWideEmailAddress sender,   											 
     											String notificationStr,
-    											String notificationHtmlStr){
+    											String notificationHtmlStr,
+    											String documentName){
     	// Email Subject and pre plain body
-		String subject = 'Diageo Direct Content ' + user.Content_Notification_Frequency__c +  ' Status Update';
-		String prePlainBody = 'The following contents has been updated.'
-							+ 'Click on the link to open the content. \n';
-							
-    	mail.setToAddresses(new List<String>{receiver.email});				
-		mail.setReplyTo(sender.email);
+    	String subject = '';
+    	String prePlainBody = '';
+    	if(receiver.Content_Notification_Frequency__c == 'Real Time'){
+    		subject += 'Diageo Direct Content Update: ' + documentName;
+    		prePlainBody += 'The following content has been updated: \n' 
+							+ documentName + '. Click on the link to open the content. \n';
+    	}else{
+			subject = 'Diageo Direct Content ' + receiver.Content_Notification_Frequency__c +  ' Status Update';
+			prePlainBody += 'The following contents has been updated.'
+							+ ' Click on the link to open the content. \n';
+    	}
+		system.debug('===email========'+receiver.email);							
+    	mail.setToAddresses(new List<String>{receiver.email});						
 		mail.setSubject(subject);
 		mail.setTargetObjectId(receiver.id);
-		mail.setSenderDisplayName(sender.Name);
+		mail.setOrgWideEmailAddressId(sender.id);
 		mail.setBccSender(false);
 		mail.setUseSignature(false);
 		mail.setSaveAsActivity(false);

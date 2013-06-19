@@ -1,3 +1,6 @@
+<!------------------------------------------------------------------------------
+Name				: ShareHistory.page
+------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_ShareHistory">
     <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.SearchResultPage, 'style'+siteTheme+'.css')}"/>

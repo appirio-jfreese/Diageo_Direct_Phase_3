@@ -8,6 +8,10 @@ Story/Task  : US507/TA918
 Updated By  : Jonathan Freese (Appirio)   
 Date        : 6/5//13
 Story/Task  : US79/TA996
+
+Updated By  : Basant Verma (AppirioOffShore)   
+Date        : 6/17/13
+Story/Task  : US495/DE600
 ------------------------------------------------------------------------------------------------------------------->
 <apex:component controller="Service_ContentItem">
     <apex:attribute name="cvid" description="ID" type="String" required="false" assignTo="{!cvid1}"/>
@@ -45,7 +49,9 @@ Story/Task  : US79/TA996
     <apex:attribute name="allowFileConversation" description="Is file conversation allowed" type="Boolean" required="false" default="false" />
     <apex:attribute name="numberOfComments" description="Number of comments" type="String" required="false" default="0"/>
     <apex:attribute name="isPil" description="Is pil section" type="Boolean" required="false" default="false" />
-        
+    <!-- Start : Changed for US495/DE600 - Basant Verma -->
+    <apex:attribute name="editableIds" description="Set of follow ids" type="String" required="false" assignTo="{!editableIdsString}"/>
+    <!-- End : Chnaged for US495/DE600 - Basant Verma -->
     <!-- BOX VIEW --> 
     <apex:outputPanel rendered="{! IF(renderAsList1 != true, 'true', 'false')}">
         <div class="cionwrapper content-item item sectionBorder {!if( OR(previewAvailable1!=true,ISNULL(previewId1)) , 'sectionBoxGradient','')}" style="width: {!IF(ISNULL(width1), '255px', width1+'px')};  height: {!IF(ISNULL(height1), '170px', height1+'px')}; margin: {!IF(ISNULL(margin1), '5px', margin1+'px')};">

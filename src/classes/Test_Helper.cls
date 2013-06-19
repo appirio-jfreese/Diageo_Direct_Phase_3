@@ -267,6 +267,67 @@ public class Test_Helper {
         return testUser;
     }
 
+    /**
+    * @author Jonathan Freese
+    * @date 06/13/2013
+    * @description Insert a test Diageo Employee
+    * @return A test User
+    */
+    
+    public static User testInsertDiageoEmployee(){
+        double uniqueNum = Math.round(Math.random() * 10000);
+        string uniqueKey = 'user' + uniqueNum;
+        User thisUser = [ select Id from User where Id = :UserInfo.getUserId() ];
+        User testUser = new User();
+        
+        System.runAs ( thisUser ) {
+            testUser.ProfileId = [SELECT Id FROM Profile WHERE Name = 'Diageo Employee'].Id;
+            testUser.Alias = 'u'+uniqueNum;
+            testUser.FirstName = 'Test' + uniqueKey;
+            testUser.LastName = 'Test' + uniqueKey;
+            testUser.Username = uniqueKey + '@test' + uniqueNum + '.com';
+            testUser.Email = uniqueKey + '@testorg.com';
+            testUser.EmailEncodingKey = 'UTF-8';
+            testUser.LanguageLocaleKey = 'en_US';
+            testUser.TimeZoneSidKey = 'America/Chicago';
+            testUser.LocaleSidKey = 'en_US';
+            testUser.Country = 'United States';
+            testUser.IsActive = true;
+            //testUser.ContactId = contactID; - Not Applicable (Diageo Employee profile has no association tothe Contact object)
+            testUser.UserPermissionsSFContentUser = true;
+            testUser.Use_current_theme_as_default__c = 'Spirits';
+            testUser.Diageo_Direct_Theme__c = 'Spirits'; 
+            insert testUser;
+            
+            // Retrieve the roles for the user's account and assign one to the user
+            Set<ID> aIDs = new Set<ID>();
+            //for(contact c: [select AccountID from Contact where id = :contactID]){
+            //    aIDs.add(c.AccountID);
+            //}
+            //List<UserRole> roles = [select name, id, PortalRole from UserRole where PortalAccountId in :aIDs and name like '%Customer User%'];
+    
+            list<Account_Member__c> members = new list<Account_Member__c>();
+            for(id amcid : aIDs){
+                Account_Member__c am = new Account_Member__c();
+                am.Account__c = amcid;
+                am.User__c = testUser.id;
+                am.Default__c = true;
+                members.add(am);
+            }
+             
+            if(members.size() != 0){
+                insert members;
+            }
+            
+            // Update the test user with the portal user role
+            //testUser.UserRoleId = roles[0].Id;
+            testUser.loginDate__c = datetime.now();        
+            update testUser;
+        }
+        
+        return testUser;
+    }
+
     public static Account testGetDiageoAccount(){
         return [select id, name from Account where name = 'Diageo' limit 1];
         

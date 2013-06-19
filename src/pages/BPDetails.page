@@ -13,7 +13,15 @@
     <apex:stylesheet value="{!URLFOR($Resource.BlogCSS, 'css/layout.css')}" />
     <apex:stylesheet value="{!URLFOR($Resource.BlogCSS, 'css/skeleton-fluid.css')}" />
     <apex:stylesheet value="{!URLFOR($Resource.BlogCSS, 'js/script.js')}" />
-    
+
+    <style type="text/css">
+        .page-header .gotoSF { font-weight: bold; font-size: 115%; color: #5ebfd4; }
+        .page-header .logo { margin-top: -23px; }
+        .page-header .btns { margin-bottom: 23px; }
+        .page-header .search { top: -23px; margin-right: 60px; }
+        .page-header .go_btn { margin-bottom: 20px; margin-right: -60px;}
+    </style>
+        
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery-ui-1.8.15.custom.min.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'utils.js')}"></script>  

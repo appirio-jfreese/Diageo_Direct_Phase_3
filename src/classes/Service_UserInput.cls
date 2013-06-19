@@ -1,4 +1,9 @@
 /**
+
+Updated By 	: Basant Kumar Verma (Appirio OffShore)
+Date				: 15/6/2013
+Story/Task	: US79/DE594
+
 * @author Denise Bacher
 * @date 29/08/2011
 * @description API Service class used to display valid user inputs.
@@ -446,4 +451,25 @@ public class Service_UserInput {
         return options;
     }
     /** End for case 00003410 **/    
+    
+    
+    // Start : Changes for US79/DE594 - Basant Verma
+    /**
+    * @author Basant Verma
+    * @date 6/15/2013
+    * @description Get the option list of Notification Frequency
+    * @return List<SelectOption> List of Notification Frequency
+    */
+    public static List<SelectOption> getNotificationFrequency() {
+        List<SelectOption> options = new List<SelectOption>();
+        Schema.DescribeFieldResult fieldResult = User.Content_Notification_Frequency__c.getDescribe();
+        List<Schema.PicklistEntry> ple = fieldResult.getPicklistValues();
+        for( Schema.PicklistEntry f : ple)
+        {	
+        	String stheme = f.getValue();
+        	options.add(new SelectOption(f.getValue(), f.getLabel()));
+        }
+        return options;
+    }
+    // End : Changes for US79/DE594 - Basant Verma
 }

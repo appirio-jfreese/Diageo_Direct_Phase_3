@@ -1,4 +1,7 @@
 /**
+* Updated By  : Basant Verma (Appirio Offshore)   
+* Date        : 6/14/13
+* Story/Task  : US503/TA1011
 *
 * Updated By  : Basant Verma (Appirio Offshore)   
 * Date        : 6/13/13
@@ -2651,91 +2654,94 @@ public without sharing class Service_API {
         getAllChildOUr(parentIds);
     }
     
+    // Start : Changes for US503/TA1011 : Comment All Blog Code - Basant
     // Start : Changes for US503/TA907 - Randy
     /**
     * @author Randy Wandell
     * @Story US503/TA907
     * @description It will return all Blogs and it's related lists filtered by current Theme and tags 
     */
-        public static List<Blog__c> getBlogRecords(List<String> fromUrl, List<String> blogTags, String theme){
+    /*   public static List<Blog__c> getBlogRecords(List<String> fromUrl, List<String> blogTags, String theme){
             String tempSiteTheme = siteTheme;
             siteTheme = theme;
             List<Blog__c> blogRecords = getBlogRecords(fromUrl, blogTags);
             siteTheme = tempSiteTheme;
             return blogRecords;
         }
-        
+    */    
     // Start : Changes for US503/TA907 - Basant
     /**
     * @author Basant Verma
     * @Story US503/TA907
     * @description It will return all Blogs and it's related lists filtered by current Theme and tags 
     */
-        public static List<Blog__c> getBlogRecords(List<String> fromUrl, List<String> blogTags){
-            String soql = 'Select Id, Name, AllowComments__c, Detail__c, EndDate__c, ' + 
-                ' StartDate__c, Sub_Title__c, Summary__c, Theme__c, CreatedById, CreatedBy.Name, CreatedDate, ' + 
-                ' (Select Id, Comment__c, CreatedById, CreatedBy.Name, CreatedDate From Comment__r Order By CreatedDate), ' + 
-                ' (Select Id, Tag__c, Tag__r.Name From Blog2Tag__r), ' + 
-                ' (Select Id, Brand__c, Brand__r.Name, Brand__r.Brand_Type__c From Blog2Brand__r) ' + 
-                ' From Blog__c Where Theme__c = :siteTheme ';
-            if(blogTags != null && blogTags.size() > 0){  
-                soql += 'AND Id IN ( Select Blog__c From Blog2Tag__c Where ' +
-                    ' Tag__r.Tag__c IN :blogTags )'; 
-            }
-            soql += ' ORDER BY StartDate__c DESC';
-            System.debug('================= SOQL : '+soql);
-            System.debug('================= blogTags : '+blogTags);
-            System.debug('================= siteTheme : '+siteTheme);
-            List<Blog__c> blgList = (List<Blog__c>)Database.query(soql);
-            
-            return filterBlogsByBrandSecurity(blgList);
+    /*
+    public static List<Blog__c> getBlogRecords(List<String> fromUrl, List<String> blogTags){
+        String soql = 'Select Id, Name, AllowComments__c, Detail__c, EndDate__c, ' + 
+            ' StartDate__c, Sub_Title__c, Summary__c, Theme__c, CreatedById, CreatedBy.Name, CreatedDate, ' + 
+            ' (Select Id, Comment__c, CreatedById, CreatedBy.Name, CreatedDate From Comment__r Order By CreatedDate), ' + 
+            ' (Select Id, Tag__c, Tag__r.Name From Blog2Tag__r), ' + 
+            ' (Select Id, Brand__c, Brand__r.Name, Brand__r.Brand_Type__c From Blog2Brand__r) ' + 
+            ' From Blog__c Where Theme__c = :siteTheme ';
+        if(blogTags != null && blogTags.size() > 0){  
+            soql += 'AND Id IN ( Select Blog__c From Blog2Tag__c Where ' +
+                ' Tag__r.Tag__c IN :blogTags )'; 
+        }
+        soql += ' ORDER BY StartDate__c DESC, CreatedDate DESC';
+        System.debug('================= SOQL : '+soql);
+        System.debug('================= blogTags : '+blogTags);
+        System.debug('================= siteTheme : '+siteTheme);
+        List<Blog__c> blgList = (List<Blog__c>)Database.query(soql);
+        
+        return filterBlogsByBrandSecurity(blgList);
+    }
+    */  
+    /*
+		* @author Basant Verma
+		* @Story US503/TA907
+		* @description Filter Blogs By Brand Security 
+		*/
+    /*public static List<Blog__c> filterBlogsByBrandSecurity(List<Blog__c> blgList){
+        // Below code check for Brand Security
+        Map<String, Set<Id>> blogBrandSet = new Map<String, set<Id>>();
+        for(Blog2Brand__c b : [Select Id, Brand__c, Blog__c 
+                From Blog2Brand__c Where Blog__c IN :blgList]){
+            if(!blogBrandSet.containsKey(b.Blog__c))
+                blogBrandSet.put(b.Blog__c, new Set<Id>());
+            blogBrandSet.get(b.Blog__c).add((ID)b.Brand__c);
         }
         
-        /**
-    * @author Basant Verma
-    * @Story US503/TA907
-    * @description Filter Blogs By Brand Security 
-    */
-        public static List<Blog__c> filterBlogsByBrandSecurity(List<Blog__c> blgList){
-            // Below code check for Brand Security
-            Map<String, Set<Id>> blogBrandSet = new Map<String, set<Id>>();
-            for(Blog2Brand__c b : [Select Id, Brand__c, Blog__c 
-                    From Blog2Brand__c Where Blog__c IN :blgList]){
-                if(!blogBrandSet.containsKey(b.Blog__c))
-                    blogBrandSet.put(b.Blog__c, new Set<Id>());
-                blogBrandSet.get(b.Blog__c).add((ID)b.Brand__c);
-            }
-            
-            Set<Id> accBrandIds = getAccBrandIds();
-            List<Blog__c> blgWithB2bSecurity = new List<Blog__c>();
-            for(Blog__c b : blgList){
-                if(blogBrandSet.containsKey(b.Id)){
-                    // Logic to check it ATLEAST ONE Brand Exist
-                    if(accBrandIds != null){
-                        Set<Id> tempSet = new Set<Id>();
-                        tempSet.addAll(accBrandIds);
-                        tempSet.addAll(blogBrandSet.get(b.Id));
-                        if(tempSet.size() < (accBrandIds.size() + blogBrandSet.get(b.Id).size())){
-                            blgWithB2bSecurity.add(b);
-                        }
+        Set<Id> accBrandIds = getAccBrandIds();
+        List<Blog__c> blgWithB2bSecurity = new List<Blog__c>();
+        for(Blog__c b : blgList){
+            if(blogBrandSet.containsKey(b.Id)){
+                // Logic to check it ATLEAST ONE Brand Exist
+                if(accBrandIds != null){
+                    Set<Id> tempSet = new Set<Id>();
+                    tempSet.addAll(accBrandIds);
+                    tempSet.addAll(blogBrandSet.get(b.Id));
+                    if(tempSet.size() < (accBrandIds.size() + blogBrandSet.get(b.Id).size())){
+                        blgWithB2bSecurity.add(b);
                     }
-                }else{
-                    blgWithB2bSecurity.add(b);
                 }
+            }else{
+                blgWithB2bSecurity.add(b);
             }
-            return blgWithB2bSecurity;
         }
-        
+        return blgWithB2bSecurity;
+    }
+    */   
     /**
     * @author Basant Verma
     * @Story US503/TA907
     * @description Returns all available tags
     */
-    public static List<Tag__c> getAllTags(){
+    /*public static List<Tag__c> getAllTags(){
         return [Select Id, Name, Type__c, Tag__c From Tag__c];
     }
+    */
     // End : Changes for US503/TA907 - Basant
-    
+    // End : Changes for US503/TA1011 : Comment All Blog Code - Basant
     /**
     * @author Basant Verma
     * @Story US85/DE576

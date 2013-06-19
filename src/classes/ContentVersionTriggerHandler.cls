@@ -7,9 +7,17 @@ Story/Task  : US79/TA1001
 Description : Handler Class for ContentVersionTrigger.trigger
 *******************************************************************************/
 public with sharing class ContentVersionTriggerHandler {
+    private static boolean disabled = false;
     
     // This method called from ContentVersionTrigger on After Insert
     public static void onAfterInsert(Map<ID, ContentVersion> newRecordsMap){
+        // Create Content Notification Records
+        createContentNotifications(newRecordsMap);
+    }
+    
+    // This method called from ContentVersionTrigger on After Update
+    public static void onAfterUpdate(Map<ID, ContentVersion> newRecordsMap,
+    								Map<ID, ContentVersion> oldRecordsMap){
         // Create Content Notification Records
         createContentNotifications(newRecordsMap);
     }
@@ -27,6 +35,9 @@ public with sharing class ContentVersionTriggerHandler {
         system.debug('===versionContentMap========='+versionContentMap);
         if(versionContentMap.size() > 0){
             
+            if(disabled){
+            	return;
+            }
             // Set of user ids
             Set<String> userIds = new Set<String>();
                         
@@ -66,6 +77,7 @@ public with sharing class ContentVersionTriggerHandler {
                 // Send notifications if Content_Notification_Frequency__c == 'Real Time'
                 if(userIds.size() > 0){
                     handleEveryUpdateNotification(userIds, notifications);
+                    disabled = true;
                 }
             }
         }
@@ -91,6 +103,7 @@ public with sharing class ContentVersionTriggerHandler {
                                                        Content__c 
                                                        FROM Content_Subscription__c 
                                                        WHERE Content__c IN :contentDocumentIds];    
+        system.debug('===subscrips========='+subscrips);
         return subscrips;
     }
     

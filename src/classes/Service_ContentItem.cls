@@ -4,11 +4,19 @@ Name        : Sertvice_ContentItem.cls
 Updated By  : Jonathan Freese (Appirio)   
 Date        : 5/29/13
 Story/Task  : US507/TA918
+
+Updated By  : Basant Verma (AppirioOffShore)   
+Date        : 6/17/13
+Story/Task  : US495/DE600
 ******************************************************************************************************************/
 
 global public with sharing class Service_ContentItem {
     
     public Boolean isIpadComponent{get;set;}
+    // Start : Changed for US495/DE600 - Basant Verma
+   	public Set<id> canEditIds {get; set;}
+   	public String editableIdsString {get; set;}
+   	// End : Changed for US495/DE600 - Basant Verma
     
     public Service_ContentItem(){    	
     	String myuserAgent = ApexPages.currentPage().getHeaders().get('USER-AGENT');
@@ -22,7 +30,21 @@ global public with sharing class Service_ContentItem {
     public Boolean editable{
     	get{
     		try{
-    			return aggregated.result.get('OwnerID') == UserInfo.getUserId();
+    			// Start : Changed for US495/DE600 - Basant Verma
+    			if(editableIdsString != null){
+    				canEditIds = new Set<Id>();
+    				for(String str : editableIdsString.split(', ')){
+    					canEditIds.add((Id)(str.trim()));
+    				}
+	    			if(aggregated.result.get('cvid') != null && aggregated.result.get('cvid') != '')
+	    				return canEditIds.contains((id)aggregated.result.get('cvid'));
+	    			else
+	    				return canEditIds.contains((id)aggregated.result.get('cvidlow'));
+	    			} 
+    			else{    				
+    				return aggregated.result.get('OwnerID') == UserInfo.getUserId();
+    			}
+    			// End : Changed for US495/DE600 - Basant Verma
     		} catch(Exception ex){
     			return false;
     		}

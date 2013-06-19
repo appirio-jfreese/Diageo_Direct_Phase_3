@@ -39,6 +39,7 @@ private class Test_ContentVersionTrigger {
 	    cVersion2.pathOnClient = 'test1.xml';
 		  cVersion2.VersionData = Blob.valueOf('Hello');
 		  cVersion2.RecordTypeId = selectedWorkspace.defaultRecordTypeId;
+		  cVersion2.Description = 'UpdatedTest';
 	    insert cVersion2;
 	    system.assertNotEquals(cVersion2.Id, null);
 	    
@@ -68,6 +69,7 @@ private class Test_ContentVersionTrigger {
 	  	cVersion.ReasonForChange = 'Created';
 	  	cVersion.FirstPublishLocationId = selectedWorkspace.Id;
 	  	cVersion.RecordTypeId = selectedWorkspace.defaultRecordTypeId;
+	  	cVersion.Description = 'TestDesc';
     	insert cVersion;
     
     	// Fetch ContentDocument

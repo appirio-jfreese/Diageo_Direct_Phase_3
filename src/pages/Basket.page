@@ -1,3 +1,10 @@
+<!------------------------------------------------------------------------------
+Name 				: Basket.page
+
+Updated By	: Basant Kumar Verma
+Date 				: 6/14/13
+Story/Task	: US79/DE581 
+------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_Basket">
     <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.SearchResultPage, 'style'+siteTheme+'.css')}"/>
@@ -246,11 +253,13 @@
             hideDialog('confirmDelete');
         });
 
-        jQuery('.emptyBasketPopupRequired').live('click',function(){
+				// Start : Changes for US79/DE581 : Basant Verma
+        /*jQuery('.emptyBasketPopupRequired').live('click',function(){
             if(jQuery('#possibleItemsToRemove').length == 1){
                 showDialog('confirmDelete');
             }
-        });
+        });*/
+        // End : Changes for US79/DE581 : Basant Verma
 
         calculateBoxHeight();
         bindFilterJs();

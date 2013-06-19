@@ -178,4 +178,8 @@ public with sharing class Constant {
     public static final String CLS_F = 'Forecasting';
     public static final String CLS_TA = 'Trade Ad';
     public static final String CLS_V = 'VAP';
+    
+    // For Content Workspace
+    public static final String COLLABORATION_LIBRARY = 'Collaboration';
+    public static final String DISTRIBUTOR_PORTAL_LIBRARY = 'Distributor Portal';
 }

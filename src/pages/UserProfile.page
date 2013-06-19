@@ -1,3 +1,10 @@
+<!------------------------------------------------------------------------------
+Name				: UserProfile.page
+
+Updated By 	: Basant Kumar Verma (Appirio OffShore)
+Date 				: 15/6/2013
+Story/Task 	: US79/DE594
+------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_UserProfile">
     <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.SearchResultPage, 'style'+siteTheme+'.css')}"/>  
@@ -163,10 +170,10 @@
                                 <div class="save-option hidden"><span class="save-button">Save</span> | <span class="cancel-button">Cancel</span></div>
                             </td>
                         </tr>
-                        
+                        <!-- Start : Changes for US79/DE594 - Basant Verma-->
                         <tr>
-                            <td class="label no-border">Site Theme</td>
-                            <td class="no-border" style="padding-top: 4px; padding-bottom: 4px;">
+                            <td class="label">Site Theme</td>
+                            <td style="padding-top: 4px; padding-bottom: 4px;">
                                 <div class="e-value hidden">
                                     <div style="position: relative; z-index: 1; width: 100%; height: 50px;"><div style="position: absolute; top: 0px; left: 0px; "><c:selectList options="{!SiteThemes}" value="{!userRecord.Diageo_Direct_Theme__c}"/></div></div>
                                 </div>
@@ -174,12 +181,29 @@
                                     <apex:outputText value="{!userRecord.Diageo_Direct_Theme__c}" />
                                 </div>
                             </td>
-                            <td class="options editable no-border">
+                            <td class="options editable">
                                 <div class="edit-option hidden"><span class="edit-button">Edit</span></div>
                                 <div class="save-option hidden"><span class="save-button">Save</span> | <span class="cancel-button">Cancel</span></div>
                             </td>
                         </tr>
                         
+                        <tr>
+                            <td class="label no-border">Content Notification Frequency</td>
+                            <td class="no-border" style="padding-top: 4px; padding-bottom: 4px;">
+                                <div class="e-value hidden">
+                                    <div style="position: relative; z-index: 1; width: 100%; height: 50px;"><div style="position: absolute; top: 0px; left: 0px; ">
+                                    <c:selectList options="{!NotificationFrequency}" value="{!userRecord.Content_Notification_Frequency__c}"/></div></div>
+                                </div>
+                                <div class="t-value">
+                                    <apex:outputText value="{!userRecord.Content_Notification_Frequency__c}" />
+                                </div>
+                            </td>
+                            <td class="options editable no-border">
+                                <div class="edit-option hidden"><span class="edit-button">Edit</span></div>
+                                <div class="save-option hidden"><span class="save-button">Save</span> | <span class="cancel-button">Cancel</span></div>
+                            </td>
+                        </tr>
+                        <!-- End : Changes for US79/DE594 - Basant Verma -->
                     </table>
             </apex:form>
             </apex:outputPanel>

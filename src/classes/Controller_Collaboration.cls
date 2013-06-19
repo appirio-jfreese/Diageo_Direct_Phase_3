@@ -1,3 +1,7 @@
+/*******************************************************************************
+Name 				: Controller_Collaboration.cls
+
+*******************************************************************************/
 public without sharing class Controller_Collaboration extends Controller_Base {
     public class CollaborationException extends Exception {}
 

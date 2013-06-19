@@ -11,4 +11,7 @@ trigger ContentVersionTrigger on ContentVersion (after insert, after update) {
     if(Trigger.isAfter && Trigger.isInsert){
         ContentVersionTriggerHandler.onAfterInsert(Trigger.newMap);
     }
+    if(Trigger.isAfter && Trigger.isUpdate){
+    	ContentVersionTriggerHandler.onAfterUpdate(Trigger.newMap, Trigger.oldMap);
+    }
 }
