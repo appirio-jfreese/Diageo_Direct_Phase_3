@@ -1,3 +1,12 @@
+/*****************************************************************************************************************
+Name        : Service_EditFile.cls
+
+Updated By  : Jonathan Freese (Appirio)   
+Date        : 6/19/13
+Story/Task  : US604/TA1000
+
+*******************************************************************************************************************/
+
 public without sharing class Service_EditFile {
 	
 	public ContentVersion file {get;set;}
@@ -79,7 +88,9 @@ public without sharing class Service_EditFile {
 	            return null;
 	    	} else {
 	    		ContentWorkspace CW = [SELECT DefaultRecordTypeId, Id FROM ContentWorkspace WHERE Name='Collaboration'];
-	    		ContentVersion cv = new ContentVersion(File__c = file.File__c, RecordTypeId = CW.DefaultRecordTypeId, Title = file.PathOnClient, ReasonForChange = 'replace', description = description, ContentDocumentID = file.ContentDocumentID, PathOnClient = file.PathOnClient, VersionData = file.VersionData);
+	    		// Start : Changes for TA1000 - Jonathan Freese
+	    		ContentVersion cv = new ContentVersion(File__c = file.File__c, RecordTypeId = CW.DefaultRecordTypeId, Title = file.PathOnClient, ReasonForChange = 'replace (' + description + ')', description = description, ContentDocumentID = file.ContentDocumentID, PathOnClient = file.PathOnClient, VersionData = file.VersionData);
+	    		// End : Changes for TA1000 - Jonathan Freese
 	    		insert cv;
 	    		if(organizationalHierarchyId==null || DistributorId==null || folderId==null){
 	    			File__c f = new File__c(id 					  			= file.File__c,
