@@ -69,7 +69,7 @@ Story/Task  : US503/TA907
                 <!-- START : Changes for US503/TA1011 : Comment Blog Code - Basant Verma -->
                 <!--
                     <c:blogPost format="Titles" isLoggedIn="{!isLoggedIn}" url="" singleTag="Location:brand-marketing-information" id="blogPostComp"/>
-                -->     
+                 -->    
                 <!-- END : Changes for US503/TA1011 : Comment Blog Code - Basant Verma -->
                 <!-- END : Changes for : TA907 -->
             </div>

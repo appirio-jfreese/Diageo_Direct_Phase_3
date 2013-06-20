@@ -696,6 +696,9 @@ global public without sharing virtual class Controller_Base {
     }
     
     public Map<String, list<sobject>> getRequestedPageForMap(Map<String, list<sobject>> all, List<String> headers){
+    // Start : Changes For US495/DE600 : Basant Kumar Verma
+    contentCanEditIdSet = null;
+    // End : Changes For US495/DE600 : Basant Kumar Verma
 		Map<String, list<sobject>> tmp = new Map<String, list<sobject>>();
         isNewContent = false;
         Integer size = 0;
@@ -1203,7 +1206,7 @@ global public without sharing virtual class Controller_Base {
 	 		return str;
 	 	}
 	 	
-	 	private Set<id> contentCanEditIdSet;
+	 	protected Set<id> contentCanEditIdSet;
 	 	
 	 	public String contentCanEditIds {
 	 		get{

@@ -5,6 +5,12 @@ Updated By  : Jonathan Freese (Appirio)
 Date        : 6/19/13
 Story/Task  : US604/TA1000
 
+Updated By  : Basant Verma (AppirioOffShore)   
+Date        : 6/20/13
+Story/Task  : (after the pop up window closes, 
+							User should remain on the same page they were already on 
+							when they started to edit)
+
 *******************************************************************************************************************/
 
 public without sharing class Service_EditFile {
@@ -140,7 +146,11 @@ public without sharing class Service_EditFile {
 	
 	public PageReference clear(){
 		fileIdSetted = false;
+		// Start : Changes - Basant Verma (after the pop up window closes, User should remain on the same page they were already on when they started to edit)
 		PageReference pr = ApexPages.currentPage();
+		if(afterUploadRedirectTo != null && !afterUploadRedirectTo.trim().equals(''))
+			pr = new Pagereference(afterUploadRedirectTo);
+		// End : Changes - Basant Verma
 		pr.setRedirect(true);
 		return pr;
 	}

@@ -6,7 +6,7 @@ Date        : 6/5/13
 Story/Task  : US79/TA1001
 Description : Handler Class for ContentVersionTrigger.trigger
 *******************************************************************************/
-public with sharing class ContentVersionTriggerHandler {
+public with sharing class ContentVersionTriggerHandler{
     private static boolean disabled = false;
     
     // This method called from ContentVersionTrigger on After Insert

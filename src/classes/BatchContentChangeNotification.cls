@@ -160,9 +160,10 @@ global class BatchContentChangeNotification implements Database.Batchable<sObjec
     private static Map<Id, List<String>> getContentVersions(List<sObject> scope,
 								    	Id collaborationDefaultRecordTypeId,
 								        Id distributorPortalDefaultRecordTypeId){
-    	Set<Id> fileContentVersionIds = new Set<Id>();
-    	Set<Id> desContentVersionIds = new Set<Id>(); 
+    	Set<Id> fileContentIds = new Set<Id>();
+    	Set<Id> desContentIds = new Set<Id>(); 
     	Set<Id> contentVersionIds = new Set<Id>();
+    	Map<Id, List<String>> contentVersionMap = new Map<Id, List<String>>();
     	List<String> titleShareList;
     	User user;
     	for(sObject obj : scope){
@@ -173,46 +174,47 @@ global class BatchContentChangeNotification implements Database.Batchable<sObjec
         		}		        		
         	}
         }
-        system.debug('=======contentVersionIds============='+contentVersionIds);        
+        system.debug('=======contentVersionIds============='+contentVersionIds); 
+        
+        // Fetch title for respective versions       
         if(contentVersionIds.size() > 0){
-        	for(ContentVersion cVersion : [Select id, RecordTypeId 
+        	for(ContentVersion cVersion : [Select id, title, RecordTypeId, contentDocumentId
         									from ContentVersion
         									where id in : contentVersionIds]){
         		if(cVersion.RecordTypeId == collaborationDefaultRecordTypeId){
-        			fileContentVersionIds.add(cVersion.id);
+        			fileContentIds.add(cVersion.contentDocumentId);
         		}else if(cVersion.RecordTypeId == distributorPortalDefaultRecordTypeId){
-        			desContentVersionIds.add(cVersion.id);
+        			desContentIds.add(cVersion.contentDocumentId);
         		}
+        		titleShareList = new List<String>();
+				titleShareList.add(cVersion.title);
+				contentVersionMap.put(cVersion.id, titleShareList);	
         	}	
         }
-        system.debug('=======fileContentVersionIds============='+fileContentVersionIds);
-        system.debug('=======desContentVersionIds============='+desContentVersionIds);
-        Map<Id, List<String>> contentVersionMap = new Map<Id, List<String>>();
-        if(desContentVersionIds.size() > 0){
-		        for(Content_Description__c contentDesc : [select title__c, share_link__c, Content_Version_Id__c
-											   			  from Content_Description__c
-											   			  where Content_Version_Id__c in :desContentVersionIds
-											   			  and title__c != null]){
-					titleShareList = new List<String>();
-					titleShareList.add(contentDesc.title__c);
-					if(contentDesc.share_link__c != null){
-						titleShareList.add(contentDesc.share_link__c);
-					}
-					contentVersionMap.put(contentDesc.Content_Version_Id__c, titleShareList);						   	
-				}
+        system.debug('=======fileContentVersionIds============='+fileContentIds);
+        system.debug('=======desContentVersionIds============='+desContentIds);
+        
+        // Fetch share links for contents
+        if(desContentIds.size() > 0){
+        	for(Content_Description__c contentDesc : [select share_link__c, Content_Version_Id__c
+											   		  from Content_Description__c
+											   		  where Content_ID__c in :desContentIds]){					
+				if(contentDesc.share_link__c != null 
+				&& contentVersionMap.get(contentDesc.Content_Version_Id__c) != null){
+					contentVersionMap.get(contentDesc.Content_Version_Id__c).add(contentDesc.share_link__c);
+				}										   	
+			}
         }
 		
-		if(fileContentVersionIds.size() > 0){
-			for(File__c file : [select title__c, share_link__c, Content_Version_Id__c
-										   			  from File__c
-										   			  where Content_Version_Id__c in :fileContentVersionIds
-										   			  and title__c != null]){
-				titleShareList = new List<String>();
-				titleShareList.add(file.title__c);
-				if(file.share_link__c != null){
-					titleShareList.add(file.share_link__c);
+		if(fileContentIds.size() > 0){
+			for(File__c file : [select share_link__c, Content_Version_Id__c
+							    from File__c
+								where Content_ID__c in :fileContentIds]){				
+				if(file.share_link__c != null
+				&& contentVersionMap.get(file.Content_Version_Id__c) != null){
+					contentVersionMap.get(file.Content_Version_Id__c).add(file.share_link__c);
 				}
-				contentVersionMap.put(file.Content_Version_Id__c, titleShareList);						   	
+										   	
 			}
 		}
     	system.debug('========contentVersionMap================'+contentVersionMap);
@@ -287,7 +289,7 @@ global class BatchContentChangeNotification implements Database.Batchable<sObjec
 			        		notificationStr += ' - ' + shareLink;			        		
 			        	}	
 			        	notificationHtmlStr += '\n' + '<a href="' + shareLink + '">' 
-			        								+ documentName + ' - ' + reasonForChange + '</a>';		        				        		
+			        								+ documentName + '</a>' + ' - ' + reasonForChange;		        				        		
 			        	changeNotificaitons.add(changeNotification);
 	        			
 	        		}
@@ -315,13 +317,14 @@ global class BatchContentChangeNotification implements Database.Batchable<sObjec
     	String prePlainBody = '';
     	if(receiver.Content_Notification_Frequency__c == 'Real Time'){
     		subject += 'Diageo Direct Content Update: ' + documentName;
-    		prePlainBody += 'The following content has been updated: \n' 
-							+ documentName + '. Click on the link to open the content. \n';
+    		prePlainBody += 'The following items have been updated: \n' 
+							+ documentName + '. Click on the link to open the item. \n';
     	}else{
 			subject = 'Diageo Direct Content ' + receiver.Content_Notification_Frequency__c +  ' Status Update';
-			prePlainBody += 'The following contents has been updated.'
-							+ ' Click on the link to open the content. \n';
+			prePlainBody += 'The following items have been updated.'
+							+ ' Click on the link to open the item. \n';
     	}
+    	
 		system.debug('===email========'+receiver.email);							
     	mail.setToAddresses(new List<String>{receiver.email});						
 		mail.setSubject(subject);
@@ -343,7 +346,7 @@ global class BatchContentChangeNotification implements Database.Batchable<sObjec
         if(notificationSetting != null 
         && notificationSetting.Delete_Sent_Notification_Threshhold__c != null){
 	    	Date dateToCompare 
-	    	= system.today().addMonths(Integer.valueOf(notificationSetting.Delete_Sent_Notification_Threshhold__c));
+	    	= system.today().addMonths(-Integer.valueOf(notificationSetting.Delete_Sent_Notification_Threshhold__c));
 	    	
 	    	// Get all sent notifications before threshold date
 			List<Content_Change_Notification__c> sentNotifications 
