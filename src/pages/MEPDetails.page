@@ -12,7 +12,7 @@ Name        : MEPDetails.page
     <c:loader />
     <div class="content-wrapper">
         <!-- PAGE HEADER -->
-        <c:pageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
+        <c:pageHeader showThemeSelector="false" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
         
 		<script type="text/javascript">
 	    	pageViewed('Monthly Execution Plan - Detail Page');
