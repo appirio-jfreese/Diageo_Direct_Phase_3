@@ -57,11 +57,11 @@ Story/Task  : US503/TA907
         }
        
     </style>
-    <c:loader />
+    <c:R_Loader />
     <div class="content-wrapper">
         <!-- PAGE HEADER -->
         <!-- Start : Changes for TA920 - Basant Verma -->
-        <c:pageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" /> <!--thisAvatarURL="{!avatarUrl}"-->
+        <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" /> <!--thisAvatarURL="{!avatarUrl}"-->
         <!-- End : Changes for TA920 - Basant Verma -->
         <script type="text/javascript">
             pageViewed('Home Page');
@@ -107,7 +107,7 @@ Story/Task  : US503/TA907
             </div>
             <div class="home-page-box home-page-box-last" style="display:{!showPlayer};">
                 <div class="">
-                    <c:videoPlayer videoId="{!videoId}" width="310" height="173"/>
+                    <c:R_videoPlayer videoId="{!videoId}" width="310" height="173"/>
                 </div>
             </div>
                
@@ -292,12 +292,12 @@ Story/Task  : US503/TA907
             </apex:outputPanel>
         </div>
         <!-- PAGE FOOTER -->
-        <c:pageFooter isInternal="{!isInternalUser}" />
+        <c:R_pageFooter isInternal="{!isInternalUser}" />
         
     </div>
     
 
-    <c:ajaxLoader />   
+    <c:R_ajaxLoader />   
     
     <script type="text/javascript">
     jQuery(document).ready(function() {

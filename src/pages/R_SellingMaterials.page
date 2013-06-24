@@ -9,10 +9,10 @@ Name				: SellingMaterials.page
         	overflow: hidden;
         }
     </style>
-    <c:loader />
+    <c:R_Loader />
     <div class="content-wrapper">
         <!-- PAGE HEADER -->
-        <c:pageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}"/>
+        <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}"/>
         
 		<script type="text/javascript">
 	    	pageViewed('Selling Materials');
@@ -20,7 +20,7 @@ Name				: SellingMaterials.page
 	    
         <!--  BREADCRUMB -->
         <apex:outputPanel id="beadcrumblinks">
-        	<c:pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
+        	<c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
         </apex:outputPanel>
 
         <!-- PAGE CONTENT -->
@@ -424,7 +424,7 @@ Name				: SellingMaterials.page
 	                        			Showing {!showFromIndex+1}-{!showToIndex} of total {!numberOfItems} documents
 	                        		</div>
 	                        		<div class="float-left">
-										<c:selectList width="80" options="{!NumberOfItemsPerPageList}"  value="{!numberOfItemsOnPage}" onchange="changeNumberOfItemPerPage();" />
+										<c:R_selectList width="80" options="{!NumberOfItemsPerPageList}"  value="{!numberOfItemsOnPage}" onchange="changeNumberOfItemPerPage();" />
 									</div>
 	                        		<div class="clear-float"></div>
 								</div>
@@ -452,21 +452,21 @@ Name				: SellingMaterials.page
 								</apex:outputPanel>
 								<apex:variable value="{!contentItem.result['Sub_Sub_Sub_Category__c']}" var="currentSubSubSubCategory"  rendered="{!!ISNULL(contentItem.result['Sub_Sub_Sub_Category__c'])}"/>
 									<apex:outputPanel rendered="{!if(displayAsList != true,'true','false')}">
-		                            <c:contentItem followIds="{!currentFollowIds}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" width="301" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true"/>
+		                            <c:R_contentItem followIds="{!currentFollowIds}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" width="301" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true"/>
 								</apex:outputPanel>
 									<apex:outputPanel rendered="{!if(displayAsList = true,'true','false')}">
-	       		                    <c:contentItem followIds="{!currentFollowIds}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" renderAsList="true" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true"/>
+	       		                    <c:R_contentItem followIds="{!currentFollowIds}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" renderAsList="true" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true"/>
 								</apex:outputPanel>	
 								</apex:repeat>
 							<div class="clear-float"></div>
-							<c:pagination totalNumberOfPages="{!numberOfPages}" isNewContent="{!isNewContent}" pageNumbers="{!pageNumbers}" numberOfCurrentPage="{!numberOfCurrentPage}" />
+							<c:R_pagination totalNumberOfPages="{!numberOfPages}" isNewContent="{!isNewContent}" pageNumbers="{!pageNumbers}" numberOfCurrentPage="{!numberOfCurrentPage}" />
 						</apex:outputPanel>
 					</apex:outputPanel>						
 				</apex:outputPanel>
 			</apex:form>
         </div>
         <!-- PAGE FOOTER -->
-        <c:pageFooter isInternal="{!isInternalUser}" />
+        <c:R_pageFooter isInternal="{!isInternalUser}" />
     </div>
     
 	<apex:form >
@@ -506,23 +506,23 @@ Name				: SellingMaterials.page
 
 	<div id="downloadAllInfo" class="hidden dialog" >
 	    <apex:outputPanel id="downloadAllDialog">
-	    	<c:downloadAll content="{!content}"/>
+	    	<c:R_downloadAll content="{!content}"/>
 	    </apex:outputPanel>
 	</div>
 
     <div id="moreInfo" class="hidden dialog" >
 	    <apex:outputPanel id="overviewDialog">
-	    	<c:overview cvid="{!cVersionId}" description="{!cDescr}" videoId="{!cVideoId}" isVideo="{!cIsVideo}" previewId="{!cPreviewId}" isPreview="{!cIsPreview}"/>
+	    	<c:R_overview cvid="{!cVersionId}" description="{!cDescr}" videoId="{!cVideoId}" isVideo="{!cIsVideo}" previewId="{!cPreviewId}" isPreview="{!cIsPreview}"/>
 	    </apex:outputPanel>        
     </div>
 
     <div id="shareInfo" class="hidden dialog">
         <apex:outputPanel id="shareDialog">
-        	<c:share cvid="{!cVersionId}" cvids="{!cVersionIds}" description="{!cDescr}" cShareLink="{!cShareLink}" cShareLinkLow="{!cShareLinkLow}"/>
+        	<c:R_share cvid="{!cVersionId}" cvids="{!cVersionIds}" description="{!cDescr}" cShareLink="{!cShareLink}" cShareLinkLow="{!cShareLinkLow}"/>
         </apex:outputPanel>        
     </div>   
         
-	<c:ajaxLoader beforeStop="bindFilterJs();"/>
+	<c:R_ajaxLoader beforeStop="bindFilterJs();"/>
 	
     <script type="text/javascript">
     jQuery(document).ready(function() {

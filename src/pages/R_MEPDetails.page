@@ -9,17 +9,17 @@ Name        : MEPDetails.page
         	overflow: hidden;
         }
     </style>
-    <c:loader />
+    <c:R_Loader />
     <div class="content-wrapper">
         <!-- PAGE HEADER -->
-        <c:pageHeader showThemeSelector="false" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
+        <c:R_PageHeader showThemeSelector="false" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
         
 		<script type="text/javascript">
 	    	pageViewed('Monthly Execution Plan - Detail Page');
 	    </script>
 
         <!--  BREADCRUMB -->
-        <c:pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
+        <c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
 
         <!-- PAGE CONTENT -->
         <div class="content intro-page-bg left {!if(ISNULL(siteTheme),'hidden','')}">
@@ -65,7 +65,7 @@ Name        : MEPDetails.page
 									  	<div>
 											<apex:outputtext escape="false" value="{!description}"/>
 											<apex:outputPanel rendered="{!IF(mepItem.description_content_description__r.Content_Version_Id__c != '', 'true','false')}">
-												<!-- <br/><br/><c:downloadButton description="Overview" cvid="{!mepItem.description_content_description__r.Content_Version_Id__c}" filetype="{!mepItem.description_content_description__r.filetype__c}"/> -->
+												<!-- <br/><br/><c:R_downloadButton description="Overview" cvid="{!mepItem.description_content_description__r.Content_Version_Id__c}" filetype="{!mepItem.description_content_description__r.filetype__c}"/> -->
 											</apex:outputPanel>
 										</div>
 									  </div>
@@ -105,15 +105,15 @@ Name        : MEPDetails.page
 																	<apex:variable value="{!calendarItm.result['Sub_Sub_Category__c']}" var="currentSubSubCategory" rendered="{!!ISNULL(calendarItm.result['Sub_Sub_Category__c'])}"/>
 
 																	<apex:outputPanel rendered="{!if(displayAsList != true,'true','false')}">
-																		<c:contentItem followIds="{!currentFollowIds}" basketIds="{!currentBasketIds}" aggregated="{!calendarItm}" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true" />
+																		<c:R_contentItem followIds="{!currentFollowIds}" basketIds="{!currentBasketIds}" aggregated="{!calendarItm}" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true" />
 						                                            </apex:outputPanel>
 																	<apex:outputPanel rendered="{!if(displayAsList = true,'true','false')}">
-																		<c:contentItem followIds="{!currentFollowIds}" basketIds="{!currentBasketIds}" aggregated="{!calendarItm}" renderAsList="true" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true"/>
+																		<c:R_contentItem followIds="{!currentFollowIds}" basketIds="{!currentBasketIds}" aggregated="{!calendarItm}" renderAsList="true" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true"/>
 			                                            			</apex:outputPanel>
 																</apex:repeat>
 																<div class="content-item-clean"></div>
 															</div>
-															<c:pagination showPager="false" isNewContent="{!isNewContent}" pageNumbers="{!pageNumbers}" numberOfCurrentPage="1" />
+															<c:R_pagination showPager="false" isNewContent="{!isNewContent}" pageNumbers="{!pageNumbers}" numberOfCurrentPage="1" />
 														</apex:outputPanel>
 													</div>
 												</apex:repeat>
@@ -140,7 +140,7 @@ Name        : MEPDetails.page
         </div>
 
         <!-- PAGE FOOTER -->
-        <c:pageFooter isInternal="{!isInternalUser}"/>
+        <c:R_pageFooter isInternal="{!isInternalUser}"/>
     </div>
     
 	<apex:form >
@@ -180,25 +180,25 @@ Name        : MEPDetails.page
 
     <div id="moreInfo" class="hidden dialog" >
 	    <apex:outputPanel id="overviewDialog">
-	    	<c:overview cvid="{!cVersionId}" description="{!cDescr}" videoId="{!cVideoId}" isVideo="{!cIsVideo}" previewId="{!cPreviewId}" isPreview="{!cIsPreview}"/>
+	    	<c:R_overview cvid="{!cVersionId}" description="{!cDescr}" videoId="{!cVideoId}" isVideo="{!cIsVideo}" previewId="{!cPreviewId}" isPreview="{!cIsPreview}"/>
 	    </apex:outputPanel>        
     </div>
 
 	<apex:outputPanel id="downloadAllCalendarItems">
 		<apex:repeat value="{!detailsMap}" var="silderSection">
 			<div id="downloadAllInfo-{!detailsMapParser[silderSection]}" class="hidden dialog" >
-				<c:downloadAll content="{!detailsMap[silderSection]}"/>
+				<c:R_downloadAll content="{!detailsMap[silderSection]}"/>
 			</div>	
 		</apex:repeat>
 	</apex:outputPanel>
 	
     <div id="shareInfo" class="hidden dialog">
         <apex:outputPanel id="shareDialog">
-			<c:share cvid="{!cVersionId}" cvids="{!cVersionIds}" description="{!cDescr}" cShareLink="{!cShareLink}" cShareLinkLow="{!cShareLinkLow}"/>
+			<c:R_share cvid="{!cVersionId}" cvids="{!cVersionIds}" description="{!cDescr}" cShareLink="{!cShareLink}" cShareLinkLow="{!cShareLinkLow}"/>
         </apex:outputPanel>        
     </div>    
 
-    <c:ajaxLoader beforeStop="bindJs();" />
+    <c:R_ajaxLoader beforeStop="bindJs();" />
        
     <script type="text/javascript">
     jQuery(document).ready(function() {

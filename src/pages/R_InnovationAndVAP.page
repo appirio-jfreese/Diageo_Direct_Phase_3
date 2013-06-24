@@ -28,11 +28,11 @@ Story/Task	: US503/TA1011
         }
     </style>
     
-    <c:loader />
+    <c:R_Loader />
     
     <div class="content-wrapper">
         <!-- PAGE HEADER -->
-        <c:pageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
+        <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
         
         <script type="text/javascript">
             pageViewed('Innovation, Sustainovation and VAP');
@@ -40,7 +40,7 @@ Story/Task	: US503/TA1011
         
         <!-- BREADCRUMB -->
         <apex:outputPanel id="beadcrumblinks">
-            <c:pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
+            <c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
         </apex:outputPanel>
 
         <!-- PAGE CONTENT -->
@@ -70,10 +70,10 @@ Story/Task	: US503/TA1011
                             <div class="clear-float"></div>
                         </div>
                         <div class="title-menu" style="right:225px;">
-                            <c:checkboxList width="150" useSectionTheme="true" options="{!themeOptions}" noOfOptions="{!noOfThemesAvailable}" onchange="refreshContent()" />
+                            <c:R_checkboxList width="150" useSectionTheme="true" options="{!themeOptions}" noOfOptions="{!noOfThemesAvailable}" onchange="refreshContent()" />
                         </div>
                         <div class="title-menu">
-                            <c:selectList options="{!timePeriods}"  value="{!timePeriod}" onchange="refreshContent()" useSectionTheme="true" />
+                            <c:R_selectList options="{!timePeriods}"  value="{!timePeriod}" onchange="refreshContent()" useSectionTheme="true" />
                         </div>
                     </div>        
                     <table class="ivap-data">
@@ -141,7 +141,7 @@ Story/Task	: US503/TA1011
                                 <div class="general-updates-title">News</div>     
                 								<!-- END : Changes for US503/TA1011 : Comment Blog Code - Basant Verma -->
                 								<!-- 
-                                    <c:NarrowBlogList format="Titles" isLoggedIn="{!isLoggedIn}" url="" singleTag="Location:innovation" id="blogPostComp" />
+                                    <c:R_NarrowBlogList format="Titles" isLoggedIn="{!isLoggedIn}" url="" singleTag="Location:innovation" id="blogPostComp" />
                                 -->     
                 								<!-- END : Changes for US503/TA1011 : Comment Blog Code - Basant Verma -->
                                 <!-- End of US503 -->
@@ -267,10 +267,10 @@ Story/Task	: US503/TA1011
             </apex:form>
         </div>
         <!-- PAGE FOOTER -->
-        <c:pageFooter isInternal="{!isInternalUser}" />
+        <c:R_pageFooter isInternal="{!isInternalUser}" />
         <div id="tooltipIpad"></div>
         </div>
-    <c:ajaxLoader afterStop="bindJs(); " />
+    <c:R_ajaxLoader afterStop="bindJs(); " />
     
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.tooltip.min.js')}"></script>
     <script type="text/javascript">

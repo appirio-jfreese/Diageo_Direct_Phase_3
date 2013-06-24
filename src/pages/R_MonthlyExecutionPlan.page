@@ -16,11 +16,11 @@
         }
     </style>
     
-    <c:loader />	
+    <c:R_Loader />	
     	
     <div class="content-wrapper">
         <!-- PAGE HEADER -->
-        <c:pageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
+        <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
 
 
 		<script type="text/javascript">
@@ -30,7 +30,7 @@
 
         <!--  BREADCRUMB -->
         <apex:outputPanel id="beadcrumblinks">
-        	<c:pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
+        	<c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
 		</apex:outputPanel>
         <!-- PAGE CONTENT -->
         <div class="content bggradient {!if(ISNULL(siteTheme),'hidden','')}">
@@ -57,10 +57,10 @@
                             <div class="clear-float"></div>
                         </div>
                         <div class="title-menu" style="right:225px;">
-			            	<c:checkboxList width="150" options="{!themeOptions}" noOfOptions="{!noOfThemesAvailable}" onchange="refreshContent()" />
+			            	<c:R_checkboxList width="150" options="{!themeOptions}" noOfOptions="{!noOfThemesAvailable}" onchange="refreshContent()" />
 			            </div>
                         <div class="title-menu">
-                            <c:selectList options="{!timePeriods}"  value="{!timePeriod}" onchange="refreshContent()" />
+                            <c:R_selectList options="{!timePeriods}"  value="{!timePeriod}" onchange="refreshContent()" />
                         </div>
                 </div>        
                     <table class="mep-data">
@@ -157,9 +157,9 @@
             </apex:form>
         </div>
         <!-- PAGE FOOTER -->
-        <c:pageFooter isInternal="{!isInternalUser}" />
+        <c:R_pageFooter isInternal="{!isInternalUser}" />
         </div>
-    <c:ajaxLoader />
+    <c:R_ajaxLoader />
     
     <script type="text/javascript">
 		jQuery('.jumpToDate').keydown(function(e) {

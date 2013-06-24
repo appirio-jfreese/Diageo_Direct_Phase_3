@@ -17,17 +17,17 @@ Story/Task  : US503/TA907
             overflow: hidden;
         }
     </style>
-    <c:loader />
+    <c:R_Loader />
     <div class="content-wrapper">
         <!-- PAGE HEADER -->
-        <c:pageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
+        <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
         
         <script type="text/javascript">
             pageViewed('Selling Materials - Intro Page');
         </script>
         
         <!--  BREADCRUMB -->
-        <c:pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
+        <c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
 
         <!-- PAGE CONTENT -->
         <div class="content intro-page-bg {!if(ISNULL(siteTheme),'hidden','')}">
@@ -67,14 +67,14 @@ Story/Task  : US503/TA907
                 <!-- START : Changes for : TA907 -->
                 <!-- START : Changes for US503/TA1011 : Comment Blog Code - Basant Verma -->
                 <!--
-                    <c:blogPost format="Titles" isLoggedIn="{!isLoggedIn}" url="" singleTag="Location:selling-materials" id="blogPostComp"/> 
+                    <c:R_blogPost format="Titles" isLoggedIn="{!isLoggedIn}" url="" singleTag="Location:selling-materials" id="blogPostComp"/> 
                 -->     
                 <!-- END : Changes for US503/TA1011 : Comment Blog Code - Basant Verma -->
                 <!-- END : Changes for : TA907 -->
             </div>
         </div>
         <!-- PAGE FOOTER -->
-        <c:pageFooter isInternal="{!isInternalUser}" />
+        <c:R_pageFooter isInternal="{!isInternalUser}" />
     </div>
 
     <script type="text/javascript">
