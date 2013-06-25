@@ -20,8 +20,13 @@ Story/Task  : US507/TA918
 Updated By  : Basant Verma (Appirio OffShore)
 Date        : 6/6/13
 Story/Task  : US79/TA1007
+
+Updated By  : Parul Gupta (Appirio OffShore)
+Date        : 6/25/13
+Story/Task  : US607/TA1014
 ------------------------------------------------------------------------------------------------------------------->
 <apex:component controller="Controller_Base" extensions="Controller_BaseRemote" allowDML="true"> 
+
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery-ui-1.8.15.custom.min.js')}"></script>
 
@@ -980,6 +985,9 @@ Story/Task  : US79/TA1007
 
     <!-- Start : Changes for US507/TA918 - Jonathan Freese -->
     <apex:stylesheet value="{!URLFOR($Resource.PageHeader, 'styleHeader.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.Responsive, 'css/layout.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.Responsive, 'css/skeleton-fluid.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.Responsive, 'css/base.css')}" />
     <!--  <apex:attribute name="thisAvatarUrl" description="" type="String" required="false"/> -->
     <!-- End : Changes for US507/TA918 - Jonathan Freese -->
 
@@ -1107,6 +1115,49 @@ Story/Task  : US79/TA1007
          
     <apex:outputPanel rendered="true">
     <div id="overlayDisable"></div>
+    <div class="header">
+		<div class="info row sixteen">
+                <div class="desc-wrapper">
+                   <div class="desc">
+                        Hello, <a href="javascript:;" class="name">Evangeline Jackson</a>
+                                                <br/>
+                        Johnson Bros Wholesale Liq Co of MN
+                    </div>
+                    <div class="avatar-wrapper">
+                        <a href="javascript:;" class="avatar">
+                        <img src="i/avatar.png"/>
+                        </a>
+                    </div> 
+                    <div class="icons">
+                    <a href="javascript:;" class="cart">
+                        388
+                    </a>
+                    <a href="javascript:;" class="fav">
+                        289
+                    </a>
+                </div>
+                </div>
+        </div>
+        <a href="javascript:;" class="gotoSF">
+                <strong>Go To Salesforce</strong>
+            </a>
+            <div class="clear"></div>
+            <div class="row clearfix">
+                <a href="index.html" class="logo">
+                    <img src="i/logo.png"/>
+                </a>
+                <div class="btns">
+                    <a href="javascript:;" class="active btn">Spirits</a>
+                    <a href="javascript:;" class="btn">Wine</a>
+                    <a href="javascript:;" class="btn last">Beer</a>
+                </div>
+                <div class="search">
+                    <input type="text" class="text"/>
+                    <a href="javascript:;" class="btn">GO</a>
+                </div>
+            </div>
+           
+    </div>
     <div class="page-header" style="z-index: 31;">
         <div class="name_avatar_basket">
             <div class="info">

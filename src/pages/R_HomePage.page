@@ -1,5 +1,5 @@
 <!-----------------------------------------------------------------------------------------------------------------
-Name        : HomePage.page
+Name        : R_HomePage.page
 
 Updated By  : Basant Verma (Appirio Offshore)   
 Date 				: 6/14/13
@@ -70,7 +70,7 @@ Story/Task  : US503/TA907
         <!-- PAGE CONTENT -->
         <div class="content">
             <!-- First Row -->
-            <a href="{!$Page.MonthlyExecutionPlan}" class="box-link" onclick="pageViewed('Home Page - MonthlyExecutionPlan');">
+            <a href="{!$Page.R_MonthlyExecutionPlan}" class="box-link" onclick="pageViewed('Home Page - MonthlyExecutionPlan');">
                 <div class="home-page-box home-page-box-mep">
                     <div class="home-page-box-title home-page-box-title-mep">
                         <div class="home-page-box-title-hidden-bg">&nbsp;</div>
@@ -114,7 +114,7 @@ Story/Task  : US503/TA907
 
             <!-- Second Row -->
             <!-- Innovation, Sustainovation and VAP -->
-            <a href="{!$Page.InnovationAndVAP}" class="box-link" onclick="pageViewed('Home Page - InnovationAndVAP');"> 
+            <a href="{!$Page.R_InnovationAndVAP}" class="box-link" onclick="pageViewed('Home Page - InnovationAndVAP');"> 
             <div class="home-page-box home-page-box-isv">
                 <div class="home-page-box-title home-page-box-title-isv">
                     <div class="home-page-box-title-hidden-bg">&nbsp;</div>
@@ -125,7 +125,7 @@ Story/Task  : US503/TA907
             </div>
             </a>
             <!-- Selling Materials -->
-            <a href="{!$Page.SMIntro}" class="box-link" onclick="pageViewed('Home Page - Selling Materials');">            
+            <a href="{!$Page.R_SMIntro}" class="box-link" onclick="pageViewed('Home Page - Selling Materials');">            
                 <div class="home-page-box home-page-box-sm">
                     <div class="home-page-box-title home-page-box-title-sm">
                         <div class="home-page-box-title-hidden-bg">&nbsp;</div>
