@@ -1,4 +1,9 @@
 /**
+*
+* Updated By  : Basant Verma (Appirio Offshore)   
+* Date        : 6/25/13
+* Story/Task  : US615/TA1067
+*
 * Updated By  : Basant Verma (Appirio Offshore)   
 * Date        : 6/14/13
 * Story/Task  : US503/TA1011
@@ -47,7 +52,21 @@ public without sharing class Service_API {
     private static set<String> brandCategories;
     
     private static set<id> OUChildren;
-    
+    // Start : Changes for US615/TA1067 - Basant Verma (Appirio OffShore)
+    public static boolean isResponsive(){
+    		String userAgent =
+					ApexPages.currentPage().getHeaders().get('USER-AGENT');
+    		if(userAgent != null && !userAgent.trim().equals('') && 
+    			(userAgent.containsIgnoreCase('Android') || userAgent.containsIgnoreCase('iOS') || 
+    			userAgent.containsIgnoreCase('webOS') || userAgent.containsIgnoreCase('iPhone') || 
+    			userAgent.containsIgnoreCase('iPad') || userAgent.containsIgnoreCase('iPod') || 
+    			userAgent.containsIgnoreCase('BlackBerry'))){
+    			return true;
+				}else{
+					return false;
+				}
+    }
+    // End : Changes for US615/TA1067 - Basant Verma (Appirio OffShore)
     
     /**
     * @author Denise Bacher
