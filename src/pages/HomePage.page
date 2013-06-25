@@ -348,5 +348,5 @@ Story/Task  : US503/TA907
             )
             jQuery('.home-page-news-wrapper').jScrollPane();
         });
-    </script>   
+    </script>
 </apex:page>
