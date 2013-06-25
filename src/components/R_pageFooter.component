@@ -13,6 +13,14 @@ Story/Task	: US615/TA1066
 <apex:component controller="Controller_Base">
 <!-- End : Changes for US615/TA1066 - Basant Verma -->
     <apex:attribute name="isInternal" description="Tell if user is Innternal or not" type="Boolean" required="true"/>
+    <div class="ads">
+        <a href="javascrript:;" class="ad ad1"></a>
+        <a href="javascrript:;" class="ad ad2"></a>
+        <a href="javascrript:;" class="ad ad3"></a>
+        <a href="javascrript:;" class="ad ad4"></a>
+        <a href="javascrript:;" class="ad ad5"></a>
+        <a href="javascrript:;" class="ad ad6"></a>
+    </div>
     <div class="footer">
         <a href="">&copy; Diageo 2011</a><span>|</span>
         <a href="{!$Page.TermsAndConditions}">Terms &amp; Conditions</a><span>|</span>
