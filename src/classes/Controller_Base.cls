@@ -1,6 +1,10 @@
 /*****************************************************************************************************************
 Name        : Controller_Base.cls
 
+Updated By  : Basant Verma (Appirio Offshore)   
+Date 				: 6/25/13
+Story/Task	: US615/TA1067
+
 Updated By  : Basant Verma (AppirioOffShore)   
 Date        : 6/17/13
 Story/Task  : US495/DE600
@@ -31,6 +35,14 @@ Story/Task  : US491/TA973 - header updates
 *******************************************************************************************************************/
 
 global public without sharing virtual class Controller_Base {
+		// Start : Changes for US615/TA1067 - Basant Verma (Appirio OffShore)
+		public boolean isResponsive {
+			get{
+				return Service_API.isResponsive();
+			}
+			set;
+		}
+		// End : Changes for US615/TA1067 - Basant Verma (Appirio OffShore)
 		// Start : Changes for TA920 - Basant Verma
 		public String clickedTheme {public get; public set;}
 		private String defSiteThemeTemp;
@@ -284,7 +296,7 @@ global public without sharing virtual class Controller_Base {
     	}
     	
     	siteTheme = Service_API.getSectionTheme();
-			
+    	
 			// Start : Changes for TA920 - Basant Verma    	
     	defSiteThemeTemp = siteThemeDefault;   
     	clickedTheme = siteTheme;
