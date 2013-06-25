@@ -32,6 +32,10 @@ Story/Task  : US79/TA997
 Updated By  : Jonathan Freese (Appirio)   
 Date        : 6/6/13
 Story/Task  : US491/TA973 - header updates
+
+Updated By  : Jonathan Freese (Appirio)   
+Date        : 6/25/13
+Story/Task  : US607/TA1014
 *******************************************************************************************************************/
 
 global public without sharing virtual class Controller_Base {
@@ -131,6 +135,16 @@ global public without sharing virtual class Controller_Base {
 	    } private set;
 	}
 	
+    // Start : Changes for TA1014 - Jonathan Freese
+    public Integer followItemsNo {
+        get{
+            Integer noFollowItems = Service_Follow.getNumberOfItems();
+            return noFollowItems;
+        } private set;
+    } 
+    // End : Changes for TA1014 - Jonathan Freese
+
+
     public Integer basketItemsNo {
 	    get{
 	    	Integer noBasketItems = Service_Basket.getNumberOfItems();
