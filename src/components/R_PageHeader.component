@@ -29,16 +29,20 @@ Story/Task  : US607/TA1014
         <!-- header -->
         <div class="header">
 
-            <div class="info row sixteen">
+            <div id="name_avatar_follow_basket" class="info row sixteen">
                 <div class="desc-wrapper">
                     <div class="desc">
                         <span class="name">
                             {!$User.FirstName} {!$User.LastName}<br/>
                             <span class="dropdown">
-                                <a href="{!$Page.UserProfile}">User Profile</a>
+                                <!-- <a href="{!$Page.UserProfile}">User Profile</a>
                                 <a href="{!$Page.DownloadHistory}">Download History</a>
                                 <a href="{!$Page.ShareHistory}">Share History</a>
-                                <a href="{!$Page.FollowedItems}">Followed Items</a>
+                                <a href="{!$Page.FollowedItems}">Followed Items</a> -->
+                                <a href="javascript:;">User Profile</a>
+                                <a href="javascript:;">Download History</a>
+                                <a href="javascript:;">Share History</a>
+                                <a href="javascript:;">Followed Items</a>
                                 <a href="{!$Site.Prefix}/secur/logout.jsp">{!$Label.site.logout}</a>
                             </span>
                         </span>
@@ -59,57 +63,52 @@ Story/Task  : US607/TA1014
                     </a>
                 </div>
             </div>
-            <a href="{!$Label.SalesforceHomePage}" class="gotoSF">
-                <strong>Go To Salesforce</strong>
-            </a>
+            <div id="SFDC_link">
+	            <a href="{!$Label.SalesforceHomePage}" class="gotoSF">
+	                <strong>Go To Salesforce</strong>
+	            </a>
+	        </div>
             <div class="clear"></div>
-            <div class="row clearfix">
+            <div id="logo_buttons_search" class="row clearfix">
                 <a href="{!$Page.R_HomePage}" class="logo">
                     <img src="{!URLFOR($Resource.Responsive_Base, 'i/logo.png')}"/>
                 </a>
-                <div>
-                <apex:form >
-                    <apex:actionFunction status="ajax-status" name="toggleToWine" action="{!toggleToWine}"/>
-                    <apex:actionFunction status="ajax-status" name="toggleToSpirits" action="{!toggleToSpirits}"/>
-                    <apex:outputPanel id="sTheme" rendered="{!showThemeSelector}">
-                        <div class="btns">
-                            <apex:outputPanel rendered="{!siteTheme == 'Spirits'}">
-                                <a href="javascript:;" class="active btn">Spirits</a>
-                                <a href="javascript:;" class="btn" onclick="toggleToWine()">Wine</a>
-                                <a href="javascript:;" class="btn last">Beer</a>
-                            </apex:outputPanel>
-                            <apex:outputPanel rendered="{!siteTheme == 'Wine'}">
-                                <a href="javascript:;" class="btn" onclick="toggleToSpirits()">Spirits</a>
-                                <a href="javascript:;" class="active btn">Wine</a>
-                                <a href="javascript:;" class="btn last">Beer</a>
-                            </apex:outputPanel>
-                        </div>
-                    </apex:outputPanel>
-                </apex:form>
+                <div class="btns">
+	                <apex:form >
+	                    <apex:actionFunction status="ajax-status" name="toggleToWine" action="{!toggleToWine}"/>
+	                    <apex:actionFunction status="ajax-status" name="toggleToSpirits" action="{!toggleToSpirits}"/>
+	                    <apex:outputPanel id="sTheme" rendered="{!showThemeSelector}">
+	                            <apex:outputPanel rendered="{!siteTheme == 'Spirits'}">
+	                                <a href="javascript:;" class="active btn">Spirits</a>
+	                                <a href="javascript:;" class="btn" onclick="toggleToWine()">Wine</a>
+	                                <a href="javascript:;" class="btn last">Beer</a>
+	                            </apex:outputPanel>
+	                            <apex:outputPanel rendered="{!siteTheme == 'Wine'}">
+	                                <a href="javascript:;" class="btn" onclick="toggleToSpirits()">Spirits</a>
+	                                <a href="javascript:;" class="active btn">Wine</a>
+	                                <a href="javascript:;" class="btn last">Beer</a>
+	                            </apex:outputPanel>
+	                    </apex:outputPanel>
+	                </apex:form>
                 </div>
 
-                <!-- <div class="search">
-                    <input type="text" class="text" />
-                    <a href="javascript:;" class="btn">GO</a>
-                </div> -->
-
-	            <apex:outputPanel rendered="{!showSearch}">
-	                <div class="search {!If(OR(isLoggedIn!=true, preview=='true') ,'hidden','')}">
-	                    <apex:form >
-	                        <apex:actionFunction status="ajax-status" name="userSearch" action="{!userSearch}" rerender="messages, sValue"/>
-	                        <apex:outputPanel id="sValue">
-	                            <div>
-	                                <apex:inputText value="{!searchPhrase}" styleClass="text"/>
-	                                <a href="javascript:;" class="btn" onclick="userSearch(); return false;">GO</a>
-	                                <!-- <button class="btn" onclick="userSearch(); return false;">GO</button> -->
-	                            </div>
-	                        </apex:outputPanel>
-	                    </apex:form>
-	                </div>
-	            </apex:outputPanel>
+                <apex:outputPanel rendered="{!showSearch}">
+                    <div class="search {!If(OR(isLoggedIn!=true, preview=='true') ,'hidden','')}">
+                        <apex:form >
+                            <apex:actionFunction status="ajax-status" name="userSearch" action="{!userSearch}" rerender="messages, sValue"/>
+                            <apex:outputPanel id="sValue">
+                                <div>
+                                    <apex:inputText value="{!searchPhrase}" styleClass="text"/>
+                                    <a href="javascript:;" class="btn" onclick="userSearch(); return false;">GO</a>
+                                    <!-- <button class="btn" onclick="userSearch(); return false;">GO</button> -->
+                                </div>
+                            </apex:outputPanel>
+                        </apex:form>
+                    </div>
+                </apex:outputPanel>
             </div>
         </div>
         <!-- end of header -->
-
+    
 
 </apex:component>
