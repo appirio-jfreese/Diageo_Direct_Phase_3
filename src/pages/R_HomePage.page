@@ -33,7 +33,7 @@ Story/Task	: US584
         <!-- content -->
         <div class="content clearfix">
 
-<!--
+<!-- News bar at top of page is out of scope for release 4 
             <div class="news">
                 <ul class="slides">
                     <li>
@@ -57,42 +57,62 @@ Story/Task	: US584
             <div class="boxes">
                 <div class="column default">
                     <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-1.png')}" />
-                    <a class="pink" href="#;">Monthly Execution Plan</a>
+                    <a class="pink" href="{!$Page.R_MonthlyExecutionPlan}">Monthly Execution Plan</a>
                 </div>
 
+<!-- Hiding the video for now
                 <div class="column video default">
                     <img src="{!URLFOR($Resource.Responsive_Base, '/i/home-image-2.png')}"/>
                 </div>
-                <div class="column last default">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-13.png')}"/>
-                    <a class="med-green two-lines" href="#;">Innovation,<br/>Sustainovation and VAP</a>
-                </div>
+-->
+
                 <div class="column default">
                     <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-3.png')}"/>
-                    <a class="purple" href="#;">Selling Materials</a>
+                    <a class="purple" href="{!$Page.R_SellingMaterials}">Selling Materials</a>
                 </div>
 
+                <div class="column last default">
+                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-13.png')}"/>
+                    <a class="med-green two-lines" href="{!$Page.R_InnovationAndVAP}">Innovation,<br/>Sustainovation and VAP</a>
+                </div>
+
+
+<!-- Category Development is out of scope for release 4 
                 <div class="column default">
                     <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-4.png')}"/>
                     <a class="orange" href="#;">Category Development</a>
                 </div>
+-->
+
+<!-- Brand and Marketing Info is out of scope for release 4 
                 <div class="column last default">
                     <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-5.png')}"/>
                     <a class="med-blue" href="#;" data-related="brand-marketing-boxes">Brand &amp; Marketing Info</a>
                 </div>
+-->
 
+<!-- Product Images and Logos is out of scope for release 4 
                 <div class="column default">
                     <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-6.png')}"/>
                     <a class="dark-red" href="#">Product Images &amp; Logos</a>
                 </div>
+-->
+
+<!-- POS is out of scope for release 4 
                 <div class="column default">
                     <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-7.png')}"/>
                     <a class="dark-blue" href="#;">Point of Sale</a>
                 </div>
+-->
+
+<!-- Collaboration is out of scope for release 4 
                 <div class="column last default">
                     <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}"/>
                     <a class="med-purple" href="#;" data-related="collaboration-boxes">Collaboration</a>
                 </div>
+-->
+
+<!-- Planning is out of scope for release 4 
                 <div class="column default">
                     <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-9.png')}"/>
                     <a class="yellow" href="#;" data-related="planning-boxes">Planning</a>
@@ -101,10 +121,15 @@ Story/Task	: US584
                     <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-10.png')}"/>
                     <a class="dark-green" href="#;">Multicultural</a>
                 </div>
+-->
+
+<!-- Ideas is out of scope for release 4 
                 <div class="column last default">
                     <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-11.png')}"/>
                     <a class="light-blue" href="#;">Ideas</a>
                 </div>
+-->
+
                 <!--
                 <div class="column last">
                     <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-12.png')}"/>
@@ -117,147 +142,7 @@ Story/Task	: US584
                     <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-black.png')}"/>
                 </div>
                 -->
-                <div class="column brand-marketing-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-5.png')}"/>
-                    <a class="med-blue" href="#;">Programming</a>
-                </div>
-                <div class="column brand-marketing-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-5.png')}"/>
-                    <a class="med-blue" href="#;" data-related="media-boxes">Media</a>
-                </div>
-                <div class="column brand-marketing-boxes hide last">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-5.png')}"/>
-                    <a class="med-blue" href="#;">Fact Sheets</a>
-                </div>
-                <div class="column media-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-5.png')}"/>
-                    <a class="med-blue" href="#;" data-related="media-boxes">TV Commercials</a>
-                </div>
-                <div class="column media-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-5.png')}"/>
-                    <a class="med-blue" href="#;" data-related="media-boxes">PR</a>
-                </div>
-                <div class="column media-boxes hide last">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-5.png')}"/>
-                    <a class="med-blue" href="#;" data-related="media-boxes">Digital</a>
-                </div>
-                <div class="column media-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-5.png')}"/>
-                    <a class="med-blue" href="#;" data-related="media-boxes">Sizzle</a>
-                </div>
-                <div class="column media-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-5.png')}"/>
-                    <a class="med-blue" href="#;" data-related="media-boxes">Creative</a>
-                </div>
-                <div class="column media-boxes hide last">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-5.png')}"/>
-                    <a class="med-blue" href="#;" data-related="media-boxes">Radio</a>
-                </div>
-                <div class="column media-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-5.png')}"/>
-                    <a class="med-blue" href="#;" data-related="media-boxes">Selling Support</a>
-                </div>
-                <div class="column media-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-5.png')}"/>
-                    <a class="med-blue" href="#;" data-related="media-boxes">Sell Sheets</a>
-                </div>
 
-                <div class="column collaboration-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}"/>
-                    <a class="med-purple" href="#;">Additional</a>
-                </div>
-                <div class="column collaboration-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}"/>
-                    <a class="med-purple" href="#;" data-related="charmer-boxes">Charmer</a>
-                </div>
-                <div class="column last collaboration-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}" data-related="collaboration-boxes"/>
-                    <a class="med-purple" href="#;">Control</a>
-                </div>
-                <div class="column collaboration-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}" data-related="collaboration-boxes"/>
-                    <a class="med-purple" href="#;">Franchise</a>
-                </div>
-                <div class="column collaboration-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}" data-related="collaboration-boxes"/>
-                    <a class="med-purple" href="#;">Glazers</a>
-                </div>
-                <div class="column last collaboration-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}" data-related="collaboration-boxes"/>
-                    <a class="med-purple" href="#;">Independent</a>
-                </div>
-                <div class="column collaboration-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}" data-related="collaboration-boxes"/>
-                    <a class="med-purple" href="#;">SWS</a>
-                </div>
-                <div class="column charmer-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}"/>
-                    <a class="med-purple" href="#;" data-related="arizona-boxes">Arizona</a>
-                </div>
-                <div class="column arizona-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}"/>
-                    <a class="med-purple" href="#;" data-related="arizona-statewide-boxes">Arizona Statewide</a>
-                </div>
-                <div class="column arizona-statewide-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}"/>
-                    <a class="med-purple" href="#;">Execution Plans</a>
-                </div>
-                <div class="column arizona-statewide-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}"/>
-                    <a class="med-purple" href="#;">Goals</a>
-                </div>
-                <div class="column arizona-statewide-boxes hide last">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}"/>
-                    <a class="med-purple" href="#;">Innovation / Sustainovation</a>
-                </div>
-                <div class="column arizona-statewide-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}"/>
-                    <a class="med-purple" href="#;">Marketing Information</a>
-                </div>
-                <div class="column arizona-statewide-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}"/>
-                    <a class="med-purple" href="#;">Media</a>
-                </div>
-                <div class="column arizona-statewide-boxes hide last">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}"/>
-                    <a class="med-purple" href="#;">Multicultural</a>
-                </div>
-                <div class="column arizona-statewide-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}"/>
-                    <a class="med-purple" href="#;">National Accounts</a>
-                </div>
-                <div class="column arizona-statewide-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}"/>
-                    <a class="med-purple" href="#;">On Promos</a>
-                </div>
-                <div class="column arizona-statewide-boxes hide last">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}"/>
-                    <a class="med-purple" href="#;">Performance Management</a>
-                </div>
-                <div class="column arizona-statewide-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}"/>
-                    <a class="med-purple" href="#;">Selling Materials</a>
-                </div>
-                <div class="column arizona-statewide-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}"/>
-                    <a class="med-purple" href="#;">Trade Development</a>
-                </div>
-                <div class="column arizona-statewide-boxes hide last">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-8.png')}"/>
-                    <a class="med-purple" href="#;">DTD Templates &amp; Tools</a>
-                </div>
-                <div class="column default planning-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-9.png')}"/>
-                    <a class="yellow" href="#;">National</a>
-                </div>
-                <div class="column default planning-boxes hide">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-9.png')}"/>
-                    <a class="yellow" href="#;">Spirits</a>
-                </div>
-                <div class="column default planning-boxes hide last">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-9.png')}"/>
-                    <a class="yellow" href="#;">Wine</a>
-                </div>
             </div>
 
         </div>
@@ -265,4 +150,6 @@ Story/Task	: US584
 
     <c:R_pageFooter isInternal="{!isInternalUser }" />
 </div>
+<!-- <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/HomePageJQ.js')}"></script>
+<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>-->
 </apex:page>

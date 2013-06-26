@@ -110,7 +110,7 @@
                             </apex:repeat>
                         </tbody>
                     </table>
-                    <script type="text/javascript">
+                    <!-- <script type="text/javascript">
                         jQuery(document).ready(function() {
                             jQuery('.month-previous').click(previousMonth);
                             jQuery('.month-next').click(nextMonth);
@@ -152,7 +152,7 @@
                                 }
 							});                                
                         });
-                    </script>   
+                    </script> -->
                 </apex:pageBlock>
             </apex:form>
         </div>
@@ -160,8 +160,10 @@
         <c:R_pageFooter isInternal="{!isInternalUser}" />
         </div>
     <c:R_ajaxLoader />
-    
-    <script type="text/javascript">
+    <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/MonthlyExecutionPlanJQ.js')}"></script>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4MainPage.js')}"></script>
+    <!-- <script type="text/javascript">
 		jQuery('.jumpToDate').keydown(function(e) {
 			e.preventDefault;
 			return false;
@@ -206,5 +208,5 @@
                 }
             }
         });        
-    </script>
+    </script> -->
 </apex:page>

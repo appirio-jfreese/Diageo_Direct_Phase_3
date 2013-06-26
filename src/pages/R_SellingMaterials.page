@@ -523,8 +523,10 @@ Name				: SellingMaterials.page
     </div>   
         
 	<c:R_ajaxLoader beforeStop="bindFilterJs();"/>
-	
-    <script type="text/javascript">
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/SellingMaterialsJQ.js')}"></script>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/calBoxHeight.js')}"></script>
+    <!-- <script type="text/javascript">
     jQuery(document).ready(function() {
 			hideDialog('startingLoader');
 			hideDialog('startingLoaderOverlayDisable');
@@ -1019,6 +1021,6 @@ Name				: SellingMaterials.page
 	    	}		 
 	   	});    
     });
-    </script>
+    </script> -->
 
 </apex:page>

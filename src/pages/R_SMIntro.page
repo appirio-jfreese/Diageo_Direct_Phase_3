@@ -1,35 +1,37 @@
 <!------------------------------------------------------------------------------
 Name        : SMIntro.page
 
-Updated By  : Basant Verma (Appirio Offshore)   
-Date 				: 6/14/13
-Story/Task	: US503/TA1011
 
-Updated By  : Basant Verma (Appirio OffShore)
-Date        : 6/3/13
-Story/Task  : US503/TA907 
+Created By  : Basant Verma (Appirio Offshore)   
+Date 	      : 6/14/13
+Story/Task   : US503/TA1011
 ------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_SMIntro">
-    <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
-    <apex:stylesheet value="{!URLFOR($Resource.SellingMaterialsPage, 'style'+siteTheme+'.css')}"/>
-    <style type="text/css">
-        body, html{
-            overflow: hidden;
-        }
-    </style>
-    <c:R_Loader />
-    <div class="content-wrapper">
-        <!-- PAGE HEADER -->
-        <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
+    
+    <apex:outputPanel rendered="{!if(ISNULL(siteTheme),'true','false')}">
+        <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'styleSpirits.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.HomePage, 'styleSpirits.css')}" />
+    </apex:outputPanel>  
+ 
+    <apex:form >
+        <apex:actionFunction status="ajax-status" name="openSpiritsPlanningPage" action="{!openSpiritsPlanningPage}"/>
+        <apex:actionFunction status="ajax-status" name="openWinePlanningPage" action="{!openWinePlanningPage}"/>
         
-        <script type="text/javascript">
-            pageViewed('Selling Materials - Intro Page');
-        </script>
-        
-        <!--  BREADCRUMB -->
-        <c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
+        <apex:actionFunction status="ajax-status" name="openPlanningPage" action="{!openPlanningPage}">
+            <apex:param name="firstParam" assignTo="{!planningTheme}" value="" />
+        </apex:actionFunction>
+    </apex:form>
 
-        <!-- PAGE CONTENT -->
+
+<div class="wrapper">
+    <div class="container">
+        <!-- PAGE HEADER -->
+        <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" /> <!--thisAvatarURL="{!avatarUrl}"-->
+        <script type="text/javascript">
+            pageViewed('Home Page');
+        </script>
+                
+        <!-- content -->
         <div class="content intro-page-bg {!if(ISNULL(siteTheme),'hidden','')}">
             <div class="intro-header">
                 Selling Materials
@@ -76,8 +78,10 @@ Story/Task  : US503/TA907
         <!-- PAGE FOOTER -->
         <c:R_pageFooter isInternal="{!isInternalUser}" />
     </div>
-
-    <script type="text/javascript">
+</div>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/SMIntroJQ.js')}"></script>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
+    <!-- <script type="text/javascript">
     jQuery(document).ready(function() {
             hideDialog('startingLoader');
             hideDialog('startingLoaderOverlayDisable');
@@ -204,6 +208,6 @@ Story/Task  : US503/TA907
             }
         });     
     });
-    </script>
+    </script>-->
 
 </apex:page>

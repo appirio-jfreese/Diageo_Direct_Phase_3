@@ -200,7 +200,12 @@ Name        : MEPDetails.page
 
     <c:R_ajaxLoader beforeStop="bindJs();" />
        
-    <script type="text/javascript">
+    <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4DetailPage.js')}"></script>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/calBoxHeight.js')}"></script>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4DetailPage.js')}"></script>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReady4DetailPage.js')}"></script>
+    <!-- <script type="text/javascript">
     jQuery(document).ready(function() {
 			hideDialog('startingLoader');
 			hideDialog('startingLoaderOverlayDisable');
@@ -374,5 +379,5 @@ Name        : MEPDetails.page
                 }
             });
         });
-    </script>
+    </script>-->
 </apex:page>
