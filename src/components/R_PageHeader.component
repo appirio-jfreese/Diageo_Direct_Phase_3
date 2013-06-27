@@ -7,6 +7,12 @@ Story/Task  : US607/TA1014
 ------------------------------------------------------------------------------------------------------------------->
 <apex:component controller="Controller_Base" extensions="Controller_BaseRemote" allowDML="true"> 
 
+    <apex:attribute name="isLoggedIn" description="Tell if user is logged in or not" type="Boolean" required="true"/>
+    <apex:attribute name="preview" description="" type="String" required="false" default="false"/>
+    <apex:attribute name="showSearch" description="" type="Boolean" required="false" default="true"/>
+    <apex:attribute name="showThemeSelector" description="" type="Boolean" required="false"/>
+    <apex:attribute name="basketItemsNumber" description="" type="String" required="false"/>
+
     <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/jquery-1.8.2.min.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/jquery.jqtransform.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/jquery.flexslider.js')}"></script>
@@ -19,12 +25,6 @@ Story/Task  : US607/TA1014
     <!-- Start : Changes for US507/TA918 - Jonathan Freese -->
     <!-- <apex:stylesheet value="{!URLFOR($Resource.PageHeader, 'styleHeader.css')}" /> -->
     <!-- End : Changes for US507/TA918 - Jonathan Freese -->
-
-    <apex:attribute name="isLoggedIn" description="Tell if user is logged in or not" type="Boolean" required="true"/>
-    <apex:attribute name="preview" description="" type="String" required="false" default="false"/>
-    <apex:attribute name="showSearch" description="" type="Boolean" required="false" default="true"/>
-    <apex:attribute name="showThemeSelector" description="" type="Boolean" required="false"/>
-    <apex:attribute name="basketItemsNumber" description="" type="String" required="false"/>
 
         <!-- header -->
         <div class="header">
@@ -81,12 +81,12 @@ Story/Task  : US607/TA1014
 	                            <apex:outputPanel rendered="{!siteTheme == 'Spirits'}">
 	                                <a href="javascript:;" class="active btn">Spirits</a>
 	                                <a href="javascript:;" class="btn" onclick="toggleToWine()">Wine</a>
-	                                <a href="javascript:;" class="btn last">Beer</a>
+	                                <a href="javascript:;" class="btn last" style="visibility: hidden">Beer</a>
 	                            </apex:outputPanel>
 	                            <apex:outputPanel rendered="{!siteTheme == 'Wine'}">
 	                                <a href="javascript:;" class="btn" onclick="toggleToSpirits()">Spirits</a>
 	                                <a href="javascript:;" class="active btn">Wine</a>
-	                                <a href="javascript:;" class="btn last">Beer</a>
+	                                <a href="javascript:;" class="btn last" style="visibility: hidden">Beer</a>
 	                            </apex:outputPanel>
 	                    </apex:outputPanel>
 	                </apex:form>
@@ -110,5 +110,4 @@ Story/Task  : US607/TA1014
         </div>
         <!-- end of header -->
     
-
 </apex:component>
