@@ -22,16 +22,17 @@ Story/Task	: US615/TA1066
         <a href="javascript:;" class="ad ad6"></a>
     </div>
     <div class="footer">
+        <a href="javascript:;" class="footer-link-menu">
+            Menu
+        </a>
         <div class="links">
-	        <a href="{!$Page.TermsAndConditions}">Terms &amp; Conditions</a>|
-	        <a href="{!$Page.PrivacyPolicy}">Privacy &amp; Cookies Notice</a>|
-	        <a href="{!$Page.Links}">Industry Related Links</a>|
-	        <a href="{!$Page.FAQ}">FAQ</a>|
-	        <a href="{!$Page.Cases}?caseType=new">Contact&nbsp;Us</a>
-	        <!-- Start : Changes for US615/TA1066 - Basant Verma -->
-	        |<a href="{!$Page.HomePage}">Full Site</a>
-	        <!-- End : Changes for US615/TA1066 - Basant Verma -->
-	    </div>
+            <a href="{!$Page.HomePage}">Full Site</a> |
+            <a href="{!$Page.R_TermsAndConditions}">Terms &amp; Conditions</a> |
+            <a href="{!$Page.R_PrivacyPolicy}">Privacy &amp; Cookies Notice</a> |
+            <a href="{!$Page.Links}">Industry Related Links</a> |
+            <a href="{!$Page.FAQ}">FAQ</a> |
+            <a href="{!$Page.Cases}?caseType=new">Contact Us</a>
+        </div>
         <span>&copy; Diageo 2011</span>
         <a href="{!$Page.R_HomePage}" class="go-top"></a>
     </div>

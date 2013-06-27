@@ -1,22 +1,4 @@
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_MonthlyExecutionPlan">
-    <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
-    <apex:stylesheet value="{!URLFOR($Resource.MonthlyExecutionPlanPage, 'style'+siteTheme+'.css')}"/>
-	<apex:stylesheet value="{!URLFOR($Resource.jquery, 'customDatePicker.css')}"/>
-    <style type="text/css">
-        div.ui-datepicker-buttonpane {
-            text-align:center;        
-        }
-        
-        table.ui-datepicker-calendar {
-            display:none;
-        }
-        
-        body, html{
-        	overflow: hidden;
-        }
-    </style>
-    
-    <c:R_Loader />	
     	
     <div class="content-wrapper">
         <!-- PAGE HEADER -->
@@ -31,7 +13,8 @@
         <!--  BREADCRUMB -->
         <apex:outputPanel id="beadcrumblinks">
         	<c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
-		</apex:outputPanel>
+	</apex:outputPanel>
+
         <!-- PAGE CONTENT -->
         <div class="content bggradient {!if(ISNULL(siteTheme),'hidden','')}">
             <apex:form >
@@ -110,103 +93,12 @@
                             </apex:repeat>
                         </tbody>
                     </table>
-                    <!-- <script type="text/javascript">
-                        jQuery(document).ready(function() {
-                            jQuery('.month-previous').click(previousMonth);
-                            jQuery('.month-next').click(nextMonth);
-							jQuery('.jumpToDate').datepicker({
-								showOtherMonths: true,
-								changeMonth: true,
-								changeYear: true,
-								closeText: 'Close',
-								showButtonPanel :true,
-								selectOtherMonths: true,
-								dateFormat: 'yy-mm-dd',
-                                beforeShow: function( input ) {  
-                                    setTimeout(function() {  
-                                        var buttonPane = jQuery(input).datepicker("widget").find( ".ui-datepicker-buttonpane" );   
-                                        var btn = jQuery('<button class="ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all" type="button">Select</button>');  
-                                        btn.unbind("click").bind("click", function () {  
-                                            var selectedDate = jQuery.datepicker._formatDate(jQuery.datepicker._getInst(input)); 
-                                            jQuery.datepicker.selectedDay;  
-                                            setStartDateValue(selectedDate);
-                                            jQuery.datepicker._hideDatepicker();
-                                        });  
-                                        btn.appendTo( buttonPane );
-                                        buttonPane.find('button').addClass('update-filter').css('margin-bottom', 5);
-                                    }, 1 );  
-                                },
-                                onChangeMonthYear: function(year, month, inst ) {  
-                                    var input = inst.input[0];
-                                    setTimeout(function() {  
-                                        var buttonPane = jQuery(input).datepicker("widget").find( ".ui-datepicker-buttonpane" );   
-                                        var btn = jQuery('<button class="ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all" type="button">Select</button>');  
-                                        btn.unbind("click").bind("click", function () {  
-                                            var selectedDate = jQuery.datepicker._formatDate(jQuery.datepicker._getInst(input)); 
-                                            setStartDateValue(selectedDate);
-                                            jQuery.datepicker._hideDatepicker();
-                                        });  
-                                        btn.appendTo( buttonPane );
-                                        buttonPane.find('button').addClass('update-filter').css('margin-bottom', 5);
-                                    }, 1 );  
-                                }
-							});                                
-                        });
-                    </script> -->
+
                 </apex:pageBlock>
             </apex:form>
         </div>
         <!-- PAGE FOOTER -->
         <c:R_pageFooter isInternal="{!isInternalUser}" />
         </div>
-    <c:R_ajaxLoader />
-    <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/MonthlyExecutionPlanJQ.js')}"></script>
-		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
-		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4MainPage.js')}"></script>
-    <!-- <script type="text/javascript">
-		jQuery('.jumpToDate').keydown(function(e) {
-			e.preventDefault;
-			return false;
-		});
-		
-		jQuery(document).ready(function() {
-			
-			hideDialog('startingLoader');
-			hideDialog('startingLoaderOverlayDisable');
-			jQuery("body").css("overflow","auto");
-			jQuery("html").css("overflow","auto");
-		});		
-		
-        jQuery(document).keydown(function(e) {
-            var element = e.target.nodeName.toLowerCase();
-            if (element != 'input' && element != 'textarea' && element != 'select') {
 
-                if(jQuery('#ajaxLoader').length != 0 && !jQuery('#ajaxLoader').hasClass('hidden') ){
-                    return false;
-                }
-            
-                if (e.keyCode === 39) { // right
-                    if(jQuery('.month-next').length != 0){
-                        jQuery('.month-next').first().trigger('click');
-                    }
-                    return false;
-                } else if (e.keyCode === 37) { // left
-                    if(jQuery('.month-previous').length != 0){
-                        jQuery('.month-previous').first().trigger('click');
-                    }
-                    return false;
-                } else if (e.keyCode === 38) { //up
-                    if(jQuery('.title-menu').find('.custom-select-box-values').find('.current').prev().length == 1){
-                        jQuery('.title-menu').find('.custom-select-box-values').find('.current').prev().trigger('click');
-                    }
-                    return false;
-                } else if (e.keyCode === 40) { // down
-                    if(jQuery('.title-menu').find('.custom-select-box-values').find('.current').next().length == 1){
-                        jQuery('.title-menu').find('.custom-select-box-values').find('.current').next().trigger('click');
-                    }
-                    return false;
-                }
-            }
-        });        
-    </script> -->
 </apex:page>
