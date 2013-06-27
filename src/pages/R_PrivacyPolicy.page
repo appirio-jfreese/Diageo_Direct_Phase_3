@@ -1,0 +1,58 @@
+<!-----------------------------------------------------------------------------------------------------------------
+Name        : R_HomePage.page
+
+Created By  : Randy Wandell (Appirio)   
+Date 		: 6/25/13
+Story/Task	: US584
+------------------------------------------------------------------------------------------------------------------->
+<apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_PrivacyPolicy">
+    
+    <apex:outputPanel rendered="{!if(ISNULL(siteTheme),'true','false')}">
+        <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'styleSpirits.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.HomePage, 'styleSpirits.css')}" />
+    </apex:outputPanel>  
+ 
+    <apex:form >
+        <apex:actionFunction status="ajax-status" name="openSpiritsPlanningPage" action="{!openSpiritsPlanningPage}"/>
+        <apex:actionFunction status="ajax-status" name="openWinePlanningPage" action="{!openWinePlanningPage}"/>
+        
+        <apex:actionFunction status="ajax-status" name="openPlanningPage" action="{!openPlanningPage}">
+            <apex:param name="firstParam" assignTo="{!planningTheme}" value="" />
+        </apex:actionFunction>
+    </apex:form>
+
+
+<div class="wrapper">
+    <div class="container">
+        <!-- PAGE HEADER -->
+        <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" /> <!--thisAvatarURL="{!avatarUrl}"-->
+        <script type="text/javascript">
+            pageViewed('Home Page');
+        </script>
+                
+        <!-- content -->
+			<div class="content">
+				<div class="sub-header">DIAGEO PRIVACY AND COOKIE NOTICE</div>
+				<div class="pageContentRichText">
+					<apex:repeat value="{!contentItems}" var="item">
+						<apex:outputText value="{!item['Page_Content_Value__c']}" escape="false" />
+					</apex:repeat>
+					<apex:outputPanel rendered="{!if(attachments.size >  0, true, false)}">		            	
+			            <ol class="attachments-list" style="padding-left: 0px;">
+			            	<apex:repeat value="{!attachments}" var="att">
+			            		<li style="list-style: none;"><a href="{!URLFOR($Action.Attachment.Download, att.id)}">{!att.Name}</a></li>
+			           	 	</apex:repeat>
+			            </ol>
+		            </apex:outputPanel>
+				</div>
+			</div>
+
+       <!-- end of content -->
+
+    </div>
+
+    <c:R_pageFooter isInternal="{!isInternalUser }" />
+</div>
+<!-- <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/HomePageJQ.js')}"></script>
+<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>-->
+</apex:page>
