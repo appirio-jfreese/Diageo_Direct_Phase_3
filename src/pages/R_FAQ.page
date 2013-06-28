@@ -1,0 +1,66 @@
+<!-----------------------------------------------------------------------------------------------------------------
+Name        : R_FAQ.page
+
+Created By  : Randy Wandell (Appirio)   
+Date 		: 6/27/13
+Story/Task	: US584
+------------------------------------------------------------------------------------------------------------------->
+<apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_FAQ">
+    
+    <apex:outputPanel rendered="{!if(ISNULL(siteTheme),'true','false')}">
+        <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'styleSpirits.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.HomePage, 'styleSpirits.css')}" />
+    </apex:outputPanel>  
+ 
+    <apex:form >
+        <apex:actionFunction status="ajax-status" name="openSpiritsPlanningPage" action="{!openSpiritsPlanningPage}"/>
+        <apex:actionFunction status="ajax-status" name="openWinePlanningPage" action="{!openWinePlanningPage}"/>
+        
+        <apex:actionFunction status="ajax-status" name="openPlanningPage" action="{!openPlanningPage}">
+            <apex:param name="firstParam" assignTo="{!planningTheme}" value="" />
+        </apex:actionFunction>
+    </apex:form>
+
+
+<div class="wrapper">
+    <div class="container">
+        <!-- PAGE HEADER -->
+        <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" /> <!--thisAvatarURL="{!avatarUrl}"-->
+        <script type="text/javascript">
+            pageViewed('Home Page');
+        </script>
+                
+        <!-- content -->
+        <!-- PAGE CONTENT -->
+        <div class="content bggradient left">
+
+			<!-- FAQ -->
+			<div class="faq-header">
+				<div class="title-text"><apex:outputText value="FAQ"/></div>
+			</div>
+
+			<div class="faq-section">			
+				<div class="faq-map">
+					<div class="header-map">Questions:</div>
+					<apex:repeat value="{!faqs}" var="faq">
+						<div class="question-map"><a href="#{!faq.id}" onclick="pageViewed('FAQ - {!faq.Question__c}');">{!faq.Question__c}</a></div>
+					</apex:repeat>
+				</div>
+            	<apex:repeat value="{!faqs}" var="faq">
+					<div id="{!faq.id}" class="faq-question">{!faq.Question__c}</div>
+					<div class="faq-answer"><apex:outputText value="{!faq.Answer__c}" escape="false"/></div>					
+				</apex:repeat>
+			</div>
+			
+        </div>
+
+
+       <!-- end of content -->
+
+    </div>
+
+    <c:R_pageFooter isInternal="{!isInternalUser }" />
+</div>
+<!-- <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/HomePageJQ.js')}"></script>
+<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>-->
+</apex:page>
