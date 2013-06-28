@@ -10,25 +10,38 @@
                 
         <!-- content -->
         <div class="content clearfix">
-
+       
         <!--  BREADCRUMB -->
         <apex:outputPanel id="beadcrumblinks">
         	<c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
         </apex:outputPanel>
-
+		     <apex:form >
+                <apex:actionFunction name="refreshContent" action="{!refreshContent}" oncomplete="alert('refreshed');" rerender="mepData, beadcrumblinks" status="ajax-status"/> 
+                <apex:actionFunction name="selectSalesDriver" action="{!selectSalesDriver}" rerender="mepData, beadcrumblinks" status="ajax-status">
+                    <apex:param name="salesDriver" assignTo="{!salesDriver}" value="" />
+                </apex:actionFunction>
+                <apex:actionFunction name="setStartDateValue" action="{!setStartDateValue}" rerender="mepData, beadcrumblinks" status="ajax-status">
+                    <apex:param name="startFromDate" assignTo="{!startFromDate}" value="" />
+                </apex:actionFunction>
+                <apex:actionFunction name="nextMonth" action="{!nextMonth}" rerender="mepData, beadcrumblinks" status="ajax-status"/>
+                <apex:actionFunction name="previousMonth" action="{!previousMonth}" rerender="mepData, beadcrumblinks" status="ajax-status"/>
+            
             <h2 class="with-select">
                 <span class="title">Monthly Execution Plan</span>
-                <select id="period-select">
+                <!--  <c:selectList id="period-select" options="{!timePeriods}"  value="{!timePeriod}" onchange="refreshContent()" />
+                --> <select id="period-select" onchange="refreshContent();">
                     <option>Monthly View</option>
                     <option>Quarterly View</option>
                     <option>6 Month View</option>
                     <option>12 Month View</option>
-                </select>
+                </select>               
+                 			            	
                 <div class="include-select jqTransformSelectWrapper" style="z-index: 9; width: 135px;">
                     <div>
-                        <span style="width: 115px;">Include</span>
+                        <span style="width: 115px;">Include</span>                       
                         <a href="javascript:;" class="jqTransformSelectOpen"></a>
                     </div>
+                    
                     <ul style="width: 133px; display: none; visibility: visible; overflow-y: auto;">
                         <li>
                             <a href="#" index="0">
@@ -60,7 +73,7 @@
                     <span>Download as PDF</span>
                 </a>
             </h2>
-
+			</apex:form>
             <div class="calendar-head">
                 <a href="javascript:;" class="prev mep-bg">
                     <span></span>
@@ -111,8 +124,40 @@
                     </div>
                 </div>
             </div>
-
+         
             <div class="plans">
+            <apex:variable var="counter" value="{!1}"/>
+            <apex:repeat value="{!salesDriversToShow}" var="salesdrivername">
+                <div class="plan">
+                    <apex:outputPanel rendered="{!counter==1}">
+	                    <h3 class="two-lines mep-bg">                  
+	                        <a href="{!$Page.R_MonthlyExecutionPlan1}" >                     
+	                         	{!salesdrivername}                        
+	                        </a>
+	                    </h3>
+                    </apex:outputPanel>
+                    <apex:outputPanel rendered="{!counter>1}">
+	                    <h3 class="mep-bg">                  
+	                        <a href="{!$Page.R_MonthlyExecutionPlan1}" >                     
+	                         	{!salesdrivername}                       
+	                        </a>
+	                    </h3>
+                    </apex:outputPanel>
+                    <apex:repeat value="{!months}" var="month">                   
+	                    <apex:repeat value="{!calendarData[month.data][salesdrivername]}" var="programData">
+		                    <a class="p" href="{!detailPagePath}&id={!programData.id}">
+		                    {!programData.label}
+		                    {!programData.styleBackgroundImage}                   
+		                    </a>
+	                    </apex:repeat>
+                    </apex:repeat>
+                    
+                    <apex:variable var="counter" value="{!counter + 1}"/>
+                </div>
+            </apex:repeat>
+            </div>
+            <!--   <div class="plans">
+            
                 <div class="plan">
                     <h3 class="two-lines mep-bg">
                         <a href="{!$Page.R_MonthlyExecutionPlan1}">Integrated National Program</a>
@@ -180,7 +225,7 @@
                         <img src="./i/image-2.png"/>
                     </a>
                 </div>
-            </div>
+            </div> -->
 
         </div>
 
@@ -190,8 +235,9 @@
     <c:R_pageFooter isInternal="{!isInternalUser }" />
 </div>
 
-<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/MonthlyExecutionPlanJQ.js')}"></script>
+<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/jumpToDateKeyDown.js')}"></script>
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4MainPage.js')}"></script>
+<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReady4MainPage.js')}"></script>
 
 </apex:page>
