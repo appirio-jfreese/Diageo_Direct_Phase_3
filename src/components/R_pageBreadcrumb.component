@@ -7,6 +7,14 @@
             <div class="breadcrumb">
                 <div class="inner">
                     <a href="{!$Page.R_HomePage}">Home</a>
+
+                          <apex:repeat rows="1" value="{!breadcrumbLinks}" var="breadcrumbLink">
+                             >&nbsp;<a class="{!IF(breadcrumbLinks.size = 1, 'breadcrumb-links-current', '')}"  href="{!breadcrumbLink.link}">{!breadcrumbLink.linkName}</a>
+                          </apex:repeat>
+                          <apex:repeat first="1" value="{!breadcrumbLinks}" var="breadcrumbLink">
+                              <span>&nbsp;</span><a class="{!IF(breadcrumbLinks[breadcrumbLinks.size-1].linkName = breadcrumbLink.linkName && breadcrumbLinks[breadcrumbLinks.size-1].link = breadcrumbLink.link, 'breadcrumb-links-current', '')}" href="{!breadcrumbLink.link}">{!breadcrumbLink.linkName}</a>
+                          </apex:repeat>
+
                 </div>
             </div>
 </apex:component>
