@@ -967,13 +967,13 @@ Story/Task  : US79/TA1007
         });     
         
             
-        <!--  Start: changes for TA918 Jonathan Freese  -->
+        /*  Start: changes for TA918 Jonathan Freese  */
         jQuery('.box-cion-download, .list-cion-download, .box-cion-openlink, .list-cion-openlink').live('click', function(){
             if(typeof jQuery(this).attr('href') != 'undefined' && jQuery(this).attr('href').length != 0){
                 window.open(jQuery(this).attr('href'));
             }
         });
-        <!--  End: changes for TA918 Jonathan Freese  -->   
+        /*  End: changes for TA918 Jonathan Freese  */   
 
     }); 
     </script>
