@@ -6,7 +6,7 @@
     
             <div class="breadcrumb">
                 <div class="inner">
-                    <a href="index.html">Home</a>
+                    <a href="{!$Page.R_HomePage}">Home</a>
                 </div>
             </div>
 </apex:component>
