@@ -523,9 +523,14 @@ Name				: SellingMaterials.page
     </div>   
         
 	<c:R_ajaxLoader beforeStop="bindFilterJs();"/>
-		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/SellingMaterialsJQ.js')}"></script>
 		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
-		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/calBoxHeight.js')}"></script>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/commonFunctions.js')}"></script>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/selectBrandBox.js')}"></script>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/selectAllBrandCategoriesJQ.js')}"></script>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/expanderMethodCD_BMI_SM.js')}"></script>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/commonPeriodCD_BMI_SM.js')}"></script>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/clickedHovers.js')}"></script>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/SellingMaterialsJQ.js')}"></script>
     <!-- <script type="text/javascript">
     jQuery(document).ready(function() {
 			hideDialog('startingLoader');

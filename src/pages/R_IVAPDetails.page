@@ -243,11 +243,10 @@ Name				: IVAPDetails.page
 	</apex:outputPanel>
 
     <c:R_ajaxLoader beforeStop="bindJs();" />   
-    <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4DetailPage.js')}"></script>
-		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
-		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/calBoxHeight.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
 		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4DetailPage.js')}"></script>
-		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReady4DetailPage.js')}"></script>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/commonFunctions.js')}"></script>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/common4DetailPage.js')}"></script>
     <!-- <script type="text/javascript">
     jQuery(document).ready(function() {
     		        	       

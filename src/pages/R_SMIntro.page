@@ -1,37 +1,27 @@
 <!------------------------------------------------------------------------------
 Name        : SMIntro.page
-
-
-Created By  : Basant Verma (Appirio Offshore)   
-Date 	      : 6/14/13
-Story/Task   : US503/TA1011
 ------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_SMIntro">
-    
-    <apex:outputPanel rendered="{!if(ISNULL(siteTheme),'true','false')}">
-        <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'styleSpirits.css')}"/>
-        <apex:stylesheet value="{!URLFOR($Resource.HomePage, 'styleSpirits.css')}" />
-    </apex:outputPanel>  
- 
-    <apex:form >
-        <apex:actionFunction status="ajax-status" name="openSpiritsPlanningPage" action="{!openSpiritsPlanningPage}"/>
-        <apex:actionFunction status="ajax-status" name="openWinePlanningPage" action="{!openWinePlanningPage}"/>
-        
-        <apex:actionFunction status="ajax-status" name="openPlanningPage" action="{!openPlanningPage}">
-            <apex:param name="firstParam" assignTo="{!planningTheme}" value="" />
-        </apex:actionFunction>
-    </apex:form>
-
-
-<div class="wrapper">
-    <div class="container">
+    <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.SellingMaterialsPage, 'style'+siteTheme+'.css')}"/>
+    <style type="text/css">
+        body, html{
+            overflow: hidden;
+        }
+    </style>
+    <c:loader />
+    <div class="content-wrapper">
         <!-- PAGE HEADER -->
-        <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" /> <!--thisAvatarURL="{!avatarUrl}"-->
+        <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
+        
         <script type="text/javascript">
-            pageViewed('Home Page');
+            pageViewed('Selling Materials - Intro Page');
         </script>
-                
-        <!-- content -->
+        
+        <!--  BREADCRUMB -->
+        <c:pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
+
+        <!-- PAGE CONTENT -->
         <div class="content intro-page-bg {!if(ISNULL(siteTheme),'hidden','')}">
             <div class="intro-header">
                 Selling Materials
@@ -78,9 +68,8 @@ Story/Task   : US503/TA1011
         <!-- PAGE FOOTER -->
         <c:R_pageFooter isInternal="{!isInternalUser}" />
     </div>
-</div>
-		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/SMIntroJQ.js')}"></script>
 		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/IntroPageJQ.js')}"></script>
     <!-- <script type="text/javascript">
     jQuery(document).ready(function() {
             hideDialog('startingLoader');
@@ -208,6 +197,6 @@ Story/Task   : US503/TA1011
             }
         });     
     });
-    </script>-->
+    </script> -->
 
 </apex:page>

@@ -271,11 +271,11 @@ Story/Task	: US503/TA1011
         <div id="tooltipIpad"></div>
         </div>
     <c:R_ajaxLoader afterStop="bindJs(); " />
-    
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.tooltip.min.js')}"></script>
-    <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/InnovationAndVAPJQ.js')}"></script>
-		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReady4MainPage.js')}"></script>
 		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4MainPage.js')}"></script>
+		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/InnovationAndVAPJQ.js')}"></script>
     <!-- <script type="text/javascript">
     
     function bindJs(){
