@@ -190,4 +190,8 @@
     <c:R_pageFooter isInternal="{!isInternalUser }" />
 </div>
 
+<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/MonthlyExecutionPlanJQ.js')}"></script>
+<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
+<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4MainPage.js')}"></script>
+
 </apex:page>

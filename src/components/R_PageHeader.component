@@ -17,6 +17,7 @@ Story/Task  : US607/TA1014
     <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/jquery.jqtransform.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/jquery.flexslider.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/script.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/PageHeader.js')}"></script>
 
     <apex:stylesheet value="{!URLFOR($Resource.Responsive_Base, 'css/base.css')}" /> 
     <apex:stylesheet value="{!URLFOR($Resource.Responsive_Base, 'css/layout.css')}" />
