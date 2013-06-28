@@ -29,9 +29,9 @@ Story/Task	: US615/TA1066
             <a href="{!$Page.HomePage}">Full Site</a> |
             <a href="{!$Page.R_TermsAndConditions}">Terms &amp; Conditions</a> |
             <a href="{!$Page.R_PrivacyPolicy}">Privacy &amp; Cookies Notice</a> |
-            <a href="{!$Page.Links}">Industry Related Links</a> |
-            <a href="{!$Page.FAQ}">FAQ</a> |
-            <a href="{!$Page.Cases}?caseType=new">Contact Us</a>
+            <a href="{!$Page.R_Links}">Industry Related Links</a> |
+            <a href="{!$Page.R_FAQ}">FAQ</a> |
+            <a href="{!$Page.R_Cases}?caseType=new">Contact Us</a>
         </div>
         <span>&copy; Diageo 2011</span>
         <a href="{!$Page.R_HomePage}" class="go-top"></a>
