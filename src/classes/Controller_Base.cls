@@ -36,6 +36,10 @@ Story/Task  : US491/TA973 - header updates
 Updated By  : Jonathan Freese (Appirio)   
 Date        : 6/25/13
 Story/Task  : US607/TA1014
+
+Updated By  : Basant Verma (Appirio OffShore)   
+Date        : 7/1/13
+Story/Task  : US607/TA1014
 *******************************************************************************************************************/
 
 global public without sharing virtual class Controller_Base {
@@ -426,8 +430,12 @@ global public without sharing virtual class Controller_Base {
 		    // @description To Show Sub Options ( Catalyst,  Other) on 'Monthly execution plan'
 		    // Edited by Jonathan Freese per DE552 to change Other to US Spirits and place it above Catalyst
 		    // Edited By Basant Verma per DE558 to show slected calendar on PDF also
+		    // Start : Changes for US585/TA1082 - Basant (Added R_xxx page) 
     		if(currentUserPage().equalsIgnoreCase('/apex/MonthlyExecutionPlan')
-    				|| currentUserPage().equalsIgnoreCase('/apex/MonthlyExecutionPlanPDF')){
+    				|| currentUserPage().equalsIgnoreCase('/apex/MonthlyExecutionPlanPDF')
+    				|| currentUserPage().equalsIgnoreCase('/apex/R_MonthlyExecutionPlan')
+    				|| currentUserPage().equalsIgnoreCase('/apex/R_MonthlyExecutionPlanPDF')){
+    		// End : Changes for US585/TA1082 - Basant (Added R_xxx page)
     			for(CheckboxOption cbo : themeOptions){
 	    			if(cbo.name.equalsIgnoreCase(Label.CatalystParentTheme) && cbo.subOptions.size() == 0){
 	    				cbo.subOptions = new List<CheckboxOption>();

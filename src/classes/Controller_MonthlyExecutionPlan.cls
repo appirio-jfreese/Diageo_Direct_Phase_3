@@ -243,8 +243,12 @@ public with sharing class Controller_MonthlyExecutionPlan extends Controller_Bas
                         }
                         if ((span==1 || salesDriversToShowCount==1) && c.Logo_Image_Small__r.content_id__c != null) {
                             ContentDocument[] cd = [SELECT LatestPublishedVersionId from ContentDocument where Id=: c.Logo_Image_Small__r.content_id__c];
-                            if (cd != null && cd.size()>0) {
-                                styleBackgroundImage = 'background-image: url(/sfc/servlet.shepherd/version/download/' + cd[0].LatestPublishedVersionId + ');';
+                            if (cd != null && cd.size()>0) {                           	
+                            	if(isResponsive){
+                            		styleBackgroundImage = '/sfc/servlet.shepherd/version/download/' + cd[0].LatestPublishedVersionId;                           	
+                            	}else{
+                                	styleBackgroundImage = 'background-image: url(/sfc/servlet.shepherd/version/download/' + cd[0].LatestPublishedVersionId + ');';
+                            	}
                             }
                         }
                         

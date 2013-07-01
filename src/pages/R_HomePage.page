@@ -6,7 +6,6 @@ Date 		: 6/25/13
 Story/Task	: US584
 ------------------------------------------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_Home">
-    
     <apex:outputPanel rendered="{!if(ISNULL(siteTheme),'true','false')}">
         <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'styleSpirits.css')}"/>
         <apex:stylesheet value="{!URLFOR($Resource.HomePage, 'styleSpirits.css')}" />

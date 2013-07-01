@@ -1,67 +1,143 @@
-<apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_MEPDetails">
-    	
-<div class="wrapper">
-    <div class="container">
-        <!-- PAGE HEADER -->
-        <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" /> <!--thisAvatarURL="{!avatarUrl}"-->
-        <script type="text/javascript">
-            pageViewed('Home Page');
-        </script>
-
-        <!-- content -->
-        <div class="content clearfix">
-
-        <!--  BREADCRUMB -->
-        <apex:outputPanel id="beadcrumblinks">
-        	<c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
-        </apex:outputPanel>
-
-            <div class="button-line five-btns">
-                <a href="monthly-execution-plan-item-1.html" class="active mep-bg">Overview</a>
-                <a href="monthly-execution-plan-item-2.html" class="mep-bg">Selling Materials</a>
-                <a href="monthly-execution-plan-item-3.html" class="mep-bg">Media</a>
-                <a href="monthly-execution-plan-item-4.html" class="mep-bg">General</a>
-                <a href="monthly-execution-plan-item-5.html" class="mep-bg last">Goals</a>
-            </div>
-
-            <h2 class="with-select with-small">
-                <span class="title">
-                    Buchanan's<br/>
-                    <small>Distribution 7/1/2012 - 7/31/2012</small>
-                </span>
-                <a href="monthly-execution-plan-landing.html" class="mep-bg right-btn back-btn">Back</a>
-            </h2>
-
-            <div class="story">
-                <div class="image">
-                   <img src="./i/story-image.png"/>
-                </div>
-                <div class="p">
-                    <p>
-                        Consumer behavior is showing trends toward premiumization. Wines priced at $10 and above are outperforming the overall wine marketsegments.
-                    </p>
-                    <p>
-                        More people are having more drinking occasions at home, and these changes are here to stay: said they will continue to cook more at home.
-                    </p>
-                    <p>
-                        Consumers are often turning to celebrity and local chefs for wine and food pairing ideas and techniques and brand recommendations, as evident by the popularity of cooking shows and wine segments on cooking shows.
-                    </p>
-                </div>
-            </div>
-
-
-
-        </div>
-
-
-    </div>
-    <c:R_pageFooter isInternal="{!isInternalUser }" />
-</div>
-
-<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4DetailPage.js')}"></script>
-<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
-<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/calBoxHeight.js')}"></script>
-<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4DetailPage.js')}"></script>
-<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReady4DetailPage.js')}"></script>
-
+<apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_MEPDetails" action="{!initTheme}">>
+	
+  <!-- <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
+	<apex:stylesheet value="{!URLFOR($Resource.MonthlyExecutionPlanPage, 'style'+siteTheme+'.css')}"/> -->
+	<style type="text/css">
+		body, html{
+			overflow: hidden;
+		}
+	</style>
+	<c:R_Loader />
+	
+	<div class="wrapper">
+		<div class="container">
+			<!-- PAGE HEADER -->
+			<c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" /> <!--thisAvatarURL="{!avatarUrl}"-->
+			<script type="text/javascript">
+				pageViewed('Monthly Execution Plan - Detail Page');
+			</script>
+			
+			<!-- content -->
+			<div class="content clearfix">
+						
+				<!--  BREADCRUMB -->
+				<apex:outputPanel id="beadcrumblinks">
+					<c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
+				</apex:outputPanel>
+				
+				<div class="content intro-page-bg left {!if(ISNULL(siteTheme),'hidden','')}">
+					<apex:form >
+						<apex:outputPanel id="messages">
+							<apex:messages styleClass="errorMessagesList" />
+						</apex:outputPanel>
+						
+						<apex:actionFunction status="ajax-status" name="renderAsListSlider" action="{!renderAsListSlider}" rerender="messages, sliderContentItemsBxLs"/>
+						<apex:actionFunction status="ajax-status" name="renderAsBoxSlider" action="{!renderAsBoxSlider}" rerender="messages, sliderContentItemsBxLs"/>
+						
+						<apex:outputPanel rendered="{! if( detailId != null, 'true','false' )}" id="pageContent">
+							<div class="button-line five-btns">
+								<div class="horizontal-slider">
+								<div class="horizontal-slider-navigation">
+								<div class="horizontal-slider-navigation-wrapper">
+									<a href="#" class="active mep-bg horizontal-slider-navigation-button horizontal-slider-navigation-button-active">Overview</a>
+									<apex:repeat value="{!detailsMapOrder}" var="silderSection">
+										<a href="#" class="mep-bg horizontal-slider-navigation-button {!if(silderSection == 'Media', 'mediaPage', '')}">{!silderSection}</a>
+										<!-- <div class="horizontal-slider-navigation-button {!if(silderSection == 'Media', 'mediaPage', '')}">{!silderSection}</div> -->
+									</apex:repeat>
+									<a href="#" class="mep-bg last horizontal-slider-navigation-button">Goals</a>
+								</div>
+								</div>
+								</div>
+							</div>
+							
+							<apex:outputPanel rendered="true" id="overviewContent">	
+								<h2 class="with-select with-small">
+									<span class="title">
+										{!mepItem.name}<br/> 
+										<small>{!salesDriverDescription} {!dateDescription}</small>
+									</span>
+									<a href="{!$Page.R_MonthlyExecutionPlan}" class="mep-bg right-btn back-btn">Back</a>
+								</h2>
+										
+								<div class="story">
+									<div class="image">
+										<img src="{!styleBackgroundLogoImage}"/>
+									</div>
+									<div class="p">
+										<apex:outputtext escape="false" value="{!description}"/>
+									</div>
+								</div>
+							</apex:outputPanel>
+						</apex:outputPanel>
+					</apex:form>
+				</div>
+			</div>
+			<c:R_pageFooter isInternal="{!isInternalUser }" />
+		</div>
+	</div>
+	
+	<apex:form >
+		<apex:actionFunction status="ajax-status" name="userShareOverview" action="{!userShareOverview}" rerender="overviewDialog, shareDialog, messages">
+			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
+		</apex:actionFunction>
+		<apex:actionFunction status="ajax-status" name="userMultipleShare" action="{!userMultipleShare}" rerender="overviewDialog, shareDialog, messages">
+			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+		</apex:actionFunction> 
+		<apex:actionFunction status="ajax-status" name="addToBasket" action="{!addToBasket}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
+			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
+		</apex:actionFunction>
+		<apex:actionFunction status="ajax-status" name="removeFromBasket" action="{!removeFromBasket}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
+			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
+		</apex:actionFunction>
+		<apex:actionFunction status="ajax-status" name="addToBasketMultiple" action="{!addToBasketMultiple}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
+			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+		</apex:actionFunction>
+		<apex:actionFunction status="ajax-status" name="removeFromBasketMultiple" action="{!removeFromBasketMultiple}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
+			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+		</apex:actionFunction>
+		<apex:actionFunction status="ajax-status" name="addToFollow" action="{!addToFollow}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
+			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
+		</apex:actionFunction>
+		<apex:actionFunction status="ajax-status" name="removeFromFollow" action="{!removeFromFollow}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
+			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
+		</apex:actionFunction>
+		<apex:actionFunction status="ajax-status" name="addToFollowMultiple" action="{!addToFollowMultiple}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
+			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+		</apex:actionFunction>
+		<apex:actionFunction status="ajax-status" name="removeFromFollowMultiple" action="{!removeFromFollowMultiple}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
+			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+		</apex:actionFunction>		
+	</apex:form>
+	<!-- 
+	<div id="moreInfo" class="hidden dialog" >
+		<apex:outputPanel id="overviewDialog">
+	 		<c:R_overview cvid="{!cVersionId}" description="{!cDescr}" videoId="{!cVideoId}" isVideo="{!cIsVideo}" previewId="{!cPreviewId}" isPreview="{!cIsPreview}"/>
+		</apex:outputPanel>        
+	</div>
+	
+	<apex:outputPanel id="downloadAllCalendarItems">
+		<apex:repeat value="{!detailsMap}" var="silderSection">
+			<div id="downloadAllInfo-{!detailsMapParser[silderSection]}" class="hidden dialog" >
+				<c:R_downloadAll content="{!detailsMap[silderSection]}"/>
+			</div>	
+		</apex:repeat>
+	</apex:outputPanel>
+		
+	<div id="shareInfo" class="hidden dialog">
+		<apex:outputPanel id="shareDialog">
+			<c:R_share cvid="{!cVersionId}" cvids="{!cVersionIds}" description="{!cDescr}" cShareLink="{!cShareLink}" cShareLinkLow="{!cShareLinkLow}"/>
+		</apex:outputPanel>        
+	</div>   
+	 -->
+	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
+	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4DetailPage.js')}"></script>
+	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/commonFunctions.js')}"></script>
+	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/common4DetailPage.js')}"></script>
+	<script type="text/javascript">
+		jQuery('.horizontal-slider-navigation-button').live('click', function(){
+			alert('1');
+			sliderHolder2 = jQuery(this).parents('.horizontal-slider');
+			alert('2 sliderHolder2 ' +sliderHolder2);
+		});
+	</script>
 </apex:page>

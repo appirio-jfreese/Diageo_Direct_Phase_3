@@ -56,12 +56,13 @@ public without sharing class Service_API {
     public static boolean isResponsive(){
     		String userAgent =
 					ApexPages.currentPage().getHeaders().get('USER-AGENT');
-    		if(userAgent != null && !userAgent.trim().equals('') && 
+    		if((userAgent != null && !userAgent.trim().equals('') && 
     			(userAgent.containsIgnoreCase('Android') || userAgent.containsIgnoreCase('iOS') || 
     			userAgent.containsIgnoreCase('webOS') || userAgent.containsIgnoreCase('iPhone') || 
     			userAgent.containsIgnoreCase('iPad') || userAgent.containsIgnoreCase('iPod') || 
-    			userAgent.containsIgnoreCase('BlackBerry'))){
-    			return true;
+    			userAgent.containsIgnoreCase('BlackBerry')))
+    			|| (ApexPages.currentPage().getUrl().indexOf('R_MonthlyExecutionPlan') > -1)){
+    				return true;
 				}else{
 					return false;
 				}

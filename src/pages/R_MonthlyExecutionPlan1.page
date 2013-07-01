@@ -1,29 +1,36 @@
-<apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_MonthlyExecutionPlan">
-    	
+<apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_MonthlyExecutionPlan" >
+               	
 <div class="wrapper">
     <div class="container">
+        <!-- header -->
         <!-- PAGE HEADER -->
         <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
         <script type="text/javascript">
             pageViewed('Home Page');
         </script>
+
+
+ <apex:form >
+                <apex:actionFunction name="refreshContent" action="{!refreshContent}" rerender="mepData, beadcrumblinks" status="ajax-status"/> 
                 
         <!-- content -->
         <div class="content clearfix">
-
-        <!--  BREADCRUMB -->
+		    <!--  BREADCRUMB -->
         <apex:outputPanel id="beadcrumblinks">
         	<c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
         </apex:outputPanel>
 
+
             <h2 class="with-select">
                 <span class="title">Monthly Execution Plan</span>
-                <select id="header-period-select">
+                <!--<select id="header-period-select">
                     <option value="1">Monthly View</option>
                     <option value="3">Quarterly View</option>
                     <option value="6">6 Month View</option>
                     <option value="12">12 Month View</option>
                 </select>
+                -->
+                <c:R_selectList options="{!timePeriods}"  value="{!timePeriod}" onchange="refreshContent()" />
                 <div class="include-select jqTransformSelectWrapper" style="z-index: 9; width: 135px;">
                     <div>
                         <span style="width: 115px;">Include</span>
@@ -111,31 +118,39 @@
                     </div>
                 </div>
             </div>
-
+			<apex:variable var="salesDriverVar" value="{!salesDriversToShow[3]}"/>
             <div class="plan-header">
                 <a href="{!$Page.R_MonthlyExecutionPlan}" class="mep-bg btn">Back</a>
-                <span>Display / Visibility</span>
+                <span>{!salesDriverVar}</span>
             </div>
-
-            <div class="desc-block green-bg" data-link="{!$Page.R_MEPDetails}">
-                <h5>Tanqueray "Let's Tonic"</h5>
-                <p>Shoppers want easy choices to buy and make quality mixed drinks with confidence.</p>
-                <p>Tanqueray  Tonic is a popular and easy to make summer cocktail accounting for 45 of Tanqueray consumption in July August and September</p>
-            </div>
-
-            <div class="desc-block light-blue-bg" data-link="{!$Page.R_MEPDetails}">
-                <h5>Ciroc Summer Cabana</h5>
-                <p>Summertime is a key selling period for spirits, with traditionally 33 of annual TBA volume sales.</p>
-                <p>Summer is also a very active time of the year where consumers enjoy social gatherings </p>
-            </div>
-
-
+            <apex:outputPanel rendered="{!if(salesDriverVar!=null,true,false)}" >
+       		<apex:repeat value="{!months}" var="month" >
+            	<!--<apex:repeat value="{!calendarData[month.data][salesDriverVar]}" var="programData">
+                    <div class="desc-block green-bg" data-link="{!$Page.R_MEPDetails}">
+		                <h5>{!month.name}</h5>
+		                <apex:outputtext escape="false" value="{!programData.description}"></apex:outputtext>
+		            </div>
+		
+		            <div class="desc-block light-blue-bg" data-link="{!$Page.R_MEPDetails}">
+		                <h5>{!programData.label}</h5>
+		                <apex:outputtext escape="false" value="{!programData.description}"></apex:outputtext>
+		            </div>
+			</apex:repeat>
+			--></apex:repeat>
+			</apex:outputPanel>
         </div>
-
+</apex:form>
     </div>
 
-
-    <c:R_pageFooter isInternal="{!isInternalUser }" />
+     <c:R_pageFooter isInternal="{!isInternalUser }" />
 </div>
 
+
+<div class="popover pil-popover">
+    <a href="product-images-and-logos.html" class="btn">Product Shots</a>
+    <a href="product-images-and-logos.html" class="btn">Logo</a>
+    <a href="product-images-and-logos.html" class="btn">Family Shots</a>
+</div>
+ 
+ 
 </apex:page>
