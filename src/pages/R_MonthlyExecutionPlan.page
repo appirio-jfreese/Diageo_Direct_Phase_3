@@ -23,7 +23,7 @@
                     <apex:param name="startFromDate" assignTo="{!startFromDate}" value="" />
                 </apex:actionFunction>
                 <apex:actionFunction name="nextMonth" action="{!nextMonth}" rerender="mepData, beadcrumblinks" status="ajax-status"/>
-                <apex:actionFunction name="previousMonth" action="{!previousMonth}" rerender="mepData, beadcrumblinks" status="ajax-status"/>
+                <apex:actionFunction name="previousMonth" action="{!previousMonth}" oncomplete="alert('prev month completed');" rerender="mepData, beadcrumblinks" status="ajax-status"/>
             <apex:pageBlock id="mepData">
             <h2 class="with-select">
                 <span class="title">Monthly Execution Plan</span>
@@ -75,11 +75,11 @@
             </h2>
             
             <div class="calendar-head">
-                <a href="#" class="prev mep-bg">
+                <a href="#" onclick="previousMonthJS();" class="prev mep-bg">
                     <span></span>
                 </a>
-                <a href="javascript:;" class="date with-dropdown">June 2013</a>
-                <a href="javascript:;" class="next mep-bg">
+                <a href="javascript:;" class="date with-dropdown">July 2013</a>
+                <a href="javascript:;" onclick="nextMonth();" class="next mep-bg">
                     <span></span>
                 </a>
                 <div class="popover">
@@ -92,8 +92,8 @@
                             <option>Jun</option>
                             <option>Apr</option>
                             <option>May</option>
-                            <option selected="true">Jun</option>
-                            <option>Jul</option>
+                            <option>Jun</option>
+                            <option selected="true">Jul</option>
                             <option>Aug</option>
                             <option>Sep</option>
                             <option>Oct</option>
@@ -245,6 +245,10 @@
 			jQuery('.prev mep-bg').click(previousMonth);
             jQuery('.next mep-bg').click(nextMonth);
 		});	
+		
+		function previousMonthJS(){	
+			previousMonth();
+		}
 		
 </script>
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/jumpToDateKeyDown.js')}"></script>

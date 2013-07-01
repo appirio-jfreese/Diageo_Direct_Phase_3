@@ -26,7 +26,7 @@ Story/Task	: US503/TA1011
         </apex:outputPanel>
 
             <h2 class="with-select">
-                <span class="title">Innovation, Sustainovation &amp; VAP</span>
+                <span class="title">Innovation, Sustainovation  &amp; VAP</span>
                 <select id="period-select">
                     <option>Monthly View</option>
                     <option>Quarterly View</option>
@@ -47,7 +47,7 @@ Story/Task	: US503/TA1011
                         </li>
                         <li>
                             <a href="#" index="3">
-                                <input type="checkbox" class="noTransform" disabled="true" checked="true" />
+                                <input type="checkbox" class="noTransform" disabled="true" checked="true"/>
                                 Wine
                             </a>
                         </li>
@@ -204,7 +204,8 @@ Story/Task	: US503/TA1011
             <div class="clear"></div>
 
         </div>
-   </div>
+
+    </div>
 
         <!-- PAGE FOOTER -->
         <c:R_pageFooter isInternal="{!isInternalUser}" />
