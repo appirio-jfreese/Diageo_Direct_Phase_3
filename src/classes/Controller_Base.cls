@@ -40,10 +40,6 @@ Story/Task  : US607/TA1014
 Updated By  : Basant Verma (Appirio OffShore)   
 Date        : 7/1/13
 Story/Task  : US607/TA1014
-
-Updated By  : Jonathan Freese (Appirio)   
-Date        : 6/25/13
-Story/Task  : US608/TA1026
 *******************************************************************************************************************/
 
 global public without sharing virtual class Controller_Base {
@@ -188,16 +184,6 @@ global public without sharing virtual class Controller_Base {
 	    } private set;
 	} 
     // End : Changes for TA973 - Jonathan Freese
-	
-    // Start : Changes for TA1026 - Jonathan Freese
-    // This is needed by the R_PageFooter.component to show the ads.  It was copied from Controller_Home.cls innovationSectionName, but that name made no sense
-	public Boolean isSpiritsTheme {
-        get{
-            return (siteTheme == 'Spirits');
-        }
-        private set;
-    }
-    // End : Changes for TA1026 - Jonathan Freese
 	
 	// pages
     public Integer numberOfPages {public get; public set;}
