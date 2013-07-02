@@ -111,6 +111,13 @@ Story/Task  : US585/TA1082
 	                                <a href="javascript:;" class="btn last" style="visibility: hidden">Beer</a>
 	                            </apex:outputPanel>
 	                    </apex:outputPanel>
+                        <apex:outputPanel id="nsTheme" rendered="{!NOT(showThemeSelector)}">
+                                <apex:outputPanel >
+                                    <a href="javascript:;" class="btn" style="visibility: hidden">Spirits</a>
+                                    <a href="javascript:;" class="btn" style="visibility: hidden">Wine</a>
+                                    <a href="javascript:;" class="btn" style="visibility: hidden">Beer</a>
+                                </apex:outputPanel>
+                        </apex:outputPanel>
 	                </apex:form>
                 </div>
 
