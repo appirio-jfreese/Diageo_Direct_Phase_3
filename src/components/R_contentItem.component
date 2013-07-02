@@ -1,17 +1,9 @@
 <!-----------------------------------------------------------------------------------------------------------------
 Name        : contentItem.component
 
-Updated By  : Jonathan Freese (Appirio)   
-Date        : 5/29/13
-Story/Task  : US507/TA918
-
-Updated By  : Jonathan Freese (Appirio)   
-Date        : 6/5//13
-Story/Task  : US79/TA996
-
 Updated By  : Basant Verma (AppirioOffShore)   
-Date        : 6/17/13
-Story/Task  : US495/DE600
+Date        : 7/2/13
+Story/Task  : US585/TA1082
 ------------------------------------------------------------------------------------------------------------------->
 <apex:component controller="Service_ContentItem">
     <apex:attribute name="cvid" description="ID" type="String" required="false" assignTo="{!cvid1}"/>
@@ -19,16 +11,12 @@ Story/Task  : US495/DE600
     <apex:attribute name="imageRes" description="Image resolution. null/High/Low" type="String" required="false" assignTo="{!imageRes1}"/>    
     <apex:attribute name="extraDescription" description="Content Description" type="String" required="false"/>
     <apex:attribute name="description" description="Content Description" type="String" required="false" assignTo="{!description2}"/>
-	<!-- Start: changes for TA918 Jonathan Freese -->
     <apex:attribute name="title" description="Content Title" type="String" required="false" assignTo="{!title1}"/>
-    <!--   End: changes for TA918 Jonathan Freese -->
     <apex:attribute name="fileType" description="File type" type="String" required="false" assignTo="{!fileType1}"/>
     <apex:attribute name="fileSize" description="File size" type="String" required="false" assignTo="{!fileSize1}"/>
     <apex:attribute name="createdDate" description="Created at" type="datetime" required="false" assignTo="{!createdDate1}"/>
     <apex:attribute name="displayUploadDate" description="display upload date and new indicator" type="boolean" required="false" default="false" assignTo="{!displayUploadDate1}"/>
-
     <apex:attribute name="showButons" description="if share and download buttons should be displayed" type="boolean" required="false" default="true" />
-
     <apex:attribute name="lastLoginDateItem" description="Last login date" type="datetime" required="false" assignTo="{!lastLoginDateItem1}"/>
     <apex:attribute name="isVideo" description="Is video" type="Boolean" required="false" assignTo="{!isVideo1}"/>
     <apex:attribute name="videoId" description="Is video" type="String" required="false" assignTo="{!videoId1}"/>    
@@ -42,18 +30,20 @@ Story/Task  : US495/DE600
     <apex:attribute name="basketIds" description="Set of basket ids" type="Set" required="false" assignTo="{!basketIds}"/>
     <apex:attribute name="followIds" description="Set of follow ids" type="Set" required="false" assignTo="{!followIds}"/>
     <apex:attribute name="isBasketAction" description="Is add should be hidden" type="Boolean" required="false" default="false"/>
-	<!-- Start: changes for TA996 Jonathan Freese -->
     <apex:attribute name="isFollowAction" description="Is follow should be hidden" type="Boolean" required="false" default="false"/>
-    <!-- End: changes for TA996 Jonathan Freese -->
     <apex:attribute name="allowFileEdit" description="Is file edit allowed" type="Boolean" required="false" default="false" />
     <apex:attribute name="allowFileConversation" description="Is file conversation allowed" type="Boolean" required="false" default="false" />
     <apex:attribute name="numberOfComments" description="Number of comments" type="String" required="false" default="0"/>
     <apex:attribute name="isPil" description="Is pil section" type="Boolean" required="false" default="false" />
-    <!-- Start : Changed for US495/DE600 - Basant Verma -->
     <apex:attribute name="editableIds" description="Set of follow ids" type="String" required="false" assignTo="{!editableIdsString}"/>
-    <!-- End : Chnaged for US495/DE600 - Basant Verma -->
+    
+    <!-- Start : Changes for US585/TA1082 - Basant Verma -->
+    <apex:attribute name="responsivePage" description="responsive Page" type="Boolean" required="false" default="true" />
+    <!-- End : Changes for US585/TA1082 - Basant Verma -->
     <!-- BOX VIEW --> 
-    <apex:outputPanel rendered="{! IF(renderAsList1 != true, 'true', 'false')}">
+    <!-- Start : Changes for US585/TA1082 - Basant Verma -->
+    <apex:outputPanel rendered="{! IF(AND(renderAsList1 != true, NOT(responsivePage)), 'true', 'false')}">
+    <!-- End : Changes for US585/TA1082 - Basant Verma -->
         <div class="cionwrapper content-item item sectionBorder {!if( OR(previewAvailable1!=true,ISNULL(previewId1)) , 'sectionBoxGradient','')}" style="width: {!IF(ISNULL(width1), '255px', width1+'px')};  height: {!IF(ISNULL(height1), '170px', height1+'px')}; margin: {!IF(ISNULL(margin1), '5px', margin1+'px')};">
             <div class="content-item-image">
                 <apex:outputtext rendered="{!isVideo1==false}">
@@ -98,11 +88,9 @@ Story/Task  : US495/DE600
                             <!-- END DATE -->
                             <br/>
                             <!-- START FILE SIZE-->
-                            <!-- Start: changes for TA918 Jonathan Freese -->
                             <apex:outputtext rendered="{!IF(fileType1!='LINK', 'true', 'false')}" styleClass="item-buttons">
                                 <span class="filesize-box">{! IF (fileSize1 != null, '('+fileSize1+')', null)}</span>
                             </apex:outputtext>
-                            <!--   End: changes for TA918 Jonathan Freese -->
                             <!-- END FILE SIZE -->
                         </div>
                     </div>
@@ -116,26 +104,18 @@ Story/Task  : US495/DE600
                                     <table style="width: 100%; border-spacing: 0px;"><tr>
                                         <td>
                                             <!-- START DOWNLOAD ICONS -->
-                                            <!--
-                                            Case 00004201 
-                                            Modified By Rahul Chitkara(Appirio Jaipur)
-                                            Date - 5th Mar 2013
-                                             -->
                                             <apex:outputPanel rendered="{!AND(isVideo1==true, NOT(ISNULL(videoId1)))}">
                                                 <div title="DOWNLOAD" class="cion box-cion-download pointer" target="_blank" href="{!$Page.VideoDownload}?videoId={!videoId1}&videodesc={!URLENCODE(description2)}">&nbsp;</div>
                                             </apex:outputPanel>    
-                                            <!-- End Case 00004201 -->   
-											<!-- Start: changes for TA918 Jonathan Freese (for URL links, disable download/share/preview and create launch) -->
                                             <apex:outputPanel rendered="{!AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1!='LINK')}">
                                                 <div title="DOWNLOAD" class="cion box-cion-download pointer" href="/sfc/servlet.shepherd/version/download/{!cvid1}" onclick="addToDownloadCache('{!cvid1}');">&nbsp;</div>
                                             </apex:outputPanel>
                                             <apex:outputPanel rendered="{!OR(AND(isVideo1==false,!ISNULL(cvid1),!ISNULL(cvidlow1)), OR(imageRes1=='High', imageRes1=='Low'))}">
                                                 <div title="DOWNLOAD" class="cion box-cion-download pointer showResolution" style="">&nbsp;</div>
                                             </apex:outputPanel>
-											<apex:outputPanel rendered="{!AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1=='LINK')}">
-		                                        <!-- hack: add a space for URL links to balance having one empty td to the left vs 4 empty td to the right -->
-		                                        <div>&nbsp;&nbsp;</div>
-		                                    </apex:outputPanel>
+																						<apex:outputPanel rendered="{!AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1=='LINK')}">
+				                                        <div>&nbsp;&nbsp;</div>
+				                                    </apex:outputPanel>
                                             <!-- END DOWNLOAD ICONS -->
                                         </td>
                                         <td>
@@ -188,8 +168,6 @@ Story/Task  : US495/DE600
                                             </apex:outputPanel>
                                             <!-- END BASKET ICONS -->
                                         </td>
-										<!-- End: changes for TA918 Jonathan Freese -->
-                                        <!-- Start: changes for TA996 Jonathan Freese -->
                                         <td>                                            
                                             <!-- START FOLLOW ICONS -->
                                             <apex:outputPanel rendered="{!AND(NOT(isFollowAction),OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK')))}">
@@ -205,17 +183,6 @@ Story/Task  : US495/DE600
                                             </apex:outputPanel>
                                             <!-- END FOLLOW ICONS -->
                                         </td>
-                                        <!-- End: changes for TA996 Jonathan Freese -->
-                                        <!--
-                                        <td>                                            
-                                            <apex:outputPanel rendered="{!AND(inFollow==false)}">
-                                                <div title="FOLLOW" class="cion box-cion-follow pointer" onclick="addToFollow('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');">&nbsp;</div>
-                                            </apex:outputPanel>
-                                            <apex:outputPanel rendered="{!AND(inFollow==true)}">
-                                                <div title="UNFOLLOW" class="cion box-cion-unfollow pointer" onclick="removeFromFollow('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');">&nbsp;</div>
-                                            </apex:outputPanel>
-                                        </td>
-                                        -->
                                     </tr></table>
                                     <div class="cion-clear"></div>
                                 </apex:outputPanel>
@@ -264,7 +231,9 @@ Story/Task  : US495/DE600
     
     
     <!-- LIST VIEW -->
-    <apex:outputPanel rendered="{! IF(renderAsList1 = true, 'true', 'false')}">
+    <!-- Start : Changes for US585/TA1082 - Basant Verma -->
+    <apex:outputPanel rendered="{! IF(AND( renderAsList1 = true, NOT(responsivePage)), 'true', 'false')}">
+    <!-- End : Changes for US585/TA1082 - Basant Verma -->
         <div class="cionwrapper content-item-list">
             <div class="content-item-list-ico">
                 <apex:image url="{!URLFOR($Resource.CommonPage, 'images/transparent.gif')}" styleClass="file-ico32 ico-{!fileType1}"/>
@@ -274,7 +243,6 @@ Story/Task  : US495/DE600
                     <a target="_blank" href="#">{!extraDescription}</a> 
                 </apex:outputPanel>         
                 <apex:outputPanel rendered="{!isVideo1!=true}">                 
-                    <!-- Start: changes for TA918 Jonathan Freese -->
                     <apex:outputPanel rendered="{!AND(!ISNULL(cvid1),fileType1!='LINK')}">
                         <span onclick="addToDownloadCache('{!cvid1}');">
                             <apex:outputPanel rendered="{! IF (isIpadComponent = false, 'true', 'false') }">
@@ -291,7 +259,6 @@ Story/Task  : US495/DE600
 					<apex:outputPanel rendered="{!AND(!ISNULL(cvid1),fileType1=='LINK')}">
                         <a target="_blank" href="{!title1}">{!description2}</a>
                     </apex:outputPanel>
-                    <!-- End: changes for TA918 Jonathan Freese -->
                     <apex:outputPanel rendered="{!AND(ISNULL(cvid1),!ISNULL(cvidlow1))}">
                         <span onclick="addToDownloadCache('{!cvidlow1}');">
                             <apex:outputPanel rendered="{! IF (isIpadComponent = false, 'true', 'false') }">
@@ -334,7 +301,6 @@ Story/Task  : US495/DE600
             </div>
             <apex:outputPanel rendered="{!if(showButons != false, 'true','false')}">
                 <div class="content-item-list-buttons hidden">
-                <!-- Start: changes for TA918 Jonathan Freese (for URL links, disable download/share/preview and create launch) -->
                 <!-- LIST VIEW FOR ALL BUT CONTENT OF TYPE LINK (wider wrapper) -->
 				<apex:outputPanel rendered="{!OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK'))}">
                     <div class="list-button-wrapper">
@@ -410,7 +376,6 @@ Story/Task  : US495/DE600
                                                 </apex:outputPanel>
                                                 <!-- END BASKET ICONS -->
                                             </td>
-											<!-- Start: changes for TA996 Jonathan Freese -->
                                             <td>    
                                                 <!-- START FOLLOW ICONS -->
                                                 <apex:outputPanel rendered="{!AND(NOT(isFollowAction),OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK')))}">
@@ -426,17 +391,6 @@ Story/Task  : US495/DE600
                                                 </apex:outputPanel>
                                                 <!-- END FOLLOW ICONS -->
                                             </td>
-	                                        <!-- End: changes for TA996 Jonathan Freese -->
-                                            <!-- 
-                                            <td>    
-                                                <apex:outputPanel rendered="{!AND(inFollow==false)}">
-                                                    <div title="FOLLOW" class="cion list-cion-follow pointer" onclick="addToFollow('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');">&nbsp;</div>
-                                                </apex:outputPanel>
-                                                <apex:outputPanel rendered="{!AND(inFollow==true)}">
-                                                    <div title="UNFOLLOW" class="cion list-cion-unfollow pointer" onclick="removeFromFollow('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');">&nbsp;</div>
-                                                </apex:outputPanel>
-                                            </td>
-                                             -->
                                             </tr></table>
                                         <div class="cion-clear"></div>
                                     </apex:outputPanel>
@@ -465,7 +419,6 @@ Story/Task  : US495/DE600
 													</apex:outputPanel>
 													<!-- END LAUNCH LINK -->
 												</td>
-												<!-- End: changes for TA996 Jonathan Freese -->
 												</tr></table>
 											<div class="cion-clear"></div>
 										</apex:outputPanel>
@@ -477,7 +430,6 @@ Story/Task  : US495/DE600
 							<div class="content-item-tooltip" style="height: 50px; font-weight: bold; text-align: center; width: 100%; background-color: #736C6C; color: #ffffff;">&nbsp;</div>
 						</div>
 					</apex:outputPanel>
-					<!-- End: changes for TA918 Jonathan Freese -->
 
                     <div style="clear: both;"></div>
                 </div>
@@ -485,4 +437,92 @@ Story/Task  : US495/DE600
         </div>
         <div style="clear: both;"></div>
     </apex:outputPanel> 
+    
+    <!-- Start : Changes for US585/TA1082 - Basant Verma -->
+    <apex:outputPanel rendered="{!responsivePage}">
+    	<div class="doc">
+				<div class="info">
+						<apex:image url="{!URLFOR($Resource.CommonPage, 'images/transparent.gif')}" styleClass="file-ico32 ico-{!fileType1}"/>
+ 						<div class="desc">
+ 							<apex:outputPanel rendered="{!AND(extraDescription!='', extraDescription!=null)}">          
+              	<a class="title" target="_blank" href="#">{!extraDescription}</a> 
+              </apex:outputPanel>
+ 							
+ 							<apex:outputPanel rendered="{!isVideo1!=true}">                 
+								<apex:outputPanel rendered="{!AND(!ISNULL(cvid1),fileType1!='LINK')}">
+									<span onclick="addToDownloadCache('{!cvid1}');">
+										<apex:outputPanel rendered="{! IF (isIpadComponent = false, 'true', 'false') }">
+											<a class="title" target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvid1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
+										</apex:outputPanel>
+										<apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = false) }">
+											<div class="title" >{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</div>
+										</apex:outputPanel> 
+										<apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = true) }">
+											<a class="title" target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvid1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
+										</apex:outputPanel>                     
+									</span>
+								</apex:outputPanel>
+								
+								<apex:outputPanel rendered="{!AND(!ISNULL(cvid1),fileType1=='LINK')}">
+									<a class="title" target="_blank" href="{!title1}">{!description2}</a>
+								</apex:outputPanel>
+								
+								<apex:outputPanel rendered="{!AND(ISNULL(cvid1),!ISNULL(cvidlow1))}">
+									<span onclick="addToDownloadCache('{!cvidlow1}');">
+										<apex:outputPanel rendered="{! IF (isIpadComponent = false, 'true', 'false') }">
+											<a class="title" target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvidlow1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
+										</apex:outputPanel>
+										<apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = false) }">
+											<div class="title"> {!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</div>
+										</apex:outputPanel>
+										<apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = true) }">
+											<a class="title" target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvidlow1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
+										</apex:outputPanel>
+									</span> 
+								</apex:outputPanel>
+							</apex:outputPanel>
+							
+							<apex:outputPanel rendered="{!isVideo1==true}">
+								<span onclick="addToDownloadCache('{!cvid1}');">
+									<apex:outputPanel rendered="{! IF (isIpadComponent = false, 'true', 'false') }">
+										<a class="title" target="_blank" href="{!$Page.Preview}?videoId={!videoId1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
+									</apex:outputPanel> 
+									<apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = false) }">
+										<div class="title">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</div>
+									</apex:outputPanel>
+									<apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = true) }">
+										<a class="title" target="_blank" href="{!$Page.Preview}?videoId={!videoId1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
+									</apex:outputPanel>
+								</span>
+							</apex:outputPanel>
+							<br/>
+							<span class="time">
+								<apex:outputtext rendered="{!AND(displayUploadDate1==true,isNew==true)}">&nbsp;
+									<b>* 
+										<apex:outputText value="{0,date, MM'/'dd'/'yy}">
+											<apex:param value="{!createdDate2}" /> 
+										</apex:outputText>
+									</b>
+								</apex:outputtext>
+								<apex:outputtext rendered="{!AND(displayUploadDate1==true,isNew==false)}">&nbsp;
+									<apex:outputText value="{0,date, MM'/'dd'/'yy}">
+										<apex:param value="{!createdDate2}" /> 
+									</apex:outputText>
+								</apex:outputtext>
+							</span>
+ 						</div>
+				</div>
+      	<div class="doc-btns mep-bg">
+      			<a href="javascript:;" class="download"></a>
+ 						<a href="javascript:;" class="share"></a>
+            <a href="javascript:;" class="add-to-basket"></a>
+            <a href="javascript:;" class="follow"></a>
+      	</div>
+	      <a href="javascript:;" class="mep-bg setting-btn">
+	     		<span></span>
+				</a>
+				<input type="checkbox"/>
+			</div>
+    </apex:outputPanel>
+    <!-- End : Changes for US585/TA1082 - Basant Verma -->
 </apex:component>
