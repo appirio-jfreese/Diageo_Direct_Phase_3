@@ -7,6 +7,8 @@
         <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
         <script type="text/javascript">
             pageViewed('Home Page');
+            jQuery(document.body).addClass('mep-landing-page').addClass('mep-page');
+            
         </script>
 
 
@@ -20,7 +22,7 @@
         	<c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
         </apex:outputPanel>
 
-
+			 
             <h2 class="with-select">
                 <span class="title">Monthly Execution Plan</span>
                 <!--<select id="header-period-select">
@@ -31,12 +33,12 @@
                 </select>
                 -->
                 <c:R_selectList options="{!timePeriods}"  value="{!timePeriod}" onchange="refreshContent()" />
-                <div class="include-select jqTransformSelectWrapper" style="z-index: 9; width: 135px;">
+                <div class="include-select jqTransformSelectWrapper" style="z-index: 9; width: 155px;">
                     <div>
                         <span style="width: 115px;">Include</span>
                         <a href="javascript:;" class="jqTransformSelectOpen"></a>
                     </div>
-                    <ul style="width: 133px; display: none; visibility: visible; overflow-y: auto;">
+                    <ul style="width: 153px; display: none; visibility: visible; overflow-y: auto;">
                         <li>
                             <a href="#" index="0">
                                 <input type="checkbox" class="noTransform"/>
@@ -67,12 +69,13 @@
                     <span>Download as PDF</span>
                 </a>
             </h2>
-
+            <apex:outputPanel id="mepData">
+			<apex:outputPanel id="mepDataCal"  rendered="{!if(months.size ==1 ,true,false)}"  >
             <div class="calendar-head">
                 <a href="javascript:;" class="prev mep-bg">
                     <span></span>
                 </a>
-                <a href="javascript:;" class="date with-dropdown">June 2013</a>
+                <a href="javascript:;" class="date with-dropdown">{!months[0].name}</a>
                 <a href="javascript:;" class="next mep-bg">
                     <span></span>
                 </a>
@@ -118,27 +121,82 @@
                     </div>
                 </div>
             </div>
-			<apex:variable var="salesDriverVar" value="{!salesDriversToShow[3]}"/>
+            </apex:outputPanel>
+			<apex:variable var="program" value="{!salesDriversToShow[3]}"/>
             <div class="plan-header">
                 <a href="{!$Page.R_MonthlyExecutionPlan}" class="mep-bg btn">Back</a>
-                <span>{!salesDriverVar}</span>
+                <span>{!program}</span>
             </div>
-            <apex:outputPanel rendered="{!if(salesDriverVar!=null,true,false)}" >
-       		<apex:repeat value="{!months}" var="month" >
-            	<!--<apex:repeat value="{!calendarData[month.data][salesDriverVar]}" var="programData">
-                    <div class="desc-block green-bg" data-link="{!$Page.R_MEPDetails}">
-		                <h5>{!month.name}</h5>
-		                <apex:outputtext escape="false" value="{!programData.description}"></apex:outputtext>
+            <apex:outputPanel >
+            <apex:repeat value="{!months}" var="month" >
+           		<apex:outputPanel rendered ="{!if(months.size >1 ,true,false)}" >
+		            <div class="calendar-head">
+		                <a href="javascript:;" class="prev mep-bg">
+		                    <span></span>
+		                </a>
+		                <a href="javascript:;" class="date with-dropdown">{!month.name}</a>
+		                <a href="javascript:;" class="next mep-bg">
+		                    <span></span>
+		                </a>
+		                <div class="popover">
+		                    <div class="select">
+		                        <a href="javascript:;" class="">Prev</a>
+		                        <select>
+		                            <option>Jan</option>
+		                            <option>Feb</option>
+		                            <option>Mar</option>
+		                            <option>Jun</option>
+		                            <option>Apr</option>
+		                            <option>May</option>
+		                            <option selected="true">Jun</option>
+		                            <option>Jul</option>
+		                            <option>Aug</option>
+		                            <option>Sep</option>
+		                            <option>Oct</option>
+		                            <option>Nov</option>
+		                            <option>Dec</option>
+		                        </select>
+		                        <select>
+		                            <option>2008</option>
+		                            <option>2009</option>
+		                            <option>2010</option>
+		                            <option>2011</option>
+		                            <option>2012</option>
+		                            <option selected="true">2013</option>
+		                            <option>2014</option>
+		                            <option>2015</option>
+		                            <option>2016</option>
+		                            <option>2017</option>
+		                            <option>2018</option>
+		                            <option>2019</option>
+		                            <option>2020</option>
+		                        </select>
+		                        <a href="javascript:;" class="">Next</a>
+		                    </div>
+		                    <div class="buttons">
+		                        <a href="javascript:;" class="mep-bg ">Today</a>
+		                        <a href="javascript:;" class="mep-bg close-btn">Close</a>
+		                        <a href="javascript:;" class="mep-bg select-btn">Select</a>
+		                    </div>
+		                </div>
 		            </div>
-		
-		            <div class="desc-block light-blue-bg" data-link="{!$Page.R_MEPDetails}">
+	            </apex:outputPanel>
+				<apex:variable var="program" value="{!salesDriversToShow[3]}"/>
+            	<apex:variable var="oddEven" value="{!'odd'}"/>
+            	<apex:repeat value="{!calendarData[month.data][salesDriversToShow[3]]}" var="programData"> 
+                    
+		            <div class="{!if(oddEven =='even' ,'desc-block light-blue-bg','desc-block green-bg')}" data-link="{!$Page.R_MEPDetails}">
 		                <h5>{!programData.label}</h5>
 		                <apex:outputtext escape="false" value="{!programData.description}"></apex:outputtext>
 		            </div>
+		   			 <apex:variable var="oddEven" value="{!if(oddEven == 'odd','even','odd')}"/>
+			
 			</apex:repeat>
-			--></apex:repeat>
+			</apex:repeat>
+			</apex:outputPanel>
 			</apex:outputPanel>
         </div>
+        
 </apex:form>
     </div>
 

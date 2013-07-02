@@ -1,4 +1,6 @@
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_MonthlyExecutionPlan">
+<apex:stylesheet value="{!URLFOR($Resource.jquery, 'customDatePicker.css')}"/>
+
 <div class="wrapper">
     <div class="container">
         <!-- PAGE HEADER -->
@@ -14,7 +16,9 @@
         <apex:outputPanel id="beadcrumblinks">
         	<c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
         </apex:outputPanel>
+        <apex:pageBlock id="mepData">
 		     <apex:form >
+		     
                 <apex:actionFunction name="refreshContent" action="{!refreshContent}" rerender="mepData, beadcrumblinks" status="ajax-status"/> 
                 <apex:actionFunction name="selectSalesDriver" action="{!selectSalesDriver}" rerender="mepData, beadcrumblinks" status="ajax-status">
                     <apex:param name="salesDriver" assignTo="{!salesDriver}" value="" />
@@ -22,18 +26,21 @@
                 <apex:actionFunction name="setStartDateValue" action="{!setStartDateValue}" rerender="mepData, beadcrumblinks" status="ajax-status">
                     <apex:param name="startFromDate" assignTo="{!startFromDate}" value="" />
                 </apex:actionFunction>
-                <apex:actionFunction name="nextMonth" action="{!nextMonth}" rerender="mepData, beadcrumblinks" status="ajax-status"/>
+                <apex:actionFunction name="nextMonth" action="{!nextMonth}" rerender="mepData, beadcrumblinks" status="ajax-status"/>                  
                 <apex:actionFunction name="previousMonth" action="{!previousMonth}" oncomplete="alert('prev month completed');" rerender="mepData, beadcrumblinks" status="ajax-status"/>
-            <apex:pageBlock id="mepData">
+        
             <h2 class="with-select">
                 <span class="title">Monthly Execution Plan</span>
-                <!--  <c:selectList id="period-select" options="{!timePeriods}"  value="{!timePeriod}" onchange="refreshContent()" />
-                --> <select id="period-select" onchange="refreshContent();">
+                <!--  <select id="period-select" onchange="refreshContent();">
                     <option>Monthly View</option>
                     <option>Quarterly View</option>
                     <option>6 Month View</option>
                     <option>12 Month View</option>
-                </select>               
+                </select> -->
+                <apex:selectList value="{!timePeriod}" onchange="refreshContent();" size="1" id="period-select">
+	   	    		<apex:selectOptions value="{!timePeriods}"/>
+	   			</apex:selectList>
+                 <!--  <c:R_selectList options="{!timePeriods}"  value="{!timePeriod}" onchange="refreshContent()" /> -->             
                  			            	
                 <div class="include-select jqTransformSelectWrapper" style="z-index: 9; width: 135px;">
                     <div>
@@ -73,13 +80,55 @@
                     <span>Download as PDF</span>
                 </a>
             </h2>
-            
+                       
+            <div class="plans">
+            <apex:variable var="counter" value="{!1}"/>
+            <apex:repeat value="{!salesDriversToShow}" var="salesdrivername">
+                <div class="plan" id="plan{!FLOOR(counter)}">
+                    <apex:outputPanel rendered="{!counter==1}">
+	                    <h3 class="two-lines mep-bg">                  
+	                        <a href="{!$Page.R_MonthlyExecutionPlan1}" >                     
+	                         	{!salesdrivername}                        
+	                        </a>
+	                    </h3>
+                    </apex:outputPanel>
+                    <apex:outputPanel rendered="{!counter>1}">
+	                    <h3 class="mep-bg">                  
+	                        <a href="{!$Page.R_MonthlyExecutionPlan1}" >                     
+	                         	{!salesdrivername}                       
+	                        </a>
+	                    </h3>
+                    </apex:outputPanel>
+                    <!--  <apex:repeat value="{!months}" var="month">                   
+	                    <apex:repeat value="{!calendarData[month.data][salesdrivername]}" var="programData">		                    	
+		                    <a class="p"
+		                     href="{!detailPagePath}&id={!programData.id}" >
+		                     <div style="{!programData.styleBackgroundColor}{!programData.styleTextColor} height:65px;" >
+								 <apex:outputPanel >					
+			                     <img src="{!programData.styleBackgroundImage}"></img>
+			                     </apex:outputPanel>             
+		                     	<div style="{!programData.styleTextColor} padding-left:10px;margin:2px;">{!programData.label}</div> 
+		                     </div>
+		                    </a>		                    
+	                    </apex:repeat>
+                    </apex:repeat> -->
+                    
+                    <apex:variable var="counter" value="{!counter + 1}"/>
+                </div>
+            </apex:repeat>
+            </div>
+           
+            <apex:variable var="displayCalendar" value="{!1}"/>
+            <apex:outputText value="{!months.size}"/>
+            <apex:repeat value="{!months}" var="month">
             <div class="calendar-head">
-                <a href="#" onclick="previousMonthJS();" class="prev mep-bg">
+                <a href="javascript:void(0);" onclick="previousMonth();" class="prev mep-bg">
                     <span></span>
-                </a>
-                <a href="javascript:;" class="date with-dropdown">July 2013</a>
-                <a href="javascript:;" onclick="nextMonth();" class="next mep-bg">
+                </a>          
+                <a href="javascript:void(0);" class="date with-dropdown">
+                <apex:inputHidden value="{!startFromDate}"/>                                       
+                {!month.name}</a>
+                <a href="javascript:void(0);" onclick="nextMonth();" class="next mep-bg">
                     <span></span>
                 </a>
                 <div class="popover">
@@ -124,32 +173,23 @@
                     </div>
                 </div>
             </div>
-         
-            <div class="plans">
+            <div class="plans quaterly-plans">
             <apex:variable var="counter" value="{!1}"/>
             <apex:repeat value="{!salesDriversToShow}" var="salesdrivername">
-                <div class="plan" id="plan{!FLOOR(counter)}">
-                    <apex:outputPanel rendered="{!counter==1}">
-	                    <h3 class="two-lines mep-bg">                  
-	                        <a href="{!$Page.R_MonthlyExecutionPlan1}" >                     
-	                         	{!salesdrivername}                        
-	                        </a>
-	                    </h3>
-                    </apex:outputPanel>
-                    <apex:outputPanel rendered="{!counter>1}">
-	                    <h3 class="mep-bg">                  
-	                        <a href="{!$Page.R_MonthlyExecutionPlan1}" >                     
-	                         	{!salesdrivername}                       
-	                        </a>
-	                    </h3>
-                    </apex:outputPanel>
+                <div class="plan" id="planq{!FLOOR(counter)}">
+                    <h3 class="two-lines mep-bg">
+                        <a href="innovation-click-header.html">Integrated National Program</a>
+                    </h3>
                     <apex:repeat value="{!months}" var="month">                   
 	                    <apex:repeat value="{!calendarData[month.data][salesdrivername]}" var="programData">		                    	
 		                    <a class="p"
 		                     href="{!detailPagePath}&id={!programData.id}" >
-		                     <img src="{!programData.styleBackgroundImage}" 
-		                     class="month{!span}-sep month{!span}-sep{!salesDriversToShowCount}"></img>             
-		                     <div style="{!programData.styleTextColor}">{!programData.label}</div> 
+		                     <div style="{!programData.styleBackgroundColor}{!programData.styleTextColor}" >
+								 <apex:outputPanel >					
+			                     <img src="{!programData.styleBackgroundImage}"></img>
+			                     </apex:outputPanel>             
+		                     	<div style="{!programData.styleTextColor}">{!programData.label}</div> 
+		                     </div>
 		                    </a>		                    
 	                    </apex:repeat>
                     </apex:repeat>
@@ -158,78 +198,12 @@
                 </div>
             </apex:repeat>
             </div>
-            <!--   <div class="plans">
             
-                <div class="plan">
-                    <h3 class="two-lines mep-bg">
-                        <a href="{!$Page.R_MonthlyExecutionPlan1}">Integrated National Program</a>
-                    </h3>
-                    <a class="p" href="{!$Page.R_MEPDetails}">
-                        <img src="./i/image-1.png"/>
-                    </a>
-                    <a class="p" href="{!$Page.R_MEPDetails}">
-                        <img src="./i/image-2.png"/>
-                    </a>
-                </div>
-                <div class="plan">
-                    <h3 class="mep-bg">
-                        <a href="{!$Page.R_MonthlyExecutionPlan1}">Display/Visibility</a>
-                    </h3>
-                    <a class="p" href="{!$Page.R_MEPDetails}">
-                        <img src="./i/image-3.png"/>
-                    </a>
-                </div>
-                <div class="plan">
-                    <h3 class="mep-bg">
-                        <a href="{!$Page.R_MonthlyExecutionPlan1}">Distribution</a>
-                    </h3>
-                    <a class="p" href="{!$Page.R_MEPDetails}">
-                        <img src="./i/image-4.png"/>
-                    </a>
-                    <a class="p" href="{!$Page.R_MEPDetails}">
-                        <img src="./i/image-5.png"/>
-                    </a>
-                    <a class="p" href="{!$Page.R_MEPDetails}">
-                        <img src="./i/image-6.png"/>
-                    </a>
-                    <a class="p" href="{!$Page.R_MEPDetails}">
-                        <img src="./i/image-7.png"/>
-                    </a>
-                </div>
-                <div class="plan">
-                    <h3 class="mep-bg">
-                        <a href="{!$Page.R_MonthlyExecutionPlan1}">Innovation</a>
-                    </h3>
-                    <a class="p" href="{!$Page.R_MEPDetails}">
-                        <img src="./i/image-8.png"/>
-                    </a>
-                    <a class="p" href="{!$Page.R_MEPDetails}">
-                        <img src="./i/image-9.png"/>
-                    </a>
-                    <a class="p" href="{!$Page.R_MEPDetails}">
-                        <img src="./i/image-10.png"/>
-                    </a>
-                    <a class="p" href="{!$Page.R_MEPDetails}">
-                        <img src="./i/image-11.png"/>
-                    </a>
-                    <a class="p" href="{!$Page.R_MEPDetails}">
-                        <img src="./i/image-12.png"/>
-                    </a>
-                </div>
-                <div class="plan last">
-                    <h3 class="mep-bg">
-                        <a href="{!$Page.R_MonthlyExecutionPlan1}">Sustainovation</a>
-                    </h3>
-                    <a class="p" href="{!$Page.R_MEPDetails}">
-                        <img src="./i/image-1.png"/>
-                    </a>
-                    <a class="p" href="{!$Page.R_MEPDetails}">
-                        <img src="./i/image-2.png"/>
-                    </a>
-                </div>
-            </div> -->
-			</apex:pageBlock>
+            <apex:variable var="displayCalendar" value="{!0}"/>
+            </apex:repeat>
+                                 
 			</apex:form>
+			</apex:pageBlock>
         </div>
 
     </div>
@@ -238,12 +212,28 @@
     <c:R_pageFooter isInternal="{!isInternalUser }" />
 </div>
 <script type="text/javascript">
+		jQuery(document.body).addClass('mep-landing-page').addClass('mep-page');
 		jQuery(document).ready(function() {
-			jQuery(document.body).addClass('mep-landing-page mep-page');
+			
 			var lastPlanDivId = 'plan' + {!salesDriversToShowCount};
 			jQuery('#' + lastPlanDivId).addClass('last');
-			jQuery('.prev mep-bg').click(previousMonth);
-            jQuery('.next mep-bg').click(nextMonth);
+			
+			var lastPlanDivId1 = 'planq' + {!salesDriversToShowCount};
+			jQuery('#' + lastPlanDivId1).addClass('last');
+			
+			//jQuery('.prev mep-bg').click(previousMonth);
+            //jQuery('.next mep-bg').click(nextMonth);
+             /*jQuery('.calendar-head a.with-dropdown').click(function() {
+             alert(jQuery('.calendar-head a.with-dropdown')[0]);
+	             var a = jQuery(this);
+				 var d = a.closest(".calendar-head");
+				 var p = jQuery(".popover", d);
+				 p.css({
+					left: a.position().left - 60
+				 }).show();
+
+             });*/
+            
 		});	
 		
 		function previousMonthJS(){	
@@ -251,8 +241,11 @@
 		}
 		
 </script>
+   
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/jumpToDateKeyDown.js')}"></script>
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4MainPage.js')}"></script>
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReady4MainPage.js')}"></script>
+
+
 </apex:page>

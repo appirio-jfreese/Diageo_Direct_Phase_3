@@ -1,3 +1,10 @@
+<!------------------------------------------------------------------------------
+Name        : R_MEPDetails.page
+
+Created By 	: Basant Kumar Verma (Appirio OffShore)
+Date				: 7/1/13
+Story/Task	: US585/TA1082 
+------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_MEPDetails" action="{!initTheme}">
 	
   <!-- <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
@@ -8,6 +15,11 @@
 		}
 	</style>
 -->	
+	<style type="text/css">
+		.hidden {
+			display: none;
+		}
+	</style>
 	<div class="wrapper">
 		<div class="container">
 			<!-- PAGE HEADER -->
@@ -35,38 +47,114 @@
 						
 						<apex:outputPanel rendered="{! if( detailId != null, 'true','false' )}" id="pageContent">
 							<div class="button-line five-btns">
-								<div class="horizontal-slider">
-								<div class="horizontal-slider-navigation">
-								<div class="horizontal-slider-navigation-wrapper">
-									<a href="#" class="active mep-bg horizontal-slider-navigation-button horizontal-slider-navigation-button-active">Overview</a>
-									<apex:repeat value="{!detailsMapOrder}" var="silderSection">
-										<a href="#" class="mep-bg horizontal-slider-navigation-button {!if(silderSection == 'Media', 'mediaPage', '')}">{!silderSection}</a>
-										<!-- <div class="horizontal-slider-navigation-button {!if(silderSection == 'Media', 'mediaPage', '')}">{!silderSection}</div> -->
-									</apex:repeat>
-									<a href="#" class="mep-bg last horizontal-slider-navigation-button">Goals</a>
-								</div>
-								</div>
-								</div>
+								<a href="" class="active mep-bg section-options">Overview</a>
+								<apex:repeat value="{!detailsMapOrder}" var="silderSection">
+									<a href="" class="mep-bg section-options {!if(silderSection == 'Media', 'mediaPage', '')}">{!silderSection}</a>
+								</apex:repeat>
+								<a href="" class="mep-bg last section-options">Goals</a>
 							</div>
 							
-							<apex:outputPanel rendered="true" id="overviewContent">	
-								<h2 class="with-select with-small">
-									<span class="title">
-										{!mepItem.name}<br/> 
-										<small>{!salesDriverDescription} {!dateDescription}</small>
-									</span>
-									<a href="{!$Page.R_MonthlyExecutionPlan}" class="mep-bg right-btn back-btn">Back</a>
-								</h2>
-										
-								<div class="story">
-									<div class="image">
-										<img src="{!styleBackgroundLogoImage}"/>
-									</div>
-									<div class="p">
-										<apex:outputtext escape="false" value="{!description}"/>
+							<h2 class="with-select with-small">
+								<span class="title">
+									{!mepItem.name}<br/> 
+									<small>{!salesDriverDescription} {!dateDescription}</small>
+								</span>
+								<a href="{!$Page.R_MonthlyExecutionPlan}" class="mep-bg right-btn back-btn">Back</a>
+							</h2>
+							
+							<!-- Overview section -->
+							<div class="story overview-Section Overview-Section MEP-Section-Blok noContent">
+								<div class="image">
+									<img src="{!styleBackgroundLogoImage}"/>
+								</div>
+								<div class="p">
+									<apex:outputtext escape="false" value="{!description}"/>
+								</div>
+							</div>
+							<!-- End of Overview section -->
+							
+							<!-- slider section -->
+							<div class="operation-line hidden">
+                <a href="javascript:;" class="download disabled mep-bg">
+                    <span>Download</span>
+                </a>
+                <a href="javascript:;" class="email disabled mep-bg">
+                    <span>&nbsp;&nbsp;Email</span>
+                </a>
+                <a href="javascript:;" class="add disabled mep-bg">
+                    <span>Add</span>
+                </a>
+                <a href="javascript:;" class="add-document disabled mep-bg">
+                    <span>Add to document</span>
+                </a>
+            	</div>
+            	
+            	<div class="filter hidden">
+              	<a class="list-mode active mep-bg"></a>
+                <a class="grid-mode mep-bg"></a>
+                <div class="select-all">
+	                <label>Select All</label>
+	                <input type="checkbox" class="checkbox" />
+                </div>
+            	</div>
+            	
+            	<apex:outputPanel id="sliderContentItemsBxLs">
+            		<div class="doc-list">
+            			<div class="list-view">
+			            	<apex:repeat value="{!detailsMapOrder}" var="silderSection">
+				            	<apex:outputPanel rendered="{!if(detailsMapSize[silderSection] != 0, 'true','false')}" styleClass="{!silderSection}-Section MEP-Section-Blok hidden">
+					            	<apex:variable value="" var="currentSubSubCategory"/>
+				            		<apex:repeat value="{!contentHolderMap[silderSection]}" var="calendarItm">
+													<apex:outputPanel rendered="{!IF(currentSubSubCategory != calendarItm.result['Sub_Sub_Category__c'],'true','false')}">
+														<h6>{!calendarItm.result['Sub_Sub_Category__c']}</h6>
+													</apex:outputPanel>
+													
+													<apex:variable value="{!calendarItm.result['Sub_Sub_Category__c']}" var="currentSubSubCategory" rendered="{!!ISNULL(calendarItm.result['Sub_Sub_Category__c'])}"/>
+													
+													<c:R_contentItem followIds="{!currentFollowIds}" basketIds="{!currentBasketIds}" aggregated="{!calendarItm}" renderAsList="true" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true"/>
+								              
+												</apex:repeat>
+												
+												<c:pagination showPager="false" isNewContent="{!isNewContent}" pageNumbers="{!pageNumbers}" numberOfCurrentPage="1" />
+											</apex:outputPanel>
+											<apex:outputPanel rendered="{!if(detailsMapSize[silderSection] == 0, 'true','false')}" styleClass="{!silderSection}-Section MEP-Section-Blok hidden noContent">
+												<div class="story without-image">
+					                <div class="p">
+					                	<p>
+					                  	No Content
+					                  </p>
+					                </div>
+					            	</div>
+											</apex:outputPanel>
+										</apex:repeat>
 									</div>
 								</div>
 							</apex:outputPanel>
+	            
+              <div class="operation-line hidden">
+              	<a href="javascript:;" class="download disabled mep-bg">
+                	<span>Download</span>
+                </a>
+                <a href="javascript:;" class="email disabled mep-bg">
+                  <span>&nbsp;&nbsp;Email</span>
+                </a>
+                <a href="javascript:;" class="add disabled mep-bg">
+                  <span>Add</span>
+                </a>
+                <a href="javascript:;" class="add-document disabled mep-bg">
+                  <span>Add to document</span>
+                </a>
+            	</div>
+            	
+							<!-- goals section -->
+							<div class="story without-image Goals-Section MEP-Section-Blok hidden noContent">
+								<div class="p">
+									<p>
+										Program Goals can be found in the Goals folder in <a href="javascript:;">Collaboration</a>.
+									</p>
+								</div>			
+							</div>
+							<!-- end of goals section -->	
 						</apex:outputPanel>
 					</apex:form>
 				</div>
@@ -133,10 +221,99 @@
 	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/commonFunctions.js')}"></script>
 	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/common4DetailPage.js')}"></script>
 	<script type="text/javascript">
-		jQuery('.horizontal-slider-navigation-button').live('click', function(){
-			alert('1');
-			sliderHolder2 = jQuery(this).parents('.horizontal-slider');
-			alert('2 sliderHolder2 ' +sliderHolder2);
+	jQuery(document.body).addClass('mep-landing-page').addClass('mep-page').addClass('mep-item-page');
+	
+	 jQuery('.section-options').live('click', function(){
+	 	jQuery(".section-options").each(function() {
+			if(jQuery(this).hasClass('active')){
+				jQuery(this).removeClass('active');
+			}
 		});
+		jQuery(this).addClass('active');
+		currentSectionClass =jQuery(this).text()+"-Section"; 
+		
+		jQuery(".MEP-Section-Blok").each(function() {
+			if(jQuery(this).hasClass(currentSectionClass)){
+				if(jQuery(this).hasClass('hidden')){
+					jQuery(this).removeClass('hidden');
+				}
+				if(!jQuery(this).hasClass('noContent')){
+					jQuery(".operation-line").each(function() {
+						if(jQuery(this).hasClass('hidden')){
+							jQuery(this).removeClass('hidden');
+						}
+					});
+					jQuery(".filter").each(function() {
+						if(jQuery(this).hasClass('hidden')){
+							jQuery(this).removeClass('hidden');
+						}
+					});
+				}
+				if(jQuery(this).hasClass('noContent')){
+					jQuery(".operation-line").each(function() {
+						if(!jQuery(this).hasClass('hidden')){
+							jQuery(this).addClass('hidden');
+						}
+					});
+					jQuery(".filter").each(function() {
+						if(!jQuery(this).hasClass('hidden')){
+							jQuery(this).addClass('hidden');
+						}
+					});
+				}
+				
+			}else if(!jQuery(this).hasClass('hidden')){
+				jQuery(this).addClass('hidden');
+			}
+		});
+	 });
+		/*jQuery('.horizontal-slider-navigation-button').live('click', function(){
+				alert(jQuery(this));
+				sliderHolder = jQuery(this).parents('.horizontal-slider');
+				alert('sliderHolder : ' + jQuery(this));
+				if(jQuery(this).hasClass('mediaPage')){
+					renderAsBoxSlider();
+				} else {
+					renderAsListSlider();
+				}             
+				if(sliderHolder.length != 0){
+					slider = sliderHolder.find('.horizontal-slider-container');
+					alert('slider : ' + slider);
+					if(slider.length != 0){
+						if(slider.find('.horizontal-slider-content').first().length != 0){
+							scrollToPosition = jQuery(this).index()*jQuery(slider).find('.horizontal-slider-content').first().outerWidth();
+							alert('jQuery(this).index() : ' + jQuery(this).index());							
+							alert('jQuery(slider).find(\'.horizontal-slider-content\').first().outerWidth() : ' + jQuery(slider).find('.horizontal-slider-content').first().outerWidth());
+							alert('scrollToPosition : ' + scrollToPosition);
+							if(!slider.hasClass('scrolling')){
+								slider.addClass('scrolling');
+								sliderHolder.find('.horizontal-slider-navigation-button').removeClass('horizontal-slider-navigation-button-active');
+								jQuery(this).addClass('horizontal-slider-navigation-button-active');
+		
+								if(sliderHolder.find('.horizontal-slider-navigation-button-active').next('.horizontal-slider-navigation-button').length == 0){
+									sliderHolder.find('.horizontal-slider-next').stop().animate({'opacity': 0}, 500, function(){
+										jQuery(this).css('visibility','hidden');                                    
+									});
+								} else {
+									sliderHolder.find('.horizontal-slider-next').css('visibility','');
+									sliderHolder.find('.horizontal-slider-next').stop().animate({'opacity': 1}, 500);
+								}
+								if(sliderHolder.find('.horizontal-slider-navigation-button-active').prev('.horizontal-slider-navigation-button').length == 0){
+									sliderHolder.find('.horizontal-slider-prev').stop().animate({'opacity': 0}, 500, function(){
+										jQuery(this).css('visibility','hidden');
+									});
+								} else {
+									sliderHolder.find('.horizontal-slider-prev').css('visibility','');
+									sliderHolder.find('.horizontal-slider-prev').stop().animate({'opacity': 1}, 500);
+								}
+		
+								slider.animate({scrollLeft: scrollToPosition }, 600,function(){
+									jQuery(this).removeClass('scrolling');
+								});
+							}
+						}
+					}
+				}
+			});*/
 	</script>
 </apex:page>
