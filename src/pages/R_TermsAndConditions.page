@@ -7,25 +7,10 @@ Story/Task	: US584
 ------------------------------------------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_TermsAndConditions">
     
-    <apex:outputPanel rendered="{!if(ISNULL(siteTheme),'true','false')}">
-        <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'styleSpirits.css')}"/>
-        <apex:stylesheet value="{!URLFOR($Resource.HomePage, 'styleSpirits.css')}" />
-    </apex:outputPanel>  
- 
-    <apex:form >
-        <apex:actionFunction status="ajax-status" name="openSpiritsPlanningPage" action="{!openSpiritsPlanningPage}"/>
-        <apex:actionFunction status="ajax-status" name="openWinePlanningPage" action="{!openWinePlanningPage}"/>
-        
-        <apex:actionFunction status="ajax-status" name="openPlanningPage" action="{!openPlanningPage}">
-            <apex:param name="firstParam" assignTo="{!planningTheme}" value="" />
-        </apex:actionFunction>
-    </apex:form>
-
-
 <div class="wrapper">
     <div class="container">
         <!-- PAGE HEADER -->
-        <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" /> <!--thisAvatarURL="{!avatarUrl}"-->
+        <c:R_PageHeader showThemeSelector="false" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
         <script type="text/javascript">
             pageViewed('Home Page');
         </script>
