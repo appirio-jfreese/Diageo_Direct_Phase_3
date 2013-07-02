@@ -32,7 +32,11 @@ public with sharing class Controller_MonthlyExecutionPlan extends Controller_Bas
         
     public Controller_MonthlyExecutionPlan() {
 		pageUrl = Page.MonthlyExecutionPlan.getUrl();
-        detailPagePath = Page.MEPDetails.getUrl();
+		if(ApexPages.currentPage().getUrl().indexOf('R_MonthlyExecutionPlan') > -1){
+        	detailPagePath = Page.R_MEPDetails.getUrl();
+		}else{
+			detailPagePath = Page.MEPDetails.getUrl();
+		}
         
         salesDriversToShow = new list<String>();
         programMap = new map<String, list<map<String, String>>>();
@@ -79,7 +83,11 @@ public with sharing class Controller_MonthlyExecutionPlan extends Controller_Bas
 	private void prepareBreadcrumbs(){
 		cleanBreadcrumbs();
        	currentPageUrl = Page.MonthlyExecutionPlan.getUrl();
-        detailPagePath = Page.MEPDetails.getUrl();
+        if(ApexPages.currentPage().getUrl().indexOf('R_MonthlyExecutionPlan') > -1){
+        	detailPagePath = Page.R_MEPDetails.getUrl();
+		}else{
+			detailPagePath = Page.MEPDetails.getUrl();
+		}
         if(timePeriod != null){
 			detailPagePath += '?time='+timePeriod;
 			if(salesDriver != null && salesDriver != ''){
@@ -244,7 +252,7 @@ public with sharing class Controller_MonthlyExecutionPlan extends Controller_Bas
                         if ((span==1 || salesDriversToShowCount==1) && c.Logo_Image_Small__r.content_id__c != null) {
                             ContentDocument[] cd = [SELECT LatestPublishedVersionId from ContentDocument where Id=: c.Logo_Image_Small__r.content_id__c];
                             if (cd != null && cd.size()>0) {                           	
-                            	if(isResponsive){
+                            	if(ApexPages.currentPage().getUrl().indexOf('R_MonthlyExecutionPlan') > -1){
                             		styleBackgroundImage = '/sfc/servlet.shepherd/version/download/' + cd[0].LatestPublishedVersionId;                           	
                             	}else{
                                 	styleBackgroundImage = 'background-image: url(/sfc/servlet.shepherd/version/download/' + cd[0].LatestPublishedVersionId + ');';

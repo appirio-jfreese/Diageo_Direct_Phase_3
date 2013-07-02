@@ -1,123 +1,5 @@
 <apex:component controller="Controller_Base">
-	<style>
-		
-/***********************
-* Custom Dropdown list *
-************************/
-/*
-div.custom-select-box-holder {
-    margin-left: -2px;
-	text-align:  left;
-	z-index:     10;	
-    overflow:    hidden;
-    position:    relative;
-}
-div.custom-select-box-holder-slim{
-    margin: 5px;
-}
-div.custom-select-box{
-	z-index: 10;
-	overflow:	hidden;
-	height:		35px;
-	background-color: #ffffff;
-	border: 2px solid #dfdfdf;
-	font-size: 12px;
-	font-family: Tahoma;
-	cursor: pointer;
-	-webkit-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.60);
-	-moz-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.60);
-	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.60);
-	-webkit-border-radius: 1px;
-	-moz-border-radius: 1px;
-	border-radius: 1px;
-	margin: 5px 3px 5px 3px;
-}
-div.custom-select-box-slim{
-	height: 25px;
-}
-div.custom-select-box-header{
-	font-weight: bold;
-	height:	35px;
-}
-div.custom-select-box-header-slim{
-	font-weight: bold;
-	height:	25px;
-}
-div.custom-select-box-values{
-	margin-top: 10px;
-	clear: both;
-	overflow: hidden;
-	z-index: 205;
-    height:140px;
-    width: 190px;
-}
-div.custom-select-box-val{
-	width: 135px;
-	padding:10px;
-	padding-top: 12px;
-	float: left;
-	color: #575757;
-	overflow: hidden;
-	height: 13px;
-	font-size: 11px;
-}
-div.custom-select-box-val-slim{
-	height: 20px; 
-	padding: 7px 7px 0px 17px;
-}
-div.custom-select-box-button{
-	margin: 4px;
-	float: left;	
-	text-align: right;
-	width: 25px;
-	height:	25px;
-	border:                1px solid #8aa922;
-	background: #cae806; 
-	background: -moz-linear-gradient(top, #cae806 0%, #a4b91f 100%); 
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cae806), color-stop(100%,#a4b91f)); 
-	background: -webkit-linear-gradient(top, #cae806 0%,#a4b91f 100%); 
-	background: -o-linear-gradient(top, #cae806 0%,#a4b91f 100%); 
-	background: -ms-linear-gradient(top, #cae806 0%,#a4b91f 100%); 
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cae806', endColorstr='#a4b91f',GradientType=0 ); 
-	background: linear-gradient(top, #cae806 0%,#a4b91f 100%); 
-	color: #ffffff;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-}
-div.custom-select-box-button-slim{
-	height: 18px;
-	width: 20px;
-	padding: 0px;
-	margin-top: 2px;
-	margin-left: 5px;
-}
-div.custom-select-box-item {
-	padding:6px;
-	padding-left: 10px;
-	border-top: 1px solid transparent;
-	border-bottom: 1px solid transparent;
-	overflow: hidden;
-	height: 14px;	
-}
-div.custom-select-box-item-active{
-	border: 1px solid #8aa922;
-	background: #cae806; /* Old browsers */
-	background: -moz-linear-gradient(top, #cae806 0%, #a4b91f 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cae806), color-stop(100%,#a4b91f)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, #cae806 0%,#a4b91f 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #cae806 0%,#a4b91f 100%); /* Opera11.10+ */
-	background: -ms-linear-gradient(top, #cae806 0%,#a4b91f 100%); /* IE10+ */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cae806', endColorstr='#a4b91f',GradientType=0 ); /* IE6-9 */
-	background: linear-gradient(top, #cae806 0%,#a4b91f 100%); /* W3C */
-	color: #ffffff;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	border-radius: 2px;
-}
-*/
-		
-	</style>
+	
     <apex:attribute name="options" description="Select option list" type="list" required="true"/>
     <apex:attribute name="noOfOptions" description="Number of options available" type="Integer" required="false"/>
     <apex:attribute name="value" description="Value of select list" type="string" required="false"/>
@@ -133,14 +15,13 @@ div.custom-select-box-item-active{
 	<apex:attribute name="bindToController" description="Bind to controller" type="Boolean" required="false" default="true"/>
 
     <apex:variable value="{!randomId}" var="selectId"/>
-
-	<apex:outputPanel rendered="{!bindToController}">
-	    <apex:selectList value="{!value}" onchange="{!onchange}" size="1" styleClass="hidden orgSelect-{!selectId}">
+	<apex:outputPanel rendered="{!bindToController}" >
+	    <apex:selectList value="{!value}" onchange="{!onchange}" size="1" style="width:217">
 	   	    <apex:selectOptions value="{!options}"/>
 	   	</apex:selectList>
 	</apex:outputPanel>
 
-	<apex:outputPanel rendered="{!NOT(bindToController)}">
+	<apex:outputPanel rendered="{!NOT(bindToController)}" >
 		<select onchange="{!onchange}" size="1" class="hidden orgSelect-{!selectId}">
 	    	<apex:repeat value="{!options}" var="option">
 	    		<apex:outputPanel rendered="{!IF(option['value'] == value, 'true','false')}">
@@ -153,7 +34,7 @@ div.custom-select-box-item-active{
 	   	</select>
 	</apex:outputPanel>
 
-	
+	<!-- 
 	<style>
 		.custom-select-box-values{
 			width: auto !important;
@@ -209,4 +90,5 @@ div.custom-select-box-item-active{
 	        </div>
 	    </div>
     </apex:outputPanel>
+     -->
 </apex:component>
