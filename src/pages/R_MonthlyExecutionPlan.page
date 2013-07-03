@@ -1,12 +1,21 @@
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_MonthlyExecutionPlan">
 <apex:stylesheet value="{!URLFOR($Resource.jquery, 'customDatePicker.css')}"/>
+    <style type="text/css">
+        div.ui-datepicker-buttonpane {
+            text-align:center;        
+        }
+        
+        table.ui-datepicker-calendar {
+            display:none;
+        }
+    </style>    
 
 <div class="wrapper">
     <div class="container">
         <!-- PAGE HEADER -->
         <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" /> <!--thisAvatarURL="{!avatarUrl}"-->
         <script type="text/javascript">
-            pageViewed('Home Page');
+            pageViewed('Monthly Execution Plan');			
         </script>
                 
         <!-- content -->
@@ -16,10 +25,10 @@
         <apex:outputPanel id="beadcrumblinks">
         	<c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
         </apex:outputPanel>
-        <apex:pageBlock id="mepData">
+        
 		     <apex:form >
 		     
-                <apex:actionFunction name="refreshContent" action="{!refreshContent}" rerender="mepData, beadcrumblinks" status="ajax-status"/> 
+                <apex:actionFunction name="refreshContent" action="{!refreshContent}" onComplete="alert('refresh content complete');" rerender="mepData, beadcrumblinks" status="ajax-status"/> 
                 <apex:actionFunction name="selectSalesDriver" action="{!selectSalesDriver}" rerender="mepData, beadcrumblinks" status="ajax-status">
                     <apex:param name="salesDriver" assignTo="{!salesDriver}" value="" />
                 </apex:actionFunction>
@@ -28,7 +37,7 @@
                 </apex:actionFunction>
                 <apex:actionFunction name="nextMonth" action="{!nextMonth}" rerender="mepData, beadcrumblinks" status="ajax-status"/>                  
                 <apex:actionFunction name="previousMonth" action="{!previousMonth}" oncomplete="alert('prev month completed');" rerender="mepData, beadcrumblinks" status="ajax-status"/>
-        
+            <apex:pageBlock id="mepData">
             <h2 class="with-select">
                 <span class="title">Monthly Execution Plan</span>
                 <!--  <select id="period-select" onchange="refreshContent();">
@@ -119,15 +128,19 @@
             </div>
            
             <apex:variable var="displayCalendar" value="{!1}"/>
-            <apex:outputText value="{!months.size}"/>
+            
             <apex:repeat value="{!months}" var="month">
             <div class="calendar-head">
                 <a href="javascript:void(0);" onclick="previousMonth();" class="prev mep-bg">
                     <span></span>
                 </a>          
-                <a href="javascript:void(0);" class="date with-dropdown">
-                <apex:inputHidden value="{!startFromDate}"/>                                       
-                {!month.name}</a>
+                <a href="javascript:void(0);" class="date with-dropdown">              
+				<apex:inputText value="{!startFromDate}" styleClass="jumpToDate" 
+				style="opacity:0.0; filter:alpha(opacity=0);"/>
+				{!month.name}
+                <apex:inputText value="{!startFromDate}" styleClass="jumpToDate"/>
+                </a>
+                
                 <a href="javascript:void(0);" onclick="nextMonth();" class="next mep-bg">
                     <span></span>
                 </a>
@@ -201,9 +214,9 @@
             
             <apex:variable var="displayCalendar" value="{!0}"/>
             </apex:repeat>
-                                 
+            </apex:pageBlock>                     
 			</apex:form>
-			</apex:pageBlock>
+			
         </div>
 
     </div>
@@ -223,29 +236,13 @@
 			
 			//jQuery('.prev mep-bg').click(previousMonth);
             //jQuery('.next mep-bg').click(nextMonth);
-             /*jQuery('.calendar-head a.with-dropdown').click(function() {
-             alert(jQuery('.calendar-head a.with-dropdown')[0]);
-	             var a = jQuery(this);
-				 var d = a.closest(".calendar-head");
-				 var p = jQuery(".popover", d);
-				 p.css({
-					left: a.position().left - 60
-				 }).show();
-
-             });*/
+            
             
 		});	
-		
-		function previousMonthJS(){	
-			previousMonth();
-		}
-		
 </script>
    
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/jumpToDateKeyDown.js')}"></script>
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4MainPage.js')}"></script>
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReady4MainPage.js')}"></script>
-
-
 </apex:page>

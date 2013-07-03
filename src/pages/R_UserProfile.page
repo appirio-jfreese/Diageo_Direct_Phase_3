@@ -1,72 +1,14 @@
 <!------------------------------------------------------------------------------
-Name				: UserProfile.page
+Name        : R_UserProfile.page
 
-Updated By 	: Basant Kumar Verma (Appirio OffShore)
-Date 				: 15/6/2013
-Story/Task 	: US79/DE594
+Created By  : Jonathan Freese (Appirio)   
+Date        : 7/2/13
+Story/Task  : US607/TA1014
 ------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_UserProfile">
     <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.SearchResultPage, 'style'+siteTheme+'.css')}"/>  
     
-    <style type="text/css">
-        .content {
-            overflow: visible !important;
-        }
-        .profile-table {
-            width: 920px;
-            margin-left: 10px;
-            margin-right: 10px;
-            margin-bottom: 10px;
-            border-spacing: 0px; 
-            border-collapse:collapse;
-        }
-        .profile-table input {
-            border: 1px solid #aaaaaa;
-        }
-        .profile-table td {
-            border-bottom: 1px dotted #555555;
-        }
-        .profile-table tr {
-            padding-top: 5px;
-            padding-bottom: 5px;
-        }
-        .profile-table td {
-            padding-top: 20px;
-            padding-bottom: 20px;
-        }
-        .profile-table td.label {
-            padding-left: 10px;
-            width: 240px;
-        }
-        .profile-table td.options {
-            width: 150px;
-            color: #44ADC3;
-            font-weight: bold;
-            font-size: 12px;
-            text-align: right;
-            padding-right: 20px;
-        }
-        .t-value{
-            color: #497B85;
-            font-weight: bold;
-        }
-        .profile-table td.value {
-            color: #497B85;
-            width: 500px;
-            font-weight: bold;
-        }
-        .profile-table td.no-border {
-            border: none !important;
-        }
-        .edit-button, .save-button, .cancel-button{
-            cursor: pointer;
-        }
-        .active-row{
-            background-color: #E8E8E8;
-        }
-        
-    </style>    
 
     <div class="content-wrapper">
         <!-- PAGE HEADER -->

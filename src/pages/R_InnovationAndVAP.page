@@ -6,7 +6,7 @@ Date 				: 6/14/13
 Story/Task	: US503/TA1011
 ------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_InnovationAndVAP">
-    
+<body class="isv-landing-page isv-page">    
 <div class="wrapper">
     <div class="container">
         <!-- PAGE HEADER -->
@@ -115,15 +115,7 @@ Story/Task	: US503/TA1011
                 </h3>
                 <h5>Performance Updates</h5>
                 <div class="items">
-                    <a href="javascript:;" class="pdf">
-                        Diageo_Innovation_lorem...
-                    </a>
-                    <a href="javascript:;" class="pdf">
-                        Gifting and Vap F13 ipsu...
-                    </a>
-                    <a href="javascript:;" class="pdf">
-                        Diageo_Innovation_lorem...
-                    </a>
+                    <c:R_NarrowBlogList format="Titles" isLoggedIn="{!isLoggedIn}" url="" singleTag="Location:innovation-vap" id="blogPostComp" />
                 </div>
                 <h5>Planning Calendars</h5>
                 <div class="items">
@@ -132,73 +124,26 @@ Story/Task	: US503/TA1011
             </div>
 
             <div class="plans no-spirits">
+            <apex:repeat value="{!months}" var="month"> 
+                <apex:repeat value="{!salesDriversToShow}" var="program">
                 <div class="plan">
                     <h3 class="isv-bg">
-                        <a href="innovation-click-header.html">Innovation</a>
+                        <a href="innovation-click-header.html">{!program}</a>
                     </h3>
-                    <a class="p" href="innovation-item-1.html">
-                        <img src="./i/image-1.png"/>
-                    </a>
-                    <a class="p" href="innovation-item-1.html">
-                        <img src="./i/image-2.png"/>
-                    </a>
+                                            <apex:repeat value="{!calendarData[month.data][program]}" var="programData">
+                                                <div align="center" style="1px solid #B9B8B8; width: 180px; height: 77px; {!programData.styleBackgroundColor}{!programData.styleTextColor}; cursor: pointer; " onClick="window.location='{!detailPagePath}&id={!programData.id}'">
+                                                <div style="{!programData.styleBackgroundImage} background-repeat: none; {!IF(isCalendarThemeMixed, 'background-size: 116px 36px;', 'background-size: 145px 45px;')} width: 145px; height: 45px;"></div>
+                                                <div style="height: 10px; width: 145px;"></div>
+                                                <a class="p" href="" style="">{!programData.label}</a>
+                                                 </div>
+                                                <div style="width: 145px; height: 2px;"></div>
+                                            </apex:repeat>
+                                <apex:variable var="displayCalendar" value="{!0}"/>
+
                 </div>
-                <div class="plan">
-                    <h3 class="isv-bg">
-                        <a href="innovation-click-header.html">Sustainovation</a>
-                    </h3>
-                    <a class="p" href="innovation-item-1.html">
-                        <img src="./i/image-3.png"/>
-                    </a>
-                </div>
-                <div class="plan vap-plan">
-                    <h3 class="isv-bg">
-                        <a href="innovation-click-header.html">VAP</a>
-                    </h3>
-                    <a class="p" href="innovation-item-1.html">
-                        <img src="./i/image-4.png"/>
-                    </a>
-                    <a class="p" href="innovation-item-1.html">
-                        <img src="./i/image-5.png"/>
-                    </a>
-                    <a class="p" href="innovation-item-1.html">
-                        <img src="./i/image-6.png"/>
-                    </a>
-                    <a class="p" href="innovation-item-1.html">
-                        <img src="./i/image-7.png"/>
-                    </a>
-                </div>
-                <div class="plan">
-                    <h3 class="isv-bg">
-                        <a href="innovation-click-header.html">Pack/Label Changes</a>
-                    </h3>
-                    <a class="p" href="innovation-item-1.html">
-                        <img src="./i/image-8.png"/>
-                    </a>
-                    <a class="p" href="innovation-item-1.html">
-                        <img src="./i/image-9.png"/>
-                    </a>
-                    <a class="p" href="innovation-item-1.html">
-                        <img src="./i/image-10.png"/>
-                    </a>
-                    <a class="p" href="innovation-item-1.html">
-                        <img src="./i/image-11.png"/>
-                    </a>
-                    <a class="p" href="innovation-item-1.html">
-                        <img src="./i/image-12.png"/>
-                    </a>
-                </div>
-                <div class="plan last">
-                    <h3 class="isv-bg">
-                        <a href="innovation-click-header.html">Vintage Transition</a>
-                    </h3>
-                    <a class="p" href="innovation-item-1.html">
-                        <img src="./i/image-1.png"/>
-                    </a>
-                    <a class="p" href="innovation-item-1.html">
-                        <img src="./i/image-2.png"/>
-                    </a>
-                </div>
+                </apex:repeat>
+            </apex:repeat>
+
             </div>
 
             <div class="clear"></div>
@@ -211,5 +156,5 @@ Story/Task	: US503/TA1011
         <c:R_pageFooter isInternal="{!isInternalUser}" />
         <div id="tooltipIpad"></div>
         </div>
-
+</body>
 </apex:page>

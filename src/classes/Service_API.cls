@@ -56,7 +56,8 @@ public without sharing class Service_API {
     public static boolean isResponsive(){
     		String userAgent =
 					ApexPages.currentPage().getHeaders().get('USER-AGENT');
-    		if((userAgent != null && !userAgent.trim().equals('') && 
+				System.debug('======================== userAgent : '+userAgent);
+				if((userAgent != null && !userAgent.trim().equals('') && 
     			(userAgent.containsIgnoreCase('Android') || userAgent.containsIgnoreCase('iOS') || 
     			userAgent.containsIgnoreCase('webOS') || userAgent.containsIgnoreCase('iPhone') || 
     			userAgent.containsIgnoreCase('iPad') || userAgent.containsIgnoreCase('iPod') || 
@@ -2681,21 +2682,21 @@ public without sharing class Service_API {
     * @Story US503/TA907
     * @description It will return all Blogs and it's related lists filtered by current Theme and tags 
     */
-    /*   public static List<Blog__c> getBlogRecords(List<String> fromUrl, List<String> blogTags, String theme){
+       public static List<Blog__c> getBlogRecords(List<String> fromUrl, List<String> blogTags, String theme){
             String tempSiteTheme = siteTheme;
             siteTheme = theme;
             List<Blog__c> blogRecords = getBlogRecords(fromUrl, blogTags);
             siteTheme = tempSiteTheme;
             return blogRecords;
         }
-    */    
+        
     // Start : Changes for US503/TA907 - Basant
     /**
     * @author Basant Verma
     * @Story US503/TA907
     * @description It will return all Blogs and it's related lists filtered by current Theme and tags 
     */
-    /*
+    
     public static List<Blog__c> getBlogRecords(List<String> fromUrl, List<String> blogTags){
         String soql = 'Select Id, Name, AllowComments__c, Detail__c, EndDate__c, ' + 
             ' StartDate__c, Sub_Title__c, Summary__c, Theme__c, CreatedById, CreatedBy.Name, CreatedDate, ' + 
@@ -2715,13 +2716,13 @@ public without sharing class Service_API {
         
         return filterBlogsByBrandSecurity(blgList);
     }
-    */  
+   
     /*
 		* @author Basant Verma
 		* @Story US503/TA907
 		* @description Filter Blogs By Brand Security 
 		*/
-    /*public static List<Blog__c> filterBlogsByBrandSecurity(List<Blog__c> blgList){
+    public static List<Blog__c> filterBlogsByBrandSecurity(List<Blog__c> blgList){
         // Below code check for Brand Security
         Map<String, Set<Id>> blogBrandSet = new Map<String, set<Id>>();
         for(Blog2Brand__c b : [Select Id, Brand__c, Blog__c 
@@ -2750,16 +2751,16 @@ public without sharing class Service_API {
         }
         return blgWithB2bSecurity;
     }
-    */   
+      
     /**
     * @author Basant Verma
     * @Story US503/TA907
     * @description Returns all available tags
     */
-    /*public static List<Tag__c> getAllTags(){
+    public static List<Tag__c> getAllTags(){
         return [Select Id, Name, Type__c, Tag__c From Tag__c];
     }
-    */
+    
     // End : Changes for US503/TA907 - Basant
     // End : Changes for US503/TA1011 : Comment All Blog Code - Basant
     /**

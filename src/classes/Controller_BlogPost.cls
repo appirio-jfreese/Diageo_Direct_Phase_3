@@ -20,10 +20,7 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     // Start Side Tile : Basant
     public List<Tag__c> tagList {set; 
         get{
-        		// Start : Changes for US503/TA1011 : Comment All Blog Code - Basant
-            //return Service_API.getAllTags();
-            return new List<Tag__c>();
-            // End : Changes for US503/TA1011 : Comment All Blog Code - Basant
+            return Service_API.getAllTags();
         }
     }
     public Map<String,List<Blog__c>> acrhiveMap {set;
@@ -34,15 +31,15 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     
     public Map<String,List<Blog__c>> buildArchiveMap(){
         Map<String,List<Blog__c>> archMap = new Map<String,List<Blog__c>>();
-        // Start : Changes for US503/TA1011 : Comment All Blog Code - Basant
-        /*for(Blog__c b : Service_API.getBlogRecords(null,null)){
+
+        for(Blog__c b : Service_API.getBlogRecords(null,null)){
             for(String str : monthSet(b.StartDate__c, b.EndDate__c)){
                 if(!archMap.containsKey(str))
                     archMap.put(str, new List<Blog__c>());
                 archMap.get(str).add(b);
             }
-        }*/
-        // Start : Changes for US503/TA1011 : Comment All Blog Code - Basant
+        }
+
         return archMap;
     }
        
@@ -178,8 +175,7 @@ public without sharing class Controller_BlogPost extends Controller_Base{
             beginningDate = beginningDate.toStartOfMonth();
             endingDate = beginningDate.addMonths(1);
         }
-        // Start : Changes for US503/TA1011 : Comment All Blog Code - Basant
-        /*
+
         if((allBlogPosts == null || loadAnyway) && theme == null ){
             allBlogPosts = Service_API.getBlogRecords(blogUrls, blogTags);
             pageCount = (Integer)Math.ceil(Double.valueOf(String.valueOf(allBlogPosts.size()))/blogCount); 
@@ -189,8 +185,7 @@ public without sharing class Controller_BlogPost extends Controller_Base{
             allBlogPosts = Service_API.getBlogRecords(blogUrls, blogTags, theme);
             pageCount = (Integer)Math.ceil(Double.valueOf(String.valueOf(allBlogPosts.size()))/blogCount); 
         }
-        */
-        // Start : Changes for US503/TA1011 : Comment All Blog Code - Basant
+
         
         List<Blog__c> dateSubset = new List<Blog__c>();
         for(Blog__c blog : allBlogPosts) {
