@@ -164,6 +164,6 @@ Story/Task  : US607/TA1014
 
     <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/commonFunctions.js')}"></script>
-    <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/FollowedItemsJQ.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/Basket_FollowJQ.js')}"></script>
             
 </apex:page>
