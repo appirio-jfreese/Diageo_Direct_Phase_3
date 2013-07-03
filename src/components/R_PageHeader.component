@@ -38,7 +38,7 @@ Story/Task  : US585/TA1082
     <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/jquery.jqtransform.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/jquery.flexslider-min.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/script.js')}"></script>
-    <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/PageHeader.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/PageHeaderJQ.js')}"></script>
 
     <apex:stylesheet value="{!URLFOR($Resource.Responsive_Base, 'css/base.css')}" /> 
     <apex:stylesheet value="{!URLFOR($Resource.Responsive_Base, 'css/layout.css')}" />
@@ -57,14 +57,10 @@ Story/Task  : US585/TA1082
                         <span class="name">
                             {!$User.FirstName} {!$User.LastName}<br/>
                             <span class="dropdown">
-                                <!-- <a href="{!$Page.UserProfile}">User Profile</a>
-                                <a href="{!$Page.DownloadHistory}">Download History</a>
-                                <a href="{!$Page.ShareHistory}">Share History</a>
-                                <a href="{!$Page.FollowedItems}">Followed Items</a> -->
-                                <a href="javascript:;">User Profile</a>
-                                <a href="javascript:;">Download History</a>
-                                <a href="javascript:;">Share History</a>
-                                <a href="javascript:;">Followed Items</a>
+                                <a href="{!$Page.R_UserProfile}">User Profile</a>
+                                <a href="{!$Page.R_DownloadHistory}">Download History</a>
+                                <a href="{!$Page.R_ShareHistory}">Share History</a>
+                                <a href="{!$Page.R_FollowedItems}">Followed Items</a>
                                 <a href="{!$Site.Prefix}/secur/logout.jsp">{!$Label.site.logout}</a>
                             </span>
                         </span>
@@ -76,7 +72,7 @@ Story/Task  : US585/TA1082
                         <a href="/_ui/core/userprofile/UserProfilePage" class="avatar"><apex:image value="{!avatarUrl}"/></a>
                     </div>
                 </div>
-                <div class="icons">
+                <div id="currentBasketItemsNo" class="icons">
                     <a href="javascript:;" class="cart">
                         {!basketItemsNumber}
                     </a>
