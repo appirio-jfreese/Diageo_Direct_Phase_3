@@ -103,11 +103,13 @@ public with sharing class Controller_MonthlyExecutionPlan extends Controller_Bas
 	}    
     
     public void nextMonth() {
+    	system.debug('------nextMonth----'+timePeriod);
         calendar.incrementDates(timePeriod);
         refreshContent();      
     }   
      
     public void previousMonth() {
+    	system.debug('------previousMonth----'+timePeriod);
         calendar.incrementDates(-timePeriod);
         refreshContent();      
     }   
@@ -137,6 +139,7 @@ public with sharing class Controller_MonthlyExecutionPlan extends Controller_Bas
     }
     
     public void refreshContent() {
+    	system.debug('-----refreshContent-----'+timePeriod);
         salesDriversToShow.clear();
         programMap.clear();
         //display all or only selected sales driver
@@ -154,6 +157,9 @@ public with sharing class Controller_MonthlyExecutionPlan extends Controller_Bas
 		startFromDate = calendar.startDate.year() + '-' + calendar.startDate.month() + '-01';
 		startDate = calendar.startDate.format();
 		endDate = calendar.endDate.format();
+		system.debug('-----refreshContent-startFromDate----'+startFromDate);
+		system.debug('-----refreshContent-startDate----'+startDate);
+		system.debug('-----refreshContent-endDate----'+endDate);
     }
     
     private void setMonths() {
