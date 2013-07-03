@@ -73,7 +73,7 @@ Story/Task  : US585/TA1082
                     </div>
                 </div>
                 <div id="currentBasketItemsNo" class="icons">
-                    <a href="javascript:;" class="cart">
+                    <a href="{!$Page.R_Basket}" class="cart">
                         {!basketItemsNumber}
                     </a>
                     <a href="javascript:;" class="fav">
