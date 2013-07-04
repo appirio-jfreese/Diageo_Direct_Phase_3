@@ -33,7 +33,10 @@
                 </select>
                 -->
                 <c:R_selectList options="{!timePeriods}"  value="{!timePeriod}" onchange="refreshContent()" />
-                <div class="include-select jqTransformSelectWrapper" style="z-index: 9; width: 155px;">
+               	<apex:outputPanel id="includePanel">
+               		<c:R_checkboxList width="150" options="{!themeOptions}" noOfOptions="{!noOfThemesAvailable}" onchange="refreshContent()" />
+			    </apex:outputPanel>        
+                <!--<div class="include-select jqTransformSelectWrapper" style="z-index: 9; width: 155px;">
                     <div>
                         <span style="width: 115px;">Include</span>
                         <a href="javascript:;" class="jqTransformSelectOpen"></a>
@@ -64,7 +67,7 @@
                             </a>
                         </li>
                     </ul>
-                </div>
+                </div>-->
                 <a href="javascript:;" class="btn pdf-btn mep-bg right-btn">
                     <span>Download as PDF</span>
                 </a>

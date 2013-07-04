@@ -19,6 +19,13 @@ Story/Task	: US585/TA1082
 		.hidden {
 			display: none;
 		}
+		
+		.operation-line a.remove-document span {
+        background: url(../i/unfollow.png) left center no-repeat;
+    }
+    .operation-line a.remove-document.disabled span {
+        background: url(../i/unfollow_disabled.png) left center no-repeat;
+    }
 	</style>
 	<div class="wrapper">
 		<div class="container">
@@ -75,18 +82,24 @@ Story/Task	: US585/TA1082
 							
 							<!-- slider section -->
 							<div class="operation-line hidden">
-                <a href="javascript:;" class="download disabled mep-bg">
+                <a href="javascript: operationLine('download');" class="download disabled mep-bg">
                     <span>Download</span>
                 </a>
-                <a href="javascript:;" class="email disabled mep-bg">
+                <a href="javascript: operationLine('email');" class="email disabled mep-bg">
                     <span>&nbsp;&nbsp;Email</span>
                 </a>
-                <a href="javascript:;" class="add disabled mep-bg">
-                    <span>Add</span>
+                <a href="javascript: operationLine('add');" class="add disabled mep-bg">
+                    <span>Add To Basket</span>
                 </a>
-                <a href="javascript:;" class="add-document disabled mep-bg">
-                    <span>Add to document</span>
+                <!-- <a href="javascript: operationLine('remove');" class="remove disabled mep-bg">
+                    <span>Remove From Basket</span>
+                </a> -->
+                <a href="javascript: operationLine('add-document');" class="add-document disabled mep-bg">
+                  <span>Follow Document</span>
                 </a>
+                <!-- <a href="javascript: operationLine('remove-document');" class="remove-document disabled mep-bg">
+                  <span>Unfollow Document</span>
+                </a> -->
             	</div>
             	
             	<div class="filter hidden">
@@ -132,18 +145,24 @@ Story/Task	: US585/TA1082
 							</apex:outputPanel>
 	            
               <div class="operation-line hidden">
-              	<a href="javascript:;" class="download disabled mep-bg">
-                	<span>Download</span>
+                <a href="javascript: operationLine('download');" class="download disabled mep-bg">
+                    <span>Download</span>
                 </a>
-                <a href="javascript:;" class="email disabled mep-bg">
-                  <span>&nbsp;&nbsp;Email</span>
+                <a href="javascript: operationLine('email');" class="email disabled mep-bg">
+                    <span>&nbsp;&nbsp;Email</span>
                 </a>
-                <a href="javascript:;" class="add disabled mep-bg">
-                  <span>Add</span>
+                <a href="javascript: operationLine('add');" class="add disabled mep-bg">
+                    <span>Add To Basket</span>
                 </a>
-                <a href="javascript:;" class="add-document disabled mep-bg">
-                  <span>Add to document</span>
+                <!-- <a href="javascript: operationLine('remove');" class="remove disabled mep-bg">
+                    <span>Remove From Basket</span>
+                </a> -->
+                <a href="javascript: operationLine('add-document');" class="add-document disabled mep-bg">
+                  <span>Follow Document</span>
                 </a>
+                <!-- <a href="javascript: operationLine('remove-document');" class="remove-document disabled mep-bg">
+                  <span>Unfollow Document</span>
+                </a> -->
             	</div>
             	
 							<!-- goals section -->
@@ -170,59 +189,59 @@ Story/Task	: US585/TA1082
 		<apex:actionFunction status="ajax-status" name="userMultipleShare" action="{!userMultipleShare}" rerender="overviewDialog, shareDialog, messages">
 			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
 		</apex:actionFunction> 
-		<apex:actionFunction status="ajax-status" name="addToBasket" action="{!addToBasket}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
+		<apex:actionFunction status="ajax-status" name="addToBasket" action="{!addToBasket}" onComplete="jqTransformScript();" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
 			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
 		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="removeFromBasket" action="{!removeFromBasket}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
+		<apex:actionFunction status="ajax-status" name="removeFromBasket" onComplete="jqTransformScript();" action="{!removeFromBasket}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
 			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
 		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="addToBasketMultiple" action="{!addToBasketMultiple}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
+		<apex:actionFunction status="ajax-status" name="addToBasketMultiple" onComplete="jqTransformScript();" action="{!addToBasketMultiple}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
 			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
 		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="removeFromBasketMultiple" action="{!removeFromBasketMultiple}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
+		<apex:actionFunction status="ajax-status" name="removeFromBasketMultiple" onComplete="jqTransformScript();" action="{!removeFromBasketMultiple}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
 			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
 		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="addToFollow" action="{!addToFollow}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
+		<apex:actionFunction status="ajax-status" name="addToFollow" action="{!addToFollow}" onComplete="jqTransformScript();" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
 			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
 		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="removeFromFollow" action="{!removeFromFollow}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
+		<apex:actionFunction status="ajax-status" name="removeFromFollow" onComplete="jqTransformScript();" action="{!removeFromFollow}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
 			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
 		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="addToFollowMultiple" action="{!addToFollowMultiple}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
+		<apex:actionFunction status="ajax-status" name="addToFollowMultiple" onComplete="jqTransformScript();" action="{!addToFollowMultiple}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
 			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
 		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="removeFromFollowMultiple" action="{!removeFromFollowMultiple}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
+		<apex:actionFunction status="ajax-status" name="removeFromFollowMultiple" onComplete="jqTransformScript();" action="{!removeFromFollowMultiple}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
 			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
 		</apex:actionFunction>		
 	</apex:form>
-	<!-- 
+
 	<div id="moreInfo" class="hidden dialog" >
 		<apex:outputPanel id="overviewDialog">
 	 		<c:R_overview cvid="{!cVersionId}" description="{!cDescr}" videoId="{!cVideoId}" isVideo="{!cIsVideo}" previewId="{!cPreviewId}" isPreview="{!cIsPreview}"/>
 		</apex:outputPanel>        
 	</div>
 	
-	<apex:outputPanel id="downloadAllCalendarItems">
+	<!-- <apex:outputPanel id="downloadAllCalendarItems">
 		<apex:repeat value="{!detailsMap}" var="silderSection">
 			<div id="downloadAllInfo-{!detailsMapParser[silderSection]}" class="hidden dialog" >
 				<c:R_downloadAll content="{!detailsMap[silderSection]}"/>
 			</div>	
 		</apex:repeat>
-	</apex:outputPanel>
+	</apex:outputPanel> -->
 		
 	<div id="shareInfo" class="hidden dialog">
 		<apex:outputPanel id="shareDialog">
 			<c:R_share cvid="{!cVersionId}" cvids="{!cVersionIds}" description="{!cDescr}" cShareLink="{!cShareLink}" cShareLinkLow="{!cShareLinkLow}"/>
 		</apex:outputPanel>        
 	</div>   
-	 -->
-<!--	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>  -->
+
 	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4DetailPage.js')}"></script>
 	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/commonFunctions.js')}"></script>
 	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/common4DetailPage.js')}"></script>
 	<script type="text/javascript">
 	jQuery(document.body).addClass('mep-landing-page').addClass('mep-page').addClass('mep-item-page');
 	
+	jQuery(document).ready(function() {
 	 jQuery('.section-options').live('click', function(){
 	 	jQuery(".section-options").each(function() {
 			if(jQuery(this).hasClass('active')){
@@ -267,6 +286,93 @@ Story/Task	: US585/TA1082
 			}
 		});
 	 });
+	});
+	
+	jQuery(".doc-list input[type='checkbox']").change(function() {
+		setTimeout(function() {
+			var contentItemCheckBox = jQuery(".doc-list input[type='checkbox']").length - jQuery(".select-all input[type='checkbox']").length;
+			var contentItemSelectedCheckBox =  jQuery(".doc-list input[type='checkbox']:checked").length - jQuery(".select-all input[type='checkbox']:checked").length;
+      if(contentItemSelectedCheckBox > 0) {
+				jQuery(".operation-line a").removeClass("disabled");
+				if(contentItemCheckBox == contentItemSelectedCheckBox && !jQuery(".select-all input[type='checkbox']").prop("checked")){
+					jQuery(".select-all input[type='checkbox']").trigger("click");
+        }/*else if(contentItemCheckBox != contentItemSelectedCheckBox && jQuery(".select-all input[type='checkbox']").prop("checked")){
+        	jQuery(".select-all input[type='checkbox']").trigger("click");
+        }*/
+      }
+      else {
+				jQuery(".operation-line a").addClass("disabled");
+				if(jQuery(".select-all input[type='checkbox']").prop("checked")){
+					jQuery(".select-all input[type='checkbox']").trigger("click");
+				}
+			}
+		}, 100);
+	});
+	
+	function operationLine(lineClass){
+		if(!jQuery("."+lineClass).hasClass("disabled")){
+			var glue = "";
+			var selectedContentIds = "";
+			var clickedButton = jQuery("."+lineClass).first().text().trim();
+			alert(clickedButton);
+			if(clickedButton == "Follow Document" || clickedButton == "Unfollow Document"
+				|| clickedButton == "Add To Basket" || clickedButton == "Remove From Basket"){
+				
+				var opType = "", anchorClassName = "";
+				if(clickedButton == "Follow Document" || clickedButton == "Unfollow Document"){
+					opType = "Follow";
+					anchorClassName = "follow";
+				}else if(clickedButton == "Add To Basket" || clickedButton == "Remove From Basket"){
+					opType = "Basket";
+					anchorClassName = "add-to-basket";
+				}
+				
+				jQuery(".doc-list input[type='checkbox']:checked").each(function() {
+					var tmp = jQuery(this).parents(".doc").find("."+anchorClassName).attr('href');
+					selectedContentIds += glue + tmp.substring(tmp.indexOf(opType+"('")+8, tmp.indexOf(opType+"('")+24);
+					glue = ",";
+				});
+				
+				alert("selectedContentIds => "+selectedContentIds);
+				if(clickedButton == "Follow Document"){
+					alert("just before the function call");
+					addToFollowMultiple(selectedContentIds);
+				}else if(clickedButton == "Unfollow Document"){
+					removeFromFollowMultiple(selectedContentIds);
+				}else if(clickedButton == "Add To Basket"){
+					addToBasketMultiple(selectedContentIds);
+				}else if(clickedButton == "Remove From Basket"){
+					removeFromBasketMultiple(selectedContentIds);
+				}
+			}
+		}
+	}
+	
+	function jqTransformScript(){
+		jQuery("h2").jqTransform();
+		jQuery(".list-view").jqTransform();
+		jQuery(".filter").jqTransform();
+		
+		jQuery(".doc-list .list-view .doc").jqTransform();
+			
+		var positionDocBtns = function(btns) {
+			var doc = btns.parent().parent();
+			if(doc.hasClass("grid-view")) {
+				btns.css({
+					width: '100%',
+					right: 0,
+					bottom: jQuery(".info", doc).height() + 1
+				});
+			}
+			else {
+				btns.css({
+					width: 200,
+					right: 80,
+					bottom: 20
+				})
+			}
+		}
+	}
 		/*jQuery('.horizontal-slider-navigation-button').live('click', function(){
 				alert(jQuery(this));
 				sliderHolder = jQuery(this).parents('.horizontal-slider');

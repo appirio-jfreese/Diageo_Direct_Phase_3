@@ -512,16 +512,89 @@ Story/Task  : US585/TA1082
 							</span>
  						</div>
 				</div>
-      	<div class="doc-btns mep-bg">
-      			<a href="javascript:;" class="download"></a>
- 						<a href="javascript:;" class="share"></a>
-            <a href="javascript:;" class="add-to-basket"></a>
-            <a href="javascript:;" class="follow"></a>
-      	</div>
-	      <a href="javascript:;" class="mep-bg setting-btn">
-	     		<span></span>
-				</a>
-				<input type="checkbox"/>
+				<apex:outputPanel rendered="{!if(showButons != false, 'true','false')}">
+	      	<div class="doc-btns mep-bg">
+						<!-- START DOWNLOAD ICONS -->
+      			<apex:outputPanel rendered="{!AND(isVideo1==true, NOT(ISNULL(videoId1)))}">
+	            <a href="{!$Page.VideoDownload}?videoId={!videoId1}&videodesc={!URLENCODE(description)}" class="download" target="_blank"></a>
+						</apex:outputPanel>                 
+            <apex:outputPanel rendered="{!AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1!='LINK')}">
+	            <a href="/sfc/servlet.shepherd/version/download/{!cvid1}" onclick="addToDownloadCache('{!cvid1}');" class="download"></a>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!OR(AND(isVideo1==false,!ISNULL(cvid1),!ISNULL(cvidlow1)), OR(imageRes1=='High', imageRes1=='Low'))}">
+            	<apex:outputPanel rendered="{!AND(!ISNULL(cvid1),!ISNULL(cvidlow1))}">
+	              <a href="/sfc/servlet.shepherd/version/download/{!cvid1}" onclick="addToDownloadCache('{!cvid1}');" class="download"></a>
+	              <a href="/sfc/servlet.shepherd/version/download/{!cvidlow1}" onclick="addToDownloadCache('{!cvidlow1}');" class="download"></a>
+							</apex:outputPanel>
+              <apex:outputPanel rendered="{!AND(!ISNULL(cvid1),ISNULL(cvidlow1),imageRes1=='High')}">
+	              <a href="/sfc/servlet.shepherd/version/download/{!cvid1}" onclick="addToDownloadCache('{!cvid1}');" class="download"></a>
+              </apex:outputPanel>
+              <apex:outputPanel rendered="{!AND(!ISNULL(cvid1),ISNULL(cvidlow1),imageRes1=='Low')}">
+	              <a href="/sfc/servlet.shepherd/version/download/{!cvid1}" onclick="addToDownloadCache('{!cvid1}');" class="download"></a>
+              </apex:outputPanel>
+						</apex:outputPanel>
+						<!-- END DOWNLOAD ICONS -->
+						<!-- START SHARE ICONS -->
+						<apex:outputPanel rendered="{!OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK'))}">
+            	<a href="javascript: userTryToShare('{!cvid1}'); userShareOverview('{!cvid1}');showDialog('shareInfo');" class="share"></a>
+            </apex:outputPanel>
+            <!-- END SHARE ICONS -->
+						
+            <!-- START PREVIEW ICONS -->
+            <apex:outputtext rendered="{!IF(isVideo1==false && previewAvailable1==true && fileType1!='LINK', 'true','false')}" styleClass="item-buttons">
+            	<div title="PREVIEW" class="preview" onclick="userTryToShare('{!cvid1}'); userShareOverview('{!cvid1}');showDialog('moreInfo');">&nbsp;</div>
+            </apex:outputtext>
+            <!-- END PREVIEW ICONS -->
+						
+						<!-- START EDIT ICONS -->
+            <apex:outputPanel rendered="{!AND(AND(editable,allowFileEdit),AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1!='LINK'))}">
+                <div title="EDIT" class="edit" onclick="setFileToEdit('{!cvid1}');showDialog('editFileInfo');">&nbsp;</div>
+            </apex:outputPanel>
+            <!-- END EDIT ICONS -->
+            
+            <!-- START CONVERSATION ICONS -->
+						<apex:outputPanel rendered="{!allowFileConversation}">
+						    <div title="CONVERSATIONS ({!numberOfComments})" class="conversation" onclick="userAddComment('{!cid}'); jQuery('#addCommentInfo').addClass('readyToShowInvisible'); showDialog('addCommentInfo', true);">&nbsp;</div>
+						</apex:outputPanel>
+						<!-- END CONVERSATION ICONS -->
+						
+						<!-- START BASKET ICONS -->
+	      		<apex:outputPanel rendered="{!AND(NOT(isBasketAction),OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK')))}">
+	            <apex:outputPanel rendered="{!AND(inBasket==false)}">
+	                <a href="javascript: addToBasket('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');" class="add-to-basket"></a>
+	            </apex:outputPanel>
+	            <apex:outputPanel rendered="{!AND(inBasket==true)}">
+	                <a href="javascript: removeFromBasket('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');" class="add-to-basket remove-basket"></a>
+	            </apex:outputPanel>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!AND(isBasketAction,OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK')))}">
+                <a href="javascript: removeFromBasket('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');" class="add-to-basket remove-basket"></a>
+            </apex:outputPanel>
+            <!-- END BASKET ICONS -->
+            <!-- START FOLLOW ICONS -->
+						<apex:outputPanel rendered="{!AND(NOT(isFollowAction),OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK')))}">
+                <apex:outputPanel rendered="{!AND(inFollow==false)}">
+                    <a href="javascript: addToFollow('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');" class="follow"></a>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!AND(inFollow==true)}">
+                		<a href="javascript: removeFromFollow('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');" class="follow unfollow"></a>
+                </apex:outputPanel>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!AND(isFollowAction,OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK')))}">
+                <a href="javascript: removeFromFollow('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');" class="follow unfollow"></a>
+            </apex:outputPanel>
+            <!-- END FOLLOW ICONS -->
+            <!-- START LAUNCH LINK -->
+            <apex:outputPanel rendered="{!AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1=='LINK')}">
+							<a href="{!title1}" target="_blank" class="open-link"></a>
+						</apex:outputPanel>
+						<!-- END LAUNCH LINK -->
+	      	</div>
+		      <a href="javascript:;" class="mep-bg setting-btn">
+		     		<span></span>
+					</a>
+					<input type="checkbox"/>
+				</apex:outputPanel>
 			</div>
     </apex:outputPanel>
     <!-- End : Changes for US585/TA1082 - Basant Verma -->

@@ -433,6 +433,7 @@ global public without sharing virtual class Controller_Base {
     		if(currentUserPage().equalsIgnoreCase('/apex/MonthlyExecutionPlan')
     				|| currentUserPage().equalsIgnoreCase('/apex/MonthlyExecutionPlanPDF')
     				|| currentUserPage().equalsIgnoreCase('/apex/R_MonthlyExecutionPlan')
+    				|| currentUserPage().equalsIgnoreCase('/apex/R_MonthlyExecutionPlan1')
     				|| currentUserPage().equalsIgnoreCase('/apex/R_MonthlyExecutionPlanPDF')){
     		// End : Changes for US585/TA1082 - Basant (Added R_xxx page)
     			for(CheckboxOption cbo : themeOptions){
@@ -1051,7 +1052,7 @@ global public without sharing virtual class Controller_Base {
 	public void addToFollowMultiple(){
 		try {
 			list<Id> cIds = new list<Id>();
-			
+			System.debug('================== cVersionIds : '+cVersionIds);
 			list<String> cvidList = cVersionIds.split(',');
 			for(String cvid : cvidList){
 				if(cvid != null && cvid != ''){
@@ -1061,7 +1062,7 @@ global public without sharing virtual class Controller_Base {
 					}
 				}
         	}
-        	
+      System.debug('================== cIds : '+cIds);  	
 			if(cIds.size() != 0){
 				// Start: Changes for TA997 - Basant Verma
 				Service_Follow.addFollow(cIds);

@@ -7,6 +7,8 @@ public with sharing class Controller_MonthlyExecutionPlan extends Controller_Bas
     public String detailPagePath {public get; protected set;}
     public String pdfPath {public get; protected set;}
 	public String currentPageUrl {public get; protected set;}
+	public String selectedMonth {get; set;}
+    public String selectedYear {get; set;}
 
     public Integer timePeriod {
         get; 
@@ -76,7 +78,8 @@ public with sharing class Controller_MonthlyExecutionPlan extends Controller_Bas
 			return;        
         }
 		
-        
+        selectedMonth = String.valueOf(System.today().month());
+        selectedYear = String.valueOf(System.today().year());
         refreshContent();
     }
     
@@ -163,6 +166,7 @@ public with sharing class Controller_MonthlyExecutionPlan extends Controller_Bas
     }
     
     private void setMonths() {
+    	system.debug('-----setMonths-----');
         months.clear();
         populateData();
         for (Integer i=0; i<timePeriod; i++) {
@@ -206,7 +210,65 @@ public with sharing class Controller_MonthlyExecutionPlan extends Controller_Bas
         return result + ' ' + year;
     }
     
+    public List<SelectOption> getMonthOptions() {
+    	List<SelectOption> options = new List<SelectOption>();
+        options.add(new SelectOption('1','Jan'));
+        options.add(new SelectOption('2','Feb'));
+        options.add(new SelectOption('3','Mar'));
+        options.add(new SelectOption('4','Apr'));
+        options.add(new SelectOption('5','May'));
+        options.add(new SelectOption('6','Jun'));
+        options.add(new SelectOption('7','Jul'));
+        options.add(new SelectOption('8','Aug'));
+        options.add(new SelectOption('9','Sep'));
+        options.add(new SelectOption('10','Oct'));
+        options.add(new SelectOption('11','Nov'));
+        options.add(new SelectOption('12','Dec')); 
+        return options;
+    }
+    
+    public List<SelectOption> getYearOptions() {
+        List<SelectOption> options = new List<SelectOption>();
+        Integer year = 2003;
+        for(Integer index = 0; index < 20; index++){
+        	options.add(new SelectOption(String.valueOf(year), String.valueOf(year)));
+        	year++;
+        }
+        
+        return options;
+    }
+   
+    public PageReference popOverPrevious(){ 
+    	system.debug('=====selectedMonth======'+selectedMonth); 
+    	system.debug('=====selectedYear======'+selectedYear);  	
+    	if(selectedMonth == '1'){
+    		selectedMonth = '12';
+    		selectedYear = String.valueOf(Integer.valueOf(selectedYear) - 1);
+    	}else{
+    		selectedMonth = String.valueOf(Integer.valueOf(selectedMonth) - 1);
+    	}
+    	return null;
+    }
+    public PageReference popOverNext(){
+    	system.debug('=====selectedMonth======'+selectedMonth); 
+    	system.debug('=====selectedYear======'+selectedYear);  
+    	if(selectedMonth == '12'){
+    		selectedMonth = '1';
+    		selectedYear = String.valueOf(Integer.valueOf(selectedYear) + 1);
+    	}else{
+    		selectedMonth = String.valueOf(Integer.valueOf(selectedMonth) + 1);
+    	}
+    	return null;
+    }
+    
+    public PageReference setTodayDate(){
+    	selectedMonth = String.valueOf(System.today().month());
+        selectedYear = String.valueOf(System.today().year());
+    	return null;
+    }
+    
     private void populateData(){
+    	system.debug('-----populateData-----');
         calendarData.clear();
         List<Calendar__c> cRecords = Service_API.getMEPs(calendar.startDate, calendar.endDate, salesDriver, selectedThemes());
         List<Calendar__c> cRecordsOrderCurrent = new List<Calendar__c>();
@@ -258,11 +320,11 @@ public with sharing class Controller_MonthlyExecutionPlan extends Controller_Bas
                         if ((span==1 || salesDriversToShowCount==1) && c.Logo_Image_Small__r.content_id__c != null) {
                             ContentDocument[] cd = [SELECT LatestPublishedVersionId from ContentDocument where Id=: c.Logo_Image_Small__r.content_id__c];
                             if (cd != null && cd.size()>0) {                           	
-                            	if(ApexPages.currentPage().getUrl().indexOf('R_MonthlyExecutionPlan') > -1){
-                            		styleBackgroundImage = '/sfc/servlet.shepherd/version/download/' + cd[0].LatestPublishedVersionId;                           	
-                            	}else{
+                            	//if(ApexPages.currentPage().getUrl().indexOf('R_MonthlyExecutionPlan') > -1){
+                            		//styleBackgroundImage = '/sfc/servlet.shepherd/version/download/' + cd[0].LatestPublishedVersionId;                           	
+                            	//}else{
                                 	styleBackgroundImage = 'background-image: url(/sfc/servlet.shepherd/version/download/' + cd[0].LatestPublishedVersionId + ');';
-                            	}
+                            	//}
                             }
                         }
                         
