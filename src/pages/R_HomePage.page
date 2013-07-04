@@ -68,6 +68,7 @@ Story/Task	: US584
                 <div class="column default">
                     <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-3.png')}"/>
                     <a class="purple" href="{!$Page.R_SellingMaterials}">Selling Materials</a>
+                    <!-- jfreese 7/3/13 I think this should go to R_SMIntro.page, which should contain the boxes to drill down, each of which would lead to R_SellingMaterials for file lists -->
                 </div>
 
                 <div class="column last default">
