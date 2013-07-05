@@ -1,0 +1,83 @@
+<!------------------------------------------------------------------------------
+Name				: R_OperationLines.component
+
+Created By 	: Basant Kumar Verma (Appirio OffShore)
+Date				: 7/5/13
+Story/Task	: US585/TA1082 
+------------------------------------------------------------------------------->
+<apex:component >
+	<apex:attribute name="pageNamePrefix" description="for responsive Pages" type="String" required="false" default="mep" />
+	<apex:attribute name="allowRemoveBasket" description="for responsive Pages" type="Boolean" required="false" default="false" />
+	<apex:attribute name="allowUnfollow" description="for responsive Pages" type="Boolean" required="false" default="false" />
+	<apex:attribute name="allowAddBasket" description="for responsive Pages" type="Boolean" required="false" default="true" />
+	<apex:attribute name="allowFollow" description="for responsive Pages" type="Boolean" required="false" default="true" />
+
+  <div class="operation-line hidden">
+     <a href="javascript: operationLine('download');" class="download disabled {!pageNamePrefix}-bg">
+         <span>Download</span>
+     </a>
+     <a href="javascript: operationLine('email');" class="email disabled {!pageNamePrefix}-bg">
+         <span>&nbsp;&nbsp;Email</span>
+     </a>
+     <apex:outputPanel rendered="{!if(allowAddBasket == true, 'true','false')}">
+	     <a href="javascript: operationLine('add');" class="add disabled {!pageNamePrefix}-bg">
+	         <span>Add</span>
+	     </a>
+     </apex:outputPanel>
+     <apex:outputPanel rendered="{!if(allowRemoveBasket == true, 'true','false')}">
+	     <a href="javascript: operationLine('remove');" class="remove disabled {!pageNamePrefix}-bg">
+	         <span>Remove</span>
+	     </a>
+     </apex:outputPanel>
+     <apex:outputPanel rendered="{!if(allowFollow == true, 'true','false')}">
+	     <a href="javascript: operationLine('add-document');" class="add-document disabled {!pageNamePrefix}-bg">
+	       <span>Follow</span>
+	     </a>
+     </apex:outputPanel>
+     <apex:outputPanel rendered="{!if(allowUnfollow == true, 'true','false')}">
+	     <a href="javascript: operationLine('unfollow');" class="unfollow disabled {!pageNamePrefix}-bg">
+	       <span>Unfollow</span>
+	     </a>
+     </apex:outputPanel>
+ 	</div>
+   	
+ 	<div class="filter hidden">
+  	<a class="list-mode active {!pageNamePrefix}-bg"></a>
+    <a class="grid-mode {!pageNamePrefix}-bg"></a>
+    <div class="select-all">
+     <label>Select All</label>
+     <input type="checkbox" class="checkbox" />
+    </div>
+	</div>
+	 	
+	<apex:componentBody />
+    
+  <div class="operation-line hidden">
+     <a href="javascript: operationLine('download');" class="download disabled {!pageNamePrefix}-bg">
+         <span>Download</span>
+     </a>
+     <a href="javascript: operationLine('email');" class="email disabled {!pageNamePrefix}-bg">
+         <span>&nbsp;&nbsp;Email</span>
+     </a>
+     <apex:outputPanel rendered="{!if(allowAddBasket == true, 'true','false')}">
+	     <a href="javascript: operationLine('add');" class="add disabled {!pageNamePrefix}-bg">
+	         <span>Add</span>
+	     </a>
+     </apex:outputPanel>
+     <apex:outputPanel rendered="{!if(allowRemoveBasket == true, 'true','false')}">
+	     <a href="javascript: operationLine('remove');" class="remove disabled {!pageNamePrefix}-bg">
+	         <span>Remove</span>
+	     </a>
+     </apex:outputPanel>
+     <apex:outputPanel rendered="{!if(allowFollow == true, 'true','false')}">
+	     <a href="javascript: operationLine('add-document');" class="add-document disabled {!pageNamePrefix}-bg">
+	       <span>Follow</span>
+	     </a>
+     </apex:outputPanel>
+     <apex:outputPanel rendered="{!if(allowUnfollow == true, 'true','false')}">
+	     <a href="javascript: operationLine('unfollow');" class="unfollow disabled {!pageNamePrefix}-bg">
+	       <span>Unfollow</span>
+	     </a>
+     </apex:outputPanel>
+ 	</div>
+</apex:component>
