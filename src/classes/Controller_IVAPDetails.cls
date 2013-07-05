@@ -1,5 +1,9 @@
 /*******************************************************************************
 Name        : Controller_IVAPDetails.cls
+
+Updated By 	: Basant Kumar Verma (Appirio OffShore)
+Date 				: 7/5/2013
+Story/Task	: US585/TA1082
 *******************************************************************************/
 public with sharing class Controller_IVAPDetails extends Controller_Base {
 
@@ -94,7 +98,12 @@ public with sharing class Controller_IVAPDetails extends Controller_Base {
                 if(ivapItem.Logo_Image_Large__r.content_id__c != null) {
                     ContentDocument[] cd = [SELECT LatestPublishedVersionId FROM ContentDocument WHERE Id=: ivapItem.Logo_Image_Large__r.content_id__c];
                     if (cd != null && cd.size()>0) {
-                        styleBackgroundLogoImage = 'background-image: url(/sfc/servlet.shepherd/version/download/' + cd[0].LatestPublishedVersionId + ');';
+                        // Start - Changes for US585/TA1082 - Basant Verma
+                    		if(currentUserPage().equalsIgnoreCase('/apex/R_IVAPDetails'))
+                        	styleBackgroundLogoImage = '/sfc/servlet.shepherd/version/download/' + cd[0].LatestPublishedVersionId;
+                        else
+                        	styleBackgroundLogoImage = 'background-image: url(/sfc/servlet.shepherd/version/download/' + cd[0].LatestPublishedVersionId + ');';
+                        // End - Changes for US585/TA1082 - Basant Verma
                     }
                 }                
                           

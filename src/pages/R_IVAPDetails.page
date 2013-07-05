@@ -1,435 +1,773 @@
 <!------------------------------------------------------------------------------
 Name				: IVAPDetails.page
+
+Created By 	: Basant Kumar Verma (Appirio OffShore)
+Date				: 7/1/13
+Story/Task	: US585/TA1082 
 ------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_IVAPDetails" action="{!initTheme}">
-   <apex:outputPanel rendered="{!if(ISNULL(siteTheme),'true','false')}">
-        <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'styleSpirits.css')}"/>
-        <apex:stylesheet value="{!URLFOR($Resource.HomePage, 'styleSpirits.css')}" />
-    </apex:outputPanel>  
- 
-    <apex:form >
-        <apex:actionFunction status="ajax-status" name="openSpiritsPlanningPage" action="{!openSpiritsPlanningPage}"/>
-        <apex:actionFunction status="ajax-status" name="openWinePlanningPage" action="{!openWinePlanningPage}"/>
-        
-        <apex:actionFunction status="ajax-status" name="openPlanningPage" action="{!openPlanningPage}">
-            <apex:param name="firstParam" assignTo="{!planningTheme}" value="" />
-        </apex:actionFunction>
-    </apex:form>
-
-
-<div class="wrapper">
-    <div class="container">
-        <!-- PAGE HEADER -->
-        <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" /> <!--thisAvatarURL="{!avatarUrl}"-->
-        <script type="text/javascript">
-            pageViewed('Home Page');
-        </script>
-                
-        <!-- content -->
-        <div class="content intro-page-bg left {!if(ISNULL(siteTheme),'hidden','')}">
-        	<apex:form >
-                <apex:outputPanel id="messages">
-                    <apex:messages styleClass="errorMessagesList" />
-                </apex:outputPanel>
-				<apex:actionFunction status="ajax-status" name="renderAsListSlider" action="{!renderAsListSlider}" rerender="messages, sliderContentItemsBxLs"/>
-				<apex:actionFunction status="ajax-status" name="renderAsBoxSlider" action="{!renderAsBoxSlider}" rerender="messages, sliderContentItemsBxLs"/>
-
-                <apex:outputPanel rendered="{! if( detailId != null, 'true','false' )}" >
-	                <!-- Slider -->
-	                <div class="horizontal-slider">
-						<!-- Slider navigation buttons -->
-						<div class="horizontal-slider-navigation">
-							<button class="back-button" onclick="window.location='{!backToInnovationAndVAPUrl}'; return false;">Back</button>
-							<div class="horizontal-slider-navigation-wrapper">
-								<div class="horizontal-slider-navigation-button horizontal-slider-navigation-button-active"><table class="centerTable"><tr><td>Overview</td></tr></table></div>
-								<apex:repeat value="{!detailsMapOrder}" var="silderSection">
-									<div class="horizontal-slider-navigation-button {!if(silderSection == 'Images', 'mediaPage', '')}"><table class="centerTable"><tr><td>{!silderSection}</td></tr></table></div>
-								</apex:repeat>
-				       			<div class="clear-float"></div>
-							</div>				
-						</div>					
-						<div class="horizontal-slider-clear"></div>
-
- 	               		<div class="brand-header">
-            	       		<span class="brand-details-name"><apex:outputText value="{!ivapItem.name}"/> </span><br />
-        	           		<span class="brand-details-subname"><apex:outputText value="{!salesDriverDescription}"/> </span>
-    	               		<span class="brand-details-date"><apex:outputText value="{!dateDescription}"/> </span>
-    	               		<!-- <apex:outputpanel rendered="{!ivapItem.Show_tooltip_details__c}">  -->
-    	               			<apex:outputpanel rendered="{!!ISNULL(ivapItem.Ship_Date__c)}">
-    	               				<span class="brand-details-date">(First Ship: 
-    	               					<apex:outputText value="{0,date, MM'/'dd'/'yyyy}">
-    	               						<apex:param value="{!ivapItem.Ship_Date__c}" />
-    	               					</apex:outputText>)
-    	               				</span>
-    	               			</apex:outputpanel>
-							<!-- </apex:outputpanel> -->
-                   		</div>
-
-						<!-- Slider Previous button -->
-						<div class="horizontal-slider-prev horizontal-slider-button"><apex:image url="{!URLFOR($Resource.InnovationAndVAP, 'images/left_arrow.png')}"/></div>
-						<!-- Slide area -->
-	                	<div class="horizontal-slider-container">
-	                		<div class="horizontal-slider-content-wrapper">
-								<!-- slider content -->
-								<apex:outputPanel >
-								<div class="horizontal-slider-content overview-content">
-									<div class="overview overview-to-Scroll" style="height: 500px;">
-										<div>
-										<apex:outputtext escape="false" value="{!description}"/>
-										<apex:outputPanel rendered="{!IF(ivapItem.description_content_description__r.Content_Version_Id__c != '', 'true','false')}">
-											<br/><c:R_downloadButton description="Overview" cvid="{!ivapItem.description_content_description__r.Content_Version_Id__c}" filetype="{!ivapItem.description_content_description__r.filetype__c}"/>
-										</apex:outputPanel>
-										</div>
-										<apex:outputPanel rendered="{!IF(ivapItem.Specification_Content_Description__r.Content_Version_Id__c != '' || specification != '', 'true','false')}">
-											<div class="sub-label">Specifications</div>									
-											<apex:outputtext escape="false" value="{!specification}"></apex:outputtext><br/>
-											<apex:outputPanel rendered="{!IF(ivapItem.Specification_Content_Description__r.Content_Version_Id__c != '', 'true','false')}">
-												<!-- <c:R_downloadButton description="Specifications" cvid="{!ivapItem.Specification_Content_Description__r.Content_Version_Id__c}" filetype="{!ivapItem.Specification_Content_Description__r.filetype__c}"/> -->
-											</apex:outputPanel>
-										</apex:outputPanel>
-											
-										<apex:outputPanel rendered="{!IF(ivapItem.Situation_Content_Description__r.Content_Version_Id__c != '' || situation != '', 'true','false')}">
-											<div class="sub-label">Situation</div>									
-											<apex:outputtext escape="false" value="{!situation}"></apex:outputtext><br/>
-											<apex:outputPanel rendered="{!IF(ivapItem.Situation_Content_Description__r.Content_Version_Id__c != '', 'true','false')}">
-												<!-- <c:R_downloadButton description="Situation" cvid="{!ivapItem.Situation_Content_Description__r.Content_Version_Id__c}" filetype="{!ivapItem.Situation_Content_Description__r.filetype__c}"/> -->
-											</apex:outputPanel>
-										</apex:outputPanel>
-
-										<apex:outputPanel rendered="{!IF(ivapItem.Idea_Content_Description__r.Content_Version_Id__c != '' || idea != '', 'true','false')}">
-											<div class="sub-label">Idea</div>									
-											<apex:outputtext escape="false" value="{!idea}"></apex:outputtext><br/>
-											<apex:outputPanel rendered="{!IF(ivapItem.Idea_Content_Description__r.Content_Version_Id__c != '', 'true','false')}">
-												<!-- <c:R_downloadButton description="Idea" cvid="{!ivapItem.Idea_Content_Description__r.Content_Version_Id__c}" filetype="{!ivapItem.Idea_Content_Description__r.filetype__c}"/> -->
-											</apex:outputPanel>
-										</apex:outputPanel>
-
-										<apex:outputPanel rendered="{!IF(ivapItem.Consumer_Target_Content_Description__r.Content_Version_Id__c != '' || consumerTarget != '', 'true','false')}">
-											<div class="sub-label">Consumer Target</div>									
-											<apex:outputtext escape="false" value="{!consumerTarget}"></apex:outputtext><br/>
-											<apex:outputPanel rendered="{!IF(ivapItem.Consumer_Target_Content_Description__r.Content_Version_Id__c != '', 'true','false')}">
-												<!-- <c:R_downloadButton description="Consumer Target" cvid="{!ivapItem.Consumer_Target_Content_Description__r.Content_Version_Id__c}" filetype="{!ivapItem.Consumer_Target_Content_Description__r.filetype__c}"/> -->
-											</apex:outputPanel>
-										</apex:outputPanel>
-
-										<apex:outputPanel rendered="{!IF(ivapItem.How_it_Works_Content_Description__r.Content_Version_Id__c != '' || howItWorks != '', 'true','false')}">
-											<div class="sub-label">How it Works</div>									
-											<apex:outputtext escape="false" value="{!howItWorks}"></apex:outputtext><br/>
-											<apex:outputPanel rendered="{!IF(ivapItem.How_it_Works_Content_Description__r.Content_Version_Id__c != '', 'true','false')}">
-												<!-- <c:R_downloadButton description="How it Works" cvid="{!ivapItem.How_it_Works_Content_Description__r.Content_Version_Id__c}" filetype="{!ivapItem.How_it_Works_Content_Description__r.filetype__c}" /> -->
-											</apex:outputPanel>
-										</apex:outputPanel>
-									</div>
-									<div class="logo-bg" style="{!styleBackgroundLogoImage}">&nbsp;</div>
-								</div>
-								</apex:outputPanel>
-
-											<apex:outputPanel id="sliderContentItemsBxLs">
-												<apex:repeat value="{!detailsMapOrder}" var="silderSection">
-													<div class="horizontal-slider-content">
-														<!-- slider section -->
-														<apex:outputPanel rendered="{!if(detailsMapSize[silderSection] != 0, 'true','false')}">
-									                        <div class="right" style="margin-right: 44px;">
-																<div class="float-right" style="text-align: center;">
-																	<div onclick="renderAsBoxSlider();" class="show-as-box-button {!if(displayAsList != true, 'show-as-list-box-button-active','')}">
-																		<apex:image styleClass="list-box-img" url="{!URLFOR($Resource.MonthlyExecutionPlanPage, 'images/boxView.png')}"/>									
-																	</div>								
-																	<div onclick="renderAsListSlider();" class="show-as-list-button {!if(displayAsList = true, 'show-as-list-box-button-active','')}">
-																		<apex:image styleClass="list-box-img" url="{!URLFOR($Resource.MonthlyExecutionPlanPage, 'images/listView.png')}"/>
-																	</div>
-																	<div class="clear-float"></div>
-																</div>	
-									                            <div class="downloadAllButton action-button" id="{!detailsMapParser[silderSection]}">
-									                                <div class="action-button-ico"><apex:image url="{!URLFOR($Resource.CommonPage, 'images/downloadArrow.png')}"/></div>
-									                                <div class="action-button-description">Download / Share Multiple Files</div>
-									                            </div>
-									                        </div>
-															<div class="content-item-wrapper">
-
-																<apex:variable value="" var="currentSubSubCategory"/>											
-																<apex:repeat value="{!detailsHolderMap[silderSection]}" var="calendarItm">
-
-																	<apex:outputPanel rendered="{!IF(currentSubSubCategory != calendarItm.result['Sub_Sub_Category__c'],'true','false')}">
-																	<div class="clear-float"></div>
-																		<div class="sub-label">{!calendarItm.result['Sub_Sub_Category__c']}</div>
-																	</apex:outputPanel>
-																	<apex:variable value="{!calendarItm.result['Sub_Sub_Category__c']}" var="currentSubSubCategory" rendered="{!!ISNULL(calendarItm.result['Sub_Sub_Category__c'])}"/>
-
-																	<apex:outputPanel rendered="{!if(displayAsList != true,'true','false')}">
-																		<c:R_contentItem followIds="{!currentFollowIds}" basketIds="{!currentBasketIds}" aggregated="{!calendarItm}" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true"/>
-						                                            </apex:outputPanel>
-																	<apex:outputPanel rendered="{!if(displayAsList = true,'true','false')}">
-																		<c:R_contentItem followIds="{!currentFollowIds}" basketIds="{!currentBasketIds}" aggregated="{!calendarItm}" renderAsList="true" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true" />
-			                                            			</apex:outputPanel>
-																</apex:repeat>
-																<div class="content-item-clean"></div>
-															</div>
-															<c:R_pagination showPager="false" isNewContent="{!isNewContent}" pageNumbers="{!pageNumbers}" numberOfCurrentPage="1" />
-														</apex:outputPanel>
-													</div>
-												</apex:repeat>
-											</apex:outputPanel>
-
-
-								<div class="horizontal-slider-clear"></div>
-							</div>						
-						</div>
-						<!-- Slider Next button-->
-						<div class="horizontal-slider-next horizontal-slider-button"><apex:image url="{!URLFOR($Resource.InnovationAndVAP, 'images/right_arrow.png')}"/></div>
-						<div class="horizontal-slider-clear"></div>
-					</div>
-
-                </apex:outputPanel>
-        	</apex:form>
-        </div>
-
-        <!-- PAGE FOOTER -->
-        <c:R_pageFooter isInternal="{!isInternalUser}" />
-    </div>
-</div>    
-	<apex:form >
-		<apex:actionFunction status="ajax-status" name="userShareOverview" action="{!userShareOverview}" rerender="overviewDialog, shareDialog, messages">
-			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
-		</apex:actionFunction> 
-		<apex:actionFunction status="ajax-status" name="userMultipleShare" action="{!userMultipleShare}" rerender="overviewDialog, shareDialog, messages">
-			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
-		</apex:actionFunction>  
-		
-		<apex:actionFunction status="ajax-status" name="addToBasket" action="{!addToBasket}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
-			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
-		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="removeFromBasket" action="{!removeFromBasket}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
-			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
-		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="addToBasketMultiple" action="{!addToBasketMultiple}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
-			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
-		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="removeFromBasketMultiple" action="{!removeFromBasketMultiple}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
-			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
-		</apex:actionFunction>		
-		
-		<apex:actionFunction status="ajax-status" name="addToFollow" action="{!addToFollow}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
-			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
-		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="removeFromFollow" action="{!removeFromFollow}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
-			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
-		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="addToFollowMultiple" action="{!addToFollowMultiple}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
-			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
-		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="removeFromFollowMultiple" action="{!removeFromFollowMultiple}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems">
-			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
-		</apex:actionFunction>	
+  <apex:form >
+	  <apex:actionFunction status="ajax-status" name="openSpiritsPlanningPage" action="{!openSpiritsPlanningPage}"/>
+	  <apex:actionFunction status="ajax-status" name="openWinePlanningPage" action="{!openWinePlanningPage}"/>
+	  
+	  <apex:actionFunction status="ajax-status" name="openPlanningPage" action="{!openPlanningPage}">
+	      <apex:param name="firstParam" assignTo="{!planningTheme}" value="" />
+	  </apex:actionFunction>
 	</apex:form>
 
-    <div id="moreInfo" class="hidden dialog" >
-	    <apex:outputPanel id="overviewDialog">
-	    	<c:R_overview cvid="{!cVersionId}" description="{!cDescr}" videoId="{!cVideoId}" isVideo="{!cIsVideo}" previewId="{!cPreviewId}" isPreview="{!cIsPreview}"/>
-	    </apex:outputPanel>        
-    </div>
 
-    <div id="shareInfo" class="hidden dialog">
-        <apex:outputPanel id="shareDialog">
-            <c:R_share cvid="{!cVersionId}" cvids="{!cVersionIds}" description="{!cDescr}" cShareLink="{!cShareLink}"  cShareLinkLow="{!cShareLinkLow}"/>
-        </apex:outputPanel>        
-    </div> 
-       
-	<apex:outputPanel id="downloadAllCalendarItems">
-		<apex:repeat value="{!detailsMap}" var="silderSection">
-			<div id="downloadAllInfo-{!detailsMapParser[silderSection]}" class="hidden dialog" >
-				<c:R_downloadAll content="{!detailsMap[silderSection]}"/>
-			</div>	
-		</apex:repeat>
-	</apex:outputPanel>
+	<div class="wrapper">
+		<div class="container">
+			<!-- PAGE HEADER -->
+			<c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" /> <!--thisAvatarURL="{!avatarUrl}"-->
+			<script type="text/javascript">
+				pageViewed('Monthly Execution Plan - Detail Page');
+			</script>
+			
+			<!-- content -->
+			<div class="content clearfix">
+						
+				<!--  BREADCRUMB -->
+				<apex:outputPanel id="beadcrumblinks">
+					<c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
+				</apex:outputPanel>
+				
+				<div class="content intro-page-bg left {!if(ISNULL(siteTheme),'hidden','')}">
+					<apex:form >
+						<apex:outputPanel id="messages">
+							<apex:messages styleClass="errorMessagesList" />
+						</apex:outputPanel>
+						
+						<apex:actionFunction status="ajax-status" name="renderAsListSlider" action="{!renderAsListSlider}" rerender="messages, sliderContentItemsBxLs"/>
+						<apex:actionFunction status="ajax-status" name="renderAsBoxSlider" action="{!renderAsBoxSlider}" rerender="messages, sliderContentItemsBxLs"/>
+						
+						<apex:outputPanel rendered="{! if( detailId != null, 'true','false' )}" id="pageContent">
+							<div class="button-line three-btns">
+								<a href="" class="active isv-bg section-options">Overview</a>
+								<apex:repeat value="{!detailsMapOrder}" var="silderSection">
+									<a href="" class="isv-bg section-options {!if(silderSection == 'Media', 'mediaPage', '')}">{!silderSection}</a>
+								</apex:repeat>
+							</div>
+							
+							<h2 class="with-select with-small">
+								<span class="title">
+									{!ivapItem.name}<br/> 
+									<small>{!salesDriverDescription} {!dateDescription}</small>
+									<apex:outputpanel rendered="{!!ISNULL(ivapItem.Ship_Date__c)}">
+										(First Ship: 
+           					<apex:outputText value="{0,date, MM'/'dd'/'yyyy}">
+           						<apex:param value="{!ivapItem.Ship_Date__c}" />
+           					</apex:outputText>)
+									</apex:outputpanel>
+								</span>
+								<a href="{!$Page.R_InnovationAndVAP}" class="isv-bg right-btn back-btn">Back</a>
+							</h2>
+							
+							<!-- Overview section -->
+							<div class="story overview-Section Overview-Section isv-Section-Blok noContent">
+								<div class="image">
+									<img src="{!styleBackgroundLogoImage}"/>
+								</div>
+								<div class="p">
+									<apex:outputtext escape="false" value="{!description}"/>
+									<apex:outputPanel rendered="{!IF(ivapItem.description_content_description__r.Content_Version_Id__c != '', 'true','false')}">
+										<br/><c:R_downloadButton description="Overview" cvid="{!ivapItem.description_content_description__r.Content_Version_Id__c}" filetype="{!ivapItem.description_content_description__r.filetype__c}"/>
+									</apex:outputPanel>
+									
+									<apex:outputPanel rendered="{!IF(ivapItem.Specification_Content_Description__r.Content_Version_Id__c != '' || specification != '', 'true','false')}">			
+										<div class="sub-label">Specifications</div>					
+										<apex:outputtext escape="false" value="{!specification}"></apex:outputtext><br/>
+									</apex:outputPanel>
+											
+									<apex:outputPanel rendered="{!IF(ivapItem.Situation_Content_Description__r.Content_Version_Id__c != '' || situation != '', 'true','false')}">
+										<div class="sub-label">Situation</div>									
+										<apex:outputtext escape="false" value="{!situation}"></apex:outputtext><br/>
+									</apex:outputPanel>
 
-    <c:R_ajaxLoader beforeStop="bindJs();" />   
-    <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
-		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4DetailPage.js')}"></script>
-		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/commonFunctions.js')}"></script>
-		<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/common4DetailPage.js')}"></script>
-    <!-- <script type="text/javascript">
-    jQuery(document).ready(function() {
-    		        	       
-			hideDialog('startingLoader');
-			hideDialog('startingLoaderOverlayDisable');
-			jQuery("body").css("overflow","auto");
-			jQuery("html").css("overflow","auto");
-		});		
-        jQuery(document).keydown(function(e) {
-            var element = e.target.nodeName.toLowerCase();
-            if (element != 'input' && element != 'textarea') {
-                if (e.keyCode === 39) {
-                    if(jQuery('.horizontal-slider-next').length == 1){
-                        jQuery('.horizontal-slider-next').trigger('click');
-                    }
-                    return false;
-                } else if (e.keyCode === 37) {
-                    if(jQuery('.horizontal-slider-prev').length == 1){
-                        jQuery('.horizontal-slider-prev').trigger('click');
-                    }
-                    return false;
-                }
-            }     
-        });
-        
-        /*
-        function calculateBoxHeight(){
-	    	 jQuery("div.content-item").each(function(i, elem){
-		        	var bottomValue = 75-jQuery("div.content-item-menu div", elem).height() - 5;
-			        jQuery("div.item-description", elem).css('bottom', -bottomValue+"px");
-		        });
-	    } 
-	    */
-	    function calculateBoxHeight(){
-	    	 jQuery("div.content-item").each(function(i, elem){
-		        	var bottomValue = jQuery("div.item-description", elem).height()-jQuery("div.content-item-menu div", elem).height() - 5;
-			        jQuery("div.item-description", elem).css('bottom', -bottomValue+"px");
-		        });
-	    }
-	    
-	    function bindJs(){
-	    	var isiPad = navigator.userAgent.match(/iPad/i) != null;
-    	    		
-    		if( isiPad == true){
-    			jQuery("div.content-item-list-description").live('touchstart', function(){
-    				jQuery("div.content-item-list-buttons").addClass("hidden");
-    				jQuery(this).parent().find("div.content-item-list-buttons").removeClass("hidden");
-    				return false;
-    			});
-    		}
-	               
-            jQuery('.content-item-wrapper').not('.overview-content').each(function(){
-            	if(!jQuery(this).hasClass('scrollBind')){
-            		jQuery(this).addClass('scrollBind');            	
-            		jQuery(this).jScrollPane();
-            	}
-            });
-            if(!jQuery('.overview-to-Scroll').hasClass('scrollBind')){
-            	jQuery('.overview-to-Scroll').addClass('scrollBind');
-            	jQuery('.overview-to-Scroll').jScrollPane();
-            }	    
-	    }
+									<apex:outputPanel rendered="{!IF(ivapItem.Idea_Content_Description__r.Content_Version_Id__c != '' || idea != '', 'true','false')}">
+										<div class="sub-label">Idea</div>									
+										<apex:outputtext escape="false" value="{!idea}"></apex:outputtext><br/>
+									</apex:outputPanel>
+
+									<apex:outputPanel rendered="{!IF(ivapItem.Consumer_Target_Content_Description__r.Content_Version_Id__c != '' || consumerTarget != '', 'true','false')}">
+										<div class="sub-label">Consumer Target</div>									
+										<apex:outputtext escape="false" value="{!consumerTarget}"></apex:outputtext><br/>
+									</apex:outputPanel>
+
+									<apex:outputPanel rendered="{!IF(ivapItem.How_it_Works_Content_Description__r.Content_Version_Id__c != '' || howItWorks != '', 'true','false')}">
+										<div class="sub-label">How it Works</div>									
+										<apex:outputtext escape="false" value="{!howItWorks}"></apex:outputtext><br/>
+									</apex:outputPanel>
+									
+								</div>
+							</div>
+							<!-- End of Overview section -->
+							
+							<c:R_OperationLines pageNamePrefix="isv" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
+								<!-- slider section -->
+								<apex:outputPanel id="sliderContentItemsBxLs">
+	            		<div class="doc-list">
+	            			<div class="list-view">
+				            	<apex:repeat value="{!detailsMapOrder}" var="silderSection">	            	
+					            	<apex:outputPanel rendered="{!if(detailsMapSize[silderSection] != 0, 'true','false')}" styleClass="{!silderSection}-Section isv-Section-Blok">
+						            	<apex:variable value="" var="currentSubSubCategory"/>
+					            		<apex:repeat value="{!detailsHolderMap[silderSection]}" var="calendarItm">
+														<apex:outputPanel rendered="{!IF(currentSubSubCategory != calendarItm.result['Sub_Sub_Category__c'],'true','false')}">
+															<h6>{!calendarItm.result['Sub_Sub_Category__c']}</h6>
+														</apex:outputPanel>
+														
+														<apex:variable value="{!calendarItm.result['Sub_Sub_Category__c']}" var="currentSubSubCategory" rendered="{!!ISNULL(calendarItm.result['Sub_Sub_Category__c'])}"/>
+														<apex:outputPanel styleClass="ListViewContents hidden">
+															<c:R_contentItem pageNamePrefix="isv" followIds="{!currentFollowIds}" basketIds="{!currentBasketIds}" aggregated="{!calendarItm}" renderAsList="true" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true"/>
+														</apex:outputPanel>
+														<apex:outputPanel styleClass="GridViewContents hidden">
+															<c:R_contentItem pageNamePrefix="isv" followIds="{!currentFollowIds}" basketIds="{!currentBasketIds}" aggregated="{!calendarItm}" renderAsList="false" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true"/>
+									          </apex:outputPanel>
+													</apex:repeat>
+													<c:R_pagination showPager="false" totalNumberOfPages="{!numberOfPages}" isNewContent="{!isNewContent}" pageNumbers="{!pageNumbers}" numberOfCurrentPage="{!numberOfCurrentPage}" />
+												</apex:outputPanel>
+												<apex:outputPanel rendered="{!if(detailsMapSize[silderSection] == 0, 'true','false')}" styleClass="{!silderSection}-Section isv-Section-Blok noContent">
+													<div class="story without-image">
+						                <div class="p">
+						                	<p>
+						                  	No Content
+						                  </p>
+						                </div>
+						            	</div>
+												</apex:outputPanel>
+											</apex:repeat>
+										</div>
+									</div>
+								</apex:outputPanel>
+	            </c:R_OperationLines>
+	            
+						</apex:outputPanel>
+					</apex:form>
+				</div>
+			</div>
+			<c:R_pageFooter isInternal="{!isInternalUser }" />
+		</div>
+	</div>
+	
+	<apex:form >
+		<apex:actionFunction status="ajax-status" name="userShareOverview" action="{!userShareOverview}" rerender="overviewDialog, shareDialog, messages" onComplete="sectionVisibility();">
+			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
+		</apex:actionFunction>
+		<apex:actionFunction status="ajax-status" name="userMultipleShare" action="{!userMultipleShare}" rerender="overviewDialog, shareDialog, messages" onComplete="sectionVisibility();">
+			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+		</apex:actionFunction> 
+		<apex:actionFunction status="ajax-status" name="addToBasket" action="{!addToBasket}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems" onComplete="jqTransformScript(); sectionVisibility();">
+			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
+		</apex:actionFunction>
+		<apex:actionFunction status="ajax-status" name="removeFromBasket" action="{!removeFromBasket}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems" onComplete="jqTransformScript(); sectionVisibility();">
+			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
+		</apex:actionFunction>
+		<apex:actionFunction status="ajax-status" name="addToBasketMultiple" action="{!addToBasketMultiple}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems" onComplete="jqTransformScript(); sectionVisibility();">
+			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+		</apex:actionFunction>
+		<apex:actionFunction status="ajax-status" name="removeFromBasketMultiple" action="{!removeFromBasketMultiple}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems" onComplete="jqTransformScript(); sectionVisibility();">
+			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+		</apex:actionFunction>
+		<apex:actionFunction status="ajax-status" name="addToFollow" action="{!addToFollow}" rerender="messages, currentFollowedItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems" onComplete="jqTransformScript(); sectionVisibility();">
+			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
+		</apex:actionFunction>
+		<apex:actionFunction status="ajax-status" name="removeFromFollow" action="{!removeFromFollow}" rerender="messages, currentFollowedItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems" onComplete="jqTransformScript(); sectionVisibility();">
+			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
+		</apex:actionFunction>
+		<apex:actionFunction status="ajax-status" name="addToFollowMultiple" action="{!addToFollowMultiple}" rerender="messages, currentFollowedItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems" onComplete="jqTransformScript(); sectionVisibility();">
+			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+		</apex:actionFunction>
+		<apex:actionFunction status="ajax-status" name="removeFromFollowMultiple" action="{!removeFromFollowMultiple}" rerender="messages, currentFollowedItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems" onComplete="jqTransformScript(); sectionVisibility();">
+			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+		</apex:actionFunction>		
+	</apex:form>
+
+	<div id="moreInfo" class="hidden dialog" >
+		<apex:outputPanel id="overviewDialog">
+	 		<c:R_overview cvid="{!cVersionId}" description="{!cDescr}" videoId="{!cVideoId}" isVideo="{!cIsVideo}" previewId="{!cPreviewId}" isPreview="{!cIsPreview}"/>
+		</apex:outputPanel>        
+	</div>
+		
+	<div id="shareInfo" class="hidden dialog">
+		<apex:outputPanel id="shareDialog">
+			<c:R_share cvid="{!cVersionId}" cvids="{!cVersionIds}" description="{!cDescr}" cShareLink="{!cShareLink}" cShareLinkLow="{!cShareLinkLow}"/>
+		</apex:outputPanel>        
+	</div>
+
+	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4DetailPage.js')}"></script>
+	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/commonFunctions.js')}"></script>
+	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/common4DetailPage.js')}"></script>
+	<!-- START : New Script Added -->
+	<script type="text/javascript">
+	/*****************************************************************************
+	 		MUST BE PROVIDE THIS VARIABLE IN PAGE ITSELF 
+	 		- IT IS ENABLE US TO USE A COMMON JS FOR MULTIPLE PAGES
+	*****************************************************************************/
+	
+	
+	
+	/*****************************************************************************
+				START : THIS JAVASCRIPT MUST BE IN PAGE ITSELF
+	*****************************************************************************/
+	/*****************************************************************************
+	 		MUST BE PROVIDE THIS VARIABLE IN PAGE ITSELF 
+	 		- IT IS ENABLE US TO USE A COMMON JS FOR MULTIPLE PAGES
+	*****************************************************************************/
+	var pageNamePrefix = "isv";
+	// Add class in Body so Responsive_Base/js/script.js can work on this page
+	jQuery(document.body).addClass(pageNamePrefix+'-landing-page').addClass(pageNamePrefix+'-page').addClass(pageNamePrefix+'-item-page');
+	/*****************************************************************************
+				END : THIS JAVASCRIPT MUST BE IN PAGE ITSELF
+	*****************************************************************************/
+	
+	/*****************************************************************************
+				START : NEED TO MOVE IN RF_JQueries, 'js/common4DetailPage.js'
+	*****************************************************************************/
+	// On Document Load
+	jQuery(document).ready(function() {
+		sectionVisibility();
+	});
+	
+	jQuery('.grid-mode').live('click', function(){
+		if(jQuery('.grid-mode').hasClass("active")){
+			if(!jQuery(".ListViewContents").hasClass("hidden")){
+				jQuery(".ListViewContents").addClass("hidden");
+			}
+			if(jQuery(".GridViewContents").hasClass("hidden")){
+				jQuery(".GridViewContents").removeClass("hidden")
+			}
+		}
+	});
+	
+	jQuery('.list-mode').live('click', function(){
+		if(jQuery('.list-mode').hasClass("active")){
+			if(jQuery(".ListViewContents").hasClass("hidden")){
+				jQuery(".ListViewContents").removeClass("hidden");
+			}
+			if(!jQuery(".GridViewContents").hasClass("hidden")){
+				jQuery(".GridViewContents").addClass("hidden")
+			}
+		}
+	});
+	
+	// Action called when section-option clicked 
+	jQuery('.section-options').live('click', function(){
+		jQuery(".section-options").each(function() {
+			if(jQuery(this).hasClass('active')){
+				jQuery(this).removeClass('active');
+			}
+		});
+		jQuery(this).addClass('active');
+		sectionVisibility();
+	});
+	
+	// Action called when Checkbox is clicked
+	jQuery(".doc-list input[type='checkbox']").change(function() {
+		setTimeout(function() {
+			var contentItemCheckBox = jQuery(".doc-list input[type='checkbox']").length - jQuery(".select-all input[type='checkbox']").length;
+			var contentItemSelectedCheckBox =  jQuery(".doc-list input[type='checkbox']:checked").length - jQuery(".select-all input[type='checkbox']:checked").length;
+      if(contentItemSelectedCheckBox > 0) {
+				jQuery(".operation-line a").removeClass("disabled");
+				if(contentItemCheckBox == contentItemSelectedCheckBox && !jQuery(".select-all input[type='checkbox']").prop("checked")){
+					jQuery(".select-all input[type='checkbox']").trigger("click");
+        }/*else if(contentItemCheckBox != contentItemSelectedCheckBox && jQuery(".select-all input[type='checkbox']").prop("checked")){
+        	jQuery(".select-all input[type='checkbox']").trigger("click");
+        }*/
+      }
+      else {
+				jQuery(".operation-line a").addClass("disabled");
+				if(jQuery(".select-all input[type='checkbox']").prop("checked")){
+					jQuery(".select-all input[type='checkbox']").trigger("click");
+				}
+			}
+		}, 100);
+	});
+	/*****************************************************************************
+				END : NEED TO MOVE IN RF_JQueries, 'js/common4DetailPage.js'
+	*****************************************************************************/
+	
+	/*****************************************************************************
+				START : NEED TO MOVE IN RF_JQueries, 'js/commonFunctions.js'
+	*****************************************************************************/
+	// Hide or show the section based on selected section-option
+	function sectionVisibility(){
+		jQuery(".doc-list input[type='checkbox']:checked").each(function(){
+			if(jQuery(this).prop('checked')){
+				jQuery(this).trigger("click");
+			}
+		});
+		jQuery(".select-all input[type='checkbox']").each(function(){
+			if(jQuery(this).prop('checked')){
+				jQuery(this).trigger("click");
+			}
+		});
+		
+		jQuery(".doc-btns").each(function(){
+			jQuery(this).css("display", "none");
+		});
+		
+		jQuery(".section-options").each(function() {
+			var currentSectionClass = jQuery(this).text()+"-Section";
+			if(jQuery(this).hasClass('active')){
+				jQuery("."+pageNamePrefix+"-Section-Blok").each(function() {
+	        if(jQuery(this).hasClass(currentSectionClass)){
+	          if(jQuery(this).hasClass('hidden')){
+	          	jQuery(this).removeClass('hidden');
+	          }
+	          if(!jQuery(this).hasClass('noContent')){
+	            jQuery(".operation-line").each(function() {
+	              if(jQuery(this).hasClass('hidden')){
+	              	jQuery(this).removeClass('hidden');
+	              }
+	              if(!jQuery(".operation-line a").hasClass("disabled")){
+	              	jQuery(".operation-line a").addClass("disabled");
+	              }
+	            });
+	            jQuery(".filter").each(function() {
+	              if(jQuery(this).hasClass('hidden')){
+	              	jQuery(this).removeClass('hidden');
+	              }
+	            });
+	          }
+            if(jQuery(this).hasClass('noContent')){
+	            jQuery(".operation-line").each(function() {
+	              if(!jQuery(this).hasClass('hidden')){
+                	jQuery(this).addClass('hidden');
+	              }
+	            });
+	            jQuery(".filter").each(function() {
+	              if(!jQuery(this).hasClass('hidden')){
+	              	jQuery(this).addClass('hidden');
+	              }
+	            });
+	          }   
+	        }
+				});
+			}else{
+				jQuery("."+pageNamePrefix+"-Section-Blok").each(function() {
+	      	if(jQuery(this).hasClass(currentSectionClass)){
+						if(!jQuery(this).hasClass('hidden')){
+		        	jQuery(this).addClass('hidden');
+		        }
+					}
+				});
+			}
+		});
+		
+		if(jQuery('.grid-mode').hasClass("active")){
+			jQuery('.grid-mode').trigger("click");
+		}else if(jQuery('.list-mode').hasClass("active")){
+			jQuery('.list-mode').trigger("click");
+		}
+	}
+	
+	// Action called when clciked on any operation line (Download/Share/Add/Follow)
+	function operationLine(lineClass){
+		if(!jQuery("."+lineClass).hasClass("disabled")){
+			var glue = "";
+			var selectedContentIds = "";
+			var clickedButton = jQuery("."+lineClass).first().text().trim();
+			if(clickedButton == "Follow" || clickedButton == "Unfollow"
+				|| clickedButton == "Add" || clickedButton == "Remove"
+				|| clickedButton == "Email"){
+				
+				var opType = "", anchorClassName = "";
+				if(clickedButton == "Follow" || clickedButton == "Unfollow"){
+					opType = "Follow";
+					anchorClassName = "follow";
+				}else if(clickedButton == "Add" || clickedButton == "Remove"){
+					opType = "Basket";
+					anchorClassName = "add-to-basket";
+				}else if(clickedButton == "Email"){
+					opType = "Share";
+					anchorClassName = "share";
+				}
+				
+				jQuery(".doc-list input[type='checkbox']:checked").each(function() {
+					var tmpHref = jQuery(this).parents(".doc").find("."+anchorClassName).attr('href');
+					selectedContentIds += glue + tmpHref.substring(tmpHref.indexOf(opType+"('")+(opType+"('").length, 
+																													tmpHref.indexOf(opType+"('")+(opType+"('").length+18);
+					glue = ",";
+				});
+				
+				if(clickedButton == "Follow"){
+					addToFollowMultiple(selectedContentIds);
+				}else if(clickedButton == "Unfollow"){
+					removeFromFollowMultiple(selectedContentIds);
+				}else if(clickedButton == "Add"){
+					addToBasketMultiple(selectedContentIds);
+				}else if(clickedButton == "Remove"){
+					removeFromBasketMultiple(selectedContentIds);
+				}else if(clickedButton == "Email"){
+					userMultipleShare(selectedContentIds);
+          userTryToShare(selectedContentIds);
+          showDialog('shareInfo');
+        }
+       	
+			}else if(clickedButton == "Download"){
+	  		var anchorClassName="download", opType = "DownloadCache", cacheIds = '', stringIds = '';
+	      var videoIds = Array();
+	      var docTotalSizeInB = 0;
+	      jQuery(".doc-list input[type='checkbox']:checked").each(function() {
+	      	var tmpHref = jQuery(this).parents(".doc").find("."+anchorClassName).attr('onclick');
+	      	if( tmpHref !== undefined && tmpHref.length != 0){
+						docId = tmpHref.substring(tmpHref.indexOf(opType+"('")+(opType+"('").length, 
+																													tmpHref.indexOf(opType+"('")+(opType+"('").length+18);
+						cacheIds = cacheIds + docId + glue;
+					}else{
+						docId = "";
+					}
+					
+					if(!jQuery(this).hasClass('videofile')){
+          	if(docId.length != 0){
+          		stringIds = stringIds +'/'+docId;
+          	}
+          } else {
+          	videoIds.push(tmpHref.substring(tmpHref.indexOf("videoId=")+8, tmpHref.length));
+          }
+          
+          docSize = jQuery(this).attr('name');
+	        docSizeInt = 0;
+					
+					if (docSize.toLowerCase().indexOf("kb") >= 0){
+            docSizeInt = parseInt(docSize.toLowerCase().replace('kb', ''));
+            if(!isNaN(docSizeInt)){
+            	docTotalSizeInB = docTotalSizeInB + (docSizeInt * 1024);
+            }
+          } else if (docSize.toLowerCase().indexOf("mb") >= 0){
+            docSizeInt = parseInt(docSize.toLowerCase().replace('mb', ''));
+            if(!isNaN(docSizeInt)){
+            	docTotalSizeInB = docTotalSizeInB + (docSizeInt * 1024 * 1024);                                 
+            }
+          }
+					
+					glue = ",";
+					
+					docTotalSizeInMB = (docTotalSizeInB/1024/1024);
+	      });
 	      
-        jQuery(document).ready(function() {
-        	calculateBoxHeight();
-            // init horizontal-slider
-            bindJs();
-            
-            jQuery('.horizontal-slider-container').scrollLeft(0);           
-            jQuery('.horizontal-slider').each(function(){
-				jQuery(this).find('.horizontal-slider-prev').css({'opacity': '0', 'visibility': 'hidden'});
-                dataContentWidth = jQuery(this).find('.horizontal-slider-content').size();
-                if(!isNaN(dataContentWidth)){
-                    totalWarpperWidth = dataContentWidth * jQuery(this).find('.horizontal-slider-content').first().outerWidth();
-                    jQuery(this).find('.horizontal-slider-content-wrapper').css('width', totalWarpperWidth);
-                }
+	      if(docTotalSizeInMB > 100){
+          var answer = confirm("Please confirm, that you you would like to download more then 100MB.");
+          if (!answer) {
+          	return;
+          }
+        }
+        
+        if(stringIds != '' && stringIds != null){
+       		var iframe = document.createElement('iframe');
+          iframe.style.width      = '1px';
+          iframe.style.height     = '1px';
+          iframe.style.visibility = 'hidden';
+          iframe.src              = '/sfc/servlet.shepherd/version/download' + stringIds;
+          jQuery(document.body).append(iframe);
+          /*if (jQuery(this).parents('.dialog').length != 0) {
+           dialogId = jQuery(this).parents('.dialog').attr('id');
+           if (dialogId.length != 0) {
+             hideDialog(dialogId);
+             if(jQuery(this).hasClass('showClearBasketPopup')){
+             	showDialog('confirmDelete');
+             }
+             dialog = jQuery(this).parents('.dialog');
+             dialog.find('input[type="text"]').val('');
+             dialog.find('input[type="checkbox"]').attr('checked', false);
+             jQuery('span.totalDownloadSizeValue', dialog).html('0.00');         
+             jQuery('span.totalDownloadTimeValue', dialog).html('0 second');
+           }
+          }*/
+       	}
+				
+				jQuery.each(videoIds, function(index, videoId){
+	        if(videoId.length != 0){
+	          //var videodesc = jQuery('div[id="'+videoId+'"] label').html();
+	          var videodesc = "";
+	          var videourl = '/apex/VideoDownload?videoid='+videoId+'&videodesc='+videodesc;                      
+	          window.open(videourl);
+	        }                   
+	      });
+	      if(cacheIds!= null && cacheIds != ''){
+	      	addToDownloadCache(cacheIds);
+	      }
+	      sectionVisibility();
+			}
+		}
+	}
+	/*****************************************************************************
+				END : NEED TO MOVE IN RF_JQueries, 'js/commonFunctions.js'
+	*****************************************************************************/
+	
+	// Action to perform JQ Tratnsformation
+	// *** NOTE : NO NEED OF THIS IF WE USE WHOLE (document).ready SCRIPT IN A SEPRATE METHOD, WILL USE THAT METHOD INSTEAD OF THIS
+	function jqTransformScript(){
+		jQuery("h2").jqTransform();
+		jQuery(".list-view").jqTransform();
+		jQuery(".filter").jqTransform();
+		jQuery(".doc-list .list-view .doc").jqTransform();
+		
+		jQuery(".doc-list input[type='checkbox']").change(function() {
+        setTimeout(function() {
+            if(jQuery(".doc-list input[type='checkbox']:checked").length > 0) {
+                jQuery(".operation-line a").removeClass("disabled");
+            }
+            else {
+                jQuery(".operation-line a").addClass("disabled");
+            }
+        }, 100);
+    });
+    jQuery(".setting-btn").click(function() {
+        var doc = jQuery(this).parent();
+        var btns = jQuery(this).parent().find(".doc-btns");
+        positionDocBtns(btns);
+        btns.toggle();
+    });
+    var positionDocBtns = function(btns) {
+        var doc = btns.parent().parent();
+        if(doc.hasClass("grid-view")) {
+            btns.css({
+                width: '100%',
+                right: 0,
+                bottom: jQuery(".info", doc).height() + 1
             });
-            // end of init
-    
-            // horizontal slider navigation
-            jQuery('.horizontal-slider-button').live('click', function(){
-                sliderHolder = jQuery(this).parents('.horizontal-slider');
-                if(sliderHolder.length != 0){
-                    slider = sliderHolder.find('.horizontal-slider-container');
-                    if(slider.length != 0){
-                        if(slider.find('.horizontal-slider-content').first().length != 0){
-                            if(sliderHolder.find('.horizontal-slider-navigation-button-active').length == 0){
-                                return;
-                            }
-                            scrollToPosition = slider.scrollLeft();
-                            buttonToActivate = null;
-                            if(jQuery(this).hasClass('horizontal-slider-prev')){
-                                if(sliderHolder.find('.horizontal-slider-navigation-button-active').prev('.horizontal-slider-navigation-button').length == 0){
-                                    return;
-                                }
-
-                                if(sliderHolder.find('.horizontal-slider-navigation-button-active').prev('.horizontal-slider-navigation-button').prev('.horizontal-slider-navigation-button').length == 0){
-                                    sliderHolder.find('.horizontal-slider-prev').stop().animate({'opacity': 0}, 500, function(){
-                                    	jQuery(this).css('visibility','hidden');
-                                    });
-                                } else {
-                                	sliderHolder.find('.horizontal-slider-next').css('visibility','');
-                                    sliderHolder.find('.horizontal-slider-next').stop().animate({'opacity': 1}, 500);
-                                }
-
-                                buttonToActivate = sliderHolder.find('.horizontal-slider-navigation-button-active').prev('.horizontal-slider-navigation-button');
-                                scrollToPosition -= slider.find('.horizontal-slider-content').first().outerWidth();
-                            } else if(jQuery(this).hasClass('horizontal-slider-next')){
-                                if(sliderHolder.find('.horizontal-slider-navigation-button-active').next('.horizontal-slider-navigation-button').length == 0){
-                                    return;
-                                }
-                                
-                                if(sliderHolder.find('.horizontal-slider-navigation-button-active').next('.horizontal-slider-navigation-button').next('.horizontal-slider-navigation-button').length == 0){
-                                    sliderHolder.find('.horizontal-slider-next').stop().animate({'opacity': 0}, 500, function(){
-                                    	jQuery(this).css('visibility','hidden');
-                                    });
-                                } else {
-                                	sliderHolder.find('.horizontal-slider-prev').css('visibility','');                                
-                                    sliderHolder.find('.horizontal-slider-prev').stop().animate({'opacity': 1}, 500);
-                                }
-
-                                buttonToActivate = sliderHolder.find('.horizontal-slider-navigation-button-active').next('.horizontal-slider-navigation-button');
-                                scrollToPosition += slider.find('.horizontal-slider-content').first().outerWidth();
-                            }
-							if(buttonToActivate.hasClass('mediaPage')){
-								renderAsBoxSlider();
-							}	else {
-								renderAsListSlider();
-							}    
-                            if(!slider.hasClass('scrolling') && buttonToActivate != null){                          
-                                slider.addClass('scrolling');
-                                sliderHolder.find('.horizontal-slider-navigation-button').removeClass('horizontal-slider-navigation-button-active');
-                                buttonToActivate.addClass('horizontal-slider-navigation-button-active');
-                                slider.animate({scrollLeft: scrollToPosition }, 600,function(){
-                                    jQuery(this).removeClass('scrolling');
-                                });
-                            }
-                        }
-                    }
-                }
-            });
-            jQuery('.horizontal-slider-navigation-button').live('click', function(){
-                sliderHolder = jQuery(this).parents('.horizontal-slider');
-				if(jQuery(this).hasClass('mediaPage')){
-					renderAsBoxSlider();
-				} else {
-					renderAsListSlider();
-				}             
-                if(sliderHolder.length != 0){
-                    slider = sliderHolder.find('.horizontal-slider-container');
-                    if(slider.length != 0){
-                        if(slider.find('.horizontal-slider-content').first().length != 0){
-                            scrollToPosition = jQuery(this).index()*jQuery(slider).find('.horizontal-slider-content').first().outerWidth();
-                            if(!slider.hasClass('scrolling')){
-                                slider.addClass('scrolling');
-                                sliderHolder.find('.horizontal-slider-navigation-button').removeClass('horizontal-slider-navigation-button-active');
-                                jQuery(this).addClass('horizontal-slider-navigation-button-active');
-                                
-                                if(sliderHolder.find('.horizontal-slider-navigation-button-active').next('.horizontal-slider-navigation-button').length == 0){
-                                    sliderHolder.find('.horizontal-slider-next').stop().animate({'opacity': 0}, 500, function(){
-                                    	jQuery(this).css('visibility','hidden');                                    
-                                    });
-                                } else {
-                                	sliderHolder.find('.horizontal-slider-next').css('visibility','');
-                                    sliderHolder.find('.horizontal-slider-next').stop().animate({'opacity': 1}, 500);
-                                }
-                                if(sliderHolder.find('.horizontal-slider-navigation-button-active').prev('.horizontal-slider-navigation-button').length == 0){
-                                    sliderHolder.find('.horizontal-slider-prev').stop().animate({'opacity': 0}, 500, function(){
-                                    	jQuery(this).css('visibility','hidden');
-                                    });
-                                } else {
-                                	sliderHolder.find('.horizontal-slider-prev').css('visibility','');
-                                    sliderHolder.find('.horizontal-slider-prev').stop().animate({'opacity': 1}, 500);
-                                }
-                                
-                                slider.animate({scrollLeft: scrollToPosition }, 600,function(){
-                                    jQuery(this).removeClass('scrolling');
-                                });
-                            }
-                        }
-                    }
-                }
-            });
-        });
-    </script> -->
+        }
+        else {
+            btns.css({
+                width: 200,
+                right: 80,
+                bottom: 20
+            })
+        }
+    }
+	}
+	</script>
+	<!-- END : New Script Added -->
+	
+	<!-- Start : New CSS Added -->
+	<style type="text/css">
+		.hidden {
+			display: none;
+		}
+		
+		div.sub-label {
+			margin-top: 10px;
+			margin-bottom: 5px;
+			font-size: 18px;
+			font-weight: bold;
+			clear: both;
+		}
+	</style>
+	<!-- End : New CSS Added -->
+	
+	<!-- Start : CSS Added for Share Dialog box -->
+	<style type="text/css">
+		div.moreInfoWrapper{
+			-webkit-box-shadow: 1px 1px 4px 4px rgba(0, 0, 0, 0.4);
+			-moz-box-shadow: 1px 1px 4px 4px rgba(0, 0, 0, 0.4);
+			box-shadow: 1px 1px 4px 4px rgba(0,0, 0, 0.4);
+			border: 1px solid #333333;	
+		}
+		
+		div.moreInfoDescriptionWrapper{
+			color:	#ffffff;
+			width: 465px;
+			height:	50px;
+		    font-family: Tahoma, Arial;
+			background: #606060; /* Old browsers */
+			background: -moz-linear-gradient(top, #606060 0%, #2d2d2d 100%); /* FF3.6+ */
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#606060), color-stop(100%,#2d2d2d)); /* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, #606060 0%,#2d2d2d 100%); /* Chrome10+,Safari5.1+ */
+			background: -o-linear-gradient(top, #606060 0%,#2d2d2d 100%); /* Opera11.10+ */
+			background: -ms-linear-gradient(top, #606060 0%,#2d2d2d 100%); /* IE10+ */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606060', endColorstr='#2d2d2d',GradientType=0 ); /* IE6-9 */
+			background: linear-gradient(top, #606060 0%,#2d2d2d 100%); /* W3C */
+		}
+		
+		div.moreInfoDescription{
+			margin:	14px;
+			float:	left;
+			font-size:	17px;
+			text-align:	left;
+			width:	400px;
+		}
+		
+		div.moreInfoDescription{
+			clear: both;
+		}
+		
+		div.moreInfoError{
+			background: #ffffff; /* Old browsers */
+		    font-family: Tahoma, Arial;	
+		}
+		
+		div.moreInfoClose {
+		    position: absolute;
+		    right:    12px;
+		    top:      12px;
+		    width:    25px;
+		    height:   25px;
+		    background: url("images/close.png") no-repeat scroll 50% 50% transparent;    
+			cursor: pointer;
+		}
+		
+		.close {
+			cursor: pointer;
+		}
+		
+		.errorMessagesList{
+		    padding:	10px;
+			margin:     0px;
+		    text-align: 	left;
+			font-weight: 	bold;
+			color: 			#dd0000;
+			list-style-type: none;
+			font-size: 		12px;
+		}
+		
+		div.moreInfoContentWrapper{
+			width: 465px;
+			color:	#000000;
+			text-align: center;
+		    font-family: Tahoma, Arial;	
+			background: #ffffff; /* Old browsers */
+			background: -moz-linear-gradient(top, #ffffff 0%, #e9e9e9 100%); /* FF3.6+ */
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e9e9e9)); /* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, #ffffff 0%,#e9e9e9 100%); /* Chrome10+,Safari5.1+ */
+			background: -o-linear-gradient(top, #ffffff 0%,#e9e9e9 100%); /* Opera11.10+ */
+			background: -ms-linear-gradient(top, #ffffff 0%,#e9e9e9 100%); /* IE10+ */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e9e9e9',GradientType=0 ); /* IE6-9 */
+			background: linear-gradient(top, #ffffff 0%,#e9e9e9 100%); /* W3C */	
+		}
+		
+		div.shareRecipientInformation {
+			text-align: left;
+			padding: 10px;
+			font-size: 15px;
+		 }
+		div.shareRecipientInformation  input{
+			background-color: #ffffff;
+			border: 1px solid #dfdfdf;
+			font-size: 12px;
+			font-family: Tahoma;
+			background: #ffffff; /* Old browsers */
+			background: -moz-linear-gradient(top, #efefef 0%, #ffffff 100%); /* FF3.6+ */
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, #efefef 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+			background: -o-linear-gradient(top, #efefef 0%,#ffffff 100%); /* Opera11.10+ */
+			background: -ms-linear-gradient(top, #efefef 0%,#ffffff 100%); /* IE10+ */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efefef', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+			background: linear-gradient(top, #efefef 0%,#ffffff 100%); /* W3C */
+			color: #575757;
+			font-weight: bold;
+		    padding: 8px;
+		    width: 425px;
+			margin-top: 10px;
+			margin-bottom: 20px;
+		}
+		
+		div.shareRecipientInformation  input[type=submit]{
+			text-transform:		   uppercase;
+		    text-decoration: none;
+			color:                 #FFFFFF;
+			font-weight:           bold;
+			border:                2px solid #8aa922;
+			background: #cae806; /* Old browsers */
+			background: -moz-linear-gradient(top, #cae806 0%, #a4b91f 100%); /* FF3.6+ */
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cae806), color-stop(100%,#a4b91f)); /* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, #cae806 0%,#a4b91f 100%); /* Chrome10+,Safari5.1+ */
+			background: -o-linear-gradient(top, #cae806 0%,#a4b91f 100%); /* Opera11.10+ */
+			background: -ms-linear-gradient(top, #cae806 0%,#a4b91f 100%); /* IE10+ */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cae806', endColorstr='#a4b91f',GradientType=0 ); /* IE6-9 */
+			background: linear-gradient(top, #cae806 0%,#a4b91f 100%); /* W3C */
+		    -webkit-border-radius: 2px;
+		    -moz-border-radius:    2px;
+		    border-radius:         2px;
+			cursor:	pointer;
+			padding: 5px;
+			font-size:11px;
+		    margin: 2px;
+			margin-right: 5px;
+		    width: 80px;
+		}
+		
+		div.shareRecipientInformation textarea{
+			background-color: #ffffff;
+			border: 1px solid #dfdfdf;
+			font-size: 12px;
+			font-family: Tahoma;
+			background: #ffffff; /* Old browsers */
+			background: -moz-linear-gradient(top, #efefef 0%, #ffffff 100%); /* FF3.6+ */
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, #efefef 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+			background: -o-linear-gradient(top, #efefef 0%,#ffffff 100%); /* Opera11.10+ */
+			background: -ms-linear-gradient(top, #efefef 0%,#ffffff 100%); /* IE10+ */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efefef', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+			background: linear-gradient(top, #efefef 0%,#ffffff 100%); /* W3C */
+			color: #575757;
+			font-weight: bold;
+		    padding: 8px;	
+			overflow: auto;
+			width: 425px;
+			height: 100px;
+			margin-top: 10px;
+			margin-bottom: 10px;	
+		}
+		
+		button.green  {
+			text-transform:		   uppercase;
+		    text-decoration: none;
+			color:                 #FFFFFF;
+			font-size:             15px;
+			font-weight:           bold;
+			border:                2px solid #8aa922;
+			background: #cae806; /* Old browsers */
+			background: -moz-linear-gradient(top, #cae806 0%, #a4b91f 100%); /* FF3.6+ */
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cae806), color-stop(100%,#a4b91f)); /* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, #cae806 0%,#a4b91f 100%); /* Chrome10+,Safari5.1+ */
+			background: -o-linear-gradient(top, #cae806 0%,#a4b91f 100%); /* Opera11.10+ */
+			background: -ms-linear-gradient(top, #cae806 0%,#a4b91f 100%); /* IE10+ */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cae806', endColorstr='#a4b91f',GradientType=0 ); /* IE6-9 */
+			background: linear-gradient(top, #cae806 0%,#a4b91f 100%); /* W3C */
+			color: #ffffff;
+		    -webkit-border-radius: 2px;
+		    -moz-border-radius:    2px;
+		    border-radius:         2px;
+			cursor:	pointer;
+			padding: 5px;
+			font-size:11px;
+		    margin: 2px;
+			margin-right: 5px;
+		}
+		
+		button.green.over{
+			text-transform:		   uppercase;
+		    text-decoration: none;
+			color:                 #FFFFFF;
+			font-size:             15px;
+			font-weight:           bold;
+			border:                2px solid #678701 !important;
+			background: #9cc105 !important; /* Old browsers */
+			background: -moz-linear-gradient(top,  #9cc105 0%, #678701 100%) !important; /* FF3.6+ */
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#9cc105), color-stop(100%,#678701)) !important; /* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top,  #9cc105 0%,#678701 100%) !important; /* Chrome10+,Safari5.1+ */
+			background: -o-linear-gradient(top,  #9cc105 0%,#678701 100%) !important; /* Opera 11.10+ */
+			background: -ms-linear-gradient(top,  #9cc105 0%,#678701 100%) !important; /* IE10+ */
+			background: linear-gradient(top,  #9cc105 0%,#678701 100%) !important; /* W3C */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9cc105', endColorstr='#678701',GradientType=0 ) !important; /* IE6-9 */
+			color: #ffffff;
+		    -webkit-border-radius: 2px;
+		    -moz-border-radius:    2px;
+		    border-radius:         2px;
+			cursor:	pointer;
+			padding: 5px;
+			font-size:11px;
+		    margin: 2px;
+			margin-right: 5px;
+		}
+		
+		.dialog {
+			position:		absolute;
+			top:			0px;
+			left:			0px;
+			z-index:		2001;
+		}
+	</style>
+	<!-- End : CSS Added for Share Dialog box -->
 </apex:page>

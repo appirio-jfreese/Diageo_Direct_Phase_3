@@ -58,5 +58,37 @@ public with sharing class DiageoUtils {
          return 0;
       }
     }
+    
+    // START : Changes For US585/TA1081	: Parul Gupta
+    public static List<SelectOption> getMonthOptions() {
+    	List<SelectOption> options = new List<SelectOption>();
+        options.add(new SelectOption('1','Jan'));
+        options.add(new SelectOption('2','Feb'));
+        options.add(new SelectOption('3','Mar'));
+        options.add(new SelectOption('4','Apr'));
+        options.add(new SelectOption('5','May'));
+        options.add(new SelectOption('6','Jun'));
+        options.add(new SelectOption('7','Jul'));
+        options.add(new SelectOption('8','Aug'));
+        options.add(new SelectOption('9','Sep'));
+        options.add(new SelectOption('10','Oct'));
+        options.add(new SelectOption('11','Nov'));
+        options.add(new SelectOption('12','Dec')); 
+        return options;
+    }
+    
+    public static List<SelectOption> getYearOptions(Integer startYear, 
+    								Integer totalYrs) {
+        List<SelectOption> options = new List<SelectOption>();
+        Integer year = startYear;
+        for(Integer index = 0; index < totalYrs; index++){
+        	options.add(new SelectOption(String.valueOf(year), 
+        				String.valueOf(year)));
+        	year++;
+        }       
+        return options;
+    }
+    // END : Changes For US585/TA1081	: Parul Gupta
+   
 	
 }

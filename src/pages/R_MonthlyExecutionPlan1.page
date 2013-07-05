@@ -7,8 +7,76 @@
         <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
         <script type="text/javascript">
             pageViewed('Home Page');
-            jQuery(document.body).addClass('mep-landing-page').addClass('mep-page');
-            
+            jQuery(document.body).addClass('isv-landing-page1').addClass('mep-page');
+            $j(document).ready(function() {
+            $j(".doc-list .list-view .doc").jqTransform();
+        $j(".filter").jqTransform();
+
+        $j(".include-select div").click(function() {
+            var div = $j(this);
+            var w = div.parent();
+            $j("ul", w).slideToggle();
+        });
+        $j(".include-select ul a input").click(function() {
+            $j(this).parent().trigger("click");
+            return false;
+        });
+        $j(".include-select ul a").click(function() {
+            var a = $j(this);
+            var check = $j("input", a);
+            var ul = a.closest("ul");
+            ul.slideUp();
+            if(check.prop("disabled")) return false;
+            var to = false;
+            if(check.prop("checked")) to = true;
+            check.prop("checked", to);
+            check.attr('checked',to);
+            //alert('to::'+to);
+            if(a.attr("index") == 0) {
+                $j("input", ul).eq(1).prop("checked", to);
+                $j("input", ul).eq(2).prop("checked", to);
+            }
+            return true;
+        });
+
+        $j(".calendar-head a.with-dropdown").click(function() {
+            var a = $j(this);
+            var d = a.closest(".calendar-head");
+            var p = $j(".popover", d);
+            p.css({
+                left: a.position().left - 60
+            }).show();
+        });
+        $j(".calendar-head .popover .close-btn, .calendar-head .popover .select-btn").click(function() {
+            $j(".calendar-head .popover").hide();
+        });
+
+        $j("#period-select").change(function() {
+            var s = $j(this);
+            var val = +$j("option:selected", s).val();
+            if(val === 1) {
+                location.href = 'monthly-execution-plan-landing.html';
+            }
+            else {
+                location.href = 'monthly-execution-plan-quarterly.html';
+            }
+        });
+        $j("#header-period-select").change(function() {
+            var s = $j(this);
+            var val = +$j("option:selected", s).val();
+            if(val === 1) {
+                location.href = 'monthly-execution-plan-click-header.html';
+            }
+            else {
+                location.href = 'monthly-execution-plan-click-header-quarterly.html';
+            }
+        })
+
+        $j(".desc-block").click(function() {
+            var link = $j(this).data("link");
+            window.location.href = link;
+        });
+        });
         </script>
 
 
@@ -33,10 +101,8 @@
                 </select>
                 -->
                 <c:R_selectList options="{!timePeriods}"  value="{!timePeriod}" onchange="refreshContent()" />
-               	<apex:outputPanel id="includePanel">
-               		<c:R_checkboxList width="150" options="{!themeOptions}" noOfOptions="{!noOfThemesAvailable}" onchange="refreshContent()" />
-			    </apex:outputPanel>        
-                <!--<div class="include-select jqTransformSelectWrapper" style="z-index: 9; width: 155px;">
+               	<c:R_checkboxList width="150" options="{!themeOptions}" noOfOptions="{!noOfThemesAvailable}" onchange="refreshContent()" />
+			    <!--<div class="include-select jqTransformSelectWrapper" style="z-index: 9; width: 155px;">
                     <div>
                         <span style="width: 115px;">Include</span>
                         <a href="javascript:;" class="jqTransformSelectOpen"></a>
@@ -68,7 +134,7 @@
                         </li>
                     </ul>
                 </div>-->
-                <a href="javascript:;" class="btn pdf-btn mep-bg right-btn">
+                <a href="{!pdfPath}" class="btn pdf-btn mep-bg right-btn">
                     <span>Download as PDF</span>
                 </a>
             </h2>
@@ -188,9 +254,10 @@
             	<apex:variable var="oddEven" value="{!'odd'}"/>
             	<apex:repeat value="{!calendarData[month.data][salesDriversToShow[3]]}" var="programData"> 
                     
-		            <div class="{!if(oddEven =='even' ,'desc-block light-blue-bg','desc-block green-bg')}" data-link="{!$Page.R_MEPDetails}">
-		                <h5>{!programData.label}</h5>
-		                <apex:outputtext escape="false" value="{!programData.description}"></apex:outputtext>
+		            <div class="{!if(oddEven =='even' ,'desc-block light-blue-bg','desc-block green-bg')}" data-link="{!$Page.R_MEPDetails}" >
+		            	<h5>{!programData.label}</h5>
+		                <p>{!programData.description}</p>
+		               
 		            </div>
 		   			 <apex:variable var="oddEven" value="{!if(oddEven == 'odd','even','odd')}"/>
 			
@@ -212,6 +279,4 @@
     <a href="product-images-and-logos.html" class="btn">Logo</a>
     <a href="product-images-and-logos.html" class="btn">Family Shots</a>
 </div>
- 
- 
 </apex:page>

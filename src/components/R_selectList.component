@@ -4,7 +4,7 @@
     <apex:attribute name="noOfOptions" description="Number of options available" type="Integer" required="false"/>
     <apex:attribute name="value" description="Value of select list" type="string" required="false"/>
     <apex:attribute name="onchange" description="Onchange function name" type="string" required="false"/>
-
+    
    	<apex:attribute name="width" description="Width" type="string" required="false"/>
    	<apex:attribute name="darkTheme" description="Theme" type="Boolean" required="false" default="false"/>
 	<apex:attribute name="slim" description="Slim" type="Boolean" required="false" default="false"/>
@@ -16,13 +16,13 @@
 
     <apex:variable value="{!randomId}" var="selectId"/>
 	<apex:outputPanel rendered="{!bindToController}" >
-	    <apex:selectList value="{!value}" onchange="{!onchange}" size="1" style="width:217">
+	    <apex:selectList id="period-select" value="{!value}" onchange="{!onchange}" size="1" style="width:217">
 	   	    <apex:selectOptions value="{!options}"/>
 	   	</apex:selectList>
 	</apex:outputPanel>
 
 	<apex:outputPanel rendered="{!NOT(bindToController)}" >
-		<select onchange="{!onchange}" size="1" class="hidden orgSelect-{!selectId}">
+		<select  onchange="{!onchange}" size="1" class="hidden orgSelect-{!selectId}">
 	    	<apex:repeat value="{!options}" var="option">
 	    		<apex:outputPanel rendered="{!IF(option['value'] == value, 'true','false')}">
 	   	    		<option value="{!option['value']}" selected="selected">{!option["label"]}</option>

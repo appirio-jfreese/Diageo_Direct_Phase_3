@@ -38,7 +38,8 @@ Story/Task  : US585/TA1082
     <apex:attribute name="editableIds" description="Set of follow ids" type="String" required="false" assignTo="{!editableIdsString}"/>
     
     <!-- Start : Changes for US585/TA1082 - Basant Verma -->
-    <apex:attribute name="responsivePage" description="responsive Page" type="Boolean" required="false" default="true" />
+    <apex:attribute name="responsivePage" description="for responsive Pages" type="Boolean" required="false" default="true" />
+    <apex:attribute name="pageNamePrefix" description="for responsive Pages" type="String" required="false" default="mep" />
     <!-- End : Changes for US585/TA1082 - Basant Verma -->
     <!-- BOX VIEW --> 
     <!-- Start : Changes for US585/TA1082 - Basant Verma -->
@@ -442,7 +443,8 @@ Story/Task  : US585/TA1082
     <apex:outputPanel rendered="{!responsivePage}">
     	<div class="doc">
 				<div class="info">
-						<apex:image url="{!URLFOR($Resource.CommonPage, 'images/transparent.gif')}" styleClass="file-ico32 ico-{!fileType1}"/>
+						<!-- <apex:image url="{!URLFOR($Resource.Responsive_Base, 'i/'+fileType1+'-icon-big.png')}"/> -->
+						<apex:image url="{!URLFOR($Resource.Responsive_Base, 'i/txt-icon-big.png')}"/>
  						<div class="desc">
  							<apex:outputPanel rendered="{!AND(extraDescription!='', extraDescription!=null)}">          
               	<a class="title" target="_blank" href="#">{!extraDescription}</a> 
@@ -483,17 +485,23 @@ Story/Task  : US585/TA1082
 							</apex:outputPanel>
 							
 							<apex:outputPanel rendered="{!isVideo1==true}">
-								<span onclick="addToDownloadCache('{!cvid1}');">
-									<apex:outputPanel rendered="{! IF (isIpadComponent = false, 'true', 'false') }">
-										<a class="title" target="_blank" href="{!$Page.Preview}?videoId={!videoId1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
-									</apex:outputPanel> 
-									<apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = false) }">
-										<div class="title">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</div>
-									</apex:outputPanel>
-									<apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = true) }">
-										<a class="title" target="_blank" href="{!$Page.Preview}?videoId={!videoId1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
-									</apex:outputPanel>
-								</span>
+								<apex:outputPanel rendered="{! IF(renderAsList1 != true, 'true', 'false')}">
+									<c:videoPlayer videoId="{!videoId1}" width="{!IF(ISNULL(width1), '255', width1)}" height="{!IF(ISNULL(height1), '145', text(value(height1)-22))}"/>
+								</apex:outputPanel>
+								
+								<apex:outputPanel rendered="{! IF(renderAsList1 != true, 'false', 'true')}">
+									<span onclick="addToDownloadCache('{!cvid1}');">
+										<apex:outputPanel rendered="{! IF (isIpadComponent = false, 'true', 'false') }">
+											<a class="title" target="_blank" href="{!$Page.Preview}?videoId={!videoId1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
+										</apex:outputPanel> 
+										<apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = false) }">
+											<div class="title">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</div>
+										</apex:outputPanel>
+										<apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = true) }">
+											<a class="title" target="_blank" href="{!$Page.Preview}?videoId={!videoId1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
+										</apex:outputPanel>
+									</span>
+								</apex:outputPanel>
 							</apex:outputPanel>
 							<br/>
 							<span class="time">
@@ -513,7 +521,7 @@ Story/Task  : US585/TA1082
  						</div>
 				</div>
 				<apex:outputPanel rendered="{!if(showButons != false, 'true','false')}">
-	      	<div class="doc-btns mep-bg">
+	      	<div class="doc-btns {!pageNamePrefix}-bg">
 						<!-- START DOWNLOAD ICONS -->
       			<apex:outputPanel rendered="{!AND(isVideo1==true, NOT(ISNULL(videoId1)))}">
 	            <a href="{!$Page.VideoDownload}?videoId={!videoId1}&videodesc={!URLENCODE(description)}" class="download" target="_blank"></a>
@@ -590,10 +598,12 @@ Story/Task  : US585/TA1082
 						</apex:outputPanel>
 						<!-- END LAUNCH LINK -->
 	      	</div>
-		      <a href="javascript:;" class="mep-bg setting-btn">
+		      <a href="javascript:;" class="{!pageNamePrefix}-bg setting-btn">
 		     		<span></span>
 					</a>
-					<input type="checkbox"/>
+					<apex:outputPanel rendered="{!NOT(AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1=='LINK'))}">
+						<input type="checkbox" class="{!IF(isVideo1==true, 'videofile','')} {!IF(fileType1=='LINK', 'linkfile','')}" name="{! IF (fileSize1 != null, fileSize1, '0kb')}"/>
+					</apex:outputPanel>
 				</apex:outputPanel>
 			</div>
     </apex:outputPanel>

@@ -111,6 +111,8 @@ global public without sharing virtual class Controller_Base {
         
     public String myuserAgent{get;set;}
     public Boolean isIpad{get;set;}
+    public String selectedMonth {get; set;}
+    public String selectedYear {get; set;}
     public Boolean isInternalUser {
 	    get{
 	    	if (isInternalUser == null) {
@@ -359,6 +361,11 @@ global public without sharing virtual class Controller_Base {
 		cIsVideo   = false;
 		cShareLink = null;
 		cShareLinkLow = null;
+		
+		// START : Changes For US585/TA1081	: Parul Gupta
+		selectedMonth = String.valueOf(System.today().month());
+        selectedYear = String.valueOf(System.today().year());
+        // END : Changes For US585/TA1081	: Parul Gupta
     }
     
     public List<SelectOption> getNumberOfItemsPerPageList() {
@@ -1298,4 +1305,49 @@ global public without sharing virtual class Controller_Base {
 	 		protected set;
 	 	}
 	 	// END : Changes For US495/DE600 : Basant Kumar Verma
+	 
+	// START : Changes For US585/TA1081	: Parul Gupta
+	// Utility methods for Responsive month/year popover section
+    public List<SelectOption> getMonthOptions() {    	
+        return DiageoUtils.getMonthOptions();
+    }
+    
+    public List<SelectOption> getYearOptions() {       
+        return DiageoUtils.getYearOptions(2003, 20);
+    }
+   
+	public PageReference popOverPrevious(){  	
+    	if(selectedYear != null){
+    		if(selectedMonth == '1'){
+    			selectedMonth = '12';
+    			if(selectedYear != null){
+    				selectedYear = String.valueOf(Integer.valueOf(selectedYear) - 1);
+    			}
+    		}else{
+    			selectedMonth = String.valueOf(Integer.valueOf(selectedMonth) - 1);
+    		}
+    	}
+    	return null;
+    }
+    
+    public PageReference popOverNext(){
+    	if(selectedMonth != null){  
+	    	if(selectedMonth == '12'){
+	    		selectedMonth = '1';
+	    		if(selectedYear != null){
+	    			selectedYear = String.valueOf(Integer.valueOf(selectedYear) + 1);
+	    		}
+	    	}else{
+	    		selectedMonth = String.valueOf(Integer.valueOf(selectedMonth) + 1);
+	    	}
+    	}
+    	return null;
+    }
+    
+    public PageReference setTodayDate(){
+    	selectedMonth = String.valueOf(System.today().month());
+        selectedYear = String.valueOf(System.today().year());
+    	return null;
+    }
+    // END : Changes For US585/TA1081	
 }

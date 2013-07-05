@@ -7,6 +7,7 @@
 			var bChecked = false;
 			var i=0;
 			jQuery("."+childClass).each(function() {
+			//alert('in subop :'+jQuery(this).prop('checked'));
     		if(jQuery(this).is(':checked')){
     			bIndeterminate = true
 			  	if(!bChecked && i == 0)
@@ -33,6 +34,7 @@
 					parentCheckBoxId = jQuery(this).attr('id');
 					jQuery(this).prop('indeterminate',bIndeterminate);
 					jQuery(this).prop('checked',bChecked);
+					//alert('in subop _P:'+jQuery(this).prop('checked'));
 				});
 			}
 			
@@ -48,6 +50,7 @@
 			
 			jQuery("."+childClass).each(function() {
     			jQuery(this).prop('checked',bChecked);
+    			//alert('in p :'+jQuery(this).prop('checked'));
 			});
 			
 			if(calledOnClick)
@@ -61,6 +64,16 @@
 				subOptionChange(allChildClasses[i], false);
 			}
 		}
+		/*$j(document).ready(function() {
+		//* Add a new handler for the reset action 
+		var jqTransformReset = function(f){
+			alert('in jqTransformReset@@@ '+f);
+			var sel;
+			$('.jqTransformSelectWrapper select', f).each(function(){sel = (this.selectedIndex<0) ? 0 : this.selectedIndex; $('ul', $(this).parent()).each(function(){$('a:eq('+ sel +')', this).click();});});
+			$('a.jqTransformCheckbox, a.jqTransformRadio', f).removeClass('jqTransformChecked');
+			$('input:checkbox, input:radio', f).each(function(){if(this.checked){ alert('in reset');$('a', $(this).parent()).addClass('jqTransformChecked');}});
+		};
+		});*/
 		
 	</script>
 	<!-- END : For US85/TA910 -->
@@ -77,12 +90,15 @@
         </div>
         <ul style="width: 153px; display: none; visibility: visible; overflow-y: auto;">
         	<apex:variable var="ind" value="{!0}"/>
-        	
+        	<script>
+        		console.log('{!themeOptions}');
+        	</script>
         	<apex:repeat value="{!themeOptions}" var="option">
    				<li>
-                 <a href="#" index="{!CEILING(ind)}">
-                      <apex:inputCheckbox styleClass="{!option.name}_P noTransform" value="{!option.chosen}" disabled="{!option.disabled}" onclick="parentOptionChange('{!option.name}', true)" /> {!option.name}
-                 </a>
+                 <a href="#" onclick="javascript:;" index="{!CEILING(ind)}">
+                        <apex:inputCheckbox styleClass="{!option.name}_P noTransform" value="{!option.chosen}" disabled="{!option.disabled}" onclick="parentOptionChange('{!option.name}', true)" /> {!option.name}
+                     <!-- <input type="checkbox" class="{!option.name}_P noTransform" value="{!option.chosen}" disabled="{!option.disabled}" onclick="parentOptionChange('{!option.name}', true)" /> {!option.name}
+                 --></a>
              	</li>
              	<apex:repeat value="{!option.subOptions}" var="subOp">
              		<apex:variable var="ind" value="{!ind+1}"/>
