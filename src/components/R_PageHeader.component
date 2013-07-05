@@ -1,5 +1,5 @@
 <!-----------------------------------------------------------------------------------------------------------------
-Name        : PageHeader.component
+Name        : R_PageHeader.component
 
 Created By  : Randy Wandell (Appirio)
 Date        : 6/25/13
@@ -57,10 +57,10 @@ Story/Task  : US585/TA1082
                         <span class="name">
                             {!$User.FirstName} {!$User.LastName}<br/>
                             <span class="dropdown">
-                                <a href="{!$Page.R_UserProfile}">User Profile</a>
-                                <a href="{!$Page.R_DownloadHistory}">Download History</a>
-                                <a href="{!$Page.R_ShareHistory}">Share History</a>
-                                <a href="{!$Page.R_FollowedItems}">Followed Items</a>
+                                <a href="{!$Page.R_UserProfile}">User&nbsp;Profile</a>
+                                <a href="{!$Page.R_DownloadHistory}">Download&nbsp;History</a>
+                                <a href="{!$Page.R_ShareHistory}">Share&nbsp;History</a>
+                                <a href="{!$Page.R_FollowedItems}">Followed&nbsp;Items</a>
                                 <a href="{!$Site.Prefix}/secur/logout.jsp">{!$Label.site.logout}</a>
                             </span>
                         </span>
@@ -68,24 +68,34 @@ Story/Task  : US585/TA1082
                         <span class="company">{!distributorBreadcrumbString}</span>
 
                     </div>
-                    <div class="avatar-wrapper">
-                        <a href="/_ui/core/userprofile/UserProfilePage" class="avatar"><apex:image value="{!avatarUrl}"/></a>
-                    </div>
+                    <apex:outputPanel rendered="{!showAvatar}">
+                        <div class="avatar-wrapper">
+                            <a href="/_ui/core/userprofile/UserProfilePage" class="avatar"><apex:image value="{!avatarUrl}"/></a>
+                        </div>
+                    </apex:outputPanel>
                 </div>
-                <div id="currentBasketItemsNo" class="icons">
-                    <a href="{!$Page.R_Basket}" class="cart">
-                        {!basketItemsNumber}
-                    </a>
-                    <a href="javascript:;" class="fav">
-                        {!followItemsNo}
-                    </a>
+                <div class="icons">
+                		<!-- Start Changes for US585/TA1082 - Basant Verma (OffShore) {Just added outputPanel and it's Id so we can rerender it after AJAX actionFunction Call}-->
+                		<apex:outputPanel id="currentBasketItemsNo">
+	                    <a href="{!$Page.R_Basket}" class="cart">
+	                        {!basketItemsNumber}
+	                    </a>
+                    </apex:outputPanel>
+                    <apex:outputPanel id="currentFollowedItemsNo">
+	                    <a href="javascript:;" class="fav">
+	                        {!followItemsNo}
+	                    </a>
+                    </apex:outputPanel>
+                    <!-- End Changes for US585/TA1082 - Basant -->
                 </div>
             </div>
-            <div id="SFDC_link">
-	            <a href="{!$Label.SalesforceHomePage}" class="gotoSF">
-	                <strong>Go To Salesforce</strong>
-	            </a>
-	        </div>
+            <apex:outputPanel rendered="{!showAvatar}">
+                <div id="SFDC_link">
+		            <a href="{!$Label.SalesforceHomePage}" class="gotoSF">
+		                <strong>Go To Salesforce</strong>
+		            </a>
+    	        </div>
+            </apex:outputPanel>
             <div class="clear"></div>
             <div id="logo_buttons_search" class="row clearfix">
                 <a href="{!$Page.R_HomePage}" class="logo">
