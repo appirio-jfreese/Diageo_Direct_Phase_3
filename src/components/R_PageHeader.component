@@ -57,10 +57,14 @@ Story/Task  : US585/TA1082
                         <span class="name">
                             {!$User.FirstName} {!$User.LastName}<br/>
                             <span class="dropdown">
-                                <a href="{!$Page.R_UserProfile}">User&nbsp;Profile</a>
+                                <!-- <a href="{!$Page.R_UserProfile}">User&nbsp;Profile</a>
                                 <a href="{!$Page.R_DownloadHistory}">Download&nbsp;History</a>
                                 <a href="{!$Page.R_ShareHistory}">Share&nbsp;History</a>
-                                <a href="{!$Page.R_FollowedItems}">Followed&nbsp;Items</a>
+                                <a href="{!$Page.R_FollowedItems}">Followed&nbsp;Items</a> -->
+                                <a href="javascript:;">User&nbsp;Profile</a>
+                                <a href="javascript:;">Download&nbsp;History</a>
+                                <a href="javascript:;">Share&nbsp;History</a>
+                                <a href="javascript:;">Followed&nbsp;Items</a>
                                 <a href="{!$Site.Prefix}/secur/logout.jsp">{!$Label.site.logout}</a>
                             </span>
                         </span>
