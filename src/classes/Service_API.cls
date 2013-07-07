@@ -1,33 +1,38 @@
-/**
-*
-* Updated By  : Basant Verma (Appirio Offshore)   
-* Date        : 6/25/13
-* Story/Task  : US615/TA1067
-*
-* Updated By  : Basant Verma (Appirio Offshore)   
-* Date        : 6/14/13
-* Story/Task  : US503/TA1011
-*
-* Updated By  : Basant Verma (Appirio Offshore)   
-* Date        : 6/13/13
-* Story/Task  : US85/DE576-DE583 
-*
-* Updated By  : Basant Verma (Appirio Offshore)   
-* Date        : 5/27/13
-* Story/Task  : US79/DE565 
-*
-* Updated By  : Basant Verma (Appirio Offshore)   
-* Date        : 6/31/13
-* Story/Task  : US503/TA906/TA907/TA908
-*   
-* Updated By  : Basant Verma (Appirio Offshore)   
-* Date        : 5/27/13
-* Story/Task  : US85/TA910
-* 
-* @author Denise Bacher
-* @date 29/08/2011
-* @description Static API class, makes calls to data base to retrieve information
-*/
+/*****************************************************************************************
+Name        : R_Service_API.cls
+
+Created By  : Denise Bacher
+Date        : 8/29/2011
+Description : Static API class, makes calls to data base to retrieve information
+
+Updated By  : Basant Verma (Appirio Offshore)   
+Date        : 6/25/13
+Story/Task  : US615/TA1067
+
+Updated By  : Basant Verma (Appirio Offshore)   
+Date        : 6/14/13
+Story/Task  : US503/TA1011
+
+Updated By  : Basant Verma (Appirio Offshore)   
+Date        : 6/13/13
+Story/Task  : US85/DE576-DE583 
+
+Updated By  : Basant Verma (Appirio Offshore)   
+Date        : 5/27/13
+Story/Task  : US79/DE565 
+
+Updated By  : Basant Verma (Appirio Offshore)   
+Date        : 6/31/13
+Story/Task  : US503/TA906/TA907/TA908
+  
+Updated By  : Basant Verma (Appirio Offshore)   
+Date        : 5/27/13
+Story/Task  : US85/TA910
+
+Updated By  : Jonathan Freese (Appirio)   
+Date        : 7/7/13
+Story/Task  : US614/TA1068
+*****************************************************************************************/
 
 public without sharing class Service_API {
     public class Service_APIException  extends Exception{}
@@ -60,7 +65,10 @@ public without sharing class Service_API {
 				if((userAgent != null && !userAgent.trim().equals('') && 
     			(userAgent.containsIgnoreCase('Android') || userAgent.containsIgnoreCase('iOS') || 
     			userAgent.containsIgnoreCase('webOS') || userAgent.containsIgnoreCase('iPhone') || 
-    			userAgent.containsIgnoreCase('iPad') || userAgent.containsIgnoreCase('iPod') || 
+    			// Start : Changes for US614/TA1068 - Jonathan Freese - disable iPad at client request
+    			// userAgent.containsIgnoreCase('iPad') ||
+    			// End   : Changes for US645/TA1068 - Jonathan Freese
+    			userAgent.containsIgnoreCase('iPod') || 
     			userAgent.containsIgnoreCase('BlackBerry')))
     			|| (ApexPages.currentPage().getUrl().indexOf('R_MonthlyExecutionPlan') > -1)){
     				return true;
