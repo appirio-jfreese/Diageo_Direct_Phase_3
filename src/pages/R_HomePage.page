@@ -142,6 +142,24 @@ Story/Task	: US584
                 </div>
                 -->
 
+                <!--  Add link to full site as a tab per client request, with two blank tabs to the right -->
+                
+                <div class="column default">
+                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-4.png')}"/>
+                    <a class="dark-blue" href="{!$Page.HomePage}">Full Site</a>
+                </div>
+
+                <div class="column default">
+                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-5.png')}"/>
+                    <a class="dark-blue" href="javascript:;">&nbsp;</a>
+                </div>
+
+                <div class="column last default">
+                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-6.png')}"/>
+                    <a class="dark-blue" href="javascript:;">&nbsp;</a>
+                </div>
+
+
             </div>
 
         </div>
