@@ -164,27 +164,26 @@ Story/Task	: US584
 
         </div>
     </div>
-
     <div class="ads">
         <apex:outputPanel rendered="{!if(isInternalUser, 'true', 'false')}" >        
-            <a href="/idp/login?app={!ssoId}&RelayState={!hexDiageowines}" target="_blank" onclick="pageViewed('Home Page - diageo_wines2.png');">
-                <apex:image url="{!URLFOR($Resource.HomePage, 'images/diageo_wines2.png')}"/>
+            <a class="ad ad3" href="/idp/login?app={!ssoId}&RelayState={!hexDiageowines}" target="_blank" onclick="pageViewed('Home Page - diageo_wines2.png');">
+                <!-- <apex:image url="{!URLFOR($Resource.HomePage, 'images/diageo_wines2.png')}"/> -->
             </a>
-            <a href="/idp/login?app={!ssoId}&RelayState={!hexDwsacademies}" target="_blank" onclick="pageViewed('Home Page - diageo_ways2.png');">
-                <apex:image url="{!URLFOR($Resource.HomePage, 'images/diageo_ways2.png')}"/>
+            <a class="ad ad1" href="/idp/login?app={!ssoId}&RelayState={!hexDwsacademies}" target="_blank" onclick="pageViewed('Home Page - diageo_ways2.png');">
+                <!-- <apex:image url="{!URLFOR($Resource.HomePage, 'images/diageo_ways2.png')}"/> -->
             </a>
-            <a href="http://v6.diageonac.com" target="_blank" onclick="pageViewed('Home Page - national_accounts2.png');">
-                <apex:image url="{!URLFOR($Resource.HomePage, 'images/national_accounts2.png')}"/>
+            <a class="ad ad2" href="http://v6.diageonac.com" target="_blank" onclick="pageViewed('Home Page - national_accounts2.png');">
+                <!-- <apex:image url="{!URLFOR($Resource.HomePage, 'images/national_accounts2.png')}"/> -->
             </a>
-            <a href="http://www.diageodrinks.com" target="_blank" onclick="pageViewed('Home Page - diageo_drinks2.png');">
-                <apex:image url="{!URLFOR($Resource.HomePage, 'images/diageo_drinks2.png')}"/>
+            <a class="ad ad6" href="http://www.diageodrinks.com" target="_blank" onclick="pageViewed('Home Page - diageo_drinks2.png');">
+                <!-- <apex:image url="{!URLFOR($Resource.HomePage, 'images/diageo_drinks2.png')}"/> -->
             </a>
-            <a href="{!$Page.R_CodesPolicies}" onclick="pageViewed('Home Page - code_policies2.png');">
-                <apex:image url="{!URLFOR($Resource.HomePage, 'images/code_policies2.png')}"/>
+            <a class="ad ad5" href="{!$Page.R_CodesPolicies}" onclick="pageViewed('Home Page - code_policies2.png');">
+                <!-- <apex:image url="{!URLFOR($Resource.HomePage, 'images/code_policies2.png')}"/> -->
             </a>
-            <a href="http://www.diageosmartbrand.com" target="_blank" onclick="pageViewed('Home Page - smart_brand2.png');">
-                <apex:image url="{!URLFOR($Resource.HomePage, 'images/smart_brand2.png')}"/>
-            </a>
+            <a class="ad ad4" style="margin-right: 0;" href="http://www.diageosmartbrand.com" target="_blank" onclick="pageViewed('Home Page - smart_brand2.png');">
+                <!-- <apex:image url="{!URLFOR($Resource.HomePage, 'images/smart_brand2.png')}"/> -->
+            </a>           
         </apex:outputPanel>
         <apex:outputPanel rendered="{{!if(isInternalUser, 'false', 'true')}" >
             <apex:outputPanel rendered="{!if(innovationSectionName,'true','false')}" >
@@ -210,8 +209,8 @@ Story/Task	: US584
                 <apex:image url="{!URLFOR($Resource.HomePage, 'images/codes_policies.png')}"/>
             </a>
         </apex:outputPanel>
+        
     </div>
-
     <c:R_pageFooter isInternal="{!isInternalUser }" />
 </div>
 <!-- <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/HomePageJQ.js')}"></script>
