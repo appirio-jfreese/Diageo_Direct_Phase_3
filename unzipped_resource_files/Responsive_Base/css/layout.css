@@ -186,8 +186,14 @@ a.jqTransformChecked {
 
 .wrapper {
     max-width: 955px;
+    
+    /*deleted the following two rows in "2013-06-30 general updates"*/
+    border-left: 1px solid #B3A89C;
+    border-right: 1px solid #B3A89C;
+    
+    /*added the following two rows in "2013-06-30 general updates"
     border: 1px solid #B3A89C;
-    border-top: 0;
+    border-top: 0; */
     background: #fff;
     margin: 0 auto;
     padding: 10px;
