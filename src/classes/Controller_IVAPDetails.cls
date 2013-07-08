@@ -133,6 +133,9 @@ public with sharing class Controller_IVAPDetails extends Controller_Base {
     }
     
     public override void refreshPageContent() {
+    	// START : Changes for US585/TA1082 - Basant Verma
+    	detailsMapOrder = new list<String>();
+    	// END : Changes for US585/TA1082 - Basant Verma
     	/*
     	Modified by Rahul Chitkara
     	Appirio Jaipur
@@ -202,7 +205,7 @@ public with sharing class Controller_IVAPDetails extends Controller_Base {
 		}
 		currentBasketIds = Service_Basket.getBasketIds();
 		currentFollowIds = Service_Notification.getFollowIds();
-    }
+		}
     
     public void renderAsListSlider() {
     	displayAsList = true; // other action if needed
