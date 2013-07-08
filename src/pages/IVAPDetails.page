@@ -122,7 +122,9 @@ Name				: IVAPDetails.page
 								</apex:outputPanel>
 
 											<apex:outputPanel id="sliderContentItemsBxLs">
+												<apex:variable value="{!1}" var="totalSec"/>		
 												<apex:repeat value="{!detailsMapOrder}" var="silderSection">
+													<apex:variable value="{!totalSec + 1}" var="totalSec"/>
 													<div class="horizontal-slider-content">
 														<!-- slider section -->
 														<apex:outputPanel rendered="{!if(detailsMapSize[silderSection] != 0, 'true','false')}">

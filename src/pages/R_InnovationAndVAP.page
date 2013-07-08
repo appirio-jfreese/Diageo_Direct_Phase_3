@@ -127,16 +127,19 @@ Story/Task	: US503/TA1011
         <!-- content -->
         <div class="content clearfix">
 		<apex:form >
-		<apex:actionFunction name="refreshContent" action="{!refreshContent}" rerender="ivap_information" status="ajax-status" /> 
-		<apex:actionFunction name="selectSalesDriver" action="{!selectSalesDriver}" rerender="ivap_information" status="ajax-status">
+		<apex:actionFunction name="refreshContent" action="{!refreshContent}" rerender="ivap_information" status="ajax-status" onComplete="loadCalenderJs();" /> 
+		<apex:actionFunction name="selectSalesDriver" action="{!selectSalesDriver}" rerender="ivap_information" status="ajax-status" onComplete="loadCalenderJs();">
 			<apex:param name="salesDriver" assignTo="{!salesDriver}" value="" />
 		</apex:actionFunction>
-		<apex:actionFunction name="setStartDateValue" action="{!setStartDateValue}" rerender="ivap_information" status="ajax-status">
+		<apex:actionFunction name="setStartDateValue" action="{!setStartDateValue}" rerender="ivap_information" status="ajax-status" onComplete="loadCalenderJs();">
 		<apex:param name="startFromDate" assignTo="{!startFromDate}" value="" />
 			</apex:actionFunction>
-		<apex:actionFunction name="nextMonth" action="{!nextMonth}" rerender="ivap_information" status="ajax-status"/>
-		<apex:actionFunction name="previousMonth" action="{!previousMonth}" rerender="ivap_information" status="ajax-status"/>	
-			
+		<apex:actionFunction name="nextMonth" action="{!nextMonth}" rerender="ivap_information" status="ajax-status" onComplete="loadCalenderJs();"/>
+		<apex:actionFunction name="previousMonth" action="{!previousMonth}" rerender="ivap_information" status="ajax-status" onComplete="loadCalenderJs();"/>	
+		<apex:actionFunction name="popoverPrev" action="{!popOverPrevious}" rerender="popoverPanel" onComplete="loadCalenderJs();"/>                  
+        <apex:actionFunction name="popoverNext" action="{!popOverNext}" rerender="popoverPanel" onComplete="loadCalenderJs();"/>
+       	<apex:actionFunction name="setTodayDate" action="{!setTodayDate}" rerender="popoverPanel" onComplete="loadCalenderJs();"/>
+       	
         <!-- BREADCRUMB -->
         <apex:outputPanel id="beadcrumblinks">
             <c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
@@ -144,37 +147,9 @@ Story/Task	: US503/TA1011
 			
             <h2 class="with-select">
                 <span class="title">Innovation, Sustainovation  &amp; VAP</span>
-                <!--<select id="period-select">
-                    <option>Monthly View</option>
-                    <option>Quarterly View</option>
-                    <option>6 Month View</option>
-                    <option>12 Month View</option>
-                </select>
-                -->	
                 <c:R_selectList options="{!timePeriods}"  value="{!timePeriod}" onchange="refreshContent()" />
                 <c:R_checkboxList width="150" options="{!themeOptions}" noOfOptions="{!noOfThemesAvailable}" onchange="refreshContent()" />
-			    
-                <!--<div class="include-select jqTransformSelectWrapper" style="z-index: 9; width: 135px;">
-                    <div>
-                        <span style="width: 115px;">Include</span>
-                        <a href="javascript:;" class="jqTransformSelectOpen"></a>
-                    </div>
-                    <ul style="width: 133px; display: none; visibility: visible; overflow-y: auto;">
-                        <li>
-                            <a href="#" index="0">
-                                <input type="checkbox" class="noTransform"/>
-                                Spirits
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" index="3">
-                                <input type="checkbox" class="noTransform" disabled="true" checked="true"/>
-                                Wine
-                            </a>
-                        </li>
-                    </ul>
-                </div>-->
-                <a href="{!pdfPath}" class="btn pdf-btn isv-bg right-btn">
+			    <a href="{!pdfPath}" class="btn pdf-btn isv-bg right-btn">
                     <span>Download as PDF</span>
                 </a>
             </h2>
@@ -185,43 +160,7 @@ Story/Task	: US503/TA1011
             
             <apex:outputPanel id="ivap_information" styleClass="{!if(timePeriod == 1,'','isv-quarterly-page')}">
             	<apex:outputPanel rendered="{!if(timePeriod ==1 ,true,false)}"  >
-            		<!--  START :: Calendar-Head -->
-            		<div class="calendar-head">
-		                <a href="javascript:void(0);" onclick="previousMonth();" class="prev isv-bg">
-		                    <span></span>
-		                </a>          
-	                	<a href="javascript:void(0);" class="date with-dropdown">{!months[0].name}</a>               
-		                <a href="javascript:void(0);" onclick="nextMonth();" class="next isv-bg">
-		                    <span></span>
-		                </a>
-	                
-	                	<!--  START :: Popover Section -->
-	                	<div class="popover">
-	                	<apex:outputPanel id="popoverPanel">
-	                	
-	                    	<div class="select">
-	                        	<a href="javascript:void(0);" onclick="popoverPrev();" class="">Prev</a>
-	                        	<apex:selectList value="{!selectedMonth}" size="1">
-		   	    					<apex:selectOptions value="{!monthOptions}"/>
-		   						</apex:selectList>
-		   						<apex:selectList value="{!selectedyear}" size="1">
-		   	    					<apex:selectOptions value="{!yearOptions}"/>
-		   						</apex:selectList>                      
-	                        	<a href="javascript:void(0);" onclick="popoverNext();">Next</a>
-	                    	</div>
-	                    	<div class="buttons">
-	                        	<a href="javascript:;" class="isv-bg " onclick="setTodayDate();">Today</a>
-	                        	<a href="javascript:;" class="isv-bg close-btn">Close</a>
-	                        	<a href="javascript:;" class="isv-bg select-btn" 
-	                        	onclick="setStartDateValue('{!selectedYear}' + '-' + '{!selectedMonth}' + '-01');">
-	                        	Select
-	                        	</a>
-	                    	</div>
-	                	</apex:outputPanel>
-	                	</div>
-	                	<!--  END :: Popover Section -->
-		            </div>
-            		<!--  END :: Calendar-Head -->
+            		<c:R_CalendarHead monthName="{!months[0].name}" selYear="{!selectedyear}" selMonth="{!selectedMonth}" pageCls="isv-bg"/>
             	</apex:outputPanel>
 				
 			<!-- Start :: General Updates  -->
@@ -253,13 +192,13 @@ Story/Task	: US503/TA1011
 			<!-- END :: General Updates  -->
 			
             <!--  START :: plans-header Section - displayed for timePeriod != Monthly -->
-				<apex:outputPanel rendered="{!timePeriod > 1}" layout="block" styleClass = "plans plans-header no-spirits" >                               
+				<apex:outputPanel rendered="{!timePeriod > 1}" layout="block" styleClass = "{!if(salesDriversToShowCount > 1,'plans plans-header no-spirits','plan-header')}" >                               
 		            	<apex:variable var="counter" value="{!1}"/>
 			            <apex:repeat value="{!salesDriversToShow}" var="salesdrivername">
 			            	
 			            	<apex:outputPanel rendered="{!salesDriversToShowCount==1}">
 				            	<div class="plan">
-				                <a href="{!$Page.R_InnovationAndVAP}" class="isv-bg btn">Back</a>
+				                <a href="javascript:void(0);" onclick="selectSalesDriver('All');return false;"  class="isv-bg btn">Back</a>
 				                <span>{!salesdrivername}</span>
 			            	</div>
 			            	</apex:outputPanel>
@@ -280,54 +219,24 @@ Story/Task	: US503/TA1011
             	<!--  END :: plans-header Section - displayed for timePeriod != Monthly -->
             
 				<!--  START :: Months Loop -->
-				<apex:repeat value="{!months}" var="month">          
-            		
-            		<apex:outputPanel rendered="{!if(timePeriod >1 ,true,false)}" layout="block" styleClass="calendar-head "  >
-            		<!--  START :: Calendar-Head  
-            		<div class="calendar-head">-->
-		                <a href="javascript:void(0);" onclick="previousMonth();" class="prev isv-bg">
-		                    <span></span>
-		                </a>          
-	                	<a href="javascript:void(0);" class="date with-dropdown">{!month.name}</a>               
-		                <a href="javascript:void(0);" onclick="nextMonth();" class="next isv-bg">
-		                    <span></span>
-		                </a>
-	                
-	                	<!--  START :: Popover Section -->
-	                	<div class="popover">
-	                	<apex:outputPanel id="popoverPanel">
-	                	
-	                    	<div class="select">
-	                        	<a href="javascript:void(0);" onclick="popoverPrev();" class="">Prev</a>
-	                        	<apex:selectList value="{!selectedMonth}" size="1">
-		   	    					<apex:selectOptions value="{!monthOptions}"/>
-		   						</apex:selectList>
-		   						<apex:selectList value="{!selectedyear}" size="1">
-		   	    					<apex:selectOptions value="{!yearOptions}"/>
-		   						</apex:selectList>                      
-	                        	<a href="javascript:void(0);" onclick="popoverNext();">Next</a>
-	                    	</div>
-	                    	<div class="buttons">
-	                        	<a href="javascript:;" class="isv-bg " onclick="setTodayDate();">Today</a>
-	                        	<a href="javascript:;" class="isv-bg close-btn">Close</a>
-	                        	<a href="javascript:;" class="isv-bg select-btn" 
-	                        	onclick="setStartDateValue('{!selectedYear}' + '-' + '{!selectedMonth}' + '-01');">
-	                        	Select
-	                        	</a>
-	                    	</div>
-	                	</apex:outputPanel>
-	                	</div>
-	                	<!--  END :: Popover Section -->
-		            	<!--</div>
-            		   END :: Calendar-Head -->
+				<apex:variable var="calMnth" value="{!selectedMonth}"/>
+				<apex:variable var="calYr" value="{!selectedyear}"/>
+				<apex:variable var="mnthCounter" value="{!1}"/>
+				
+				<apex:repeat value="{!months}" var="month">
+					<apex:outputPanel rendered="{!if(timePeriod >1 ,true,false)}" >          
+            			<c:R_CalendarHead monthName="{!month.name}" selYear="{!calMnth}" selMonth="{!calMnth}" pageCls="isv-bg"/>
+            			<apex:variable var="calMnth" value="{!VALUE(calMnth)+1}"/>
+            			<apex:variable var="calYr" value="{!IF(VALUE(selectedMonth)+mnthCounter == 12, VALUE(calYr)+1,calYr)}"/>
+            			<apex:variable var="mnthCounter" value="{!mnthCounter+1}"/>
             		</apex:outputPanel>
             		
             		<!--  START :: Main Salesdriver data Section -->
-		            <div class="plans {!IF(timePeriod != 1,'quaterly-plans','')} no-spirits">
+		            <div class="{!if(salesDriversToShowCount > 1,'plans no-spirits','')} {!IF(timePeriod != 1,'quaterly-plans','')} ">
 		            <apex:variable var="counter" value="{!1}"/>
 		            <apex:variable var="itemcount" value="{!1}"/>
 		            <apex:variable var="monthName" value="{!month.name}"/>
-		            
+	            	
 		            <apex:repeat value="{!salesDriversToShow}" var="salesdrivername">
 		            
 		            	<apex:outputPanel rendered="{!salesDriversToShowCount == 1}">
@@ -356,7 +265,7 @@ Story/Task	: US503/TA1011
 			                </h3>
 		                    <apex:repeat value="{!calendarData[month.data][salesdrivername]}" var="programData">
 		                    	<apex:outputPanel rendered="{!timePeriod == 1}">
-			            			<div align="center" style="1px solid #B9B8B8; width: 145px; height: 77px; {!programData.styleBackgroundColor}{!programData.styleTextColor}; cursor: pointer; " onClick="window.location='{!detailPagePath}&id={!programData.id}'">
+			            			<div align="center" style="1px solid #B9B8B8; width: 180px; height: 77px; {!programData.styleBackgroundColor}{!programData.styleTextColor}; cursor: pointer; " onClick="window.location='{!detailPagePath}&id={!programData.id}'">
 									<div style="{!programData.styleBackgroundImage} background-repeat: none; {!IF(isCalendarThemeMixed, 'background-size: 116px 36px;', 'background-size: 145px 45px;')} width: 145px; height: 45px;"></div>
 									<div style="height: 10px; width: 145px;"></div>
 										<a class="p" href="#" style="">{!programData.label}</a>
@@ -377,109 +286,6 @@ Story/Task	: US503/TA1011
 		                      
             	</apex:repeat>
 				<!--  END :: Months Loop -->
-				
-				
-            	<!--<div id="monthly-view">
-            	
-		            <div class="plans no-spirits">
-		            <apex:repeat value="{!months}" var="month">
-		                <apex:repeat value="{!salesDriversToShow}" var="program">
-		                <div class="plan {!IF(lastItem == program,'last','')}">
-		                    <h3 class="isv-bg {!IF(lastItem == program,'two-lines','')}">
-		                        <a href="innovation-click-header.html">{!program}</a>
-		                    </h3>
-							<apex:repeat value="{!calendarData[month.data][program]}" var="programData">
-								<div align="center" style="1px solid #B9B8B8; width: 180px; height: 77px; {!programData.styleBackgroundColor}{!programData.styleTextColor}; cursor: pointer; " onClick="window.location='{!detailPagePath}&id={!programData.id}'">
-								<div style="{!programData.styleBackgroundImage} background-repeat: none; {!IF(isCalendarThemeMixed, 'background-size: 116px 36px;', 'background-size: 145px 45px;')} width: 145px; height: 45px;"></div>
-								<div style="height: 10px; width: 145px;"></div>
-									<a class="p" href="" style="">{!programData.label}</a>
-								</div>
-								<div style="width: 145px; height: 2px;"></div>
-							</apex:repeat>
-							<apex:variable var="displayCalendar" value="{!0}"/>
-		
-		                </div>
-		                </apex:repeat>
-		            </apex:repeat>
-		
-		            </div>
-        		</div>-->
-                    
-	            <!--<div id="quarterly-view" style="display: none;">
-					<div class="plans plans-header no-spirits">
-						<apex:repeat value="{!salesDriversToShow}" var="program">
-						<div class="plan {!IF(lastItem == program,'last','')}">
-							<h3 class="isv-bg {!IF(lastItem == program,'two-lines','')}">
-								<a href="innovation-click-header.html">{!program}</a>
-							</h3>
-						</div>
-						</apex:repeat>
-					</div>
-	
-					<apex:repeat value="{!months}" var="month">
-	            		<div class="calendar-head">
-			                <a href="javascript:;" class="date">{!month.name}</a>
-						</div>
-						  START :: Calendar-Head 
-	            		<div class="calendar-head">
-			                <a href="javascript:void(0);" onclick="previousMonth();" class="prev isv-bg">
-			                    <span></span>
-			                </a>          
-		                	<a href="javascript:void(0);" class="date with-dropdown">{!month.name}</a>               
-			                <a href="javascript:void(0);" onclick="nextMonth();" class="next isv-bg">
-			                    <span></span>
-			                </a>
-		                
-		                	  START :: Popover Section 
-		                	<div class="popover">
-		                	<apex:outputPanel id="popoverPanel">
-		                	
-		                    	<div class="select">
-		                        	<a href="javascript:void(0);" onclick="popoverPrev();" class="">Prev</a>
-		                        	<apex:selectList value="{!selectedMonth}" size="1">
-			   	    					<apex:selectOptions value="{!monthOptions}"/>
-			   						</apex:selectList>
-			   						<apex:selectList value="{!selectedyear}" size="1">
-			   	    					<apex:selectOptions value="{!yearOptions}"/>
-			   						</apex:selectList>                      
-		                        	<a href="javascript:void(0);" onclick="popoverNext();">Next</a>
-		                    	</div>
-		                    	<div class="buttons">
-		                        	<a href="javascript:;" class="isv-bg " onclick="setTodayDate();">Today</a>
-		                        	<a href="javascript:;" class="isv-bg close-btn">Close</a>
-		                        	<a href="javascript:;" class="isv-bg select-btn" 
-		                        	onclick="setStartDateValue('{!selectedYear}' + '-' + '{!selectedMonth}' + '-01');">
-		                        	Select
-		                        	</a>
-		                    	</div>
-		                	</apex:outputPanel>
-		                	</div>
-		                	  END :: Popover Section 
-	               
-	            		</div>
-	            		  END :: Calendar-Head 
-						<div class="plans quaterly-plans no-spirits">
-	                    <apex:repeat value="{!salesDriversToShow}" var="program">
-	                    	<apex:variable var="itemInList" value="{!1}"/>
-	                    	<div class="plan {!IF(lastItem == program,'last','')}" style="width: 183px;">
-	                    	<apex:repeat value="{!calendarData[month.data][program]}" var="programData">
-	                    		<h3 class="two-lines isv-bg" href="innovation-click-header.html">Integrated National Program</h3>
-	 							<div align="center" style="1px solid #B9B8B8; width: 183px; height: 40px; {!programData.styleBackgroundColor}{!programData.styleTextColor}; cursor: pointer; " onClick="window.location='{!detailPagePath}&id={!programData.id}'">
-								<div style="width: 116px; height: 3px;"></div>
-								<div style=" width: 136px; height: 10px;"></div>
-								
-									<a class="p" href="" style="1px solid #B9B8B8; width: 183px; height: 40px; {!programData.styleBackgroundColor}{!programData.styleTextColor}; cursor: pointer; " onClick="window.location='{!detailPagePath}&id={!programData.id}'">{!programData.label}</a>
-	 							</div>
-								<div style="width: 136px; height: 5px;"></div>
-								
-								<apex:variable var="itemInList" value="{!itemInList + 1}"/>
-							</apex:repeat>
-							</div>
-	                    </apex:repeat>
-	                    </div>					
-					</apex:repeat>
-				</div>-->
-            <!-- END OF QUARTERLY VIEW -->
 			</apex:outputPanel>
 
             <div class="clear"></div>
@@ -500,21 +306,7 @@ Story/Task	: US503/TA1011
 	pageViewed('Innovation, Sustainovation and VAP');
 	
 	// Load Calender JS (Picked from script.js)
-	function loadCalenderJs(){
-		jQuery(".doc-list .list-view .doc").jqTransform();
-	    jQuery(".filter").jqTransform();
-		jQuery(".calendar-head a.with-dropdown").click(function() {
-	    	var a = jQuery(this);
-	        var d = a.closest(".calendar-head");
-	        var p = jQuery(".popover", d);
-	        p.css({
-	                left: a.position().left - 60
-	        }).show();
-	    });
-	    jQuery(".calendar-head .popover .close-btn, .calendar-head .popover .select-btn").click(function() {
-	        jQuery(".calendar-head .popover").hide();
-	    });
-    }
+	
     jQuery(document).ready(function() {
 		loadCalenderJs();
 	});	

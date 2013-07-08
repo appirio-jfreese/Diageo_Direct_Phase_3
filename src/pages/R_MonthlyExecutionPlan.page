@@ -2,18 +2,18 @@
 Name        : R_MonthlyExecutionPlan.page
 Modified By : Parul Gupta (Appirio OffShore)
 Description : Integrated Responsive design with existing MEP functionality
-Date		: 6/28/13
-Story/Task	: US585/TA1081
+Date        : 6/28/13
+Story/Task  : US585/TA1081
 ------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_MonthlyExecutionPlan">
 <div class="wrapper">
-	<div class="container">
+    <div class="container">
     
     <!-- PAGE HEADER -->
-	<c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" /> <!--thisAvatarURL="{!avatarUrl}"-->
+    <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" /> <!--thisAvatarURL="{!avatarUrl}"-->
     
     <script type="text/javascript">
-    	pageViewed('Monthly Execution Plan');			
+        pageViewed('Monthly Execution Plan');           
     </script>
                 
         <!-- CONTENT -->
@@ -21,213 +21,166 @@ Story/Task	: US585/TA1081
        
         <!--  BREADCRUMB -->
         <apex:outputPanel id="beadcrumblinks">
-        	<c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
+            <c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
         </apex:outputPanel>
-        	
-        	<apex:form >
-		     
-		     	<!--  START :: ACTION FUNCTIONS -->
-		     	
+            
+            <apex:form >
+             
+                <!--  START :: ACTION FUNCTIONS -->
+                
                 <apex:actionFunction name="refreshContent" action="{!refreshContent}" 
-                	onComplete="loadCalenderJs();" rerender="downloadPanel, mepData, beadcrumblinks" /> 
+                    onComplete="loadCalenderJs();" rerender="downloadPanel, mepData, beadcrumblinks" /> 
                 <apex:actionFunction name="selectSalesDriver" action="{!selectSalesDriver}" 
-                	onComplete="loadCalenderJs();" rerender="downloadPanel, mepData, beadcrumblinks" >
-                	<apex:param name="salesDriver" assignTo="{!salesDriver}" value="" />
+                    onComplete="loadCalenderJs();" rerender="downloadPanel, mepData, beadcrumblinks" >
+                    <apex:param name="salesDriver" assignTo="{!salesDriver}" value="" />
                 </apex:actionFunction>
                 <apex:actionFunction name="setStartDateValue" action="{!setStartDateValue}" rerender="downloadPanel, mepData, beadcrumblinks" onComplete="loadCalenderJs();">
                     <apex:param name="startFromDate" assignTo="{!startFromDate}" value="" />
                 </apex:actionFunction>
                 <apex:actionFunction name="nextMonth" action="{!nextMonth}" rerender="downloadPanel, mepData, beadcrumblinks" onComplete="loadCalenderJs();"/>                  
                 <apex:actionFunction name="previousMonth" action="{!previousMonth}" rerender="downloadPanel, mepData, beadcrumblinks" onComplete="loadCalenderJs();"/>
-            	<apex:actionFunction name="popoverPrev" action="{!popOverPrevious}" rerender="popoverPanel" onComplete="loadCalenderJs();"/>                  
+                <apex:actionFunction name="popoverPrev" action="{!popOverPrevious}" rerender="popoverPanel" onComplete="loadCalenderJs();"/>                  
                 <apex:actionFunction name="popoverNext" action="{!popOverNext}" rerender="popoverPanel" onComplete="loadCalenderJs();"/>
-            	<apex:actionFunction name="setTodayDate" action="{!setTodayDate}" rerender="popoverPanel" onComplete="loadCalenderJs();"/>
+                <apex:actionFunction name="setTodayDate" action="{!setTodayDate}" rerender="popoverPanel" onComplete="loadCalenderJs();"/>
        
                 <!--  END :: ACTION FUNCTIONS -->    
-	            <h2 class="with-select">
-	            	<span class="title">Monthly Execution Plan</span>    
-	            	
-	            	<!--  TIME PERIOD SELECT SECTION -->      
-	            	<c:R_selectList options="{!timePeriods}"  value="{!timePeriod}" onchange="refreshContent()" /> 
-	            	
-	            	<!--  INCLUDE SELECT SECTION -->         
-	            	<c:R_checkboxList width="150" options="{!themeOptions}" noOfOptions="{!noOfThemesAvailable}" onchange="refreshContent()" />
-	            	
-	            	<!-- DOWNLOAD SECTION  -->
-	            	<apex:outputPanel id="downloadPanel">	            	
-		            	<a href="{!pdfPath}" target="new" class="btn pdf-btn mep-bg right-btn">
-		                    <span>Download as PDF</span>
-		            	</a>
-	            	</apex:outputPanel>	            	
-	            </h2>
-	            
-	            <!--  START :: mepData PAGEBLOCK -->
-				<apex:pageBlock id="mepData">
+                <h2 class="with-select">
+                    <span class="title">Monthly Execution Plan</span>    
+                    
+                    <!--  TIME PERIOD SELECT SECTION -->      
+                    <c:R_selectList options="{!timePeriods}"  value="{!timePeriod}" onchange="refreshContent()" /> 
+                    
+                    <!--  INCLUDE SELECT SECTION -->         
+                    <c:R_checkboxList width="150" options="{!themeOptions}" noOfOptions="{!noOfThemesAvailable}" onchange="refreshContent()" />
+                    
+                    <!-- DOWNLOAD SECTION  -->
+                    <apex:outputPanel id="downloadPanel">                   
+                        <a href="{!pdfPath}" target="new" class="btn pdf-btn mep-bg right-btn">
+                            <span>Download as PDF</span>
+                        </a>
+                    </apex:outputPanel>                 
+                </h2>
+                
+                <!--  START :: mepData PAGEBLOCK -->
+                <apex:pageBlock id="mepData">
            
-           		<!--  START :: plans-header Section - displayed for timePeriod != Monthly -->
-				<apex:outputPanel rendered="{!timePeriod != 1}">                               
-		            <div class="plans plans-header">
-		            	<apex:variable var="counter" value="{!1}"/>
-			            <apex:repeat value="{!salesDriversToShow}" var="salesdrivername">
-			            	
-			            	<apex:outputPanel rendered="{!salesDriversToShowCount==1}">
-				            	<div class="plan-header">
-				                <a href="javascript:void(0);" onclick="selectSalesDriver('All');return false;" class="mep-bg btn">Back</a>
-				                <span>{!salesdrivername}</span>
-			            	</div>
-			            	</apex:outputPanel>
-			            	 
-			            	<apex:outputPanel rendered="{!salesDriversToShowCount!=1}">          
-				                <div class="plan {!IF(counter == salesDriversToShowCount,'last','')}">
-					            	<h3 class="{!IF(counter == 1, 'two-lines', '')} mep-bg">                  
-						            	<a href="javascript:void(0);" onclick="selectSalesDriver('{!salesdrivername}');">                     
-						                   {!salesdrivername}                        
-						                </a>
-						            </h3>					                    
-					                <apex:variable var="counter" value="{!counter + 1}"/>              
-				                </div>
-			                </apex:outputPanel>              
-		            	</apex:repeat>
-	            	</div>
-				</apex:outputPanel>
-            	<!--  END :: plans-header Section - displayed for timePeriod != Monthly -->
+                <!--  START :: plans-header Section - displayed for timePeriod != Monthly -->
+                <apex:outputPanel rendered="{!timePeriod != 1}">                               
+                    <div class="plans plans-header">
+                        <apex:variable var="counter" value="{!1}"/>
+                        <apex:repeat value="{!salesDriversToShow}" var="salesdrivername">
+                            
+                            <apex:outputPanel rendered="{!salesDriversToShowCount==1}">
+                                <div class="plan-header">
+                                <a href="javascript:void(0);" onclick="selectSalesDriver('All');return false;" class="mep-bg btn">Back</a>
+                                <span>{!salesdrivername}</span>
+                            </div>
+                            </apex:outputPanel>
+                             
+                            <apex:outputPanel rendered="{!salesDriversToShowCount!=1}">          
+                                <div class="plan {!IF(counter == salesDriversToShowCount,'last','')}">
+                                    <h3 class="{!IF(counter == 1, 'two-lines', '')} mep-bg">                  
+                                        <a href="javascript:void(0);" onclick="selectSalesDriver('{!salesdrivername}');">                     
+                                           {!salesdrivername}                        
+                                        </a>
+                                    </h3>                                       
+                                    <apex:variable var="counter" value="{!counter + 1}"/>              
+                                </div>
+                            </apex:outputPanel>              
+                        </apex:repeat>
+                    </div>
+                </apex:outputPanel>
+                <!--  END :: plans-header Section - displayed for timePeriod != Monthly -->
             
-            	<apex:variable var="displayCalendar" value="{!1}"/>           
+                <apex:variable var="aselYear" value="{!selectedyear}"/>
+                <apex:variable var="aselMonth" value="{!selectedMonth}"/>
+                
+                <apex:variable var="displayCalendar" value="{!1}"/>           
             
-	            <!--  START :: Months Loop -->
-				<apex:repeat value="{!months}" var="month">          
-            		
-            		<!--  START :: Calendar-Head -->
-            		<div class="calendar-head">
-		                <a href="javascript:void(0);" onclick="previousMonth();" class="prev mep-bg">
-		                    <span></span>
-		                </a>          
-	                	<a href="javascript:void(0);" class="date with-dropdown">{!month.name}</a>               
-		                <a href="javascript:void(0);" onclick="nextMonth();" class="next mep-bg">
-		                    <span></span>
-		                </a>
-	                
-	                	<!--  START :: Popover Section -->
-	                	<div class="popover">
-	                	<apex:outputPanel id="popoverPanel">
-	                	
-	                    	<div class="select">
-	                        	<a href="javascript:void(0);" onclick="popoverPrev();" class="">Prev</a>
-	                        	<apex:selectList value="{!selectedMonth}" size="1">
-		   	    					<apex:selectOptions value="{!monthOptions}"/>
-		   						</apex:selectList>
-		   						<apex:selectList value="{!selectedyear}" size="1">
-		   	    					<apex:selectOptions value="{!yearOptions}"/>
-		   						</apex:selectList>                      
-	                        	<a href="javascript:void(0);" onclick="popoverNext();">Next</a>
-	                    	</div>
-	                    	<div class="buttons">
-	                        	<a href="javascript:;" class="mep-bg " onclick="setTodayDate();">Today</a>
-	                        	<a href="javascript:;" class="mep-bg close-btn">Close</a>
-	                        	<a href="javascript:;" class="mep-bg select-btn" 
-	                        	onclick="setStartDateValue('{!selectedYear}' + '-' + '{!selectedMonth}' + '-01');">
-	                        	Select
-	                        	</a>
-	                    	</div>
-	                	</apex:outputPanel>
-	                	</div>
-	                	<!--  END :: Popover Section -->
-               
-            		</div>
-            		<!--  END :: Calendar-Head -->
-            		
-            		<!--  START :: Main Salesdriver data Section -->
-		            <div class="plans {!IF(timePeriod != 1,'quaterly-plans','')}">
-		            <apex:variable var="counter" value="{!1}"/>
-		            
-		            <apex:repeat value="{!salesDriversToShow}" var="salesdrivername">
-		            
-		            	<apex:outputPanel rendered="{!salesDriversToShowCount == 1}">
-		            		<apex:outputPanel rendered="{!timePeriod == 1}">
-			            	<div class="plan-header">
-			                <a href="javascript:void(0);" onclick="selectSalesDriver('All');return false;" class="mep-bg btn">Back</a>
-			                <span>{!salesdrivername}</span>
-		            		</div>
-		            		</apex:outputPanel>
-		            		<apex:variable var="oddEven" value="{!'odd'}"/>                                                     
-			                <apex:repeat value="{!calendarData[month.data][salesdrivername]}" var="programData">
-			                    	<div class="{!if(oddEven =='even' ,'desc-block light-blue-bg','desc-block green-bg')}" onClick="window.location='{!detailPagePath}&id={!programData.id}'">
-					                	<h5>{!programData.label}</h5>
-					                	<p><apex:outputtext escape="false" value="{!programData.description}"></apex:outputtext></p>
-					            		</div>  
-					            		<apex:variable var="oddEven" value="{!if(oddEven == 'odd','even','odd')}"/> 
-					        </apex:repeat>
-		            	</apex:outputPanel> 
-		            	
-		            	<apex:outputPanel rendered="{!salesDriversToShowCount != 1}">
-		                <div class="plan {!IF(counter == salesDriversToShowCount,'last','')}" >		                    
-		                    <h3 class="{!IF(counter == 1, 'two-lines', '')} mep-bg">                  
-			                	<a href="javascript:void(0);" onclick="selectSalesDriver('{!salesdrivername}')">                    
-			                    	{!salesdrivername}                       
-			                    </a>
-			                </h3>
-		                  
-		                    <apex:repeat value="{!calendarData[month.data][salesdrivername]}" var="programData">		                    					                    
-				            	
-				            	<div align="center" 
-				                 style="background-color:#b9b8b8; width: 180px; {!IF(timePeriod == 1,'height: 77px;', '')} {!programData.styleBackgroundColor}{!programData.styleTextColor}; cursor: pointer; " 
-				                 onClick="window.location='{!detailPagePath}&id={!programData.id}'">								
-									<apex:outputPanel rendered="{!timePeriod == 1}">
-										<div style="{!programData.styleBackgroundImage} background-repeat: none; width: 145px; height: 45px;"></div>
-										<div style="height: 10px; width: 145px;"></div>
-									</apex:outputPanel>
-									<a class="p" href="" style="">{!programData.label}</a>
-								</div>
-								<div style="width: 145px; height: 2px;"></div>								
-																			                    
-			                </apex:repeat>		                    
-		                    <apex:variable var="counter" value="{!counter + 1}"/>
-		                </div>
-		                </apex:outputPanel>
-		                
-		            </apex:repeat>
-		            </div>
-		            <!--  END :: Main Salesdriver data Section -->
-		                      
-            	<apex:variable var="displayCalendar" value="{!0}"/>
-	            </apex:repeat>
-				<!--  END :: Months Loop -->
+                <!--  START :: Months Loop -->
+                <apex:repeat value="{!months}" var="month">          
+                    
+                    
+                    <c:R_CalendarHead monthName="{!month.name}" pageCls="mep-bg" selYear="{!aselYear}" selMonth="{!aselMonth}"/> 
+                     
+                    <!--  START :: Main Salesdriver data Section -->
+                    <div class="plans {!IF(timePeriod != 1,'quaterly-plans','')}">
+                    <apex:variable var="counter" value="{!1}"/>
+                    
+                    <apex:repeat value="{!salesDriversToShow}" var="salesdrivername">
+                    
+                        <apex:outputPanel rendered="{!salesDriversToShowCount == 1}">
+                            <apex:outputPanel rendered="{!timePeriod == 1}">
+                            <div class="plan-header">
+                            <a href="javascript:void(0);" onclick="selectSalesDriver('All');return false;" class="mep-bg btn">Back</a>
+                            <span>{!salesdrivername}</span>
+                            </div>
+                            </apex:outputPanel>
+                            <apex:variable var="oddEven" value="{!'odd'}"/>                                                     
+                            <apex:repeat value="{!calendarData[month.data][salesdrivername]}" var="programData">
+                                    <div class="{!if(oddEven =='even' ,'desc-block light-blue-bg','desc-block green-bg')}" onClick="window.location='{!detailPagePath}&id={!programData.id}'">
+                                        <h5>{!programData.label}</h5>
+                                        <p><apex:outputtext escape="false" value="{!programData.description}"></apex:outputtext></p>
+                                        </div>  
+                                        <apex:variable var="oddEven" value="{!if(oddEven == 'odd','even','odd')}"/> 
+                            </apex:repeat>
+                        </apex:outputPanel> 
+                        
+                        <apex:outputPanel rendered="{!salesDriversToShowCount != 1}">
+                        <div class="plan {!IF(counter == salesDriversToShowCount,'last','')}" >                         
+                            <h3 class="{!IF(counter == 1, 'two-lines', '')} mep-bg">                  
+                                <a href="javascript:void(0);" onclick="selectSalesDriver('{!salesdrivername}')">                    
+                                    {!salesdrivername}                       
+                                </a>
+                            </h3>
+                          
+                            <apex:repeat value="{!calendarData[month.data][salesdrivername]}" var="programData">                                                                    
+                                
+                                <div align="center" 
+                                 style="background-color:#b9b8b8; width: 180px; {!IF(timePeriod == 1,'height: 77px;', '')} {!programData.styleBackgroundColor}{!programData.styleTextColor}; cursor: pointer; " 
+                                 onClick="window.location='{!detailPagePath}&id={!programData.id}'">                                
+                                    <apex:outputPanel rendered="{!timePeriod == 1}">
+                                        <div style="{!programData.styleBackgroundImage} background-repeat: none; width: 145px; height: 45px;"></div>
+                                        <div style="height: 10px; width: 145px;"></div>
+                                    </apex:outputPanel>
+                                    <a class="p" href="" style="">{!programData.label}</a>
+                                </div>
+                                <div style="width: 145px; height: 2px;"></div>                              
+                                                                                                
+                            </apex:repeat>                          
+                            <apex:variable var="counter" value="{!counter + 1}"/>
+                        </div>
+                        </apex:outputPanel>
+                        
+                    </apex:repeat>
+                    </div>
+                    <!--  END :: Main Salesdriver data Section -->
+                              
+                <apex:variable var="displayCalendar" value="{!0}"/>
+                <apex:variable var="aselYear" value="{!IF((VALUE(aselMonth) + 1) == 13,VALUE(aselYear) + 1,VALUE(aselYear))}" />
+                <apex:variable var="aselMonth" value="{!IF((VALUE(aselMonth) + 1) == 13, 1, VALUE(aselMonth) + 1)}"/>
+                             
+                </apex:repeat>
+                <!--  END :: Months Loop -->
             
-				</apex:pageBlock>
-            	<!--  END :: mepData PAGEBLOCK -->
-            	                     
-			</apex:form>
-			
+                </apex:pageBlock>
+                <!--  END :: mepData PAGEBLOCK -->
+                                     
+            </apex:form>
+            
         </div> <!-- END Content Div -->
         
     </div> <!-- END Container Div -->
 
-	<!--  PAGE FOOTER --> 
+    <!--  PAGE FOOTER --> 
     <c:R_pageFooter isInternal="{!isInternalUser }" />
 </div> <!-- END Wrapper Div -->
 
 <script type="text/javascript">
-	jQuery(document.body).addClass('mep-landing-page').addClass('mep-page').addClass('mep-quarterly-page');
-	
-	// Load Calender JS (Picked from script.js)
-	function loadCalenderJs(){
-		jQuery(".doc-list .list-view .doc").jqTransform();
-	    jQuery(".filter").jqTransform();
-		jQuery(".calendar-head a.with-dropdown").click(function() {
-	    	var a = jQuery(this);
-	        var d = a.closest(".calendar-head");
-	        var p = jQuery(".popover", d);
-	        p.css({
-	                left: a.position().left - 60
-	        }).show();
-	    });
-	    jQuery(".calendar-head .popover .close-btn, .calendar-head .popover .select-btn").click(function() {
-	        jQuery(".calendar-head .popover").hide();
-	    });
-    }
+    jQuery(document.body).addClass('mep-landing-page').addClass('mep-page').addClass('mep-quarterly-page'); 
     jQuery(document).ready(function() {
-		loadCalenderJs();
-	});	
+        loadCalenderJs();
+    }); 
 </script>
    
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/jumpToDateKeyDown.js')}"></script>

@@ -64,16 +64,7 @@
 				subOptionChange(allChildClasses[i], false);
 			}
 		}
-		/*$j(document).ready(function() {
-		//* Add a new handler for the reset action 
-		var jqTransformReset = function(f){
-			alert('in jqTransformReset@@@ '+f);
-			var sel;
-			$('.jqTransformSelectWrapper select', f).each(function(){sel = (this.selectedIndex<0) ? 0 : this.selectedIndex; $('ul', $(this).parent()).each(function(){$('a:eq('+ sel +')', this).click();});});
-			$('a.jqTransformCheckbox, a.jqTransformRadio', f).removeClass('jqTransformChecked');
-			$('input:checkbox, input:radio', f).each(function(){if(this.checked){ alert('in reset');$('a', $(this).parent()).addClass('jqTransformChecked');}});
-		};
-		});*/
+		
 		
 	</script>
 	<!-- END : For US85/TA910 -->
