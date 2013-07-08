@@ -40,17 +40,19 @@ Story/Task  : US585/TA1082
     <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/script.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/PageHeaderJQ.js')}"></script>
 
-    <apex:stylesheet value="{!URLFOR($Resource.Responsive_Base, 'css/base.css')}" /> 
+    <apex:stylesheet value="{!URLFOR($Resource.Responsive_Base, 'css/base.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.Responsive_Base, 'css/skeleton-fluid.css')}" /> 
     <apex:stylesheet value="{!URLFOR($Resource.Responsive_Base, 'css/layout.css')}" />
-    <apex:stylesheet value="{!URLFOR($Resource.Responsive_Base, 'css/skeleton-fluid.css')}" />
+   
 
     <!-- Start : Changes for US507/TA918 - Jonathan Freese -->
     <!-- <apex:stylesheet value="{!URLFOR($Resource.PageHeader, 'styleHeader.css')}" /> -->
     <!-- End : Changes for US507/TA918 - Jonathan Freese -->
 
         <!-- header -->
+        <div id="overlayDisable"></div>
         <div class="header">
-
+						
             <div id="name_avatar_follow_basket" class="info row sixteen">
                 <div class="desc-wrapper">
                     <div class="desc">
