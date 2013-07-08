@@ -6,7 +6,7 @@ Date        : 7/3/13
 Story/Task  : US588/TA1076
 ------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_SellingMaterials">
-
+<body class="sm-landing-page sm-page">
 <div class="wrapper">
     <div class="container">
         <!-- PAGE HEADER -->
@@ -837,4 +837,5 @@ Story/Task  : US588/TA1076
     <!-- PAGE FOOTER -->
     <c:R_pageFooter isInternal="{!isInternalUser}" />
 </div>
+</body>
 </apex:page>
