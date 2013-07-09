@@ -1,5 +1,24 @@
 jQuery.noConflict();
 
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', '{!googleAnalyticsUID}']);
+_gaq.push(['_trackPageview']);
+
+_gaq.push(['_setCustomVar',1, 'userType', '{!userType}', 2]);          
+_gaq.push(['_setCustomVar', 1, 'UserProfile', '{!userProfile}', 2]); 
+_gaq.push(['_setCustomVar', 1, 'UserTitle', '{!userTitle}', 2]);
+ 
+
+(function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+function pageViewed(page){
+	_gaq.push(['_trackPageview', page]);
+}
+
 function checkHeaderThemeSelector() {
 	if(jQuery('.horizontal-slider').length != 0){
 		if(! jQuery('.content').hasClass('pilsite')){
