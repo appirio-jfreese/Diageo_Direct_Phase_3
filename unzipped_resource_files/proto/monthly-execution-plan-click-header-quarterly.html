@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Monthly Execution Plan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="css/base.css"/>
+    <link rel="stylesheet" href="css/skeleton-fluid.css"/>
+    <link rel="stylesheet" href="css/layout.css"/>
+    <script type="text/javascript" src="./js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.jqtransform.js"></script>
+    <script type="text/javascript" src="./js/jquery.flexslider-min.js"></script>
+    <script type="text/javascript" src="./js/script.js"></script>
+</head>
+<body class="mep-landing-page mep-page mep-quarterly-page">
+
+<div class="wrapper">
+    <div class="container">
+        <!-- header -->
+        <div class="header">
+
+            <div class="info row sixteen">
+                <div class="desc-wrapper">
+                    <div class="desc">
+                        <span class="name">
+                            Evangeline Jackson<br>
+                            <span class="dropdown">
+                                <a href="javascript:;">User Profile</a>
+                                <a href="download-history.html">Download History</a>
+                                <a href="share-history.html">Share History</a>
+                                <a href="followed-items.html">Followed Items</a>
+                                <a href="javascript:;">Logout</a>
+                            </span>
+                        </span>
+                        <span class="hello">Hello,</span>
+                        <span class="company">Johnson Bros Wholesale Liq Co of MN</span>
+
+                    </div>
+                    <div class="avatar-wrapper">
+                        <a href="javascript:;" class="avatar"><img src="i/avatar.png"/></a>
+                    </div>
+                </div>
+                <div class="icons">
+                    <a href="items-in-basket.html" class="cart">
+                        388
+                    </a>
+                    <a href="followed-items.html" class="fav">
+                        289
+                    </a>
+                </div>
+            </div>
+            <a href="javascript:;" class="gotoSF">
+                <strong>Go To Salesforce</strong>
+            </a>
+            <div class="clear"></div>
+            <div class="row clearfix">
+                <a href="index.html" class="logo">
+                    <img src="i/logo.png"/>
+                </a>
+                <div class="btns">
+                    <a href="javascript:;" class="active btn">Spirits</a>
+                    <a href="javascript:;" class="btn">Wine</a>
+                    <a href="javascript:;" class="btn last" style="visibility: hidden">Beer</a>
+                </div>
+                <div class="search">
+                    <input type="text" class="text" />
+                    <a href="search-results.html" class="btn">GO</a>
+                </div>
+            </div>
+        </div>
+        <!-- end of header -->
+
+        <!-- content -->
+        <div class="content clearfix">
+
+            <div class="breadcrumb">
+                <div class="inner">
+                    <a href="index.html">Home</a> &gt;
+                    Monthly Execution Plan
+                </div>
+            </div>
+
+            <h2 class="with-select">
+                <span class="title">Monthly Execution Plan</span>
+                <select id="header-period-select">
+                    <option value="1">Monthly View</option>
+                    <option value="3" selected>Quarterly View</option>
+                    <option value="6">6 Month View</option>
+                    <option value="12">12 Month View</option>
+                </select>
+                <div class="include-select jqTransformSelectWrapper" style="z-index: 9; width: 135px;">
+                    <div>
+                        <span style="width: 115px;">Include</span>
+                        <a href="javascript:;" class="jqTransformSelectOpen"></a>
+                    </div>
+                    <ul style="width: 133px; display: none; visibility: visible; overflow-y: auto;">
+                        <li>
+                            <a href="#" index="0">
+                                <input type="checkbox" class="noTransform"/>
+                                Spirits
+                            </a>
+                        </li>
+                        <li class="indent">
+                            <a href="#" index="1">
+                                <input type="checkbox" class="noTransform"/>
+                                US Spirits
+                            </a>
+                        </li>
+                        <li class="indent">
+                            <a href="#" index="2">
+                                <input type="checkbox" class="noTransform"/>
+                                Catalyst
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" index="3">
+                                <input type="checkbox" class="noTransform" disabled checked/>
+                                Wine
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <a href="javascript:;" class="btn pdf-btn mep-bg right-btn">
+                    <span>Download as PDF</span>
+                </a>
+            </h2>
+
+
+            <div class="plan-header">
+                <a href="monthly-execution-plan-landing.html" class="mep-bg btn">Back</a>
+                <span>Display / Visibility</span>
+            </div>
+
+
+            <div class="calendar-head">
+                <a href="javascript:;" class="prev mep-bg">
+                    <span></span>
+                </a>
+                <a href="javascript:;" class="date with-dropdown">April 2013</a>
+                <a href="javascript:;" class="next mep-bg">
+                    <span></span>
+                </a>
+                <div class="popover">
+                    <div class="select">
+                        <a href="javascript:;" class="">Prev</a>
+                        <select>
+                            <option>Jan</option>
+                            <option>Feb</option>
+                            <option>Mar</option>
+                            <option>Jun</option>
+                            <option>Apr</option>
+                            <option>May</option>
+                            <option selected>Jun</option>
+                            <option>Jul</option>
+                            <option>Aug</option>
+                            <option>Sep</option>
+                            <option>Oct</option>
+                            <option>Nov</option>
+                            <option>Dec</option>
+                        </select>
+                        <select>
+                            <option>2008</option>
+                            <option>2009</option>
+                            <option>2010</option>
+                            <option>2011</option>
+                            <option>2012</option>
+                            <option selected>2013</option>
+                            <option>2014</option>
+                            <option>2015</option>
+                            <option>2016</option>
+                            <option>2017</option>
+                            <option>2018</option>
+                            <option>2019</option>
+                            <option>2020</option>
+                        </select>
+                        <a href="javascript:;" class="">Next</a>
+                    </div>
+                    <div class="buttons">
+                        <a href="javascript:;" class="mep-bg ">Today</a>
+                        <a href="javascript:;" class="mep-bg close-btn">Close</a>
+                        <a href="javascript:;" class="mep-bg select-btn">Select</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="desc-block light-blue-bg" data-link="monthly-execution-plan-item-1.html">
+                <h5>Ciroc Summer Cabana</h5>
+                <p>Summertime is a key selling period for spirits, with traditionally 33% of annual TBA volume sales.</p>
+                <p>Summer is also a very active time of the year where consumers enjoy social gatherings  during the day (e.g. day at the pool) and night (e.g. big night out in town).</p>
+            </div>
+
+
+            <div class="calendar-head">
+                <a href="javascript:;" class="prev mep-bg">
+                    <span></span>
+                </a>
+                <a href="javascript:;" class="date with-dropdown">May 2013</a>
+                <a href="javascript:;" class="next mep-bg">
+                    <span></span>
+                </a>
+                <div class="popover">
+                    <div class="select">
+                        <a href="javascript:;" class="">Prev</a>
+                        <select>
+                            <option>Jan</option>
+                            <option>Feb</option>
+                            <option>Mar</option>
+                            <option>Jun</option>
+                            <option>Apr</option>
+                            <option>May</option>
+                            <option selected>Jun</option>
+                            <option>Jul</option>
+                            <option>Aug</option>
+                            <option>Sep</option>
+                            <option>Oct</option>
+                            <option>Nov</option>
+                            <option>Dec</option>
+                        </select>
+                        <select>
+                            <option>2008</option>
+                            <option>2009</option>
+                            <option>2010</option>
+                            <option>2011</option>
+                            <option>2012</option>
+                            <option selected>2013</option>
+                            <option>2014</option>
+                            <option>2015</option>
+                            <option>2016</option>
+                            <option>2017</option>
+                            <option>2018</option>
+                            <option>2019</option>
+                            <option>2020</option>
+                        </select>
+                        <a href="javascript:;" class="">Next</a>
+                    </div>
+                    <div class="buttons">
+                        <a href="javascript:;" class="mep-bg ">Today</a>
+                        <a href="javascript:;" class="mep-bg close-btn">Close</a>
+                        <a href="javascript:;" class="mep-bg select-btn">Select</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="desc-block green-bg" data-link="monthly-execution-plan-item-1.html">
+                <h5>Tanqueray "Let's Tonic"</h5>
+                <p>Shoppers want easy choices to buy and make quality mixed drinks with confidence.</p>
+                <p>Tanqueray & Tonic is a popular and easy to make summer cocktail accounting for 45% of Tanqueray consumption in July, August and September.</p>
+            </div>
+
+            <div class="calendar-head">
+                <a href="javascript:;" class="prev mep-bg">
+                    <span></span>
+                </a>
+                <a href="javascript:;" class="date with-dropdown">June 2013</a>
+                <a href="javascript:;" class="next mep-bg">
+                    <span></span>
+                </a>
+                <div class="popover">
+                    <div class="select">
+                        <a href="javascript:;" class="">Prev</a>
+                        <select>
+                            <option>Jan</option>
+                            <option>Feb</option>
+                            <option>Mar</option>
+                            <option>Jun</option>
+                            <option>Apr</option>
+                            <option>May</option>
+                            <option selected>Jun</option>
+                            <option>Jul</option>
+                            <option>Aug</option>
+                            <option>Sep</option>
+                            <option>Oct</option>
+                            <option>Nov</option>
+                            <option>Dec</option>
+                        </select>
+                        <select>
+                            <option>2008</option>
+                            <option>2009</option>
+                            <option>2010</option>
+                            <option>2011</option>
+                            <option>2012</option>
+                            <option selected>2013</option>
+                            <option>2014</option>
+                            <option>2015</option>
+                            <option>2016</option>
+                            <option>2017</option>
+                            <option>2018</option>
+                            <option>2019</option>
+                            <option>2020</option>
+                        </select>
+                        <a href="javascript:;" class="">Next</a>
+                    </div>
+                    <div class="buttons">
+                        <a href="javascript:;" class="mep-bg ">Today</a>
+                        <a href="javascript:;" class="mep-bg close-btn">Close</a>
+                        <a href="javascript:;" class="mep-bg select-btn">Select</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="desc-block green-bg" data-link="monthly-execution-plan-item-1.html">
+                <h5>Tanqueray "Let's Tonic"</h5>
+                <p>Shoppers want easy choices to buy and make quality mixed drinks with confidence.</p>
+                <p>Tanqueray & Tonic is a popular and easy to make summer cocktail accounting for 45% of Tanqueray consumption in July, August and September.</p>
+            </div>
+
+            <div class="desc-block light-blue-bg" data-link="monthly-execution-plan-item-1.html">
+                <h5>Ciroc Summer Cabana</h5>
+                <p>Summertime is a key selling period for spirits, with traditionally 33% of annual TBA volume sales.</p>
+                <p>Summer is also a very active time of the year where consumers enjoy social gatherings  during the day (e.g. day at the pool) and night (e.g. big night out in town).</p>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <a href="javascript:;" class="footer-link-menu">
+            Menu
+        </a>
+        <div class="links">
+            <a href="javascript:;">Full Site</a> |
+            <a href="javascript:;">Terms &amp; Conditions</a> |
+            <a href="javascript:;">Privacy &amp; Cookies Notice</a> |
+            <a href="javascript:;">Industry Related Links</a> |
+            <a href="javascript:;">FAQ</a> |
+            <a href="contact-new-case.html">Contact Us</a>
+        </div>
+        <span>&copy; Diageo 2011</span>
+        <a href="javascript:;" class="go-top"></a>
+    </div>
+</div>
+
+
+
+</body>
+</html>
