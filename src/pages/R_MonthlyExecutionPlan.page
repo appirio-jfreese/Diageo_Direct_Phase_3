@@ -101,7 +101,6 @@ Story/Task  : US585/TA1081
                 <!--  START :: Months Loop -->
                 <apex:repeat value="{!months}" var="month">          
                     
-                    
                     <c:R_CalendarHead monthName="{!month.name}" pageCls="mep-bg" selYear="{!aselYear}" selMonth="{!aselMonth}"  mnthCounter="{!counter}"/> 
                      
                     <!--  START :: Main Salesdriver data Section -->
@@ -149,10 +148,10 @@ Story/Task  : US585/TA1081
                                 <div style="width: 145px; height: 2px;"></div>                              
                                                                                                 
                             </apex:repeat>                          
-                            <apex:variable var="counter" value="{!counter + 1}"/>
+                            
                         </div>
                         </apex:outputPanel>
-                        
+                        <apex:variable var="counter" value="{!counter + 1}"/>
                     </apex:repeat>
                     </div>
                     <!--  END :: Main Salesdriver data Section -->

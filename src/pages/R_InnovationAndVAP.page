@@ -190,21 +190,21 @@ Story/Task	: US503/TA1011
                 </div>
             </div>
 			<!-- END :: General Updates  -->
-			
+			<apex:variable var="columnWidth" value="{!25}"/>
             <!--  START :: plans-header Section - displayed for timePeriod != Monthly -->
 				<apex:outputPanel rendered="{!timePeriod > 1}" layout="block" styleClass = "{!if(salesDriversToShowCount > 1,'plans plans-header no-spirits','plan-header')}" >                               
 		            	<apex:variable var="counter" value="{!1}"/>
 			            <apex:repeat value="{!salesDriversToShow}" var="salesdrivername">
 			            	
 			            	<apex:outputPanel rendered="{!salesDriversToShowCount==1}">
-				            	<div class="plan">
+				            	<div class="plan" style="width: {!(100/salesDriversToShowCount)-1}%;">
 				                <a href="javascript:void(0);" onclick="selectSalesDriver('All');return false;"  class="isv-bg btn">Back</a>
 				                <span>{!salesdrivername}</span>
 			            	</div>
 			            	</apex:outputPanel>
 			            	 
 			            	<apex:outputPanel rendered="{!salesDriversToShowCount!=1}">          
-				                <div class="plan {!IF(counter == salesDriversToShowCount,'last','')}">
+				                <div class="plan {!IF(counter == salesDriversToShowCount,'last','')}" style="width: {!(100/salesDriversToShowCount)-1}%;">
 					                <h3 class="{!IF(counter == 4 || counter == 5,'two-lines','')} isv-bg">                  
 			                        <a href="javascript:void(0);" onclick="selectSalesDriver('{!salesdrivername}')">                     
 			                         	{!salesdrivername}                        
@@ -248,7 +248,7 @@ Story/Task	: US503/TA1011
 		            		</apex:outputPanel>
 		            		<apex:variable var="oddEven" value="{!'odd'}"/>                                                     
 			                <apex:repeat value="{!calendarData[month.data][salesdrivername]}" var="programData">
-			                    	<div class="{!if(oddEven =='even' ,'desc-block light-blue-bg','desc-block green-bg')}" onClick="window.location='{!detailPagePath}&id={!programData.id}'">
+			                    	<div class="{!if(oddEven =='even' ,'desc-block light-blue-bg','desc-block green-bg')}" onClick="window.location='{!$Page.R_IVAPDetails}?id={!programData.id}'">
 					                	<h5>{!programData.label}</h5>
 					                	<p><apex:outputtext escape="false" value="{!programData.description}"></apex:outputtext></p>
 					            		</div>  
@@ -257,7 +257,7 @@ Story/Task	: US503/TA1011
 		            	</apex:outputPanel> 
 		            	
 		            	<apex:outputPanel rendered="{!salesDriversToShowCount != 1}" >
-		                <div class="plan {!IF(lastItem == salesdrivername,'last','')}" id="plan{!FLOOR(counter)}{!monthName}">
+		                <div class="plan {!IF(lastItem == salesdrivername,'last','')}" id="plan{!FLOOR(counter)}{!monthName}"  style="width: {!(100/salesDriversToShowCount)-1}%;">
 		                    <h3 class="{!IF(counter == 4 || counter == 5,'two-lines','')} isv-bg">                  
 			                        <a href="javascript:void(0);" onclick="selectSalesDriver('{!salesdrivername}')">                     
 			                         	{!salesdrivername}                        
@@ -265,9 +265,11 @@ Story/Task	: US503/TA1011
 			                </h3>
 		                    <apex:repeat value="{!calendarData[month.data][salesdrivername]}" var="programData">
 		                    	<apex:outputPanel rendered="{!timePeriod == 1}">
-			            			<div align="center" style="1px solid #B9B8B8; width: 180px; height: 77px; {!programData.styleBackgroundColor}{!programData.styleTextColor}; cursor: pointer; " onClick="window.location='{!detailPagePath}&id={!programData.id}'">
-									<div style="{!programData.styleBackgroundImage} background-repeat: none; {!IF(isCalendarThemeMixed, 'background-size: 116px 36px;', 'background-size: 145px 45px;')} width: 145px; height: 45px;"></div>
-									<div style="height: 10px; width: 145px;"></div>
+			            			<div align="center" style="1px solid #B9B8B8; width: 100%; height: 77px; {!programData.styleBackgroundColor}{!programData.styleTextColor}; cursor: pointer; " onClick="window.location='{!$Page.R_IVAPDetails}?id={!programData.id}'">
+<!-- 									<div style="{!programData.styleBackgroundImage} background-repeat: none; {!IF(isCalendarThemeMixed, 'background-size: 116px 36px;', 'background-size: 145px 45px;')} width: 145px; height: 45px;"></div>  -->
+									<div style="{!programData.styleBackgroundImage} background-repeat: no-repeat; height: 60%; background-position: center;"></div>
+<!-- 									<div style="height: 10px; width: 145px;"></div>    -->
+										<div style="height: 10px; width: 100%;"></div>
 										<a class="p" href="#" style="">{!programData.label}</a>
 									</div>
 			            		</apex:outputPanel>
