@@ -12,40 +12,49 @@ Story/Task	: US584
         <!-- PAGE HEADER -->
         <c:R_PageHeader showThemeSelector="false" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
         <script type="text/javascript">
-            pageViewed('Home Page');
+            pageViewed('FAQ Page');
         </script>
-                
+
+		<apex:stylesheet value="{!URLFOR($Resource.FaqPage, 'style'+siteTheme+'.css')}"/>
+		<style type="text/css">
+			.title-text {
+				width:			100%;
+				font-size:		19px;
+				font-weight:	bold;
+				padding-top:	8px;
+				padding-bottom:	4px;	
+				text-align:		left;
+			}		
+		</style>
+
         <!-- content -->
-        <!-- PAGE CONTENT -->
-        <div class="content bggradient left">
+        <!--  BREADCRUMB -->
+        <apex:outputPanel id="beadcrumblinks">
+            <c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
+        </apex:outputPanel>
+                        
+		<!-- FAQ -->
+		<div class="faq-header">
+			<div class="title-text"><apex:outputText value="FAQ"/></div>
+		</div>
 
-			<!-- FAQ -->
-			<div class="faq-header">
-				<div class="title-text"><apex:outputText value="FAQ"/></div>
-			</div>
-
-			<div class="faq-section">			
-				<div class="faq-map">
-					<div class="header-map">Questions:</div>
-					<apex:repeat value="{!faqs}" var="faq">
-						<div class="question-map"><a href="#{!faq.id}" onclick="pageViewed('FAQ - {!faq.Question__c}');">{!faq.Question__c}</a></div>
-					</apex:repeat>
-				</div>
-            	<apex:repeat value="{!faqs}" var="faq">
-					<div id="{!faq.id}" class="faq-question">{!faq.Question__c}</div>
-					<div class="faq-answer"><apex:outputText value="{!faq.Answer__c}" escape="false"/></div>					
+		<div class="faq-section">			
+			<div class="faq-map">
+				<div class="header-map">Questions:</div>
+				<apex:repeat value="{!faqs}" var="faq">
+					<div class="question-map"><a href="#{!faq.id}" onclick="pageViewed('FAQ - {!faq.Question__c}');">{!faq.Question__c}</a></div>
 				</apex:repeat>
 			</div>
+           	<apex:repeat value="{!faqs}" var="faq">
+				<div id="{!faq.id}" class="faq-question">{!faq.Question__c}</div>
+				<div class="faq-answer"><apex:outputText value="{!faq.Answer__c}" escape="false"/></div>					
+			</apex:repeat>
+		</div>
 			
-        </div>
-
-
        <!-- end of content -->
 
     </div>
 
     <c:R_pageFooter isInternal="{!isInternalUser }" />
 </div>
-<!-- <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/HomePageJQ.js')}"></script>
-<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>-->
 </apex:page>

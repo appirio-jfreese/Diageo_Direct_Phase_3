@@ -780,7 +780,11 @@ global public without sharing virtual class Controller_Base {
     public virtual PageReference userSearch(){
     	PageReference pr = ApexPages.currentPage();
     	if(searchPhrase.length() != 0){
-    		pr = new PageReference( Page.SearchResult.getUrl() + '?query='+EncodingUtil.urlEncode(searchPhrase,'UTF-8') );
+    		if(currentUserPage().toLowerCase().startsWith('/apex/r_')){
+    			pr = new PageReference( Page.R_SearchResult.getUrl() + '?query='+EncodingUtil.urlEncode(searchPhrase,'UTF-8') );
+    		}else{
+    			pr = new PageReference( Page.SearchResult.getUrl() + '?query='+EncodingUtil.urlEncode(searchPhrase,'UTF-8') );
+    		}
     		pr.setRedirect(true);
     	}
     	return pr;

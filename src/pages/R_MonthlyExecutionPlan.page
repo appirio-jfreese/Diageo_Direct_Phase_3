@@ -95,13 +95,14 @@ Story/Task  : US585/TA1081
                 <apex:variable var="aselYear" value="{!selectedyear}"/>
                 <apex:variable var="aselMonth" value="{!selectedMonth}"/>
                 
-                <apex:variable var="displayCalendar" value="{!1}"/>           
+                <apex:variable var="displayCalendar" value="{!1}"/>
+                <apex:variable var="counter" value="{!1}"/>           
             
                 <!--  START :: Months Loop -->
                 <apex:repeat value="{!months}" var="month">          
                     
                     
-                    <c:R_CalendarHead monthName="{!month.name}" pageCls="mep-bg" selYear="{!aselYear}" selMonth="{!aselMonth}"/> 
+                    <c:R_CalendarHead monthName="{!month.name}" pageCls="mep-bg" selYear="{!aselYear}" selMonth="{!aselMonth}"  mnthCounter="{!counter}"/> 
                      
                     <!--  START :: Main Salesdriver data Section -->
                     <div class="plans {!IF(timePeriod != 1,'quaterly-plans','')}">

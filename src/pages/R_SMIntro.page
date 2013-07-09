@@ -1,35 +1,62 @@
 <!------------------------------------------------------------------------------
-Name        : R_SMIntro.page
-
-Created By  : Jonathan Freese (Appirio)   
-Date        : 7/2/13
-Story/Task  : US607/TA1014
+Name        : SMIntro.page
 ------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_SMIntro">
-<div class="wrapper">
-    <div class="container">
-        <!-- PAGE HEADER -->
-        <c:R_PageHeader showThemeSelector="false" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
-        <script type="text/javascript">
-            pageViewed('Selling Materials Intro Page');
-        </script>
-                
-        <!-- content -->
-        <div class="content clearfix">
+<body class="home-page">
+	<div class="wrapper">
+	    <div class="container">
+	        <!-- PAGE HEADER -->
+	        <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
 
-            <!--  BREADCRUMB -->
-            <apex:outputPanel id="beadcrumblinks">
-                <c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
-            </apex:outputPanel>
+	        <!-- BREADCRUMB -->
+	        <apex:outputPanel id="beadcrumblinks">
+	            <c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
+	        </apex:outputPanel>
+        	        
+	        <script type="text/javascript">
+	            pageViewed('Selling Materials - Intro Page');
+	        </script>
+	        
+	        <!-- PAGE CONTENT -->
+	            <div class="boxes">
+	            	<apex:variable var="lastItem" value=""/>
+	            	<apex:repeat value="{!sections}" var="section"><apex:variable var="lastItem" value="{!section}"/></apex:repeat>
+	            	
+	                <apex:repeat value="{!sections}" var="section">
+	                    <div class="column default {!IF(section == lastItem,'last','')}" >
+		                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-3.png')}"/>
+		                    <a class="purple" href="javascript:;" data-related="{!idMap[section]}-boxes">{!section}</a>
+ 	                    </div>
+ 	                </apex:repeat>
+ 	                
+ 	                <apex:variable var="currentRow" value="{!1}" />
+					<apex:variable var="currentItem" value="{!1}" />
+					
+ 	                <apex:repeat value="{!sections}" var="section">
+						<apex:variable var="currentItem" value="{!1}" />
+                        <apex:repeat value="{!subSectionsMap[section]}" var="subSection">
 
-            <!-- PAGE CONTENT -->
-        </div>
-    </div>
-    <!-- PAGE FOOTER -->
-    <c:R_pageFooter isInternal="{!isInternalUser}" />
+							<div class="column {!idMap[section]}-boxes hide {!IF(currentItem/currentRow==3,'last','')}">
+								<img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-3.png')}"/>
+								<a class="purple" href="{!$Page.R_SellingMaterials}?section={!urlencode(section)}&subsection={!urlencode(totalSubSectionsMap[subSection])}&openfilter=true">
+									<div style="position: relative; top: 24px; line-height: 25px;">{!subSection}</div>
+								</a>
+							</div>
 
-    <!-- <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/jUserProfileJQ.js')}"></script> -->
-    
-</div>
+							<apex:variable var="currentRow" value="{!IF(currentItem/currentRow==3,currentRow+1,currentRow+0)}" />	                        
+							<apex:variable var="currentItem" value="{!currentItem+1}" />
+
+                        </apex:repeat>
+
+	                </apex:repeat>
+	                
+
+	            </div>
+
+	        <!-- PAGE FOOTER -->
+	        <c:R_pageFooter isInternal="{!isInternalUser}" />
+	    </div>
+	</div>
+</body>
 
 </apex:page>

@@ -160,7 +160,7 @@ Story/Task	: US503/TA1011
             
             <apex:outputPanel id="ivap_information" styleClass="{!if(timePeriod == 1,'','isv-quarterly-page')}">
             	<apex:outputPanel rendered="{!if(timePeriod ==1 ,true,false)}"  >
-            		<c:R_CalendarHead monthName="{!months[0].name}" selYear="{!selectedyear}" selMonth="{!selectedMonth}" pageCls="isv-bg"/>
+            		<c:R_CalendarHead monthName="{!months[0].name}" selYear="{!selectedyear}" selMonth="{!selectedMonth}" pageCls="isv-bg" mnthCounter="{!1}"/>
             	</apex:outputPanel>
 				
 			<!-- Start :: General Updates  -->
@@ -225,7 +225,7 @@ Story/Task	: US503/TA1011
 				
 				<apex:repeat value="{!months}" var="month">
 					<apex:outputPanel rendered="{!if(timePeriod >1 ,true,false)}" >          
-            			<c:R_CalendarHead monthName="{!month.name}" selYear="{!calMnth}" selMonth="{!calMnth}" pageCls="isv-bg"/>
+            			<c:R_CalendarHead monthName="{!month.name}" selYear="{!calMnth}" selMonth="{!calMnth}" pageCls="isv-bg" mnthCounter="{!mnthCounter}"/>
             			<apex:variable var="calMnth" value="{!VALUE(calMnth)+1}"/>
             			<apex:variable var="calYr" value="{!IF(VALUE(selectedMonth)+mnthCounter == 12, VALUE(calYr)+1,calYr)}"/>
             			<apex:variable var="mnthCounter" value="{!mnthCounter+1}"/>

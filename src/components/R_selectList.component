@@ -1,41 +1,40 @@
 <apex:component controller="Controller_Base">
 	
-    <apex:attribute name="options" description="Select option list" type="list" required="true"/>
-    <apex:attribute name="noOfOptions" description="Number of options available" type="Integer" required="false"/>
-    <apex:attribute name="value" description="Value of select list" type="string" required="false"/>
-    <apex:attribute name="onchange" description="Onchange function name" type="string" required="false"/>
-    
-   	<apex:attribute name="width" description="Width" type="string" required="false"/>
-   	<apex:attribute name="darkTheme" description="Theme" type="Boolean" required="false" default="false"/>
+	<apex:attribute name="options" description="Select option list" type="list" required="true"/>
+	<apex:attribute name="noOfOptions" description="Number of options available" type="Integer" required="false"/>
+	<apex:attribute name="value" description="Value of select list" type="string" required="false"/>
+	<apex:attribute name="onchange" description="Onchange function name" type="string" required="false"/>
+	
+	<apex:attribute name="width" description="Width" type="string" required="false"/>
+	<apex:attribute name="darkTheme" description="Theme" type="Boolean" required="false" default="false"/>
 	<apex:attribute name="slim" description="Slim" type="Boolean" required="false" default="false"/>
 	   	
-    <apex:attribute name="useSectionTheme" description="If true then use section color theme" type="boolean" required="false"/>
+ 	<apex:attribute name="useSectionTheme" description="If true then use section color theme" type="boolean" required="false"/>
 	<apex:attribute name="trim" description="Is trim required" type="Boolean" required="false" default="true"/>
 
 	<apex:attribute name="bindToController" description="Bind to controller" type="Boolean" required="false" default="true"/>
 
-    <apex:variable value="{!randomId}" var="selectId"/>
+  <apex:variable value="{!randomId}" var="selectId"/>
 	<apex:outputPanel rendered="{!bindToController}" >
-	    <apex:selectList id="period-select" value="{!value}" onchange="{!onchange}" size="1" style="width:217">
-	   	    <apex:selectOptions value="{!options}"/>
-	   	</apex:selectList>
+		<apex:selectList id="period-select" value="{!value}" onchange="{!onchange}" size="1" style="width:217">
+	  	<apex:selectOptions value="{!options}"/>
+	  </apex:selectList>
 	</apex:outputPanel>
 
 	<apex:outputPanel rendered="{!NOT(bindToController)}" >
 		<select  onchange="{!onchange}" size="1" class="hidden orgSelect-{!selectId}">
-	    	<apex:repeat value="{!options}" var="option">
-	    		<apex:outputPanel rendered="{!IF(option['value'] == value, 'true','false')}">
-	   	    		<option value="{!option['value']}" selected="selected">{!option["label"]}</option>
+	  	<apex:repeat value="{!options}" var="option">
+	    	<apex:outputPanel rendered="{!IF(option['value'] == value, 'true','false')}">
+	   	  	<option value="{!option['value']}" selected="selected">{!option["label"]}</option>
 				</apex:outputPanel>
-	    		<apex:outputPanel rendered="{!IF(option['value'] != value, 'true','false')}">
-	   	    		<option value="{!option['value']}">{!option["label"]}</option>
+	    	<apex:outputPanel rendered="{!IF(option['value'] != value, 'true','false')}">
+	   	  	<option value="{!option['value']}">{!option["label"]}</option>
 				</apex:outputPanel>
-	   		</apex:repeat>
-	   	</select>
+	   	</apex:repeat>
+	  </select>
 	</apex:outputPanel>
-
-	<!-- 
-	<style>
+	
+	<!-- <style>
 		.custom-select-box-values{
 			width: auto !important;
 		}
@@ -89,6 +88,5 @@
 				</div>
 	        </div>
 	    </div>
-    </apex:outputPanel>
-     -->
+    </apex:outputPanel> -->
 </apex:component>

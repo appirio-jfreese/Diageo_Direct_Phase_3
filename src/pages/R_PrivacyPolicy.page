@@ -14,30 +14,53 @@ Story/Task	: US584
         <script type="text/javascript">
             pageViewed('Home Page');
         </script>
-                
-        <!-- content -->
-			<div class="content">
-				<div class="sub-header">DIAGEO PRIVACY AND COOKIE NOTICE</div>
-				<div class="pageContentRichText">
-					<apex:repeat value="{!contentItems}" var="item">
-						<apex:outputText value="{!item['Page_Content_Value__c']}" escape="false" />
-					</apex:repeat>
-					<apex:outputPanel rendered="{!if(attachments.size >  0, true, false)}">		            	
-			            <ol class="attachments-list" style="padding-left: 0px;">
-			            	<apex:repeat value="{!attachments}" var="att">
-			            		<li style="list-style: none;"><a href="{!URLFOR($Action.Attachment.Download, att.id)}">{!att.Name}</a></li>
-			           	 	</apex:repeat>
-			            </ol>
-		            </apex:outputPanel>
-				</div>
-			</div>
+        
+        <style type="text/css">
+			div.pageContentRichText{
+				text-align: left;
+				margin: 15px;
+				font-family: Tahoma, Arial;
+				font-size:   12px;
+				z-index:     2;
+				min-height:  400px;
+				overflow:    hidden;
+			}
+			
+			div.sub-header {
+				text-align: left;
+				padding-top: 10px;
+				border-bottom: 1px dotted #000000;
+				margin-10px;
+				font-size: 16px;
+				font-weight: bold;
+				color: #2A96A7;
+			}
 
+        </style>                
+        <!-- content -->
+        <!--  BREADCRUMB -->
+        <apex:outputPanel id="beadcrumblinks">
+            <c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
+        </apex:outputPanel>
+                
+		<div class="sub-header">DIAGEO PRIVACY AND COOKIE NOTICE</div>
+		<div class="pageContentRichText">
+			<apex:repeat value="{!contentItems}" var="item">
+				<apex:outputText value="{!item['Page_Content_Value__c']}" escape="false" />
+			</apex:repeat>
+			<apex:outputPanel rendered="{!if(attachments.size >  0, true, false)}">		            	
+	            <ol class="attachments-list" style="padding-left: 0px;">
+	            	<apex:repeat value="{!attachments}" var="att">
+	            		<li style="list-style: none;"><a href="{!URLFOR($Action.Attachment.Download, att.id)}">{!att.Name}</a></li>
+	           	 	</apex:repeat>
+	            </ol>
+            </apex:outputPanel>
+		</div>
        <!-- end of content -->
 
     </div>
 
     <c:R_pageFooter isInternal="{!isInternalUser }" />
 </div>
-<!-- <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/HomePageJQ.js')}"></script>
-<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>-->
+
 </apex:page>
