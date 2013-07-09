@@ -59,7 +59,7 @@ Story/Task	: US585/TA1082
 							</div>
 							<!-- End of Overview section -->
 							
-							<c:R_OperationLines pageNamePrefix="mep" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
+							<c:R_OperationLines showPages="false" pageNamePrefix="mep" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
 							<!-- slider section -->
 							<apex:outputPanel id="sliderContentItemsBxLs">
             		<div class="doc-list">
