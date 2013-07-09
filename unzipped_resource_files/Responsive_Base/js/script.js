@@ -64,12 +64,14 @@ $j(document).ready(function() {
         $j(".boxes a").hover(
             function() {
                 var a = $j(this);
+                if(a.parent().hasClass("empty")) return false;
                 a.stop().animate({top: "15%"}, 400, function() {
 
                 });
             },
             function() {
                 var a = $j(this);
+                if(a.parent().hasClass("empty")) return false;
                 a.stop().animate({top: "25.29411764705882%"}, 400, function() {
 
                 });
@@ -307,7 +309,7 @@ $j(document).ready(function() {
         });
         $j(".include-select ul a input").click(function() {
             $j(this).parent().trigger("click");
-            return false;
+            //return false;
         });
         $j(".include-select ul a").click(function() {
             var a = $j(this);
@@ -318,10 +320,11 @@ $j(document).ready(function() {
             var to = false;
             if(check.prop("checked")) to = true;
             check.prop("checked", to);
-            if(a.attr("index") == 0) {
+            /*if(a.attr("index") == 0) {
                 $j("input", ul).eq(1).prop("checked", to);
                 $j("input", ul).eq(2).prop("checked", to);
             }
+            */
         });
 
         $j(".calendar-head a.with-dropdown").click(function() {
@@ -364,6 +367,14 @@ $j(document).ready(function() {
     }
 
     if($j(".mep-item-page, .isv-item-page, .results-page, .sm-page").length > 0) {
+        $j("a.email, a.share").click(function() {
+            var a = $j(this);
+            if(a.hasClass("disabled")) return false;
+            $j("#shareModal").modal();
+        });
+        $j(window).resize(function() {
+            $j.modal.resize();
+        });
         $j(".select-all input[type='checkbox']").change(function() {
             var c = $j(this);
             $j(".doc-list input[type='checkbox']").each(function() {
