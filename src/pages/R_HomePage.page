@@ -146,12 +146,12 @@ Story/Task	: US584
                 
                 <div class="column default">
                     <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-4.png')}"/>
-                    <a class="dark-blue" href="{!$Page.HomePage}">Full Site</a>
+                    <a class="black" href="{!$Page.HomePage}">Full Site</a>
                 </div>
 
                 <div class="column default">
                     <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-5.png')}"/>
-<!--                     <a class="dark-blue" href="javascript:;">&nbsp;</a>         -->
+<!--                     <a class="empty" href="javascript:;">&nbsp;</a>         -->
                 </div>
 
                 <div class="column last default">
