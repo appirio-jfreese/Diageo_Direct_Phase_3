@@ -31,12 +31,16 @@ public with sharing class Controller_MonthlyExecutionPlan extends Controller_Bas
     public String endDate {get; set;} 
         
     public Controller_MonthlyExecutionPlan() {
-		pageUrl = Page.MonthlyExecutionPlan.getUrl();
-		if(ApexPages.currentPage().getUrl().indexOf('R_MonthlyExecutionPlan') > -1){
+    	// Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
+		//pageUrl = Page.MonthlyExecutionPlan.getUrl();
+		pageUrl = ApexPages.currentPage().getUrl();
+		setResponsiveState();
+		if(isResponsive){
         	detailPagePath = Page.R_MEPDetails.getUrl();
 		}else{
 			detailPagePath = Page.MEPDetails.getUrl();
 		}
+		// End:
         
         salesDriversToShow = new list<String>();
         programMap = new map<String, list<map<String, String>>>();
@@ -81,7 +85,10 @@ public with sharing class Controller_MonthlyExecutionPlan extends Controller_Bas
     
 	private void prepareBreadcrumbs(){
 		cleanBreadcrumbs();
-       	currentPageUrl = Page.MonthlyExecutionPlan.getUrl();
+		// Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
+//       	currentPageUrl = Page.MonthlyExecutionPlan.getUrl();
+		currentPageUrl = ApexPages.currentPage().getUrl();
+		// End:
         if(ApexPages.currentPage().getUrl().indexOf('R_MonthlyExecutionPlan') > -1){
         	detailPagePath = Page.R_MEPDetails.getUrl();
 		}else{
@@ -277,4 +284,16 @@ public with sharing class Controller_MonthlyExecutionPlan extends Controller_Bas
         
         calendarData.put('empty', programMap);
     }
+    
+	// Start: Changes for Responsive Site - Randy Wandell (Appirio) 7/10/13    
+    public void setResponsiveState() {
+		if(pageUrl.toLowerCase().indexOf('r_monthlyexecutionplan') > -1) {
+			isResponsive = true;
+			preapareSiteNavigationMenu();
+		} else {
+			isResponsive = false;
+			preapareSiteNavigationMenu();
+		}    	
+    }
+    // End:     
 }

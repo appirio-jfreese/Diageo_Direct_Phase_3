@@ -47,6 +47,7 @@ public with sharing class Controller_IVAPDetails extends Controller_Base {
     public MAP<string, string> detailsMapParser {public get; protected set;}
     public MAP<string, Integer> detailsMapSize {public get; protected set;}
     public List<String> detailsMapOrder {public get; protected set;}
+    public integer detailsMapOrderSize { public get { return detailsMapOrder.size(); } protected set; }  // Randy Wandell (Appirio) 7/10/13 - Used to return the size of detailsMapOrder
     
     public String currentSectionConstant {get; private set;}
 	
@@ -55,8 +56,18 @@ public with sharing class Controller_IVAPDetails extends Controller_Base {
     public Controller_IVAPDetails() {
     	currentSectionConstant = (siteTheme == 'Spirits') ? (Constant.INNOVATION_AND_SUSTAINOVATION) : (Constant.INNOVATION_SUSTAINOVATION_AND_VINTAGE);
 
-		pageUrl = Page.IVAPDetails.getUrl();
-    	backToInnovationAndVAPUrl = Page.InnovationAndVAP.getUrl();
+		// Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
+		//pageUrl = Page.IVAPDetails.getUrl();
+		setResponsiveState();
+		pageUrl = ApexPages.currentPage().getUrl();
+    	//backToInnovationAndVAPUrl = Page.InnovationAndVAP.getUrl();
+    	if(isResponsive) {
+    		backToInnovationAndVAPUrl = Page.R_InnovationAndVAP.getUrl();
+    	} else {
+    		backToInnovationAndVAPUrl = Page.InnovationAndVAP.getUrl();
+    	}
+    	// End:
+    	
         displayAsList = true;
 		
 
@@ -70,14 +81,31 @@ public with sharing class Controller_IVAPDetails extends Controller_Base {
 		        	backToInnovationAndVAPUrl += '&driver='+ApexPages.currentPage().getParameters().get('driver');
 				}
 			}
-			backToInnovationAndVAPUrl += '&'+parseSelectedThemesToUrl();
+			// Start: Existing bug when building url - Randy Wandell (Appirio) 7/10/13
+//			backToInnovationAndVAPUrl += '&'+parseSelectedThemesToUrl();
+			if(backToInnovationAndVAPUrl.indexOf('?') >-1) {
+				backToInnovationAndVAPUrl += '&';
+			} else {
+				backToInnovationAndVAPUrl += '?';
+			}
+			backToInnovationAndVAPUrl += parseSelectedThemesToUrl();
+			// End;
         } catch(Exception e){
             ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to load data from url. '));
- 			backToInnovationAndVAPUrl = Page.InnovationAndVAP.getUrl();     
+            // Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
+// 			backToInnovationAndVAPUrl = Page.InnovationAndVAP.getUrl();
+			if(isResponsive) {
+				backToInnovationAndVAPUrl = Page.R_InnovationAndVAP.getUrl();
+			} else {
+				backToInnovationAndVAPUrl = Page.InnovationAndVAP.getUrl();
+			}
+			// End:
         }
         
-
-        addBreadcrumbItem(Page.InnovationAndVAP.getUrl(), currentSectionConstant);
+		// Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
+//        addBreadcrumbItem(Page.InnovationAndVAP.getUrl(), currentSectionConstant);
+		addBreadcrumbItem(backToInnovationAndVAPUrl, currentSectionConstant);
+		// End:
 
         if(ApexPages.currentPage().getParameters().get('id') != null){
             try {
@@ -123,12 +151,16 @@ public with sharing class Controller_IVAPDetails extends Controller_Base {
     }
     
     public PageReference initTheme(){
-        if(Service_API.getSectionTheme() != ivapItem.classification__c && ivapItem.classification__c != 'Mixed'){
-			Service_API.setUserSiteTheme(ivapItem.classification__c, false);
-    		PageReference pr = ApexPages.currentPage();
-    		pr.setRedirect(true);
-    		return pr;
-		}
+    	try {
+	        if(Service_API.getSectionTheme() != ivapItem.classification__c && ivapItem.classification__c != 'Mixed'){
+				Service_API.setUserSiteTheme(ivapItem.classification__c, false);
+	    		PageReference pr = ApexPages.currentPage();
+	    		pr.setRedirect(true);
+	    		return pr;
+			}
+    	} catch (Exception e) {
+    		
+    	}
 		return null;
     }
     
@@ -213,5 +245,18 @@ public with sharing class Controller_IVAPDetails extends Controller_Base {
 
     public void renderAsBoxSlider() {
     	displayAsList = false; // other action if needed    	
-    }     
+    }
+         
+	// Start: Changes for Responsive Site - Randy Wandell (Appirio) 7/10/13    
+    public void setResponsiveState() {
+		pageUrl = ApexPages.currentPage().getUrl();
+		if(pageUrl.toLowerCase().indexOf('r_ivapdetails') > -1) {
+			isResponsive = true;
+			preapareSiteNavigationMenu();
+		} else {
+			isResponsive = false;
+			preapareSiteNavigationMenu();
+		}    	
+    }
+    // End:  
 }

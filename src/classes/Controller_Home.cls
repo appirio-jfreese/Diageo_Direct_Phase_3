@@ -19,7 +19,10 @@ public with sharing class Controller_Home extends Controller_Base {
 	}
     	    
     public Controller_Home() {
-		pageUrl = Page.HomePage.getUrl();
+    	// Start: Changes for Responsive Site - Randy Wandell (Appirio) 7/10/13
+//		pageUrl = Page.HomePage.getUrl();
+		setResponsiveState();
+		// End:
         
         //articles
         articles = Service_API.getNewsAndArticles();
@@ -34,4 +37,17 @@ public with sharing class Controller_Home extends Controller_Base {
             showPlayer = 'none';            
         }
     }
+
+	// Start: Changes for Responsive Site - Randy Wandell (Appirio) 7/10/13    
+    public void setResponsiveState() {
+		pageUrl = ApexPages.currentPage().getUrl();
+		if(pageUrl.toLowerCase().indexOf('r_homepage') > -1) {
+			isResponsive = true;
+			preapareSiteNavigationMenu();
+		} else {
+			isResponsive = false;
+			preapareSiteNavigationMenu();
+		}    	
+    }
+    // End:
 }

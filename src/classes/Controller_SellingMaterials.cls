@@ -94,7 +94,16 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
 	public Boolean isFilterSet {public get; protected set;}  
 	
     public Controller_SellingMaterials() {
-		pageUrl = Page.SellingMaterials.getUrl();
+    	// Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
+		//pageUrl = Page.SellingMaterials.getUrl();
+		setResponsiveState();
+		if(isResponsive) {
+			pageUrl = Page.R_SMIntro.getUrl();
+		} else {
+			pageUrl = ApexPages.currentPage().getUrl();
+		}
+		// End:
+		
     	refreshDisabled = true;    	
 		// default display as list
 		displayAsList = true;
@@ -180,7 +189,11 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
 
 	private void prepareBreadcrumbs(){
 		cleanBreadcrumbs();
-        addBreadcrumbItem(Page.SMIntro.getUrl(), Constant.SELLING_MATERILAS);		
+		// Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
+//        addBreadcrumbItem(Page.SMIntro.getUrl(), Constant.SELLING_MATERILAS);
+		addBreadcrumbItem(pageUrl, Constant.SELLING_MATERILAS);
+		// End:
+				
         if(currentSection != null && currentSection != ''){
 			String currentPageUrl = '?';
 			currentPageUrl += 'section='+EncodingUtil.urlEncode(currentSection,'UTF-8');
@@ -907,5 +920,16 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
     		glue = ',';
     	}
     }
-    
+
+	// Start: Changes for Responsive Site - Randy Wandell (Appirio) 7/10/13    
+    public void setResponsiveState() {
+		if(ApexPages.currentPage().getUrl().toLowerCase().indexOf('r_sellingmaterials') > -1) {
+			isResponsive = true;
+			preapareSiteNavigationMenu();
+		} else {
+			isResponsive = false;
+			preapareSiteNavigationMenu();
+		}    	
+    }
+    // End:     
 }

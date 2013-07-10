@@ -10,7 +10,11 @@ public with sharing class Controller_SMIntro extends Controller_Base {
     public MAP<string, string> totalSubSectionsMap {get; set;}
     
     public Controller_SMIntro() {
-		pageUrl = Page.SMIntro.getUrl();
+    	// Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
+//		pageUrl = Page.SMIntro.getUrl();
+		pageUrl = ApexPages.currentPage().getUrl();
+		// End:
+		
         addBreadcrumbItem(Apexpages.currentPage().getUrl(), Constant.SELLING_MATERILAS);
         
 		sections = new List<String>();

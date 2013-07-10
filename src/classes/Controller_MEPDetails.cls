@@ -52,8 +52,17 @@ public with sharing class Controller_MEPDetails extends Controller_Base {
 	}
 	
     public Controller_MEPDetails() {
-    	backToMonthlyExecutionPlanUrl = Page.MonthlyExecutionPlan.getUrl();
-		pageUrl = Page.MEPDetails.getUrl();
+    	// Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
+    	setResponsiveState();
+    	if(isResponsive) {
+    		backToMonthlyExecutionPlanUrl = Page.R_MonthlyExecutionPlan.getUrl();
+    	} else {
+    		backToMonthlyExecutionPlanUrl = Page.MonthlyExecutionPlan.getUrl();
+    	}
+    	pageUrl = ApexPages.currentPage().getUrl();
+//		pageUrl = Page.MEPDetails.getUrl();
+		// End:
+
         displayAsList = true;
 		
         try{
@@ -66,13 +75,31 @@ public with sharing class Controller_MEPDetails extends Controller_Base {
 		        	backToMonthlyExecutionPlanUrl += '&driver='+ApexPages.currentPage().getParameters().get('driver');
 				}
 			}
-			backToMonthlyExecutionPlanUrl += '&'+parseSelectedThemesToUrl();
+			// Start: Existing bug when building url - Randy Wandell (Appirio) 7/10/13
+//			backToInnovationAndVAPUrl += '&'+parseSelectedThemesToUrl();
+			if(backToMonthlyExecutionPlanUrl.indexOf('?') >-1) {
+				backToMonthlyExecutionPlanUrl += '&';
+			} else {
+				backToMonthlyExecutionPlanUrl += '?';
+			}
+			backToMonthlyExecutionPlanUrl += parseSelectedThemesToUrl();
+			// End;
         } catch(Exception e){
             ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to load data from url. '));
- 			backToMonthlyExecutionPlanUrl = Page.MonthlyExecutionPlan.getUrl();     
+	    	// Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
+	    	//backToMonthlyExecutionPlanUrl = Page.MonthlyExecutionPlan.getUrl(); 
+	    	if(isResponsive) {
+	    		backToMonthlyExecutionPlanUrl = Page.R_MonthlyExecutionPlan.getUrl();
+	    	} else {
+	    		backToMonthlyExecutionPlanUrl = Page.MonthlyExecutionPlan.getUrl();
+	    	}            
+ 			// End:    
         }
-           	
-        addBreadcrumbItem(Page.MonthlyExecutionPlan.getUrl(), Constant.MONTHLY_EXECUTION_PLAN);
+        
+        // Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13	
+//        addBreadcrumbItem(Page.MonthlyExecutionPlan.getUrl(), Constant.MONTHLY_EXECUTION_PLAN);
+        addBreadcrumbItem(backToMonthlyExecutionPlanUrl, Constant.MONTHLY_EXECUTION_PLAN);
+        // End:
         
         if(ApexPages.currentPage().getParameters().get('id') != null){
             try {
@@ -181,5 +208,18 @@ public with sharing class Controller_MEPDetails extends Controller_Base {
 
     public void renderAsBoxSlider() {
     	displayAsList = false; // other action if needed    	
-    }       
+    }
+    
+	// Start: Changes for Responsive Site - Randy Wandell (Appirio) 7/10/13    
+    public void setResponsiveState() {
+		pageUrl = ApexPages.currentPage().getUrl();
+		if(pageUrl.toLowerCase().indexOf('r_mepdetails') > -1) {
+			isResponsive = true;
+			preapareSiteNavigationMenu();
+		} else {
+			isResponsive = false;
+			preapareSiteNavigationMenu();
+		}    	
+    }
+    // End:    
 }

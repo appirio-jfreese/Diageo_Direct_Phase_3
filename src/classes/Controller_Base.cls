@@ -44,12 +44,8 @@ Story/Task  : US607/TA1014
 
 global public without sharing virtual class Controller_Base {
 		// Start : Changes for US615/TA1067 - Basant Verma (Appirio OffShore)
-		public boolean isResponsive {
-			get{
-				return Service_API.isResponsive();
-			}
-			set;
-		}
+		// Revised by Randy Wandell 7/10/13
+		public boolean isResponsive { get; set; }
 		// End : Changes for US615/TA1067 - Basant Verma (Appirio OffShore)
 		// Start : Changes for TA920 - Basant Verma
 		public String clickedTheme {public get; public set;}
@@ -255,20 +251,30 @@ global public without sharing virtual class Controller_Base {
     //Site navigation menu links list
     public list<pageLink> menuLinksBase {public get {
 		PageLink dws = (siteTheme == 'Spirits') ? (new PageLink('/idp/login?app='+ssoId+'&RelayState='+hexDwsacademies,Constant.DWS, 'menu-plan')) : (new PageLink('/idp/login?app='+ssoId+'&RelayState='+hexDiageowines,Constant.DIAGEOWINESCOM, 'menu-plan'));
-							
-		return new list<pageLink>
-        	{
-	           new PageLink(Page.MonthlyExecutionPlan.getUrl(),Constant.MONTHLY_EXECUTION_PLAN, 'menu-mep'),
-	           new PageLink(Page.InnovationAndVAP.getUrl(),((Service_API.getSectionTheme() == 'Spirits') ? Constant.INNOVATION_AND_SUSTAINOVATION : Constant.INNOVATION_SUSTAINOVATION_AND_VINTAGE) , 'menu-isv'),
-	           new PageLink(Page.SMIntro.getUrl(),Constant.SELLING_MATERILAS, 'menu-sm'),
-	           new PageLink(Page.CDIntro.getUrl(),Constant.CATEGOTY_DEVELOPMENT, 'menu-pm'),
-	           new PageLink(Page.BMIIntro.getUrl(),Constant.BRAND_MARKETING_INFORMATION, 'menu-bmi'),
-	           new PageLink(Page.PIL.getUrl(),Constant.PRODUCT_IMAGES_AND_LOGOS, 'menu-pil'),
-	           new PageLink(Page.POS_LegalDisclaimer.getUrl(),Constant.POS, 'menu-pos'),
-	           new PageLink(Page.Collaboration.getUrl(),Constant.COLLABORATION, 'menu-col'),
-	           dws,
-	           new PageLink(Page.Multicultural.getUrl(),Constant.MULTICULTURAL, 'menu-dws')
-	        }; 
+
+		if(isResponsive) {
+			return new list<pageLink>
+	        	{
+		           new PageLink(Page.R_MonthlyExecutionPlan.getUrl(),Constant.MONTHLY_EXECUTION_PLAN, 'menu-mep'),
+		           new PageLink(Page.R_InnovationAndVAP.getUrl(),((Service_API.getSectionTheme() == 'Spirits') ? Constant.INNOVATION_AND_SUSTAINOVATION : Constant.INNOVATION_SUSTAINOVATION_AND_VINTAGE) , 'menu-isv'),
+		           new PageLink(Page.R_SMIntro.getUrl(),Constant.SELLING_MATERILAS, 'menu-sm'),
+		           dws
+		        };			
+		} else {
+			return new list<pageLink>
+	        	{
+		           new PageLink(Page.MonthlyExecutionPlan.getUrl(),Constant.MONTHLY_EXECUTION_PLAN, 'menu-mep'),
+		           new PageLink(Page.InnovationAndVAP.getUrl(),((Service_API.getSectionTheme() == 'Spirits') ? Constant.INNOVATION_AND_SUSTAINOVATION : Constant.INNOVATION_SUSTAINOVATION_AND_VINTAGE) , 'menu-isv'),
+		           new PageLink(Page.SMIntro.getUrl(),Constant.SELLING_MATERILAS, 'menu-sm'),
+		           new PageLink(Page.CDIntro.getUrl(),Constant.CATEGOTY_DEVELOPMENT, 'menu-pm'),
+		           new PageLink(Page.BMIIntro.getUrl(),Constant.BRAND_MARKETING_INFORMATION, 'menu-bmi'),
+		           new PageLink(Page.PIL.getUrl(),Constant.PRODUCT_IMAGES_AND_LOGOS, 'menu-pil'),
+		           new PageLink(Page.POS_LegalDisclaimer.getUrl(),Constant.POS, 'menu-pos'),
+		           new PageLink(Page.Collaboration.getUrl(),Constant.COLLABORATION, 'menu-col'),
+		           dws,
+		           new PageLink(Page.Multicultural.getUrl(),Constant.MULTICULTURAL, 'menu-dws')
+		        }; 
+		}
     	}
     	protected set;}
         
@@ -300,6 +306,9 @@ global public without sharing virtual class Controller_Base {
 	}
 		
     public Controller_Base() {
+    	// Start: Changes to support responsive site - Randy Wandell (Appirio) 7/10/13
+    	if(isResponsive == null) { isResponsive = Service_API.isResponsive(); }
+    	// End:
     	myuserAgent = ApexPages.currentPage().getHeaders().get('USER-AGENT');
     	if(myuserAgent != null && myuserAgent != '' && myuserAgent.contains('iPad')){
     		isIpad = true;	
@@ -316,7 +325,7 @@ global public without sharing virtual class Controller_Base {
     	
     	siteTheme = Service_API.getSectionTheme();
     	
-			// Start : Changes for TA920 - Basant Verma    	
+		// Start : Changes for TA920 - Basant Verma    	
     	defSiteThemeTemp = siteThemeDefault;   
     	clickedTheme = siteTheme;
     	// End : Changes for TA920
@@ -441,7 +450,9 @@ global public without sharing virtual class Controller_Base {
     				|| currentUserPage().equalsIgnoreCase('/apex/MonthlyExecutionPlanPDF')
     				|| currentUserPage().equalsIgnoreCase('/apex/R_MonthlyExecutionPlan')
     				|| currentUserPage().equalsIgnoreCase('/apex/R_MonthlyExecutionPlan1')
-    				|| currentUserPage().equalsIgnoreCase('/apex/R_MonthlyExecutionPlanPDF')){
+    				|| currentUserPage().equalsIgnoreCase('/apex/R_MonthlyExecutionPlanPDF')
+    				|| currentUserPage().equalsIgnoreCase('/apex/R_InnovationAndVAP')
+    				|| currentUserPage().equalsIgnoreCase('/apex/R_InnovationAndVAPPDF')){
     		// End : Changes for US585/TA1082 - Basant (Added R_xxx page)
     			for(CheckboxOption cbo : themeOptions){
 	    			if(cbo.name.equalsIgnoreCase(Label.CatalystParentTheme) && cbo.subOptions.size() == 0){

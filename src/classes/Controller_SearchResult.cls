@@ -72,6 +72,7 @@ public with sharing class Controller_SearchResult extends Controller_Base {
     public String currentSection {get; set;}
     public Boolean isDetails {get; set;}
     public Boolean firstZeroResult {get; set;}
+    public String R_OrdertBy {get; set;}
     public Boolean secondZeroResult {get; set;}    
     protected String brandIdsString {get; protected set;}
  	protected transient map<string, string> sectionQuery {protected get; protected set;}
@@ -144,12 +145,16 @@ public with sharing class Controller_SearchResult extends Controller_Base {
     	}
     	return pr;
     }
+    
+	public void R_usersearchOrdertBy(){
+    	refreshPageContent();
+    }
+    
         
     public override void refreshPageContent() {
     	try{
    	
     	initQuery();
-    	
  		if(isDetails){
 		    String sectionQueryString = sectionQuery.get(currentSection);
 		    if(sectionQueryString != null && sectionQueryString != ''){
@@ -249,7 +254,9 @@ public with sharing class Controller_SearchResult extends Controller_Base {
     	}
     }
 
-    private void initQuery(){
+     
+    
+     private void initQuery(){
     	
     	sectionQuery = new map<string, string>();
     	
@@ -273,7 +280,7 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 			} 
 		}
 		*/
-
+		/* Start: changes for R_SearchResult page Harish Khatri(Appirio Offshore) */ 
 		searchValue = searchValDec;
 		// BMI SEARCH			    	
 		String queryBMI    	= ' SELECT Sub_Category__c, Sub_Sub_Category__c, Sub_Sub_Sub_Category__c, content_description__r.Tags__c tag, content_description__r.is_video__c is_video, content_description__r.video_id__c video_id, content_description__r.Title__c title, content_description__r.Description__c description, content_description__r.Content_Version_Id__c cvid, content_description__r.filetype__c filetype, content_description__r.Preview_Available__c previewAvailable, content_description__r.Preview_Id__c previewId, content_description__r.filesize__c filesize, content_description__r.filesize_low__c filesize_low, content_description__r.Content_Version_Id_Low__c cvidlow, max(content_description__r.Uploaded_date__c) createdDate, content_description__r.image_resolution__c imageRes  FROM content_property__c' 
@@ -281,7 +288,8 @@ public with sharing class Controller_SearchResult extends Controller_Base {
    						   	+ ' AND (content_description__r.Content_Id__c in ('+brandIdsString+') OR ( content_description__r.Portfolio__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ) '
 				   		   	+ ' AND (((content_description__r.Title__c like \'%'+searchValue+'%\' OR content_description__r.Description__c like \'%'+searchValue+'%\' OR content_description__r.Tags__c like \'%'+searchValue+'%\'))' + ((ids!='') ? ' OR (content_description__r.content_version_id__c in ('+ids+') OR content_description__r.content_version_id_low__c in ('+ids+'))) ' : ')') +
 				           	+ ' GROUP BY Sub_Category__c, Sub_Sub_Category__c, content_description__r.Tags__c, Sub_Sub_Sub_Category__c, content_description__r.is_video__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.Content_Version_Id_Low__c, content_description__r.image_resolution__c  '+ 
-				           	+ ' ORDER BY Sub_Sub_Sub_Category__c, content_description__r.Description__c ASC';
+				           	//+ ' ORDER BY Sub_Sub_Sub_Category__c, content_description__r.Description__c ASC' ;
+				           	+ ' ORDER BY Sub_Sub_Sub_Category__c, content_description__r.Description__c ' + (R_OrdertBy != null && R_OrdertBy.trim() != '' ? R_OrdertBy+' ' : 'ASC ') ;
 		sectionQuery.put(CONSTANT.BRAND_MARKETING_INFORMATION, queryBMI);
 		
 		// SM SEARCH
@@ -290,7 +298,8 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 			 	   		   	+ ' AND (content_description__r.Content_Id__c in ('+brandIdsString+') OR ( content_description__r.Portfolio__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ) '
        				 	   	+ ' AND (((content_description__r.Title__c like \'%'+searchValue+'%\' OR content_description__r.Description__c like \'%'+searchValue+'%\' OR content_description__r.Tags__c like \'%'+searchValue+'%\'))' + ((ids!='') ? ' OR (content_description__r.content_version_id__c in ('+ids+') OR content_description__r.content_version_id_low__c in ('+ids+'))) ' : ')') +
 		        		   	+ ' GROUP BY Sub_Category__c, Sub_Sub_Category__c, content_description__r.Tags__c, Sub_Sub_Sub_Category__c, content_description__r.is_video__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.Content_Version_Id_Low__c, content_description__r.image_resolution__c  '+ 
-		        	       	+ ' ORDER BY Sub_Sub_Sub_Category__c, content_description__r.Description__c ASC';
+		        	       	//+ ' ORDER BY Sub_Sub_Sub_Category__c, content_description__r.Description__c ASC';
+		        	       	+ ' ORDER BY Sub_Sub_Sub_Category__c, content_description__r.Description__c ' + (R_OrdertBy != null && R_OrdertBy.trim() != '' ? R_OrdertBy+' ' : 'ASC ') ;
 		sectionQuery.put(CONSTANT.SELLING_MATERILAS, querySM);
 
 		// MEP SEARCH
@@ -298,7 +307,8 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 		               		+ ' WHERE content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') and category__c=\''+Constant.MONTHLY_EXECUTION_PLAN+'\' AND content_description__r.Content_Id__c in ('+brandIdsString+') '
 		               		+ ' AND (((content_description__r.Title__c like \'%'+searchValue+'%\' OR content_description__r.Description__c like \'%'+searchValue+'%\' OR content_description__r.Tags__c like \'%'+searchValue+'%\') )' + ((ids!='') ? ' OR (content_description__r.content_version_id__c in ('+ids+') OR content_description__r.content_version_id_low__c in ('+ids+'))) ' : ')') +
 		               		+ ' GROUP BY content_description__r.is_video__c, content_description__r.Tags__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.Content_Version_Id_Low__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.image_resolution__c  '+ 
-		               		+ ' ORDER BY content_description__r.Description__c ASC';
+		               		//+ ' ORDER BY content_description__r.Description__c ASC';
+		               		+ ' ORDER BY content_description__r.Description__c ' + (R_OrdertBy != null && R_OrdertBy.trim() != '' ? R_OrdertBy+' ' : 'ASC ') ;
 		sectionQuery.put(CONSTANT.MONTHLY_EXECUTION_PLAN, queryMEP);
 		
 		// IVAP SEARCH
@@ -306,7 +316,8 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 		               		+ ' WHERE content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') and category__c=\''+innovationSectionName+'\' AND content_description__r.Content_Id__c in ('+brandIdsString+') '
 		               		+ ' AND (((content_description__r.Title__c like \'%'+searchValue+'%\' OR content_description__r.Description__c like \'%'+searchValue+'%\' OR content_description__r.Tags__c like \'%'+searchValue+'%\'))' + ((ids!='') ? ' OR (content_description__r.content_version_id__c in ('+ids+') OR content_description__r.content_version_id_low__c in ('+ids+'))) ' : ')') +
 		               		+ ' GROUP BY content_description__r.is_video__c, content_description__r.Tags__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.Content_Version_Id_Low__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.image_resolution__c  '+ 
-		               		+ ' ORDER BY content_description__r.Description__c ASC';
+		               		//+ ' ORDER BY content_description__r.Description__c ASC';
+		               		+ ' ORDER BY content_description__r.Description__c '+ (R_OrdertBy != null && R_OrdertBy.trim() != '' ? R_OrdertBy+' ' : 'ASC ') ;
 		sectionQuery.put(innovationSectionName, queryIVAP);
 		
 		// PIL SEARCH
@@ -314,7 +325,8 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 		               		+ ' WHERE content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') and category__c=\''+Constant.PRODUCT_IMAGES_AND_LOGOS+'\' AND content_description__r.Content_Id__c in ('+brandIdsString+') '
 		               		+ ' AND (((content_description__r.Title__c like \'%'+searchValue+'%\' OR content_description__r.Description__c like \'%'+searchValue+'%\' OR content_description__r.Tags__c like \'%'+searchValue+'%\'))' + ((ids!='') ? ' OR (content_description__r.content_version_id__c in ('+ids+') OR content_description__r.content_version_id_low__c in ('+ids+'))) ' : ')') +
 		               		+ ' GROUP BY content_description__r.is_video__c, content_description__r.Tags__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.Content_Version_Id_Low__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.image_resolution__c  '+ 
-		               		+ ' ORDER BY content_description__r.Description__c ASC';
+		               		//+ ' ORDER BY content_description__r.Description__c ASC';
+		               		+ ' ORDER BY content_description__r.Description__c  '+ (R_OrdertBy != null && R_OrdertBy.trim() != '' ? R_OrdertBy+' ' : 'ASC ') ;
 		sectionQuery.put(CONSTANT.PRODUCT_IMAGES_AND_LOGOS, queryPIL);
 
 		// CD SEARCH
@@ -323,7 +335,8 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 			 	   		   	+ ' AND (content_description__r.Content_Id__c in ('+brandIdsString+') OR ( content_description__r.Portfolio__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ) '
        				 	   	+ ' AND (((content_description__r.Title__c like \'%'+searchValue+'%\' OR content_description__r.Description__c like \'%'+searchValue+'%\' OR content_description__r.Tags__c like \'%'+searchValue+'%\'))' + ((ids!='') ? ' OR (content_description__r.content_version_id__c in ('+ids+') OR content_description__r.content_version_id_low__c in ('+ids+'))) ' : ')') +
 		        		   	+ ' GROUP BY Sub_Category__c, Sub_Sub_Category__c, content_description__r.Tags__c, Sub_Sub_Sub_Category__c, content_description__r.is_video__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.Content_Version_Id_Low__c, content_description__r.image_resolution__c  '+ 
-		        	       	+ ' ORDER BY Sub_Sub_Sub_Category__c, content_description__r.Description__c ASC';						
+		        	       //	+ ' ORDER BY Sub_Sub_Sub_Category__c, content_description__r.Description__c ASC';	
+		        	       	+ ' ORDER BY Sub_Sub_Sub_Category__c, content_description__r.Description__c '+ (R_OrdertBy != null && R_OrdertBy.trim() != '' ? R_OrdertBy+' ' : 'ASC ') ;					
 		sectionQuery.put(CONSTANT.CATEGOTY_DEVELOPMENT, queryCD);
 		
 		// COLLABORATION SEARCH
@@ -336,7 +349,8 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 			   queryCOL    += ' ) ' 
 		               		+ ' AND (((Title__c like \'%'+searchValue+'%\' OR Description__c like \'%'+searchValue+'%\' OR Tags__c like \'%'+searchValue+'%\'))' + ((ids!='') ? 'OR (content_version_id__c in ('+ids+')))  '  : ')' )+			
 							+ ' GROUP BY Content_Version_Id__c, Tags__c, video_id__c,  Description__c, image_resolution__c, filesize__c, filetype__c, Title__c, is_video__c, OwnerId' +
-							+ ' ORDER BY Description__c ASC';	
+							//+ ' ORDER BY Description__c ASC';	
+							+ ' ORDER BY Description__c  '+ (R_OrdertBy != null && R_OrdertBy.trim() != '' ? R_OrdertBy+' ' : 'ASC ') ;
 		sectionQuery.put(CONSTANT.COLLABORATION, queryCOL);
 		system.debug('DNAMES x'+currentDivisionsString+'x');
 		
@@ -346,7 +360,8 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 		               		+ ' WHERE Classification__c includes (\''+Service_API.getSectionTheme()+'\') and ( Available_Until__c >= TODAY or Available_Until__c = null) and (Page_Section__c = \'' + CONSTANT.PLANNING + '\' ) ' +
 							+ ' AND (((Title__c like \'%'+searchValue+'%\' OR Description__c like \'%'+searchValue+'%\' OR Tags__c like \'%'+searchValue+'%\'))' + ((ids!='') ? 'OR (content_version_id__c in ('+ids+')))  '  : ')' )+
 		           	   		+ ' GROUP BY Tags__c, video_id__c, Content_Version_Id__c, Description__c, filesize__c, filetype__c, Title__c, is_video__c, Preview_Available__c, Preview_Id__c, image_resolution__c ' +
-		           	   		+ ' ORDER BY Description__c ASC';
+		           	   		//+ ' ORDER BY Description__c ASC';
+		           	   		+ ' ORDER BY Description__c '+ (R_OrdertBy != null && R_OrdertBy.trim() != '' ? R_OrdertBy+' ' : 'ASC ') ;
 		sectionQuery.put(CONSTANT.PLANNING, queryPLN);
 		
 		String queryMUL    	= ' SELECT Sub_Category__c, Sub_Sub_Category__c, Sub_Sub_Sub_Category__c, content_description__r.Tags__c, content_description__r.is_video__c is_video, content_description__r.video_id__c video_id, content_description__r.Title__c title, content_description__r.Description__c description, content_description__r.Content_Version_Id__c cvid, content_description__r.filetype__c filetype, content_description__r.Preview_Available__c previewAvailable, content_description__r.Preview_Id__c previewId, content_description__r.filesize__c filesize, content_description__r.filesize_low__c filesize_low, content_description__r.Content_Version_Id_Low__c cvidlow, max(content_description__r.Uploaded_date__c) createdDate, content_description__r.image_resolution__c imageRes  FROM content_property__c' 
@@ -354,8 +369,10 @@ public with sharing class Controller_SearchResult extends Controller_Base {
    						   	+ ' AND (content_description__r.Content_Id__c in ('+brandIdsString+') OR ( content_description__r.Portfolio__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ) '
 				   		   	+ ' AND (((content_description__r.Title__c like \'%'+searchValue+'%\' OR content_description__r.Description__c like \'%'+searchValue+'%\' OR content_description__r.Tags__c like \'%'+searchValue+'%\'))' + ((ids!='') ? ' OR (content_description__r.content_version_id__c in ('+ids+') OR content_description__r.content_version_id_low__c in ('+ids+'))) ' : ')') +
 				           	+ ' GROUP BY Sub_Category__c, content_description__r.Tags__c, Sub_Sub_Category__c, Sub_Sub_Sub_Category__c, content_description__r.is_video__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.Content_Version_Id_Low__c, content_description__r.image_resolution__c  '+ 
-				           	+ ' ORDER BY content_description__r.Description__c ASC';
-		sectionQuery.put(CONSTANT.MULTICULTURAL, queryMUL);		
+				           	//+ ' ORDER BY content_description__r.Description__c ASC';
+				           	+ ' ORDER BY content_description__r.Description__c '+ (R_OrdertBy != null && R_OrdertBy.trim() != '' ? R_OrdertBy+' ' : 'ASC ') ;
+		sectionQuery.put(CONSTANT.MULTICULTURAL, queryMUL);
+		/* End: changes for R_SearchResult page Harish Khatri(Appirio Offshore) */ 		
     }
 
         

@@ -39,8 +39,16 @@ public with sharing class Controller_InnovationAndVAP extends Controller_Base {
     	currentSectionConstant = (siteTheme == 'Spirits') ? (Constant.INNOVATION_AND_SUSTAINOVATION) : (Constant.INNOVATION_SUSTAINOVATION_AND_VINTAGE);
     	currentSectionBool = (siteTheme == 'Spirits');
     	
-        detailPagePath = Page.IVAPDetails.getUrl();
-		pageUrl = Page.InnovationAndVAP.getUrl();
+    	// Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
+    	pageUrl = ApexPages.currentPage().getUrl();
+    	setResponsiveState();
+    	if(isResponsive) {
+    		detailPagePath = Page.R_IVAPDetails.getUrl();
+    	} else {
+        	detailPagePath = Page.IVAPDetails.getUrl();
+    	}
+//		pageUrl = Page.InnovationAndVAP.getUrl();
+		//End:
         
         salesDriversToShow = new list<String>();
         salesDriversToProcess = new list<String>();
@@ -89,8 +97,17 @@ public with sharing class Controller_InnovationAndVAP extends Controller_Base {
     
 	private void prepareBreadcrumbs(){
 		cleanBreadcrumbs();
-       	currentPageUrl = Page.InnovationAndVAP.getUrl();
-        detailPagePath = Page.IVAPDetails.getUrl();
+		
+		// Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
+//       	currentPageUrl = Page.InnovationAndVAP.getUrl();
+		currentPageUrl = ApexPages.currentPage().getUrl();
+		if(isResponsive) {
+			detailPagePath = Page.R_IVAPDetails.getUrl();
+		} else {
+        	detailPagePath = Page.IVAPDetails.getUrl();
+		}
+		//End:
+		
         if(timePeriod != null){
 			detailPagePath += '?time='+timePeriod;
 			if(salesDriver != null && salesDriver != ''){
@@ -156,7 +173,15 @@ public with sharing class Controller_InnovationAndVAP extends Controller_Base {
         }
         salesDriversToShowCount = salesDriversToShow.size();
         setMonths();
- 		pdfPath = Page.InnovationAndVAPPdf.getUrl()+'?export=true&time='+timePeriod+'&driver='+salesDriver+'&date='+calendar.startDate.year()+'-'+calendar.startDate.month()+'-'+calendar.startDate.day()+'&'+parseSelectedThemesToUrl();
+        
+        // Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
+        if(isResponsive) {
+	 		pdfPath = Page.R_InnovationAndVAPPdf.getUrl()+'?export=true&time='+timePeriod+'&driver='+salesDriver+'&date='+calendar.startDate.year()+'-'+calendar.startDate.month()+'-'+calendar.startDate.day()+'&'+parseSelectedThemesToUrl();
+        } else {
+ 			pdfPath = Page.InnovationAndVAPPdf.getUrl()+'?export=true&time='+timePeriod+'&driver='+salesDriver+'&date='+calendar.startDate.year()+'-'+calendar.startDate.month()+'-'+calendar.startDate.day()+'&'+parseSelectedThemesToUrl();
+        }
+        //End: 
+        
  		prepareBreadcrumbs();
         startFromDate = calendar.startDate.year() + '-' + calendar.startDate.month() + '-01';
     }
@@ -321,4 +346,16 @@ public with sharing class Controller_InnovationAndVAP extends Controller_Base {
 		startDate = calendar.startDate.format();
 		endDate = calendar.endDate.format();
     }
+
+	// Start: Changes for Responsive Site - Randy Wandell (Appirio) 7/10/13    
+    public void setResponsiveState() {
+		if(pageUrl.toLowerCase().indexOf('r_innovationandvap') > -1) {
+			isResponsive = true;
+			preapareSiteNavigationMenu();
+		} else {
+			isResponsive = false;
+			preapareSiteNavigationMenu();
+		}    	
+    }
+    // End:    
 }
