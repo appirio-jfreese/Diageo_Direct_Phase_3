@@ -137,15 +137,15 @@ Story/Task  : US585/TA1081
                             <apex:repeat value="{!calendarData[month.data][salesdrivername]}" var="programData">                                                                    
                                 
                                 <div align="center" 
-                                 style="background-color:#b9b8b8; width: 180px; {!IF(timePeriod == 1,'height: 77px;', '')} {!programData.styleBackgroundColor}{!programData.styleTextColor}; cursor: pointer; " 
+                                 style="background-color:#b9b8b8; width: 100%; {!IF(timePeriod == 1,'height: 77px;', '')} {!programData.styleBackgroundColor}{!programData.styleTextColor}; cursor: pointer; " 
                                  onClick="window.location='{!detailPagePath}&id={!programData.id}'">                                
                                     <apex:outputPanel rendered="{!timePeriod == 1}">
-                                        <div style="{!programData.styleBackgroundImage} background-repeat: none; width: 145px; height: 45px;"></div>
-                                        <div style="height: 10px; width: 145px;"></div>
+                                        <div style="{!programData.styleBackgroundImage} background-repeat: no-repeat; background-position: center; height: 60%;"></div>
+                                        <div style="height: 10px; width: 100%;"></div>
                                     </apex:outputPanel>
                                     <a class="p" href="" style="">{!programData.label}</a>
                                 </div>
-                                <div style="width: 145px; height: 2px;"></div>                              
+                                <div style="height: 10px; width: 100%;"></div>                              
                                                                                                 
                             </apex:repeat>                          
                             

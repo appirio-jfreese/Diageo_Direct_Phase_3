@@ -21,7 +21,7 @@ Story/Task	: US585/TA1082
 			<!-- PAGE HEADER -->
 			<c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" /> <!--thisAvatarURL="{!avatarUrl}"-->
 			<script type="text/javascript">
-				pageViewed('Monthly Execution Plan - Detail Page');
+				pageViewed('Innovation, Sustainovation &amp; VAP - Detail Page');
 			</script>
 			
 			<!-- content -->
@@ -43,10 +43,10 @@ Story/Task	: US585/TA1082
 						
 						<apex:outputPanel rendered="{! if( detailId != null, 'true','false' )}" id="pageContent">
 							<div class="button-line three-btns">
-								<a href="" class="active isv-bg section-options">Overview</a>
+								<a href="" class="active isv-bg section-options" style="width: {!(100/(detailsMapOrderSize+1))-1}%;">Overview</a>
 								<apex:variable var="counter" value="{!1}"/>
 								<apex:repeat value="{!detailsMapOrder}" var="silderSection">
-									<a href="" class="isv-bg section-options {!if(silderSection == 'Media', 'mediaPage', '')} {!IF(counter == detailsMapOrder.size,'last','')}">{!silderSection}</a>
+									<a href="" class="isv-bg section-options {!if(silderSection == 'Media', 'mediaPage', '')} {!IF(counter == detailsMapOrder.size,'last','')}"  style="width: {!(100/(detailsMapOrderSize+1))-1}%;">{!silderSection}</a>
 									<apex:variable var="counter" value="{!counter + 1}"/>
 								</apex:repeat>
 							</div>
