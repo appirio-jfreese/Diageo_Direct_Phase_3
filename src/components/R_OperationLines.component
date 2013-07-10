@@ -18,7 +18,7 @@ Story/Task	: US585/TA1082
   <apex:attribute name="value" description="Value of select list" type="string" required="false"/>
   <apex:attribute name="onchange" description="Onchange function name" type="string" required="false"/>
   <apex:attribute name="bindToController" description="Bind to controller" type="Boolean" required="false" default="true"/>
-
+ <apex:attribute name="className" description="Select class name" type="string" required="false"/>
   <div class="operation-line">
      <a href="javascript: operationLine('download');" class="download disabled {!pageNamePrefix}-bg">
          <span>Download</span>
@@ -55,15 +55,16 @@ Story/Task	: US585/TA1082
 		    <div class="desc">
 		         {!pagesStatus}
 		    </div>
-			<select>
+			<!--<select>
 				<option>12</option>
 				<option>24</option>
 				<option>48</option>
 				<option>60</option>
 			</select>
-				<!-- <apex:outputPanel rendered="{!NOT(ISNULL(options))}">
-					<c:R_selectList width="80" options="{!options}"  value="{!value}" onchange="{!onchange}" bindToController="{!bindToController}"/>
-				</apex:outputPanel> -->
+			 -->
+			 <apex:outputPanel rendered="{!NOT(ISNULL(options))}">
+				 <c:R_selectList width="80" options="{!options}"  value="{!value}" onchange="{!onchange}" bindToController="{!bindToController}" className="{!className}"/> 
+			</apex:outputPanel> 
  	    </apex:outputPanel>
 	    <div class="select-all">
 	    	<label>Select All</label>

@@ -13,10 +13,10 @@
 	<apex:attribute name="trim" description="Is trim required" type="Boolean" required="false" default="true"/>
 
 	<apex:attribute name="bindToController" description="Bind to controller" type="Boolean" required="false" default="true"/>
-
+	<apex:attribute name="className" description="class" type="string" required="false"/>
   <apex:variable value="{!randomId}" var="selectId"/>
 	<apex:outputPanel rendered="{!bindToController}" >
-		<apex:selectList id="period-select" value="{!value}" onchange="{!onchange}" size="1" style="width:217">
+		<apex:selectList id="period-select" value="{!value}" onchange="{!onchange}" size="1" styleClass="{!className}" style="width:150" >
 	  	<apex:selectOptions value="{!options}"/>
 	  </apex:selectList>
 	</apex:outputPanel>
