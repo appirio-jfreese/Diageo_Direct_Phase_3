@@ -29,9 +29,9 @@ Name        : SMIntro.page
 						<span class="title">
 							Search Results
 						</span>
-						<select>
-	          	<option>Alphabetical, A-Z</option>
-	            <option>Alphabetical, Z-A</option>
+						<select class="sortAlp" id="sortAlpId" >
+	          	<option value="Asc">Alphabetical, A-Z</option>
+	            <option value="Desc">Alphabetical, Z-A</option>
 						</select>
 	        </h2>
         </apex:outputPanel>
@@ -65,7 +65,7 @@ Name        : SMIntro.page
 					</apex:outputPanel>
 					
 					<apex:outputPanel rendered="{!isDetails}">
-						<c:R_OperationLines showPages="true"  pagesStatus="Showing {!showFromIndex+1}-{!showToIndex} of total {!numberOfItems} documents" pageNamePrefix="mep" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
+						<c:R_OperationLines showPages="true" options="{!NumberOfItemsPerPageList}" value="{!numberOfItemsOnPage}" className="period-select"   pagesStatus="Showing {!showFromIndex+1}-{!showToIndex} of total {!numberOfItems} documents" pageNamePrefix="mep" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
 							<div class="doc-list">
 				        	<div class="list-view">
 										<h6>{!currentSection}</h6>
@@ -87,57 +87,64 @@ Name        : SMIntro.page
 	</div>
 	
 	<apex:form >
-		<apex:actionFunction status="ajax-status" name="userResearch" action="{!userResearch}" rerender="messages, sValue" onComplete="jqTransformScript(); sectionVisibility();"/>
+		<apex:actionFunction status="ajax-status" name="userResearch" action="{!userResearch}" rerender="messages, sValue" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();"/>
 		
-		<apex:actionFunction status="ajax-status" name="changeNumberOfItemPerPage" action="{!changeNumberOfItemPerPage}" rerender="messages, pageContent, downloadAllDialog, ds-button" onComplete="jqTransformScript(); sectionVisibility();"/>
-		<apex:actionFunction status="ajax-status" name="showFirstPage" action="{!showFirstPage}" rerender="messages, pageContent, downloadAllDialog, ds-button" onComplete="jqTransformScript(); sectionVisibility();"/>
-		<apex:actionFunction status="ajax-status" name="showPrevPage" action="{!showPrevPage}" rerender="messages, pageContent, downloadAllDialog, ds-button" onComplete="jqTransformScript(); sectionVisibility();"/>
-		<apex:actionFunction status="ajax-status" name="showNextPage" action="{!showNextPage}" rerender="messages, pageContent, downloadAllDialog, ds-button" onComplete="jqTransformScript(); sectionVisibility();"/>
-    <apex:actionFunction status="ajax-status" name="showLastPage" action="{!showLastPage}" rerender="messages, pageContent, downloadAllDialog, ds-button" onComplete="jqTransformScript(); sectionVisibility();"/>
-    <apex:actionFunction status="ajax-status" name="showPageRequested" action="{!showPageRequested}" rerender="messages, pageContent, downloadAllDialog, ds-button" onComplete="jqTransformScript(); sectionVisibility();">
+		<apex:actionFunction status="ajax-status" name="changeNumberOfItemPerPage" action="{!changeNumberOfItemPerPage}" rerender="messages, pageContent, downloadAllDialog, ds-button" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();">
+		
+		<apex:param name="numberOfItemsOnPage" assignTo="{!numberOfItemsOnPage}" value="" />
+		</apex:actionFunction>
+		<apex:actionFunction status="ajax-status" name="showFirstPage" action="{!showFirstPage}" rerender="messages, pageContent, downloadAllDialog, ds-button" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();"/>
+		<apex:actionFunction status="ajax-status" name="showPrevPage" action="{!showPrevPage}" rerender="messages, pageContent, downloadAllDialog, ds-button" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();"/>
+		<apex:actionFunction status="ajax-status" name="showNextPage" action="{!showNextPage}" rerender="messages, pageContent, downloadAllDialog, ds-button" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();"/>
+    <apex:actionFunction status="ajax-status" name="showLastPage" action="{!showLastPage}" rerender="messages, pageContent, downloadAllDialog, ds-button" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();"/>
+    <apex:actionFunction status="ajax-status" name="showPageRequested" action="{!showPageRequested}" rerender="messages, pageContent, downloadAllDialog, ds-button" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();">
 			<apex:param name="requestedPageNumber" assignTo="{!numberOfCurrentPage}" value="" />
 		</apex:actionFunction>
-    <apex:actionFunction status="ajax-status" name="clearSection" action="{!clearSection}" rerender="messages, pageContent, downloadAllDialog, ds-button" onComplete="jqTransformScript(); sectionVisibility();"/>
-    <apex:actionFunction status="ajax-status" name="switchSection" action="{!switchSection}" rerender="messages, pageContent, downloadAllDialog, ds-button" onComplete="jqTransformScript(); sectionVisibility();">
+    <apex:actionFunction status="ajax-status" name="clearSection" action="{!clearSection}" rerender="messages, pageContent, downloadAllDialog, ds-button" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();"/>
+    <apex:actionFunction status="ajax-status" name="switchSection" action="{!switchSection}" rerender="messages, pageContent, downloadAllDialog, ds-button" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();">
 			<apex:param name="switchSection" assignTo="{!currentSection}" value=""/>
     </apex:actionFunction>
     
-    <apex:actionFunction status="ajax-status" name="userShareOverview" action="{!userShareOverview}" rerender="overviewDialog, shareDialog, messages" onComplete="jqTransformScript(); sectionVisibility();">
+    <apex:actionFunction status="ajax-status" name="userShareOverview" action="{!userShareOverview}" rerender="overviewDialog, shareDialog, messages" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();">
 			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
 		</apex:actionFunction>                        	
-		<apex:actionFunction status="ajax-status" name="userMultipleShare" action="{!userMultipleShare}" rerender="overviewDialog, shareDialog, messages" onComplete="jqTransformScript(); sectionVisibility();">
+		<apex:actionFunction status="ajax-status" name="userMultipleShare" action="{!userMultipleShare}" rerender="overviewDialog, shareDialog, messages" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();">
 			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
 		</apex:actionFunction>  
 		
-		<apex:actionFunction status="ajax-status" name="addToBasket" action="{!addToBasket}" rerender="messages, currentBasketItemsNo, pageContent, downloadAllDialog" onComplete="jqTransformScript(); sectionVisibility();">
+		<apex:actionFunction status="ajax-status" name="addToBasket" action="{!addToBasket}" rerender="messages, currentBasketItemsNo, pageContent, downloadAllDialog" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();">
 			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
 		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="removeFromBasket" action="{!removeFromBasket}" rerender="messages, currentBasketItemsNo, pageContent, downloadAllDialog" onComplete="jqTransformScript(); sectionVisibility();">
+		<apex:actionFunction status="ajax-status" name="removeFromBasket" action="{!removeFromBasket}" rerender="messages, currentBasketItemsNo, pageContent, downloadAllDialog" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();">
 			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
 		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="addToBasketMultiple" action="{!addToBasketMultiple}" rerender="messages, currentBasketItemsNo, pageContent, downloadAllDialog" onComplete="jqTransformScript(); sectionVisibility();">
+		<apex:actionFunction status="ajax-status" name="addToBasketMultiple" action="{!addToBasketMultiple}" rerender="messages, currentBasketItemsNo, pageContent, downloadAllDialog" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();">
 			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
 		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="removeFromBasketMultiple" action="{!removeFromBasketMultiple}" rerender="messages, currentBasketItemsNo, pageContent, downloadAllDialog" onComplete="jqTransformScript(); sectionVisibility();">
+		<apex:actionFunction status="ajax-status" name="removeFromBasketMultiple" action="{!removeFromBasketMultiple}" rerender="messages, currentBasketItemsNo, pageContent, downloadAllDialog" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();">
 			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
 		</apex:actionFunction>
 		
-		<apex:actionFunction status="ajax-status" name="setFileToEdit" action="{!setFileToEdit}" rerender="editDialog"  onComplete="jqTransformScript(); sectionVisibility();">
+		<apex:actionFunction status="ajax-status" name="setFileToEdit" action="{!setFileToEdit}" rerender="editDialog"  onComplete="jqTransformScript(); sectionVisibility();initializationFunction();">
 			<apex:param name="fileToEdit" assignTo="{!fileToEdit}" value="" />
 		</apex:actionFunction>
 		
-		<apex:actionFunction status="ajax-status" name="addToFollow" action="{!addToFollow}" rerender="messages, currentFollowedItemsNo, pageContent, downloadAllDialog" onComplete="jqTransformScript(); sectionVisibility();">
+		<apex:actionFunction status="ajax-status" name="addToFollow" action="{!addToFollow}" rerender="messages, currentFollowedItemsNo, pageContent, downloadAllDialog" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();">
 			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
 		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="removeFromFollow" action="{!removeFromFollow}" rerender="messages, currentFollowedItemsNo, pageContent, downloadAllDialog" onComplete="jqTransformScript(); sectionVisibility();">
+		<apex:actionFunction status="ajax-status" name="removeFromFollow" action="{!removeFromFollow}" rerender="messages, currentFollowedItemsNo, pageContent, downloadAllDialog" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();">
 			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
 		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="addToFollowMultiple" action="{!addToFollowMultiple}" rerender="messages, currentFollowedItemsNo, pageContent, downloadAllDialog" onComplete="jqTransformScript(); sectionVisibility();">
+		<apex:actionFunction status="ajax-status" name="addToFollowMultiple" action="{!addToFollowMultiple}" rerender="messages, currentFollowedItemsNo, pageContent, downloadAllDialog" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();">
 			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
 		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="removeFromFollowMultiple" action="{!removeFromFollowMultiple}" rerender="messages, currentFollowedItemsNo, pageContent, downloadAllDialog" onComplete="jqTransformScript(); sectionVisibility();">
+		<apex:actionFunction status="ajax-status" name="removeFromFollowMultiple" action="{!removeFromFollowMultiple}" rerender="messages, currentFollowedItemsNo, pageContent, downloadAllDialog" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();">
 			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
 		</apex:actionFunction>
+		<apex:actionFunction status="ajax-status" name="orderByAlphabetice" action="{!R_usersearchOrdertBy}" rerender="messages, pageContent, downloadAllDialog, ds-button" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();initializationFunction();">
+			<apex:param name="ordertBy" assignTo="{!R_OrdertBy}" value="" />
+		</apex:actionFunction>
+		
 	</apex:form>
 
 	<!-- START : New Script Added -->
@@ -159,7 +166,11 @@ Name        : SMIntro.page
 	/*****************************************************************************
 				END : THIS JAVASCRIPT MUST BE IN PAGE ITSELF
 	*****************************************************************************/
+	 
 	</script>
 	<!-- END : New Script Added -->
-	
+	<!-- Added the select width for  -->
+	<style type="text/css">
+	.filter .jqTransformSelectWrapper {width: 94px;}
+	</style>
 </apex:page>
