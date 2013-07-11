@@ -10,9 +10,9 @@ Date        : 7/1/13
 Story/Task  : US585/TA1082
 ------------------------------------------------------------------------------------------------------------------->
 <apex:component controller="Controller_Base" extensions="Controller_BaseRemote" allowDML="true"> 
-		<!-- Start : Changes by Basant for Responsive Behavior : US585/TA1082 -->
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-		<!-- End : Changes by Basant for Responsive Behavior  -->
+	<!-- Start : Changes by Basant for Responsive Behavior : US585/TA1082 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+	<!-- End : Changes by Basant for Responsive Behavior  -->
 		
     <apex:attribute name="isLoggedIn" description="Tell if user is logged in or not" type="Boolean" required="true"/>
     <apex:attribute name="preview" description="" type="String" required="false" default="false"/>
@@ -23,8 +23,8 @@ Story/Task  : US585/TA1082
     <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/jquery-1.8.2.min.js')}"></script> 
 
     <!-- Start : Changes by Basant for JQueries Library Load  : US585/TA1082-->
-		<script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery-ui-1.8.15.custom.min.js')}"></script> 
-		<script type="text/javascript" src="{!URLFOR($Resource.jquery, 'utils.js')}"></script>
+	<script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery-ui-1.8.15.custom.min.js')}"></script> 
+	<script type="text/javascript" src="{!URLFOR($Resource.jquery, 'utils.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.mousewheel.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.jscrollpane.min.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'imgscale.js')}"></script>
@@ -32,7 +32,7 @@ Story/Task  : US585/TA1082
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.autosize.js')}"></script>
     <apex:stylesheet value="{!URLFOR($Resource.jquery, 'jquery.jscrollpane.css')}"/>
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'autosuggest.js')}"></script> 
-		<!-- END : Changes by Basant for JQueries Library Load -->
+	<!-- END : Changes by Basant for JQueries Library Load -->
 
 
     <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/jquery.jqtransform.js')}"></script>
@@ -44,101 +44,101 @@ Story/Task  : US585/TA1082
     <apex:stylesheet value="{!URLFOR($Resource.Responsive_Base, 'css/skeleton-fluid.css')}" /> 
     <apex:stylesheet value="{!URLFOR($Resource.Responsive_Base, 'css/layout.css')}" />
    
-        <!-- header -->
-        <div id="overlayDisable"></div>
-        <div class="header {!IF(showThemeSelector,'','no-theme-selector')}" >
-						
-            <div id="name_avatar_follow_basket" class="info row sixteen">
-                <div class="desc-wrapper">
-                    <div class="desc">
-                        <span class="name">
-                            {!$User.FirstName} {!$User.LastName}<br/>
-                            <span class="dropdown">
-                                <apex:outputPanel rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}">
-	                                <!-- <a href="{!$Page.R_UserProfile}">User&nbsp;Profile</a>
-	                                <a href="{!$Page.R_DownloadHistory}">Download&nbsp;History</a>
-	                                <a href="{!$Page.R_ShareHistory}">Share&nbsp;History</a>
-	                                <a href="{!$Page.R_FollowedItems}">Followed&nbsp;Items</a> -->
-	                                
-	                                <a href="javascript:;">User&nbsp;Profile</a>
-	                                <a href="javascript:;">Download&nbsp;History</a>
-	                                <a href="javascript:;">Share&nbsp;History</a>
-	                                <a href="javascript:;">Followed&nbsp;Items</a>
-	                                <a href="{!$Site.Prefix}/secur/logout.jsp">{!$Label.site.logout}</a>
-                                </apex:outputPanel>
-                            </span>
+    <!-- header -->
+    <div id="overlayDisable"></div>
+    <div class="header {!IF(showThemeSelector,'','no-theme-selector')}" >
+		
+        <div id="name_avatar_follow_basket" class="info row sixteen">
+            <div class="desc-wrapper">
+                <div class="desc">
+                    <span class="name">
+                        {!$User.FirstName} {!$User.LastName}<br/>
+                        <span class="dropdown">
+                            <apex:outputPanel rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}">
+                             <!-- <a href="{!$Page.R_UserProfile}">User&nbsp;Profile</a>
+                             <a href="{!$Page.R_DownloadHistory}">Download&nbsp;History</a>
+                             <a href="{!$Page.R_ShareHistory}">Share&nbsp;History</a>
+                             <a href="{!$Page.R_FollowedItems}">Followed&nbsp;Items</a> -->
+                             
+                             <a href="javascript:;">User&nbsp;Profile</a>
+                             <a href="javascript:;">Download&nbsp;History</a>
+                             <a href="javascript:;">Share&nbsp;History</a>
+                             <a href="javascript:;">Followed&nbsp;Items</a>
+                             <a href="{!$Site.Prefix}/secur/logout.jsp">{!$Label.site.logout}</a>
+                            </apex:outputPanel>
                         </span>
-                        <span class="hello">Hello,</span>
-                        <span class="company">{!distributorBreadcrumbString}</span>
+                    </span>
+                    <span class="hello">Hello,</span>
+                    <span class="company">{!distributorBreadcrumbString}</span>
 
-                    </div>
-                    <apex:outputPanel rendered="{!showAvatar}">
-                        <div class="avatar-wrapper">
-                            <a href="/_ui/core/userprofile/UserProfilePage" class="avatar"><apex:image value="{!avatarUrl}"/></a>
-                        </div>
-                    </apex:outputPanel>
                 </div>
-                <div class="icons">
-                		<!-- Start Changes for US585/TA1082 - Basant Verma (OffShore) {Just added outputPanel and it's Id so we can rerender it after AJAX actionFunction Call}-->
-                		<apex:outputPanel id="currentBasketItemsNo">
-	                    <a href="javascript:;" class="cart">
-	                        {!basketItemsNumber}
-	                    </a>
-                    </apex:outputPanel>
-                    <apex:outputPanel id="currentFollowedItemsNo">
-	                    <a href="javascript:;" class="fav">
-	                        {!followItemsNo}
-	                    </a>
-                    </apex:outputPanel>
-                    <!-- End Changes for US585/TA1082 - Basant -->
-                </div>
-            </div>
-            <apex:outputPanel rendered="{!showAvatar}">
-                <div id="SFDC_link">
-		            <a href="{!$Label.SalesforceHomePage}" class="gotoSF">
-		                <strong>Go To Salesforce</strong>
-		            </a>
-    	        </div>
-            </apex:outputPanel>
-            <div class="clear"></div>
-            <div id="logo_buttons_search" class="row clearfix">
-                <a href="{!$Page.R_HomePage}" class="logo">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/logo.png')}"/>
-                </a>
-                <div class="btns">
-	                <apex:form >
-	                    <apex:actionFunction status="ajax-status" name="toggleToWine" action="{!toggleToWine}"/>
-	                    <apex:actionFunction status="ajax-status" name="toggleToSpirits" action="{!toggleToSpirits}"/>
-	                    <apex:outputPanel id="sTheme" >
-                            <apex:outputPanel rendered="{!siteTheme == 'Spirits'}">
-                                <a href="javascript:;" class="active btn">Spirits</a>
-                                <a href="javascript:;" class="btn" onclick="toggleToWine()">Wine</a>
-                                <a href="javascript:;" class="btn last" style="visibility: hidden">Beer</a>
-                            </apex:outputPanel>
-                            <apex:outputPanel rendered="{!siteTheme == 'Wine'}">
-                                <a href="javascript:;" class="btn" onclick="toggleToSpirits()">Spirits</a>
-                                <a href="javascript:;" class="active btn">Wine</a>
-                                <a href="javascript:;" class="btn last" style="visibility: hidden">Beer</a>
-                            </apex:outputPanel>
-	                    </apex:outputPanel>
-	                </apex:form>
-                </div>
-
-                <apex:outputPanel rendered="{!showSearch}">
-                    <div class="search {!If(OR(isLoggedIn!=true, preview=='true') ,'hidden','')}">
-                        <apex:form >
-                            <apex:actionFunction status="ajax-status" name="userSearch" action="{!userSearch}" rerender="messages, sValue"/>
-                            <apex:outputPanel id="sValue">
-                                <div>
-                                    <apex:inputText value="{!searchPhrase}" styleClass="text"/>
-                                    <a href="javascript:;" class="btn" onclick="userSearch(); return false;">GO</a>
-                                    <!-- <button class="btn" onclick="userSearch(); return false;">GO</button> -->
-                                </div>
-                            </apex:outputPanel>
-                        </apex:form>
+                <apex:outputPanel rendered="{!showAvatar}">
+                    <div class="avatar-wrapper">
+                        <a href="/_ui/core/userprofile/UserProfilePage" class="avatar"><apex:image value="{!avatarUrl}"/></a>
                     </div>
                 </apex:outputPanel>
             </div>
+            <div class="icons">
+            		<!-- Start Changes for US585/TA1082 - Basant Verma (OffShore) {Just added outputPanel and it's Id so we can rerender it after AJAX actionFunction Call}-->
+            		<apex:outputPanel id="currentBasketItemsNo">
+                 <a href="javascript:;" class="cart">
+                     {!basketItemsNumber}
+                 </a>
+                </apex:outputPanel>
+                <apex:outputPanel id="currentFollowedItemsNo">
+                 <a href="javascript:;" class="fav">
+                     {!followItemsNo}
+                 </a>
+                </apex:outputPanel>
+                <!-- End Changes for US585/TA1082 - Basant -->
+            </div>
         </div>
-        <!-- end of header -->
+        <apex:outputPanel rendered="{!showAvatar}">
+            <div id="SFDC_link">
+          <a href="{!$Label.SalesforceHomePage}" class="gotoSF">
+              <strong>Go To Salesforce</strong>
+          </a>
+	        </div>
+        </apex:outputPanel>
+        <div class="clear"></div>
+        <div id="logo_buttons_search" class="row clearfix">
+            <a href="{!$Page.R_HomePage}" class="logo">
+                <img src="{!URLFOR($Resource.Responsive_Base, 'i/logo.png')}"/>
+            </a>
+            <div class="btns">
+             <apex:form >
+                 <apex:actionFunction status="ajax-status" name="toggleToWine" action="{!toggleToWine}"/>
+                 <apex:actionFunction status="ajax-status" name="toggleToSpirits" action="{!toggleToSpirits}"/>
+                 <apex:outputPanel id="sTheme" >
+                        <apex:outputPanel rendered="{!siteTheme == 'Spirits'}">
+                            <a href="javascript:;" class="active btn">Spirits</a>
+                            <a href="javascript:;" class="btn" onclick="toggleToWine()">Wine</a>
+                            <a href="javascript:;" class="btn last" style="visibility: hidden">Beer</a>
+                        </apex:outputPanel>
+                        <apex:outputPanel rendered="{!siteTheme == 'Wine'}">
+                            <a href="javascript:;" class="btn" onclick="toggleToSpirits()">Spirits</a>
+                            <a href="javascript:;" class="active btn">Wine</a>
+                            <a href="javascript:;" class="btn last" style="visibility: hidden">Beer</a>
+                        </apex:outputPanel>
+                 </apex:outputPanel>
+             </apex:form>
+            </div>
+
+            <apex:outputPanel rendered="{!showSearch}">
+                <div class="search {!If(OR(isLoggedIn!=true, preview=='true') ,'hidden','')}">
+                    <apex:form >
+                        <apex:actionFunction status="ajax-status" name="userSearch" action="{!userSearch}" rerender="messages, sValue"/>
+                        <apex:outputPanel id="sValue">
+                            <div>
+                                <apex:inputText value="{!searchPhrase}" styleClass="text"/>
+                                <a href="javascript:;" class="btn" onclick="userSearch(); return false;">GO</a>
+                                <!-- <button class="btn" onclick="userSearch(); return false;">GO</button> -->
+                            </div>
+                        </apex:outputPanel>
+                    </apex:form>
+                </div>
+            </apex:outputPanel>
+        </div>
+    </div>
+    <!-- end of header -->
 </apex:component>
