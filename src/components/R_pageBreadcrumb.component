@@ -3,9 +3,84 @@
     <apex:attribute name="menuLinks" description="" type="pageLink[]" required="true"/>
     <apex:attribute name="showExtendedBreancrumbs" description="" type="Boolean" required="false" default="false"/>
     <apex:attribute name="breadcrumbHolder" description="" type="BreadcrumbsHolder" required="false" />
-    
+
+    <!-- CSS for site navigation dropdown -->
+    <style type="text/css">
+        .breadcrumb .inner {
+            padding: 0 0 0 10px;
+            max-width: 499px; /* 955px - 56px */
+            background: no-repeat;
+        }
+             .isv-page .breadcrumb .inner {
+                background: no-repeat;
+            }
+            .sm-page .breadcrumb .inner {
+                background: no-repeat;
+            }
+            .bmi-page .breadcrumb .inner {
+                background: no-repeat;
+            } 
+        
+        .breadcrumb .site-nav {
+            /*padding: 10px 0 10px 0; */
+        }
+
+        .breadcrumb .site-nav-wrapper {
+            /* max-width: 30px; */
+        }
+
+        .breadcrumb .site-nav span.nav {
+            float: left;
+            color: #f40763;
+            font-size: 14px;
+            font-weight: bold; 
+            cursor: pointer;
+            position: relative;
+            padding: 1px 6px 1px 6px;
+            line-height: 15px; 
+            overflow: hidden;
+            height: 15px;
+            z-index: 1;
+        }
+            .breadcrumb .click-wrapper span.nav {
+                border: 1px solid #C10755;
+                padding: 0 5px 0 5px;
+                background: #333;
+                min-width: 120px;
+            }
+                .breadcrumb .dropdown {
+                    position: absolute;
+                    left: 56px;
+                    top: 150px;
+                    display: block;
+                }
+                    .breadcrumb .dropdown a {
+                        color: #fff;
+                        display: block;
+                        line-height: 25px;
+                        padding-right: 5px;
+                        text-align: right;
+                        font-weight: normal;
+                    }
+                        .breadcrumb .dropdown a:hover {
+                            background: #f40763;
+                        }
+    </style>
+
     <div class="breadcrumb">
         <div class="inner">
+            <span class="site-nav-wrapper">
+                <span class="site-nav">
+                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/breadcrumb-icon.png')}" style="vertical-align: middle;"/>
+                    <span class="dropdown">
+                        <!-- <a href="javascript:;">path1</a>
+                        <a href="javascript:;">path2</a>
+                        <a href="javascript:;">path3</a>
+                        <a href="javascript:;">path4</a>
+                        <a href="javascript:;">path5</a> -->
+                    </span>
+                </span>
+            </span>
             <a href="{!$Page.R_HomePage}">Home</a>
             <apex:repeat rows="1" value="{!breadcrumbLinks}" var="breadcrumbLink">
                 >
