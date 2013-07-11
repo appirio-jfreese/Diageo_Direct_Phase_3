@@ -7,20 +7,23 @@
      <div class="breadcrumb">
          <div class="inner">
              <a href="{!$Page.R_HomePage}">Home</a>
-
              <apex:repeat rows="1" value="{!breadcrumbLinks}" var="breadcrumbLink">
-                 >&nbsp;
-                 <apex:outputPanel rendered="{!IF(breadcrumbLinks.size = 1,'true','false')}">{!breadcrumbLink.linkName}</apex:outputPanel>
-                 <apex:outputPanel rendered="{!IF(breadcrumbLinks.size = 1,'false','true')}"><a href="{!breadcrumbLink.link}">{!breadcrumbLink.linkName}</a></apex:outputPanel>
+                 >
+                 <apex:outputPanel rendered="{!IF(breadcrumbLinks.size = 1,'false','true')}">
+                     <a href="{!breadcrumbLink.link}">{!breadcrumbLink.linkName}</a>
+                 </apex:outputPanel>
+                 <apex:outputPanel rendered="{!IF(breadcrumbLinks.size = 1,'true','false')}">
+                     {!breadcrumbLink.linkName}
+                 </apex:outputPanel>
              </apex:repeat>
              <apex:repeat first="1" value="{!breadcrumbLinks}" var="breadcrumbLink">
-                  >&nbsp;
-                  <apex:outputPanel rendered="{!IF(breadcrumbLinks[breadcrumbLinks.size-1].linkName = breadcrumbLink.linkName &&
-                                                   breadcrumbLinks[breadcrumbLinks.size-1].link = breadcrumbLink.link,'true','false')}"
-                      >{!breadcrumbLink.linkName}</apex:outputPanel>
-                  <apex:outputPanel rendered="{!IF(breadcrumbLinks[breadcrumbLinks.size-1].linkName = breadcrumbLink.linkName &&
-                                                   breadcrumbLinks[breadcrumbLinks.size-1].link = breadcrumbLink.link,'false','true')}"
-                      ><a href="{!breadcrumbLink.link}">{!breadcrumbLink.linkName}</a></apex:outputPanel>
+                 >
+                 <apex:outputPanel rendered="{!IF(breadcrumbLinks[breadcrumbLinks.size-1].linkName = breadcrumbLink.linkName && breadcrumbLinks[breadcrumbLinks.size-1].link = breadcrumbLink.link,'false','true')}">
+                     <a href="{!breadcrumbLink.link}">{!breadcrumbLink.linkName}</a>
+                 </apex:outputPanel>
+                 <apex:outputPanel rendered="{!IF(breadcrumbLinks[breadcrumbLinks.size-1].linkName = breadcrumbLink.linkName && breadcrumbLinks[breadcrumbLinks.size-1].link = breadcrumbLink.link,'true','false')}">
+                     {!breadcrumbLink.linkName}
+                 </apex:outputPanel>
              </apex:repeat>
          </div>
      </div>
