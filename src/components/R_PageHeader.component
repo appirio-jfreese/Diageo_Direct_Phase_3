@@ -44,19 +44,6 @@ Story/Task  : US585/TA1082
     <apex:stylesheet value="{!URLFOR($Resource.Responsive_Base, 'css/skeleton-fluid.css')}" /> 
     <apex:stylesheet value="{!URLFOR($Resource.Responsive_Base, 'css/layout.css')}" />
    
-	<!--  Temporary fix for last item in breadcrumb -->
-	<style type="text/css">
-		a.breadcrumb-links-current {
-			color:	#FFFFFF !important;
-			text-decoration: none;
-			cursor: none;
-		}
-	</style>
-
-    <!-- Start : Changes for US507/TA918 - Jonathan Freese -->
-    <!-- <apex:stylesheet value="{!URLFOR($Resource.PageHeader, 'styleHeader.css')}" /> -->
-    <!-- End : Changes for US507/TA918 - Jonathan Freese -->
-
         <!-- header -->
         <div id="overlayDisable"></div>
         <div class="header {!IF(showThemeSelector,'','no-theme-selector')}" >
