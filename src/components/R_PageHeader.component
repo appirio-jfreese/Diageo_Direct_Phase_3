@@ -61,10 +61,10 @@ Story/Task  : US585/TA1082
                              <a href="{!$Page.R_ShareHistory}">Share&nbsp;History</a>
                              <a href="{!$Page.R_FollowedItems}">Followed&nbsp;Items</a> -->
                              
-                             <a href="javascript:;">User&nbsp;Profile</a>
+                             <!--  <a href="javascript:;">User&nbsp;Profile</a>
                              <a href="javascript:;">Download&nbsp;History</a>
                              <a href="javascript:;">Share&nbsp;History</a>
-                             <a href="javascript:;">Followed&nbsp;Items</a>
+                             <a href="javascript:;">Followed&nbsp;Items</a> -->
                              <a href="{!$Site.Prefix}/secur/logout.jsp">{!$Label.site.logout}</a>
                             </apex:outputPanel>
                         </span>
@@ -133,7 +133,7 @@ Story/Task  : US585/TA1082
                             <div>
                                 <apex:inputText value="{!searchPhrase}" styleClass="text"/>
                                 <a href="javascript:;" class="btn" onclick="userSearch(); return false;">GO</a>
-                                <!-- <button class="btn" onclick="userSearch(); return false;">GO</button> -->
+                                <!--  <button class="btn" onclick="userSearch(); return false;">GO</button> -->
                             </div>
                         </apex:outputPanel>
                     </apex:form>
