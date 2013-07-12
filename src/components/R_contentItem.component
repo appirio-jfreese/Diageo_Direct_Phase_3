@@ -129,14 +129,14 @@ Story/Task  : US585/TA1082
                                         <td>    
                                             <!-- START SHARE ICONS -->
 											<apex:outputPanel rendered="{!OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK'))}">
-                                            	<div title="SHARE" class="cion box-cion-share pointer" onclick="userTryToShare('{!cvid1}'); userShareOverview('{!cvid1}');showDialog('shareInfo');">&nbsp;</div>
+                                            	<div title="SHARE" class="cion box-cion-share pointer" onclick="userTryToShare('{!cvid1}'); userShareOverview('{!cvid1}');">&nbsp;</div>
 											</apex:outputPanel>
                                             <!-- END SHARE ICONS -->
                                         </td>
                                         <td>                                            
                                             <!-- START PREVIEW ICONS -->
                                             <apex:outputtext rendered="{!IF(isVideo1==false && previewAvailable1==true && fileType1!='LINK', 'true','false')}" styleClass="item-buttons">
-                                                <div title="PREVIEW" class="cion box-cion-preview pointer" onclick="userTryToShare('{!cvid1}'); userShareOverview('{!cvid1}');showDialog('moreInfo');">&nbsp;</div>
+                                                <div title="PREVIEW" class="cion box-cion-preview pointer" onclick="userTryToShare('{!cvid1}'); userShareOverview('{!cvid1}');">&nbsp;</div>
                                             </apex:outputtext>
                                             <!-- END PREVIEW ICONS -->
                                         </td>
@@ -544,13 +544,13 @@ Story/Task  : US585/TA1082
 						<!-- END DOWNLOAD ICONS -->
 						<!-- START SHARE ICONS -->
 						<apex:outputPanel rendered="{!OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK'))}">
-            	<a href="javascript: userTryToShare('{!cvid1}'); userShareOverview('{!cvid1}');showDialog('shareInfo');" class="share"></a>
+            	<a href="javascript: userTryToShare('{!cvid1}'); userShareOverview('{!cvid1}');" class="share"></a>
             </apex:outputPanel>
             <!-- END SHARE ICONS -->
 						
             <!-- START PREVIEW ICONS -->
             <apex:outputtext rendered="{!IF(isVideo1==false && previewAvailable1==true && fileType1!='LINK', 'true','false')}" styleClass="item-buttons">
-            	<div title="PREVIEW" class="preview" onclick="userTryToShare('{!cvid1}'); userShareOverview('{!cvid1}');showDialog('moreInfo');">&nbsp;</div>
+            	<div title="PREVIEW" class="preview" onclick="userTryToShare('{!cvid1}'); userShareOverview('{!cvid1}');">&nbsp;</div>
             </apex:outputtext>
             <!-- END PREVIEW ICONS -->
 						

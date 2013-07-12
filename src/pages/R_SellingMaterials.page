@@ -16,7 +16,29 @@ Date        : 7/10/13
             <script type="text/javascript">
                 pageViewed('Selling Materials Page');
             </script>
+            <!--  START :: PAGE FORM -->
+              <apex:form >
+              	<apex:outputPanel id="messages">
+                  	<apex:messages styleClass="errorMessagesList" />
+                  </apex:outputPanel>
                     
+                  <!--  START :: ACTION FUNCTIONS -->  
+                  <apex:actionFunction status="ajax-status" name="changeNumberOfItemPerPage" action="{!changeNumberOfItemPerPage}" rerender="messages, pageContent, downloadAllDialog" onComplete="jqTransformScript();sectionVisibility();initializationFunction();">
+			 		<apex:param name="numberOfItemsOnPage" assignTo="{!numberOfItemsOnPage}" value="" />
+				  </apex:actionFunction>
+                  <apex:actionFunction status="ajax-status" name="showFirstPage" action="{!showFirstPage}" rerender="messages, pageContent, downloadAllDialog" onComplete="jqTransformScript();sectionVisibility();initializationFunction();"/>
+                  <apex:actionFunction status="ajax-status" name="showPrevPage" action="{!showPrevPage}" rerender="messages, pageContent, downloadAllDialog" onComplete="jqTransformScript();sectionVisibility();initializationFunction();"/>
+                  <apex:actionFunction status="ajax-status" name="showNextPage" action="{!showNextPage}" rerender="messages, pageContent, downloadAllDialog" onComplete="jqTransformScript();sectionVisibility();initializationFunction();"/>
+                  <apex:actionFunction status="ajax-status" name="showLastPage" action="{!showLastPage}" rerender="messages, pageContent, downloadAllDialog" onComplete="jqTransformScript();sectionVisibility();initializationFunction();"/>
+                  <apex:actionFunction status="ajax-status" name="showPageRequested" action="{!showPageRequested}" rerender="messages, pageContent, downloadAllDialog" onComplete="jqTransformScript();sectionVisibility();initializationFunction();">
+                  	<apex:param name="requestedPageNumber" assignTo="{!numberOfCurrentPage}" value="" />
+                  </apex:actionFunction>
+                  <apex:actionFunction status="ajax-status" name="previousPeriod" action="{!previousPeriod}" onComplete="loadFilterJs()();" rerender="messages, timeFilterItem,parentBrands, variantBrands, smFilterItem"/>
+                  <apex:actionFunction status="ajax-status" name="nextPeriod" action="{!nextPeriod}" onComplete="loadFilterJs();" rerender="messages, timeFilterItem,parentBrands, variantBrands, smFilterItem"/>
+                  <apex:actionFunction status="ajax-status" name="resetFilter" action="{!resetFilter}" onComplete="loadFilterJs();" rerender="messages, timeFilterItem, parentBrands, variantBrands, smFilterItem, pageContent, downloadAllDialog"/>	                
+				  <apex:actionFunction status="ajax-status" name="changeFilter" action="{!changeFilter}" onComplete="jqTransformScript();sectionVisibility();initializationFunction();" rerender="messages, pageContent, downloadAllDialog"/>
+				<!--  END :: ACTION FUNCTIONS -->  
+                            
             <!-- CONTENT -->
             <div class="content clearfix">
     
@@ -26,616 +48,263 @@ Date        : 7/10/13
                 </apex:outputPanel>
     
             <!-- START :: FILTER PAGE CONTENT -->
-                <a class="result-filter" href="javascript:;">
-                    <span class="title">Filter your Results</span>
-                    <span class="icon"></span>
-                </a>
-    
-                <div class="button-line hide four-btns filter-buttons">
-                    <a href="javascript:;" class="sm-bg" data-related="brand-filter">
-                        Filter By Brand
-                    </a>
-                    <a href="javascript:;" class="sm-bg" data-related="bv-filter">
-                        Brand Variants
-                    </a>
-                    <a href="javascript:;" class="sm-bg" data-related="time-filter">
-                        Filter By Time Period
-                    </a>
-                    <a href="javascript:;" class="sm-bg last" data-related="sm-filter">
-                        Selling Materials
-                    </a>
-                </div>
-    
-    
-                <div class="result-filter-layer brand-filter hide">
-                    <a href="javascript:;" class="close-btn"></a>
-                    <p>
-                        Select one or more brands. Brand Variants canbe specified only when one brand is selected.
-                        <a href="javascript:;">Select All</a>
-                    </p>
-                    <div class="brands">
-                        <a href="javascript:;" class="two-lines">
-                            Volnay 1er Cru "Taillepieds"
-                        </a>
-                        <a href="javascript:;" class="text">
-                            Volnay Premier Cru
-                        </a>
-                        <a href="javascript:;" class="text">
-                            Volnay Premier Cru
-                        </a>
-                        <a href="javascript:;">
-                            <img src="i/filtering_02_A_by_Acacia.png"/>
-                        </a>
-                        <a href="javascript:;">
-                            <img src="i/filtering_01_Acacia-logo.png"/>
-                        </a>
-                        <a href="javascript:;">
-                            <img src="i/filtering_03_BV-Napa-logo.png"/>
-                        </a>
-                        <a href="javascript:;">
-                            <img src="i/filtering_01_Butterfly-Kiss-logo.png"/>
-                        </a>
-                        <a href="javascript:;">
-                            <img src="i/filtering_04_Chalone-Monterey-Logo.png"/>
-                        </a>
-                        <a href="javascript:;">
-                            <img src="i/filtering_01_Cherry-On-Top.png"/>
-                        </a>
-                        <a href="javascript:;">
-                            <img src="i/filtering_02_Creme-De-Lys-logo.png"/>
-                        </a>
-                        <a href="javascript:;">
-                            <img src="i/filtering_03_Dynamite-Logo.png"/>
-                        </a>
-                        <a href="javascript:;">
-                            <img src="i/filtering_04_Ensemble-logo.png"/>
-                        </a>
-                        <a href="javascript:;">
-                            <img src="i/Girl-Go-Lightly---LOGO-FILTERING.png"/>
-                        </a>
-                        <a href="javascript:;">
-                            <img src="i/filtering_05_Hewitt-logo.png"/>
-                        </a>
-                        <a href="javascript:;">
-                            <img src="i/filtering_05_JadeMountian.png"/>
-                        </a>
-                        <a href="javascript:;">
-                            <img src="i/filtering_07_Navarro-Correas-Logo.png"/>
-                        </a>
-                        <a href="javascript:;">
-                            <img src="i/filtering_06_New-Harbor-logo.png"/>
-                        </a>
-                        <a href="javascript:;">
-                            <img src="i/Once-Upon-a-Vine---LOGO-FILTERING.png"/>
-                        </a>
-                        <a href="javascript:;">
-                            <img src="i/filtering_07_Orogeny-Vineyards-logo.png"/>
-                        </a>
-                        <a href="javascript:;">
-                            <img src="i/filtering_08_Provenance-logo.png"/>
-                        </a>
-                        <a href="javascript:;">
-                            <img src="i/filtering_05_Rosenblum.png"/>
-                        </a>
-                        <a href="javascript:;">
-                            <img src="i/filtering_09_Snap-Dragon-Logo.png"/>
-                        </a>
-                        <a href="javascript:;">
-                            <img src="i/filtering_02_Rose-N-Blum-logo.png"/>
-                        </a>
-                        <a href="javascript:;" class="other-btn">
-                            <img src="i/adb.png"/>
-                        </a>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="other hide">
-                        <p>
-                            Additional Brands
-                        </p>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">22 Marquls</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Black Haus</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Cabin Fever</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Cacique Anejo</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Classic Malts</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Club</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Emmet's</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Goldschalager</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Gordon's</span>
-                        </div>
-                        <div class="two-lines other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Governor General</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">J &amp; B</span>
-                        </div>
-                        <div class="two-lines other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Moon Mountain</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Myers's</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Oronoco</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Pampero</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Parrot Bay</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Pimm's</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Popov</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Qream</span>
-                        </div>
-                        <div class="two-lines other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Romana Sambuca</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Rumple Minze</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Stirrings</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Tanqueray</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Tekidag Rakisi</span>
-                        </div>
-                        <div class="two-lines other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">The Club Cocktail RTS</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Ursus</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Yeni Raki</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Yukon Jack</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Zacapa</span>
-                        </div>
-                        <div class="other-brand">
-                            <input type="checkbox"/>
-                            <span class="name">Zwack</span>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-    
-                    <div class="buttons">
-                        <a href="javascript:;" class="clear-btn">Clear Filters</a>
-                        <a href="javascript:;" class="apply-btn button sm-bg">Apply</a>
-                    </div>
-                </div>
-    
-                <div class="result-filter-layer bv-filter hide">
-                    <a href="javascript:;" class="close-btn"></a>
-                    <div class="inner default">
-                        <input type="checkbox"/>
-                        <label>Use Brand Variant</label>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-                <div class="result-filter-layer time-filter hide">
-                    <a href="javascript:;" class="close-btn"></a>
-                    <p>Select one or more of the quarters listed below. View different quarters by clicking on the right or left arrows</p>
-                    <div class="button-line two-btns">
-                        <a href="javascript:;" class="sm-bg" data-related="monthly">
-                            Monthly
-                        </a>
-                        <a href="javascript:;" class="sm-bg active last" data-related="quarterly">
-                            Quarterly
-                        </a>
-                    </div>
-                    <div class="date-selector quarterly">
-                        <ul class="slides">
-                            <li>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>January</span><br></br>
-                                        <span>February</span><br></br>
-                                        <span>March</span>
-                                    </span>
-                                    <span class="year">2013</span>
+               <apex:outputpanel layout="none" id="filters">
+	            <a class="result-filter" href="javascript:;">
+	                <span class="title">Filter your Results</span>
+	                <span class="icon"></span>
+	            </a>
+	
+	            <div class="button-line hide four-btns filter-buttons">
+	                <a href="javascript:;" class="sm-bg" data-related="brand-filter">
+	                    Filter By Brand
+	                </a>
+	                <a href="javascript:;" class="sm-bg" data-related="bv-filter">
+	                    Brand Variants
+	                </a>
+	                <a href="javascript:;" class="sm-bg" data-related="time-filter">
+	                    Filter By Time Period
+	                </a>
+	                <a href="javascript:;" class="sm-bg last" data-related="sm-filter">
+	                    Selling Materials
+	                </a>
+	            </div>
+	
+				<apex:outputPanel layout="block" id="parentBrands" styleClass="result-filter-layer brand-filter hide">
+	            	<a href="javascript:;" class="close-btn"></a>
+	                <p>
+	                    Select one or more brands. Brand Variants canbe specified only when one brand is selected.
+	                    <a href="javascript:;" onclick="selectALLBrands(this);return false;">Select All</a>
+	                </p>
+	                <div class="brands">
+	                    <apex:repeat value="{!parentBrandList}" var="brand" rows="{!brandBoxToRender}">
+		                    <apex:outputPanel rendered="{!IF(brand.Filtering_logo__r.Content_Version_Id__c != '', 'true', 'false') }">
+                                <a href="javascript:;" class="{!IF(contains(selectedBrandIds,brand.Id) ,'selected','')}" id="{!brand.id}">
+                                <img src="/sfc/servlet.shepherd/version/download/{!brand.Filtering_logo__r.Content_Version_Id__c}" style="max-width: 144px; max-height: 46px;"/>
                                 </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>April</span><br></br>
-                                        <span>May</span><br></br>
-                                        <span>June</span>
-                                    </span>
-                                    <span class="year">2013</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>July</span><br></br>
-                                        <span>August</span><br></br>
-                                        <span>Semptember</span>
-                                    </span>
-                                    <span class="year">2013</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>October</span><br></br>
-                                        <span>November</span><br></br>
-                                        <span>December</span>
-                                    </span>
-                                    <span class="year">2013</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>October</span><br></br>
-                                        <span>November</span><br></br>
-                                        <span>December</span>
-                                    </span>
-                                    <span class="year">2013</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>January</span><br></br>
-                                        <span>February</span><br></br>
-                                        <span>March</span>
-                                    </span>
-                                    <span class="year">2014</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>April</span><br></br>
-                                        <span>May</span><br></br>
-                                        <span>June</span>
-                                    </span>
-                                    <span class="year">2014</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>July</span><br></br>
-                                        <span>August</span><br></br>
-                                        <span>Semptember</span>
-                                    </span>
-                                    <span class="year">2014</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>October</span><br></br>
-                                        <span>November</span><br></br>
-                                        <span>December</span>
-                                    </span>
-                                    <span class="year">2014</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-    
-                    <div class="date-selector monthly hide">
-                        <ul class="slides">
-                            <li>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>January</span>
-                                    </span>
-                                    <span class="year">2013</span>
-                                </a>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>February</span>
-                                    </span>
-                                    <span class="year">2013</span>
-                                </a>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>March</span>
-                                    </span>
-                                    <span class="year">2013</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>April</span>
-                                    </span>
-                                    <span class="year">2013</span>
-                                </a>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>May</span>
-                                    </span>
-                                    <span class="year">2013</span>
-                                </a>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>June</span>
-                                    </span>
-                                    <span class="year">2013</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>July</span>
-                                    </span>
-                                    <span class="year">2013</span>
-                                </a>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>August</span>
-                                    </span>
-                                    <span class="year">2013</span>
-                                </a>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>Semptember</span>
-                                    </span>
-                                    <span class="year">2013</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>October</span>
-                                    </span>
-                                    <span class="year">2013</span>
-                                </a>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>November</span>
-                                    </span>
-                                    <span class="year">2013</span>
-                                </a>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>December</span>
-                                    </span>
-                                    <span class="year">2013</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>January</span>
-                                    </span>
-                                    <span class="year">2014</span>
-                                </a>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>February</span>
-                                    </span>
-                                    <span class="year">2014</span>
-                                </a>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>March</span>
-                                    </span>
-                                    <span class="year">2014</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>April</span>
-                                    </span>
-                                    <span class="year">2014</span>
-                                </a>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>May</span>
-                                    </span>
-                                    <span class="year">2014</span>
-                                </a>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>June</span>
-                                    </span>
-                                    <span class="year">2014</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>July</span>
-                                    </span>
-                                    <span class="year">2014</span>
-                                </a>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>August</span>
-                                    </span>
-                                    <span class="year">2014</span>
-                                </a>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>Semptember</span>
-                                    </span>
-                                    <span class="year">2014</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>October</span>
-                                    </span>
-                                    <span class="year">2014</span>
-                                </a>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>November</span>
-                                    </span>
-                                    <span class="year">2014</span>
-                                </a>
-                                <a href="javascript:;">
-                                    <span class="month">
-                                        <span>December</span>
-                                    </span>
-                                    <span class="year">2014</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-    
-    
-                <div class="result-filter-layer bv-ok-filter hide">
-                    <a href="javascript:;" class="close-btn"></a>
-                    <p>Select one or more of the filters listed below.</p>
-                    <div class="select-filter-all">
-                        <label>
-                            Select All
-                        </label>
-                        <input type="checkbox"/>
-                    </div>
-                    <div class="inner ok">
-                        <div class="form-left">
-                            <input type="checkbox"/>
-                            <label class="two-lines">Provenance Beckstoffer To Kalon Vineyard Cabernet Sauvignon, Oakville</label>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="form-left">
-                            <input type="checkbox"/>
-                            <label class="two-lines">Provenance Vineyard Cabernet Sauvignon, Rutherford</label>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="form-left">
-                            <input type="checkbox"/>
-                            <label class="two-lines">Provenance Vineyard Merlot, Napa Valley</label>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="form-left">
-                            <input type="checkbox"/>
-                            <label class="two-lines">Provenance Vineyard Sauvignon Blank, Rutherford</label>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-    
-    
-    
-                <div class="result-filter-layer sm-filter hide">
-                    <a href="javascript:;" class="close-btn"></a>
-                    <p>Select one or more of the filters listed below.</p>
-                    <div class="select-filter-all">
-                        <label>
-                            Select All
-                        </label>
-                        <input type="checkbox"/>
-                    </div>
-                    <div class="inner ok">
-                        <div class="form-left">
-                            <input type="checkbox"/>
-                            <label class="two-lines">Execution Standards<br></br> - Off Premise</label>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="form-left">
-                            <input type="checkbox"/>
-                            <label class="">Selling Deck</label>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="form-left">
-                            <input type="checkbox"/>
-                            <label class="">Integrated National Program</label>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="form-left">
-                            <input type="checkbox"/>
-                            <label class="">Distribution</label>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="form-left">
-                            <input type="checkbox"/>
-                            <label class="">Display/Visibility</label>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                </div>
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!IF(brand.Filtering_logo__r.Content_Version_Id__c == '', 'true', 'false') }">
+		                     <a href="javascript:;" id="{!brand.id}" class="text {!if(Len(brand.Name)>13,'two-lines','')} {!IF(contains(selectedBrandIds,brand.Id) ,'selected','')}">
+	                        	{!brand.Name} 
+	                    	</a>
+		                    </apex:outputPanel>                               
+                        </apex:repeat>  
+	                    <apex:outputPanel rendered="{!IF(siteTheme != 'Wine' ,'true','false')}">
+	                    <a href="javascript:;" id="RTS">
+	                        <img src="{!URLFOR($Resource.CommonPage, 'images/rts.png')}"/>
+	                    </a>
+	                    <a href="javascript:;" id="Portfolio">
+	                        <img src="{!URLFOR($Resource.CommonPage, 'images/portfolio.png')}"/>
+	                    </a>
+	                    </apex:outputPanel>
+	                    <apex:outputPanel rendered="{!IF(parentBrandList.size <= brandBoxToRender ,'false','true')}">
+	                    <a href="javascript:;" class="other-btn" id="ABD">
+	                        <img src="{!URLFOR($Resource.CommonPage, 'images/adb.png')}"/>
+	                    </a>
+	                    </apex:outputPanel>
+	                    <div class="clear"></div>
+	                </div>
+	                
+	                <div class="other hide">
+	                    <p>
+	                        Additional Brands
+	                    </p>
+	                    <apex:repeat value="{!additionalBrandList}" var="brand">
+                            <div class="other-brand {!if(Len(brand.Name)>13,'two-lines','')}" >
+                                <apex:outputPanel rendered="{!IF(contains(selectedBrandIds,brand.Id), true, false)}">
+                                    <input type="checkbox" checked="checked" />
+                                </apex:outputPanel> 
+                                <apex:outputPanel rendered="{!NOT(IF(contains(selectedBrandIds,brand.Id),true, false))}">
+                                    <input type="checkbox" />
+                                </apex:outputPanel>
+                                <span class="name">{!brand.Name}</span>
+                            </div>
+                        </apex:repeat>
+	                    <div class="clear"></div>
+	                </div>
+					<div class="buttons">
+	                    <a href="javascript:;" onclick="resetFilter(); return false;" class="clear-btn">Clear Filters</a>
+	                    <a href="javascript:;" onclick="applyFilters(); return false;" class="apply-btn button sm-bg">Apply</a>
+	                </div>
+	           
+	            </apex:outputPanel>
+	                
+				<div class="result-filter-layer bv-filter hide">
+				
+	                <a href="javascript:;" class="close-btn"></a>
+	                <div class="inner default">
+	                    <input type="checkbox" disabled="true"/>
+	                    <label>Use Brand Variant</label>
+	                    <div class="clear"></div>
+	                </div>
+	                <apex:inputHidden value="{!selectedBrandIds}" id="selectedBrandIds"/>
+		            <apex:inputHidden value="{!selectedChildBrandIds}" id="selectedChildBrandIds"/>
+		            <apex:inputHidden value="{!selectedTimePeriods}" id="selectedQuarters"/>
+            
+	            </div>
+	            <apex:outputPanel layout="block" id="variantBrands" styleClass="result-filter-layer bv-ok-filter hide">
+	                <a href="javascript:;" class="close-btn"></a>
+	                <p>Select one or more of the filters listed below.</p>
+	                <div class="select-filter-all">
+	                    <label>
+	                        Select All
+	                    </label>
+	                    <input type="checkbox"/>
+	                </div>
+	                <div class="inner ok">
+	                	<apex:repeat value="{!childBrandList}" var="childBrand">
+						  <div class="form-left" id="{!childBrand.id}" name="{!childBrand.Name}">
+							<apex:outputPanel rendered="{!IF(contains(selectedChildBrandIds,childBrand.Id), true, false)}">
+								<input type="checkbox" checked="checked" />
+							</apex:outputPanel>
+							<apex:outputPanel rendered="{!NOT(IF(contains(selectedChildBrandIds,childBrand.Id),true, false))}">
+								<input type="checkbox" />
+							</apex:outputPanel>
+							<label class="{!if(LEN(childBrand.Name)>14,'two-lines','')}">{!childBrand.Name}</label>
+							<div class="clear"></div>
+						  </div>
+						</apex:repeat>
+	                    <div class="clear"></div>
+	                </div>
+	            
+				</apex:outputPanel>
+	
+	            <apex:outputPanel id="timeFilterItem" styleClass="result-filter-layer time-filter hide">
+	                <a href="javascript:;" class="close-btn"></a>
+	                <apex:outputPanel rendered="{!NOT(monthOrQuarterRender)}">
+						<p>Select one or more of the months listed below. View different months by clicking on the right or left arrows.</p>
+					</apex:outputPanel>
+					<apex:outputPanel rendered="{!monthOrQuarterRender}">
+						<p>Select one or more of the quarters listed below. View different quarters by clicking on the right or left arrows.</p>
+					</apex:outputPanel>
+	                <div class="button-line two-btns">
+	                    <a href="javascript:;" class="sm-bg" data-related="monthly">
+	                        Monthly
+	                    </a>
+	                    <a href="javascript:;" class="sm-bg active last" data-related="quarterly">
+	                        Quarterly
+	                    </a>
+	                </div>
+	                <div class="date-selector quarterly">
+	                	<ul class="slides">
+	                        <apex:repeat value="{!quarterViewsList}" var="option">
+	                    	<li>
+	                            <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,option['value']) ,'selected','')}" name="{!option['value']}">
+	                            	<apex:outputPanel styleClass="month" rendered="{!if(option['className'] = 'jfm', true, false)}">
+	                                    <span>January</span><br></br>
+	                                    <span>February</span><br></br>
+	                                    <span>March</span>
+	                                </apex:outputPanel>
+	                                <apex:outputPanel styleClass="month" rendered="{!if(option['className'] = 'amj', true, false)}">
+	                                    <span>April</span><br></br>
+	                                    <span>May</span><br></br>
+	                                    <span>June</span>
+	                                </apex:outputPanel>
+	                                <apex:outputPanel styleClass="month" rendered="{!if(option['className'] = 'jas', true, false)}">
+	                                    <span>July</span><br></br>
+	                                    <span>August</span><br></br>
+	                                    <span>Semptember</span>
+	                                </apex:outputPanel>
+	                                <apex:outputPanel styleClass="month" rendered="{!if(option['className'] = 'ond', true, false)}">
+	                                    <span>October</span><br></br>
+	                                    <span>November</span><br></br>
+	                                    <span>December</span>
+	                                </apex:outputPanel>
+	                                <span class="year"> {!option['year']}</span>
+	                            </a>
+	                        </li>
+	                        </apex:repeat>
+	                    </ul>
+	                </div>
+	
+	                <div class="date-selector monthly hide">
+	                    <ul class="slides">
+	                        <apex:variable var="counter" value="{!1}" />
+	                        <li>
+							<apex:repeat value="{!monthViewsList}" var="option">
+							<apex:outputpanel layout="none" rendered="{!if(counter < 4,true,false)}" >
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}">
+	                                <span class="month">
+	                                    <span>{!option['monthName']} </span>
+	                                </span>
+	                                <span class="year">{!option['year']}</span>
+	                            </a>
+	                        </apex:outputpanel>
+	                        <apex:variable var="counter" value="{!counter+1}" />
+	                        </apex:repeat>
+	                        </li>
+	                         
+	                        <li>
+							<apex:variable var="counter" value="{!1}" />
+	                        <apex:repeat value="{!monthViewsList}" var="option">
+							<apex:outputpanel layout="none" rendered ="{!if(counter > 3 && counter < 7,true,false)}" >
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}">
+	                                <span class="month">
+	                                    <span>{!option['monthName']}</span>
+	                                </span>
+	                                <span class="year">{!option['year']}</span>
+	                            </a>
+	                        </apex:outputpanel>
+	                        <apex:variable var="counter" value="{!counter+1}" />
+	                        </apex:repeat>
+	                        </li>
+	                        <li>
+							<apex:variable var="counter" value="{!1}" />
+	                        <apex:repeat value="{!monthViewsList}" var="option">
+							<apex:outputpanel layout="none" rendered ="{!if(counter > 6 && counter < 10,true,false)}" >
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}">
+	                                <span class="month" >
+	                                    <span>{!option['monthName']}</span>
+	                                </span>
+	                                <span class="year">{!option['year']}</span>
+	                            </a>
+	                        </apex:outputpanel>
+	                        <apex:variable var="counter" value="{!counter+1}" />
+	                        </apex:repeat>
+	                        </li>
+	                        <li>
+							<apex:variable var="counter" value="{!1}" />
+	                        <apex:repeat value="{!monthViewsList}" var="option">
+							<apex:outputpanel layout="none" rendered ="{!if(counter > 9 ,true,false)}" >
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}">
+	                                <span class="month">
+	                                    <span>{!option['monthName']}</span>
+	                                </span>
+	                                <span class="year">{!option['year']}</span>
+	                            </a>
+	                        </apex:outputpanel>
+	                        <apex:variable var="counter" value="{!counter+1}" />
+	                        </apex:repeat>
+	                        </li>
+	                    </ul>
+	                </div>
+	             
+	            </apex:outputPanel>
+				
+				<apex:outputPanel id="smFilterItem" layout="block" styleClass="result-filter-layer sm-filter hide">
+	                <a href="javascript:;" class="close-btn"></a>
+	                <p>Select one or more of the filters listed below.</p>
+	                <div class="select-filter-all">
+	                    <label>
+	                        Select All
+	                    </label>
+	                    <input type="checkbox"/>
+	                </div>
+	                <div class="inner ok">
+	                	<div class="form-left">
+	                		<apex:selectCheckboxes value="{!selectedClassificationItemsRow1}">
+								<apex:selectOptions value="{!classificationItemsRow1}" />
+							</apex:selectCheckboxes>
+							<apex:selectCheckboxes value="{!selectedClassificationItemsRow2}">
+								<apex:selectOptions value="{!classificationItemsRow2}" />
+							</apex:selectCheckboxes>
+						<div class="clear"></div>
+						</div>
+	                    <div class="clear"></div>
+	                </div>
+	            
+	            </apex:outputPanel>
+				</apex:outputpanel>
                 
-                <!--  START :: PAGE FORM -->
-                <apex:form >
-                	<apex:outputPanel id="messages">
-                    	<apex:messages styleClass="errorMessagesList" />
-                    </apex:outputPanel>
-                      
-                    <!--  START :: ACTION FUNCTIONS -->  
-                    <apex:actionFunction status="ajax-status" name="changeNumberOfItemPerPage" action="{!changeNumberOfItemPerPage}" rerender="messages, pageContent, downloadAllDialog" onComplete="jqTransformScript();sectionVisibility();initializationFunction();">
-					 	<apex:param name="numberOfItemsOnPage" assignTo="{!numberOfItemsOnPage}" value="" />
-					</apex:actionFunction>
-                    <apex:actionFunction status="ajax-status" name="showFirstPage" action="{!showFirstPage}" rerender="messages, pageContent, downloadAllDialog" onComplete="jqTransformScript();sectionVisibility();initializationFunction();"/>
-                    <apex:actionFunction status="ajax-status" name="showPrevPage" action="{!showPrevPage}" rerender="messages, pageContent, downloadAllDialog" onComplete="jqTransformScript();sectionVisibility();initializationFunction();"/>
-                    <apex:actionFunction status="ajax-status" name="showNextPage" action="{!showNextPage}" rerender="messages, pageContent, downloadAllDialog" onComplete="jqTransformScript();sectionVisibility();initializationFunction();"/>
-                    <apex:actionFunction status="ajax-status" name="showLastPage" action="{!showLastPage}" rerender="messages, pageContent, downloadAllDialog" onComplete="jqTransformScript();sectionVisibility();initializationFunction();"/>
-                    <apex:actionFunction status="ajax-status" name="showPageRequested" action="{!showPageRequested}" rerender="messages, pageContent, downloadAllDialog" onComplete="jqTransformScript();sectionVisibility();initializationFunction();">
-                    	<apex:param name="requestedPageNumber" assignTo="{!numberOfCurrentPage}" value="" />
-                    </apex:actionFunction>
-                    <!--  END :: ACTION FUNCTIONS -->  
-                    
                     <!-- START :: Panel pageContent -->
                     <apex:outputPanel id="pageContent"> 
                     
@@ -673,9 +342,11 @@ Date        : 7/10/13
                 	</apex:outputPanel>
                  	<!-- END :: Panel pageContent -->
                  	
-    			</apex:form>
+    			
     			
             </div>
+            
+            </apex:form>
         </div>
         
         <!-- PAGE FOOTER -->
@@ -751,7 +422,7 @@ Date        : 7/10/13
     *****************************************************************************/
     var pageNamePrefix = "sm";
     // Add class in Body so Responsive_Base/js/script.js can work on this page
-    jQuery(document.body).addClass(pageNamePrefix+'-landing-page').addClass(pageNamePrefix+'-page');
+    jQuery(document.body).addClass(pageNamePrefix+'-landing-page').addClass(pageNamePrefix+'-page_r');
     /*****************************************************************************
                 END : THIS JAVASCRIPT MUST BE IN PAGE ITSELF
     *****************************************************************************/
@@ -1010,5 +681,268 @@ Date        : 7/10/13
 		}
 	</style>
 	<!-- End : CSS Added for Share Dialog box -->
-	
+	<script type="text/javascript">
+	    jQuery(document).ready(function() {
+	    	jQuery(".result-filter").click(function() {
+		            var a = jQuery(this);
+		            a.toggleClass("open");
+		            a.next().slideToggle(100);
+		        });
+		
+	    	loadFilterJs();
+       	});
+       	
+       	function loadFilterJs(){
+       		
+        	//if(jQuery(".sm-page_r").length > 0) {
+        		jQuery(".result-filter-layer").hide();
+		        jQuery(".result-filter-layer .other").jqTransform();
+		        jQuery(".result-filter-layer .inner").jqTransform();
+		        jQuery(".result-filter-layer .select-filter-all").jqTransform();
+				jQuery(".content > .button-line a").each(function() {
+				var a = jQuery(this);
+				if(a.hasClass("active")){
+					var related = a.data("related");
+					console.log('related:::'+related);
+					if(typeof related !== "undefined") {
+		                jQuery(".result-filter-layer").hide();
+						if( jQuery(".brand-filter .other-btn").hasClass("selected"))
+	                		jQuery(".brand-filter .other").show();
+	                	else
+	                		jQuery(".brand-filter .other").hide();
+		                
+		                var len = jQuery(".brand-filter .brands a.selected").length + jQuery(".brand-filter .other .other-brand input:checked").length;
+		                if(len > 0) related = 'bv-ok-filter';
+		                
+		                jQuery(".time-filter .button-line a").each(function() {
+	        					var selFilter = jQuery(this);
+	        					var related2 = selFilter.data("related");
+	        					if(selFilter.hasClass("active")){
+			            			console.log('related2:::'+related2);
+			            			jQuery(".time-filter .date-selector").hide();
+			            			jQuery(".time-filter ."+related2).show();
+			            
+				                    jQuery(".time-filter ."+related2).flexslider({
+				                        animation: "slide",
+				                        animationLoop: false,
+				                        minItems: 1,
+				                        maxItems: 4,
+				                        itemWidth: 215,
+				                        itemMargin: 5,
+				                        slideshow: false,
+				                        after: function() {
+				                        	
+				                        }
+				                    });
+				                    updateSlideNxtPrevBtn();
+			                    }
+		                    });
+		                
+						jQuery("."+related).show();
+		            }
+	            	
+				}
+					
+			});
+		        jQuery(".content > .button-line a").click(function() {
+		        	//alert('in .content > .button-line a click' );
+		            var a = jQuery(this);
+		            var related = a.data("related");
+		            if(typeof related !== "undefined") {
+		                jQuery(".result-filter-layer").hide();
+		
+		                if(related === 'bv-filter') {
+		                    var len = jQuery(".brand-filter .brands a.selected").length + jQuery(".brand-filter .other .other-brand input:checked").length;
+		                    if(len > 0) related = 'bv-ok-filter';
+		                }
+		                if(related === 'time-filter') {
+		                    jQuery(".time-filter .quarterly").flexslider({
+		                        animation: "slide",
+		                        animationLoop: false,
+		                        minItems: 1,
+		                        maxItems: 4,
+		                        itemWidth: 215,
+		                        itemMargin: 5,
+		                        slideshow: false,
+		                        after: function() {
+		                        	
+		                        }
+		                    });
+		                    updateSlideNxtPrevBtn();
+		                }
+		
+		                jQuery("."+related).show();
+		            }
+		            a.parent().find("a").removeClass("active");
+		            a.addClass("active");
+		        });
+		        jQuery(".result-filter-layer a.close-btn").click(function() {
+		            jQuery(this).parent().hide();
+		            jQuery(".filter-buttons a").removeClass("active");
+		        });
+		        jQuery(".brand-filter .brands a").click(function() {
+		            var a = jQuery(this);
+		            if(a.hasClass("other-btn")) {
+		                jQuery(".brand-filter .other").toggle();
+		                return false;
+		            }
+		            a.toggleClass("selected");
+		        });
+		        jQuery(".brand-filter .other .other-brand input").change(function() {
+		            var input = jQuery(this);
+		            if(jQuery(".brand-filter .other .other-brand input:checked").length > 0) {
+		                jQuery(".brand-filter .other-btn").addClass("selected");
+		            }
+		            else {
+		                jQuery(".brand-filter .other-btn").removeClass("selected");
+		            }
+		        });
+		        jQuery(".sm-filter .select-filter-all input").change(function() {
+		            var input = jQuery(this);
+		            var checked = input.is(":checked");
+		            jQuery(".sm-filter .form-left input").each(function() {
+		                var i = jQuery(this);
+		                if(i.is(":checked") !== checked) {
+		                    i.parent().find("a").trigger("click");
+		                }
+		            });
+		        });
+		
+		        jQuery(".time-filter .button-line a").click(function() {
+		        
+		            var a = jQuery(this);
+		            var buttons = a.parent();
+		            jQuery("a", buttons).removeClass("active");
+		            a.addClass("active");
+		            var related = a.data("related");
+		            jQuery(".time-filter .date-selector").hide();
+		            jQuery(".time-filter ."+related).show();
+		            jQuery(".time-filter ."+related).flexslider({
+		                animation: "slide",
+		                animationLoop: false,
+		                minItems: 1,
+		                maxItems: 4,
+		                itemWidth: 215,
+		                itemMargin: 5,
+		                slideshow: false,
+		                after: function() {
+		                	alert('in after');
+		                	//updateSlideNxtPrevBtn();
+		                }
+		            });
+		           updateSlideNxtPrevBtn();
+		
+		        })
+		        jQuery(".time-filter .date-selector .slides a").click(function() {
+		            var a = jQuery(this);
+		            a.toggleClass("selected");
+		        });
+				//var updateSlideNxtPrevBtn = function() {
+				    
+		        //}
+		
+		
+		    //}
+        	//jQuery(".flex-direction-nav a.flex-prev", b)
+			//jQuery('.time-filter .date-selector > a.flex-prev').live('click',previousPeriod);
+	        //jQuery('.time-filter .date-selector > a.flex-next').live('click',nextPeriod);
+	        
+	        
+        }
+        function updateSlideNxtPrevBtn(){
+        	jQuery(".date-selector .flex-direction-nav a").each(function() {
+		                var a = jQuery(this);
+		                a.removeClass("flex-disabled");
+		                if(a.hasClass("flex-prev"))
+		                	a.live('click',function(){
+		                		//alert('previousPeriodC::');
+		                		previousPeriod();
+		                		//return false;
+		                	});
+		                else if(a.hasClass("flex-next") )	
+		                	a.live('click',nextPeriod);
+		            });
+        }
+        
+        function selectALLBrands(elemnt){
+        	var selEle = jQuery(elemnt);
+        	var isSelect = selEle.hasClass("select");
+        	var brands = jQuery(".brand-filter .brands");
+        	othBrands = jQuery(".brand-filter .other")
+        	//jQuery(".jqTransformCheckbox .jqTransformHidden", othBrands).prop("checked")= isSelect; 
+        	if(!isSelect) {
+                selEle.addClass("select");
+                selEle.html('Unselect All');
+                jQuery("a", brands).addClass("selected");
+                othBrands.show();
+                jQuery("a", othBrands).addClass("jqTransformChecked");
+              jQuery(".jqTransformCheckbox .jqTransformHidden", othBrands).prop("checked")= true;  
+            }else{
+                selEle.removeClass("select");
+                selEle.html('Select All');
+                jQuery("a", brands).removeClass("selected");
+                othBrands.hide();
+                jQuery(".jqTransformCheckbox .jqTransformHidden", othBrands).prop("checked")= false;
+            }
+        }
+        function applyFilters(){
+        	var selectedBrandIdsString = '';
+			jQuery('.brand-filter a.selected').each(function(){
+				brandId = jQuery(this).attr('id');
+				console.log('brandId::'+brandId);
+				if(brandId !== undefined && brandId != 'RTS' && brandId != 'ADB' &&  brandId != 'Portfolio'){
+					if(selectedBrandIdsString == '' || selectedBrandIdsString == null){
+						selectedBrandIdsString = ''+brandId;
+					} else {
+						selectedBrandIdsString += ','+brandId;
+					}
+				}
+			});
+        	console.log('selectedBrandIdsString::'+selectedBrandIdsString);
+        	var selectedChildBrandIdsString = '';
+        	jQuery('.bv-filter a.selected').each(function(){
+        		childbrandId = jQuery(this).attr('id');
+        		console.log('childbrandId:::'+childbrandId);
+				if(childbrandId !== undefined){
+					if(selectedChildBrandIdsString == '' || selectedChildBrandIdsString == null){
+						selectedChildBrandIdsString = ''+childbrandId;
+					} else {
+						selectedChildBrandIdsString += ','+childbrandId;
+					}
+				}
+			});
+			console.log('selectedChildBrandIdsString::'+selectedChildBrandIdsString);
+        	var selectedQuartersString = '';
+			jQuery('.time-filter .date-selector a.selected').each(function(){
+				timeperName = jQuery(this).attr('name');
+				console.log('timeperName:::'+timeperName);
+				if(timeperName!== undefined){
+					if(selectedQuartersString == '' || selectedQuartersString == null){
+						selectedQuartersString = ''+timeperName;
+					} else {
+						selectedQuartersString += ','+timeperName;
+					}
+				}
+			});
+			console.log('selectedChildBrandIdsString::'+selectedChildBrandIdsString);
+        	jQuery('.result-filter-layer').find('input[type=hidden]').each(function(){
+    	        var elemId = jQuery(this).attr('id');
+    	        if( elemId!== undefined){
+        	    	if(elemId.search('selectedQuarters') != -1){
+            			jQuery(this).val(selectedQuartersString);
+            		}else if(elemId.search('selectedBrandIds') != -1){
+            			jQuery(this).val(selectedBrandIdsString);
+            		}else if(elemId.search('selectedChildBrandIds') != -1){
+            			jQuery(this).val(selectedChildBrandIdsString);
+            		}
+            	}
+			});
+			changeFilter();
+			jQuery(".result-filter-layer").hide();
+			
+        }
+        
+        
+    </script>
+    
 </apex:page>

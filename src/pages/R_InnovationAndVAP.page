@@ -127,15 +127,17 @@ Story/Task	: US503/TA1011
         <!-- content -->
         <div class="content clearfix">
 		<apex:form >
-		<apex:actionFunction name="refreshContent" action="{!refreshContent}" rerender="ivap_information" status="ajax-status" onComplete="loadCalenderJs();" /> 
-		<apex:actionFunction name="selectSalesDriver" action="{!selectSalesDriver}" rerender="ivap_information" status="ajax-status" onComplete="loadCalenderJs();">
+		<apex:actionFunction name="refreshContent" action="{!refreshContent}" rerender="ivap_information, downloadPanel" status="ajax-status" onComplete="loadCalenderJs();" /> 
+		<apex:actionFunction name="selectSalesDriver" action="{!selectSalesDriver}" rerender="ivap_information, downloadPanel" status="ajax-status" onComplete="loadCalenderJs();">
 			<apex:param name="salesDriver" assignTo="{!salesDriver}" value="" />
 		</apex:actionFunction>
-		<apex:actionFunction name="setStartDateValue" action="{!setStartDateValue}" rerender="ivap_information" status="ajax-status" onComplete="loadCalenderJs();">
-		<apex:param name="startFromDate" assignTo="{!startFromDate}" value="" />
-			</apex:actionFunction>
-		<apex:actionFunction name="nextMonth" action="{!nextMonth}" rerender="ivap_information" status="ajax-status" onComplete="loadCalenderJs();"/>
-		<apex:actionFunction name="previousMonth" action="{!previousMonth}" rerender="ivap_information" status="ajax-status" onComplete="loadCalenderJs();"/>	
+		<apex:actionFunction name="setStartDateValue" action="{!setStartDateValue}" rerender="ivap_information, downloadPanel" status="ajax-status" onComplete="loadCalenderJs();">
+			<apex:param name="startFromDate" assignTo="{!startFromDate}" value="" />
+			<apex:param name="selectedYr" assignTo="{!selectedyear}" value="" />
+	        <apex:param name="selectedMon" assignTo="{!selectedMonth}" value="" />
+		</apex:actionFunction>
+		<apex:actionFunction name="nextMonth" action="{!nextMonth}" rerender="ivap_information, downloadPanel" status="ajax-status" onComplete="loadCalenderJs();"/>
+		<apex:actionFunction name="previousMonth" action="{!previousMonth}" rerender="ivap_information, downloadPanel" status="ajax-status" onComplete="loadCalenderJs();"/>	
 		<apex:actionFunction name="popoverPrev" action="{!popOverPrevious}" rerender="popoverPanel" onComplete="loadCalenderJs();"/>                  
         <apex:actionFunction name="popoverNext" action="{!popOverNext}" rerender="popoverPanel" onComplete="loadCalenderJs();"/>
        	<apex:actionFunction name="setTodayDate" action="{!setTodayDate}" rerender="popoverPanel" onComplete="loadCalenderJs();"/>
@@ -149,9 +151,14 @@ Story/Task	: US503/TA1011
                 <span class="title">Innovation, Sustainovation  &amp; VAP</span>
                 <c:R_selectList options="{!timePeriods}"  value="{!timePeriod}" onchange="refreshContent()" />
                 <c:R_checkboxList width="150" options="{!themeOptions}" noOfOptions="{!noOfThemesAvailable}" onchange="refreshContent()" />
+			    
+			    <!-- DOWNLOAD SECTION  -->
+                <apex:outputPanel id="downloadPanel"> 
 			    <a href="{!pdfPath}" class="btn pdf-btn isv-bg right-btn">
                     <span>Download as PDF</span>
                 </a>
+                </apex:outputPanel>
+                
             </h2>
  
             

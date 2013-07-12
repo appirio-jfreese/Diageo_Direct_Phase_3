@@ -19,12 +19,12 @@ Story/Task  : US588/TA1076
 	            <apex:actionFunction status="ajax-status" name="switchSection" action="{!switchSection}" rerender="messages, pageContent, downloadAllDialog, beadcrumblinks" >
 					<apex:param name="switchSection" assignTo="{!currentSection}" value="" />
                 </apex:actionFunction>
-				<apex:actionFunction status="ajax-status" name="resetFilter" action="{!resetFilter}" onComplete="loadFilterJs()();" rerender="messages, timeFilterItem, parentBrands, variantBrands, smFilterItem, TBAItems, pageContentResult, downloadAllDialog"/>	                
+				<apex:actionFunction status="ajax-status" name="nextPeriod" action="{!nextPeriod}" onComplete="loadFilterJs()();" rerender="messages, timeFilterItem,parentBrands, variantBrands, smFilterItem"/>
+                <apex:actionFunction status="ajax-status" name="resetFilter" action="{!resetFilter}" onComplete="loadFilterJs()();" rerender="messages, timeFilterItem, parentBrands, variantBrands, smFilterItem, TBAItems, pageContentResult, downloadAllDialog"/>	                
 				<apex:actionFunction status="ajax-status" name="changeFilter" action="{!changeFilter}" onComplete="loadFilterJs()();" rerender="filters,messages, pageContent, downloadAllDialog"/>
 				<apex:actionFunction status="ajax-status" name="renderAsList" action="{!renderAsList}" onComplete="loadFilterJs()();" rerender="messages, pageContent"/>
 				<apex:actionFunction status="ajax-status" name="renderAsBox" action="{!renderAsBox}" rerender="messages, pageContent" oncomplete="calculateBoxHeight()"/>
                 <apex:actionFunction status="ajax-status" name="nextPeriod" action="{!nextPeriod}" onComplete="loadFilterJs()();" rerender="messages, timeFilterItem,parentBrands, variantBrands, smFilterItem"/>
-                <apex:actionFunction status="ajax-status" name="previousPeriod" action="{!previousPeriod}" onComplete="loadFilterJs()();" rerender="messages, timeFilterItem,parentBrands, variantBrands, smFilterItem"/>
                 <apex:actionFunction status="ajax-status" name="switchToQuarterView" action="{!switchToQuarterView}" rerender="messages, timeFilterItem, pageContentResult"/>
                 <apex:actionFunction status="ajax-status" name="switchToMonthView" action="{!switchToMonthView}" rerender="messages, timeFilterItem, pageContentResult"/>
                 <apex:actionFunction status="ajax-status" name="updateVariantBrands" action="{!updateVariantBrands}" rerender="messages, variantBrands">
@@ -52,9 +52,14 @@ Story/Task  : US588/TA1076
 	            <apex:outputPanel id="beadcrumblinks">
 	                <c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
 	            </apex:outputPanel>
-			
+			 
 	        <!-- PAGE CONTENT -->
-	          	
+	          	<c:R_Filters pageCls="sm-bg" c_parentBrandList="{!parentBrandList}" c_additionalBrandList="{!additionalBrandList}"
+	          	c_childBrandList="{!childBrandList}" c_brandBoxToRender="{!brandBoxToRender}" c_selectedChildBrandIds="{!selectedChildBrandIds}"
+	          	c_selectedBrandIds="{!selectedBrandIds}" c_selectedClassificationItemsRow1="{!selectedClassificationItemsRow1}" 
+	          	c_selectedClassificationItemsRow2="{!selectedClassificationItemsRow2}" c_classificationItemsRow1="{!classificationItemsRow1}"
+	          	c_classificationItemsRow2="{!classificationItemsRow2}"/>
+                <!--
                 <apex:outputpanel layout="none" id="filters">
 	            <a class="result-filter" href="javascript:;">
 	                <span class="title">Filter your Results</span>
@@ -306,7 +311,7 @@ Story/Task  : US588/TA1076
 	                </div>
 	            
 	            </apex:outputPanel>
-				</apex:outputpanel>
+				</apex:outputpanel>-->
 	            <div class="operation-line">
 	                <a href="javascript:;" class="download disabled sm-bg">
 	                    <span>Download</span>
@@ -531,253 +536,6 @@ Story/Task  : US588/TA1076
 	    <!-- PAGE FOOTER -->
 	    <c:R_pageFooter isInternal="{!isInternalUser}" />
 	</div>
-	<script type="text/javascript">
-	    jQuery(document).ready(function() {
-	    	jQuery(".result-filter").click(function() {
-		            var a = jQuery(this);
-		            a.toggleClass("open");
-		            a.next().slideToggle(100);
-		        });
-		
-	    	loadFilterJs();
-       	});
-       	function reloadFilterJs(){
-       		jQuery(".result-filter-layer").hide();
-		    loadFilterJs();    
-       		jQuery(".content > .button-line a").each(function() {
-				var a = jQuery(this);
-				if(a.hasClass("active")){
-					var related = a.data("related");
-					if(typeof related !== "undefined") {
-		                jQuery(".result-filter-layer").hide();
-		
-		                if(related === 'bv-filter') {
-		                    var len = jQuery(".brand-filter .brands a.selected").length + jQuery(".brand-filter .other .other-brand input:checked").length;
-		                    if(len > 0) related = 'bv-ok-filter';
-		                }
-		                if(related === 'time-filter') {
-		                	jQuery(".time-filter .button-line a").each(function() {
-	        					var selFilter = jQuery(this);
-	        					if(selFilter.hasClass("active")){
-			            			var related2 = selFilter.data("related");
-			            			console.log('related2:::'+related2);
-			            			jQuery(".time-filter .date-selector").hide();
-			            			jQuery(".time-filter ."+related2).show();
-			            
-				                    jQuery(".time-filter ."+related2).flexslider({
-				                        animation: "slide",
-				                        animationLoop: false,
-				                        minItems: 1,
-				                        maxItems: 4,
-				                        itemWidth: 215,
-				                        itemMargin: 5,
-				                        slideshow: false,
-				                        after: function() {
-				                        	
-				                        }
-				                    });
-				                    updateSlideNxtPrevBtn();
-			                    }
-		                    });
-		                }
-		
-		                jQuery("."+related).show();
-		            }
-	            	
-				}
-					
-			});
-       	}
-       	function loadFilterJs(){
-       		
-        	//if(jQuery(".sm-page_r").length > 0) {
-        		jQuery(".result-filter-layer").hide();
-		        jQuery(".result-filter-layer .other").jqTransform();
-		        jQuery(".result-filter-layer .inner").jqTransform();
-		        jQuery(".result-filter-layer .select-filter-all").jqTransform();
-				jQuery(".content > .button-line a").each(function() {
-				var a = jQuery(this);
-				if(a.hasClass("active")){
-					var related = a.data("related");
-					console.log('related:::'+related);
-					if(typeof related !== "undefined") {
-		                jQuery(".result-filter-layer").hide();
-						if( jQuery(".brand-filter .other-btn").hasClass("selected"))
-	                		jQuery(".brand-filter .other").show();
-	                	else
-	                		jQuery(".brand-filter .other").hide();
-		                
-		                var len = jQuery(".brand-filter .brands a.selected").length + jQuery(".brand-filter .other .other-brand input:checked").length;
-		                if(len > 0) related = 'bv-ok-filter';
-		                
-		                jQuery(".time-filter .button-line a").each(function() {
-	        					var selFilter = jQuery(this);
-	        					var related2 = selFilter.data("related");
-	        					if(selFilter.hasClass("active")){
-			            			console.log('related2:::'+related2);
-			            			jQuery(".time-filter .date-selector").hide();
-			            			jQuery(".time-filter ."+related2).show();
-			            
-				                    jQuery(".time-filter ."+related2).flexslider({
-				                        animation: "slide",
-				                        animationLoop: false,
-				                        minItems: 1,
-				                        maxItems: 4,
-				                        itemWidth: 215,
-				                        itemMargin: 5,
-				                        slideshow: false,
-				                        after: function() {
-				                        	
-				                        }
-				                    });
-				                    updateSlideNxtPrevBtn();
-			                    }
-		                    });
-		                
-						jQuery("."+related).show();
-		            }
-	            	
-				}
-					
-			});
-		        jQuery(".content > .button-line a").click(function() {
-		            var a = jQuery(this);
-		            var related = a.data("related");
-		            if(typeof related !== "undefined") {
-		                jQuery(".result-filter-layer").hide();
-		
-		                if(related === 'bv-filter') {
-		                    var len = jQuery(".brand-filter .brands a.selected").length + jQuery(".brand-filter .other .other-brand input:checked").length;
-		                    if(len > 0) related = 'bv-ok-filter';
-		                }
-		                if(related === 'time-filter') {
-		                    jQuery(".time-filter .quarterly").flexslider({
-		                        animation: "slide",
-		                        animationLoop: false,
-		                        minItems: 1,
-		                        maxItems: 4,
-		                        itemWidth: 215,
-		                        itemMargin: 5,
-		                        slideshow: false,
-		                        after: function() {
-		                        	
-		                        }
-		                    });
-		                    updateSlideNxtPrevBtn();
-		                }
-		
-		                jQuery("."+related).show();
-		            }
-		            a.parent().find("a").removeClass("active");
-		            a.addClass("active");
-		        });
-		        jQuery(".result-filter-layer a.close-btn").click(function() {
-		            jQuery(this).parent().hide();
-		            jQuery(".filter-buttons a").removeClass("active");
-		        });
-		        jQuery(".brand-filter .brands a").click(function() {
-		            var a = jQuery(this);
-		            if(a.hasClass("other-btn")) {
-		                jQuery(".brand-filter .other").toggle();
-		                return false;
-		            }
-		            a.toggleClass("selected");
-		        });
-		        jQuery(".brand-filter .other .other-brand input").change(function() {
-		            var input = jQuery(this);
-		            if(jQuery(".brand-filter .other .other-brand input:checked").length > 0) {
-		                jQuery(".brand-filter .other-btn").addClass("selected");
-		            }
-		            else {
-		                jQuery(".brand-filter .other-btn").removeClass("selected");
-		            }
-		        });
-		        jQuery(".sm-filter .select-filter-all input").change(function() {
-		            var input = jQuery(this);
-		            var checked = input.is(":checked");
-		            jQuery(".sm-filter .form-left input").each(function() {
-		                var i = jQuery(this);
-		                if(i.is(":checked") !== checked) {
-		                    i.parent().find("a").trigger("click");
-		                }
-		            });
-		        });
-		
-		        jQuery(".time-filter .button-line a").click(function() {
-		        
-		            var a = jQuery(this);
-		            var buttons = a.parent();
-		            jQuery("a", buttons).removeClass("active");
-		            a.addClass("active");
-		            var related = a.data("related");
-		            jQuery(".time-filter .date-selector").hide();
-		            jQuery(".time-filter ."+related).show();
-		            jQuery(".time-filter ."+related).flexslider({
-		                animation: "slide",
-		                animationLoop: false,
-		                minItems: 1,
-		                maxItems: 4,
-		                itemWidth: 215,
-		                itemMargin: 5,
-		                slideshow: false,
-		                after: function() {
-		                	alert('in after');
-		                	//updateSlideNxtPrevBtn();
-		                }
-		            });
-		           updateSlideNxtPrevBtn();
-		
-		        })
-		        jQuery(".time-filter .date-selector .slides a").click(function() {
-		            var a = jQuery(this);
-		            a.toggleClass("selected");
-		        });
-				//var updateSlideNxtPrevBtn = function() {
-				    
-		        //}
-		
-		
-		    //}
-        	//jQuery(".flex-direction-nav a.flex-prev", b)
-			//jQuery('.time-filter .date-selector > a.flex-prev').live('click',previousPeriod);
-	        //jQuery('.time-filter .date-selector > a.flex-next').live('click',nextPeriod);
-	        
-	        
-        }
-        function updateSlideNxtPrevBtn(){
-        	jQuery(".date-selector .flex-direction-nav a").each(function() {
-		                var a = jQuery(this);
-		                a.removeClass("flex-disabled");
-		                if(a.hasClass("flex-prev"))
-		                	a.live('click',previousPeriod);
-		                else if(a.hasClass("flex-next") )	
-		                	a.live('click',nextPeriod);
-		            });
-        }
-        
-        function selectALLBrands(elemnt){
-        	var selEle = jQuery(elemnt);
-        	var isSelect = selEle.hasClass("select");
-        	var brands = jQuery(".brand-filter .brands");
-        	othBrands = jQuery(".brand-filter .other")
-        	//jQuery(".jqTransformCheckbox .jqTransformHidden", othBrands).prop("checked")= isSelect; 
-        	if(!isSelect) {
-                selEle.addClass("select");
-                selEle.html('Unselect All');
-                jQuery("a", brands).addClass("selected");
-                othBrands.show();
-                jQuery("a", othBrands).addClass("jqTransformChecked");
-              jQuery(".jqTransformCheckbox .jqTransformHidden", othBrands).prop("checked")= true;  
-            }else{
-                selEle.removeClass("select");
-                selEle.html('Select All');
-                jQuery("a", brands).removeClass("selected");
-                othBrands.hide();
-                jQuery(".jqTransformCheckbox .jqTransformHidden", othBrands).prop("checked")= false;
-            }
-        }
-        
-        
-    </script>
+	
 </body>
 </apex:page>
