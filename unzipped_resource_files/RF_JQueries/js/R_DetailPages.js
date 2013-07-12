@@ -1,6 +1,7 @@
 // On Document Load
 jQuery(document).ready(function() {
 	sectionVisibility();
+	initializationFunction();
 });
 
 
@@ -11,7 +12,14 @@ function jqTransformScript(){
 	jQuery(".list-view").jqTransform();
 	jQuery(".filter").jqTransform();
 	jQuery(".doc-list .list-view .doc").jqTransform();
-	
+	jQuery(".select-all input[type='checkbox']").change(function() {
+            var c = $j(this);
+            $j(".doc-list input[type='checkbox']").each(function() {
+                if($j(this).prop("checked") !== c.prop("checked")) {
+                    $j(this).trigger("click");
+                }
+            });
+    });
 	jQuery(".doc-list input[type='checkbox']").change(function() {
 		setTimeout(function() {
 			if(jQuery(".doc-list input[type='checkbox']:checked").length > 0) {
@@ -45,4 +53,21 @@ function jqTransformScript(){
 			})
 		}
 	}
+}
+
+function initializationFunction() {
+  jQuery(".sortAlp").change(function() {
+	var orderBy = jQuery(this).val();
+	if(orderBy != '' ) { 
+		orderByAlphabetice(orderBy);
+	}
+  }); 
+  
+  jQuery(".period-select").change(function() {
+	var showingDoc = jQuery(this).val();
+	if(showingDoc != '' ) { 
+		changeNumberOfItemPerPage(showingDoc);
+	}
+  }); 
+	   
 }
