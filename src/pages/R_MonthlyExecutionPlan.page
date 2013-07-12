@@ -36,6 +36,8 @@ Story/Task  : US585/TA1081
                 </apex:actionFunction>
                 <apex:actionFunction name="setStartDateValue" action="{!setStartDateValue}" rerender="downloadPanel, mepData, beadcrumblinks" onComplete="loadCalenderJs();">
                     <apex:param name="startFromDate" assignTo="{!startFromDate}" value="" />
+                    <apex:param name="selectedYr" assignTo="{!selectedyear}" value="" />
+                    <apex:param name="selectedMon" assignTo="{!selectedMonth}" value="" />
                 </apex:actionFunction>
                 <apex:actionFunction name="nextMonth" action="{!nextMonth}" rerender="downloadPanel, mepData, beadcrumblinks" onComplete="loadCalenderJs();"/>                  
                 <apex:actionFunction name="previousMonth" action="{!previousMonth}" rerender="downloadPanel, mepData, beadcrumblinks" onComplete="loadCalenderJs();"/>
@@ -118,11 +120,12 @@ Story/Task  : US585/TA1081
                             </apex:outputPanel>
                             <apex:variable var="oddEven" value="{!'odd'}"/>                                                     
                             <apex:repeat value="{!calendarData[month.data][salesdrivername]}" var="programData">
-                                    <div class="{!if(oddEven =='even' ,'desc-block light-blue-bg','desc-block green-bg')}" onClick="window.location='{!detailPagePath}&id={!programData.id}'">
+
+                                   <div class="desc-block" style="{!programData.styleBackgroundColor}; {!programData.styleTextColor}; height: 100px; overflow: hidden;" onClick="window.location='{!detailPagePath}&id={!programData.id}'">
                                         <h5>{!programData.label}</h5>
                                         <p><apex:outputtext escape="false" value="{!programData.description}"></apex:outputtext></p>
                                         </div>  
-                                        <apex:variable var="oddEven" value="{!if(oddEven == 'odd','even','odd')}"/> 
+
                             </apex:repeat>
                         </apex:outputPanel> 
                         
@@ -157,9 +160,7 @@ Story/Task  : US585/TA1081
                     <!--  END :: Main Salesdriver data Section -->
                               
                 <apex:variable var="displayCalendar" value="{!0}"/>
-                <apex:variable var="aselYear" value="{!IF((VALUE(aselMonth) + 1) == 13,VALUE(aselYear) + 1,VALUE(aselYear))}" />
-                <apex:variable var="aselMonth" value="{!IF((VALUE(aselMonth) + 1) == 13, 1, VALUE(aselMonth) + 1)}"/>
-                             
+                            
                 </apex:repeat>
                 <!--  END :: Months Loop -->
             
