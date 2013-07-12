@@ -33,6 +33,26 @@ $j(document).ready(function() {
         }
     });
 
+    $j(".breadcrumb .site-nav-wrapper").click(function() {
+        var w = $j(this);
+        var d = $j(".dropdown", w);
+        var s = $j("span.nav", w);
+        d.css("width", 120);
+        w.toggleClass("click-wrapper");
+        if(w.hasClass("click-wrapper")) {
+            s.animate({
+                height: 150
+            }, 200);
+            d.show();
+        }
+        else {
+            d.hide();
+            s.animate({
+                height: 15
+            }, 200);
+        }
+    });
+
     $j("h3 a.toggleable").click(function() {
         var div = $j(this).parent().next();
         div.slideToggle();
@@ -366,7 +386,7 @@ $j(document).ready(function() {
         });
     }
 
-    if($j(".mep-item-page, .isv-item-page, .results-page, .sm-page").length > 0) {
+    if($j(".mep-item-page, .isv-item-page, .results-page, .sm-page, .bmi-page").length > 0) {
         $j("a.email, a.share").click(function() {
             var a = $j(this);
             if(a.hasClass("disabled")) return false;
@@ -400,8 +420,8 @@ $j(document).ready(function() {
             btns.toggle();
         });
         var positionDocBtns = function(btns) {
-            var doc = btns.parent().parent();
-            if(doc.hasClass("grid-view")) {
+            var doc = btns.parent();
+            if(doc.parent().hasClass("grid-view")) {
                 btns.css({
                     width: '100%',
                     right: 0,
@@ -426,6 +446,11 @@ $j(document).ready(function() {
         $j(".filter .list-mode").click(function() {
             $j(this).addClass("active").next().removeClass("active");
             $j(".doc-list .list-view").removeClass("grid-view");
+
+            $j(".doc-list .list-view").each(function() {
+                $j(".doc", $j(this)).removeClass("last").last().addClass("last")
+            });
+            $j(".doc-list .doc");
             $j(".doc-btns:visible").each(function() {
                 positionDocBtns($j(this));
             });
@@ -433,6 +458,12 @@ $j(document).ready(function() {
         $j(".filter .grid-mode").click(function() {
             $j(this).addClass("active").prev().removeClass("active");
             $j(".doc-list .list-view").addClass("grid-view");
+            $j(".doc-list .list-view").each(function() {
+                $j(".doc", $j(this)).each(function(i) {
+                    if(i%3 == 2) $j(this).addClass("last");
+                    else $j(this).removeClass("last");
+                })
+            });
             $j(".doc-btns:visible").each(function() {
                 positionDocBtns($j(this));
             });
@@ -559,7 +590,7 @@ $j(document).ready(function() {
         });
     }
 
-    if($j(".sm-page").length > 0) {
+    if($j(".sm-page, .bmi-page").length > 0) {
         $j(".result-filter").click(function() {
             var a = $j(this);
             a.toggleClass("open");
