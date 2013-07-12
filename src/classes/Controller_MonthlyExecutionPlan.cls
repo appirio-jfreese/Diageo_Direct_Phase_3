@@ -89,7 +89,7 @@ public with sharing class Controller_MonthlyExecutionPlan extends Controller_Bas
 //       	currentPageUrl = Page.MonthlyExecutionPlan.getUrl();
 		currentPageUrl = ApexPages.currentPage().getUrl();
 		// End:
-        if(ApexPages.currentPage().getUrl().indexOf('R_MonthlyExecutionPlan') > -1){
+        if(currentPageUrl.toLowerCase().indexOf('r_monthlyexecutionplan') > -1){
         	detailPagePath = Page.R_MEPDetails.getUrl();
 		}else{
 			detailPagePath = Page.MEPDetails.getUrl();
