@@ -23,6 +23,6 @@
             var selectedMon = popoverDiv.find("select")[0].selectedOptions[0].value;
             var selectedYr = popoverDiv.find("select")[1].selectedOptions[0].value;
             var paramVal = selectedYr + '-' + selectedMon + '-01';
-            setStartDateValue(paramVal);
+            setStartDateValue(paramVal, selectedYr, selectedMon);
         }
     }

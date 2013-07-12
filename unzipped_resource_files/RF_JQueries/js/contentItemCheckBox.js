@@ -41,7 +41,17 @@ function operationLine(lineClass){
 				opType = "Share";
 				anchorClassName = "share";
 			}
-			
+			jQuery(".select-all input[type='checkbox']:checked").each(function() {
+             	if(clickedButton == "Follow")
+             	{ 
+             		if(jQuery(".multiFollow").val() == "false") {
+             			selAll = "true";
+             		}else {
+             			selAll = "false";
+             			clickedButton = "Unfollow";
+             		}
+             	}
+        	});
 			jQuery(".doc-list input[type='checkbox']:checked").each(function() {
 				var tmpHref = jQuery(this).parents(".doc").find("."+anchorClassName).attr('href');
 				selectedContentIds += glue + tmpHref.substring(tmpHref.indexOf(opType+"('")+(opType+"('").length, 
@@ -50,9 +60,9 @@ function operationLine(lineClass){
 			});
 			
 			if(clickedButton == "Follow"){
-				addToFollowMultiple(selectedContentIds);
+				addToFollowMultiple(selectedContentIds,selAll);
 			}else if(clickedButton == "Unfollow"){
-				removeFromFollowMultiple(selectedContentIds);
+				removeFromFollowMultiple(selectedContentIds,selAll);
 			}else if(clickedButton == "Add"){
 				addToBasketMultiple(selectedContentIds);
 			}else if(clickedButton == "Remove"){
@@ -60,7 +70,7 @@ function operationLine(lineClass){
 			}else if(clickedButton == "Email"){
 				userMultipleShare(selectedContentIds);
 	  userTryToShare(selectedContentIds);
-	  showDialog('shareInfo');
+	  //showDialog('shareInfo');
 	}
 	
 		}else if(clickedButton == "Download"){
