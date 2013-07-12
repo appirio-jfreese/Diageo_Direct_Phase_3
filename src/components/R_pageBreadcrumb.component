@@ -16,8 +16,8 @@
         
 
         .breadcrumb .inner {
-            padding: 0 0 0 10px;
-            max-width: 499px; /* 955px - 56px */
+            padding: 0 0 0 0px;
+            /*max-width: 499px;*/ /* 955px - 56px */
             background: no-repeat;
 
             position: relative;
@@ -32,11 +32,14 @@
                 background: no-repeat;
             } 
         
-        /*.breadcrumb .site-nav {
-            padding: 10px 0 10px 0;
+        .breadcrumb .site-nav {
+                   position: absolute;
+                    left: 10px;
+                    top: 10px;
+            
         }
 
-        .breadcrumb .site-nav-wrapper {
+        /*.breadcrumb .site-nav-wrapper {
             max-width: 30px;
         }*/
 
@@ -58,11 +61,14 @@
                 padding: 0 5px 0 5px;
                 background: #333;
                 min-width: 120px;
+                    position: relative;
+                    left: 10px;
+                    top: 56px;
             }
                 .breadcrumb .dropdown {
-                    position: absolute;
-                    left: 10px;
-                    top: 10px;
+                    position: relative;
+                    left: 0px;
+                    top: 0px;
                     display: block;
                 }
                     .breadcrumb .dropdown a {
@@ -92,6 +98,8 @@
                 </span>
             </span>
             <a href="{!$Page.R_HomePage}">Home</a>
+            <!-- <apex:outputPanel styleclass="position: absolute; left: 56px;"><a href="{!$Page.R_HomePage}">Home</a></apex:outputPanel> -->
+            <!-- <apex:outputLink value="{!$Page.R_HomePage}" styleclass="position: absolute; left: 56px;">Home</apex:outputLink> -->
             <apex:repeat rows="1" value="{!breadcrumbLinks}" var="breadcrumbLink">
                 >
                 <apex:outputPanel rendered="{!IF(breadcrumbLinks.size = 1,'false','true')}">
