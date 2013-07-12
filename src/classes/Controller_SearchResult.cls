@@ -82,6 +82,8 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 		}
 		private set;
 	}
+     
+    public Boolean R_MultInFollowWithselAll {get; set;}  
     
     public Controller_SearchResult() {
 		pageUrl = Page.SearchResult.getUrl();
@@ -99,7 +101,7 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 		
 		initQuery();
 		initSections();				
-		
+		 
 		try{
 			if(ApexPages.currentPage().getParameters().get('query') != null && ApexPages.currentPage().getParameters().get('query') != ''){
 				searchValue = EncodingUtil.urlDecode(ApexPages.currentPage().getParameters().get('query'), 'UTF-8');
