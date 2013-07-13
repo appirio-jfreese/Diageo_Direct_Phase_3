@@ -14,7 +14,7 @@
 	        }
         }
         
-        /*disable images, redefined below in separate div*/
+        /*disable images, redefined below in .site-nav*/
         .breadcrumb .inner {
             padding: 0 0 0 56px;
             background: no-repeat;
@@ -33,10 +33,23 @@
         /* site-nav ~= R_PageHeader desc */
         .breadcrumb .site-nav {
             position: absolute;
-            left: 10px;
-            top: 10px;
-            
+            left: 0px;
+            top: 0px;
+            line-height: 56px;
+            height: 56px;
+            width: 56px;
+            background: url({!URLFOR($Resource.Responsive_Base)}/i/breadcrumb-icon.png) 50% no-repeat;
         }
+            .isv-page .breadcrumb .site-nav {
+                background: url({!URLFOR($Resource.Responsive_Base)}/i/breadcrumb-icon-isv.png) 10px 50% no-repeat;
+            }
+            .sm-page .breadcrumb .site-nav {
+                background: url({!URLFOR($Resource.Responsive_Base)}/i/breadcrumb-icon-sm.png) 10px 50% no-repeat;
+            }
+            .bmi-page .breadcrumb .site-nav {
+                background: url({!URLFOR($Resource.Responsive_Base)}/i/breadcrumb-icon-bmi.png) 10px 50% no-repeat;
+            }
+
 
         /* nav ~= R_PageHeader name */
         .breadcrumb .site-nav span.nav {
@@ -47,18 +60,18 @@
             cursor: pointer;
             position: relative;
             padding: 1px 6px 1px 6px;
-            line-height: 15px; 
+            line-height: 15px;
             overflow: hidden;
             height: 15px;
             z-index: 1;
+            left: 10px;
+            top: 46px;
         }
             .breadcrumb .click-wrapper span.nav {
                 border: 1px solid #C10755;
                 padding: 0 5px 0 5px;
                 background: #333;
-                position: relative;
-                left: 0px;
-                top: 10px;
+                min-width: 120px;
             }
                 .breadcrumb .dropdown {
                     position: relative;
@@ -84,7 +97,7 @@
         <div class="inner">
             <span class="site-nav-wrapper">
                 <span class="site-nav">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/breadcrumb-icon.png')}" style="vertical-align: middle;"/>
+                    <!-- <img src="{!URLFOR($Resource.Responsive_Base, 'i/breadcrumb-icon.png')}" style="vertical-align: middle;"/> -->
                     <span class="nav">
 	                    <span class="dropdown">
 	                        <a href="javascript:;">path1 path1 path1</a>
