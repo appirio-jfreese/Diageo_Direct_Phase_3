@@ -6,7 +6,7 @@
 
     <!-- CSS for site navigation dropdown -->
     <style type="text/css">
-        /*fix UX bug*/
+        /*Hide breadcrumb crumbs for screens under 670px, else hrefs turn into tabs*/
         @media only screen and (max-width: 670px) {
             .breadcrumb a {
                 visibility: hidden;
@@ -14,12 +14,10 @@
 	        }
         }
         
-
+        /*disable images, redefined below in separate div*/
         .breadcrumb .inner {
-            padding: 0 0 0 0px;
-            /*max-width: 499px;*/ /* 955px - 56px */
+            padding: 0 0 0 56px;
             background: no-repeat;
-
             position: relative;
         }
              .isv-page .breadcrumb .inner {
@@ -32,17 +30,15 @@
                 background: no-repeat;
             } 
         
+        /* site-nav ~= R_PageHeader desc */
         .breadcrumb .site-nav {
-                   position: absolute;
-                    left: 10px;
-                    top: 10px;
+            position: absolute;
+            left: 10px;
+            top: 10px;
             
         }
 
-        /*.breadcrumb .site-nav-wrapper {
-            max-width: 30px;
-        }*/
-
+        /* nav ~= R_PageHeader name */
         .breadcrumb .site-nav span.nav {
             float: left;
             color: #f40763;
@@ -60,18 +56,18 @@
                 border: 1px solid #C10755;
                 padding: 0 5px 0 5px;
                 background: #333;
-                min-width: 120px;
-                    position: relative;
-                    left: 10px;
-                    top: 56px;
+                position: relative;
+                left: 0px;
+                top: 10px;
             }
                 .breadcrumb .dropdown {
                     position: relative;
                     left: 0px;
                     top: 0px;
-                    display: block;
+                    display: none;
                 }
                     .breadcrumb .dropdown a {
+                        text-decoration: none;
                         color: #fff;
                         display: block;
                         line-height: 25px;
@@ -91,15 +87,13 @@
                     <img src="{!URLFOR($Resource.Responsive_Base, 'i/breadcrumb-icon.png')}" style="vertical-align: middle;"/>
                     <span class="nav">
 	                    <span class="dropdown">
-	                        <a href="javascript:;">path1</a>
+	                        <a href="javascript:;">path1 path1 path1</a>
 	                        <a href="javascript:;">path2</a>
 	                    </span>
 	                </span>
                 </span>
             </span>
             <a href="{!$Page.R_HomePage}">Home</a>
-            <!-- <apex:outputPanel styleclass="position: absolute; left: 56px;"><a href="{!$Page.R_HomePage}">Home</a></apex:outputPanel> -->
-            <!-- <apex:outputLink value="{!$Page.R_HomePage}" styleclass="position: absolute; left: 56px;">Home</apex:outputLink> -->
             <apex:repeat rows="1" value="{!breadcrumbLinks}" var="breadcrumbLink">
                 >
                 <apex:outputPanel rendered="{!IF(breadcrumbLinks.size = 1,'false','true')}">
