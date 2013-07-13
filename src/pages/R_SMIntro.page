@@ -2,7 +2,7 @@
 Name        : SMIntro.page
 ------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_SMIntro">
-<body class="home-page">
+<body class="home-page sm-page">
 	<div class="wrapper">
 	    <div class="container">
 	        <!-- PAGE HEADER -->
