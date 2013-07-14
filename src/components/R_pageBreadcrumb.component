@@ -38,8 +38,11 @@
             line-height: 56px;
             height: 56px;
             width: 56px;
-            background: url({!URLFOR($Resource.Responsive_Base)}/i/breadcrumb-icon.png) 50% no-repeat;
+            /*background: url({!URLFOR($Resource.Responsive_Base)}/i/breadcrumb-icon.png) 50% no-repeat;*/
         }
+            .mep-page .breadcrumb .site-nav {
+                background: url({!URLFOR($Resource.Responsive_Base)}/i/breadcrumb-icon-sm.png) 10px 50% no-repeat;
+            }
             .isv-page .breadcrumb .site-nav {
                 background: url({!URLFOR($Resource.Responsive_Base)}/i/breadcrumb-icon-isv.png) 10px 50% no-repeat;
             }
