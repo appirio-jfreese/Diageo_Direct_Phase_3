@@ -13,6 +13,7 @@ $j(document).ready(function() {
        $j(".footer .links").slideToggle();
     });
 
+    //Modify the dropdown height from 150 to 45, because other profile dropdown options are hidden
     $j(".header .desc-wrapper").click(function() {
         var w = $j(this);
         var d = $j(".dropdown", w);
@@ -21,27 +22,7 @@ $j(document).ready(function() {
         if(w.hasClass("click-wrapper")) {
             d.css("width", s.width()+10);
             s.animate({
-                height: 150
-            }, 200);
-            d.show();
-        }
-        else {
-            d.hide();
-            s.animate({
-                height: 15
-            }, 200);
-        }
-    });
-
-    $j(".breadcrumb .site-nav-wrapper").click(function() {
-        var w = $j(this);
-        var d = $j(".dropdown", w);
-        var s = $j("span.nav", w);
-        d.css("width", 120);
-        w.toggleClass("click-wrapper");
-        if(w.hasClass("click-wrapper")) {
-            s.animate({
-                height: 150
+                height: 45
             }, 200);
             d.show();
         }
