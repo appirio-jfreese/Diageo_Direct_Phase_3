@@ -38,6 +38,7 @@ Story/Task  : US585/TA1082
     <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/jquery.jqtransform.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/jquery.flexslider-min.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/script.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/mod_script.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/PageHeaderJQ.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/jquery.modal.min.js')}"></script>
 
@@ -45,6 +46,26 @@ Story/Task  : US585/TA1082
     <apex:stylesheet value="{!URLFOR($Resource.Responsive_Base, 'css/skeleton-fluid.css')}" /> 
     <apex:stylesheet value="{!URLFOR($Resource.Responsive_Base, 'css/layout.css')}" />
    
+    <!-- Create a go_btn for search submit, as it was not provided by UX -->
+    <style type="text/css">
+	    .header .go_btn {
+	        text-align: center;
+	        line-height: 32px;
+	        color: #D8D5D5;
+	        font-size: 16px;
+	        font-weight: normal;
+		    border: 2px solid #8A023A;
+		    border-radius: 2px;
+		    margin: 0px 0px 0px 1px;
+		    padding: 0px 4px 0px 4px;
+	    }
+	        .header go_btn:hover {
+	            color: #fff;
+	            background: #d20756;
+	        }
+    </style>
+    
+    
     <!-- header -->
     <div id="overlayDisable"></div>
     <div class="header {!IF(showThemeSelector,'','no-theme-selector')}" >
@@ -132,8 +153,8 @@ Story/Task  : US585/TA1082
                         <apex:outputPanel id="sValue">
                             <div>
                                 <apex:inputText value="{!searchPhrase}" styleClass="text"/>
-                                <a href="javascript:;" class="btn" onclick="userSearch(); return false;">GO</a>
-                                <!--  <button class="btn" onclick="userSearch(); return false;">GO</button> -->
+                                <!-- <a href="javascript:;" class="btn" onclick="userSearch(); return false;">GO</a> -->
+                                <button class="go_btn" onclick="userSearch(); return false;">GO</button>
                             </div>
                         </apex:outputPanel>
                     </apex:form>
