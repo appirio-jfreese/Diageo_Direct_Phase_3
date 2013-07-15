@@ -8,10 +8,10 @@
     <style type="text/css">
         /*Hide breadcrumb crumbs for screens under 670px, else hrefs turn into tabs*/
         @media only screen and (max-width: 670px) {
-            .breadcrumb a {
+            /*.breadcrumb a {
                 visibility: hidden;
                 display: none;
-	        }
+	        }*/
         }
         
         /*disable images, redefined below in .site-nav*/
