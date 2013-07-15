@@ -1,0 +1,1000 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Category Development</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="css/base.css"/>
+    <link rel="stylesheet" href="css/skeleton-fluid.css"/>
+    <link rel="stylesheet" href="css/layout.css"/>
+    <script type="text/javascript" src="./js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.jqtransform.js"></script>
+    <script type="text/javascript" src="./js/jquery.flexslider-min.js"></script>
+    <script type="text/javascript" src="./js/jquery.modal.min.js"></script>
+    <script type="text/javascript" src="./js/script.js"></script>
+</head>
+<body class="cd-landing-page cd-page">
+
+<div class="wrapper">
+    <div class="container">
+        <!-- header -->
+        <div class="header">
+
+            <div class="info row sixteen">
+                <div class="desc-wrapper">
+                    <div class="desc">
+                        <span class="name">
+                            Evangeline Jackson<br>
+                            <span class="dropdown">
+                                <a href="javascript:;">User Profile</a>
+                                <a href="download-history.html">Download History</a>
+                                <a href="share-history.html">Share History</a>
+                                <a href="followed-items.html">Followed Items</a>
+                                <a href="javascript:;">Logout</a>
+                            </span>
+                        </span>
+                        <span class="hello">Hello,</span>
+                        <span class="company">Johnson Bros Wholesale Liq Co of MN</span>
+
+                    </div>
+                    <div class="avatar-wrapper">
+                        <a href="javascript:;" class="avatar"><img src="i/avatar.png"/></a>
+                    </div>
+                </div>
+                <div class="icons">
+                    <a href="items-in-basket.html" class="cart">
+                        388
+                    </a>
+                    <a href="followed-items.html" class="fav">
+                        289
+                    </a>
+                </div>
+            </div>
+            <a href="javascript:;" class="gotoSF">
+                <strong>Go To Salesforce</strong>
+            </a>
+            <div class="clear"></div>
+            <div class="row clearfix">
+                <a href="index.html" class="logo">
+                    <img src="i/logo.png"/>
+                </a>
+                <div class="btns">
+                    <a href="javascript:;" class="active btn">Spirits</a>
+                    <a href="javascript:;" class="btn">Wine</a>
+                    <a href="javascript:;" class="btn last" style="visibility: hidden">Beer</a>
+                </div>
+                <div class="search">
+                    <input type="text" class="text" />
+                    <a href="search-results.html" class="btn">GO</a>
+                </div>
+            </div>
+        </div>
+        <!-- end of header -->
+
+        <!-- content -->
+        <div class="content clearfix">
+
+            <div class="breadcrumb">
+                <div class="inner">
+                    <a href="index.html">Home</a> &gt;
+                    <a href="category-development.html">Category Development</a> &gt;
+                    Category Selling Solutions
+                </div>
+            </div>
+
+            <a class="result-filter" href="javascript:;">
+                <span class="title">Filter your Results</span>
+                <span class="icon"></span>
+            </a>
+
+            <div class="button-line hide four-btns filter-buttons">
+                <a href="javascript:;" class="cd-bg" data-related="bc-filter">
+                    Filter By Brand Category
+                </a>
+                <a href="javascript:;" class="cd-bg" data-related="brand-filter">
+                    Filter By Brand
+                </a>
+                <a href="javascript:;" class="cd-bg" data-related="bv-filter">
+                    Brand Variants
+                </a>
+                <a href="javascript:;" class="cd-bg last" data-related="time-filter">
+                    Filter By Time Period
+                </a>
+            </div>
+
+
+            <div class="result-filter-layer brand-filter hide">
+                <a href="javascript:;" class="close-btn"></a>
+                <p>
+                    Select one or more brands. Brand Variants canbe specified only when one brand is selected.
+                    <a href="javascript:;">Select All</a>
+                </p>
+                <div class="brands">
+                    <a href="javascript:;" class="two-lines">
+                        Volnay 1er Cru "Taillepieds"
+                    </a>
+                    <a href="javascript:;" class="text">
+                        Volnay Premier Cru
+                    </a>
+                    <a href="javascript:;" class="text">
+                        Volnay Premier Cru
+                    </a>
+                    <a href="javascript:;">
+                        <img src="i/filtering_02_A_by_Acacia.png"/>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="i/filtering_01_Acacia-logo.png"/>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="i/filtering_03_BV-Napa-logo.png"/>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="i/filtering_01_Butterfly-Kiss-logo.png"/>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="i/filtering_04_Chalone-Monterey-Logo.png"/>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="i/filtering_01_Cherry-On-Top.png"/>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="i/filtering_02_Creme-De-Lys-logo.png"/>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="i/filtering_03_Dynamite-Logo.png"/>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="i/filtering_04_Ensemble-logo.png"/>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="i/Girl-Go-Lightly---LOGO-FILTERING.png"/>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="i/filtering_05_Hewitt-logo.png"/>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="i/filtering_05_JadeMountian.png"/>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="i/filtering_07_Navarro-Correas-Logo.png"/>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="i/filtering_06_New-Harbor-logo.png"/>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="i/Once-Upon-a-Vine---LOGO-FILTERING.png"/>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="i/filtering_07_Orogeny-Vineyards-logo.png"/>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="i/filtering_08_Provenance-logo.png"/>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="i/filtering_05_Rosenblum.png"/>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="i/filtering_09_Snap-Dragon-Logo.png"/>
+                    </a>
+                    <a href="javascript:;">
+                        <img src="i/filtering_02_Rose-N-Blum-logo.png"/>
+                    </a>
+                    <a href="javascript:;" class="other-btn">
+                        <img src="i/adb.png"/>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+                <div class="other hide">
+                    <p>
+                        Additional Brands
+                    </p>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">22 Marquls</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Black Haus</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Cabin Fever</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Cacique Anejo</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Classic Malts</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Club</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Emmet's</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Goldschalager</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Gordon's</span>
+                    </div>
+                    <div class="two-lines other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Governor General</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">J &amp; B</span>
+                    </div>
+                    <div class="two-lines other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Moon Mountain</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Myers's</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Oronoco</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Pampero</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Parrot Bay</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Pimm's</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Popov</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Qream</span>
+                    </div>
+                    <div class="two-lines other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Romana Sambuca</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Rumple Minze</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Stirrings</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Tanqueray</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Tekidag Rakisi</span>
+                    </div>
+                    <div class="two-lines other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">The Club Cocktail RTS</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Ursus</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Yeni Raki</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Yukon Jack</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Zacapa</span>
+                    </div>
+                    <div class="other-brand">
+                        <input type="checkbox"/>
+                        <span class="name">Zwack</span>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="buttons">
+                    <a href="javascript:;" class="clear-btn">Clear Filters</a>
+                    <a href="javascript:;" class="apply-btn button cd-bg">Apply</a>
+                </div>
+            </div>
+
+
+            <div class="result-filter-layer bc-filter hide">
+                <a href="javascript:;" class="close-btn"></a>
+                <p>Select one or more brand categories.</p>
+                <div class="inner default">
+                    <div class="form-left">
+                        <input type="checkbox"/>
+                        <label>TBA</label>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-left">
+                        <input type="checkbox"/>
+                        <label>Gin</label>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-left">
+                        <input type="checkbox"/>
+                        <label>Irish</label>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-left">
+                        <input type="checkbox"/>
+                        <label>Liqueur</label>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-left">
+                        <input type="checkbox"/>
+                        <label>Non Alcoholic</label>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-left">
+                        <input type="checkbox"/>
+                        <label>Ready to Serve</label>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-left">
+                        <input type="checkbox"/>
+                        <label>Rum</label>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-left">
+                        <input type="checkbox"/>
+                        <label>Scotch</label>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-left">
+                        <input type="checkbox"/>
+                        <label>Tequila</label>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-left">
+                        <input type="checkbox"/>
+                        <label>Vodka</label>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-left">
+                        <input type="checkbox"/>
+                        <label>Whiskey - NAW</label>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+
+            <div class="result-filter-layer bv-filter hide">
+                <a href="javascript:;" class="close-btn"></a>
+                <div class="inner default">
+                    <input type="checkbox" disabled/>
+                    <label>Use Brand Variant</label>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="result-filter-layer time-filter hide">
+                <a href="javascript:;" class="close-btn"></a>
+                <p>Select one or more of the quarters listed below. View different quarters by clicking on the right or left arrows</p>
+                <div class="button-line two-btns">
+                    <a href="javascript:;" class="cd-bg" data-related="monthly">
+                        Monthly
+                    </a>
+                    <a href="javascript:;" class="cd-bg active last" data-related="quarterly">
+                        Quarterly
+                    </a>
+                </div>
+                <div class="date-selector quarterly">
+                    <ul class="slides">
+                        <li>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>January</span><br>
+                                    <span>February</span><br>
+                                    <span>March</span>
+                                </span>
+                                <span class="year">2013</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>April</span><br>
+                                    <span>May</span><br>
+                                    <span>June</span>
+                                </span>
+                                <span class="year">2013</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>July</span><br>
+                                    <span>August</span><br>
+                                    <span>Semptember</span>
+                                </span>
+                                <span class="year">2013</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>October</span><br>
+                                    <span>November</span><br>
+                                    <span>December</span>
+                                </span>
+                                <span class="year">2013</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>October</span><br>
+                                    <span>November</span><br>
+                                    <span>December</span>
+                                </span>
+                                <span class="year">2013</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>January</span><br>
+                                    <span>February</span><br>
+                                    <span>March</span>
+                                </span>
+                                <span class="year">2014</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>April</span><br>
+                                    <span>May</span><br>
+                                    <span>June</span>
+                                </span>
+                                <span class="year">2014</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>July</span><br>
+                                    <span>August</span><br>
+                                    <span>Semptember</span>
+                                </span>
+                                <span class="year">2014</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>October</span><br>
+                                    <span>November</span><br>
+                                    <span>December</span>
+                                </span>
+                                <span class="year">2014</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="date-selector monthly hide">
+                    <ul class="slides">
+                        <li>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>January</span>
+                                </span>
+                                <span class="year">2013</span>
+                            </a>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>February</span>
+                                </span>
+                                <span class="year">2013</span>
+                            </a>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>March</span>
+                                </span>
+                                <span class="year">2013</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>April</span>
+                                </span>
+                                <span class="year">2013</span>
+                            </a>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>May</span>
+                                </span>
+                                <span class="year">2013</span>
+                            </a>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>June</span>
+                                </span>
+                                <span class="year">2013</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>July</span>
+                                </span>
+                                <span class="year">2013</span>
+                            </a>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>August</span>
+                                </span>
+                                <span class="year">2013</span>
+                            </a>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>Semptember</span>
+                                </span>
+                                <span class="year">2013</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>October</span>
+                                </span>
+                                <span class="year">2013</span>
+                            </a>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>November</span>
+                                </span>
+                                <span class="year">2013</span>
+                            </a>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>December</span>
+                                </span>
+                                <span class="year">2013</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>January</span>
+                                </span>
+                                <span class="year">2014</span>
+                            </a>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>February</span>
+                                </span>
+                                <span class="year">2014</span>
+                            </a>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>March</span>
+                                </span>
+                                <span class="year">2014</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>April</span>
+                                </span>
+                                <span class="year">2014</span>
+                            </a>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>May</span>
+                                </span>
+                                <span class="year">2014</span>
+                            </a>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>June</span>
+                                </span>
+                                <span class="year">2014</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>July</span>
+                                </span>
+                                <span class="year">2014</span>
+                            </a>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>August</span>
+                                </span>
+                                <span class="year">2014</span>
+                            </a>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>Semptember</span>
+                                </span>
+                                <span class="year">2014</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>October</span>
+                                </span>
+                                <span class="year">2014</span>
+                            </a>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>November</span>
+                                </span>
+                                <span class="year">2014</span>
+                            </a>
+                            <a href="javascript:;">
+                                <span class="month">
+                                    <span>December</span>
+                                </span>
+                                <span class="year">2014</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="result-filter-layer bv-ok-filter hide">
+                <a href="javascript:;" class="close-btn"></a>
+                <p>Select one or more of the filters listed below.</p>
+                <div class="select-filter-all">
+                    <label>
+                        Select All
+                    </label>
+                    <input type="checkbox"/>
+                </div>
+                <div class="inner ok">
+                    <div class="form-left">
+                        <input type="checkbox"/>
+                        <label class="two-lines">Provenance Beckstoffer To Kalon Vineyard Cabernet Sauvignon, Oakville</label>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-left">
+                        <input type="checkbox"/>
+                        <label class="two-lines">Provenance Vineyard Cabernet Sauvignon, Rutherford</label>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-left">
+                        <input type="checkbox"/>
+                        <label class="two-lines">Provenance Vineyard Merlot, Napa Valley</label>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-left">
+                        <input type="checkbox"/>
+                        <label class="two-lines">Provenance Vineyard Sauvignon Blank, Rutherford</label>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+
+
+
+            <div class="result-filter-layer cd-filter hide">
+                <a href="javascript:;" class="close-btn"></a>
+                <p>Select one or more of the filters listed below.</p>
+                <div class="select-filter-all">
+                    <label>
+                        Select All
+                    </label>
+                    <input type="checkbox"/>
+                </div>
+                <div class="inner ok">
+                    <div class="form-left">
+                        <input type="checkbox"/>
+                        <label class="two-lines">Execution Standards<br> - Off Premise</label>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-left">
+                        <input type="checkbox"/>
+                        <label class="">Selling Deck</label>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-left">
+                        <input type="checkbox"/>
+                        <label class="">Integrated National Program</label>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-left">
+                        <input type="checkbox"/>
+                        <label class="">Distribution</label>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="form-left">
+                        <input type="checkbox"/>
+                        <label class="">Display/Visibility</label>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+
+            <div class="operation-line">
+                <a href="javascript:;" class="download disabled cd-bg">
+                    <span>Download</span>
+                </a>
+                <a href="javascript:;" class="share disabled cd-bg">
+                    <span>&nbsp;&nbsp;Share</span>
+                </a>
+                <a href="javascript:;" class="basket disabled cd-bg">
+                    <span>Add to Basket</span>
+                </a>
+                <a href="javascript:;" class="follow disabled cd-bg">
+                    <span>Follow</span>
+                </a>
+            </div>
+
+            <div class="filter">
+                <a class="list-mode active cd-bg"></a>
+                <a class="grid-mode cd-bg"></a>
+                <div class="desc">
+                    Showing 1-12 of 29 documents
+                </div>
+                <select>
+                    <option>12</option>
+                    <option>24</option>
+                </select>
+                <div class="select-all">
+                    <label>Select All</label>
+                    <input type="checkbox" class="checkbox" />
+                </div>
+            </div>
+
+            <div class="doc-list">
+                <div class="list-view">
+                    <h6>Category Selling Solutions</h6>
+                    <div class="doc">
+                        <div class="info">
+                            <img src="./i/pdf-icon-big.png"/>
+                            <div class="desc">
+                                <a class="title" href="#">Acacia Carneros Pinot Noir/Chardonnay Jul Aug F14 Distribution Off Premise (1MB)  </a><br>
+                                <span class="time">02/08/12</span>
+                            </div>
+                        </div>
+                        <div class="doc-btns cd-bg">
+                            <a href="javascript:;" class="download"></a>
+                            <a href="javascript:;" class="share"></a>
+                            <a href="javascript:;" class="add-to-basket"></a>
+                            <a href="javascript:;" class="follow"></a>
+                        </div>
+                        <a href="javascript:;" class="cd-bg setting-btn">
+                            <span></span>
+                        </a>
+                        <input type="checkbox"/>
+                    </div>
+                    <div class="doc">
+                        <div class="info">
+                            <img src="./i/txt-icon-big.png"/>
+                            <div class="desc">
+                                <a class="title" href="#">Buchanan's July F13 Distribution PEB (1MB)</a><br>
+                                <span class="time">02/08/12</span>
+                            </div>
+                        </div>
+                        <div class="doc-btns cd-bg">
+                            <a href="javascript:;" class="download"></a>
+                            <a href="javascript:;" class="share"></a>
+                            <a href="javascript:;" class="add-to-basket"></a>
+                            <a href="javascript:;" class="follow"></a>
+                        </div>
+                        <a href="javascript:;" class="cd-bg setting-btn">
+                            <span></span>
+                        </a>
+                        <input type="checkbox"/>
+                    </div>
+                    <div class="doc last">
+                        <div class="info">
+                            <img src="./i/xls-icon-big.png"/>
+                            <div class="desc">
+                                <a class="title" href="#">Buchanan's July F13 Distribution PEB (1MB)</a><br>
+                                <span class="time">02/08/12</span>
+                            </div>
+                        </div>
+                        <div class="doc-btns cd-bg">
+                            <a href="javascript:;" class="download"></a>
+                            <a href="javascript:;" class="share"></a>
+                            <a href="javascript:;" class="add-to-basket"></a>
+                            <a href="javascript:;" class="follow"></a>
+                        </div>
+                        <a href="javascript:;" class="cd-bg setting-btn">
+                            <span></span>
+                        </a>
+                        <input type="checkbox"/>
+                    </div>
+                </div>
+                <div class="list-view">
+                    <h6>Selling Deck</h6>
+                    <div class="doc">
+                        <div class="info">
+                            <img src="./i/xls-icon-big.png"/>
+                            <div class="desc">
+                                <a class="title" href="#">Buchanan's July F13 Distribution PEB (1MB)</a><br>
+                                <span class="time">02/08/12</span>
+                            </div>
+                        </div>
+                        <div class="doc-btns cd-bg">
+                            <a href="javascript:;" class="download"></a>
+                            <a href="javascript:;" class="share"></a>
+                            <a href="javascript:;" class="add-to-basket"></a>
+                            <a href="javascript:;" class="follow"></a>
+                        </div>
+                        <a href="javascript:;" class="cd-bg setting-btn">
+                            <span></span>
+                        </a>
+                        <input type="checkbox"/>
+                    </div>
+                    <div class="doc">
+                        <div class="info">
+                            <img src="./i/pdf-icon-big.png"/>
+                            <div class="desc">
+                                <a class="title" href="#">Buchanan's July F13 Distribution PEB (1MB)</a><br>
+                                <span class="time">02/08/12</span>
+                            </div>
+                        </div>
+                        <div class="doc-btns cd-bg">
+                            <a href="javascript:;" class="download"></a>
+                            <a href="javascript:;" class="share"></a>
+                            <a href="javascript:;" class="add-to-basket"></a>
+                            <a href="javascript:;" class="follow"></a>
+                        </div>
+                        <a href="javascript:;" class="cd-bg setting-btn">
+                            <span></span>
+                        </a>
+                        <input type="checkbox"/>
+                    </div>
+                    <div class="doc">
+                        <div class="info">
+                            <img src="./i/pdf-icon-big.png"/>
+                            <div class="desc">
+                                <a class="title" href="#">Buchanan's July F13 Distribution PEB (1MB)</a><br>
+                                <span class="time">02/08/12</span>
+                            </div>
+                        </div>
+                        <div class="doc-btns cd-bg">
+                            <a href="javascript:;" class="download"></a>
+                            <a href="javascript:;" class="share"></a>
+                            <a href="javascript:;" class="add-to-basket"></a>
+                            <a href="javascript:;" class="follow"></a>
+                        </div>
+                        <a href="javascript:;" class="cd-bg setting-btn">
+                            <span></span>
+                        </a>
+                        <input type="checkbox"/>
+                    </div>
+                    <div class="doc">
+                        <div class="info">
+                            <img src="./i/pdf-icon-big.png"/>
+                            <div class="desc">
+                                <a class="title" href="#">Buchanan's July F13 Distribution PEB (1MB)</a><br>
+                                <span class="time">02/08/12</span>
+                            </div>
+                        </div>
+                        <div class="doc-btns cd-bg">
+                            <a href="javascript:;" class="download"></a>
+                            <a href="javascript:;" class="share"></a>
+                            <a href="javascript:;" class="add-to-basket"></a>
+                            <a href="javascript:;" class="follow"></a>
+                        </div>
+                        <a href="javascript:;" class="cd-bg setting-btn">
+                            <span></span>
+                        </a>
+                        <input type="checkbox"/>
+                    </div>
+                    <div class="doc">
+                        <div class="info">
+                            <img src="./i/pdf-icon-big.png"/>
+                            <div class="desc">
+                                <a class="title" href="#">Buchanan's July F13 Distribution PEB (1MB)</a><br>
+                                <span class="time">02/08/12</span>
+                            </div>
+                        </div>
+                        <div class="doc-btns cd-bg">
+                            <a href="javascript:;" class="download"></a>
+                            <a href="javascript:;" class="share"></a>
+                            <a href="javascript:;" class="add-to-basket"></a>
+                            <a href="javascript:;" class="follow"></a>
+                        </div>
+                        <a href="javascript:;" class="cd-bg setting-btn">
+                            <span></span>
+                        </a>
+                        <input type="checkbox"/>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="operation-line">
+                <a href="javascript:;" class="download disabled cd-bg">
+                    <span>Download</span>
+                </a>
+                <a href="javascript:;" class="share disabled cd-bg">
+                    <span>&nbsp;&nbsp;Share</span>
+                </a>
+                <a href="javascript:;" class="basket disabled cd-bg">
+                    <span>Add to Basket</span>
+                </a>
+                <a href="javascript:;" class="follow disabled cd-bg">
+                    <span>Follow</span>
+                </a>
+            </div>
+
+            <div class="paging-simple">
+                <a href="javascript:;" class="prev disabled"><span></span></a>
+                <a href="javascript:;" class="number current">1</a>
+                <a href="javascript:;" class="number">2</a>
+                <a href="javascript:;" class="number">3</a>
+                <a href="javascript:;" class="next"><span></span></a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <a href="javascript:;" class="footer-link-menu">
+            Menu
+        </a>
+        <div class="links">
+            <a href="javascript:;">Full Site</a> |
+            <a href="javascript:;">Terms &amp; Conditions</a> |
+            <a href="javascript:;">Privacy &amp; Cookies Notice</a> |
+            <a href="javascript:;">Industry Related Links</a> |
+            <a href="javascript:;">FAQ</a> |
+            <a href="contact-new-case.html">Contact Us</a>
+        </div>
+        <span>&copy; Diageo 2011</span>
+        <a href="javascript:;" class="go-top"></a>
+    </div>
+</div>
+
+
+<div class="modal" id="shareModal">
+    <div class="title">
+        Share: fsdfas_dsaf_0
+    </div>
+    <div class="html">
+        <label>
+            Recipient Email
+        </label>
+        <textarea></textarea>
+        <label>
+            Custom Message (optional)
+        </label>
+        <textarea></textarea>
+    </div>
+    <div class="buttons">
+        <a href="javascript:;" rel="modal:close" class="link">Cancel</a>
+        <a href="javascript:;" class="button">Send</a>
+    </div>
+</div>
+
+</body>
+</html>
