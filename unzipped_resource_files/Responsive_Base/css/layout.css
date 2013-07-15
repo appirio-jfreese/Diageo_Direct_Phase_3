@@ -49,9 +49,29 @@ strong {
     background-image: -webkit-linear-gradient(top, #863b93 1%, #4f2158 100%) !important;
     background-image: linear-gradient(180deg, #863b93, #4f2158 100%) !important;
 }
+.cd-bg {
+    background-image: -webkit-linear-gradient(top, #f86e1b 1%, #b74f11 100%) !important;
+    background-image: linear-gradient(180deg, #f86e1b, #b74f11 100%) !important;
+}
 .bmi-bg {
     background-image: -webkit-linear-gradient(top, #5ebfd3 1%, #2c8ea1 100%) !important;
     background-image: linear-gradient(180deg, #5ebfd3, #2c8ea1 100%) !important;
+}
+.col-bg {
+    background-image: -webkit-linear-gradient(top, #c6554c 1%, #b22216 100%) !important;
+    background-image: linear-gradient(180deg, #c6554c, #b22216 100%) !important;
+}
+.pla-bg {
+    background-image: -webkit-linear-gradient(top, #F7AD78 1%, #EC8041 100%) !important;
+    background-image: linear-gradient(180deg, #F7AD78, #EC8041 100%) !important;
+}
+.mul-bg {
+    background-image: -webkit-linear-gradient(top, #95c97c 1%, #4a643e 100%) !important;
+    background-image: linear-gradient(180deg, #95c97c, #4a643e 100%) !important;
+}
+.pos-bg {
+    background-image: -webkit-linear-gradient(top, #7580b7 1%, #202B62 100%) !important;
+    background-image: linear-gradient(180deg, #7580b7, #202B62 100%) !important;
 }
 
 .sm-page a.button {
@@ -65,6 +85,22 @@ strong {
 .isv-page a.button {
     background-image: -webkit-linear-gradient(top, #cbd92b 1%, #a6b713 100%) !important;
     background-image: linear-gradient(180deg, #cbd92b, #a6b713 100%) !important;
+}
+.col-page a.button {
+    background-image: -webkit-linear-gradient(top, #c6554c 1%, #b22216 100%) !important;
+    background-image: linear-gradient(180deg, #c6554c, #b22216 100%) !important;
+}
+.pil-page a.button {
+    background-image: -webkit-linear-gradient(top, #F7AD78 1%, #EC8041 100%) !important;
+    background-image: linear-gradient(180deg, #F7AD78, #EC8041 100%) !important;
+}
+.cd-page a.button {
+    background-image: -webkit-linear-gradient(top, #f86e1b 1%, #b74f11 100%) !important;
+    background-image: linear-gradient(180deg, #f86e1b, #b74f11 100%) !important;
+}
+.mul-page a.button {
+    background-image: -webkit-linear-gradient(top, #95c97c 1%, #4a643e 100%) !important;
+    background-image: linear-gradient(180deg, #95c97c, #4a643e 100%) !important;
 }
 /* end of button color theme */
 
@@ -95,8 +131,17 @@ a.jqTransformCheckbox {
 .sm-page a.jqTransformCheckbox {
     background: transparent url(../i/checkbox-sm.png) no-repeat 0 0;
 }
+.cd-page a.jqTransformCheckbox {
+    background: transparent url(../i/checkbox-cd.png) no-repeat 0 0;
+}
 .bmi-page a.jqTransformCheckbox {
     background: transparent url(../i/checkbox-bmi.png) no-repeat 0 0;
+}
+.col-page a.jqTransformCheckbox {
+    background: transparent url(../i/checkbox-col.png) no-repeat 0 0;
+}
+.pla-page a.jqTransformCheckbox {
+    background: transparent url(../i/checkbox-pla.png) no-repeat 0 0;
 }
 
 /* -------------
@@ -160,8 +205,20 @@ a.jqTransformChecked {
 .sm-page .jqTransformSelectWrapper a.jqTransformSelectOpen {
   background: url(../i/select-sm.png) no-repeat center center;
 }
+.cd-page .jqTransformSelectWrapper a.jqTransformSelectOpen {
+  background: url(../i/select-cd.png) no-repeat center center;
+}
 .bmi-page .jqTransformSelectWrapper a.jqTransformSelectOpen {
   background: url(../i/select-bmi.png) no-repeat center center;
+}
+.col-page .jqTransformSelectWrapper a.jqTransformSelectOpen {
+  background: url(../i/select-col.png) no-repeat center center;
+}
+.pla-page .jqTransformSelectWrapper a.jqTransformSelectOpen {
+  background: url(../i/select-pla.png) no-repeat center center;
+}
+.mul-page .jqTransformSelectWrapper a.jqTransformSelectOpen {
+  background: url(../i/select-mul.png) no-repeat center center;
 }
 .jqTransformSelectWrapper ul {
   position: absolute;
@@ -908,8 +965,23 @@ h3 {
             .sm-page .breadcrumb .inner {
                 background: url(../i/breadcrumb-icon-sm.png) 10px 50% no-repeat;
             }
+            .cd-page .breadcrumb .inner {
+                background: url(../i/breadcrumb-icon-cd.png) 10px 50% no-repeat;
+            }
             .bmi-page .breadcrumb .inner {
                 background: url(../i/breadcrumb-icon-bmi.png) 10px 50% no-repeat;
+            }
+            .col-page .breadcrumb .inner {
+                background: url(../i/breadcrumb-icon-col.png) 10px 50% no-repeat;
+            }
+            .pla-page .breadcrumb .inner {
+                background: url(../i/breadcrumb-icon-pla.png) 10px 50% no-repeat;
+            }
+            .mul-page .breadcrumb .inner {
+                background: url(../i/breadcrumb-icon-mul.png) 10px 50% no-repeat;
+            }
+            .pos-page .breadcrumb .inner {
+                background: url(../i/breadcrumb-icon-pos.png) 10px 50% no-repeat;
             }
             .breadcrumb a {
                 color: #fff;
@@ -1146,18 +1218,33 @@ h3 {
             width: 31.41361256544503%;
             font-size: 18px;
             color: #333;
-            line-height: 36px;
+            line-height: 20px;
+            padding-top: 8px;
+            padding-bottom: 8px;
             font-weight: normal;
         }
             .form .form-line label .required {
                 color: #d20059;
             }
+        .form .form-line span.value {
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 36px;
+        }
         .form .form-line select,
         .form .form-line input.text,
         .form .form-line textarea,
         .form .form-line .jqTransformSelectWrapper {
             width: 66.49%;
             font-size: 18px;
+        }
+        .form .form-line input.text.short {
+            width: 9%;
+            margin-right: 1%;
+        }
+        .form .form-line input.text.medium {
+            width: 12%;
+            margin-right: 1%;
         }
         .form .form-line input.text {
             float: left;
@@ -1199,6 +1286,9 @@ h3 {
         }
         .form .case-status-line label {
             padding-left: 10px;
+        }
+        .form .form-line.medium-control .jqTransformSelectWrapper  {
+            width: 32%;
         }
 
     .brand-box {
@@ -1344,10 +1434,22 @@ h3 {
             background-image: -webkit-linear-gradient(top, #ad2b5f 1%, #7e0c3a 100%);
             background-image: linear-gradient(180deg, #ad2b5f, #7e0c3a 100%);
         }
+        .col-page .paging-simple .next,
+        .col-page .paging-simple .prev,
+        .col-landing-page .paging-simple .next,
+        .col-landing-page .paging-simple .prev {
+            background-image: -webkit-linear-gradient(top, #c6554c  1%, #b22216  100%);
+            background-image: linear-gradient(180deg, #c6554c , #b22216  100%);
+        }
         .isv-page .paging-simple .next,
         .isv-page .paging-simple .prev {
             background-image: -webkit-linear-gradient(top, #cbd92b 1%, #a6b713 100%);
             background-image: linear-gradient(180deg, #cbd92b, #a6b713 100%);
+        }
+        .mul-page .paging-simple .next,
+        .mul-page .paging-simple .prev {
+            background-image: -webkit-linear-gradient(top, #95c97c 1%, #4a643e 100%);
+            background-image: linear-gradient(180deg, #95c97c, #4a643e 100%);
         }
         .mep-page .paging-simple .next,
         .mep-page .paging-simple .prev {
@@ -1358,6 +1460,16 @@ h3 {
         .sm-page .paging-simple .prev {
             background-image: -webkit-linear-gradient(top, #863b93 1%, #4f2158 100%);
             background-image: linear-gradient(180deg, #863b93, #4f2158 100%);
+        }
+        .cd-page .paging-simple .next,
+        .cd-page .paging-simple .prev {
+            background-image: -webkit-linear-gradient(top, #f86e1b 1%, #b74f11 100%) ;
+            background-image: linear-gradient(180deg, #f86e1b, #b74f11 100%) ;
+        }
+        .pla-page .paging-simple .next,
+        .pla-page .paging-simple .prev {
+            background-image: -webkit-linear-gradient(top, #f86e1b 1%, #b74f11 100%);
+            background-image: linear-gradient(180deg, #f86e1b, #b74f11 100%);
         }
         .paging-simple .number {
             height: 37px;
@@ -1375,16 +1487,32 @@ h3 {
     .isv-page .paging-simple .number {
         color: #a6b713;
     }
+    .mul-page .paging-simple .number {
+        color: #4a643e;
+    }
     .pil-page .paging-simple .number {
         color: #7e0c3a;
     }
+    .col-page .paging-simple .number {
+        color: #b22216;
+    }
     .sm-page .paging-simple .number {
         color: #863b93;
+    }
+    .cd-page .paging-simple .number {
+        color: #b74f11;
+    }
+    .pla-page .paging-simple .number {
+        color: #EC8041;
     }
 
     .button-line {
         width: 100%;
         overflow: hidden;
+    }
+    .sub-button-line {
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
         .button-line a {
             width: 32.67015706806283%;
@@ -1436,6 +1564,14 @@ h3 {
     .bmi-page .result-filter {
         background-image: -webkit-linear-gradient(top, #5ebfd3 1%, #2c8ea1 100%);
         background-image: linear-gradient(180deg, #5ebfd3, #2c8ea1 100%);
+    }
+    .pla-page .result-filter {
+        background-image: -webkit-linear-gradient(top, #F7AD78 1%, #EC8041 100%);
+        background-image: linear-gradient(180deg, #F7AD78, #EC8041 100%);
+    }
+    .cd-page .result-filter {
+        background-image: -webkit-linear-gradient(top, #f86e1b 1%, #b74f11 100%);
+        background-image: linear-gradient(180deg, #f86e1b, #b74f11 100%);
     }
         .result-filter:hover {
             color: #fff;
@@ -1563,6 +1699,20 @@ h3 {
                     background: #5ebfd3;
                     color: #fff;
                 }
+            .pla-page .result-filter-layer .date-selector .slides li a {
+                color: #EC8041;
+            }
+                .pla-page .result-filter-layer .date-selector .slides li a.selected {
+                    background: #F7AD78;
+                    color: #fff;
+                }
+            .cd-page .result-filter-layer .date-selector .slides li a {
+                color: #b74f11;
+            }
+                .cd-page .result-filter-layer .date-selector .slides li a.selected {
+                    background: #f86e1b;
+                    color: #fff;
+                }
             .result-filter-layer .monthly .slides li a {
                 padding: 10px 20px;
                 height: 20px;
@@ -1634,6 +1784,12 @@ h3 {
             .bmi-page .result-filter-layer .brands a.selected {
                 background: #5ebfd3;
             }
+            .pla-page .result-filter-layer .brands a.selected {
+                background: #F7AD78;
+            }
+            .cd-page .result-filter-layer .brands a.selected {
+                background: #f86e1b;
+            }
             .result-filter-layer .brands a.text {
                 line-height: 50px;
                 color: #666;
@@ -1684,6 +1840,12 @@ h3 {
         .bmi-page .result-filter-layer .buttons a.clear-btn {
             color: #2c8ea1;
         }
+        .pla-page .result-filter-layer .buttons a.clear-btn {
+            color: #EC8041;
+        }
+        .cd-page .result-filter-layer .buttons a.clear-btn {
+            color: #b74f11;
+        }
 
     .operation-line {
         background: #ddd;
@@ -1714,11 +1876,20 @@ h3 {
                 display: inline-block;
                 padding-left: 27px;
             }
+        .operation-line.five-btns a {
+            width: 18.1151832460733%;
+        }
         .operation-line a.disabled {
             color: #858585;
             background: url(../i/search-btn-bg.png) 0 -72px repeat-x !important;
             cursor: default;
         }
+        .operation-line a.upload span {
+            background: url(../i/upload.png) left center no-repeat;
+        }
+            .operation-line a.upload.disabled span {
+                background: url(../i/upload_disabled.png) left center no-repeat;
+            }
         .operation-line a.download span {
             background: url(../i/ico_download_white.png) left center no-repeat;
         }
@@ -1890,6 +2061,62 @@ h3 {
                     padding-left: 20px;
                 }
 
+            .brand-variants .write-comment {
+                background: #fff;
+                padding-top: 10px;
+                padding-bottom: 5px;
+                border-bottom: 1px solid #ddd;
+            }
+                .brand-variants .write-comment .buttons {
+                    width: 100%;
+                    margin: 0 auto;
+                    padding: 10px 0;
+                }
+                    .brand-variants .write-comment small {
+                        float: left;
+                        color: #999;
+                        font-size: 12px;
+                    }
+                    .brand-variants .write-comment .button {
+                        margin-right: 0;
+                    }
+                .brand-variants textarea {
+                    display: block;
+                    background: #ebebeb;
+                    border: none;
+                    width: 100%;
+                    height: 100px;
+                    line-height: 20px;
+                    font-size: 14px;
+                    margin: 0 auto;
+                    padding: 10px 0;
+                    text-indent: 10px;
+                }
+
+            .brand-variants .posts {
+
+            }
+                .brand-variants .post {
+                    padding: 10px 0;
+                    border-bottom: 1px solid #ddd;
+                    line-height: 20px;
+                    color: #666;
+                }
+                    .brand-variants .post a {
+                        color: #b22216;
+                    }
+                        .brand-variants .post a:hover {
+                            text-decoration: underline;
+                        }
+                    .brand-variants .post .name {
+                        color: #b22216;
+                        font-weight: bold;
+                    }
+                    .brand-variants .post .time,
+                    .brand-variants .post .ref {
+                        color: #999;
+                    }
+
         .brand-list {
             float: left;
             width: 66.28272251308901%;
@@ -1923,18 +2150,29 @@ h3 {
                 width: 100%;
                 overflow: hidden;
             }
-                .brand-list .grid-view a {
-                    float: left;
-                    width: 49.28909952606635%;
-                    margin-right: 1.4218009478673%;
-                    margin-top: 8px;
-                }
-                .brand-list .grid-view a.even {
-                    margin-right: 0;
-                }
-                    .brand-list .grid-view a img {
-                        width: 100%;
-                    }
+
+        .brand-list.doc-list .grid-view .doc {
+            float: left;
+            width: 48.89415481832543%;
+            margin-right: 1.5%;
+            margin-top: 10px;
+            margin-bottom: 0;
+        }
+        .pil-page .doc-list .grid-view .doc {
+            background: url(../i/bottle.png) center center no-repeat;
+        }
+            .pil-page .doc-list .grid-view .info {
+                background-image: -webkit-linear-gradient(top, #ad2b5f 1%, #7e0c3a 100%) !important;
+                background-image: linear-gradient(180deg, #ad2b5f, #7e0c3a 100%) !important;
+            }
+            .col-page .doc-list .grid-view .info {
+                background-image: -webkit-linear-gradient(top, #c6554c  1%, #b22216  100%) !important;
+                background-image: linear-gradient(180deg, #c6554c , #b22216  100%) !important;
+            }
+            .cd-page .doc-list .grid-view .info {
+                background-image: -webkit-linear-gradient(top, #f86e1b 1%, #b74f11 100%) !important;
+                background-image: linear-gradient(180deg, #f86e1b, #b74f11 100%) !important;
+            }
     .doc-list {
     }
         .doc-list .grid-view {
@@ -1986,11 +2224,26 @@ h3 {
                     .isv-page .doc-list .list-view .title {
                         color: #a6b713;
                     }
+                    .mul-page .doc-list .list-view .title {
+                        color: #4a643e;
+                    }
                     .sm-page .doc-list .list-view .title {
                         color: #863b93;
                     }
+                    .cd-page .doc-list .list-view .title {
+                        color: #b74f11;
+                    }
                     .bmi-page .doc-list .list-view .title {
                         color: #2c8ea1;
+                    }
+                    .pil-page .doc-list .list-view .title {
+                        color: #7e0c3a;
+                    }
+                    .col-page .doc-list .list-view .title {
+                        color: #b22216;
+                    }
+                    .pla-page .doc-list .list-view .title {
+                        color: #EC8041;
                     }
                     .doc-list .list-view .time {
                         color: #999;
@@ -2016,6 +2269,10 @@ h3 {
             .bmi-page .doc-list .grid-view .info {
                 background-image: -webkit-linear-gradient(top, #5ebfd3 1%, #2c8ea1 100%) !important;
                 background-image: linear-gradient(180deg, #5ebfd3, #2c8ea1 100%) !important;
+            }
+            .pla-page .doc-list .grid-view .info {
+                background-image: -webkit-linear-gradient(top, #F7AD78  1%, #EC8041  100%) !important;
+                background-image: linear-gradient(180deg, #F7AD78, #EC8041 100%) !important;
             }
                 .doc-list .grid-view .info img {
                     display: none;
@@ -2046,6 +2303,9 @@ h3 {
                     width: 25%;
                     height: 36px;
                 }
+                .doc-list .list-view .doc-btns.six-btns a {
+                    width: 16.66666666666667%;
+                }
                 .doc-list .list-view .doc-btns.single a {
                     width: 100%;
                 }
@@ -2060,6 +2320,12 @@ h3 {
                     }
                     .doc-list .list-view .doc-btns a.add-to-basket {
                         background: url(../i/addbasket.png) center center no-repeat;
+                    }
+                    .doc-list .list-view .doc-btns a.edit {
+                        background: url(../i/ico_edit_white.png) center center no-repeat;
+                    }
+                    .doc-list .list-view .doc-btns a.conversation {
+                        background: url(../i/ico_conv_white.png) center center no-repeat;
                     }
                     .doc-list .list-view .doc-btns a.follow {
                         background: url(../i/follow.png) center center no-repeat;
@@ -2107,9 +2373,17 @@ h3 {
             .isv-page .doc-list .grid-view .jqTransformCheckboxWrapper {
                 border-color: #a0a000;
             }
+            .mul-page .doc-list .grid-view .setting-btn,
+            .mul-page .doc-list .grid-view .jqTransformCheckboxWrapper {
+                border-color: #406030;
+            }
             .sm-page .doc-list .grid-view .setting-btn,
             .sm-page .doc-list .grid-view .jqTransformCheckboxWrapper {
                 border-color: #402050;
+            }
+            .pla-page .doc-list .grid-view .setting-btn,
+            .pla-page .doc-list .grid-view .jqTransformCheckboxWrapper {
+                border-color: #d07030;
             }
 
     .calendar-head {
@@ -2166,8 +2440,14 @@ h3 {
         .isv-page .calendar-head .date {
             color: #a6b713;
         }
+        .mul-page .calendar-head .date {
+            color: #4a643e;
+        }
         .isv-page .calendar-head .date.with-dropdown {
             background: url(../i/arrow-down-isv.png) right center no-repeat;
+        }
+        .mul-page .calendar-head .date.with-dropdown {
+            background: url(../i/arrow-down-mul.png) right center no-repeat;
         }
 
         .calendar-head .popover {
@@ -2180,6 +2460,9 @@ h3 {
             }
             .isv-page .calendar-head .popover .select a {
                 color: #a6b713;
+            }
+            .mul-page .calendar-head .popover .select a {
+                color: #4a643e;
             }
             .calendar-head .popover select {
                 width: 70px;
@@ -2205,6 +2488,9 @@ h3 {
             float: left;
             width: 19.16230366492147%;
             margin-right: 1.04712041884817%
+        }
+        .mul-page .plans .plan {
+            width: 24.21465968586387%;
         }
         .plans .plan.last {
             margin-right: 0;
@@ -2556,6 +2842,80 @@ h3 {
     .modal .close-modal {
         display: none;
     }
+    .modal.show-close-btn .close-modal {
+        display: block;
+        position: absolute;
+        right: 5px;
+        top: 10px;
+        text-indent: -9999px;
+        background: url(../i/close.png) 0 0 no-repeat;
+        width: 25px;
+        height: 25px;
+    }
+
+    .modal .write-comment {
+        background: #fff;
+        padding-top: 10px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #ddd;
+    }
+        .modal .write-comment .buttons {
+            width: 100%;
+            margin: 0 auto;
+            padding: 10px 0;
+        }
+            .modal .write-comment small {
+                float: left;
+                color: #999;
+                font-size: 12px;
+            }
+            .modal .write-comment .button {
+                margin-right: 0;
+            }
+        .modal textarea {
+            display: block;
+            background: #ebebeb;
+            border: none;
+            width: 100%;
+            height: 100px;
+            line-height: 20px;
+            font-size: 14px;
+            margin: 0 auto;
+            padding: 10px 0;
+            text-indent: 10px;
+        }
+
+    .modal .posts {
+
+    }
+        .modal .post {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+            line-height: 20px;
+            color: #666;
+        }
+            .modal .post a {
+                color: #b22216;
+            }
+                .modal .post a:hover {
+                    text-decoration: underline;
+                }
+            .modal .post .name {
+                color: #b22216;
+                font-weight: bold;
+            }
+            .modal .post .time,
+            .modal .post .ref {
+                color: #999;
+            }
+            .modal .post .remove-btn {
+                display: inline-block;
+                width: 19px;
+                height: 20px;
+                background: url(../i/blackclose.png) center center no-repeat;
+            }
+
+
 .ads {
     text-align: center;
     margin: 10px auto 0 auto;
@@ -2691,10 +3051,10 @@ h3 {
         h2.jqtransformdone {
             height: 82px;
         }
-        .contact-new-case-page h2.jqtransformdone {
+        .contact-new-case-page h2.jqtransformdone,
+        .user-profile-page h2.jqtransformdone {
             height: 36px;
         }
-        h2.
             h2.jqtransformdone .jqTransformSelectWrapper {
                 margin-top: 46px;
             }
@@ -2709,6 +3069,9 @@ h3 {
                 margin-top: 0;
             }
 
+        .brand-list .grid-view .doc {
+
+        }
 
         .ads .ad {
             margin-top: 10px;
@@ -2921,6 +3284,10 @@ h3 {
             margin-bottom: 5px;
             font-size: 13px;
         }
+        .operation-line.five-btns a {
+            width: 98%;
+            margin-left: 0;
+        }
         .filter {
             height: 77px;
         }
@@ -2941,8 +3308,18 @@ h3 {
             .filter .select-all {
                 margin-top: 5px;
             }
-
-        .brand-variants {
+        .plan-header {
+            margin-top: 50px;
+        }
+            .plan-header a.btn {
+                top: -40px;
+                left: 0;
+                width: 100%;
+            }
+            .plan-header span {
+                padding-left: 0;
+            }
+        .mo {
             width: 100%;
             margin-right: 0;
             margin-bottom: 10px;
@@ -2965,11 +3342,6 @@ h3 {
                 .brand-list .capacity .jqTransformCheckboxWrapper {
                     margin-left: 6%;
                 }
-            .brand-list .grid-view a {
-                width: 100%;
-                margin-right: 0;
-                margin-top: 5px;
-            }
         .doc-list .list-view .doc {
             padding-bottom: 15px;
         }
@@ -2980,16 +3352,17 @@ h3 {
             font-size: 15px;
         }
         .doc-list .grid-view .doc {
-            width: 100%;
+            width: 100% !important;
             margin-right: 0;
+        }
+        .brand-variants {
+            width: 100%;
+            float: none;
         }
 
         .plan-header {
             font-size: 18px;
         }
-            .plan-header span {
-                padding-left: 30px;
-            }
 
         .write-comment .image {
             display: none;
@@ -3004,7 +3377,8 @@ h3 {
             display: none;
         }
         .mep-quarterly-page .quaterly-plans h3,
-        .isv-quarterly-page .quaterly-plans h3 {
+        .isv-quarterly-page .quaterly-plans h3,
+        .mul-quarterly-page .quaterly-plans h3 {
             display: block;
         }
         .quaterly-plans .plan {
@@ -3045,6 +3419,8 @@ h3 {
                 margin-top: 0;
             }
             h2.jqtransformdone a.back-btn {
+                position: absolute;
+                display: block;
                 text-align: center;
                 padding: 0;
                 margin-top: -25px;
@@ -3059,16 +3435,28 @@ h3 {
                 h2.jqtransformdone .jqTransformSelectWrapper div span {
                     width: 100% !important;
                 }
-        .form .form-line label {
+        .form .form-line label,
+        .form .form-line span.value {
+            display: block;
             width: 100%;
             padding: 0;
             text-align: center;
+            float: none;
+        }
+        .form .form-line span.value {
+            padding-top: 5px;
         }
         .form .form-line .jqTransformSelectWrapper,
         .form .form-line input.text,
         .form .form-line textarea {
             width: 100% !important;
             margin-top: 5px;
+        }
+        .form .form-line input.text.short {
+            width: 29% !important;
+        }
+        .form .form-line input.text.medium {
+            width: 39% !important;
         }
         .form .form-line .upload-btn {
             top: auto;
@@ -3155,6 +3543,13 @@ h3 {
         .modal {
             width: 96.875%;
         }
+            .modal .title {
+                font-size: 14px;
+                height: auto;
+                padding: 15px 10px;
+                line-height: 20px;
+                background-color: #080808;
+            }
     }
 
 	/* Mobile Landscape Size to Tablet Portrait (devices and browsers) */

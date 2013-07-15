@@ -1,4 +1,4 @@
-var $j = jQuery.noConflict();
+var \$j = jQuery.noConflict();"
 
 $j(document).ready(function() {
 
@@ -55,6 +55,12 @@ $j(document).ready(function() {
     $j("a.go-top").click(function() {
         $j(window).scrollTop(0);
     });
+
+    if($j(".modal").length > 0) {
+        $j(window).resize(function() {
+            $j.modal.resize();
+        });
+    }
 
 
     $j("h2").jqTransform();
@@ -266,7 +272,7 @@ $j(document).ready(function() {
         }
     }
 
-    if($j(".pil-page").length > 0) {
+    if($j(".pil-page, .col-page").length > 0) {
         $j(".filter").jqTransform();
         $j(".capacity").jqTransform();
 
@@ -281,22 +287,86 @@ $j(document).ready(function() {
             $j(".brand-variants li a").removeClass("active");
             $j("a", li).eq(0).addClass("active");
         });
-        $j(".brand-list .grid-view a").click(function() {
-            var a = $j(this);
-            a.toggleClass("selected");
-            if(a.hasClass("selected")) {
-                $j("img", a).attr("src", "./i/product-img-selected.png");
-            }
-            else {
-                $j("img", a).attr("src", "./i/product-img.png");
-            }
-            if($j(".brand-list .grid-view a.selected").length > 0) {
-                $j(".operation-line a").removeClass("disabled");
-            }
-            else {
-                $j(".operation-line a").addClass("disabled");
-            }
+        $j(".doc-list input[type='checkbox']").change(function() {
+            setTimeout(function() {
+                if($j(".doc-list input[type='checkbox']:checked").length > 0) {
+                    $j(".operation-line a").removeClass("disabled");
+                }
+                else {
+                    $j(".operation-line a").addClass("disabled");
+                }
+            }, 100);
         });
+        $j(".brand-list .doc").each(function(i) {
+            if(i%2 === 1) $j(this).addClass("last");
+        });
+        $j(".select-all input[type='checkbox']").change(function() {
+            var c = $j(this);
+            $j(".doc-list input[type='checkbox']").each(function() {
+                if($j(this).prop("checked") !== c.prop("checked")) {
+                    $j(this).trigger("click");
+                }
+            });
+        });
+        $j(".filter .list-mode").click(function() {
+            $j(this).addClass("active").next().removeClass("active");
+            $j(".doc-list .list-view").removeClass("grid-view");
+
+            $j(".doc-list .list-view").each(function() {
+                $j(".doc", $j(this)).removeClass("last").last().addClass("last")
+            });
+            $j(".doc-list .doc");
+            $j(".doc-btns:visible").each(function() {
+                positionDocBtns($j(this));
+            });
+        });
+        $j(".filter .grid-mode").click(function() {
+            $j(this).addClass("active").prev().removeClass("active");
+            $j(".doc-list .list-view").addClass("grid-view");
+            $j(".doc-list .list-view").each(function() {
+                $j(".doc", $j(this)).each(function(i) {
+                    if(i%2 == 1) $j(this).addClass("last");
+                    else $j(this).removeClass("last");
+                })
+            });
+            $j(".doc-btns:visible").each(function() {
+                positionDocBtns($j(this));
+            });
+        });
+    }
+
+    if($j(".col-page").length > 0) {
+        $j("#conversation-modal .remove-btn").click(function() {
+            var a = $j(this);
+            var post = a.closest(".post");
+            post.slideUp();
+        });
+    }
+
+    if($j(".setting-btn").length > 0) {
+        $j(".setting-btn").click(function() {
+            var doc = $j(this).parent();
+            var btns = $j(this).parent().find(".doc-btns");
+            positionDocBtns(btns);
+            btns.toggle();
+        });
+        var positionDocBtns = function(btns) {
+            var doc = btns.parent();
+            if(doc.parent().hasClass("grid-view")) {
+                btns.css({
+                    width: '100%',
+                    right: 0,
+                    bottom: $j(".info", doc).height() + 1
+                });
+            }
+            else {
+                btns.css({
+                    width: 200,
+                    right: 80,
+                    bottom: 20
+                })
+            }
+        };
     }
 
     if($j(".mep-landing-page").length > 0) {
@@ -367,14 +437,11 @@ $j(document).ready(function() {
         });
     }
 
-    if($j(".mep-item-page, .isv-item-page, .results-page, .sm-page, .bmi-page").length > 0) {
+    if($j(".mep-item-page, .isv-item-page, .results-page, .sm-page, .bmi-page, .pla-page, .cd-page").length > 0) {
         $j("a.email, a.share").click(function() {
             var a = $j(this);
             if(a.hasClass("disabled")) return false;
-            $j("#shareModal").modal();
-        });
-        $j(window).resize(function() {
-            $j.modal.resize();
+            //$j("#shareModal").modal();
         });
         $j(".select-all input[type='checkbox']").change(function() {
             var c = $j(this);
@@ -383,7 +450,7 @@ $j(document).ready(function() {
                     $j(this).trigger("click");
                 }
             });
-        })
+        });
         $j(".doc-list input[type='checkbox']").change(function() {
             setTimeout(function() {
                 if($j(".doc-list input[type='checkbox']:checked").length > 0) {
@@ -394,29 +461,6 @@ $j(document).ready(function() {
                 }
             }, 100);
         });
-        $j(".setting-btn").click(function() {
-            var doc = $j(this).parent();
-            var btns = $j(this).parent().find(".doc-btns");
-            positionDocBtns(btns);
-            btns.toggle();
-        });
-        var positionDocBtns = function(btns) {
-            var doc = btns.parent();
-            if(doc.parent().hasClass("grid-view")) {
-                btns.css({
-                    width: '100%',
-                    right: 0,
-                    bottom: $j(".info", doc).height() + 1
-                });
-            }
-            else {
-                btns.css({
-                    width: 200,
-                    right: 80,
-                    bottom: 20
-                })
-            }
-        }
         $j(".add-to-basket").click(function() {
             $j(this).toggleClass("remove-basket");
         });
@@ -453,7 +497,7 @@ $j(document).ready(function() {
     }
 
 
-    if($j(".isv-landing-page").length > 0) {
+    if($j(".isv-landing-page, .mul-page").length > 0) {
 
         $j("h2").jqTransform();
         $j(".doc-list .list-view .doc").jqTransform();
@@ -503,21 +547,33 @@ $j(document).ready(function() {
         $j("#period-select").change(function() {
             var s = $j(this);
             var val = +$j("option:selected", s).val();
-            if(val === 1) {
-                location.href = 'innovation-landing.html';
+            if($j(".isv-landing-page").length > 0)  {
+                if(val === 1) {
+                    location.href = 'innovation-landing.html';
+                }
+                else {
+                    location.href = 'innovation-quarterly.html';
+                }
             }
-            else {
-                location.href = 'innovation-quarterly.html';
+            else if($j(".mul-page").length > 0)  {
+                if(val === 1) {
+                    location.href = 'multicultural.html';
+                }
+                else {
+                    location.href = 'multicultural-quarterly.html';
+                }
             }
         });
         $j("#header-period-select").change(function() {
             var s = $j(this);
             var val = +$j("option:selected", s).val();
-            if(val === 1) {
-                location.href = 'innovation-click-header.html';
-            }
-            else {
-                location.href = 'innovation-click-header-quarterly.html';
+            if($j(".isv-landing-page").length > 0)  {
+                if(val === 1) {
+                    location.href = 'innovation-click-header.html';
+                }
+                else {
+                    location.href = 'innovation-click-header-quarterly.html';
+                }
             }
         });
         $j(".desc-block").click(function() {
@@ -570,8 +626,11 @@ $j(document).ready(function() {
             file.closest(".form-line").find("input.text").val(val);
         });
     }
+    if($j(".user-profile-page").length > 0) {
+        $j(".form-line").jqTransform();
+    }
 
-    if($j(".sm-page, .bmi-page").length > 0) {
+    /*if($j(".sm-page, .bmi-page, .pla-page, .cd-page").length > 0) {
         $j(".result-filter").click(function() {
             var a = $j(this);
             a.toggleClass("open");
@@ -671,6 +730,6 @@ $j(document).ready(function() {
 
 
 
-    }
+    }*/
 
 });
