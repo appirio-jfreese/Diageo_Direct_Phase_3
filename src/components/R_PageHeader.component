@@ -49,6 +49,8 @@ Story/Task  : US585/TA1082
     <!-- Create a go_btn for search submit, as it was not provided by UX -->
     <style type="text/css">
 	    .header .go_btn {
+	        float: left;
+	        width: 12.0%; /*this was 12.54355400696864%; in the source layout.css, but that did not fix it at 110% zoom.  Dropping the .5% does fix it (though it still wraps at 150% and 175%).*/
 	        text-align: center;
 	        line-height: 32px;
 	        color: #D8D5D5;
