@@ -6,7 +6,9 @@ Date 		: 6/27/13
 Story/Task	: US584
 ------------------------------------------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_Cases">
-    
+
+<body class="contact-case-page">
+
 <div class="wrapper">
     <div class="container">
 
@@ -84,7 +86,6 @@ Story/Task	: US584
                 </a>
             </div>
 
-
         </div>
 
     </div>
@@ -93,6 +94,5 @@ Story/Task	: US584
        <!-- end of content -->
     <c:R_pageFooter isInternal="{!isInternalUser }" />
 </div>
-<!-- <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/HomePageJQ.js')}"></script>
-<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>-->
+</body>
 </apex:page>
