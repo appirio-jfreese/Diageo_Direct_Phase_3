@@ -53,6 +53,33 @@ function jqTransformScript(){
 			})
 		}
 	}
+	
+	// Added By Basant - This will tarnsform List/Grid view buttons - 07/16/13
+	jQuery(".filter .list-mode").click(function() {
+		jQuery(this).addClass("active").next().removeClass("active");
+		jQuery(".doc-list .list-view").removeClass("grid-view");
+
+		jQuery(".doc-list .list-view").each(function() {
+			jQuery(".doc", jQuery(this)).removeClass("last").last().addClass("last")
+		});
+		jQuery(".doc-list .doc");
+		jQuery(".doc-btns:visible").each(function() {
+			positionDocBtns(jQuery(this));
+		});
+	});
+	jQuery(".filter .grid-mode").click(function() {
+		jQuery(this).addClass("active").prev().removeClass("active");
+		jQuery(".doc-list .list-view").addClass("grid-view");
+		jQuery(".doc-list .list-view").each(function() {
+			jQuery(".doc", jQuery(this)).each(function(i) {
+				if(i%3 == 2) jQuery(this).addClass("last");
+				else jQuery(this).removeClass("last");
+			})
+		});
+		jQuery(".doc-btns:visible").each(function() {
+			positionDocBtns(jQuery(this));
+		});
+	});
 }
 
 function initializationFunction() {

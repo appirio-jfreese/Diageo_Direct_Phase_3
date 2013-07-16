@@ -24,11 +24,12 @@ jQuery(".doc-list input[type='checkbox']").change(function() {
 function operationLine(lineClass){
 	if(!jQuery("."+lineClass).hasClass("disabled")){
 		var glue = "";
+		var selAll = "false";
 		var selectedContentIds = "";
 		var clickedButton = jQuery("."+lineClass).first().text().trim();
 		if(clickedButton == "Follow" || clickedButton == "Unfollow"
 			|| clickedButton == "Add" || clickedButton == "Remove"
-			|| clickedButton == "Email"){
+			|| clickedButton == "Share"){
 			
 			var opType = "", anchorClassName = "";
 			if(clickedButton == "Follow" || clickedButton == "Unfollow"){
@@ -37,7 +38,7 @@ function operationLine(lineClass){
 			}else if(clickedButton == "Add" || clickedButton == "Remove"){
 				opType = "Basket";
 				anchorClassName = "add-to-basket";
-			}else if(clickedButton == "Email"){
+			}else if(clickedButton == "Share"){
 				opType = "Share";
 				anchorClassName = "share";
 			}
@@ -67,7 +68,7 @@ function operationLine(lineClass){
 				addToBasketMultiple(selectedContentIds);
 			}else if(clickedButton == "Remove"){
 				removeFromBasketMultiple(selectedContentIds);
-			}else if(clickedButton == "Email"){
+			}else if(clickedButton == "Share"){
 				userMultipleShare(selectedContentIds);
 	  userTryToShare(selectedContentIds);
 	  //showDialog('shareInfo');
