@@ -1,5 +1,9 @@
 /*******************************************************************************
 Name        : Controller_SearchResult.cls
+
+Modified By	: Basant Kumar Verma
+Date				: 7/15/2013
+Story/Task	: US612/DE635
 *******************************************************************************/
 public with sharing class Controller_SearchResult extends Controller_Base {
 
@@ -344,7 +348,9 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 		// COLLABORATION SEARCH
 		String queryCOL    	= ' SELECT Content_Version_Id__c cvid,  Tags__c, Description__c description, filesize__c filesize, filetype__c filetype, Title__c  title, is_video__c is_video, video_id__c video_id, max(Uploaded_date__c) createdDate, image_resolution__c imageRes, OwnerId ' 
 		  			  	    + ' FROM File__c '
-						    + ' WHERE Classification__c includes (\''+Service_API.getSectionTheme()+'\') and Page_Section__c = \''+CONSTANT.COLLABORATION+'\' and (( Distributors__c includes ('+currentDistributorsString+') or Division_Access__c in ('+currentDivisionsString+') ) ';
+		  			  	// Start : Changes for DE635 - Basant Verma
+						    + ' WHERE Classification__c includes (\''+Service_API.getSectionTheme()+'\') and Page_Section__c = \''+CONSTANT.COLLABORATION+'\' and (( Distributors__c includes ('+currentDistributorsString+') ' + ((currentDivisionsString != null && !currentDivisionsString.trim().equals('')) ? ' or Division_Access__c in ('+currentDivisionsString+')' : '') + ' ) ';
+						    // END : Changes for DE635 - Basant Verma
 							if(isInternalUser){
 								queryCOL += ' or ( Distributors__c = null or Division_Access__c = null ) ';
 							}   

@@ -27,6 +27,7 @@ public with sharing class Service_Messages {
 
     public void sendEmailMsg(){
 		isSend = false;	
+		String sendMsg = sRecipientMsg;
 		try{
 	    	string fileName = cShareLink; 
 	    	string fileDescription = '';
@@ -103,6 +104,7 @@ public with sharing class Service_Messages {
 						}
 					}
 		        }
+		        
 		        mail.setPlainTextBody(plainBody);
 		        if (sRecipientMsg != null) {
 		        	sRecipientMsg = sRecipientMsg.replaceAll('\n','<br/>');
@@ -120,7 +122,9 @@ public with sharing class Service_Messages {
 		}
 		catch (Exception e) {
 			ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to send message.'));
+			sRecipientMsg = sendMsg;
 			isSend = false;	
+			
 		}
     }   
 
@@ -135,6 +139,7 @@ public with sharing class Service_Messages {
     
     public void sendEmailMsgMultiple(){
 		isSend = false;
+		String sendMsg = sRecipientMsg;
 		list<String> cvidList = cvids.split(',');
         if(cvidList.size()>0) {
             if(cvidList.get(0)==null || cvidList.get(0)=='') {
@@ -302,10 +307,12 @@ public with sharing class Service_Messages {
 			}
 			catch (Exception e) {
 				ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to send message.' ));
+				sRecipientMsg = sendMsg;
 				isSend = false;			
 			}
 		} else {
 			ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to send message.' ));
+			sRecipientMsg = sendMsg;
 			isSend = false;			
 		}
     }       
