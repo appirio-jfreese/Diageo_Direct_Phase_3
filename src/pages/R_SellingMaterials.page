@@ -8,9 +8,9 @@ Description : Integrated Responsive design with existing Selling Material functi
 Date        : 7/10/13
 ------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_SellingMaterials">
+	<body class="sm-landing-page sm-page">
 	<div class="wrapper">
         <div class="container">
-        
             <!-- PAGE HEADER -->
             <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
             <script type="text/javascript">
@@ -109,7 +109,7 @@ Date        : 7/10/13
         <!-- PAGE FOOTER -->
         <c:R_pageFooter isInternal="{!isInternalUser}" />
     </div>
-    
+    </body>
     <apex:form >
         <apex:actionFunction status="ajax-status" name="userShareOverview" action="{!userShareOverview}" rerender="overviewDialog, shareDialog, messages" onComplete="sectionVisibility();showModalPopup();">
             <apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
@@ -175,7 +175,7 @@ Date        : 7/10/13
     *****************************************************************************/
     var pageNamePrefix = "sm";
     // Add class in Body so Responsive_Base/js/script.js can work on this page
-    jQuery(document.body).addClass(pageNamePrefix+'-landing-page').addClass(pageNamePrefix+'-page');
+    //jQuery(document.body).addClass(pageNamePrefix+'-landing-page').addClass(pageNamePrefix+'-page');
     /*****************************************************************************
                 END : THIS JAVASCRIPT MUST BE IN PAGE ITSELF
     *****************************************************************************/

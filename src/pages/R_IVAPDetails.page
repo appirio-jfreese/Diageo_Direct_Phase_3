@@ -15,7 +15,7 @@ Story/Task	: US585/TA1082
 	  </apex:actionFunction>
 	</apex:form>
 
-
+	<body class="isv-landing-page isv-page isv-item-page">
 	<div class="wrapper">
 		<div class="container">
 			<!-- PAGE HEADER -->
@@ -43,10 +43,10 @@ Story/Task	: US585/TA1082
 						
 						<apex:outputPanel rendered="{! if( detailId != null, 'true','false' )}" id="pageContent">
 							<div class="button-line three-btns">
-								<a href="" class="active isv-bg section-options" style="width: {!(100/(detailsMapOrderSize+1))-1}%;">Overview</a>
+								<a href="javascript:;" class="active isv-bg section-options" style="width: {!(100/(detailsMapOrderSize+1))-1}%;">Overview</a>
 								<apex:variable var="counter" value="{!1}"/>
 								<apex:repeat value="{!detailsMapOrder}" var="silderSection">
-									<a href="" class="isv-bg section-options {!if(silderSection == 'Media', 'mediaPage', '')} {!IF(counter == detailsMapOrder.size,'last','')}"  style="width: {!(100/(detailsMapOrderSize+1))-1}%;">{!silderSection}</a>
+									<a href="javascript:;" class="isv-bg section-options {!if(silderSection == 'Media', 'mediaPage', '')} {!IF(counter == detailsMapOrder.size,'last','')}"  style="width: {!(100/(detailsMapOrderSize+1))-1}%;">{!silderSection}</a>
 									<apex:variable var="counter" value="{!counter + 1}"/>
 								</apex:repeat>
 							</div>
@@ -154,7 +154,7 @@ Story/Task	: US585/TA1082
 			<c:R_pageFooter isInternal="{!isInternalUser }" />
 		</div>
 	</div>
-	
+	</body>
 	<apex:form >
 		<apex:actionFunction status="ajax-status" name="userShareOverview" action="{!userShareOverview}" rerender="overviewDialog, shareDialog, messages" onComplete="sectionVisibility();showModalPopup();">
 			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
@@ -219,7 +219,7 @@ Story/Task	: US585/TA1082
 	*****************************************************************************/
 	var pageNamePrefix = "isv";
 	// Add class in Body so Responsive_Base/js/script.js can work on this page
-	jQuery(document.body).addClass(pageNamePrefix+'-landing-page').addClass(pageNamePrefix+'-page').addClass(pageNamePrefix+'-item-page');
+	//jQuery(document.body).addClass(pageNamePrefix+'-landing-page').addClass(pageNamePrefix+'-page').addClass(pageNamePrefix+'-item-page');
 	/*****************************************************************************
 				END : THIS JAVASCRIPT MUST BE IN PAGE ITSELF
 	*****************************************************************************/
