@@ -146,6 +146,7 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     // Called when User Click on A single blog Title/ReadMore link to open Detail Page
     public Pagereference openBlogDetail(){
         Pagereference pr = Page.BPDetails;
+        if(isResponsive) { pr = Page.R_BPDetails; }
         pr.getParameters().put('blogId',clickedBlogId);
         pr.setRedirect(true);
         return pr;
@@ -153,6 +154,7 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     
     // Prepare Data for Current Page
     public List<Blog__c> getCurrentPageData(boolean loadAnyway){
+    	setResponsiveState();
         Date beginningDate = Date.today();
         Date endingDate = Date.today();
         
@@ -238,6 +240,7 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     public PageReference switchToTag() {
         theme = null;
         Pagereference pr = Page.BlogHome;
+        if(isResponsive) { pr = Page.R_BlogHome; }
         pr.getParameters().put('filterByTag',filterbyTag);
         pr.setRedirect(true);
         return pr;
@@ -357,9 +360,10 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     
     // Called whne Detail Page Loaded first Time just After Clicking on a Blog from List
     public PageReference initBPDetails() {
-    
+    	setResponsiveState();
         backToBlogPostsUrl = Page.BlogPosts.getUrl();
-        pageUrl = Page.BPDetails.getUrl();
+        if(isResponsive) { backToBlogPostsUrl = Page.R_BlogPosts.getUrl(); }
+        pageUrl = ApexPages.currentPage().getUrl();
         
         System.Debug('<----- pageUrl: ' + pageUrl + ' ----->');
       
@@ -383,6 +387,7 @@ public without sharing class Controller_BlogPost extends Controller_Base{
   // Allow user to post a new Comment
     public PageReference postComment(){
         Pagereference p = Page.BPDetails;
+        if(isResponsive) { p = Page.R_BPDetails; }
         newComment.Blog__c = blogItem.id;
         insert newComment;
         blogItem.Comment__r.add(newComment);
@@ -410,4 +415,18 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     // End Detail Page : By Parul  
 		 
 		// End : Changes for US503/TA1011 : Comment All Blog Code - Basant
+
+
+	// Start: Changes for Responsive Site - Randy Wandell (Appirio) 7/10/13    
+    public void setResponsiveState() {
+		pageUrl = ApexPages.currentPage().getUrl();
+		if(pageUrl.toLowerCase().indexOf('r_bpdetails') > -1 || pageUrl.toLowerCase().indexOf('r_bloghome') > -1) {
+			isResponsive = true;
+			preapareSiteNavigationMenu();
+		} else {
+			isResponsive = false;
+			preapareSiteNavigationMenu();
+		}    	
+    }
+    // End:		
 }
