@@ -8,7 +8,7 @@ Story/Task  : US503
 <apex:component controller="Controller_BlogPost" id="blogPostComponent">
     <script type="text/javascript">
         function openDetails(id) {
-            location.href="BPDetails?blogId=" + id;
+            location.href="R_BPDetails?blogId=" + id;
         }
     </script>
     
