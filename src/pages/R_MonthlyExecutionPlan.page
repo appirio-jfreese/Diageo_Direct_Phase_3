@@ -184,6 +184,12 @@ Story/Task  : US585/TA1081
 </div> <!-- END Wrapper Div -->
 </body>
 
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        loadCalenderJs();
+    }); 
+</script>
+
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/jumpToDateKeyDown.js')}"></script>
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4MainPage.js')}"></script>
