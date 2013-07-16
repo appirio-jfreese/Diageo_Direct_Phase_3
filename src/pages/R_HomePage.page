@@ -194,7 +194,7 @@ Story/Task	: US584
             </a>
             <a class="ad" style="margin-right: 0px; width: 118px;
                 background: url({!URLFOR($Resource.Responsive_Base)}/i/ad_i_6_smart_brand2.png) 0 0 no-repeat;"
-                style="margin-right: 0;" href="http://www.diageosmartbrand.com" target="_blank"
+                href="http://www.diageosmartbrand.com" target="_blank"
                 onclick="pageViewed('Home Page - smart_brand2.png');">
             </a>           
         </div>
