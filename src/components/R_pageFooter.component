@@ -26,8 +26,10 @@ Story/Task	: US608/DE616
             <a href="{!$Page.R_TermsAndConditions}">Terms &amp; Conditions</a> |
             <a href="{!$Page.R_PrivacyPolicy}">Privacy &amp; Cookies Notice</a> |
             <a href="{!$Page.R_Links}">Industry Related Links</a> |
-            <a href="{!$Page.R_FAQ}">FAQ</a> |
+            <a href="{!$Page.R_FAQ}">FAQ</a> 
+<!-- Randy Wandell (Appirio) Commented because Contact us is not ready for Release 4 |
             <a href="{!$Page.R_Cases}?caseType=new">Contact Us</a>
+-->
         </div>
         <span>&copy; Diageo 2011</span>
         <!-- Start : Changes for US608/DE616 - Basant Verma -->
