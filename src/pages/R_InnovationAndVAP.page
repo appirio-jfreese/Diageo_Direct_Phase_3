@@ -170,33 +170,7 @@ Story/Task	: US503/TA1011
             		<c:R_CalendarHead monthName="{!months[0].name}" selYear="{!selectedyear}" selMonth="{!selectedMonth}" pageCls="isv-bg" mnthCounter="{!1}"/>
             	</apex:outputPanel>
 				
-			<!-- Start :: General Updates  -->
-            <div class="general-updates">
-                <h3>
-                    <a href="innovation-click-header.html">General Updates</a>
-                </h3>
-                <h5>Performance Updates</h5>
-                <div class="items">
-                    <c:R_NarrowBlogList format="Titles" isLoggedIn="{!isLoggedIn}" url="" singleTag="Location:innovation-vap" id="blogPostComp" />
-                </div>
-                <h5>Planning Calendars</h5>
-                <div class="items">
-					<apex:outputPanel rendered="{!OR(ISNULL(planningCalendars),planningCalendars.size=0)}">No items.</apex:outputPanel>
-					<apex:outputPanel rendered="{!OR(ISNULL(planningCalendars),planningCalendars.size!=0)}" styleClass="left">                  
-						<apex:repeat value="{!planningCalendars}" var="pc">
-							<p>
-								<apex:image url="{!URLFOR($Resource.CommonPage, 'images/transparent.gif')}" styleClass="file-ico24 ico-{!pc['fileType']}"/>
-								<span class="list-description">
-									<a href="/sfc/servlet.shepherd/version/download/{!pc['cvid']}">
-										{! IF (len(pc['description'])>17, LEFT(pc['description'], 20)+'...', pc['description'])}
-									</a>
-								</span>
-							</p>
-						</apex:repeat>
-					</apex:outputPanel> 
-                </div>
-            </div>
-			<!-- END :: General Updates  -->
+
 			<apex:variable var="columnWidth" value="{!25}"/>
             <!--  START :: plans-header Section - displayed for timePeriod != Monthly -->
 				<apex:outputPanel rendered="{!timePeriod > 1}" layout="block" styleClass = "{!if(salesDriversToShowCount > 1,'plans plans-header no-spirits','plan-header')}" >                               
@@ -255,11 +229,10 @@ Story/Task	: US503/TA1011
 		            		</apex:outputPanel>
 		            		<apex:variable var="oddEven" value="{!'odd'}"/>                                                     
 			                <apex:repeat value="{!calendarData[month.data][salesdrivername]}" var="programData">
-			                    	<div class="{!if(oddEven =='even' ,'desc-block light-blue-bg','desc-block green-bg')}" onClick="window.location='{!$Page.R_IVAPDetails}?id={!programData.id}'">
+			                    	<div class="desc-block" style="{!programData.styleBackgroundColor}; {!programData.styleTextColor}; height: 100px; overflow: hidden;" onClick="window.location='{!$Page.R_IVAPDetails}?id={!programData.id}'">
 					                	<h5>{!programData.label}</h5>
 					                	<p><apex:outputtext escape="false" value="{!programData.description}"></apex:outputtext></p>
 					            		</div>  
-					            		<apex:variable var="oddEven" value="{!if(oddEven == 'odd','even','odd')}"/> 
 					        </apex:repeat>
 		            	</apex:outputPanel> 
 		            	
@@ -298,6 +271,36 @@ Story/Task	: US503/TA1011
             	</apex:repeat>
 				<!--  END :: Months Loop -->
 			</apex:outputPanel>
+			
+			<!-- Start :: General Updates  -->
+ 			
+            <div class="general-updates">
+                <h3>
+                    <a href="innovation-click-header.html">General Updates</a>
+                </h3>
+                <h5>Performance Updates</h5>
+                <div class="items">
+                    <c:R_NarrowBlogList format="Titles" isLoggedIn="{!isLoggedIn}" url="" singleTag="Location:innovation-vap" id="blogPostComp" />
+                </div>
+                <h5>Planning Calendars</h5>
+                <div class="items">
+					<apex:outputPanel rendered="{!OR(ISNULL(planningCalendars),planningCalendars.size=0)}">No items.</apex:outputPanel>
+					<apex:outputPanel rendered="{!OR(ISNULL(planningCalendars),planningCalendars.size!=0)}" styleClass="left">                  
+						<apex:repeat value="{!planningCalendars}" var="pc">
+							<p>
+								<apex:image url="{!URLFOR($Resource.CommonPage, 'images/transparent.gif')}" styleClass="file-ico24 ico-{!pc['fileType']}"/>
+								<span class="list-description">
+									<a href="/sfc/servlet.shepherd/version/download/{!pc['cvid']}">
+										{! IF (len(pc['description'])>17, LEFT(pc['description'], 20)+'...', pc['description'])}
+									</a>
+								</span>
+							</p>
+						</apex:repeat>
+					</apex:outputPanel> 
+                </div>
+            </div>
+            
+			<!-- END :: General Updates  -->			
 
             <div class="clear"></div>
 		</apex:form>

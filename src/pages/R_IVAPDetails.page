@@ -115,7 +115,11 @@ Story/Task	: US585/TA1082
 						            	<apex:variable value="" var="currentSubSubCategory"/>
 						            	<apex:repeat value="{!detailsHolderMap[silderSection]}" var="calendarItm">
 					            			<apex:outputPanel rendered="{!IF(currentSubSubCategory != calendarItm.result['Sub_Sub_Category__c'],'true','false')}">
-															<h6>{!calendarItm.result['Sub_Sub_Category__c']}</h6>
+															<!-- START : Modified By Basant : Grid view get distorted -->
+															<div class="list-view">
+																<h6>{!calendarItm.result['Sub_Sub_Category__c']}</h6>
+															</div>
+															<!-- END : Modified By Basant : Grid view get distorted -->
 														</apex:outputPanel>
 														
 														<apex:variable value="{!calendarItm.result['Sub_Sub_Category__c']}" var="currentSubSubCategory" rendered="{!!ISNULL(calendarItm.result['Sub_Sub_Category__c'])}"/>
@@ -152,10 +156,10 @@ Story/Task	: US585/TA1082
 	</div>
 	
 	<apex:form >
-		<apex:actionFunction status="ajax-status" name="userShareOverview" action="{!userShareOverview}" rerender="overviewDialog, shareDialog, messages" onComplete="sectionVisibility();">
+		<apex:actionFunction status="ajax-status" name="userShareOverview" action="{!userShareOverview}" rerender="overviewDialog, shareDialog, messages" onComplete="sectionVisibility();showModalPopup();">
 			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
 		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="userMultipleShare" action="{!userMultipleShare}" rerender="overviewDialog, shareDialog, messages" onComplete="sectionVisibility();">
+		<apex:actionFunction status="ajax-status" name="userMultipleShare" action="{!userMultipleShare}" rerender="overviewDialog, shareDialog, messages" onComplete="sectionVisibility();showModalPopup();">
 			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
 		</apex:actionFunction> 
 		<apex:actionFunction status="ajax-status" name="addToBasket" action="{!addToBasket}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems" onComplete="jqTransformScript(); sectionVisibility();">
@@ -182,19 +186,19 @@ Story/Task	: US585/TA1082
 		<apex:actionFunction status="ajax-status" name="removeFromFollowMultiple" action="{!removeFromFollowMultiple}" rerender="messages, currentFollowedItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems" onComplete="jqTransformScript(); sectionVisibility();">
 			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
 		</apex:actionFunction>		
-	</apex:form>
-
+	</apex:form>	
+	
 	<div id="moreInfo" class="hidden dialog" >
 		<apex:outputPanel id="overviewDialog">
 	 		<c:R_overview cvid="{!cVersionId}" description="{!cDescr}" videoId="{!cVideoId}" isVideo="{!cIsVideo}" previewId="{!cPreviewId}" isPreview="{!cIsPreview}"/>
 		</apex:outputPanel>        
 	</div>
 		
-	<div id="shareInfo" class="hidden dialog">
-		<apex:outputPanel id="shareDialog">
+	<div id="shareInfo">
+		<apex:outputPanel id="shareDialog">			
 			<c:R_share cvid="{!cVersionId}" cvids="{!cVersionIds}" description="{!cDescr}" cShareLink="{!cShareLink}" cShareLinkLow="{!cShareLinkLow}"/>
 		</apex:outputPanel>        
-	</div>
+	</div> 
 
 	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4DetailPage.js')}"></script>
 	<!-- <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/commonFunctions.js')}"></script>
@@ -204,6 +208,7 @@ Story/Task	: US585/TA1082
 	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/contentItemCheckBox.js')}"></script>
 	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/sectionOptions.js')}"></script>
 	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/contentViewMode.js')}"></script>
+	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/contentViewShare.js')}"></script>
 	<script type="text/javascript">
 	/*****************************************************************************
 				START : THIS JAVASCRIPT MUST BE IN PAGE ITSELF

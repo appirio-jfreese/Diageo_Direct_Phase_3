@@ -6,7 +6,7 @@ Date        : 7/3/13
 Story/Task  : US588/TA1076
 ------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_SellingMaterials">
-<body class="sm-landing-page sm-page_r">
+<body class="sm-landing-page sm-page">
 
 	<div class="wrapper">
 	    <div class="container">
@@ -54,11 +54,11 @@ Story/Task  : US588/TA1076
 	            </apex:outputPanel>
 			 
 	        <!-- PAGE CONTENT -->
-	          	<c:R_Filters pageCls="sm-bg" c_parentBrandList="{!parentBrandList}" c_additionalBrandList="{!additionalBrandList}"
+	          	<c:R_Filters pSiteTheme="{!SiteTheme}" pageCls="sm-bg" c_parentBrandList="{!parentBrandList}" c_additionalBrandList="{!additionalBrandList}"
 	          	c_childBrandList="{!childBrandList}" c_brandBoxToRender="{!brandBoxToRender}" c_selectedChildBrandIds="{!selectedChildBrandIds}"
 	          	c_selectedBrandIds="{!selectedBrandIds}" c_selectedClassificationItemsRow1="{!selectedClassificationItemsRow1}" 
 	          	c_selectedClassificationItemsRow2="{!selectedClassificationItemsRow2}" c_classificationItemsRow1="{!classificationItemsRow1}"
-	          	c_classificationItemsRow2="{!classificationItemsRow2}"/>
+	          	c_classificationItemsRow2="{!classificationItemsRow2}" c_selectedTimePeriods="{!selectedTimePeriods}"/>
                 <!--
                 <apex:outputpanel layout="none" id="filters">
 	            <a class="result-filter" href="javascript:;">

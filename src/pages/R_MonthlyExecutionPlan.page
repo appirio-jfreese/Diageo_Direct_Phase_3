@@ -113,10 +113,12 @@ Story/Task  : US585/TA1081
                     
                         <apex:outputPanel rendered="{!salesDriversToShowCount == 1}">
                             <apex:outputPanel rendered="{!timePeriod == 1}">
+                            
                             <div class="plan-header">
                             <a href="javascript:void(0);" onclick="selectSalesDriver('All');return false;" class="mep-bg btn">Back</a>
                             <span>{!salesdrivername}</span>
-                            </div>
+                            </div>                              
+
                             </apex:outputPanel>
                             <apex:variable var="oddEven" value="{!'odd'}"/>                                                     
                             <apex:repeat value="{!calendarData[month.data][salesdrivername]}" var="programData">
@@ -154,8 +156,10 @@ Story/Task  : US585/TA1081
                             
                         </div>
                         </apex:outputPanel>
-                        <apex:variable var="counter" value="{!counter + 1}"/>
-                    </apex:repeat>
+                        <apex:variable var="counter" value="{!counter + 1}"/>                       
+                        
+                    </apex:repeat>                   
+                    
                     </div>
                     <!--  END :: Main Salesdriver data Section -->
                               

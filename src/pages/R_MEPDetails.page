@@ -33,11 +33,11 @@ Story/Task	: US585/TA1082
 						
 						<apex:outputPanel rendered="{! if( detailId != null, 'true','false' )}" id="pageContent">
 							<div class="button-line five-btns">
-								<a href="" class="active mep-bg section-options">Overview</a>
+								<a href="javascript:;" class="active mep-bg section-options">Overview</a>
 								<apex:repeat value="{!detailsMapOrder}" var="silderSection">
-									<a href="" class="mep-bg section-options {!if(silderSection == 'Media', 'mediaPage', '')}">{!silderSection}</a>
+									<a href="javascript:;" class="mep-bg section-options {!if(silderSection == 'Media', 'mediaPage', '')}">{!silderSection}</a>
 								</apex:repeat>
-								<a href="" class="mep-bg last section-options">Goals</a>
+ 								<a href="javascript:;" class="mep-bg last section-options">Goals</a>
 							</div>
 							
 							<h2 class="with-select with-small">
@@ -69,7 +69,11 @@ Story/Task	: US585/TA1082
 					            	<apex:variable value="" var="currentSubSubCategory"/>
 				            		<apex:repeat value="{!contentHolderMap[silderSection]}" var="calendarItm">
 													<apex:outputPanel rendered="{!IF(currentSubSubCategory != calendarItm.result['Sub_Sub_Category__c'],'true','false')}">
-														<h6>{!calendarItm.result['Sub_Sub_Category__c']}</h6>
+														<!-- START : Modified By Basant : Grid view get distorted -->
+														<div class="list-view">
+															<h6>{!calendarItm.result['Sub_Sub_Category__c']}</h6>
+														</div>
+														<!-- END : Modified By Basant : Grid view get distorted -->
 													</apex:outputPanel>
 													
 													<apex:variable value="{!calendarItm.result['Sub_Sub_Category__c']}" var="currentSubSubCategory" rendered="{!!ISNULL(calendarItm.result['Sub_Sub_Category__c'])}"/>
@@ -96,16 +100,19 @@ Story/Task	: US585/TA1082
 								</div>
 							</apex:outputPanel>
 							</c:R_OperationLines>
-	            
+							
 							<!-- goals section -->
-							<div class="story without-image Goals-Section mep-Section-Blok noContent">
+<!-- Start: Randy Wandell (Appirio) 7/12/13 - Commented for now because collaboration is not being delivered in release 4 -->							
+  							<div class="story without-image Goals-Section mep-Section-Blok noContent">
 								<div class="p">
 									<p>
-										Program Goals can be found in the Goals folder in <a href="javascript:;">Collaboration</a>.
+<!-- 										Program Goals can be found in the Goals folder in <a href="javascript:;">Collaboration</a>.   -->
 									</p>
 								</div>			
 							</div>
-							<!-- end of goals section -->	
+						
+							<!-- end of goals section -->
+<!-- End: -->
 						</apex:outputPanel>
 					</apex:form>
 				</div>
@@ -167,7 +174,7 @@ Story/Task	: US585/TA1082
 	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/contentItemCheckBox.js')}"></script>
 	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/sectionOptions.js')}"></script>
 	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/contentViewMode.js')}"></script>
-	
+	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/contentViewShare.js')}"></script>
 	<script type="text/javascript">
 	/*****************************************************************************
 				START : THIS JAVASCRIPT MUST BE IN PAGE ITSELF
@@ -183,10 +190,17 @@ Story/Task	: US585/TA1082
 				END : THIS JAVASCRIPT MUST BE IN PAGE ITSELF
 	*****************************************************************************/
 	
-	function showModalPopup(){
+	/*function showModalPopup(){
 		jQuery("#shareModal").modal();
-	}
-		
+		jQuery("#shareModal").css({
+		    marginTop: - (jQuery("#shareModal").outerHeight(true) / 2),
+		    marginLeft: - (jQuery("#shareModal").outerWidth(true) / 2)
+		    
+  		});
+  
+		//alert(jQuery("#shareModal").outerHeight(true)); 
+	}*/
+	
 	</script>
 	<!-- END : New Script Added -->
 	
@@ -194,9 +208,7 @@ Story/Task	: US585/TA1082
 	<style type="text/css">
 		.hidden {
 			display: none;
-		}.modal {
- 			    display: none;
- 		}
+		}
  		div.moreInfoError{
 			background: #ffffff; /* Old browsers */
 		    font-family: Tahoma, Arial;	
