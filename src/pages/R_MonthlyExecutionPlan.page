@@ -6,6 +6,8 @@ Date        : 6/28/13
 Story/Task  : US585/TA1081
 ------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_MonthlyExecutionPlan">
+<body class="mep-landing-page mep-page mep-quarterly-page">
+
 <div class="wrapper">
     <div class="container">
     
@@ -180,14 +182,8 @@ Story/Task  : US585/TA1081
     <!--  PAGE FOOTER --> 
     <c:R_pageFooter isInternal="{!isInternalUser }" />
 </div> <!-- END Wrapper Div -->
+</body>
 
-<script type="text/javascript">
-    jQuery(document.body).addClass('mep-landing-page').addClass('mep-page').addClass('mep-quarterly-page'); 
-    jQuery(document).ready(function() {
-        loadCalenderJs();
-    }); 
-</script>
-   
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/jumpToDateKeyDown.js')}"></script>
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4MainPage.js')}"></script>
