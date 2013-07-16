@@ -25,7 +25,7 @@ Story/Task	: US585/TA1082
          <span>Download</span>
      </a>
      <a href="javascript: operationLine('email');" class="email disabled {!pageNamePrefix}-bg">
-         <span>&nbsp;&nbsp;Email</span>
+         <span>&nbsp;&nbsp;Share</span>
      </a>
      <apex:outputPanel rendered="{!if(allowAddBasket == true, 'true','false')}">
 	     <a href="javascript: operationLine('add');" class="add disabled {!pageNamePrefix}-bg">
@@ -59,30 +59,25 @@ Story/Task	: US585/TA1082
 	     </a>
      </apex:outputPanel>
  	</div>
-   
- 	<div class="filter" style="display: {!if(showPages == true, '','none')}">
+  
+  <!-- START : Modified by Basant : Always Need to show List/Grid view buttons and Select All checkbox. It's visiblity does not depends on showPages param --> 
+ 	<div class="filter">
 	  	<a class="list-mode active {!pageNamePrefix}-bg"></a>
 	    <a class="grid-mode {!pageNamePrefix}-bg"></a>
  	    <apex:outputPanel rendered="{!if(showPages == true, 'true','false')}">
 		    <div class="desc">
 		         {!pagesStatus}
 		    </div>
-			<!--<select>
-				<option>12</option>
-				<option>24</option>
-				<option>48</option>
-				<option>60</option>
-			</select>
-			 -->
-			 <apex:outputPanel rendered="{!NOT(ISNULL(options))}">
+			 	<apex:outputPanel rendered="{!NOT(ISNULL(options))}">
 				 <c:R_selectList width="80" options="{!options}"  value="{!value}" onchange="{!onchange}" bindToController="{!bindToController}" className="{!className}"/> 
-			</apex:outputPanel> 
+				</apex:outputPanel> 
  	    </apex:outputPanel>
 	    <div class="select-all">
 	    	<label>Select All</label>
 	     	<input type="checkbox" class="checkbox" />
 	    </div>
 	</div>
+	<!-- END : Modified by Basant : Always Need to show List/Grid view buttons and Select All checkbox. It's visiblity does not depends on showPages param -->
 	 	
 	<apex:componentBody />
     
@@ -91,7 +86,7 @@ Story/Task	: US585/TA1082
          <span>Download</span>
      </a>
      <a href="javascript: operationLine('email');" class="email disabled {!pageNamePrefix}-bg">
-         <span>&nbsp;&nbsp;Email</span>
+         <span>&nbsp;&nbsp;Share</span>
      </a>
      <apex:outputPanel rendered="{!if(allowAddBasket == true, 'true','false')}">
 	     <a href="javascript: operationLine('add');" class="add disabled {!pageNamePrefix}-bg">

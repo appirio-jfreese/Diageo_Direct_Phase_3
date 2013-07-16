@@ -17,7 +17,7 @@
 			<!-- <apex:outputPanel rendered="{! if( numberOfCurrentPage != 1, 'true','false' )}"> -->
 			<apex:outputPanel >
 				<!-- <a class="number" onclick="showFirstPage()">First</a>-->
-				<a class="prev {!IF(numberOfCurrentPage != 1,'','disabled')} "  onclick="{!IF(numberOfCurrentPage != 1,'showPrevPage();return false;','return false;')}"><span></span></a>
+				<a href="javascript:;" class="prev {!IF(numberOfCurrentPage != 1,'','disabled')} "  onclick="{!IF(numberOfCurrentPage != 1,'showPrevPage();return false;','return false;')}"><span></span></a>
 			</apex:outputPanel>
 
 			<apex:repeat value="{!pageNumbers}" var="pageNumber">
@@ -33,7 +33,7 @@
     		<a class="next" onclick="showNextPage()"><span></span></a>
 				<!-- <a class="number" onclick="showLastPage()">Last</a> -->
       		<!-- </apex:outputPanel> -->
-      		<a class="next {!IF(AND(totalNumberOfPages > 1,numberOfCurrentPage < totalNumberOfPages),'','disabled')}" onclick="{!IF(AND(totalNumberOfPages > 1,numberOfCurrentPage < totalNumberOfPages),'showNextPage();return false;','return false;')}"><span></span></a>
+      		<a href="javascript:;" class="next {!IF(AND(totalNumberOfPages > 1,numberOfCurrentPage < totalNumberOfPages),'','disabled')}" onclick="{!IF(AND(totalNumberOfPages > 1,numberOfCurrentPage < totalNumberOfPages),'showNextPage();return false;','return false;')}"><span></span></a>
   	</div>
 	</apex:outputPanel>
 </apex:component>

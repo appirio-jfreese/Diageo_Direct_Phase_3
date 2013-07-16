@@ -521,7 +521,7 @@ Story/Task  : US585/TA1082
  						</div>
 				</div>
 				<apex:outputPanel rendered="{!if(showButons != false, 'true','false')}">
-	      	<div class="doc-btns {!pageNamePrefix}-bg">
+	      	<div class="doc-btns {!pageNamePrefix}-bg {!IF(AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1=='LINK'), 'single', '')}">
 						<!-- START DOWNLOAD ICONS -->
       			<apex:outputPanel rendered="{!AND(isVideo1==true, NOT(ISNULL(videoId1)))}">
 	            <a href="{!$Page.VideoDownload}?videoId={!videoId1}&videodesc={!URLENCODE(description)}" class="download" target="_blank"></a>
@@ -594,7 +594,7 @@ Story/Task  : US585/TA1082
             <!-- END FOLLOW ICONS -->
             <!-- START LAUNCH LINK -->
             <apex:outputPanel rendered="{!AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1=='LINK')}">
-							<a href="{!title1}" target="_blank" class="open-link"></a>
+							<a href="{!title1}" target="_blank" class="openlink"></a>
 						</apex:outputPanel>
 						<!-- END LAUNCH LINK -->
 	      	</div>

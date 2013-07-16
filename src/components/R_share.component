@@ -13,7 +13,7 @@ Description	: Integrated modal dialog for responsive site
     <apex:attribute name="cvids" description="String of ids" type="String" required="false" assignTo="{!cvids}"/>
 
 	<!-- START :: MODAL DIALOG -->
-	<div class="modal" id="shareModal" style="margin-top: -171.5px;margin-left: -230px;"> 
+	<div class="modal" id="shareModal" > 
 	    
 	    <div class="title">
 	        Share: <apex:outputPanel rendered="{! OR(ISNULL(cvids), len(cvids)=0 )}"> 
@@ -42,7 +42,7 @@ Description	: Integrated modal dialog for responsive site
 			        </label>
 					<apex:inputTextarea rows="1" value="{!sRecipientEmail}" styleClass="recipientEmailInput"/>
 					<label>
-			            Custom Message (optional)
+			            Custom Message (optional) 
 			        </label>
 					<apex:inputTextarea value="{!sRecipientMsg}"/>
 					</div>
@@ -61,7 +61,7 @@ Description	: Integrated modal dialog for responsive site
 			    <apex:outputPanel rendered="{!isSend==true}">
 			    	<div class="html">
 						<label>Message sent. Thank You.</label>
-						<a href="javascript:void(0);" onclick="closeEmailMsg()return false;" rel="modal:close" class="button">CLOSE</a>		
+						<a href="javascript:void(0);" onclick="closeEmailMsg();return false;" rel="modal:close" class="button">CLOSE</a>		
 					</div>
 				</apex:outputPanel>
 	
