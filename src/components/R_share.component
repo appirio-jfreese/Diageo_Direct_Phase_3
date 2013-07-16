@@ -34,17 +34,17 @@ Description	: Integrated modal dialog for responsive site
 			<apex:actionFunction status="ajax-status" name="sendEmailMsgMultiple" action="{!sendEmailMsgMultiple}" rerender="sendBox, moreInfoError"/>
 			<apex:actionFunction status="ajax-status" name="closeEmailMsg" action="{!closeEmailMsg}" rerender="sendBox, moreInfoError"/>	
 			<apex:pageBlock id="sendBox">
-	 
+	 			<div class="shareRecipientInformation">
 				<apex:outputPanel rendered="{!isSend!=true}">
 					<div class="html">
-					<label>
+							<label>
 			            Recipient Email
 			        </label>
-					<apex:inputTextarea rows="1" value="{!sRecipientEmail}" styleClass="recipientEmailInput"/>
-					<label>
+							<apex:inputTextarea rows="1" value="{!sRecipientEmail}" styleClass="recipientEmailInput ui-autocomplete-input"/>
+							<label>
 			            Custom Message (optional) 
 			        </label>
-					<apex:inputTextarea value="{!sRecipientMsg}"/>
+							<apex:inputTextarea value="{!sRecipientMsg}"/>
 					</div>
 					<div class="buttons">
 		                <apex:outputPanel rendered="{! OR(ISNULL(cvids), len(cvids)=0 )}"> 
@@ -56,7 +56,8 @@ Description	: Integrated modal dialog for responsive site
 		        			<a href="javascript:void(0);" onclick="sendEmailMsgMultiple(); return false;" class="button">Send</a>
 						</apex:outputPanel> 			
 					</div>     
-	    		</apex:outputPanel>
+    		</apex:outputPanel>
+    		</div>
 	    		
 			    <apex:outputPanel rendered="{!isSend==true}">
 			    	<div class="html">

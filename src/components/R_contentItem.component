@@ -492,13 +492,13 @@ Story/Task  : US585/TA1082
 								<apex:outputPanel rendered="{! IF(renderAsList1 != true, 'false', 'true')}">
 									<span onclick="addToDownloadCache('{!cvid1}');">
 										<apex:outputPanel rendered="{! IF (isIpadComponent = false, 'true', 'false') }">
-											<a class="title" target="_blank" href="{!$Page.Preview}?videoId={!videoId1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
+											<a class="title" target="_blank" href="{!$Page.R_Preview}?videoId={!videoId1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
 										</apex:outputPanel> 
 										<apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = false) }">
 											<div class="title">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</div>
 										</apex:outputPanel>
 										<apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = true) }">
-											<a class="title" target="_blank" href="{!$Page.Preview}?videoId={!videoId1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
+											<a class="title" target="_blank" href="{!$Page.R_Preview}?videoId={!videoId1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
 										</apex:outputPanel>
 									</span>
 								</apex:outputPanel>
@@ -521,10 +521,10 @@ Story/Task  : US585/TA1082
  						</div>
 				</div>
 				<apex:outputPanel rendered="{!if(showButons != false, 'true','false')}">
-	      	<div class="doc-btns {!pageNamePrefix}-bg {!IF(AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1=='LINK'), 'single', '')}">
+	      	<div class="doc-btns {!pageNamePrefix}-bg">
 						<!-- START DOWNLOAD ICONS -->
       			<apex:outputPanel rendered="{!AND(isVideo1==true, NOT(ISNULL(videoId1)))}">
-	            <a href="{!$Page.VideoDownload}?videoId={!videoId1}&videodesc={!URLENCODE(description)}" class="download" target="_blank"></a>
+	            <a href="{!$Page.VideoDownload}?videoId={!videoId1}&videodesc={!URLENCODE(description2)}" class="download" target="_blank"></a>
 						</apex:outputPanel>                 
             <apex:outputPanel rendered="{!AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1!='LINK')}">
 	            <a href="/sfc/servlet.shepherd/version/download/{!cvid1}" onclick="addToDownloadCache('{!cvid1}');" class="download"></a>
@@ -594,7 +594,7 @@ Story/Task  : US585/TA1082
             <!-- END FOLLOW ICONS -->
             <!-- START LAUNCH LINK -->
             <apex:outputPanel rendered="{!AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1=='LINK')}">
-							<a href="{!title1}" target="_blank" class="openlink"></a>
+							<a href="{!title1}" target="_blank" class="open-link"></a>
 						</apex:outputPanel>
 						<!-- END LAUNCH LINK -->
 	      	</div>

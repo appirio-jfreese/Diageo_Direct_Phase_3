@@ -8,7 +8,7 @@
 <apex:attribute name="showSMFilter" description="Sales Materials Filter" type="Boolean" required="false" default="false"/>
 <apex:attribute name="p_selectedChildBrandIds" assignTo="{!selectedChildBrandIds}" description="Selected ChildBrandIds" type="string" required="true"/>
 <apex:attribute name="p_selectedBrandIds"  assignTo="{!selectedBrandIds}" description="Selected BrandIds" type="string" required="true"/>
-<apex:attribute name="p_selectedTimePeriods"  description="Selected TimePeriod" type="string" required="true"/>
+<apex:attribute name="p_selectedTimePeriods" assignTo="{!selectedTimePeriods}" description="Selected TimePeriod" type="string" required="true"/>
 <apex:attribute name="p_selectedClassificationItemsRow1" description="Selected BrandIds" type="string[]" required="true"/>
 <apex:attribute name="p_selectedClassificationItemsRow2" description="Selected BrandIds" type="string[]" required="true"/>
 <apex:attribute name="p_classificationItemsRow1" description="Selected BrandIds" type="SelectOption[]" required="true"/>
@@ -153,18 +153,19 @@
 						<p>Select one or more of the quarters listed below. View different quarters by clicking on the right or left arrows.</p>
 					</apex:outputPanel>
 	                <div class="button-line two-btns">
-	                    <a href="javascript:;" class="{!pageCls}" data-related="monthly">
+	                    <a href="javascript:;" class="{!pageCls} {!IF(monthOrQuarterRender,'','active')}" data-related="monthly">
 	                        Monthly
 	                    </a>
-	                    <a href="javascript:;" class="{!pageCls} active last" data-related="quarterly">
+	                    <a href="javascript:;" class="{!pageCls} {!IF(monthOrQuarterRender,'active','')} last" data-related="quarterly">
 	                        Quarterly
 	                    </a>
+	                    <apex:inputHidden value="{!monthOrQuarterRender}" id="monthOrQuarterRender" />
 	                </div>
 	                <div class="date-selector quarterly">
 	                	<ul class="slides">
 	                        <apex:repeat value="{!quarterViewsList}" var="option">
 	                    	<li>
-	                            <a href="javascript:;" class="{!IF(contains(p_selectedTimePeriods,option['value']) ,'selected','')}" name="{!option['value']}">
+	                            <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,option['value']) ,'selected','')}" name="{!option['value']}">
 	                            	<apex:outputPanel styleClass="month" rendered="{!if(option['className'] = 'jfm', true, false)}">
 	                                    <span>January</span><br></br>
 	                                    <span>February</span><br></br>
@@ -198,7 +199,7 @@
 	                        <li>
 							<apex:repeat value="{!monthViewsList}" var="option">
 							<apex:outputpanel layout="none" rendered="{!if(counter < 4,true,false)}" >
-							    <a href="javascript:;" class="{!IF(contains(p_selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}">
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}">
 	                                <span class="month">
 	                                    <span>{!option['monthName']} </span>
 	                                </span>
@@ -213,7 +214,7 @@
 							<apex:variable var="counter" value="{!1}" />
 	                        <apex:repeat value="{!monthViewsList}" var="option">
 							<apex:outputpanel layout="none" rendered ="{!if(counter > 3 && counter < 7,true,false)}" >
-							    <a href="javascript:;" class="{!IF(contains(p_selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}">
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}">
 	                                <span class="month">
 	                                    <span>{!option['monthName']}</span>
 	                                </span>
@@ -227,7 +228,7 @@
 							<apex:variable var="counter" value="{!1}" />
 	                        <apex:repeat value="{!monthViewsList}" var="option">
 							<apex:outputpanel layout="none" rendered ="{!if(counter > 6 && counter < 10,true,false)}" >
-							    <a href="javascript:;" class="{!IF(contains(p_selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}">
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}">
 	                                <span class="month" >
 	                                    <span>{!option['monthName']}</span>
 	                                </span>
@@ -241,7 +242,7 @@
 							<apex:variable var="counter" value="{!1}" />
 	                        <apex:repeat value="{!monthViewsList}" var="option">
 							<apex:outputpanel layout="none" rendered ="{!if(counter > 9 ,true,false)}" >
-							    <a href="javascript:;" class="{!IF(contains(p_selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}">
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}">
 	                                <span class="month">
 	                                    <span>{!option['monthName']}</span>
 	                                </span>
@@ -428,6 +429,15 @@
 		            jQuery("a", buttons).removeClass("active");
 		            a.addClass("active");
 		            var related = a.data("related");
+		            var labels = buttons.parent();
+		            if(related == 'quarterly'){
+		            	jQuery("input", buttons).val(true);
+		            	jQuery("p", labels).html('Select one or more of the quarters listed below. View different quarters by clicking on the right or left arrows.');
+		            	
+		            }else{
+		            	jQuery("input", buttons).val(false);
+		            	jQuery("p", labels).html('Select one or more of the months listed below. View different months by clicking on the right or left arrows.');
+		            }
 		            jQuery(".time-filter .date-selector").hide();
 		            jQuery(".time-filter ."+related).show();
 		            jQuery(".time-filter ."+related).flexslider({
