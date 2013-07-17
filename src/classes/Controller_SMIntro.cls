@@ -11,8 +11,9 @@ public with sharing class Controller_SMIntro extends Controller_Base {
     
     public Controller_SMIntro() {
     	// Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
-//		pageUrl = Page.SMIntro.getUrl();
+		//pageUrl = Page.MonthlyExecutionPlan.getUrl();
 		pageUrl = ApexPages.currentPage().getUrl();
+		setResponsiveState();
 		// End:
 		
         addBreadcrumbItem(Apexpages.currentPage().getUrl(), Constant.SELLING_MATERILAS);
@@ -52,5 +53,17 @@ public with sharing class Controller_SMIntro extends Controller_Base {
     			totalSubSectionsMap.put(name, name);
     		}
     	}    	
-    }  
+    }
+    
+	// Start: Changes for Responsive Site - Randy Wandell (Appirio) 7/10/13    
+    public void setResponsiveState() {
+		if(pageUrl.toLowerCase().indexOf('r_smintro') > -1) {
+			isResponsive = true;
+			preapareSiteNavigationMenu();
+		} else {
+			isResponsive = false;
+			preapareSiteNavigationMenu();
+		}    	
+    }
+    // End:
 }

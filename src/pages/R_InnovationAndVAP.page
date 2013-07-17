@@ -276,7 +276,7 @@ Story/Task  : US503/TA1011
             
             <div class="general-updates">
                 <h3>
-                    <a href="innovation-click-header.html">General Updates</a>
+                    <a href="{!$Page.R_BlogHome}">General Updates</a>
                 </h3>
                 <h5>Performance Updates</h5>
                 <div class="items">

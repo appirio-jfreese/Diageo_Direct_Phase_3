@@ -6,8 +6,8 @@ Date        : 6/28/13
 Story/Task  : US585/TA1081
 ------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_MonthlyExecutionPlan">
-<body class="mep-landing-page mep-page mep-quarterly-page">
-
+<body class="mep-landing-page mep-page">
+<!-- Randy Wandell (Appirio) 07/17/13 removed quarterly from class these were the values (mep-landing-page mep-page mep-quarterly-page) -->
 <div class="wrapper">
     <div class="container">
     
@@ -15,7 +15,7 @@ Story/Task  : US585/TA1081
     <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" /> <!--thisAvatarURL="{!avatarUrl}"-->
     
     <script type="text/javascript">
-        pageViewed('Monthly Execution Plan');           
+        pageViewed('Monthly Execution Plan');
     </script>
                 
         <!-- CONTENT -->

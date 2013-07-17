@@ -250,6 +250,7 @@ global public without sharing virtual class Controller_Base {
 
     //Site navigation menu links list
     public list<pageLink> menuLinksBase {public get {
+        menuLinks.clear();
         PageLink dws = (siteTheme == 'Spirits') ? (new PageLink('/idp/login?app='+ssoId+'&RelayState='+hexDwsacademies,Constant.DWS, 'menu-plan')) : (new PageLink('/idp/login?app='+ssoId+'&RelayState='+hexDiageowines,Constant.DIAGEOWINESCOM, 'menu-plan'));
 
         if(isResponsive) {
@@ -644,7 +645,7 @@ global public without sharing virtual class Controller_Base {
                 menuLinks.add(pl);
             }
         }
-        if(isInternalUser){
+        if(isInternalUser && !isResponsive){
             pageLink planningPageLink = new PageLink('#',Constant.PLANNING, 'menu-plan');
             pageLink[] planningSubPageLinks = new pageLink[] {
                 new PageLink(Page.SpiritsPlanning.getUrl(), 'Spirits Planning', 'menu-plan'),

@@ -95,7 +95,8 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
 	
     public Controller_SellingMaterials() {
     	// Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
-		//pageUrl = Page.SellingMaterials.getUrl();
+		//pageUrl = Page.MonthlyExecutionPlan.getUrl();
+		pageUrl = ApexPages.currentPage().getUrl();
 		setResponsiveState();
 		if(isResponsive) {
 			pageUrl = Page.R_SMIntro.getUrl();

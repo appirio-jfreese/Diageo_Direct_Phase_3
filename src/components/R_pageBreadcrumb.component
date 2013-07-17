@@ -64,6 +64,9 @@
             background: url({!URLFOR($Resource.Responsive_Base)}/i/breadcrumb-icon-bmi.png) 10px 50% no-repeat;
         }
 
+        .results-page .breadcrumb .site-nav {
+            background: url({!URLFOR($Resource.Responsive_Base)}/i/breadcrumb-icon.png) 10px 50% no-repeat;
+        }
 
         /* nav ~= R_PageHeader name */
         .breadcrumb .site-nav span.nav {
@@ -115,12 +118,10 @@
                     <!-- <img src="{!URLFOR($Resource.Responsive_Base, 'i/breadcrumb-icon.png')}" style="vertical-align: middle;"/> -->
                     <span class="nav">
                         <span class="dropdown">
-                            <!-- <a href="javascript:;">path1 path1 path1</a>
-                            <a href="javascript:;">path2</a> -->
                             <apex:repeat value="{!menuLinks}" var="menuLink">
                             
                                 <apex:repeat value="{!menuLink.subLinks}" var="subMenuLink">
-                           <!--         <a href="{!subMenuLink.link}">{!subMenuLink.linkName}</a>  -->
+                                    <a href="{!subMenuLink.link}">{!subMenuLink.linkName}</a> 
                                 </apex:repeat>
                                                             
                                 <a name="subnavtitle" href="{!menuLink.link}" onlick="{!if(menuLink.subLinks.size==0,'','return false;')}" class="{!if(menuLink.subLinks.size==0,'','topNavRoot')}" target="{!IF(OR(menuLink.linkName == 'DWS', menuLink.linkName == 'diageowines.com'), '_blank', '_self')}">{!menuLink.linkName}</a>

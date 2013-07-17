@@ -5,7 +5,7 @@ Updated By  : Basant Verma (Appirio Offshore)
 Date        : 6/7/13
 Story/Task  : US503/TA1009
 *******************************************************************************/
-public with sharing class Service_Follow {
+public without sharing class Service_Follow {
     private static Set<Id> followIds;
     
     public static void addFollow(list<ID> contentvIds){

@@ -8,9 +8,13 @@ Story/Task	: US612/DE635
 Modified By	: Basant Kumar Verma
 Date				: 7/16/2013
 Story/Task	: US612/DE636
+
+Modified By	: Basant Kumar Verma
+Date				: 7/17/2013
+Story/Task	: US612/DE634
 *******************************************************************************/
 public with sharing class Controller_SearchResult extends Controller_Base {
-		
+
     public Integer minNoOfChar {
         get {
             return Integer.valueOf(Service_API.getSetting('minSearchNoOfChars'));
@@ -43,107 +47,7 @@ public with sharing class Controller_SearchResult extends Controller_Base {
     	}
     	set;
     }
-    // Start Changes for DE636 - Basant
-    private String responsiveSingleSectionName = 'Responsive';
-    public MAP<string, List<AggregateResultHolder>> R_contentHolderMap {
-    	get {
-    		MAP<string, List<AggregateResultHolder>> contentHolder1 = new MAP<string, List<AggregateResultHolder>>();
-    		if(contentMap!=null){
-    				List<AggregateResultHolder> finalList = new List<AggregateResultHolder>();
-						for(string key : contentMap.keySet()){
-							List<AggregateResultHolder> tmpList = new List<AggregateResultHolder>();
-			    		for(AggregateResult ar : contentMap.get(key)){
-			    			AggregateResultHolder tmp = new AggregateResultHolder();
-			    			tmp.result = ar;
-			    			tmpList.add(tmp);
-			    		}
-			    		finalList = applyCustomeSorting(finalList, tmpList);
-	    			}
-	    			contentHolder1.put(responsiveSingleSectionName,finalList);
-    			}
-    		return contentHolder1;
-    	}
-    	set;
-    }
-    
-    public List<String> R_sectionOrder {
-			get{
-				List<String> R_sectionOrder = new List<String>();
-				R_sectionOrder.add(responsiveSingleSectionName);
-				return R_sectionOrder;
-			} 
-			protected set;
-		}
-		
-		public map<string, integer> R_sectionItemNumber {
-	 		get{
-	 			R_sectionItemNumber = new map<string, integer>();
-	 			Integer intTotal = 0;
-	 			for(Integer intVal : sectionItemNumber.values()){
-	 				intTotal += intVal;
-	 			}
-	 			R_sectionItemNumber.put(responsiveSingleSectionName, intTotal);
-	 			return R_sectionItemNumber;
-	 		}
-	 		protected set;
- 		}
- 		
- 		private void responsiveRefresh(){
- 			initPager();
- 			numberOfItems = Integer.valueOf(R_sectionItemNumber.get(responsiveSingleSectionName));
- 			List<AggregateResult> sectionContentTemp = new List<AggregateResult>();
- 			for(string key : contentMap.keySet()){
-				for(AggregateResult ar : contentMap.get(key)){
-					sectionContentTemp.add(ar);
-				}
-			}
-			sectionContent = getRequestedPage(sectionContentTemp);
- 		}
- 		
- 		private List<AggregateResultHolder> applyCustomeSorting(List<AggregateResultHolder> list1, List<AggregateResultHolder> list2){
- 			// receive the left and right sublist as arguments.
-	    // 'result' variable for the merged result of two sublists.
-	    System.debug('START applyCustomeSorting ==================== R_OrdertBy :'+R_OrdertBy);
-	    List<AggregateResultHolder> result = new List<AggregateResultHolder>();
-	    // assign the element of the sublists to 'result' variable until there is no element to merge. 
-	    while(list1.size() > 0 || list2.size() > 0){
-	        if( list1.size() > 0 && list2.size() > 0){
-	           // compare the first two element, which is the small one, of each two sublists.
-	            if( ((R_OrdertBy == null || R_OrdertBy.trim().equalsIgnoreCase('ASC')) && String.valueOf(list1.get(0).result.get('description')).toUpperCase().compareTo(String.valueOf(list2.get(0).result.get('description')).toUpperCase()) <= 0 )
-	            		|| ((R_OrdertBy != null && R_OrdertBy.trim().equalsIgnoreCase('DESC')) && String.valueOf(list1.get(0).result.get('description')).toUpperCase().compareTo(String.valueOf(list2.get(0).result.get('description')).toUpperCase()) >= 0 ) ){
-	                // the small element is copied to 'result' variable.
-	                // delete the copied one(a first element) in the sublist.
-	                System.debug('START applyCustomeSorting ==================== DATA :'+String.valueOf(list1.get(0).result.get('description')));
-	                result.add(list1.get(0));
-	                list1.remove(0);
-	            }
-	            else{
-	                // same operation as the above(in the right sublist).
-	                System.debug('START applyCustomeSorting ==================== DATA :'+String.valueOf(list2.get(0).result.get('description')));
-	                result.add(list2.get(0));
-	                list2.remove(0);
-	            }
-	        }
-	        else if( list1.size() > 0){
-	            // copy all of remaining elements from the sublist to 'result' variable, when there is no more element to compare with.
-	            System.debug('START applyCustomeSorting ==================== DATA :'+String.valueOf(list1.get(0).result.get('description')));
-	            result.add(list1.get(0));
-	            list1.remove(0);
-	        }
-	        else if( list2.size() > 0){
-	            // same operation as the above(in the right sublist).
-	            System.debug('START applyCustomeSorting ==================== DATA :'+String.valueOf(list2.get(0).result.get('description')));
-	            result.add(list2.get(0));
-	            list2.remove(0);
-	        }
- 			}	
-	    // return the result of the merged sublists(or completed one, finally).
-	    // the length of the left and right sublists will grow bigger and bigger, after the next call of this function.
-	    System.debug('END applyCustomeSorting ==================== R_OrdertBy :'+R_OrdertBy);
-	    return result;
- 		}
-		// End Changes for DE636 - Basant
-		
+
     public List<AggregateResult> contentDownloadShare {
     	get{
     		List<AggregateResult> ret = new List<AggregateResult>();
@@ -175,12 +79,13 @@ public with sharing class Controller_SearchResult extends Controller_Base {
     }
     
 	public List<String> sectionOrder {get; protected set;}
-	public map<string, integer> sectionItemNumber {get; protected set;}
+ 	public map<string, integer> sectionItemNumber {get; protected set;}
  	public Integer totalItemNumber {get; protected set;}
     public String currentSection {get; set;}
     public Boolean isDetails {get; set;}
     public Boolean firstZeroResult {get; set;}
-    public String R_OrdertBy {get; set;}
+    public String R_OrdertByAlpha {get; set;}
+    public String R_OrdertByDate {get; set;}
     public Boolean secondZeroResult {get; set;}    
     protected String brandIdsString {get; protected set;}
  	protected transient map<string, string> sectionQuery {protected get; protected set;}
@@ -194,7 +99,10 @@ public with sharing class Controller_SearchResult extends Controller_Base {
     public Boolean R_MultInFollowWithselAll {get; set;}  
     
     public Controller_SearchResult() {
-		pageUrl = Page.SearchResult.getUrl();
+    	// Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
+		//pageUrl = Page.MonthlyExecutionPlan.getUrl();
+		pageUrl = ApexPages.currentPage().getUrl();
+		setResponsiveState();
     	sectionQuery = new map<string, string>();
     	sectionItemNumber = new map<string, integer>();
     	sectionOrder = new List<String>();
@@ -256,10 +164,9 @@ public with sharing class Controller_SearchResult extends Controller_Base {
     	return pr;
     }
     
-	public void R_usersearchOrdertBy(){
-    	refreshPageContent();
-    }
-    
+		public void R_usersearchOrdertBy(){
+	    	refreshPageContent();
+	  }
         
     public override void refreshPageContent() {
     	try{
@@ -268,9 +175,11 @@ public with sharing class Controller_SearchResult extends Controller_Base {
  		if(isDetails){
 		    String sectionQueryString = sectionQuery.get(currentSection);
 		    if(sectionQueryString != null && sectionQueryString != ''){
-				sectionContent = database.query(sectionQueryString+' limit 1000 ');
-				numberOfItems = Integer.valueOf(sectionContent.size());
-				sectionContent = getRequestedPage(sectionContent);
+		    	// START : Changed for US612/DE634 - Basant Verma
+					sectionContent = customSortByDate(database.query(sectionQueryString+' limit 1000 '));
+					// END : Changed for US612/DE634 - Basant Verma
+					numberOfItems = Integer.valueOf(sectionContent.size());
+					sectionContent = getRequestedPage(sectionContent);
 		    }
  		} else {   
 			totalItemNumber = 0;
@@ -287,7 +196,9 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 				String sectionQueryString = '';
 		    	for(String sectionName : sectionOrder){
 		    		sectionQueryString = sectionQuery.get(sectionName);
-		    		sectionResultList = database.query(sectionQueryString+' limit '+limitPerSection);
+		    		// START : Changed for US612/DE634 - Basant Verma
+		    		sectionResultList = customSortByDate(database.query(sectionQueryString+' limit '+limitPerSection));
+		    		// END : Changed for US612/DE634 - Basant Verma
 			        if (isNewContent==false && sectionResultList!=null && sectionResultList.size()>0) {
 				        for (AggregateResult currentItem : sectionResultList) {
 				            String dateString = String.valueOf(currentItem.get('createdDate'));
@@ -320,13 +231,61 @@ public with sharing class Controller_SearchResult extends Controller_Base {
     	} catch(Exception ex){
     		Apexpages.addmessage(new apexpages.message(apexpages.severity.info, ex.getMessage()+' '+ex.getStackTraceString()));
     	}
-    	
-    	// Start Changes for DE636 - Basant
-    	if(currentUserPage().equalsIgnoreCase('/apex/R_SearchResult')){
-    		responsiveRefresh();
-    	}
-    	// End Changes for DE636 - Basant
     }
+    
+    // START : Changed for US612/DE634 - Basant Verma
+    private List<AggregateResult> customSortByDate(List<AggregateResult> inList){
+    	if(R_OrdertByDate == null || R_OrdertByDate.trim().equals('')){
+    		return inList;
+    	}
+    	
+    	List<AggregateResult> resultList = new List<AggregateResult>();
+    	if(inList == null || inList.size() <= 1){
+	        return inList;
+			}
+	    
+	    List<AggregateResult> left = new List<AggregateResult>(), right = new List<AggregateResult>();
+	    Integer middle = inList.size() / 2;
+	    
+	    for(integer iCount = 0; iCount < middle; iCount++){
+	        left.add(inList.get(iCount));
+	    }
+	    for(integer iCount = middle; iCount < inList.size(); iCount++){
+	        right.add(inList.get(iCount));
+	    }
+	    
+	    left = customSortByDate(left);
+	    right = customSortByDate(right);
+	    
+	    return applyCustomeSorting(left, right);
+    }
+    
+    private List<AggregateResult> applyCustomeSorting(List<AggregateResult> list1, List<AggregateResult> list2){
+ 			List<AggregateResult> result = new List<AggregateResult>();
+	    while(list1.size() > 0 || list2.size() > 0){
+	        if( list1.size() > 0 && list2.size() > 0){
+	            if( ((R_OrdertByDate == null || R_OrdertByDate.trim().equalsIgnoreCase('ASC')) && String.valueOf(list1.get(0).get('createdDate')).toUpperCase().compareTo(String.valueOf(list2.get(0).get('createdDate')).toUpperCase()) <= 0 )
+	            		|| ((R_OrdertByDate != null && R_OrdertByDate.trim().equalsIgnoreCase('DESC')) && String.valueOf(list1.get(0).get('createdDate')).toUpperCase().compareTo(String.valueOf(list2.get(0).get('createdDate')).toUpperCase()) >= 0 ) ){
+	                result.add(list1.get(0));
+	                list1.remove(0);
+	            }
+	            else{
+	                result.add(list2.get(0));
+	                list2.remove(0);
+	            }
+	        }
+	        else if( list1.size() > 0){
+	            result.add(list1.get(0));
+	            list1.remove(0);
+	        }
+	        else if( list2.size() > 0){
+	            result.add(list2.get(0));
+	            list2.remove(0);
+	        }
+ 			}	
+	    return result;
+ 		}
+		// END : Changed for US612/DE634 - Basant Verma
 		
     private String IdSetToString(Set<ID> valueList){
     	String result = '';
@@ -405,7 +364,7 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 				   		   	+ ' AND (((content_description__r.Title__c like \'%'+searchValue+'%\' OR content_description__r.Description__c like \'%'+searchValue+'%\' OR content_description__r.Tags__c like \'%'+searchValue+'%\'))' + ((ids!='') ? ' OR (content_description__r.content_version_id__c in ('+ids+') OR content_description__r.content_version_id_low__c in ('+ids+'))) ' : ')') +
 				           	+ ' GROUP BY Sub_Category__c, Sub_Sub_Category__c, content_description__r.Tags__c, Sub_Sub_Sub_Category__c, content_description__r.is_video__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.Content_Version_Id_Low__c, content_description__r.image_resolution__c  '+ 
 				           	//+ ' ORDER BY Sub_Sub_Sub_Category__c, content_description__r.Description__c ASC' ;
-				           	+ ' ORDER BY Sub_Sub_Sub_Category__c, content_description__r.Description__c ' + (R_OrdertBy != null && R_OrdertBy.trim() != '' ? R_OrdertBy+' ' : 'ASC ') ;
+				           	+ ' ORDER BY Sub_Sub_Sub_Category__c, content_description__r.Description__c ' + (R_OrdertByAlpha != null && R_OrdertByAlpha.trim() != '' ? R_OrdertByAlpha+' ' : 'ASC ') ;
 		sectionQuery.put(CONSTANT.BRAND_MARKETING_INFORMATION, queryBMI);
 		
 		// SM SEARCH
@@ -415,7 +374,7 @@ public with sharing class Controller_SearchResult extends Controller_Base {
        				 	   	+ ' AND (((content_description__r.Title__c like \'%'+searchValue+'%\' OR content_description__r.Description__c like \'%'+searchValue+'%\' OR content_description__r.Tags__c like \'%'+searchValue+'%\'))' + ((ids!='') ? ' OR (content_description__r.content_version_id__c in ('+ids+') OR content_description__r.content_version_id_low__c in ('+ids+'))) ' : ')') +
 		        		   	+ ' GROUP BY Sub_Category__c, Sub_Sub_Category__c, content_description__r.Tags__c, Sub_Sub_Sub_Category__c, content_description__r.is_video__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.Content_Version_Id_Low__c, content_description__r.image_resolution__c  '+ 
 		        	       	//+ ' ORDER BY Sub_Sub_Sub_Category__c, content_description__r.Description__c ASC';
-		        	       	+ ' ORDER BY Sub_Sub_Sub_Category__c, content_description__r.Description__c ' + (R_OrdertBy != null && R_OrdertBy.trim() != '' ? R_OrdertBy+' ' : 'ASC ') ;
+		        	       	+ ' ORDER BY Sub_Sub_Sub_Category__c, content_description__r.Description__c ' + (R_OrdertByAlpha != null && R_OrdertByAlpha.trim() != '' ? R_OrdertByAlpha+' ' : 'ASC ') ;
 		sectionQuery.put(CONSTANT.SELLING_MATERILAS, querySM);
 
 		// MEP SEARCH
@@ -424,7 +383,7 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 		               		+ ' AND (((content_description__r.Title__c like \'%'+searchValue+'%\' OR content_description__r.Description__c like \'%'+searchValue+'%\' OR content_description__r.Tags__c like \'%'+searchValue+'%\') )' + ((ids!='') ? ' OR (content_description__r.content_version_id__c in ('+ids+') OR content_description__r.content_version_id_low__c in ('+ids+'))) ' : ')') +
 		               		+ ' GROUP BY content_description__r.is_video__c, content_description__r.Tags__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.Content_Version_Id_Low__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.image_resolution__c  '+ 
 		               		//+ ' ORDER BY content_description__r.Description__c ASC';
-		               		+ ' ORDER BY content_description__r.Description__c ' + (R_OrdertBy != null && R_OrdertBy.trim() != '' ? R_OrdertBy+' ' : 'ASC ') ;
+		               		+ ' ORDER BY content_description__r.Description__c ' + (R_OrdertByAlpha != null && R_OrdertByAlpha.trim() != '' ? R_OrdertByAlpha+' ' : 'ASC ');
 		sectionQuery.put(CONSTANT.MONTHLY_EXECUTION_PLAN, queryMEP);
 		
 		// IVAP SEARCH
@@ -433,7 +392,7 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 		               		+ ' AND (((content_description__r.Title__c like \'%'+searchValue+'%\' OR content_description__r.Description__c like \'%'+searchValue+'%\' OR content_description__r.Tags__c like \'%'+searchValue+'%\'))' + ((ids!='') ? ' OR (content_description__r.content_version_id__c in ('+ids+') OR content_description__r.content_version_id_low__c in ('+ids+'))) ' : ')') +
 		               		+ ' GROUP BY content_description__r.is_video__c, content_description__r.Tags__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.Content_Version_Id_Low__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.image_resolution__c  '+ 
 		               		//+ ' ORDER BY content_description__r.Description__c ASC';
-		               		+ ' ORDER BY content_description__r.Description__c '+ (R_OrdertBy != null && R_OrdertBy.trim() != '' ? R_OrdertBy+' ' : 'ASC ') ;
+		               		+ ' ORDER BY content_description__r.Description__c '+ (R_OrdertByAlpha != null && R_OrdertByAlpha.trim() != '' ? R_OrdertByAlpha+' ' : 'ASC ') ;
 		sectionQuery.put(innovationSectionName, queryIVAP);
 		
 		// PIL SEARCH
@@ -442,7 +401,7 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 		               		+ ' AND (((content_description__r.Title__c like \'%'+searchValue+'%\' OR content_description__r.Description__c like \'%'+searchValue+'%\' OR content_description__r.Tags__c like \'%'+searchValue+'%\'))' + ((ids!='') ? ' OR (content_description__r.content_version_id__c in ('+ids+') OR content_description__r.content_version_id_low__c in ('+ids+'))) ' : ')') +
 		               		+ ' GROUP BY content_description__r.is_video__c, content_description__r.Tags__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.Content_Version_Id_Low__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.image_resolution__c  '+ 
 		               		//+ ' ORDER BY content_description__r.Description__c ASC';
-		               		+ ' ORDER BY content_description__r.Description__c  '+ (R_OrdertBy != null && R_OrdertBy.trim() != '' ? R_OrdertBy+' ' : 'ASC ') ;
+		               		+ ' ORDER BY content_description__r.Description__c  '+ (R_OrdertByAlpha != null && R_OrdertByAlpha.trim() != '' ? R_OrdertByAlpha+' ' : 'ASC ') ;
 		sectionQuery.put(CONSTANT.PRODUCT_IMAGES_AND_LOGOS, queryPIL);
 
 		// CD SEARCH
@@ -452,7 +411,7 @@ public with sharing class Controller_SearchResult extends Controller_Base {
        				 	   	+ ' AND (((content_description__r.Title__c like \'%'+searchValue+'%\' OR content_description__r.Description__c like \'%'+searchValue+'%\' OR content_description__r.Tags__c like \'%'+searchValue+'%\'))' + ((ids!='') ? ' OR (content_description__r.content_version_id__c in ('+ids+') OR content_description__r.content_version_id_low__c in ('+ids+'))) ' : ')') +
 		        		   	+ ' GROUP BY Sub_Category__c, Sub_Sub_Category__c, content_description__r.Tags__c, Sub_Sub_Sub_Category__c, content_description__r.is_video__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.Content_Version_Id_Low__c, content_description__r.image_resolution__c  '+ 
 		        	       //	+ ' ORDER BY Sub_Sub_Sub_Category__c, content_description__r.Description__c ASC';	
-		        	       	+ ' ORDER BY Sub_Sub_Sub_Category__c, content_description__r.Description__c '+ (R_OrdertBy != null && R_OrdertBy.trim() != '' ? R_OrdertBy+' ' : 'ASC ') ;					
+		        	       	+ ' ORDER BY Sub_Sub_Sub_Category__c, content_description__r.Description__c '+ (R_OrdertByAlpha != null && R_OrdertByAlpha.trim() != '' ? R_OrdertByAlpha+' ' : 'ASC ') ;					
 		sectionQuery.put(CONSTANT.CATEGOTY_DEVELOPMENT, queryCD);
 		
 		// COLLABORATION SEARCH
@@ -468,7 +427,7 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 		               		+ ' AND (((Title__c like \'%'+searchValue+'%\' OR Description__c like \'%'+searchValue+'%\' OR Tags__c like \'%'+searchValue+'%\'))' + ((ids!='') ? 'OR (content_version_id__c in ('+ids+')))  '  : ')' )+			
 							+ ' GROUP BY Content_Version_Id__c, Tags__c, video_id__c,  Description__c, image_resolution__c, filesize__c, filetype__c, Title__c, is_video__c, OwnerId' +
 							//+ ' ORDER BY Description__c ASC';	
-							+ ' ORDER BY Description__c  '+ (R_OrdertBy != null && R_OrdertBy.trim() != '' ? R_OrdertBy+' ' : 'ASC ') ;
+							+ ' ORDER BY Description__c  '+ (R_OrdertByAlpha != null && R_OrdertByAlpha.trim() != '' ? R_OrdertByAlpha+' ' : 'ASC ') ;
 		sectionQuery.put(CONSTANT.COLLABORATION, queryCOL);
 		system.debug('DNAMES x'+currentDivisionsString+'x');
 		
@@ -479,7 +438,7 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 							+ ' AND (((Title__c like \'%'+searchValue+'%\' OR Description__c like \'%'+searchValue+'%\' OR Tags__c like \'%'+searchValue+'%\'))' + ((ids!='') ? 'OR (content_version_id__c in ('+ids+')))  '  : ')' )+
 		           	   		+ ' GROUP BY Tags__c, video_id__c, Content_Version_Id__c, Description__c, filesize__c, filetype__c, Title__c, is_video__c, Preview_Available__c, Preview_Id__c, image_resolution__c ' +
 		           	   		//+ ' ORDER BY Description__c ASC';
-		           	   		+ ' ORDER BY Description__c '+ (R_OrdertBy != null && R_OrdertBy.trim() != '' ? R_OrdertBy+' ' : 'ASC ') ;
+		           	   		+ ' ORDER BY Description__c '+ (R_OrdertByAlpha != null && R_OrdertByAlpha.trim() != '' ? R_OrdertByAlpha+' ' : 'ASC ') ;
 		sectionQuery.put(CONSTANT.PLANNING, queryPLN);
 		
 		String queryMUL    	= ' SELECT Sub_Category__c, Sub_Sub_Category__c, Sub_Sub_Sub_Category__c, content_description__r.Tags__c, content_description__r.is_video__c is_video, content_description__r.video_id__c video_id, content_description__r.Title__c title, content_description__r.Description__c description, content_description__r.Content_Version_Id__c cvid, content_description__r.filetype__c filetype, content_description__r.Preview_Available__c previewAvailable, content_description__r.Preview_Id__c previewId, content_description__r.filesize__c filesize, content_description__r.filesize_low__c filesize_low, content_description__r.Content_Version_Id_Low__c cvidlow, max(content_description__r.Uploaded_date__c) createdDate, content_description__r.image_resolution__c imageRes  FROM content_property__c' 
@@ -488,10 +447,21 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 				   		   	+ ' AND (((content_description__r.Title__c like \'%'+searchValue+'%\' OR content_description__r.Description__c like \'%'+searchValue+'%\' OR content_description__r.Tags__c like \'%'+searchValue+'%\'))' + ((ids!='') ? ' OR (content_description__r.content_version_id__c in ('+ids+') OR content_description__r.content_version_id_low__c in ('+ids+'))) ' : ')') +
 				           	+ ' GROUP BY Sub_Category__c, content_description__r.Tags__c, Sub_Sub_Category__c, Sub_Sub_Sub_Category__c, content_description__r.is_video__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.Content_Version_Id_Low__c, content_description__r.image_resolution__c  '+ 
 				           	//+ ' ORDER BY content_description__r.Description__c ASC';
-				           	+ ' ORDER BY content_description__r.Description__c '+ (R_OrdertBy != null && R_OrdertBy.trim() != '' ? R_OrdertBy+' ' : 'ASC ') ;
+				           	+ ' ORDER BY content_description__r.Description__c '+ (R_OrdertByAlpha != null && R_OrdertByAlpha.trim() != '' ? R_OrdertByAlpha+' ' : 'ASC ') ;
 		sectionQuery.put(CONSTANT.MULTICULTURAL, queryMUL);
 		/* End: changes for R_SearchResult page Harish Khatri(Appirio Offshore) */ 		
     }
-
+    
+	// Start: Changes for Responsive Site - Randy Wandell (Appirio) 7/10/13    
+    public void setResponsiveState() {
+		if(pageUrl.toLowerCase().indexOf('r_searchresult') > -1) {
+			isResponsive = true;
+			preapareSiteNavigationMenu();
+		} else {
+			isResponsive = false;
+			preapareSiteNavigationMenu();
+		}    	
+    }
+    // End:
         
 }
