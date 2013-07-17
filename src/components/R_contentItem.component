@@ -442,16 +442,13 @@ Story/Task  : US585/TA1082
     <!-- Start : Changes for US585/TA1082 - Basant Verma -->
     <apex:outputPanel rendered="{!responsivePage}">
     	<div class="doc">
+    		<input type="hidden" value="url({!URLFOR($Resource.Responsive_Base, fileTypePath)}) 50% 10px no-repeat"/>
 				<div class="info">
-						<!-- <apex:image url="{!URLFOR($Resource.Responsive_Base, 'i/'+fileType1+'-icon-big.png')}"/> -->
-						<!--  <apex:image url="{!URLFOR($Resource.Responsive_Base, 'i/txt-icon-big.png')}"/> -->
-                        <apex:image height="50px" url="{!URLFOR($Resource.Responsive_Base, fileTypePath)}"/>
-
+            <apex:image height="50px" url="{!URLFOR($Resource.Responsive_Base, fileTypePath)}"/>
  						<div class="desc">
  							<apex:outputPanel rendered="{!AND(extraDescription!='', extraDescription!=null)}">          
               	<a class="title" target="_blank" href="#">{!extraDescription}</a> 
               </apex:outputPanel>
-<!--  background: url({!URLFOR($Resource.Responsive_Base)}/i/ad_i_3_national_accounts2.png) 0 0 no-repeat;" -->
  							
  							<apex:outputPanel rendered="{!isVideo1!=true}">                 
 								<apex:outputPanel rendered="{!AND(!ISNULL(cvid1),fileType1!='LINK')}">
