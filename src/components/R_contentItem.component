@@ -441,58 +441,96 @@ Story/Task  : US585/TA1082
     
     <!-- Start : Changes for US585/TA1082 - Basant Verma -->
     <apex:outputPanel rendered="{!responsivePage}">
-    	<div class="doc">
+    	<div class="doc" style="text-align: center;">
+            <apex:outputPanel rendered="{!isVideo1==true}">
+                <!-- The video is specified here so that it is in the .doc, not the .desc, and so shows a white background.  The title is down below in the .desc -->
+                <apex:outputPanel rendered="{! IF(renderAsList1 != true, 'true', 'false')}">
+                    <c:videoPlayer videoId="{!videoId1}" width="{!IF(ISNULL(width1), '255', width1)}" height="{!IF(ISNULL(height1), '145', text(value(height1)-22))}"/>
+                </apex:outputPanel>
+            </apex:outputPanel>
     		<input type="hidden" value="url({!URLFOR($Resource.Responsive_Base, fileTypePath)}) 50% 10px no-repeat"/>
-				<div class="info">
-            <apex:image height="50px" url="{!URLFOR($Resource.Responsive_Base, fileTypePath)}"/>
- 						<div class="desc">
- 							<apex:outputPanel rendered="{!AND(extraDescription!='', extraDescription!=null)}">          
-              	<a class="title" target="_blank" href="#">{!extraDescription}</a> 
-              </apex:outputPanel>
- 							
+				<div class="info" style="text-align: left;">
+					<apex:image height="50px" url="{!URLFOR($Resource.Responsive_Base, fileTypePath)}"/>
+					<div class="desc">
+							<apex:outputPanel rendered="{!AND(extraDescription!='', extraDescription!=null)}">          
+		              	        <a class="title" target="_blank" href="#">{!extraDescription}</a> 
+		                    </apex:outputPanel>
+
  							<apex:outputPanel rendered="{!isVideo1!=true}">                 
 								<apex:outputPanel rendered="{!AND(!ISNULL(cvid1),fileType1!='LINK')}">
-									<span onclick="addToDownloadCache('{!cvid1}');">
-										<apex:outputPanel rendered="{! IF (isIpadComponent = false, 'true', 'false') }">
-											<a class="title" target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvid1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
-										</apex:outputPanel>
-										<apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = false) }">
-											<div class="title" >{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</div>
-										</apex:outputPanel> 
-										<apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = true) }">
-											<a class="title" target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvid1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
-										</apex:outputPanel>                     
-									</span>
+                                    <apex:outputPanel rendered="{! IF(renderAsList1, 'true', 'false')}">
+										<span onclick="addToDownloadCache('{!cvid1}');">
+											<apex:outputPanel rendered="{! IF (isIpadComponent = false, 'true', 'false') }">
+												<a class="title" target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvid1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
+											</apex:outputPanel>
+											<apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = false) }">
+												<div class="title" >{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</div>
+											</apex:outputPanel> 
+											<apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = true) }">
+												<a class="title" target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvid1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
+											</apex:outputPanel>                     
+										</span>
+                                    </apex:outputPanel>
+                                    <apex:outputPanel rendered="{! IF(renderAsList1, 'false', 'true')}">
+                                        <span onclick="addToDownloadCache('{!cvid1}');">
+                                            <apex:outputPanel rendered="{! IF (isIpadComponent = false, 'true', 'false') }">
+                                                <a class="title" target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvid1}">{!cutoffDescription2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
+                                            </apex:outputPanel>
+                                            <apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = false) }">
+                                                <div class="title" >{!cutoffDescription2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</div>
+                                            </apex:outputPanel> 
+                                            <apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = true) }">
+                                                <a class="title" target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvid1}">{!cutoffDescription2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
+                                            </apex:outputPanel>                     
+                                        </span>
+                                    </apex:outputPanel>
 								</apex:outputPanel>
 								
 								<apex:outputPanel rendered="{!AND(!ISNULL(cvid1),fileType1=='LINK')}">
-									<a class="title" target="_blank" href="{!title1}">{!description2}</a>
+                                    <apex:outputPanel rendered="{! IF(renderAsList1, 'true', 'false')}">
+    									<a class="title" target="_blank" href="{!title1}">{!description2}</a>
+                                    </apex:outputPanel>
+                                    <apex:outputPanel rendered="{! IF(renderAsList1, 'false', 'true')}">
+                                        <a class="title" target="_blank" href="{!title1}">{!cutoffDescription2}</a>
+                                    </apex:outputPanel>
 								</apex:outputPanel>
 								
 								<apex:outputPanel rendered="{!AND(ISNULL(cvid1),!ISNULL(cvidlow1))}">
-									<span onclick="addToDownloadCache('{!cvidlow1}');">
-										<apex:outputPanel rendered="{! IF (isIpadComponent = false, 'true', 'false') }">
-											<a class="title" target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvidlow1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
-										</apex:outputPanel>
-										<apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = false) }">
-											<div class="title"> {!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</div>
-										</apex:outputPanel>
-										<apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = true) }">
-											<a class="title" target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvidlow1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
-										</apex:outputPanel>
-									</span> 
+                                    <apex:outputPanel rendered="{! IF(renderAsList1, 'true', 'false')}">
+										<span onclick="addToDownloadCache('{!cvidlow1}');">
+											<apex:outputPanel rendered="{! IF (isIpadComponent = false, 'true', 'false') }">
+												<a class="title" target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvidlow1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
+											</apex:outputPanel>
+											<apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = false) }">
+												<div class="title"> {!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</div>
+											</apex:outputPanel>
+											<apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = true) }">
+												<a class="title" target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvidlow1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
+											</apex:outputPanel>
+										</span> 
+                                    </apex:outputPanel>
+                                    <apex:outputPanel rendered="{! IF(renderAsList1, 'false', 'true')}">
+                                        <span onclick="addToDownloadCache('{!cvidlow1}');">
+                                            <apex:outputPanel rendered="{! IF (isIpadComponent = false, 'true', 'false') }">
+                                                <a class="title" target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvidlow1}">{!cutoffDescription2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
+                                            </apex:outputPanel>
+                                            <apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = false) }">
+                                                <div class="title"> {!cutoffDescription2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</div>
+                                            </apex:outputPanel>
+                                            <apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = true) }">
+                                                <a class="title" target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvidlow1}">{!cutoffDescription2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
+                                            </apex:outputPanel>
+                                        </span> 
+                                    </apex:outputPanel>
 								</apex:outputPanel>
 							</apex:outputPanel>
 							
-							<apex:outputPanel rendered="{!isVideo1==true}">
-								<apex:outputPanel rendered="{! IF(renderAsList1 != true, 'true', 'false')}">
-									<c:videoPlayer videoId="{!videoId1}" width="{!IF(ISNULL(width1), '255', width1)}" height="{!IF(ISNULL(height1), '145', text(value(height1)-22))}"/>
-								</apex:outputPanel>
-								
-								<apex:outputPanel rendered="{! IF(renderAsList1 != true, 'false', 'true')}">
+ 							<apex:outputPanel rendered="{!isVideo1==true}">
+ 								 <!--  The video is up above in the doc class  -->
+								<apex:outputPanel rendered="{! IF(renderAsList1, 'true', 'false')}">
 									<span onclick="addToDownloadCache('{!cvid1}');">
 										<apex:outputPanel rendered="{! IF (isIpadComponent = false, 'true', 'false') }">
-											<a class="title" target="_blank" href="{!$Page.R_Preview}?videoId={!videoId1}">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
+											<a class="title" target="_blank" href="{!$Page.R_Preview}?videoId={!videoId1}">{!Description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
 										</apex:outputPanel> 
 										<apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = false) }">
 											<div class="title">{!description2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</div>
@@ -502,6 +540,19 @@ Story/Task  : US585/TA1082
 										</apex:outputPanel>
 									</span>
 								</apex:outputPanel>
+                                <apex:outputPanel rendered="{! IF(renderAsList1, 'false', 'true')}">
+                                    <span onclick="addToDownloadCache('{!cvid1}');">
+                                        <apex:outputPanel rendered="{! IF (isIpadComponent = false, 'true', 'false') }">
+                                            <a class="title" target="_blank" href="{!$Page.R_Preview}?videoId={!videoId1}">{!cutoffDescription2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
+                                        </apex:outputPanel> 
+                                        <apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = false) }">
+                                            <div class="title">{!cutoffDescription2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</div>
+                                        </apex:outputPanel>
+                                        <apex:outputPanel rendered="{! AND(isIpadComponent = true, isPil = true) }">
+                                            <a class="title" target="_blank" href="{!$Page.R_Preview}?videoId={!videoId1}">{!cutoffDescription2} {! IF (fileSize1 != null, '('+fileSize1+')', null)}</a>
+                                        </apex:outputPanel>
+                                    </span>
+                                </apex:outputPanel>
 							</apex:outputPanel>
 							<br/>
 							<span class="time">
@@ -518,10 +569,10 @@ Story/Task  : US585/TA1082
 									</apex:outputText>
 								</apex:outputtext>
 							</span>
- 						</div>
+ 					</div>
 				</div>
 				<apex:outputPanel rendered="{!if(showButons != false, 'true','false')}">
-	      	<div class="doc-btns {!pageNamePrefix}-bg">
+	      	<div class="doc-btns {!pageNamePrefix}-bg {!IF(AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1=='LINK'), 'single', '')}">
 						<!-- START DOWNLOAD ICONS -->
       			<apex:outputPanel rendered="{!AND(isVideo1==true, NOT(ISNULL(videoId1)))}">
 	            <a href="{!$Page.VideoDownload}?videoId={!videoId1}&videodesc={!URLENCODE(description2)}" class="download" target="_blank"></a>
@@ -594,7 +645,7 @@ Story/Task  : US585/TA1082
             <!-- END FOLLOW ICONS -->
             <!-- START LAUNCH LINK -->
             <apex:outputPanel rendered="{!AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1=='LINK')}">
-							<a href="{!title1}" target="_blank" class="open-link"></a>
+							<a href="{!title1}" target="_blank" class="openlink"></a>
 						</apex:outputPanel>
 						<!-- END LAUNCH LINK -->
 	      	</div>
