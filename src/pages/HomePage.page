@@ -253,6 +253,7 @@ Story/Task  : US503/TA907
                 <a href="/idp/login?app={!ssoId}&RelayState={!hexDwsacademies}" target="_blank" onclick="pageViewed('Home Page - diageo_ways2.png');">
                     <apex:image url="{!URLFOR($Resource.HomePage, 'images/diageo_ways2.png')}"/>
                 </a>
+<!-- US647 Randy Wandell (Appirio) 07/17/13                
                 <a href="http://v6.diageonac.com" target="_blank" onclick="pageViewed('Home Page - national_accounts2.png');">
                     <apex:image url="{!URLFOR($Resource.HomePage, 'images/national_accounts2.png')}"/>
                 </a>
@@ -265,6 +266,21 @@ Story/Task  : US503/TA907
                 <a href="http://www.diageosmartbrand.com" target="_blank" onclick="pageViewed('Home Page - smart_brand2.png');">
                     <apex:image url="{!URLFOR($Resource.HomePage, 'images/smart_brand2.png')}"/>
                 </a>
+-->
+<!-- US647 Randy Wandell (Appirio) 07/17/13   -->
+                <a href="http://v6.diageonac.com" target="_blank" onclick="pageViewed('Home Page - national_accounts3.png');">
+                    <apex:image url="{!URLFOR($Resource.HomePage, 'images/national_accounts3.png')}"/>
+                </a>
+                <a href="http://www.diageodrinks.com" target="_blank" onclick="pageViewed('Home Page - diageo_drinks2.png');">
+                    <apex:image url="{!URLFOR($Resource.HomePage, 'images/diageo_drinks2.png')}"/>
+                </a>
+                <a href="{!$Page.CodesPolicies}" onclick="pageViewed('Home Page - code_policies3.png');">
+                    <apex:image url="{!URLFOR($Resource.HomePage, 'images/code_policies3.png')}"/>
+                </a>
+                <a href="{!$Page.LegalIntro}" onclick="pageViewed('Home Page - legal.png');">
+                    <apex:image url="{!URLFOR($Resource.HomePage, 'images/legal.png')}"/>
+                </a> 
+<!-- US647 End -->  
             </apex:outputPanel>
             <apex:outputPanel rendered="{!if(isInternalUser, 'false', 'true')}" >
                 <apex:outputPanel rendered="{!if(innovationSectionName,'true','false')}" >
@@ -280,6 +296,7 @@ Story/Task  : US503/TA907
                 <a href="http://www.diageodrinks.com" target="_blank" onclick="pageViewed('Home Page - diageo_drinks.png');">
                     <apex:image url="{!URLFOR($Resource.HomePage, 'images/diageo_drinks.png')}"/>
                 </a>
+<!-- US647 Randy Wandell (Appirio) 07/17/13                 
                 <a href="http://v6.diageonac.com" target="_blank" onclick="pageViewed('Home Page - national_accounts.png');">
                     <apex:image url="{!URLFOR($Resource.HomePage, 'images/national_accounts.png')}"/>
                 </a>
@@ -289,6 +306,21 @@ Story/Task  : US503/TA907
                 <a href="{!$Page.CodesPolicies}" onclick="pageViewed('Home Page - codes_policies.png');">
                     <apex:image url="{!URLFOR($Resource.HomePage, 'images/codes_policies.png')}"/>
                 </a>
+-->
+<!-- US647 Randy Wandell (Appirio) 07/17/13  -->
+                <a href="http://v6.diageonac.com" target="_blank" onclick="pageViewed('Home Page - national_accounts3.png');">
+                    <apex:image url="{!URLFOR($Resource.HomePage, 'images/national_accounts3.png')}"/>
+                </a>
+                <a href="http://www.diageodrinks.com" target="_blank" onclick="pageViewed('Home Page - diageo_drinks2.png');">
+                    <apex:image url="{!URLFOR($Resource.HomePage, 'images/diageo_drinks2.png')}"/>
+                </a>
+                <a href="{!$Page.CodesPolicies}" onclick="pageViewed('Home Page - code_policies3.png');">
+                    <apex:image url="{!URLFOR($Resource.HomePage, 'images/code_policies3.png')}"/>
+                </a>
+                <a href="{!$Page.LegalIntro}" onclick="pageViewed('Home Page - legal.png');">
+                    <apex:image url="{!URLFOR($Resource.HomePage, 'images/legal.png')}"/>
+                </a>
+<!--  US647 End -->                
             </apex:outputPanel>
         </div>
         <!-- PAGE FOOTER -->
