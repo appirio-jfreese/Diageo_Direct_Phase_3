@@ -383,7 +383,7 @@ global public with sharing class Service_ContentItem {
                     ret='/i/filetype/zip_120.png';
                 }
                 else {
-                	ret='/i/filetype/general_80.png';
+                	ret='/i/filetype/general_120_2.png';
                 }
                 return ret; 
             } catch(Exception ex){
