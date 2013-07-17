@@ -1,9 +1,17 @@
 <!------------------------------------------------------------------------------
 Name        : R_SearchResult.page
 
-Modified By	: Basant Verma
-Date				: 07/16/13
-Story/Task	: US612/DE636 
+Modified By	: Basant Kumar Verma
+Date				: 7/15/2013
+Story/Task	: US612/DE635
+
+Modified By	: Basant Kumar Verma
+Date				: 7/16/2013
+Story/Task	: US612/DE636
+
+Modified By	: Basant Kumar Verma
+Date				: 7/17/2013
+Story/Task	: US612/DE634
 ------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_SearchResult">
 	<body class="results-page">
@@ -33,10 +41,14 @@ Story/Task	: US612/DE636
 						<span class="title">
 							Search Results
 						</span>
-						<select class="sortAlp" id="sortAlpId" >
-	          	<option value="Asc">Alphabetical, A-Z</option>
-	            <option value="Desc">Alphabetical, Z-A</option>
+						<!-- START : Changed for US612/DE634 - Basant Verma -->
+						<select class="sortOpt" id="sortOptId" >
+	          	<option value="Alpha_Asc">Alphabetical, A-Z</option>
+	            <option value="Alpha_Desc">Alphabetical, Z-A</option>
+	          	<option value="Date_Asc">Date, Ascending</option>
+	            <option value="Date_Desc">Date, Descending</option>
 						</select>
+						<!-- END : Changed for US612/DE634 - Basant Verma -->
 	        </h2>
         </apex:outputPanel>
 				
@@ -49,33 +61,28 @@ Story/Task	: US612/DE636
 							<br/><h6>If you would like help finding something <a href="{!$Page.Cases}?caseType=Finding%20Information">contact us</a></h6><br/>
 						</apex:outputPanel>
 						<apex:outputPanel rendered="{!NOT(secondZeroResult)}">
-							<c:R_OperationLines showPages="true" pageNamePrefix="mep" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true" options="{!NumberOfItemsPerPageList}" R_MultInFollow="{!R_MultInFollowWithselAll}" value="{!numberOfItemsOnPage}" className="period-select" pagesStatus="Showing {!showFromIndex+1}-{!showToIndex} of total {!numberOfItems} documents" >
+							<c:R_OperationLines showPages="false" pageNamePrefix="mep" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
 								<div class="doc-list">
-				        	<div class="list-view">		
-										<apex:repeat value="{!R_sectionOrder}" var="sectionName">
-											<apex:outputPanel rendered="{!AND(!ISNULL(R_contentHolderMap[sectionName]),R_sectionItemNumber[sectionName]!=0)}">
-													<!-- START : Modified By Basant : Grid view get distorted -->
-													<!-- START : Changed for DE636 - Basant Verma -->
-													<!-- <div class="list-view">
-														<h6>{!sectionName}</h6>
-													</div> -->
-													<!-- END : Modified By Basant : Grid view get distorted -->
-													<!-- <a href="javascript:;" class="button" onclick="switchSection('{!sectionName}'); return false;">Show All</a> -->
-													<!-- END : Changed for DE636 - Basant Verma -->
-								          <apex:repeat value="{!R_contentHolderMap[sectionName]}" var="contentItem">
+				        		<!-- START : Modified By Basant : Grid view get distorted -->
+										<apex:repeat value="{!sectionOrder}" var="sectionName">
+											<div class="list-view">	
+											<apex:outputPanel rendered="{!AND(!ISNULL(contentMap[sectionName]),sectionItemNumber[sectionName]!=0)}">
+													<h6>{!sectionName}</h6>
+													<a href="javascript:;" class="button" onclick="switchSection('{!sectionName}'); return false;">Show All</a>
+								          <apex:repeat value="{!contentHolderMap[sectionName]}" var="contentItem">
 					        					<c:R_contentItem pageNamePrefix="mep" followIds="{!currentFollowIds}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" renderAsList="true" displayUploadDate="true" lastLoginDateItem="{!lastLoginDate}" allowFileEdit="false"/>
 													</apex:repeat>
 											</apex:outputPanel>
+											</div>
 										</apex:repeat>
-									</div>
+										<!-- END : Modified By Basant : Grid view get distorted -->
 								</div>
 							</c:R_OperationLines>
-							<c:R_pagination totalNumberOfPages="{!numberOfPages}" isNewContent="{!isNewContent}" pageNumbers="{!pageNumbers}" numberOfCurrentPage="{!numberOfCurrentPage}" />
+							<c:R_pagination totalNumberOfPages="{!numberOfPages}" showPager="false" isNewContent="{!isNewContent}" pageNumbers="{!pageNumbers}" numberOfCurrentPage="1" />
 						</apex:outputPanel>
 					</apex:outputPanel>
 					
-					<!-- START : Changed for DE636 - Basant Verma -->
-					<!-- <apex:outputPanel rendered="{!isDetails}">
+					<apex:outputPanel rendered="{!isDetails}">
 						<apex:inputText value="{!R_MultInFollowWithselAll}" id="multiFollow" styleClass="multiFollow" style="display:none"  /> 
 						<c:R_OperationLines showPages="true" options="{!NumberOfItemsPerPageList}" R_MultInFollow="{!R_MultInFollowWithselAll}" value="{!numberOfItemsOnPage}" className="period-select"   pagesStatus="Showing {!showFromIndex+1}-{!showToIndex} of total {!numberOfItems} documents" pageNamePrefix="mep" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
 							<div class="doc-list">
@@ -96,9 +103,8 @@ Story/Task	: US612/DE636
 							</div>
 						</c:R_OperationLines>
 						<c:R_pagination totalNumberOfPages="{!numberOfPages}" isNewContent="{!isNewContent}" pageNumbers="{!pageNumbers}" numberOfCurrentPage="{!numberOfCurrentPage}" />
-					</apex:outputPanel> -->
-					<!-- START : Changed for DE636 - Basant Verma -->			
-				</apex:outputPanel>
+					</apex:outputPanel>			
+				</apex:outputPanel>	
 			</div>
 			</apex:form>
 	  </div>
@@ -163,9 +169,16 @@ Story/Task	: US612/DE636
 			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
 			<apex:param name="selAll" assignTo="{!R_MultInFollowWithselAll}" value="" />
 		</apex:actionFunction>
+		<!-- START : Changed for US612/DE634 - Basant Verma -->
 		<apex:actionFunction status="ajax-status" name="orderByAlphabetice" action="{!R_usersearchOrdertBy}" rerender="messages, pageContent, downloadAllDialog, ds-button" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();">
-			<apex:param name="ordertBy" assignTo="{!R_OrdertBy}" value="" />
+			<apex:param name="ordertBy" assignTo="{!R_OrdertByAlpha}" value="" />
+			<apex:param name="ordertBy2" assignTo="{!R_OrdertByDate}" value="" />
 		</apex:actionFunction>
+		<apex:actionFunction status="ajax-status" name="orderByDate" action="{!R_usersearchOrdertBy}" rerender="messages, pageContent, downloadAllDialog, ds-button" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();">
+			<apex:param name="ordertBy" assignTo="{!R_OrdertByDate}" value="" />
+			<apex:param name="ordertBy2" assignTo="{!R_OrdertByAlpha}" value="" />
+		</apex:actionFunction>
+		<!-- END : Changed for US612/DE634 - Basant Verma -->
 	</apex:form>
 	
 	<div id="moreInfo" class="hidden dialog" >
