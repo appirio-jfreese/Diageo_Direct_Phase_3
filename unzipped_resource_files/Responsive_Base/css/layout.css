@@ -519,11 +519,14 @@ a.jqTransformChecked {
     width: 100%;
 }
 .content a.link {
-    color: #c70651;
+    color: #f40763;
     text-decoration: none;
 }
     .content a.link:hover {
         text-decoration: underline;
+    }
+    .pos-page .content a.link {
+        color: #7580b7;
     }
 h1 {
     font-size: 30px;
@@ -643,11 +646,12 @@ h3 {
     overflow: hidden;
 }
     .boxes .column {
-        max-height: 170px;
+        min-height: 170px;
         position: relative;
         width: 32.56544502617801%;
         margin-right: 1.15183246073298%;
         margin-top: 11px;
+        background: #1b1b1b;
     }
     .boxes .column.last {
         margin-right: 0;
@@ -792,6 +796,9 @@ h3 {
         text-align: right;
         padding: 15px 0 30px 0;
     }
+        .buttons a.link {
+            margin-right: 10px;
+        }
         .submit-case-btn span {
             padding-left: 30px;
             background: url(../i/right-arrow.png) left center no-repeat;
@@ -1021,6 +1028,9 @@ h3 {
             color: #999;
             font-weight: normal;
         }
+            .faq-page h2 span.right {
+                top: 10px;
+            }
             h2 span.right span {
                 color: #d20059;
             }
@@ -1192,6 +1202,47 @@ h3 {
             color: #999;
             padding-right: 10px;
         }
+        .faq-page .case {
+            padding: 10px 20px 10px 50px;
+            position: relative;
+        }
+            .faq-page .case .toggle-btn {
+                display: block;
+                position: absolute;
+                left: 0;
+                top: 10px;
+                width: 36px;
+                height: 36px;
+                background: url(../i/toggle-btn.png) 0 0 no-repeat;
+            }
+                .faq-page .case .toggle-btn.expanded {
+                    background-position: 0 -36px;
+                }
+            .faq-page .case > strong {
+                display: block;
+                font-size: 18px;
+                font-weight: normal;
+                line-height: 20px;
+                padding: 8px 0;
+            }
+            .faq-page .case > p {
+                padding: 0;
+                margin: 0;
+                display: none;
+            }
+
+        .links-page .case p {
+            overflow: hidden;
+        }
+            .links-page .case p a {
+                float: left;
+                width: 31.33333%;
+                padding-right: 2%;
+                word-wrap: break-word;
+            }
+                .links-page .case p a:hover {
+                    text-decoration: underline;
+                }
 
     .form h4 {
         font-size: 24px;
@@ -2297,6 +2348,7 @@ h3 {
                 height: 36px;
                 width: 200px;
                 bottom: 20px;
+                z-index: 20;
             }
                 .doc-list .list-view .doc-btns a {
                     float: left;
@@ -2338,6 +2390,53 @@ h3 {
                     }
                     .doc-list .list-view .doc-btns a.openlink {
                         background: url(../i/openlink.png) center center no-repeat;
+                    }
+
+                .doc-list .doc-btns.bubble {
+                    border: 1px solid #cdcdcd;
+                    background: #ddd;
+                    height: 34px;
+                }
+                .doc-list .doc-btns.bubble .arrow {
+                    position: absolute;
+                    display: block;
+                    width: 8px;
+                    height: 15px;
+                    background: url(../i/bubble-arrow.png) 0 0 no-repeat;
+                    right: -8px;
+                    top: 10px;
+                }
+                .doc-list .grid-view .doc-btns.bubble .arrow {
+                    width: 15px;
+                    height: 8px;
+                    background: url(../i/bubble-arrow-bottom.png) 0 0 no-repeat;
+                    right: 54px;
+                    top: auto;
+                    bottom: -8px;
+                }
+                    .doc-list .list-view .doc-btns.bubble a.download {
+                        background: url(../i/download-col.png) center center no-repeat;
+                    }
+                    .doc-list .list-view .doc-btns.bubble a.share {
+                        background: url(../i/share-col.png) center center no-repeat;
+                    }
+                    .doc-list .list-view .doc-btns.bubble a.add-to-basket {
+                        background: url(../i/addbasket-col.png) center center no-repeat;
+                    }
+                    .doc-list .list-view .doc-btns.bubble a.edit {
+                        background: url(../i/ico_edit_white-col.png) center center no-repeat;
+                    }
+                    .doc-list .list-view .doc-btns.bubble a.conversation {
+                        background: url(../i/ico_conv_white-col.png) center center no-repeat;
+                    }
+                    .doc-list .list-view .doc-btns.bubble a.follow {
+                        background: url(../i/follow-col.png) center center no-repeat;
+                    }
+                    .doc-list .list-view .doc-btns.bubble a.remove-basket {
+                        background: url(../i/removebasket-col.png) center center no-repeat;
+                    }
+                    .doc-list .list-view .doc-btns.bubble a.unfollow {
+                        background: url(../i/unfollow-col.png) center center no-repeat;
                     }
             .doc-list .list-view .setting-btn {
                 position: absolute;
@@ -3052,7 +3151,9 @@ h3 {
             height: 82px;
         }
         .contact-new-case-page h2.jqtransformdone,
-        .user-profile-page h2.jqtransformdone {
+        .user-profile-page h2.jqtransformdone,
+        .faq-page h2.jqtransformdone,
+        .mep-page h2.jqtransformdone {
             height: 36px;
         }
             h2.jqtransformdone .jqTransformSelectWrapper {
@@ -3290,6 +3391,7 @@ h3 {
         }
         .filter {
             height: 77px;
+            position: relative;
         }
             .filter .desc {
                 font-size: 14px;
@@ -3298,7 +3400,9 @@ h3 {
             height: 44px;
         }
             .filter .desc {
-                float: right;
+                position: absolute;
+                bottom: 10px;
+                right: 0;
                 padding-right: 0;
             }
             .filter .jqTransformSelectWrapper {
@@ -3306,7 +3410,9 @@ h3 {
                 margin-top: 5px;
             }
             .filter .select-all {
-                margin-top: 5px;
+                position: absolute;
+                top: 12px;
+                right: 0;
             }
         .plan-header {
             margin-top: 50px;
@@ -3387,6 +3493,9 @@ h3 {
         h2.jqtransformdone {
             height: auto;
             text-align: center;
+        }
+        .faq-page h2.jqtransformdone {
+            height: 60px;
         }
             h2.jqtransformdone span.title {
                 display: block;
@@ -3512,6 +3621,15 @@ h3 {
         }
         .boxes .empty {
             display: none;
+        }
+        .boxes .column {
+            min-height: 0;
+        }
+        .links-page .case p a {
+            float: none;
+            display: block;
+            width: 100%;
+            padding: 0 0 5px 0;
         }
         .ads {
             width: 96.875%;

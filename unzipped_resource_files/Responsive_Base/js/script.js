@@ -728,8 +728,27 @@ $j(document).ready(function() {
             a.toggleClass("selected");
         });
 
+    }
 
-
+    if($j(".pos-page").length > 0) {
+        $j(".agreeBtn").click(function() {
+            $j(this).parent().parent().hide();
+            $j(".boxes").show();
+        });
+    }
+    if($j(".faq-page").length > 0) {
+        $j(".toggle-btn").click(function() {
+            $j(this).toggleClass("expanded");
+            $j(this).parent().find("p").slideToggle("fast");
+        });
+        $j(".expand-btn").click(function() {
+            $j(".case > p").slideDown("fast");
+            $j(".toggle-btn").addClass("expanded");
+        });
+        $j(".collapse-btn").click(function() {
+            $j(".case > p").slideUp("fast");
+            $j(".toggle-btn").removeClass("expanded");
+        });
     }*/
 
 });
