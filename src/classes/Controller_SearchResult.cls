@@ -4,9 +4,13 @@ Name        : Controller_SearchResult.cls
 Modified By	: Basant Kumar Verma
 Date				: 7/15/2013
 Story/Task	: US612/DE635
+
+Modified By	: Basant Kumar Verma
+Date				: 7/16/2013
+Story/Task	: US612/DE636
 *******************************************************************************/
 public with sharing class Controller_SearchResult extends Controller_Base {
-
+		
     public Integer minNoOfChar {
         get {
             return Integer.valueOf(Service_API.getSetting('minSearchNoOfChars'));
@@ -39,7 +43,107 @@ public with sharing class Controller_SearchResult extends Controller_Base {
     	}
     	set;
     }
-
+    // Start Changes for DE636 - Basant
+    private String responsiveSingleSectionName = 'Responsive';
+    public MAP<string, List<AggregateResultHolder>> R_contentHolderMap {
+    	get {
+    		MAP<string, List<AggregateResultHolder>> contentHolder1 = new MAP<string, List<AggregateResultHolder>>();
+    		if(contentMap!=null){
+    				List<AggregateResultHolder> finalList = new List<AggregateResultHolder>();
+						for(string key : contentMap.keySet()){
+							List<AggregateResultHolder> tmpList = new List<AggregateResultHolder>();
+			    		for(AggregateResult ar : contentMap.get(key)){
+			    			AggregateResultHolder tmp = new AggregateResultHolder();
+			    			tmp.result = ar;
+			    			tmpList.add(tmp);
+			    		}
+			    		finalList = applyCustomeSorting(finalList, tmpList);
+	    			}
+	    			contentHolder1.put(responsiveSingleSectionName,finalList);
+    			}
+    		return contentHolder1;
+    	}
+    	set;
+    }
+    
+    public List<String> R_sectionOrder {
+			get{
+				List<String> R_sectionOrder = new List<String>();
+				R_sectionOrder.add(responsiveSingleSectionName);
+				return R_sectionOrder;
+			} 
+			protected set;
+		}
+		
+		public map<string, integer> R_sectionItemNumber {
+	 		get{
+	 			R_sectionItemNumber = new map<string, integer>();
+	 			Integer intTotal = 0;
+	 			for(Integer intVal : sectionItemNumber.values()){
+	 				intTotal += intVal;
+	 			}
+	 			R_sectionItemNumber.put(responsiveSingleSectionName, intTotal);
+	 			return R_sectionItemNumber;
+	 		}
+	 		protected set;
+ 		}
+ 		
+ 		private void responsiveRefresh(){
+ 			initPager();
+ 			numberOfItems = Integer.valueOf(R_sectionItemNumber.get(responsiveSingleSectionName));
+ 			List<AggregateResult> sectionContentTemp = new List<AggregateResult>();
+ 			for(string key : contentMap.keySet()){
+				for(AggregateResult ar : contentMap.get(key)){
+					sectionContentTemp.add(ar);
+				}
+			}
+			sectionContent = getRequestedPage(sectionContentTemp);
+ 		}
+ 		
+ 		private List<AggregateResultHolder> applyCustomeSorting(List<AggregateResultHolder> list1, List<AggregateResultHolder> list2){
+ 			// receive the left and right sublist as arguments.
+	    // 'result' variable for the merged result of two sublists.
+	    System.debug('START applyCustomeSorting ==================== R_OrdertBy :'+R_OrdertBy);
+	    List<AggregateResultHolder> result = new List<AggregateResultHolder>();
+	    // assign the element of the sublists to 'result' variable until there is no element to merge. 
+	    while(list1.size() > 0 || list2.size() > 0){
+	        if( list1.size() > 0 && list2.size() > 0){
+	           // compare the first two element, which is the small one, of each two sublists.
+	            if( ((R_OrdertBy == null || R_OrdertBy.trim().equalsIgnoreCase('ASC')) && String.valueOf(list1.get(0).result.get('description')).toUpperCase().compareTo(String.valueOf(list2.get(0).result.get('description')).toUpperCase()) <= 0 )
+	            		|| ((R_OrdertBy != null && R_OrdertBy.trim().equalsIgnoreCase('DESC')) && String.valueOf(list1.get(0).result.get('description')).toUpperCase().compareTo(String.valueOf(list2.get(0).result.get('description')).toUpperCase()) >= 0 ) ){
+	                // the small element is copied to 'result' variable.
+	                // delete the copied one(a first element) in the sublist.
+	                System.debug('START applyCustomeSorting ==================== DATA :'+String.valueOf(list1.get(0).result.get('description')));
+	                result.add(list1.get(0));
+	                list1.remove(0);
+	            }
+	            else{
+	                // same operation as the above(in the right sublist).
+	                System.debug('START applyCustomeSorting ==================== DATA :'+String.valueOf(list2.get(0).result.get('description')));
+	                result.add(list2.get(0));
+	                list2.remove(0);
+	            }
+	        }
+	        else if( list1.size() > 0){
+	            // copy all of remaining elements from the sublist to 'result' variable, when there is no more element to compare with.
+	            System.debug('START applyCustomeSorting ==================== DATA :'+String.valueOf(list1.get(0).result.get('description')));
+	            result.add(list1.get(0));
+	            list1.remove(0);
+	        }
+	        else if( list2.size() > 0){
+	            // same operation as the above(in the right sublist).
+	            System.debug('START applyCustomeSorting ==================== DATA :'+String.valueOf(list2.get(0).result.get('description')));
+	            result.add(list2.get(0));
+	            list2.remove(0);
+	        }
+ 			}	
+	    // return the result of the merged sublists(or completed one, finally).
+	    // the length of the left and right sublists will grow bigger and bigger, after the next call of this function.
+	    System.debug('END applyCustomeSorting ==================== R_OrdertBy :'+R_OrdertBy);
+	    return result;
+ 		}
+		// End Changes for DE636 - Basant
+		
     public List<AggregateResult> contentDownloadShare {
     	get{
     		List<AggregateResult> ret = new List<AggregateResult>();
@@ -71,7 +175,7 @@ public with sharing class Controller_SearchResult extends Controller_Base {
     }
     
 	public List<String> sectionOrder {get; protected set;}
- 	public map<string, integer> sectionItemNumber {get; protected set;}
+	public map<string, integer> sectionItemNumber {get; protected set;}
  	public Integer totalItemNumber {get; protected set;}
     public String currentSection {get; set;}
     public Boolean isDetails {get; set;}
@@ -216,8 +320,14 @@ public with sharing class Controller_SearchResult extends Controller_Base {
     	} catch(Exception ex){
     		Apexpages.addmessage(new apexpages.message(apexpages.severity.info, ex.getMessage()+' '+ex.getStackTraceString()));
     	}
+    	
+    	// Start Changes for DE636 - Basant
+    	if(currentUserPage().equalsIgnoreCase('/apex/R_SearchResult')){
+    		responsiveRefresh();
+    	}
+    	// End Changes for DE636 - Basant
     }
-
+		
     private String IdSetToString(Set<ID> valueList){
     	String result = '';
     	String glue = '';

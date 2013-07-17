@@ -6,7 +6,7 @@ public with sharing class Controller_InnovationAndVAP extends Controller_Base {
     public map<String, list<map<String, String>>> programMap {get; protected set;}
     public String detailPagePath {public get; protected set;}
     public String pdfPath {public get; protected set;} 
-	public String currentPageUrl {public get; protected set;}    
+    public String currentPageUrl {public get; protected set;}    
     
     public Integer timePeriod {
         get; 
@@ -31,24 +31,24 @@ public with sharing class Controller_InnovationAndVAP extends Controller_Base {
     public String currentSectionConstant {get; private set;}
     public Boolean currentSectionBool {get; private set;}
 
-	// general update content
-	public List<AggregateResult> performanceUpdates {get; set;}
-	public List<AggregateResult> planningCalendars {get; set;}
-	    
+    // general update content
+    public List<AggregateResult> performanceUpdates {get; set;}
+    public List<AggregateResult> planningCalendars {get; set;}
+        
     public Controller_InnovationAndVAP() {
-    	currentSectionConstant = (siteTheme == 'Spirits') ? (Constant.INNOVATION_AND_SUSTAINOVATION) : (Constant.INNOVATION_SUSTAINOVATION_AND_VINTAGE);
-    	currentSectionBool = (siteTheme == 'Spirits');
-    	
-    	// Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
-    	pageUrl = ApexPages.currentPage().getUrl();
-    	setResponsiveState();
-    	if(isResponsive) {
-    		detailPagePath = Page.R_IVAPDetails.getUrl();
-    	} else {
-        	detailPagePath = Page.IVAPDetails.getUrl();
-    	}
-//		pageUrl = Page.InnovationAndVAP.getUrl();
-		//End:
+        currentSectionConstant = (siteTheme == 'Spirits') ? (Constant.INNOVATION_AND_SUSTAINOVATION) : (Constant.INNOVATION_SUSTAINOVATION_AND_VINTAGE);
+        currentSectionBool = (siteTheme == 'Spirits');
+        
+        // Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
+        pageUrl = ApexPages.currentPage().getUrl();
+        setResponsiveState();
+        if(isResponsive) {
+            detailPagePath = Page.R_IVAPDetails.getUrl();
+        } else {
+            detailPagePath = Page.IVAPDetails.getUrl();
+        }
+//      pageUrl = Page.InnovationAndVAP.getUrl();
+        //End:
         
         salesDriversToShow = new list<String>();
         salesDriversToProcess = new list<String>();
@@ -60,11 +60,11 @@ public with sharing class Controller_InnovationAndVAP extends Controller_Base {
         calendar = new Service_Calendar();
 
         try{
-			if(ApexPages.currentPage().getParameters().get('time') != null){
-	        	timePeriod = Integer.valueOf(ApexPages.currentPage().getParameters().get('time'));
-			} else {
-				timePeriod = 1;
-			}
+            if(ApexPages.currentPage().getParameters().get('time') != null){
+                timePeriod = Integer.valueOf(ApexPages.currentPage().getParameters().get('time'));
+            } else {
+                timePeriod = 1;
+            }
             if(ApexPages.currentPage().getParameters().get('date') != null){
                 try{
                     startFromDate = ApexPages.currentPage().getParameters().get('date');
@@ -75,19 +75,19 @@ public with sharing class Controller_InnovationAndVAP extends Controller_Base {
             } else {
                 startFromDate = null;
             }
-			if(ApexPages.currentPage().getParameters().get('driver') != null){
-	        	salesDriver = ApexPages.currentPage().getParameters().get('driver');
-			} else {
-				salesDriver = 'All';
-			}
-			if(ApexPages.currentPage().getParameters().get('export') != null){
-				isExport = true;	
-			} else {
-				isExport = false;
-			}
+            if(ApexPages.currentPage().getParameters().get('driver') != null){
+                salesDriver = ApexPages.currentPage().getParameters().get('driver');
+            } else {
+                salesDriver = 'All';
+            }
+            if(ApexPages.currentPage().getParameters().get('export') != null){
+                isExport = true;    
+            } else {
+                isExport = false;
+            }
         } catch(Exception e){
             ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to load data from url. '));
-			return;        
+            return;        
         }
 
 
@@ -95,32 +95,32 @@ public with sharing class Controller_InnovationAndVAP extends Controller_Base {
         refreshGeneralUpdates();
     }
     
-	private void prepareBreadcrumbs(){
-		cleanBreadcrumbs();
-		
-		// Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
-//       	currentPageUrl = Page.InnovationAndVAP.getUrl();
-		currentPageUrl = ApexPages.currentPage().getUrl();
-		if(isResponsive) {
-			detailPagePath = Page.R_IVAPDetails.getUrl();
-		} else {
-        	detailPagePath = Page.IVAPDetails.getUrl();
-		}
-		//End:
-		
+    private void prepareBreadcrumbs(){
+        cleanBreadcrumbs();
+        
+        // Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
+//          currentPageUrl = Page.InnovationAndVAP.getUrl();
+        currentPageUrl = ApexPages.currentPage().getUrl();
+        if(isResponsive) {
+            detailPagePath = Page.R_IVAPDetails.getUrl();
+        } else {
+            detailPagePath = Page.IVAPDetails.getUrl();
+        }
+        //End:
+        
         if(timePeriod != null){
-			detailPagePath += '?time='+timePeriod;
-			if(salesDriver != null && salesDriver != ''){
-				detailPagePath += '&driver='+salesDriver;		
-			}
-			if(calendar != null){
-				detailPagePath += '&date='+calendar.startDate.year()+'-'+calendar.startDate.month()+'-'+calendar.startDate.day()+'';
-			}
+            detailPagePath += '?time='+timePeriod;
+            if(salesDriver != null && salesDriver != ''){
+                detailPagePath += '&driver='+salesDriver;       
+            }
+            if(calendar != null){
+                detailPagePath += '&date='+calendar.startDate.year()+'-'+calendar.startDate.month()+'-'+calendar.startDate.day()+'';
+            }
         }
         detailPagePath += '&'+parseSelectedThemesToUrl();
         
         addBreadcrumbItem(currentPageUrl, currentSectionConstant);
-	}    
+    }    
     
     public void nextMonth() {
         calendar.incrementDates(timePeriod);
@@ -141,7 +141,7 @@ public with sharing class Controller_InnovationAndVAP extends Controller_Base {
         return options;
     }
 
-    public List<SelectOption> getSalesDrivers() {	
+    public List<SelectOption> getSalesDrivers() {   
         return Service_UserInput.getSalesDrivers(selectedThemes(), CONSTANT.INNOVATION_AND_SUSTAINOVATION);
     }
 
@@ -163,26 +163,26 @@ public with sharing class Controller_InnovationAndVAP extends Controller_Base {
         //display all or only selected sales driver
         String notShownDriver = (siteTheme == 'Wine') ? 'New Sizes, Pack/Label Changes' : 'Pack/Label Changes';
         for (SelectOption o : getSalesDrivers()){
-	        if ((salesDriver == 'All' && o.getLabel() != 'All') || (salesDriver != 'All' && o.getLabel()==salesDriver)){
-	            salesDriversToProcess.add(o.getLabel());
-	            if(o.getLabel() != notShownDriver){
-		            salesDriversToShow.add(o.getLabel());
-		            programMap.put(o.getLabel(), new list<map<String, String>>{new map<String, String>{'className' => 'empty', 'label' => ''}});
-	            }
-	        }
+            if ((salesDriver == 'All' && o.getLabel() != 'All') || (salesDriver != 'All' && o.getLabel()==salesDriver)){
+                salesDriversToProcess.add(o.getLabel());
+                if(o.getLabel() != notShownDriver){
+                    salesDriversToShow.add(o.getLabel());
+                    programMap.put(o.getLabel(), new list<map<String, String>>{new map<String, String>{'className' => 'empty', 'label' => ''}});
+                }
+            }
         }
         salesDriversToShowCount = salesDriversToShow.size();
         setMonths();
         
         // Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
         if(isResponsive) {
-	 		pdfPath = Page.R_InnovationAndVAPPdf.getUrl()+'?export=true&time='+timePeriod+'&driver='+salesDriver+'&date='+calendar.startDate.year()+'-'+calendar.startDate.month()+'-'+calendar.startDate.day()+'&'+parseSelectedThemesToUrl();
+            pdfPath = Page.R_InnovationAndVAPPdf.getUrl()+'?export=true&time='+timePeriod+'&driver='+salesDriver+'&date='+calendar.startDate.year()+'-'+calendar.startDate.month()+'-'+calendar.startDate.day()+'&'+parseSelectedThemesToUrl();
         } else {
- 			pdfPath = Page.InnovationAndVAPPdf.getUrl()+'?export=true&time='+timePeriod+'&driver='+salesDriver+'&date='+calendar.startDate.year()+'-'+calendar.startDate.month()+'-'+calendar.startDate.day()+'&'+parseSelectedThemesToUrl();
+            pdfPath = Page.InnovationAndVAPPdf.getUrl()+'?export=true&time='+timePeriod+'&driver='+salesDriver+'&date='+calendar.startDate.year()+'-'+calendar.startDate.month()+'-'+calendar.startDate.day()+'&'+parseSelectedThemesToUrl();
         }
         //End: 
         
- 		prepareBreadcrumbs();
+        prepareBreadcrumbs();
         startFromDate = calendar.startDate.year() + '-' + calendar.startDate.month() + '-01';
     }
     
@@ -237,13 +237,13 @@ public with sharing class Controller_InnovationAndVAP extends Controller_Base {
         List<Calendar__c> cRecordsOrderMixed = new List<Calendar__c>();
         List<Calendar__c> cRecordsOrderOther = new List<Calendar__c>();
         for(Calendar__c c : cRecords){
-        	if(c.classification__c == siteTheme){
-        		cRecordsOrderCurrent.add(c);
-        	} else if(c.classification__c == 'Mixed'){
-        		cRecordsOrderMixed.add(c);
-        	} else {
-        		cRecordsOrderOther.add(c);
-        	}
+            if(c.classification__c == siteTheme){
+                cRecordsOrderCurrent.add(c);
+            } else if(c.classification__c == 'Mixed'){
+                cRecordsOrderMixed.add(c);
+            } else {
+                cRecordsOrderOther.add(c);
+            }
         }
         cRecords.clear();
         cRecords.addAll(cRecordsOrderCurrent);
@@ -260,21 +260,21 @@ public with sharing class Controller_InnovationAndVAP extends Controller_Base {
                         String styleBackgroundColor ='';
                         String styleBackgroundImage ='';
                         String styleTextColor       ='';
-						if (isExport){
-                        	styleBackgroundColor = 'background-color: #' + c.background_color__c + ';';
+                        if (isExport){
+                            styleBackgroundColor = 'background-color: #' + c.background_color__c + ';';
                         } else {
-	                        if (c.background_color__c != null && c.background_color2__c == null) {
-	                            styleBackgroundColor = 'background-color: #' + c.background_color__c + ';';
-	                        } else if (c.background_color__c != null && c.background_color2__c != null) {
-	                        	styleBackgroundColor = 'background: #' + c.background_color__c + ';';
-	                        	styleBackgroundColor += 'background: -moz-linear-gradient(top, #' + c.background_color__c + ' 0%, #' + c.background_color2__c + ' 100%);';
-	                        	styleBackgroundColor += 'background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#' + c.background_color__c + '), color-stop(100%,#' + c.background_color2__c + '));';
-	                        	styleBackgroundColor += 'background: -webkit-linear-gradient(top, #' + c.background_color__c + ' 0%,#' + c.background_color2__c + ' 100%);';
-	                        	styleBackgroundColor += 'background: -o-linear-gradient(top, #' + c.background_color__c + ' 0%,#' + c.background_color2__c + ' 100%);';
-	                        	styleBackgroundColor += 'background: -ms-linear-gradient(top, #' + c.background_color__c + ' 0%,#' + c.background_color2__c + ' 100%);';
-	                        	styleBackgroundColor += 'filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=\'#' + c.background_color__c + '\', EndColorStr=\'#' + c.background_color2__c + '\');';
-	                        }
-                    	}
+                            if (c.background_color__c != null && c.background_color2__c == null) {
+                                styleBackgroundColor = 'background-color: #' + c.background_color__c + ';';
+                            } else if (c.background_color__c != null && c.background_color2__c != null) {
+                                styleBackgroundColor = 'background: #' + c.background_color__c + ';';
+                                styleBackgroundColor += 'background: -moz-linear-gradient(top, #' + c.background_color__c + ' 0%, #' + c.background_color2__c + ' 100%);';
+                                styleBackgroundColor += 'background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#' + c.background_color__c + '), color-stop(100%,#' + c.background_color2__c + '));';
+                                styleBackgroundColor += 'background: -webkit-linear-gradient(top, #' + c.background_color__c + ' 0%,#' + c.background_color2__c + ' 100%);';
+                                styleBackgroundColor += 'background: -o-linear-gradient(top, #' + c.background_color__c + ' 0%,#' + c.background_color2__c + ' 100%);';
+                                styleBackgroundColor += 'background: -ms-linear-gradient(top, #' + c.background_color__c + ' 0%,#' + c.background_color2__c + ' 100%);';
+                                styleBackgroundColor += 'filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=\'#' + c.background_color__c + '\', EndColorStr=\'#' + c.background_color2__c + '\');';
+                            }
+                        }
                         if (c.text_color__c != null) {
                             styleTextColor = 'color: #' + c.text_color__c + ';';
                         }
@@ -291,11 +291,11 @@ public with sharing class Controller_InnovationAndVAP extends Controller_Base {
                             'label'                => c.name,
                             'description'          => c.Description__c!=null?c.Description__c.replaceAll('\n','<br/>'):'',
                             'id'                   => c.id,
-                            'shipDate'			   => c.Ship_Date__c!=null ? c.Ship_Date__c.format() : null,
-                            'launchDate'		   => c.Launch_Date__c != null ? c.Launch_Date__c.format() : null,
-                            'startDate'			   => c.Start_Date__c.format(),
-                            'endDate'		  	   => c.End_Date__c.format(),
-                            'showTooltip'		   => (c.Show_tooltip_details__c == true && c.Show_tooltip_details__c != null) ? '' : 'disableTooltip'                        
+                            'shipDate'             => c.Ship_Date__c!=null ? c.Ship_Date__c.format() : null,
+                            'launchDate'           => c.Launch_Date__c != null ? c.Launch_Date__c.format() : null,
+                            'startDate'            => c.Start_Date__c.format(),
+                            'endDate'              => c.End_Date__c.format(),
+                            'showTooltip'          => (c.Show_tooltip_details__c == true && c.Show_tooltip_details__c != null) ? '' : 'disableTooltip'                        
                         });
                     }
                 }
@@ -312,50 +312,50 @@ public with sharing class Controller_InnovationAndVAP extends Controller_Base {
     }
     
     private void refreshGeneralUpdates(){
-		Set<ID> brandIdsSet = Service_API.getAllContentBrandIDs(currentSectionConstant);
+        Set<ID> brandIdsSet = Service_API.getAllContentBrandIDs(currentSectionConstant);
 
-		String brandIdsString = '';
-		String glue = '';
-				
-		for (String id : brandIdsSet) {			
-    		brandIdsString += glue + '\''+id+'\' ';
-    		glue = ',';
-		}
+        String brandIdsString = '';
+        String glue = '';
+                
+        for (String id : brandIdsSet) {         
+            brandIdsString += glue + '\''+id+'\' ';
+            glue = ',';
+        }
 
-		performanceUpdates = new List<AggregateResult>();
-		planningCalendars = new List<AggregateResult>();
+        performanceUpdates = new List<AggregateResult>();
+        planningCalendars = new List<AggregateResult>();
 
-		if(!brandIdsSet.isEmpty()){
-			AggregateResult[] tmpList = database.query('SELECT content_description__r.Title__c title, content_description__r.Description__c description, content_description__r.Content_Version_Id__c cvid, content_description__r.filetype__c filetype, Sub_Category__c FROM content_property__c' + 
-        	+' WHERE category__c=\'' + currentSectionConstant + '\' and (Sub_Category__c=\'' + Constant.PERFORMANCE_UPDATES + '\' or Sub_Category__c=\'' + Constant.PLANNING_CALENDARS + '\')  AND ( content_description__r.Content_Id__c in ('+brandIdsString+') OR (content_description__r.Portfolio__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) )' +
-        	+' GROUP BY content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, Sub_Category__c'+ 
-        	+' ORDER BY content_description__r.Title__c ASC limit 1000');
-        	
-        	if (tmpList!= null) {
-        		for(AggregateResult ar: tmpList) {
-        			string subCategoryName = (string)ar.get('Sub_Category__c');
-        			if (subCategoryName == Constant.PERFORMANCE_UPDATES) {
-						performanceUpdates.add(ar);
-        			} else if (subCategoryName == Constant.PLANNING_CALENDARS) {
-						planningCalendars.add(ar);
-        			}
-    			}
-        	}
-		}    
-		
-		startDate = calendar.startDate.format();
-		endDate = calendar.endDate.format();
+        if(!brandIdsSet.isEmpty()){
+            AggregateResult[] tmpList = database.query('SELECT content_description__r.Title__c title, content_description__r.Description__c description, content_description__r.Content_Version_Id__c cvid, content_description__r.filetype__c filetype, Sub_Category__c FROM content_property__c' + 
+            +' WHERE category__c=\'' + currentSectionConstant + '\' and (Sub_Category__c=\'' + Constant.PERFORMANCE_UPDATES + '\' or Sub_Category__c=\'' + Constant.PLANNING_CALENDARS + '\')  AND ( content_description__r.Content_Id__c in ('+brandIdsString+') OR (content_description__r.Portfolio__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) )' +
+            +' GROUP BY content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, Sub_Category__c'+ 
+            +' ORDER BY content_description__r.Title__c ASC limit 1000');
+            
+            if (tmpList!= null) {
+                for(AggregateResult ar: tmpList) {
+                    string subCategoryName = (string)ar.get('Sub_Category__c');
+                    if (subCategoryName == Constant.PERFORMANCE_UPDATES) {
+                        performanceUpdates.add(ar);
+                    } else if (subCategoryName == Constant.PLANNING_CALENDARS) {
+                        planningCalendars.add(ar);
+                    }
+                }
+            }
+        }    
+        
+        startDate = calendar.startDate.format();
+        endDate = calendar.endDate.format();
     }
 
-	// Start: Changes for Responsive Site - Randy Wandell (Appirio) 7/10/13    
+    // Start: Changes for Responsive Site - Randy Wandell (Appirio) 7/10/13    
     public void setResponsiveState() {
-		if(pageUrl.toLowerCase().indexOf('r_innovationandvap') > -1) {
-			isResponsive = true;
-			preapareSiteNavigationMenu();
-		} else {
-			isResponsive = false;
-			preapareSiteNavigationMenu();
-		}    	
+        if(pageUrl.toLowerCase().indexOf('r_innovationandvap') > -1) {
+            isResponsive = true;
+            preapareSiteNavigationMenu();
+        } else {
+            isResponsive = false;
+            preapareSiteNavigationMenu();
+        }       
     }
     // End:    
 }
