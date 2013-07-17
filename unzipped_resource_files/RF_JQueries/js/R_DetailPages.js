@@ -37,8 +37,8 @@ function jqTransformScript(){
 		btns.toggle();
 	});
 	var positionDocBtns = function(btns) {
-		var doc = btns.parent().parent();
-		if(doc.hasClass("grid-view")) {
+		var doc = btns.parents(".doc");
+		if(doc.parents(".list-view").hasClass("grid-view")) {
 			btns.css({
 				width: '100%',
 				right: 0,
@@ -83,18 +83,25 @@ function jqTransformScript(){
 }
 
 function initializationFunction() {
-  jQuery(".sortAlp").change(function() {
+  jQuery(".sortOpt").change(function() {
 	var orderBy = jQuery(this).val();
-	if(orderBy != '' ) { 
-		orderByAlphabetice(orderBy);
+	if(orderBy != '' ) {
+		if(orderBy == 'Date_Asc'){ 
+			orderByDate('Asc');
+		}else if(orderBy == 'Date_Desc'){
+			orderByDate('Desc');
+		}else if(orderBy == 'Alpha_Asc'){ 
+			orderByAlphabetice('Asc');
+		}else if(orderBy == 'Alpha_Desc'){
+			orderByAlphabetice('Desc');
+		}
 	}
-  }); 
-  
+  });
+
   jQuery(".period-select").change(function() {
 	var showingDoc = jQuery(this).val();
 	if(showingDoc != '' ) { 
 		changeNumberOfItemPerPage(showingDoc);
 	}
   }); 
-	   
 }
