@@ -223,6 +223,20 @@ global public with sharing class Service_ContentItem {
     	}
     	set;
     }
+    public String cutoffDescription2 {
+        get{
+            try{
+	               String ret=description2;
+	               if (ret.length() > 25){
+	               	  ret=ret.substring(0,25).trim()+'...';
+	               }
+                   return ret;
+            } catch(Exception ex){
+                return null;
+            }
+        }
+        set;
+    }
 
     /* Start: changes for TA918 Jonathan Freese */
     public String title1 {
