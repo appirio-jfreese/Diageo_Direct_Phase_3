@@ -330,4 +330,66 @@ global public with sharing class Service_ContentItem {
     	}
     	set;
     }
+    public String fileTypePath {
+        get{
+            try{
+                String ret = '';
+                if (fileType1=='AI'){
+                    ret='/i/filetype/ai_120.png';
+                }
+                else if  (fileType1=='BMP'){
+                    ret='/i/filetype/bmp_120.png';
+                }
+                else if  (fileType1=='EPS'){
+                    ret='/i/filetype/eps_120.png';
+                }
+                else if  (fileType1=='EXCEL' || fileType1=='EXCEL_M' || fileType1=='EXCEL_X'){
+                    ret='/i/filetype/xls_120.png';
+                }
+                else if  (fileType1=='M4V'){
+                    ret='/i/filetype/m4v_120.png';
+                }
+                else if  (fileType1=='MP3'){
+                    ret='/i/filetype/mp3_120.png';
+                }
+                else if  (fileType1=='MP4'){
+                    ret='/i/filetype/mp4_120.png';
+                }
+                else if  (fileType1=='PDF'){
+                    ret='/i/filetype/pdf_120.png';
+                }
+                else if  (fileType1=='PNG'){
+                    ret='/i/filetype/png_120.png';
+                }
+                else if  (fileType1=='POWERPOINT' || fileType1=='POWERPOINT_M' || fileType1=='POWERPOINT_X'){
+                    ret='/i/filetype/ppt_120.png';
+                }
+                else if  (fileType1=='PSD'){
+                    ret='/i/filetype/psd_120.png';
+                }
+                else if  (fileType1=='TXT'){
+                    ret='/i/filetype/txt_120.png';
+                }
+                else if  (fileType1=='TIFF'){
+                    ret='/i/filetype/TIFF_120.png';
+                }
+                else if  (fileType1=='WMV'){
+                    ret='/i/filetype/wmv_120.png';
+                }
+                else if  (fileType1=='WORD' || fileType1=='WORD_X'){
+                    ret='/i/filetype/doc_120.png';
+                }
+                else if  (fileType1=='ZIP'){
+                    ret='/i/filetype/zip_120.png';
+                }
+                else {
+                	ret='/i/filetype/general_80.png';
+                }
+                return ret; 
+            } catch(Exception ex){
+                return null;
+            }
+        }
+        set;
+    }
 }
