@@ -73,10 +73,6 @@ Date        : 7/10/13
 	                        	<apex:variable value="" var="currentSubSubSubCategory"/>
 	                        	<apex:variable value="1" var="firstRow"/>
 		                            <apex:repeat value="{!contentHolder}" var="contentItem">	                           
-	                                    <apex:outputPanel rendered="{!AND(firstRow=='1',ISNULL(contentItem.result['Sub_Sub_Sub_Category__c']))}">
-	                                        &nbsp;&nbsp;
-	                                    </apex:outputPanel>
-	                                    <apex:variable value="0" var="firstRow"/>
 		                                <apex:outputPanel rendered="{!IF(currentSubSubSubCategory != contentItem.result['Sub_Sub_Sub_Category__c'],'true','false')}">                           
 		                                	<!-- START : Modified By Basant : Grid view get distorted -->
 																			<div class="list-view">
@@ -87,7 +83,11 @@ Date        : 7/10/13
 		                                
 		                                <apex:variable value="{!contentItem.result['Sub_Sub_Sub_Category__c']}" var="currentSubSubSubCategory"  rendered="{!!ISNULL(contentItem.result['Sub_Sub_Sub_Category__c'])}"/>
 		                                <apex:outputPanel styleClass="ListViewContents">
-		                                	<c:R_contentItem pageNamePrefix="sm" followIds="{!currentFollowIds}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" width="301" renderAsList="true" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true"/>
+			                                <apex:outputPanel rendered="{!AND(firstRow=='1',ISNULL(contentItem.result['Sub_Sub_Sub_Category__c']))}">
+	                                            &nbsp;&nbsp;
+	                                        </apex:outputPanel>
+	                                        <apex:variable value="0" var="firstRow"/>
+                                       	    <c:R_contentItem pageNamePrefix="sm" followIds="{!currentFollowIds}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" width="301" renderAsList="true" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true"/>
 		                                </apex:outputPanel>
 		                                <apex:outputPanel styleClass="GridViewContents hidden">
 		                                	<c:R_contentItem pageNamePrefix="sm" followIds="{!currentFollowIds}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" renderAsList="false" lastLoginDateItem="{!lastLoginDate}" displayUploadDate="true"/>
