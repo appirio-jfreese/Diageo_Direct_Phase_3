@@ -381,7 +381,7 @@ global public with sharing class Service_ContentItem {
                 else if  (fileType1=='PSD'){
                     ret='/i/filetype/psd_120.png';
                 }
-                else if  (fileType1=='TXT'){
+                else if  (fileType1=='TEXT'){
                     ret='/i/filetype/txt_120.png';
                 }
                 else if  (fileType1=='TIFF'){
