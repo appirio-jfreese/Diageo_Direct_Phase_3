@@ -1,5 +1,5 @@
 /*****************************************************************************************
-Name        : R_Service_API.cls
+Name        : Service_API.cls
 
 Created By  : Denise Bacher
 Date        : 8/29/2011
