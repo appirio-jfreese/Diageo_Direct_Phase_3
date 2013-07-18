@@ -2697,7 +2697,7 @@ public without sharing class Service_API {
             siteTheme = tempSiteTheme;
             return blogRecords;
         }
-        
+       
     // Start : Changes for US503/TA907 - Basant
     /**
     * @author Basant Verma
@@ -2765,7 +2765,7 @@ public without sharing class Service_API {
     * @Story US503/TA907
     * @description Returns all available tags
     */
-    public static List<Tag__c> getAllTags(){
+   	public static List<Tag__c> getAllTags(){
         return [Select Id, Name, Type__c, Tag__c From Tag__c];
     }
     

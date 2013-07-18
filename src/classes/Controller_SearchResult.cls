@@ -14,7 +14,9 @@ Date				: 7/17/2013
 Story/Task	: US612/DE634
 *******************************************************************************/
 public with sharing class Controller_SearchResult extends Controller_Base {
-
+		//START : changed for US612/DE636 - Basant
+		private static final String RESPONSIVE = 'Responsive';	
+		//END : changed for US612/DE636 - Basant	
     public Integer minNoOfChar {
         get {
             return Integer.valueOf(Service_API.getSetting('minSearchNoOfChars'));
@@ -114,7 +116,6 @@ public with sharing class Controller_SearchResult extends Controller_Base {
     	totalItemNumber = 0;
 		firstZeroResult = false;
 		secondZeroResult = false;
-		
 		initQuery();
 		initSections();				
 		 
@@ -132,8 +133,13 @@ public with sharing class Controller_SearchResult extends Controller_Base {
             ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Minimum length of search value is '+minNoOfChar+' chars. '));
 			return;        
         }
-     
-        refreshPageContent();
+     	// START : Changed for US612/DE634 - Basant Verma
+     	if(isResponsive){
+     		switchSection();
+     	}else{
+    		refreshPageContent();
+     	}
+     	// END : Changed for US612/DE634 - Basant Verma
     }
 
     // switch section
@@ -157,7 +163,7 @@ public with sharing class Controller_SearchResult extends Controller_Base {
     	if(firstZeroResult || secondZeroResult){
     		refine = '&refine=true';
     	}
-    	if(searchPhrase.length() != 0){
+    	if(searchPhrase != null && searchPhrase.length() != 0){
     		pr = new PageReference( Page.SearchResult.getUrl() + '?query='+EncodingUtil.urlEncode(searchPhrase,'UTF-8')+ refine );
     		pr.setRedirect(true);
     	}
@@ -176,10 +182,22 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 		    String sectionQueryString = sectionQuery.get(currentSection);
 		    if(sectionQueryString != null && sectionQueryString != ''){
 		    	// START : Changed for US612/DE634 - Basant Verma
-					sectionContent = customSortByDate(database.query(sectionQueryString+' limit 1000 '));
+		    	sectionContent = customSortByDate(database.query(sectionQueryString+' limit 1000 '));
 					// END : Changed for US612/DE634 - Basant Verma
 					numberOfItems = Integer.valueOf(sectionContent.size());
 					sectionContent = getRequestedPage(sectionContent);
+					if(isResponsive){
+						Boolean isRefine = false;
+						if(ApexPages.currentPage().getParameters().get('refine') != null && ApexPages.currentPage().getParameters().get('refine') != ''){
+							isRefine = true;
+						}
+						if(numberOfItems == 0 && !isRefine){
+							firstZeroResult = true;
+						}
+						if(numberOfItems == 0 && isRefine){
+							secondZeroResult = true;
+						}
+					}
 		    }
  		} else {   
 			totalItemNumber = 0;
@@ -309,17 +327,30 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 
     private void initSections(){
     	sectionOrder = new List<string>();
-    	sectionOrder.add(CONSTANT.MONTHLY_EXECUTION_PLAN);
-		sectionOrder.add(innovationSectionName);
-    	sectionOrder.add(CONSTANT.SELLING_MATERILAS);
-		sectionOrder.add(CONSTANT.CATEGOTY_DEVELOPMENT);
-    	sectionOrder.add(CONSTANT.BRAND_MARKETING_INFORMATION);
-		sectionOrder.add(CONSTANT.PRODUCT_IMAGES_AND_LOGOS);
-    	sectionOrder.add(CONSTANT.COLLABORATION);
-		if(isInternalUser){
-			sectionOrder.add(CONSTANT.PLANNING);
-		}
-    	sectionOrder.add(CONSTANT.MULTICULTURAL);		
+    	//START : changed for US612/DE636 - Basant	
+	    if(isResponsive){
+	   		sectionOrder.add(RESPONSIVE);
+	   		currentSection = RESPONSIVE;
+	   		Set<ID> brandIdsSet = new Set<Id>();
+				List<ID> userBrands = new List<ID>(Service_API.getAccBrandIds());
+				brandIdsSet = Service_API.getContentBrandIDs(userBrands);
+				if(!brandIdsSet.isEmpty()){
+					brandIdsString = IdSetToString(brandIdsSet);
+				}
+	    }else{
+		    sectionOrder.add(CONSTANT.MONTHLY_EXECUTION_PLAN);
+				sectionOrder.add(innovationSectionName);
+		    sectionOrder.add(CONSTANT.SELLING_MATERILAS);
+				sectionOrder.add(CONSTANT.CATEGOTY_DEVELOPMENT);
+		    sectionOrder.add(CONSTANT.BRAND_MARKETING_INFORMATION);
+				sectionOrder.add(CONSTANT.PRODUCT_IMAGES_AND_LOGOS);
+		    sectionOrder.add(CONSTANT.COLLABORATION);
+				if(isInternalUser){
+					sectionOrder.add(CONSTANT.PLANNING);
+				}
+		    sectionOrder.add(CONSTANT.MULTICULTURAL);		
+	    }
+			//END : changed for US612/DE636 - Basant
 		
     	contentMap = new Map<string, List<AggregateResult>>();
 		sectionItemNumber = new map<string, integer>();
@@ -449,8 +480,35 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 				           	//+ ' ORDER BY content_description__r.Description__c ASC';
 				           	+ ' ORDER BY content_description__r.Description__c '+ (R_OrdertByAlpha != null && R_OrdertByAlpha.trim() != '' ? R_OrdertByAlpha+' ' : 'ASC ') ;
 		sectionQuery.put(CONSTANT.MULTICULTURAL, queryMUL);
-		/* End: changes for R_SearchResult page Harish Khatri(Appirio Offshore) */ 		
+		/* End: changes for R_SearchResult page Harish Khatri(Appirio Offshore) */
+			//START : changed for US612/DE636 - Basant	
+	     String queryResponsive    	= ' SELECT Sub_Category__c, Sub_Sub_Category__c, Sub_Sub_Sub_Category__c, content_description__r.Tags__c, content_description__r.is_video__c is_video, content_description__r.video_id__c video_id, content_description__r.Title__c title, content_description__r.Description__c description, content_description__r.Content_Version_Id__c cvid, content_description__r.filetype__c filetype, content_description__r.Preview_Available__c previewAvailable, content_description__r.Preview_Id__c previewId, content_description__r.filesize__c filesize, content_description__r.filesize_low__c filesize_low, content_description__r.Content_Version_Id_Low__c cvidlow, max(content_description__r.Uploaded_date__c) createdDate, content_description__r.image_resolution__c imageRes  FROM content_property__c' 
+	 	 		   		  	+ ' WHERE content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') and Category__c in ('+sectionsListsForResponsive()+') '
+   						   	+ ' AND (content_description__r.Content_Id__c in ('+brandIdsString+') OR ( content_description__r.Portfolio__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ) '
+				   		   	+ ' AND (((content_description__r.Title__c like \'%'+searchValue+'%\' OR content_description__r.Description__c like \'%'+searchValue+'%\' OR content_description__r.Tags__c like \'%'+searchValue+'%\'))' + ((ids!='') ? ' OR (content_description__r.content_version_id__c in ('+ids+') OR content_description__r.content_version_id_low__c in ('+ids+'))) ' : ')') +
+				          + ' GROUP BY Sub_Category__c, content_description__r.Tags__c, Sub_Sub_Category__c, Sub_Sub_Sub_Category__c, content_description__r.is_video__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.Content_Version_Id_Low__c, content_description__r.image_resolution__c  '+ 
+				          + ' ORDER BY content_description__r.Description__c '+ (R_OrdertByAlpha != null && R_OrdertByAlpha.trim() != '' ? R_OrdertByAlpha+' ' : 'ASC ') ;
+		sectionQuery.put(RESPONSIVE, queryResponsive);
+	    //END : changed for US612/DE636 - Basant
     }
+    
+	//START : changed for US612/DE636 - Basant
+	private String sectionsListsForResponsive() {
+		String R_sections = '';
+		R_sections = '\'' + CONSTANT.MONTHLY_EXECUTION_PLAN + '\'' +
+			', \'' + innovationSectionName + '\'' +
+	    ', \'' + CONSTANT.SELLING_MATERILAS + '\'' +
+			', \'' + CONSTANT.CATEGOTY_DEVELOPMENT + '\'' +
+	    ', \'' + CONSTANT.BRAND_MARKETING_INFORMATION + '\'' +
+			', \'' + CONSTANT.PRODUCT_IMAGES_AND_LOGOS + '\'' +
+	    ', \'' + CONSTANT.COLLABORATION + '\'';
+			if(isInternalUser){
+				R_sections += ', \'' + CONSTANT.PLANNING + '\'';
+			}
+	    R_sections += ', \'' + CONSTANT.MULTICULTURAL + '\'';	
+		return R_sections;
+	}
+	//END : changed for US612/DE636 - Basant
     
 	// Start: Changes for Responsive Site - Randy Wandell (Appirio) 7/10/13    
     public void setResponsiveState() {

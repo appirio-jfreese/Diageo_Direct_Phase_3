@@ -150,6 +150,7 @@ private class Test_Controller_IVAPDetails {
 		 	Test.StartTest();
 		 	ts.insertContentBrands();
 		 	ApexPages.currentPage().getParameters().put('id', ts.calendarVap.id);
+		 	ApexPages.currentPage().getParameters().put('date', '11/1/2011');
 		 	
 		 	System.RunAs(ts.user){
 		 		Controller_IVAPDetails c = new Controller_IVAPDetails();
@@ -158,7 +159,7 @@ private class Test_Controller_IVAPDetails {
 				System.assertEquals('VAP', c.salesDriverDescription );
 				System.assertEquals('description1', c.description );
 				System.assertEquals('calendar3', c.breadCrumbLinks[1].linkName );
-				
+				System.assertEquals(true,c.detailsHolderMap.size()>0);
 		 	}
 		 	Test.stopTest();
 		}
@@ -187,5 +188,29 @@ private class Test_Controller_IVAPDetails {
 		 	Test.stopTest();
 		}
 	 }
+	 
+	 static testmethod void testResponsive(){
+	 	User thisUser = [ select Id from User where Id = :UserInfo.getUserId() ];
+		System.runAs ( thisUser ) {
+		 	PageReference pageRef = Page.R_IVAPDetails;
+	        Test.setCurrentPage(pageRef);
+		 	TestSettings ts = new  TestSettings();
+		 	Test.StartTest();
+		 	ts.insertContentBrands();
+		 	ApexPages.currentPage().getParameters().put('id', ts.calendarPack.id);
+		 	
+		 	System.RunAs(ts.user){
+		 		Controller_IVAPDetails c = new Controller_IVAPDetails();
+		 		System.assertEquals(ts.calendarPack.id, c.ivapItem.id );
+		 		System.assertEquals('11/1/2011 - 11/10/2011', c.dateDescription );
+				System.assertEquals('Pack & Label Changes', c.salesDriverDescription );
+				System.assertEquals('description1', c.description );
+				System.assertEquals('calendar4', c.breadCrumbLinks[1].linkName );
+				
+		 	}
+		 	Test.stopTest();
+		}
+	 }
+	 
 
 }

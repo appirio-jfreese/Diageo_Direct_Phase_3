@@ -376,19 +376,7 @@ global public without sharing virtual class Controller_Base {
         selectedYear = String.valueOf(System.today().year());
         // END : Changes For US585/TA1081   : Parul Gupta
         
-        // START :  Change for TimePeriod Filter :Geeta Kumawat
-        // get time periods
-        /*monthOrQuarterRender = true;
-        calendar = new Service_Calendar();
-        calendar.initDateRange(3, null);    // quarter view
-        calendarMonthView = new Service_Calendar();
-        calendarMonthView.initDateRange(1, null);
-        currentQtr = calendar.fiscalQuarter;
-        currentMth = calendarMonthView.fiscalMonth;
-        quarterShift = 0;
-        monthShift = 0;
-        initTimePeriodsComp();*/
-        // END :  Change for TimePeriod Filter :Geeta Kumawat
+        
     }
     
     public List<SelectOption> getNumberOfItemsPerPageList() {
@@ -1010,7 +998,7 @@ global public without sharing virtual class Controller_Base {
         catch (Exception e) {
             ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to add items to basket.' ));
         }
-    }   
+    }
     
     public void removeFromBasket(){
         try {
@@ -1382,105 +1370,5 @@ global public without sharing virtual class Controller_Base {
     }
     // END : Changes For US585/TA1081   
     
-    // START : Changes For Filters  : Geeta Kumawat
-    // time period
-    // calendar
-    /*public String dateRangeDescription {get; set;}
-    protected Service_Calendar calendar;
-    protected Service_Calendar calendarMonthView;
-    public  List<Map<String, String>> quarterViewsList {public get; public set;}
-    public  List<Map<String, String>> monthViewsList {public get; public set;}
-    public String selectedTimePeriods {get; set;}
-    protected List<Integer> selectedTimePeriodsList {protected get; protected set;}
-    protected Integer quarterShift {protected get; protected set;}
-    protected Integer currentQtr {protected get; protected set;}
-    protected Integer monthShift {protected get; protected set;}
-    protected Integer currentMTH {protected get; protected set;}
-    public Boolean monthOrQuarterRender {get; set;} // true = Quarter
     
-    public void nextPeriodComp() {
-        if(monthOrQuarterRender){//quarter
-            calendar.incrementQuarter(1);
-            quarterShift++;
-            selectedTimePeriods = '';
-            validSelectedTimePeriodsListComp();
-            initTimePeriodsComp();
-            refreshPageContent();
-            expandFilter = false;
-        } else {//month
-            calendarMonthView.incrementMonth(3);
-            monthShift = monthShift + 3;
-            selectedTimePeriods = '';
-            validSelectedTimePeriodsListComp();
-            initTimePeriodsComp();
-            refreshPageContent();
-            expandFilter = false;
-        }
-        system.debug('nextPeriodC:::quarterViewsList@@'+quarterViewsList);
-        system.debug('monthViewsList:::quarterViewsList@@'+monthViewsList);
-    }
-    public void previousPeriodComp() {
-        if(monthOrQuarterRender){
-            calendar.incrementQuarter(-1);
-            quarterShift--;
-            selectedTimePeriods = '';
-            validSelectedTimePeriodsListComp();
-            initTimePeriodsComp();
-            refreshPageContent();
-            expandFilter = false;
-        } else {
-            calendarMonthView.incrementMonth(-3);
-            monthShift = monthShift - 3;
-            selectedTimePeriods = '';
-            validSelectedTimePeriodsListComp();
-            initTimePeriodsComp();
-            refreshPageContent();
-            expandFilter = false;
-        }
-        system.debug('previousPeriodC:::quarterViewsList@@'+quarterViewsList);
-        system.debug('monthViewsList:::quarterViewsList@@'+monthViewsList);
-    }
-    private void initTimePeriodsComp() {
-        quarterViewsList = Service_UserInput.getQuarterOptions(calendar.fiscalQuarter, calendar.fiscalYear, calendar.startDate);
-        monthViewsList = Service_UserInput.getMonthsOptions(calendarMonthView);
-    }
-    private List<Integer> validSelectedTimePeriodsListComp(){
-        List<String> quarterListTemp = new List<String>();
-        selectedTimePeriodsList = new List<Integer>();
-        if(selectedTimePeriods == null || selectedTimePeriods == ''){
-            selectedTimePeriods = '';
-            return selectedTimePeriodsList;
-        }
-        quarterListTemp = selectedTimePeriods.split(',');
-        if(monthOrQuarterRender){
-            for(String selectedQtr : quarterListTemp){
-                if(selectedQtr != null && selectedQtr != ''){
-                    Integer tempQtr = Integer.valueOf(selectedQtr);
-                    if(tempQtr >= 0 && tempQtr <= 3){
-                        selectedTimePeriodsList.add(tempQtr);
-                    }
-                }
-            }
-        } else {
-            for(String selectedQtr : quarterListTemp){
-                if(selectedQtr != null && selectedQtr != ''){
-                    Integer tempQtr = Integer.valueOf(selectedQtr);
-                    if(tempQtr >= 0 && tempQtr <= 11){
-                        selectedTimePeriodsList.add(tempQtr);
-                    }
-                }
-            }
-        }
-
-        String validselectedTimePeriodsString = '';
-        String glue = '';
-        for (Integer qtr : selectedTimePeriodsList) {         
-            validselectedTimePeriodsString += glue + qtr;
-            glue = ',';
-        }       
-        
-        selectedTimePeriods =  ',' + validselectedTimePeriodsString + ',';
-        return selectedTimePeriodsList;
-    } */
-    // END : Changes for Filters
 }

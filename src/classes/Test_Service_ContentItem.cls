@@ -51,9 +51,22 @@ private class Test_Service_ContentItem {
         
         // Creates test data
         createTestData();
+        //sci.editableIdsString = ''+
+        system.debug('resultHolder@@@ :'+resultHolder);
         sci.setaggregated(resultHolder);       
         system.assert(sci.canEdit() == true);
         system.assert(sci.cvid1 != null);
+        system.assert(sci.cid != null);
+        system.assert(sci.getisNew() == false);
+        system.assert(sci.inFollow == false);
+        system.assert(sci.inBasket == false);
+        system.assert(sci.title1 != null);
+        system.assert(sci.inFollow == false);
+        system.assert(sci.cutoffDescription2  != null);
+        system.assert(sci.previewId1  == null);
+        system.assert(sci.videoId1  == null);
+         
+        system.assert(sci.fileTypePath != null);
     }
       
     // Method Creates test data

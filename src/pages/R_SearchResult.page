@@ -36,35 +36,19 @@ Story/Task	: US612/DE634
 					<apex:messages styleClass="errorMessagesList" />
 				</apex:outputPanel>
 				
-				<apex:outputPanel rendered="{!NOT(secondZeroResult)}">
-					<h2 class="with-select">
-						<span class="title">
-							Search Results
-						</span>
-						<!-- START : Changed for US612/DE634 - Basant Verma -->
-						<select class="sortOpt" id="sortOptId" >
-	          	<option value="Alpha_Asc">Alphabetical, A-Z</option>
-	            <option value="Alpha_Desc">Alphabetical, Z-A</option>
-	          	<option value="Date_Asc">Date, Ascending</option>
-	            <option value="Date_Desc">Date, Descending</option>
-						</select>
-						<!-- END : Changed for US612/DE634 - Basant Verma -->
-	        </h2>
-        </apex:outputPanel>
-				
 				<apex:outputPanel id="pageContent">
-					<apex:outputPanel rendered="{!NOT(isDetails)}">
-						<apex:outputPanel rendered="{!firstZeroResult}" styleClass="searchMessage">
-							<br/><h6>Please refine your search and try again.</h6><br/>
-						</apex:outputPanel>
-						<apex:outputPanel rendered="{!secondZeroResult}" styleClass="searchMessage">
-							<br/><h6>If you would like help finding something <a href="{!$Page.Cases}?caseType=Finding%20Information">contact us</a></h6><br/>
-						</apex:outputPanel>
+					<!-- START : changed for US612/DE636 - Basant -->
+					<apex:outputPanel rendered="{!firstZeroResult}" styleClass="searchMessage">
+						<br/><h6>Please refine your search and try again.</h6><br/>
+					</apex:outputPanel>
+					<apex:outputPanel rendered="{!secondZeroResult}" styleClass="searchMessage">
+						<br/><h6>If you would like help finding something <a href="{!$Page.Cases}?caseType=Finding%20Information">contact us</a></h6><br/>
+					</apex:outputPanel>
+					<!-- <apex:outputPanel rendered="{!NOT(isDetails)}">
 						<apex:outputPanel rendered="{!NOT(secondZeroResult)}">
 							<c:R_OperationLines showPages="false" pageNamePrefix="mep" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
 								<div class="doc-list">
-				        		<!-- START : Modified By Basant : Grid view get distorted -->
-										<apex:repeat value="{!sectionOrder}" var="sectionName">
+				        		<apex:repeat value="{!sectionOrder}" var="sectionName">
 											<div class="list-view">	
 											<apex:outputPanel rendered="{!AND(!ISNULL(contentMap[sectionName]),sectionItemNumber[sectionName]!=0)}">
 													<h6>{!sectionName}</h6>
@@ -75,28 +59,43 @@ Story/Task	: US612/DE634
 											</apex:outputPanel>
 											</div>
 										</apex:repeat>
-										<!-- END : Modified By Basant : Grid view get distorted -->
 								</div>
 							</c:R_OperationLines>
 							<c:R_pagination totalNumberOfPages="{!numberOfPages}" showPager="false" isNewContent="{!isNewContent}" pageNumbers="{!pageNumbers}" numberOfCurrentPage="1" />
 						</apex:outputPanel>
-					</apex:outputPanel>
+					</apex:outputPanel> -->
+					<!-- END : changed for US612/DE636 - Basant -->
 					
-					<apex:outputPanel rendered="{!isDetails}">
+					<apex:outputPanel rendered="{!AND(isDetails, sectionContentHolder.size > 0)}">
+						<apex:outputPanel rendered="{!NOT(secondZeroResult)}">						
+							<h2 class="with-select">
+								<span class="title">
+									Search Results
+								</span>
+								<!-- START : Changed for US612/DE634 - Basant Verma -->
+								<select class="sortOpt" id="sortOptId" >
+	          			<option value="Alpha_Asc">Alphabetical, A-Z</option>
+	            		<option value="Alpha_Desc">Alphabetical, Z-A</option>
+	          			<option value="Date_Asc">Date, Ascending</option>
+	            		<option value="Date_Desc">Date, Descending</option>
+								</select>
+								<!-- END : Changed for US612/DE634 - Basant Verma -->
+	        		</h2>
+						</apex:outputPanel>
 						<apex:inputText value="{!R_MultInFollowWithselAll}" id="multiFollow" styleClass="multiFollow" style="display:none"  /> 
-						<c:R_OperationLines showPages="true" options="{!NumberOfItemsPerPageList}" R_MultInFollow="{!R_MultInFollowWithselAll}" value="{!numberOfItemsOnPage}" className="period-select"   pagesStatus="Showing {!showFromIndex+1}-{!showToIndex} of total {!numberOfItems} documents" pageNamePrefix="mep" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
+						<c:R_OperationLines showPages="true" options="{!NumberOfItemsPerPageList}" R_MultInFollow="{!R_MultInFollowWithselAll}" value="{!numberOfItemsOnPage}" className="period-select"   pagesStatus="Showing {!showFromIndex+1}-{!showToIndex} of {!numberOfItems} documents" pageNamePrefix="mep" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
 							<div class="doc-list">
-				        	<div class="list-view">
+				        	<!-- <div class="list-view">
 										<h6>{!currentSection}</h6>
 										<a href="javascript:;" class="button" style="margin-left: 0px;" onclick="clearSection(); return false;">Back</a>
-									</div>
+									</div> -->
 									<div class="list-view">
 										<apex:repeat value="{!sectionContentHolder}" var="contentItem">
 										<apex:outputPanel styleClass="ListViewContents hidden">
 				       		  	<c:R_contentItem pageNamePrefix="mep" followIds="{!currentFollowIds}"  basketIds="{!currentBasketIds}" aggregated="{!contentItem}" renderAsList="true" displayUploadDate="true" lastLoginDateItem="{!lastLoginDate}" allowFileEdit="false"/>
 										</apex:outputPanel>
 										<apex:outputPanel styleClass="GridViewContents hidden">
-										<c:R_contentItem pageNamePrefix="mep" followIds="{!currentFollowIds}"  basketIds="{!currentBasketIds}" aggregated="{!contentItem}" renderAsList="false" displayUploadDate="true" lastLoginDateItem="{!lastLoginDate}" allowFileEdit="false"/>
+											<c:R_contentItem pageNamePrefix="mep" followIds="{!currentFollowIds}"  basketIds="{!currentBasketIds}" aggregated="{!contentItem}" renderAsList="false" displayUploadDate="true" lastLoginDateItem="{!lastLoginDate}" allowFileEdit="false"/>
 										</apex:outputPanel>
 										</apex:repeat>
 									</div>
@@ -114,7 +113,7 @@ Story/Task	: US612/DE634
 	
 	<apex:form >
 		<apex:actionFunction status="ajax-status" name="userResearch" action="{!userResearch}" rerender="messages, sValue" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();"/>
-		
+			
 		<apex:actionFunction status="ajax-status" name="changeNumberOfItemPerPage" action="{!changeNumberOfItemPerPage}" rerender="messages, pageContent, downloadAllDialog, ds-button" onComplete="jqTransformScript(); sectionVisibility();initializationFunction();">
 		
 		<apex:param name="numberOfItemsOnPage" assignTo="{!numberOfItemsOnPage}" value="" />

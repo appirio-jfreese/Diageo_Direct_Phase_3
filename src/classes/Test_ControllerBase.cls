@@ -51,6 +51,8 @@ private class Test_ControllerBase {
         
         Controller_Base bController = new Controller_Base();
 
+        bController.userShareOverview();
+        System.assertEquals(bController.cDescr, null);
         bController.cVersionId = cDescription.Content_Version_Id__c;
         bController.userShareOverview();
         System.assertEquals(bController.cDescr, cDescription.Description__c);
@@ -298,6 +300,7 @@ private class Test_ControllerBase {
             bController.cVersionId = cd.id;
             bController.addToFollowMultiple();
             bController.addToFollow();
+            Integer followItems = bController.followItemsNo;
             bController.removeFromFollowMultiple();
             bController.removeFromFollow();
         }
@@ -390,10 +393,10 @@ private class Test_ControllerBase {
  				bController.changeSiteTheme();
  				System.assertNotEquals(ApexPages.getMessages(), null);
  				
- 				bController.siteTheme = 'Spirits';
+ 				//bController.siteTheme = 'Spirits';
  				bController.openSpiritsPlanningPage();
  				
- 				bController.siteTheme = 'Wine';
+ 				//bController.siteTheme = 'Wine';
  				bController.openWinePlanningPage();
     	}
     	Test.stopTest();
