@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="css/base.css"/>
+    <link rel="stylesheet" href="css/skeleton-fluid.css"/>
+    <link rel="stylesheet" href="css/layout.css"/>
+    <script type="text/javascript" src="./js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.flexslider-min.js"></script>
+    <script type="text/javascript" src="./js/jquery.jqtransform.js"></script>
+    <script type="text/javascript" src="./js/jquery.modal.min.js"></script>
+    <script type="text/javascript" src="./js/script.js"></script>
+</head>
+<body class="login-page">
+
+<div class="wrapper">
+    <div class="container">
+        <!-- header -->
+        <div class="header">
+
+            <a href="javascript:;" class="gotoSF">
+                <strong>Go To Salesforce</strong>
+            </a>
+            <div class="clear"></div>
+            <div class="row clearfix">
+                <a href="index.html" class="logo">
+                    <img src="i/logo.png"/>
+                </a>
+            </div>
+        </div>
+        <!-- end of header -->
+
+        <!-- content -->
+        <div class="content clearfix">
+
+            <h2>Welcome to Diageo Direct!</h2>
+
+            <div class="login-left">
+                <p>
+                    Your main resource for information, communication and your future port of entry for all DIAGEO-related web based applications.
+                </p>
+                <img src="i/login-image.png"/>
+            </div>
+            <div class="login-right">
+                <h3>Login</h3>
+                <div class="login-form">
+                    <span class="error hide">Invalid Username or Password</span>
+                    <label>Username</label>
+                    <input type="text" class="text"/>
+                    <label>Password</label>
+                    <input type="password" class="text"/>
+                    <div class="check">
+                        <input type="checkbox"/>
+                        <label class="small">Remember Username</label>
+                        <div class="clear"></div>
+                    </div>
+                    <p>
+                        By entering this site you accept our<br>
+                        <a href="term-and-condition.html" class="link">Terms &amp; Conditions</a> and <a href="privacy-and-cookies-notice.html" class="link">Privacy &amp; Cookies Notice</a>.
+                    </p>
+                    <p>
+                        <a href="#usernameModal" rel="modal:open" class="link">Forgot Username?</a> |
+                        <a href="#passwordModal" rel="modal:open" class="link">Forgot Password?</a>
+                    </p>
+                    <div class="buttons">
+                        <a href="index.html" class="button login-btn">Login</a>
+                    </div>
+                </div>
+                <p class="hint">
+                    <strong>New Users:</strong> Please retrieve your user name and temporary password from your Distributor HR administrator or contact the Diageo Customer Collaboration Portal support at <br>1.800-377-8919
+                </p>
+            </div>
+
+            <div class="clear"></div>
+
+        </div>
+
+
+
+    </div>
+    <div class="footer">
+        <a href="javascript:;" class="footer-link-menu">
+            Menu
+        </a>
+        <div class="links">
+            <a href="term-and-condition.html">Terms &amp; Conditions</a> |
+            <a href="privacy-and-cookies-notice.html">Privacy &amp; Cookies Notice</a> |
+            <a href="links.html">Industry Related Links</a> |
+            <a href="faq.html">FAQ</a> |
+            <a href="contact-new-case.html">Contact Us</a>
+        </div>
+        <span>&copy; Diageo 2011</span>
+        <a href="javascript:;" class="go-top"></a>
+    </div>
+
+</div>
+
+
+<div class="modal login-modal show-close-btn" id="usernameModal">
+    <div class="html">
+        <h2>Did you forget your username?</h2>
+        <p>Please enter your email below.</p>
+        <input type="text" class="text"/>
+        <a href="#" class="button">Submit</a>
+        <div class="clear"></div>
+    </div>
+</div>
+
+<div class="modal login-modal show-close-btn" id="passwordModal">
+    <div class="html">
+        <h2>Did you forget your password?</h2>
+        <p>Please enter your email below.</p>
+        <input type="text" class="text"/>
+        <a href="#" class="button">Submit</a>
+        <div class="clear"></div>
+    </div>
+</div>
+
+</body>
+</html>
