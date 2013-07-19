@@ -36,4 +36,14 @@ Story/Task	: US608/DE616
         <a href="#" class="go-top"></a>
         <!-- End : Changes for US608/DE616 - Basant Verma -->
     </div>
+    
+    <script type="text/javascript">
+    jQuery(document).ready(function() {
+        var w = jQuery(this);
+        if (w.width() < 670){
+            jQuery(".footer .links").slideToggle("click");
+        }
+    }); 
+</script>
+    
 </apex:component>
