@@ -55,7 +55,7 @@ Story/Task	: US584
 
             <div class="boxes">
                 <div class="column default">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-1.png')}" />
+                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/'+siteTheme+'/mep.png')}" />
                     <a class="pink" href="{!$Page.R_MonthlyExecutionPlan}">Monthly Execution Plan</a>
                 </div>
 
@@ -66,12 +66,12 @@ Story/Task	: US584
 -->
 
                 <div class="column default">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-3.png')}"/>
+                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/'+siteTheme+'/sm.png')}"/>
                     <a class="purple" href="{!$Page.R_SMIntro}">Selling Materials</a>
                 </div>
 
                 <div class="column last default">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-13.png')}"/>
+                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/'+siteTheme+'/isv.png')}"/>
                     <a class="med-green two-lines" href="{!$Page.R_InnovationAndVAP}">Innovation,<br/>Sustainovation and VAP</a>
                 </div>
 
@@ -145,20 +145,16 @@ Story/Task	: US584
                 <!--  Add link to full site as a tab per client request, with two blank tabs to the right -->
                 
                 <div class="column default">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-4.png')}"/>
                     <a class="black" href="{!$Page.HomePage}">Full Site</a>
                 </div>
 
-                <div class="column default">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-5.png')}"/>
-<!--                     <a class="empty" href="javascript:;">&nbsp;</a>         -->
+                <div class="column default empty">
+                    <a class="black" href="javascript:;"></a>
                 </div>
 
-                <div class="column last default">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-6.png')}"/>
-<!--                     <a class="dark-blue" href="javascript:;">&nbsp;</a>         -->
+                <div class="column default empty last">
+                    <a class="black" href="javascript:;"></a>
                 </div>
-
 
             </div>
 
@@ -166,93 +162,93 @@ Story/Task	: US584
     </div>
 
     <apex:outputPanel rendered="{!if(isInternalUser, 'true', 'false')}" >        
-        <div class="ads" style="margin: 10px auto 0 auto;">
-            <a class="ad" style="margin-right: 6px; width: 186px;
-                background: url({!URLFOR($Resource.Responsive_Base)}/i/ad_i_1_diageo_wines2.png) 0 0 no-repeat;"
+        <div class="ads">
+            <a class="ad" style="width: 186px;
+                background: url({!URLFOR($Resource.Responsive_Base)}/i/Ads/ad_i_1_diageo_wines2.png) 0 0 no-repeat;"
                 href="/idp/login?app={!ssoId}&RelayState={!hexDiageowines}" target="_blank"
                 onclick="pageViewed('Home Page - diageo_wines2.png');">
             </a>
-            <a class="ad" style="margin-right: 6px; width: 119px;
-                background: url({!URLFOR($Resource.Responsive_Base)}/i/ad_i_2_diageo_ways2.png) 0 0 no-repeat;"
+            <a class="ad" style="width: 119px;
+                background: url({!URLFOR($Resource.Responsive_Base)}/i/Ads/ad_i_2_diageo_ways2.png) 0 0 no-repeat;"
                 href="/idp/login?app={!ssoId}&RelayState={!hexDwsacademies}" target="_blank"
                 onclick="pageViewed('Home Page - diageo_ways2.png');">
             </a>
-            <a class="ad" style="margin-right: 6px; width: 186px;
-                background: url({!URLFOR($Resource.Responsive_Base)}/i/ad_i_3_national_accounts2.png) 0 0 no-repeat;"
+            <a class="ad" style="width: 186px;
+                background: url({!URLFOR($Resource.Responsive_Base)}/i/Ads/ad_i_3_national_accounts2.png) 0 0 no-repeat;"
                 href="http://v6.diageonac.com" target="_blank"
                 onclick="pageViewed('Home Page - national_accounts2.png');">
             </a>
-            <a class="ad" style="margin-right: 6px; width: 119px;
-                background: url({!URLFOR($Resource.Responsive_Base)}/i/ad_i_4_diageo_drinks2.png) 0 0 no-repeat;"
+            <a class="ad" style="width: 119px;
+                background: url({!URLFOR($Resource.Responsive_Base)}/i/Ads/ad_i_4_diageo_drinks2.png) 0 0 no-repeat;"
                 href="http://www.diageodrinks.com" target="_blank"
                 onclick="pageViewed('Home Page - diageo_drinks2.png');">
             </a>
-            <a class="ad" style="margin-right: 6px; width: 177px;
-                background: url({!URLFOR($Resource.Responsive_Base)}/i/ad_i_5_code_policies2.png) 0 0 no-repeat;"
+            <a class="ad" style="width: 186px;
+                background: url({!URLFOR($Resource.Responsive_Base)}/i/Ads/ad_i_5_code_policies2.png) 0 0 no-repeat;"
                 href="{!$Page.R_CodesPolicies}"
                 onclick="pageViewed('Home Page - code_policies2.png');">
             </a>
-            <a class="ad" style="margin-right: 0px; width: 118px;
-                background: url({!URLFOR($Resource.Responsive_Base)}/i/ad_i_6_smart_brand2.png) 0 0 no-repeat;"
+            <a class="ad" style="width: 118px; margin-right: 0px;
+                background: url({!URLFOR($Resource.Responsive_Base)}/i/Ads/ad_i_6_smart_brand2.png) 0 0 no-repeat;"
                 href="http://www.diageosmartbrand.com" target="_blank"
                 onclick="pageViewed('Home Page - smart_brand2.png');">
             </a>           
         </div>
     </apex:outputPanel>
-    <apex:outputPanel rendered="{{!if(isInternalUser, 'false', 'true')}" >
+    <apex:outputPanel rendered="{!if(isInternalUser, 'false', 'true')}" >
         <apex:outputPanel rendered="{!if(innovationSectionName,'true','false')}" >
-            <div class="ads" style="margin: 9px auto 0 auto;">
-                <a class="ad" style="margin-right: 4px; width: 219px;
-                    background: url({!URLFOR($Resource.Responsive_Base)}/i/ad_es_1_diageo_wines.png) 0 0 no-repeat;"
+            <div class="ads">
+                <a class="ad" style="width: 219px;
+                    background: url({!URLFOR($Resource.Responsive_Base)}/i/Ads/ad_es_1_diageo_wines.png) 0 0 no-repeat;"
                     href="/idp/login?app={!ssoId}&RelayState={!hexDiageowines}" target="_blank"
                     onclick="pageViewed('Home Page - diageo_wines.png');">
                 </a>
-                <a class="ad" style="margin-right: 4px; width: 131px;
-                    background: url({!URLFOR($Resource.Responsive_Base)}/i/ad_e_2_diageo_drinks.png) 0 0 no-repeat;"
+                <a class="ad" style="width: 131px;
+                    background: url({!URLFOR($Resource.Responsive_Base)}/i/Ads/ad_e_2_diageo_drinks.png) 0 0 no-repeat;"
                     href="http://www.diageodrinks.com" target="_blank"
                     onclick="pageViewed('Home Page - diageo_drinks.png');">
                 </a>
-                <a class="ad" style="margin-right: 4px; width: 219px;
-                    background: url({!URLFOR($Resource.Responsive_Base)}/i/ad_e_3_national_accounts.png) 0 0 no-repeat;"
+                <a class="ad" style="width: 219px;
+                    background: url({!URLFOR($Resource.Responsive_Base)}/i/Ads/ad_e_3_national_accounts.png) 0 0 no-repeat;"
                     href="http://v6.diageonac.com" target="_blank"
                     onclick="pageViewed('Home Page - national_accounts.png');">
                 </a>
-                <a class="ad" style="margin-right: 4px; width: 132px;
-                    background: url({!URLFOR($Resource.Responsive_Base)}/i/ad_e_4_smart_library.png) 0 0 no-repeat;"
+                <a class="ad" style="width: 132px;
+                    background: url({!URLFOR($Resource.Responsive_Base)}/i/Ads/ad_e_4_smart_library.png) 0 0 no-repeat;"
                     href="https://www.diageosmartbrand.com/login/" target="_blank"
                     onclick="pageViewed('Home Page - smart_library.png');">
                 </a>
-                <a class="ad" style="margin-right: 0px; width: 219px;
-                    background: url({!URLFOR($Resource.Responsive_Base)}/i/ad_e_5_codes_policies.png) 0 0 no-repeat;"
+                <a class="ad" style="width: 219px; margin-right: 0px;
+                    background: url({!URLFOR($Resource.Responsive_Base)}/i/Ads/ad_e_5_codes_policies.png) 0 0 no-repeat;"
                     href="{!$Page.R_CodesPolicies}"
                     onclick="pageViewed('Home Page - codes_policies.png');">
                 </a>
             </div>
         </apex:outputPanel>
-        <apex:outputPanel rendered="!if(NOT(innovationSectionName),'true','false')}" >
-            <div class="ads" style="margin: 55px auto 0 auto;">
-                <a class="ad" style="margin-right: 6px; width: 119px;
-                    background: url({!URLFOR($Resource.Responsive_Base)}/i/ad_ew_1_diageo_ways2.png) 0 0 no-repeat;"
+        <apex:outputPanel rendered="!if(innovationSectionName),'false','true')}" >
+            <div class="ads">
+                <a class="ad" style="width: 119px;
+                    background: url({!URLFOR($Resource.Responsive_Base)}/i/Ads/ad_ew_1_diageo_ways2.png) 0 0 no-repeat;"
                     href="/idp/login?app={!ssoId}&RelayState={!hexDwsacademies}" target="_blank"
                     onclick="pageViewed('Home Page - diageo_ways2.png');">
                 </a>
-                <a class="ad" style="margin-right: 6px; width: 131px;
-                    background: url({!URLFOR($Resource.Responsive_Base)}/i/ad_e_2_diageo_drinks.png) 0 0 no-repeat;"
+                <a class="ad" style="width: 131px;
+                    background: url({!URLFOR($Resource.Responsive_Base)}/i/Ads/ad_e_2_diageo_drinks.png) 0 0 no-repeat;"
                     href="http://www.diageodrinks.com" target="_blank"
                     onclick="pageViewed('Home Page - diageo_drinks.png');">
                 </a>
-                <a class="ad" style="margin-right: 6px; width: 219px;
-                    background: url({!URLFOR($Resource.Responsive_Base)}/i/ad_e_3_national_accounts.png) 0 0 no-repeat;"
+                <a class="ad" style="width: 219px;
+                    background: url({!URLFOR($Resource.Responsive_Base)}/i/Ads/ad_e_3_national_accounts.png) 0 0 no-repeat;"
                     href="http://v6.diageonac.com" target="_blank"
                     onclick="pageViewed('Home Page - national_accounts.png');">
                 </a>
-                <a class="ad" style="margin-right: 6px; width: 132px;
-                    background: url({!URLFOR($Resource.Responsive_Base)}/i/ad_e_4_smart_library.png) 0 0 no-repeat;"
+                <a class="ad" style="width: 132px;
+                    background: url({!URLFOR($Resource.Responsive_Base)}/i/Ads/ad_e_4_smart_library.png) 0 0 no-repeat;"
                     href="https://www.diageosmartbrand.com/login/" target="_blank"
                     onclick="pageViewed('Home Page - smart_library.png');">
                 </a>
-                <a class="ad" style="margin-right: 0px; width: 219px;
-                    background: url({!URLFOR($Resource.Responsive_Base)}/i/ad_e_5_codes_policies.png) 0 0 no-repeat;"
+                <a class="ad" style="width: 219px; margin-right: 0px;
+                    background: url({!URLFOR($Resource.Responsive_Base)}/i/Ads/ad_e_5_codes_policies.png) 0 0 no-repeat;"
                     href="{!$Page.R_CodesPolicies}"
                     onclick="pageViewed('Home Page - codes_policies.png');">
                 </a>

@@ -30,7 +30,7 @@ Story/Task  : US609/DE654
 	                		<!-- START : Changed for US609/DE654 - Basant Verma -->
 	                    <div class="column default {!IF(section == lastItem,'last','')}" style="display: {!IF(ISNULL(selectedSection), 'block', 'none')};" >
 	                    <!-- END : Changed for US609/DE654 - Basant Verma -->
-		                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-3.png')}"/>
+		                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-1.png')}"/>
 		                    <a class="purple" href="javascript:;" onclick="addInBreadcrumb('{!$Page.R_SMIntro}', '{!section}');" data-related="{!idMap[section]}-boxes">{!section}</a>
  	                    </div>
  	                </apex:repeat>
@@ -44,7 +44,7 @@ Story/Task  : US609/DE654
 							<!-- START : Changed for US609/DE654 - Basant Verma -->
 							<div class="column {!idMap[section]}-boxes {!IF(AND(!ISNULL(selectedSection), selectedSection == section), '', 'hide')} {!IF(currentItem/currentRow==3,'last','')}">
 							<!-- END : Changed for US609/DE654 - Basant Verma -->
-								<img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-3.png')}"/>
+								<img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-1.png')}"/>
 								<a class="purple" href="{!$Page.R_SellingMaterials}?section={!urlencode(section)}&subsection={!urlencode(totalSubSectionsMap[subSection])}&openfilter=true">
 									<div style="position: relative; top: 24px; line-height: 25px;">{!subSection}</div>
 								</a>
