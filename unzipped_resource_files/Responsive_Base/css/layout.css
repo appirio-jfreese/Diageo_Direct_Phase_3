@@ -653,6 +653,9 @@ h3 {
         margin-top: 11px;
         background: #1b1b1b;
     }
+    .boxes .sub-box {
+        background: url(../i/tile-bg.png) 0 0 no-repeat;
+    }
     .boxes .column.last {
         margin-right: 0;
     }
@@ -2484,6 +2487,14 @@ h3 {
             .pla-page .doc-list .grid-view .jqTransformCheckboxWrapper {
                 border-color: #d07030;
             }
+            .cd-page .doc-list .grid-view .setting-btn,
+            .cd-page .doc-list .grid-view .jqTransformCheckboxWrapper {
+                border-color: #a04010;
+            }
+            .bmi-page .doc-list .grid-view .setting-btn,
+            .bmi-page .doc-list .grid-view .jqTransformCheckboxWrapper {
+                border-color: #2080a0;
+            }
 
     .calendar-head {
         border: 1px solid #ddd;
@@ -3152,12 +3163,11 @@ h3 {
         }
         .contact-new-case-page h2.jqtransformdone,
         .user-profile-page h2.jqtransformdone,
-        .faq-page h2.jqtransformdone,
-        .mep-page h2.jqtransformdone {
+        .faq-page h2.jqtransformdone {
             height: 36px;
         }
             h2.jqtransformdone .jqTransformSelectWrapper {
-                margin-top: 46px;
+                margin-top: 46px ;
             }
             h2.jqtransformdone a.right-btn {
                 float: left;
@@ -3221,6 +3231,11 @@ h3 {
 	@media only screen and (max-width: 670px) {
         .wrapper {
             padding: 0;
+            overflow: hidden;
+        }
+        .content {
+            width: 96.875%;
+            margin: 0 auto;
         }
         .header {
             position: relative;
@@ -3328,9 +3343,6 @@ h3 {
 
         h1 {
             margin-bottom: 15px;
-        }
-        .wrapper {
-            padding: 5px;
         }
         .main {
             float: none;
