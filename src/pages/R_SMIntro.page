@@ -1,5 +1,9 @@
 <!------------------------------------------------------------------------------
 Name        : SMIntro.page
+
+Updated By  : Basant Verma (Appirio OffShore)   
+Date        : 7/19/13
+Story/Task  : US609/DE654
 ------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_SMIntro">
 <body class="home-page sm-page">
@@ -23,9 +27,11 @@ Name        : SMIntro.page
 	            	<apex:repeat value="{!sections}" var="section"><apex:variable var="lastItem" value="{!section}"/></apex:repeat>
 	            	
 	                <apex:repeat value="{!sections}" var="section">
-	                    <div class="column default {!IF(section == lastItem,'last','')}" >
+	                		<!-- START : Changed for US609/DE654 - Basant Verma -->
+	                    <div class="column default {!IF(section == lastItem,'last','')}" style="display: {!IF(ISNULL(selectedSection), 'block', 'none')};" >
+	                    <!-- END : Changed for US609/DE654 - Basant Verma -->
 		                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-3.png')}"/>
-		                    <a class="purple" href="javascript:;" data-related="{!idMap[section]}-boxes">{!section}</a>
+		                    <a class="purple" href="javascript:;" onclick="addInBreadcrumb('{!$Page.R_SMIntro}', '{!section}');" data-related="{!idMap[section]}-boxes">{!section}</a>
  	                    </div>
  	                </apex:repeat>
  	                
@@ -35,8 +41,9 @@ Name        : SMIntro.page
  	                <apex:repeat value="{!sections}" var="section">
 						<apex:variable var="currentItem" value="{!1}" />
                         <apex:repeat value="{!subSectionsMap[section]}" var="subSection">
-
-							<div class="column {!idMap[section]}-boxes hide {!IF(currentItem/currentRow==3,'last','')}">
+							<!-- START : Changed for US609/DE654 - Basant Verma -->
+							<div class="column {!idMap[section]}-boxes {!IF(AND(!ISNULL(selectedSection), selectedSection == section), '', 'hide')} {!IF(currentItem/currentRow==3,'last','')}">
+							<!-- END : Changed for US609/DE654 - Basant Verma -->
 								<img src="{!URLFOR($Resource.Responsive_Base, 'i/home-image-3.png')}"/>
 								<a class="purple" href="{!$Page.R_SellingMaterials}?section={!urlencode(section)}&subsection={!urlencode(totalSubSectionsMap[subSection])}&openfilter=true">
 									<div style="position: relative; top: 24px; line-height: 25px;">{!subSection}</div>
@@ -58,5 +65,10 @@ Name        : SMIntro.page
 	    </div>
 	</div>
 </body>
-
+<apex:form >
+	<apex:actionFunction status="ajax-status" name="addInBreadcrumb" action="{!addInBreadcrumb}" rerender="beadcrumblinks">
+		<apex:param name="bdLink" assignTo="{!bdLink}" value="" />
+		<apex:param name="bdLinkName" assignTo="{!bdLinkName}" value="" />
+	</apex:actionFunction>
+</apex:form>
 </apex:page>

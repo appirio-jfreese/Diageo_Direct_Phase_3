@@ -40,6 +40,10 @@ Story/Task  : US607/TA1014
 Updated By  : Basant Verma (Appirio OffShore)   
 Date        : 7/1/13
 Story/Task  : US607/TA1014
+
+Updated By  : Basant Verma (Appirio OffShore)   
+Date        : 7/19/13
+Story/Task  : US609/DE654
 *******************************************************************************************************************/
 
 global public without sharing virtual class Controller_Base {
@@ -1370,5 +1374,12 @@ global public without sharing virtual class Controller_Base {
     }
     // END : Changes For US585/TA1081   
     
-    
+    // Start : Changes for US609/DE654 - Basant
+    public String bdLink {get; set;}
+		public String bdLinkName {get; set;}
+		public void addInBreadcrumb(){
+			if(bdLink != null && !bdLink.trim().equals('') && bdLinkName != null && !bdLinkName.trim().equals(''))
+				addBreadcrumbItem(bdLink, bdLinkName);
+		}
+		// END : Changes for US609/DE654 - Basant
 }

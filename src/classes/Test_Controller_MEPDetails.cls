@@ -77,6 +77,7 @@ private class Test_Controller_MEPDetails {
 			System.assertEquals('Distribution', c.salesDriverDescription );
 			System.assertEquals('description1', c.description );
 			c.initTheme();
+			System.assertEquals(c.contentHolderMap !=null,true);
 	 	}
 	 	Test.StopTest();
 		
