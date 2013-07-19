@@ -225,7 +225,7 @@ Story/Task	: US584
                 </a>
             </div>
         </apex:outputPanel>
-        <apex:outputPanel rendered="!if(innovationSectionName),'false','true')}" >
+        <apex:outputPanel rendered="{!if(innovationSectionName,'false','true')}" >
             <div class="ads">
                 <a class="ad" style="width: 119px;
                     background: url({!URLFOR($Resource.Responsive_Base)}/i/Ads/ad_ew_1_diageo_ways2.png) 0 0 no-repeat;"
