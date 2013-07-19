@@ -67,7 +67,7 @@ Date        : 7/10/13
 						</apex:outputPanel>
 	                           
 	                	<apex:outputPanel rendered="{!AND(AND(!ISNULL(content),content.size!=0))}">       
-	                		<c:R_OperationLines showPages="true" className="period-select"  value="{!numberOfItemsOnPage}" options="{!NumberOfItemsPerPageList}" pagesStatus="Showing {!showFromIndex+1}-{!showToIndex} of total {!numberOfItems} documents" pageNamePrefix="sm" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
+	                		<c:R_OperationLines showPages="true" className="period-select"  value="{!numberOfItemsOnPage}" options="{!NumberOfItemsPerPageList}" pagesStatus="Showing {!showFromIndex+1}-{!showToIndex} of {!numberOfItems} documents" pageNamePrefix="sm" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
 							<div class="doc-list">
 	                      		<div class="list-view">                
 	                        	<apex:variable value="" var="currentSubSubSubCategory"/>
