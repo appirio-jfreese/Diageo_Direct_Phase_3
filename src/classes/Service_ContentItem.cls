@@ -375,7 +375,7 @@ global public with sharing class Service_ContentItem {
                 else if  (fileType1=='PNG'){
                     ret='/i/filetype/png_120.png';
                 }
-                else if  (fileType1=='POWERPOINT' || fileType1=='POWERPOINT_M' || fileType1=='POWERPOINT_X'){
+                else if  (fileType1=='POWER_POINT' || fileType1=='POWER_POINT_M' || fileType1=='POWER_POINT_X'){
                     ret='/i/filetype/ppt_120.png';
                 }
                 else if  (fileType1=='PSD'){
