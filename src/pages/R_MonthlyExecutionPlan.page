@@ -150,7 +150,7 @@ Story/Task  : US585/TA1081
                                         <div style="{!programData.styleBackgroundImage} background-repeat: no-repeat; background-position: center; height: 60%;"></div>
                                         <div style="height: 10px; width: 100%;"></div>
                                     </apex:outputPanel>
-                                    <a class="p" href="" style="">{!programData.label}</a>
+                                    <a class="p" href="" style="line-height: 1; {!programData.styleTextColor}; font-weight: bold;">{!programData.label}</a>
                                 </div>
                                 <div style="height: 10px; width: 100%;"></div>                              
                                                                                                 
@@ -194,5 +194,4 @@ Story/Task  : US585/TA1081
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReadyCommonLoader.js')}"></script>
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4MainPage.js')}"></script>
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docReady4MainPage.js')}"></script>
-
 </apex:page>

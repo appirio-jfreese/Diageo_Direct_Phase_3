@@ -277,6 +277,9 @@ Story/Task  : US503/TA907
                 <a href="{!$Page.CodesPolicies}" onclick="pageViewed('Home Page - code_policies3.png');">
                     <apex:image url="{!URLFOR($Resource.HomePage, 'images/code_policies3.png')}"/>
                 </a>
+                <a href="http://www.diageosmartbrand.com" target="_blank" onclick="pageViewed('Home Page - smart_brand2.png');">
+                    <apex:image url="{!URLFOR($Resource.HomePage, 'images/smart_brand2.png')}"/>
+                </a>
                 <a href="{!$Page.LegalIntro}" onclick="pageViewed('Home Page - legal.png');">
                     <apex:image url="{!URLFOR($Resource.HomePage, 'images/legal.png')}"/>
                 </a> 
@@ -310,6 +313,9 @@ Story/Task  : US503/TA907
 <!-- US647 Randy Wandell (Appirio) 07/17/13  -->
                 <a href="http://v6.diageonac.com" target="_blank" onclick="pageViewed('Home Page - national_accounts3.png');">
                     <apex:image url="{!URLFOR($Resource.HomePage, 'images/national_accounts3.png')}"/>
+                </a>
+                <a href="https://www.diageosmartbrand.com/login/" target="_blank" onclick="pageViewed('Home Page - smart_library.png');">
+                    <apex:image url="{!URLFOR($Resource.HomePage, 'images/smart_library.png')}"/>
                 </a>
                 <a href="http://www.diageodrinks.com" target="_blank" onclick="pageViewed('Home Page - diageo_drinks2.png');">
                     <apex:image url="{!URLFOR($Resource.HomePage, 'images/diageo_drinks2.png')}"/>

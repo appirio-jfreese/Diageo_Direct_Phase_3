@@ -1,5 +1,9 @@
 /*******************************************************************************
 Name        : Controller_SellingMaterials.cls
+
+Updated By  : Basant Verma (Appirio OffShore)   
+Date        : 7/19/13
+Story/Task  : US609/DE654
 *******************************************************************************/
 public with sharing class Controller_SellingMaterials extends Controller_Base {
 
@@ -195,14 +199,28 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
 		addBreadcrumbItem(pageUrl, Constant.SELLING_MATERILAS);
 		// End:
 				
-        if(currentSection != null && currentSection != ''){
+    if(currentSection != null && currentSection != ''){
 			String currentPageUrl = '?';
 			currentPageUrl += 'section='+EncodingUtil.urlEncode(currentSection,'UTF-8');
-        	if(currentSubSection != null && currentSubSection != ''){
-        		currentPageUrl += '&subsection='+EncodingUtil.urlEncode(currentSubSection,'UTF-8');
-        	}
-        	addBreadcrumbItem(currentPageUrl, currentSection);
-        }
+			// Start : Changes for US609/DE654 - Basant Verma
+			if(isResponsive){
+    		addBreadcrumbItem(pageUrl+'?section='+EncodingUtil.urlEncode(currentSection,'UTF-8'), currentSection);
+			}
+			// End : Changes for US609/DE654 - Basant Verma
+    	if(currentSubSection != null && currentSubSection != ''){
+    		currentPageUrl += '&subsection='+EncodingUtil.urlEncode(currentSubSection,'UTF-8');
+    		// Start : Changes for US609/DE654 - Basant Verma
+    		if(isResponsive){
+	    		addBreadcrumbItem(currentPageUrl, currentSubSection);
+	    	}
+	    	// End : Changes for US609/DE654 - Basant Verma
+    	}
+    	// Start : Changes for US609/DE654 - Basant Verma
+    	if(!isResponsive){
+	    	addBreadcrumbItem(currentPageUrl, currentSection);
+	    }
+	    // End : Changes for US609/DE654 - Basant Verma
+    }
 	}
 	
     // switch section
