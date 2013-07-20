@@ -50,7 +50,7 @@
 				<apex:outputPanel layout="block" id="parentBrands" styleClass="result-filter-layer brand-filter hide" rendered="{!showBrandFilter}">
 	            	<a href="javascript:;" class="close-btn"></a>
 	                <p>
-	                    Select one or more brands. Brand Variants canbe specified only when one brand is selected.
+	                    Select one or more brands. Brand Variants can be specified only when one brand is selected.
 	                    <a href="javascript:;" onclick="selectALLBrands(this);return false;">Select All</a>
 	                </p>
 	                <div class="brands">
