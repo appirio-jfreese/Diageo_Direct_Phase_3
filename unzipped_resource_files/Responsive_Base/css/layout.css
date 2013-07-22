@@ -73,6 +73,14 @@ strong {
     background-image: -webkit-linear-gradient(top, #7580b7 1%, #202B62 100%) !important;
     background-image: linear-gradient(180deg, #7580b7, #202B62 100%) !important;
 }
+.spirits-bg {
+    background-image: -webkit-linear-gradient(top, #8cbef8 1%, #438de7 100%) !important;
+    background-image: linear-gradient(180deg, #8cbef8, #438de7 100%) !important;
+}
+.wine-bg {
+    background-image: -webkit-linear-gradient(top, #f9e084 1%, #e7a723 100%) !important;
+    background-image: linear-gradient(180deg, #f9e084, #e7a723 100%) !important;
+}
 
 .sm-page a.button {
     background-image: -webkit-linear-gradient(top, #863b93 1%, #4f2158 100%) !important;
@@ -118,6 +126,7 @@ a.jqTransformCheckbox {
   display: inline-block;
 }
 
+
 .mep-page a.jqTransformCheckbox,
 .results-page a.jqTransformCheckbox {
     background: transparent url(../i/checkbox-mep.png) no-repeat 0 0;
@@ -142,6 +151,12 @@ a.jqTransformCheckbox {
 }
 .pla-page a.jqTransformCheckbox {
     background: transparent url(../i/checkbox-pla.png) no-repeat 0 0;
+}
+.login-form a.jqTransformCheckbox {
+  float: left;
+  background: transparent url(../i/login-checkbox.png) no-repeat 0 0;
+  height: 18px;
+  width: 18px;
 }
 
 /* -------------
@@ -511,6 +526,10 @@ a.jqTransformChecked {
             .header .search a:hover {
                 background: #d20756;
             }
+
+    .login-page .logo {
+        margin-top: 48px;
+    }
 /* end of header */
 
 
@@ -570,6 +589,88 @@ h3 {
     margin-right: 0;
     margin-left: 0;
 }
+
+    .login-left {
+        float: left;
+        width: 62.82722513089005%;
+        font-size: 17px;
+        color: #666;
+    }
+        .login-left img {
+            width: 100%;
+        }
+    .login-right {
+        float: right;
+        width: 37.17277486910995%;
+    }
+        .login-right h3 {
+            margin: 0;
+            height: 50px;
+            line-height: 50px;
+            padding-left: 20px;
+            color: #fff;
+            background: url(../i/breadcrumb-bg.png) 0 0 repeat-x;
+        }
+        .login-right p.hint {
+            font-size: 12px;
+            padding: 10px 10px 0 10px;
+            line-height: 16px;
+        }
+        .login-form {
+            border: 1px solid #ddd;
+            background: #ebebeb;
+            padding: 0 20px 20px 20px;
+        }
+            .login-form label {
+                padding: 8px 0 0 0;
+                line-height: 36px;
+                font-size: 18px;
+                color: #333;
+                font-weight: normal;
+            }
+            .login-form span.error {
+                display: block;
+                font-size: 13px;
+                font-weight: bold;
+                color: #c81616;
+                margin-bottom: -10px;
+                margin-top: 4px;
+            }
+                .login-form label.small {
+                    float: left;
+                    font-size: 14px;
+                    line-height: 18px;
+                    padding: 0 0 0 10px;
+                }
+            .login-page input.text {
+                display: block;
+                width: 100%;
+                border: 1px solid #ccc;
+                background: #ccc;
+                color: #333;
+                text-indent: 10px;
+                font-size: 17px;
+                line-height: 34px;
+                margin: 0;
+            }
+            .login-form .check {
+                margin: 10px 0;
+            }
+         .login-form p {
+             margin: 10px 0 0 0;
+             font-size: 12px;
+             line-height: 20px;
+         }
+         .login-form .buttons {
+             padding: 10px 0 0 0;
+         }
+            .login-form .buttons a.button {
+                padding: 0 32px;
+                font-size: 18px;
+                font-weight: normal;
+            }
+
+
 
 .news {
     width: 100%;
@@ -1654,7 +1755,7 @@ h3 {
         width: 99.79057591623037%;
     }
         .result-filter-layer .inner {
-            padding: 18px;
+            padding: 18px 18px 8px 18px;
         }
             .result-filter-layer .inner .jqTransformCheckboxWrapper {
                 float: left;
@@ -1719,7 +1820,7 @@ h3 {
         }
         .result-filter-layer .date-selector {
             width: 94.4386149003148%;
-            margin: 20px auto;
+            margin: 20px auto 10px auto;
             position: relative;
         }
         .result-filter-layer .date-selector ul {
@@ -1813,6 +1914,15 @@ h3 {
         }
         .result-filter-layer p a {
             color: #863b93;
+        }
+        .bmi-page .result-filter-layer p a {
+            color: #2c8ea1;
+        }
+        .pla-page .result-filter-layer p a {
+            color: #EC8041;
+        }
+        .cd-page .result-filter-layer p a {
+            color: #b74f11;
         }
         .result-filter-layer .brands,
         .result-filter-layer .other {
@@ -2763,7 +2873,7 @@ h3 {
         float: left;
         width: 19.16230366492147%;
         margin-right: 1.04712041884817%;
-        margin-bottom: 5px;
+        margin-bottom: 45px;
     }
         .isv-page .general-updates h3 {
             padding: 8px 0;
@@ -2958,7 +3068,7 @@ h3 {
         right: 5px;
         top: 10px;
         text-indent: -9999px;
-        background: url(../i/close.png) 0 0 no-repeat;
+        background: url(../i/close-icon.png) 0 0 no-repeat;
         width: 25px;
         height: 25px;
     }
@@ -3025,6 +3135,58 @@ h3 {
                 background: url(../i/blackclose.png) center center no-repeat;
             }
 
+#theme-selector-modal {
+    width: 721px;
+}
+    #theme-selector-modal .html {
+        margin: 0;
+        padding-bottom: 10px;
+    }
+    #theme-selector-modal .column {
+        float: left;
+        width: 48.95977808599168%;
+        margin: 15px 0 15px 0.68870523415978%;
+        height: 260px;
+    }
+        #theme-selector-modal .boxes a {
+            line-height: 105px;
+            height: 105px;
+        }
+        #theme-selector-modal label {
+            float: left;
+            font-size: 18px;
+            margin: 0 10px 0 0.68870523415978%;
+        }
+        #theme-selector-modal .go-btn {
+            float: right;
+            margin-right: 0.68870523415978%;
+        }
+
+.login-modal {
+    background: #ebebeb;
+    border: 1px solid #ddd;
+    width: 955px;
+    top: 245px !important;
+}
+    .login-modal .html {
+        padding: 10px 25px 35px 25px;
+    }
+    .login-modal p {
+        font-size: 17px;
+        padding-bottom: 20px;
+        margin-top: -6px;
+    }
+    .login-modal input.text {
+        float: left;
+        width: 300px;
+        margin: 0;
+    }
+    .login-modal .button {
+        float: left;
+        padding: 0 25px;
+        margin-left: 10px;
+        font-size: 17px;
+    }
 
 .ads {
     text-align: center;
@@ -3098,7 +3260,7 @@ h3 {
     .footer .links {
         float: left;
         color: #a9a8a8;
-        font-size: 14px;
+        font-size: 16px;
         padding: 22px 0 0 0;
         width: 80%;
     }
@@ -3229,9 +3391,10 @@ h3 {
 
 	/* All Mobile Sizes (devices and browser) */
 	@media only screen and (max-width: 670px) {
+        body {
+        }
         .wrapper {
             padding: 0;
-            overflow: hidden;
         }
         .content {
             width: 96.875%;
@@ -3262,6 +3425,12 @@ h3 {
             display: block;
             margin: 0 auto;
             padding: 15px 0 115px 0;
+        }
+        .login-page .header {
+            min-height: 0;
+        }
+        .login-page .header .logo {
+            padding: 20px 0;
         }
             .header .logo img {
                 display: block;
@@ -3301,6 +3470,20 @@ h3 {
             .header .search a.btn {
                 width: 12.08053691275168% !important;
             }
+        .login-left,
+        .login-right {
+            float: none;
+            width: 100%;
+        }
+        .login-modal input.text {
+            width: 100%;
+        }
+        .login-modal .button {
+            padding: 0;
+            width: 100%;
+            margin: 10px 0 0 0;
+            text-align: center;
+        }
         .breadcrumb {
             height: auto;
             margin-bottom: 0;
@@ -3325,18 +3508,32 @@ h3 {
         .news {
             display: none;
         }
-        .boxes .column {
+        .boxes .column,
+        #theme-selector-modal .boxes .column {
             float: none;
             display: block;
             width: 96.875%;
-            margin: 5px auto 0 auto;
+            margin: 5px auto 10px auto;
         }
+            #theme-selector-modal .boxes .column {
+                min-height: 0;
+                height: auto;
+            }
+            #theme-selector-modal label {
+                margin-left: 1.5625%;
+            }
+            #theme-selector-modal .go-btn {
+                margin-right: 1.5625%;
+            }
         .boxes .column.last {
             margin-right: auto;
         }
-        .boxes img, .boxes .video, .boxes .empty {
+        .boxes img, .boxes .empty {
             display: none;
         }
+            .boxes .video img {
+                display: block;
+            }
         .boxes a {
             position: inherit;
         }
@@ -3530,7 +3727,7 @@ h3 {
             }
             .contact-new-case-page h2.jqtransformdone {
                 padding-top: 0;
-                height: 60px;
+                height: 70px;
             }
             h2.jqtransformdone a.right-btn {
                 clear: none;
@@ -3549,12 +3746,14 @@ h3 {
             h2.jqtransformdone .jqTransformSelectWrapper {
                 float: none;
                 clear: both;
-                margin: 0 0 10px 0;
-                width: 100% !important;
+                margin: 0 0 10px 0 !important;
+                width: 99.35% !important;
             }
                 h2.jqtransformdone .jqTransformSelectWrapper ul,
                 h2.jqtransformdone .jqTransformSelectWrapper div span {
                     width: 100% !important;
+                    text-indent: 20px;
+                    padding: 0;
                 }
         .form .form-line label,
         .form .form-line span.value {
@@ -3601,6 +3800,7 @@ h3 {
         .desc-block {
             float: none;
             width: 100% !important;
+            z-index: 5;
         }
         .plans .plan {
             width: 100% !important;
@@ -3609,7 +3809,9 @@ h3 {
             .plans .plan h3.two-lines {
                 line-height: 40px;
             }
-
+        .result-filter-layer {
+            width: 96.25%;
+        }
         .result-filter-layer .brands a,
         .result-filter-layer .other .other-brand {
             width: 45%;
@@ -3622,6 +3824,9 @@ h3 {
                 width: 70px;
                 font-size: 11px;
             }
+        .result-filter-layer .inner label {
+            width: 200px;
+        }
         .result-filter-layer .select-filter-all {
             display: none;
         }
@@ -3680,6 +3885,10 @@ h3 {
                 line-height: 20px;
                 background-color: #080808;
             }
+
+        .hide-phone {
+            display: none !important;
+        }
     }
 
 	/* Mobile Landscape Size to Tablet Portrait (devices and browsers) */

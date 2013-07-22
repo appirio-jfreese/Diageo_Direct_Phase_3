@@ -61,13 +61,50 @@ $j(document).ready(function() {
             $j.modal.resize();
         });
     }
+    $j("a").live("click", function() {
+        var href = $j(this).attr("href");
+        if(href === 'index.html') {
+            window.location.href = 'index.html?t=1';
+            return false;
+        }
+        return true;
+    });
 
 
     $j("h2").jqTransform();
     $j(".list-view").jqTransform();
     $j(".filter").jqTransform();
 
+
+    if($j(".login-page").length > 0) {
+        $j(".login-form").jqTransform();
+
+        $j(".login-modal").css({
+            width: $j(".content").width()
+        })
+
+        $j(".login-btn").click(function() {
+            var a = $j(this);
+            var t = a.data("count");
+            if(typeof t === "undefined") {
+                a.data("count", 1);
+                $j(".error").show();
+                return false;
+            }
+        });
+
+        $j(window).resize(function() {
+            $j(".login-modal").css({
+                width: $j(".content").width()
+            })
+        });
+
+    }
+
+
     if($j(".home-page").length > 0) {
+
+
         $j(".boxes a").hover(
             function() {
                 var a = $j(this);
@@ -93,6 +130,23 @@ $j(document).ready(function() {
                 $j("."+related).show();
             }
         });
+
+        $j(".modal").css({
+            "max-width": $j(".content").width()
+        });
+        $j(window).resize(function() {
+            $j(".modal").css({
+                "max-width": $j(".content").width()
+            });
+        });
+
+
+        $j("#theme-selector-modal").jqTransform().modal();
+
+        var href = window.location.href;
+        if(href.indexOf('?t=1') !== -1) {
+            $j("#theme-selector-modal .go-btn").trigger("click");
+        }
     }
 
     if($j(".pil-landing-page").length > 0) {
@@ -635,6 +689,14 @@ $j(document).ready(function() {
             var a = $j(this);
             a.toggleClass("open");
             a.next().slideToggle(100);
+            $j(".result-filter-layer").hide();
+        });
+
+        $j(".result-filter-layer a.clear-btn").click(function() {
+            window.location.href = window.location.href;
+        });
+        $j(".result-filter-layer a.apply-btn").click(function() {
+            $j(".result-filter").trigger("click");
         });
 
         $j(".result-filter-layer .other").jqTransform();
