@@ -5,7 +5,7 @@
 <apex:attribute name="showBrandFilter" description="Brand Filter" type="Boolean" required="false" default="true"/>
 <apex:attribute name="showBVFilter" description="Brand Variant Filter" type="Boolean" required="false" default="true"/>
 <apex:attribute name="showTimePeriodFilter" description="Time Period Filter" type="Boolean" required="false" default="true"/>
-<apex:attribute name="showSMFilter" description="Sales Materials Filter" type="Boolean" required="false" default="false"/>
+<apex:attribute name="showSMFilter" description="Sales Materials Filter" type="Boolean" required="false" default="true"/>
 <apex:attribute name="p_selectedChildBrandIds" assignTo="{!selectedChildBrandIds}" description="Selected ChildBrandIds" type="string" required="true"/>
 <apex:attribute name="p_selectedBrandIds"  assignTo="{!selectedBrandIds}" description="Selected BrandIds" type="string" required="true"/>
 <apex:attribute name="p_selectedTimePeriods" assignTo="{!selectedTimePeriods}" description="Selected TimePeriod" type="string" required="true"/>
@@ -15,14 +15,15 @@
 <apex:attribute name="p_classificationItemsRow2" description="Selected BrandIds" type="SelectOption[]" required="true"/>
 <apex:attribute name="applyFilter" description=" Method for apply filter" type="String" required="true"/>
 
+<apex:attribute name="resetFilter" description=" Method for Reset filter" type="String" required="true"/>
 
 <apex:actionFunction status="ajax-status" name="previousPeriodC" action="{!previousPeriodComp}" onComplete="loadFilterJs();" rerender="messages, timeFilterItem,parentBrands, variantBrands, smFilterItem"/>
 <apex:actionFunction status="ajax-status" name="nextPeriodC" action="{!nextPeriodComp}" onComplete="loadFilterJs();" rerender="messages, timeFilterItem,parentBrands, variantBrands, smFilterItem"/>
-<apex:actionFunction status="ajax-status" name="updateVariantBrands" action="{!updateVariantBrands}" onComplete="loadFilterJs();" rerender="messages, variantBrands">
+<apex:actionFunction status="ajax-status" name="updateVariantBrands" action="{!updateVariantBrands}" onComplete="reRenderFilterJS();reloadBrandVarient();" rerender="messages, variantBrands">
 	<apex:param name="parentId" assignTo="{!parentId}" value="" />
 </apex:actionFunction>
-<apex:actionFunction status="ajax-status" name="resetFilter" action="{!resetFilter}" onComplete="loadFilterJs();" rerender="messages, timeFilterItem, parentBrands, variantBrands, smFilterItem, pageContent, downloadAllDialog"/>	                
-				  
+<apex:actionFunction status="ajax-status" name="resetFilters" action="{!resetFilter}" onComplete="loadFilterJs();" rerender="messages, timeFilterItem, parentBrands, variantBrands, smFilterItem, pageContent, downloadAllDialog"/>	                
+												  
                 				                                
 
 
@@ -33,18 +34,26 @@
 	            </a>
 	
 	            <div class="button-line hide four-btns filter-buttons" style="display:none;">
+	            	<apex:outputPanel rendered="{!showBrandFilter}" >
 	                <a href="javascript:;" class="{!pageCls}" data-related="brand-filter">
 	                    Filter By Brand
 	                </a>
+	                </apex:outputPanel>
+	                <apex:outputPanel rendered="{!showBVFilter}" >
 	                <a href="javascript:;" class="{!pageCls}" data-related="bv-filter">
 	                    Brand Variants
 	                </a>
+	                </apex:outputPanel>
+	                <apex:outputPanel rendered="{!showTimePeriodFilter}" >
 	                <a href="javascript:;" class="{!pageCls}" data-related="time-filter">
 	                    Filter By Time Period
 	                </a>
+	                </apex:outputPanel>
+	                <apex:outputPanel rendered="{!showSMFilter}" >
 	                <a href="javascript:;" class="{!pageCls} last" data-related="sm-filter">
 	                    Selling Materials
 	                </a>
+	                </apex:outputPanel>
 	            </div>
 	
 				<apex:outputPanel layout="block" id="parentBrands" styleClass="result-filter-layer brand-filter hide" rendered="{!showBrandFilter}">
@@ -100,13 +109,12 @@
 	                    <div class="clear"></div>
 	                </div>
 					<div class="buttons">
-	                    <a href="javascript:;" onclick="resetFilter(); return false;" class="clear-btn">Clear Filters</a>
+	                    <a href="javascript:;" onclick="preResetFilter(); return false;" class="clear-btn">Clear Filters</a>
 	                    <a href="javascript:;" onclick="preApplyFilters(); return false;" class="apply-btn button {!pageCls}">Apply</a>
 	                </div>
 	           
 	            </apex:outputPanel>
-	                
-				<div class="result-filter-layer bv-filter hide" style="display:none;">
+	            <div class="result-filter-layer bv-filter hide" style="display:{!IF(childBrandList.size>0,'none' ,'block')};">
 				
 	                <a href="javascript:;" class="close-btn"></a>
 	                
@@ -116,11 +124,12 @@
 	                    <div class="clear"></div>
 	                </div>
 	                
-	            </div>
-	            <apex:outputPanel layout="block" id="variantBrands" rendered="{!showBVFilter}" style="display:none;" styleClass="result-filter-layer bv-ok-filter hide">
+	            </div>    
+				<apex:outputPanel layout="block" id="variantBrands" rendered="{!showBVFilter }" style="display:{!IF(childBrandList.size>0,'block','none') };" styleClass="result-filter-layer bv-ok-filter hide">
+	                
 	                <a href="javascript:;" class="close-btn"></a>
 	                <p>Select one or more of the filters listed below.</p>
-	                <div class="select-filter-all">
+		             <div class="select-filter-all">
 	                    <label>
 	                        Select All
 	                    </label>
@@ -129,10 +138,10 @@
 	                <div class="inner ok">
 	                	<apex:repeat value="{!childBrandList}" var="childBrand">
 						  <div class="form-left" id="{!childBrand.id}" name="{!childBrand.Name}">
-							<apex:outputPanel rendered="{!IF(contains(p_selectedChildBrandIds,childBrand.Id), true, false)}">
+							<apex:outputPanel rendered="{!IF(contains(selectedChildBrandIds,childBrand.Id), true, false)}">
 								<input type="checkbox" checked="checked" />
 							</apex:outputPanel>
-							<apex:outputPanel rendered="{!NOT(IF(contains(p_selectedChildBrandIds,childBrand.Id),true, false))}">
+							<apex:outputPanel rendered="{!NOT(IF(contains(selectedChildBrandIds,childBrand.Id),true, false))}">
 								<input type="checkbox" />
 							</apex:outputPanel>
 							<label class="{!if(LEN(childBrand.Name)>14,'two-lines','')}">{!childBrand.Name}</label>
@@ -141,7 +150,7 @@
 						</apex:repeat>
 	                    <div class="clear"></div>
 	                </div>
-	            
+	            	
 				</apex:outputPanel>
 	
 	            <apex:outputPanel id="timeFilterItem" rendered="{!showTimePeriodFilter}" style="display:none;" styleClass="result-filter-layer time-filter hide">
@@ -292,10 +301,8 @@
 		
 	    	loadFilterJs();
        	});
-       	
-       	function loadFilterJs(){
-       		//console.log('in loadFilterJs');
-        		jQuery(".result-filter-layer").hide();
+       	function reRenderFilterJS(){
+        	jQuery(".result-filter-layer").hide();
 		        jQuery(".result-filter-layer .other").jqTransform();
 		        jQuery(".result-filter-layer .inner").jqTransform();
 		        jQuery(".result-filter-layer .select-filter-all").jqTransform();
@@ -341,7 +348,23 @@
 				}
 					
 			});
-		        jQuery(".content > .button-line a").click(function() {
+        }
+        function reloadBrandVarient(){
+        	jQuery(".bv-ok-filter .select-filter-all input").change(function() {
+		            var input = jQuery(this);
+		            var checked = input.is(":checked");
+		            jQuery(".bv-ok-filter .form-left input").each(function() {
+		                var i = jQuery(this);
+		                if(i.is(":checked") !== checked) {
+		                    i.parent().find("a").trigger("click");
+		                }
+		            });
+		        });
+        }
+       	function loadFilterJs(){
+       		//console.log('in loadFilterJs');
+        	 reRenderFilterJS();	
+		     jQuery(".content > .button-line a").click(function() {
 		        	//alert('in .content > .button-line a click' );
 		            var a = jQuery(this);
 		            var related = a.data("related");
@@ -350,9 +373,10 @@
 		
 		                if(related === 'bv-filter') {
 		                    var len = jQuery(".brand-filter .brands a.selected").length + jQuery(".brand-filter .other .other-brand input:checked").length;
-		                    if(len > 0) related = 'bv-ok-filter';
+		                    var bv_ok_len = jQuery(".bv-ok-filter .inner a").length
+		                    if(len > 0 && bv_ok_len >0) related = 'bv-ok-filter';
 		                }
-		                if(related === 'time-filter') {
+		                if(related === 'time-filter' && jQuery(".time-filter .quarterly") != "undefined") {
 		                    jQuery(".time-filter .quarterly").flexslider({
 		                        animation: "slide",
 		                        animationLoop: false,
@@ -385,21 +409,16 @@
 		            }
 		            a.toggleClass("selected");
 		            var brandId = a.attr('id')
+		            console.log('in brands a click--'+brandId);
 		            if(a.hasClass("selected") && a.not('#Portfolio').not('#RTS').not('#ADB').size() == 1){
 						if(brandId!=undefined && brandId.length != 0){
 							updateVariantBrands(''+brandId+'');
 						}
 					} else {
-						if(jQuery('.bv-ok-filter .inner').not('#Portfolio').not('#RTS').not('#ADB').size() != 0){
-							jQuery('.result-filter-layer').find('input[type=hidden]').each(function(){
-				    	        var elemId = jQuery(this).attr('id');
-				    	        if( elemId!= undefined){
-				        	    	if(elemId.search('p_selectedChildBrandIds') != -1){
-				            			jQuery(this).val('');
-				            		}
-				            	}
-							});
-						}
+						//if(jQuery('.bv-ok-filter .inner').not('#Portfolio').not('#RTS').not('#ADB').size() != 0){
+							
+						//}
+						jQuery('#selectedChildBrandIds').val('');
 					}
 		        });
 		        jQuery(".brand-filter .other .other-brand input").change(function() {
@@ -421,6 +440,7 @@
 		                }
 		            });
 		        });
+		        
 		
 		        jQuery(".time-filter .button-line a").click(function() {
 		        
@@ -509,7 +529,7 @@
         	var selectedBrandIdsString = '';
 			jQuery('.brand-filter a.selected').each(function(){
 				brandId = jQuery(this).attr('id');
-				//console.log('brandId::'+brandId);
+				console.log('brandId::'+brandId);
 				if(brandId !== undefined && brandId != 'RTS' && brandId != 'ADB' &&  brandId != 'Portfolio'){
 					if(selectedBrandIdsString == '' || selectedBrandIdsString == null){
 						selectedBrandIdsString = ''+brandId;
@@ -518,9 +538,9 @@
 					}
 				}
 			});
-        	//console.log('selectedBrandIdsString::'+selectedBrandIdsString);
+        	console.log('selectedBrandIdsString::'+selectedBrandIdsString);
         	var selectedChildBrandIdsString = '';
-        	jQuery('.bv-filter a.selected').each(function(){
+        	jQuery('.bv-ok-filter a.selected').each(function(){
         		childbrandId = jQuery(this).attr('id');
         		//console.log('childbrandId:::'+childbrandId);
 				if(childbrandId !== undefined){
@@ -544,7 +564,7 @@
 					}
 				}
 			});
-			//console.log('selectedQuartersString::'+selectedQuartersString);
+			console.log('selectedQuartersString::'+selectedQuartersString);
         	jQuery('.result-filter-layer').find('input[type=hidden]').each(function(){
     	        var elemId = jQuery(this).attr('id');
     	        if( elemId!== undefined){
@@ -557,10 +577,18 @@
             		}
             	}
 			});
-			{!applyFilter};
+            //console.log('befroe applyFilter--'+jQuery('#selectedBrandIds').val());
+			
 			jQuery(".content > .button-line a").removeClass("active");
 			//jQuery(".result-filter-layer").hide();
+			{!applyFilter};
 			
+        }
+        function preResetFilter(){
+        	console.log('in preResetFilter');
+        	jQuery(".content > .button-line a").removeClass("active");
+			{!resetFilter};
+        	//loadFilterJs();
         }
         
     </script>

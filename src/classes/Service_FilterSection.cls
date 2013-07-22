@@ -66,7 +66,6 @@ public with sharing class Service_FilterSection {
     	initTimePeriodsComp();
     }
 	
-	
 	public void resetFilter(){
 		selectedBrandIds = '';
     	parentId = '';

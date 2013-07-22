@@ -34,6 +34,8 @@ Date        : 7/10/13
                   	<apex:param name="requestedPageNumber" assignTo="{!numberOfCurrentPage}" value="" />
                   </apex:actionFunction>
                   <apex:actionFunction status="ajax-status" name="changeFilter" action="{!changeFilter}" onComplete="jqTransformScript();sectionVisibility();initializationFunction();" rerender="messages, pageContent, downloadAllDialog"/>
+				  <apex:actionFunction status="ajax-status" name="resetFilter" action="{!resetFilter}" rerender="messages, filter, pageContent, downloadAllDialog"/>	                
+				
 				<!--  END :: ACTION FUNCTIONS -->  
                             
             <!-- CONTENT -->
@@ -45,6 +47,7 @@ Date        : 7/10/13
                 </apex:outputPanel>
     
             	<!-- START :: FILTER --> 
+            	<apex:outputPanel id="filter">
             	<c:R_Filters pSiteTheme="{!SiteTheme}" pageCls="sm-bg" 
 		          	p_selectedChildBrandIds="{!selectedChildBrandIds}"
 		          	p_selectedTimePeriods="{!selectedTimePeriods}"
@@ -52,12 +55,16 @@ Date        : 7/10/13
 		          	p_selectedClassificationItemsRow1="{!selectedClassificationItemsRow1}" 
 		          	p_selectedClassificationItemsRow2="{!selectedClassificationItemsRow2}" 
 		          	p_classificationItemsRow1="{!classificationItemsRow1}"
-		          	applyFilter="changeFilter()" p_classificationItemsRow2="{!classificationItemsRow2}" />
+		          	applyFilter="changeFilter()"  resetFilter="resetFilter()" 
+		          	p_classificationItemsRow2="{!classificationItemsRow2}" 
+		          	showSMFilter="{!IF(currentSection != 'Quarterly Selling Materials',false,true)}"
+		          	showTimePeriodFilter="{!IF(currentSection != 'Quarterly Selling Materials',false,true)}"/>
                 <div class="result-filter-layer">
             		<apex:inputHidden value="{!selectedBrandIds}" id="selectedBrandIds"/>
 		            <apex:inputHidden value="{!selectedChildBrandIds}" id="selectedChildBrandIds"/>
 		            <apex:inputHidden value="{!selectedTimePeriods}" id="selectedQuarters"/>
             	</div>
+            	</apex:outputPanel>
             	<!-- END :: FILTER -->	
                     <!-- START :: Panel pageContent -->
                     <apex:outputPanel id="pageContent"> 
