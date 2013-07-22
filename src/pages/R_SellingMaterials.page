@@ -47,7 +47,6 @@ Date        : 7/10/13
                 </apex:outputPanel>
     
             	<!-- START :: FILTER --> 
-            	<apex:outputPanel id="filter">
             	<c:R_Filters pSiteTheme="{!SiteTheme}" pageCls="sm-bg" 
 		          	p_selectedChildBrandIds="{!selectedChildBrandIds}"
 		          	p_selectedTimePeriods="{!selectedTimePeriods}"
@@ -64,7 +63,7 @@ Date        : 7/10/13
 		            <apex:inputHidden value="{!selectedChildBrandIds}" id="selectedChildBrandIds"/>
 		            <apex:inputHidden value="{!selectedTimePeriods}" id="selectedQuarters"/>
             	</div>
-            	</apex:outputPanel>
+            	
             	<!-- END :: FILTER -->	
                     <!-- START :: Panel pageContent -->
                     <apex:outputPanel id="pageContent"> 

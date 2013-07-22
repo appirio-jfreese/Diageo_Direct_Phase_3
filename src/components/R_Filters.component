@@ -22,7 +22,7 @@
 <apex:actionFunction status="ajax-status" name="updateVariantBrands" action="{!updateVariantBrands}" onComplete="reRenderFilterJS();reloadBrandVarient();" rerender="messages, variantBrands">
 	<apex:param name="parentId" assignTo="{!parentId}" value="" />
 </apex:actionFunction>
-<apex:actionFunction status="ajax-status" name="resetFilters" action="{!resetFilter}" onComplete="loadFilterJs();" rerender="messages, timeFilterItem, parentBrands, variantBrands, smFilterItem, pageContent, downloadAllDialog"/>	                
+<apex:actionFunction status="ajax-status" name="resetFilters" action="{!resetFilter}" />	                
 												  
                 				                                
 
@@ -34,22 +34,22 @@
 	            </a>
 	
 	            <div class="button-line hide four-btns filter-buttons" style="display:none;">
-	            	<apex:outputPanel rendered="{!showBrandFilter}" >
+	            	<apex:outputPanel layout="none" rendered="{!showBrandFilter}" >
 	                <a href="javascript:;" class="{!pageCls}" data-related="brand-filter">
 	                    Filter By Brand
 	                </a>
 	                </apex:outputPanel>
-	                <apex:outputPanel rendered="{!showBVFilter}" >
+	                <apex:outputPanel layout="none" rendered="{!showBVFilter}" >
 	                <a href="javascript:;" class="{!pageCls}" data-related="bv-filter">
 	                    Brand Variants
 	                </a>
 	                </apex:outputPanel>
-	                <apex:outputPanel rendered="{!showTimePeriodFilter}" >
+	                <apex:outputPanel layout="none" rendered="{!showTimePeriodFilter}" >
 	                <a href="javascript:;" class="{!pageCls}" data-related="time-filter">
 	                    Filter By Time Period
 	                </a>
 	                </apex:outputPanel>
-	                <apex:outputPanel rendered="{!showSMFilter}" >
+	                <apex:outputPanel layout="none" rendered="{!showSMFilter}" >
 	                <a href="javascript:;" class="{!pageCls} last" data-related="sm-filter">
 	                    Selling Materials
 	                </a>
@@ -108,11 +108,11 @@
                         </apex:repeat>
 	                    <div class="clear"></div>
 	                </div>
-					<div class="buttons">
+					
+	           		<div class="buttons">
 	                    <a href="javascript:;" onclick="preResetFilter(); return false;" class="clear-btn">Clear Filters</a>
 	                    <a href="javascript:;" onclick="preApplyFilters(); return false;" class="apply-btn button {!pageCls}">Apply</a>
-	                </div>
-	           
+	            	</div>
 	            </apex:outputPanel>
 	            <div class="result-filter-layer bv-filter hide" style="display:{!IF(childBrandList.size>0,'none' ,'block')};">
 				
@@ -150,7 +150,10 @@
 						</apex:repeat>
 	                    <div class="clear"></div>
 	                </div>
-	            	
+	            	<div class="buttons">
+	                    <a href="javascript:;" onclick="preResetFilter(); return false;" class="clear-btn">Clear Filters</a>
+	                    <a href="javascript:;" onclick="preApplyFilters(); return false;" class="apply-btn button {!pageCls}">Apply</a>
+	            	</div>
 				</apex:outputPanel>
 	
 	            <apex:outputPanel id="timeFilterItem" rendered="{!showTimePeriodFilter}" style="display:none;" styleClass="result-filter-layer time-filter hide">
@@ -263,7 +266,10 @@
 	                        </li>
 	                    </ul>
 	                </div>
-	             
+	             	<div class="buttons">
+	                    <a href="javascript:;" onclick="preResetFilter(); return false;" class="clear-btn">Clear Filters</a>
+	                    <a href="javascript:;" onclick="preApplyFilters(); return false;" class="apply-btn button {!pageCls}">Apply</a>
+	            	</div>
 	            </apex:outputPanel>
 				
 				<apex:outputPanel id="smFilterItem" layout="block" rendered="{!showSMFilter}" styleClass="result-filter-layer sm-filter hide">
@@ -288,8 +294,12 @@
 	                    <div class="clear"></div>
 	                </div>
 	            
-	            
+	            	<div class="buttons">
+	                    <a href="javascript:;" onclick="preResetFilter(); return false;" class="clear-btn">Clear Filters</a>
+	                    <a href="javascript:;" onclick="preApplyFilters(); return false;" class="apply-btn button {!pageCls}">Apply</a>
+	            	</div>
 				</apex:outputpanel>
+				
 	</apex:outputpanel>
 <script type="text/javascript">
 	    jQuery(document).ready(function() {
@@ -396,6 +406,7 @@
 		            }
 		            a.parent().find("a").removeClass("active");
 		            a.addClass("active");
+		            jQuery(".buttons").show();
 		        });
 		        jQuery(".result-filter-layer a.close-btn").click(function() {
 		            jQuery(this).parent().hide();
@@ -580,15 +591,20 @@
             //console.log('befroe applyFilter--'+jQuery('#selectedBrandIds').val());
 			
 			jQuery(".content > .button-line a").removeClass("active");
-			//jQuery(".result-filter-layer").hide();
+			jQuery(".content > .button-line").hide();
+			jQuery(".result-filter-layer").hide();
 			{!applyFilter};
 			
         }
         function preResetFilter(){
         	console.log('in preResetFilter');
         	jQuery(".content > .button-line a").removeClass("active");
+			jQuery(".content > .button-line").hide();
+			jQuery(".result-filter-layer").hide();
+			resetFilters();
 			{!resetFilter};
         	//loadFilterJs();
+        	
         }
         
     </script>
