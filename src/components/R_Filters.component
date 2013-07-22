@@ -591,7 +591,7 @@
             //console.log('befroe applyFilter--'+jQuery('#selectedBrandIds').val());
 			
 			jQuery(".content > .button-line a").removeClass("active");
-			jQuery(".content > .button-line").hide();
+			jQuery(".result-filter").toggleClass("open");
 			jQuery(".result-filter-layer").hide();
 			{!applyFilter};
 			
@@ -599,7 +599,7 @@
         function preResetFilter(){
         	console.log('in preResetFilter');
         	jQuery(".content > .button-line a").removeClass("active");
-			jQuery(".content > .button-line").hide();
+			jQuery(".result-filter").toggleClass("open");
 			jQuery(".result-filter-layer").hide();
 			resetFilters();
 			{!resetFilter};
