@@ -37,10 +37,12 @@ Story/Task  : US609/DE654
  	                
  	                <apex:variable var="currentRow" value="{!1}" />
 					<apex:variable var="currentItem" value="{!1}" />
+                    <apex:variable var="currentSection" value="" />
 					
  	                <apex:repeat value="{!sections}" var="section">
 						<apex:variable var="currentItem" value="{!1}" />
                         <apex:repeat value="{!subSectionsMap[section]}" var="subSection">
+                            <apex:variable var="currentSection" value="{!idMap[section]}-boxes" />
 							<!-- START : Changed for US609/DE654 - Basant Verma -->
 							<div class="column {!idMap[section]}-boxes {!IF(AND(!ISNULL(selectedSection), selectedSection == section), '', 'hide')} {!IF(currentItem/currentRow==3,'last','')}">
 							<!-- END : Changed for US609/DE654 - Basant Verma -->
@@ -54,6 +56,15 @@ Story/Task  : US609/DE654
 							<apex:variable var="currentItem" value="{!currentItem+1}" />
 
                         </apex:repeat>
+
+						<div class="column empty black  {!IF(currentItem/currentRow==1,currentSection,'garbage')} " style="display: none;">
+						</div>
+						
+						<div class="column empty black  {!IF(currentItem/currentRow==2,currentSection,'garbage')} " style="display: none;">
+						</div>
+						
+						<div class="column empty black {!currentSection} {!IF(currentItem/currentRow==3 || currentItem/currentRow==1,'last','')} " style="display: none;">
+						</div>
 
 	                </apex:repeat>
 	                
