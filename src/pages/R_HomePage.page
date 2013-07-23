@@ -4,13 +4,21 @@ Name        : R_HomePage.page
 Created By  : Randy Wandell (Appirio)   
 Date 		: 6/25/13
 Story/Task	: US584
+
+Updated By  : Basant Verma (Appirio OffShore)
+Date        : 7/23/13
+Story/Task  : DE670
 ------------------------------------------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_Home">
+ <!-- START - Changed for  - Basant Verma -->
+ <body class="home-page">
+ <!-- END - Changed for  - Basant Verma -->
+ <!-- 
     <apex:outputPanel rendered="{!if(ISNULL(siteTheme),'true','false')}">
         <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'styleSpirits.css')}"/>
         <apex:stylesheet value="{!URLFOR($Resource.HomePage, 'styleSpirits.css')}" />
     </apex:outputPanel>  
- 
+--> 
     <apex:form >
         <apex:actionFunction status="ajax-status" name="openSpiritsPlanningPage" action="{!openSpiritsPlanningPage}"/>
         <apex:actionFunction status="ajax-status" name="openWinePlanningPage" action="{!openWinePlanningPage}"/>
@@ -55,7 +63,9 @@ Story/Task	: US584
 
             <div class="boxes">
                 <div class="column default">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/'+siteTheme+'/mep.png')}" />
+                		<!-- START - Changed for  - Basant Verma -->
+                    <img src="{!URLFOR($Resource.Responsive_Base, IF(ISNULL(siteTheme), 'i/Spirits/mep.png' ,'i/'+siteTheme+'/mep.png'))}" />
+                    <!-- END - Changed for  - Basant Verma -->
                     <a class="pink" href="{!$Page.R_MonthlyExecutionPlan}">Monthly Execution Plan</a>
                 </div>
 
@@ -66,12 +76,16 @@ Story/Task	: US584
 -->
 
                 <div class="column default">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/'+siteTheme+'/sm.png')}"/>
+                		<!-- START - Changed for  - Basant Verma -->
+                    <img src="{!URLFOR($Resource.Responsive_Base, IF(ISNULL(siteTheme), 'i/Spirits/sm.png', 'i/'+siteTheme+'/sm.png'))}"/>
+                    <!-- END - Changed for  - Basant Verma -->
                     <a class="purple" href="{!$Page.R_SMIntro}">Selling Materials</a>
                 </div>
 
                 <div class="column last default">
-                    <img src="{!URLFOR($Resource.Responsive_Base, 'i/'+siteTheme+'/isv.png')}"/>
+                		<!-- START - Changed for  - Basant Verma -->
+                    <img src="{!URLFOR($Resource.Responsive_Base, IF(ISNULL(siteTheme), 'i/Spirits/isv.png', 'i/'+siteTheme+'/isv.png'))}"/>
+                    <!-- END - Changed for  - Basant Verma -->
                     <a class="med-green two-lines" href="{!$Page.R_InnovationAndVAP}">Innovation,<br/>Sustainovation and VAP</a>
                 </div>
 
@@ -259,4 +273,7 @@ Story/Task	: US584
     <c:R_pageFooter isInternal="{!isInternalUser }" />
 </div>
 
+<!-- START - Changed for  - Basant Verma -->
+</body>
+<!-- END - Changed for  - Basant Verma -->
 </apex:page>
