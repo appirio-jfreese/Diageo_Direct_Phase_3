@@ -1186,6 +1186,7 @@ Story/Task  : US79/TA1007
    <!-- End : Changes for US507/TA918 - Jonathan Freese -->
     
     <!-- site theme select -->
+     
     <div id="selectTheme" class="hidden dialog {!if(OR(siteTheme == null, siteTheme == ''), 'selectThemeRequired','')} ">
         <apex:outputPanel id="selectThemeHolder">
             <div class="themeSelectorWrapper">
@@ -1227,6 +1228,6 @@ Story/Task  : US79/TA1007
                     </div>
                 </div>
         </apex:outputPanel>
-    </div>
+    </div>    
 
 </apex:component>
