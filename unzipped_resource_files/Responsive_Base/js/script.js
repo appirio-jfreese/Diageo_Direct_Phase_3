@@ -728,6 +728,8 @@ $j(document).ready(function() {
                 }
 
                 $j("."+related).show();
+
+                resetFormLeft();
             }
             a.parent().find("a").removeClass("active");
             a.addClass("active");
@@ -763,6 +765,20 @@ $j(document).ready(function() {
                 }
             });
         });
+        $j(window).resize(function() {
+            resetFormLeft();
+        });
+        var resetFormLeft = function() {
+            $j(".result-filter-layer .form-left label").each(function() {
+                var label = $j(this);
+                if(label.height() > 70) {
+                    label.addClass("two-lines");
+                }
+                else if(label.height() < 20) {
+                    label.removeClass("two-lines");
+                }
+            });
+        }
 
         $j(".time-filter .button-line a").click(function() {
             var a = $j(this);

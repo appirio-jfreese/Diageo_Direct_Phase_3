@@ -3836,6 +3836,14 @@ h3 {
         .result-filter-layer .flex-direction-nav .flex-next {
             right: -10px;
         }
+        .result-filter-layer .form-left {
+            float: none;
+            display: block;
+            width: 95%;
+        }
+            .result-filter-layer .inner label {
+                width: 80%;
+            }
         .boxes .empty {
             display: none;
         }
