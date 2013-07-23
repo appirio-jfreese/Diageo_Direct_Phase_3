@@ -1,0 +1,61 @@
+<apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_Home">
+<body class="home-page">
+	<!-- Start : Changes by Basant for Responsive Behavior : US585/TA1082 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+	<!-- End : Changes by Basant for Responsive Behavior  -->
+		
+    <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/jquery-1.8.2.min.js')}"></script> 
+
+    <!-- Start : Changes by Basant for JQueries Library Load  : US585/TA1082-->
+ 
+	<script type="text/javascript" src="{!URLFOR($Resource.jquery, 'utils.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.mousewheel.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.jscrollpane.min.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'imgscale.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.treeview.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.autosize.js')}"></script>
+    <apex:stylesheet value="{!URLFOR($Resource.jquery, 'jquery.jscrollpane.css')}"/>
+    <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'autosuggest.js')}"></script> 
+	<!-- END : Changes by Basant for JQueries Library Load -->
+
+    <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/jquery.jqtransform.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/jquery.flexslider-min.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/script.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/mod_script.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/PageHeaderJQ.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/jquery.modal.min.js')}"></script>
+
+    <apex:stylesheet value="{!URLFOR($Resource.Responsive_Base, 'css/base.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.Responsive_Base, 'css/skeleton-fluid.css')}" /> 
+    <apex:stylesheet value="{!URLFOR($Resource.Responsive_Base, 'css/layout.css')}" />
+<div class="wrapper">
+    <div class="container">
+
+
+    </div>
+</div>
+
+<div class="modal" id="theme-selector-modal">
+    <div class="title">
+        Theme Selector
+    </div>
+    <div class="html">
+        <div class="boxes">
+            <div class="column default">
+                <a class="spirits-bg" href="#">Spirits</a>
+            </div>
+            <div class="column default last">
+                <a class="wine-bg" href="#">Wine</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <label>
+            Use as default
+        </label>
+        <input type="checkbox"/>
+        <a href="#" class="button go-btn" rel="modal:close">GO</a>
+    </div>
+</div>
+
+</body>
+</apex:page>
