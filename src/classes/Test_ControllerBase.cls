@@ -21,18 +21,20 @@
  */
 @isTest
 private class Test_ControllerBase {
-
-    static testMethod void isInternalUserTest() {
-        Account a = Test_Helper.testInsertAccount('Test Account');
-        Contact c = Test_Helper.testInsertContact('TestFirst', 'TestLast', a.ID);
+	static User user; 
+	static Account account;
+	static Contact c;
+	static{
+		account = Test_Helper.testInsertAccount('Test Account');
+        c = Test_Helper.testInsertContact('TestFirst', 'TestLast', account.ID);
         User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
-        User u; 
         System.runAs (thisUser) {
-            u = Test_Helper.testInsertDistributorPortalUser(c.ID);
+            user = Test_Helper.testInsertDistributorPortalUser(c.ID);
         }
-                
+	}
+    static testMethod void isInternalUserTest() {
         Test.StartTest();
-        System.runAs(u){
+        System.runAs(user){
             PageReference pageRef = Page.HomePage;
             Test.setCurrentPage(pageRef);
             Controller_Base bController = new Controller_Base();
@@ -178,15 +180,6 @@ private class Test_ControllerBase {
     
     static testMethod void lastLoginTest() {
         
-        
-        Account account = Test_Helper.testInsertAccount('test_account1');
-        Contact contact = Test_Helper.testInsertContact('firstName', 'lastName', account.id);
-        User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
-        User user; 
-        System.runAs (thisUser) {
-            user = Test_Helper.testInsertDistributorPortalUser(contact.id);
-        }   
-        
         System.RunAs(user){
             user.loginDate__c = datetime.valueOf('2008-12-01 12:00:00');
             update user;
@@ -203,15 +196,6 @@ private class Test_ControllerBase {
     }
     
     static testMethod void noOfItemsTest() {
-        
-        
-        Account account = Test_Helper.testInsertAccount('test_account1');
-        Contact contact = Test_Helper.testInsertContact('firstName', 'lastName', account.id);
-        User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
-        User user; 
-        System.runAs (thisUser) {
-            user = Test_Helper.testInsertDistributorPortalUser(contact.id);
-        }        
         
         System.RunAs(user){
             user.loginDate__c = datetime.valueOf('2008-12-01 12:00:00');
@@ -230,16 +214,6 @@ private class Test_ControllerBase {
     }
     
     static testMethod void themesTest() {
-        
-        
-        Account account = Test_Helper.testInsertAccount('test_account1');
-        Contact contact = Test_Helper.testInsertContact('firstName', 'lastName', account.id);
-        User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
-        User user; 
-        System.runAs (thisUser) {
-            user = Test_Helper.testInsertDistributorPortalUser(contact.id);
-        }       
-        
         System.RunAs(user){
             user.loginDate__c = datetime.valueOf('2008-12-01 12:00:00');
             update user;
@@ -258,15 +232,6 @@ private class Test_ControllerBase {
     
     static testMethod void searchTest() {
         
-        
-        Account account = Test_Helper.testInsertAccount('test_account1');
-        Contact contact = Test_Helper.testInsertContact('firstName', 'lastName', account.id);
-        User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
-        User user; 
-        System.runAs (thisUser) {
-            user = Test_Helper.testInsertDistributorPortalUser(contact.id);
-        }       
-        
         System.RunAs(user){
             user.loginDate__c = datetime.valueOf('2008-12-01 12:00:00');
             update user;
@@ -284,13 +249,6 @@ private class Test_ControllerBase {
     }
     
     static testmethod void testFollowups(){
-        Account account = Test_Helper.testInsertAccount('test_account1');
-        Contact contact = Test_Helper.testInsertContact('firstName', 'lastName', account.id);
-        User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
-        User user; 
-        System.runAs (thisUser) {
-            user = Test_Helper.testInsertDistributorPortalUser(contact.id);
-        }
         Content_Description__c cd = Test_Helper.testInsertContentDescription();
         
         System.RunAs(user){
@@ -307,14 +265,7 @@ private class Test_ControllerBase {
     }
 
     static testmethod void testGetThemeString(){
-        Account account = Test_Helper.testInsertAccount('test_account1');
-        Contact contact = Test_Helper.testInsertContact('firstName', 'lastName', account.id);
-        User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
-        User user; 
-        System.runAs (thisUser) {
-            user = Test_Helper.testInsertDistributorPortalUser(contact.id);
-        }     
- 
+        
  		Brand__c brand = Test_Helper.testInsertBrand('brand1');
  		Test_Helper.testInsertAccountBrand(account.id, brand.id);
  		       
@@ -329,14 +280,7 @@ private class Test_ControllerBase {
     
     // Start : Code Covergae For Controller Base : Toggle Functionality
     static testmethod void testToggelAndMisc(){
-    	Account account = Test_Helper.testInsertAccount('test_account1');
-	    Contact contact = Test_Helper.testInsertContact('firstName', 'lastName', account.id);
-	    User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
-	    User user; 
-	    System.runAs (thisUser) {
-    		user = Test_Helper.testInsertDistributorPortalUser(contact.id);
-	    }     
-	 		
+    		
 	 		Brand__c brand = Test_Helper.testInsertBrand('brand1');
 	 		Test_Helper.testInsertAccountBrand(account.id, brand.id);
 	 		
@@ -403,13 +347,7 @@ private class Test_ControllerBase {
     }
     
     static testmethod void testMEPThemes(){
-    	Account account = Test_Helper.testInsertAccount('test_account1');
-	    Contact contact = Test_Helper.testInsertContact('firstName', 'lastName', account.id);
-	    User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
-	    User user; 
-	    System.runAs (thisUser) {
-    		user = Test_Helper.testInsertDistributorPortalUser(contact.id);
-	    }     
+    	    
 	 		
 	 		Brand__c brand = Test_Helper.testInsertBrand('brand1');
 	 		Test_Helper.testInsertAccountBrand(account.id, brand.id);
@@ -452,13 +390,7 @@ private class Test_ControllerBase {
     }
     
     static testmethod void testAllMisc(){
-    	Account account = Test_Helper.testInsertAccount('test_account1');
-	    Contact contact = Test_Helper.testInsertContact('firstName', 'lastName', account.id);
-	    User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
-	    User user; 
-	    System.runAs (thisUser) {
-    		user = Test_Helper.testInsertDistributorPortalUser(contact.id);
-	    }     
+    	   
 	 		
 	 		Brand__c brand = Test_Helper.testInsertBrand('brand1');
 	 		Test_Helper.testInsertAccountBrand(account.id, brand.id);
@@ -506,21 +438,15 @@ private class Test_ControllerBase {
     }
 
 	static testMethod void testShowAvatar() {
-	     Account a = Test_Helper.testInsertAccount('Test Account');
-	     Contact c = Test_Helper.testInsertContact('TestFirst', 'TestLast', a.ID);
 	     User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
-	     User u; 
-	     System.runAs (thisUser) {
-	         u = Test_Helper.testInsertDiageoPortalUser(c.ID);
-	     }
-         User u2; 
+	     User u2; 
          System.runAs (thisUser) {
              u2 = Test_Helper.testInsertDiageoEmployee();
          }
 	             
 	     Test.StartTest();
 	
-	     System.runAs(u){
+	     System.runAs(user){
              PageReference pageRef = Page.HomePage;
              Test.setCurrentPage(pageRef);
 	         Controller_Base bController = new Controller_Base();

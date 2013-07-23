@@ -96,7 +96,7 @@
 	                        Additional Brands
 	                    </p>
 	                    <apex:repeat value="{!additionalBrandList}" var="brand">
-                            <div class="other-brand {!if(Len(brand.Name)>13,'two-lines','')}" >
+                            <div class="other-brand {!if(Len(brand.Name)>13,'two-lines','')}" id="{!brand.id}" name="{!brand.Name}">
                                 <apex:outputPanel rendered="{!IF(contains(selectedBrandIds,brand.Id), true, false)}">
                                     <input type="checkbox" checked="checked" />
                                 </apex:outputPanel> 
@@ -110,7 +110,7 @@
 	                </div>
 					
 	           		<div class="buttons">
-	                    <a href="javascript:;" onclick="preResetFilter(); return false;" class="clear-btn">Clear Filters</a>
+	                    <a href="javascript:;" onclick="preResetFilter('brand'); return false;" class="clear-btn">Clear Filters</a>
 	                    <a href="javascript:;" onclick="preApplyFilters(); return false;" class="apply-btn button {!pageCls}">Apply</a>
 	            	</div>
 	            </apex:outputPanel>
@@ -151,7 +151,7 @@
 	                    <div class="clear"></div>
 	                </div>
 	            	<div class="buttons">
-	                    <a href="javascript:;" onclick="preResetFilter(); return false;" class="clear-btn">Clear Filters</a>
+	                    <a href="javascript:;" onclick="preResetFilter('bv'); return false;" class="clear-btn">Clear Filters</a>
 	                    <a href="javascript:;" onclick="preApplyFilters(); return false;" class="apply-btn button {!pageCls}">Apply</a>
 	            	</div>
 				</apex:outputPanel>
@@ -267,7 +267,7 @@
 	                    </ul>
 	                </div>
 	             	<div class="buttons">
-	                    <a href="javascript:;" onclick="preResetFilter(); return false;" class="clear-btn">Clear Filters</a>
+	                    <a href="javascript:;" onclick="preResetFilter('time'); return false;" class="clear-btn">Clear Filters</a>
 	                    <a href="javascript:;" onclick="preApplyFilters(); return false;" class="apply-btn button {!pageCls}">Apply</a>
 	            	</div>
 	            </apex:outputPanel>
@@ -295,7 +295,7 @@
 	                </div>
 	            
 	            	<div class="buttons">
-	                    <a href="javascript:;" onclick="preResetFilter(); return false;" class="clear-btn">Clear Filters</a>
+	                    <a href="javascript:;" onclick="preResetFilter('sm'); return false;" class="clear-btn">Clear Filters</a>
 	                    <a href="javascript:;" onclick="preApplyFilters(); return false;" class="apply-btn button {!pageCls}">Apply</a>
 	            	</div>
 				</apex:outputpanel>
@@ -421,24 +421,39 @@
 		            a.toggleClass("selected");
 		            var brandId = a.attr('id')
 		            console.log('in brands a click--'+brandId);
-		            if(a.hasClass("selected") && a.not('#Portfolio').not('#RTS').not('#ADB').size() == 1){
+		            var othBrandLen = jQuery(".brand-filter .other .other-brand input:checked").length;
+		            if(a.hasClass("selected") && jQuery(".brand-filter .brands a.selected").not('#Portfolio').not('#RTS').not('#ADB').size() == 1 && othBrandLen == 0){
 						if(brandId!=undefined && brandId.length != 0){
 							updateVariantBrands(''+brandId+'');
 						}
+						//jQuery(".bv-ok-filter .inner
 					} else {
 						//if(jQuery('.bv-ok-filter .inner').not('#Portfolio').not('#RTS').not('#ADB').size() != 0){
 							
 						//}
+						jQuery(".bv-ok-filter .inner").html('');
 						jQuery('#selectedChildBrandIds').val('');
 					}
 		        });
 		        jQuery(".brand-filter .other .other-brand input").change(function() {
 		            var input = jQuery(this);
+		            console.log('in other-brand input--');
 		            if(jQuery(".brand-filter .other .other-brand input:checked").length > 0) {
 		                jQuery(".brand-filter .other-btn").addClass("selected");
+		                var adBrandId = input.parent().parent().parent().attr('id');
+		                if(jQuery(".brand-filter .other .other-brand input:checked").length == 1 
+		                		&& jQuery(".brand-filter .brands a.selected").not('#Portfolio').not('#RTS').not('#ADB').size() ==0 
+		                		&& adBrandId!=undefined && adBrandId.length != 0){
+		                	updateVariantBrands(''+adBrandId+'');
+		                	
+		                }else{
+		                	jQuery(".bv-ok-filter .inner").html('');
+		                	jQuery('#selectedChildBrandIds').val('');
+		                }  
 		            }
 		            else {
 		                jQuery(".brand-filter .other-btn").removeClass("selected");
+		                jQuery('#selectedChildBrandIds').val('');
 		            }
 		        });
 		        jQuery(".sm-filter .select-filter-all input").change(function() {
@@ -541,12 +556,25 @@
 			jQuery('.brand-filter a.selected').each(function(){
 				brandId = jQuery(this).attr('id');
 				console.log('brandId::'+brandId);
-				if(brandId !== undefined && brandId != 'RTS' && brandId != 'ADB' &&  brandId != 'Portfolio'){
+				if(brandId != undefined && brandId != 'RTS' && brandId != 'ADB' &&  brandId != 'Portfolio'){
 					if(selectedBrandIdsString == '' || selectedBrandIdsString == null){
 						selectedBrandIdsString = ''+brandId;
 					} else {
 						selectedBrandIdsString += ','+brandId;
 					}
+				}else if(brandId == 'ADB'){
+					jQuery('.brand-filter .other-brand  a.jqTransformChecked').each(function(){
+						var adBrandId = jQuery(this).parent().parent().parent().attr('id');
+						console.log('parent---'+adBrandId);
+						if(adBrandId != undefined){
+							if(selectedBrandIdsString == '' || selectedBrandIdsString == null){
+								selectedBrandIdsString = ''+adBrandId;
+							} else {
+								selectedBrandIdsString += ','+adBrandId;
+							}
+						}
+					});
+					
 				}
 			});
         	console.log('selectedBrandIdsString::'+selectedBrandIdsString);
@@ -591,19 +619,32 @@
             //console.log('befroe applyFilter--'+jQuery('#selectedBrandIds').val());
 			
 			jQuery(".content > .button-line a").removeClass("active");
-			jQuery(".result-filter").toggleClass("open");
+			//jQuery(".result-filter").toggleClass("open");
 			jQuery(".result-filter-layer").hide();
 			{!applyFilter};
 			
         }
-        function preResetFilter(){
+        function preResetFilter(filterSection){
         	console.log('in preResetFilter');
-        	jQuery(".content > .button-line a").removeClass("active");
-			jQuery(".result-filter").toggleClass("open");
-			jQuery(".result-filter-layer").hide();
-			resetFilters();
-			{!resetFilter};
-        	//loadFilterJs();
+        	if(filterSection=='time'){
+        		jQuery('.time-filter .date-selector a.selected').removeClass("selected");
+        		
+        	}else if(filterSection == 'brand'){
+        		jQuery('.brand-filter .other-brand  a.jqTransformChecked').trigger("click");
+        		jQuery('.brand-filter a.selected').trigger("click");
+        		jQuery('.brand-filter a.select').each(function(){
+                	var selEle = jQuery(this);
+                	selEle.removeClass("select");
+                	selEle.html('Select All');
+                });
+                jQuery('.brand-filter .other').hide();
+        		
+        	}else if(filterSection == 'bv'){
+        		jQuery('.bv-ok-filter a.selected').trigger("click");
+        	}else if(filterSection =='sm'){
+        		jQuery('.sm-filter a.selected').trigger("click");
+        	}
+        	preApplyFilters();
         	
         }
         

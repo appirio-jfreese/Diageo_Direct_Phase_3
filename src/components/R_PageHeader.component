@@ -8,6 +8,10 @@ Story/Task  : US607/TA1014
 Updated By  : Basant Verma (Appirio OffShore)
 Date        : 7/1/13
 Story/Task  : US585/TA1082
+
+Updated By  : Basant Verma (Appirio OffShore)
+Date        : 7/23/13
+Story/Task  : DE670
 ------------------------------------------------------------------------------------------------------------------->
 <apex:component controller="Controller_Base" extensions="Controller_BaseRemote" allowDML="true"> 
 	<!-- Start : Changes by Basant for Responsive Behavior : US585/TA1082 -->
@@ -23,7 +27,7 @@ Story/Task  : US585/TA1082
     <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/jquery-1.8.2.min.js')}"></script> 
 
     <!-- Start : Changes by Basant for JQueries Library Load  : US585/TA1082-->
-	<script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery-ui-1.8.15.custom.min.js')}"></script> 
+<!--  <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery-ui-1.8.15.custom.min.js')}"></script>  --> 
 	<script type="text/javascript" src="{!URLFOR($Resource.jquery, 'utils.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.mousewheel.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.jscrollpane.min.js')}"></script>
@@ -84,12 +88,25 @@ Story/Task  : US585/TA1082
                     margin-right: 2px;
                 }
         }
+        
+        /* START - Changed for DE670 - Basant Verma */
+        /*in proto we have css with all lower case but in realtime the class name is derived which is in Camel Case*/
+        .Wine-bg {
+				    background-image: -webkit-linear-gradient(top, #f9e084 1%, #e7a723 100%) !important;
+				    background-image: linear-gradient(180deg, #f9e084, #e7a723 100%) !important;
+				}
+				
+				.Spirits-bg {
+				    background-image: -webkit-linear-gradient(top, #8cbef8 1%, #438de7 100%) !important;
+				    background-image: linear-gradient(180deg, #8cbef8, #438de7 100%) !important;
+				}
+				/* END - Changed for DE670 - Basant Verma */
     </style>
     
     
     <!-- header -->
     <div id="overlayDisable"></div>
-    <div class="header {!IF(showThemeSelector,'','no-theme-selector')}" >
+	<div class="header {!IF(showThemeSelector,'','no-theme-selector')}" >
 		
         <div id="name_avatar_follow_basket" class="info row sixteen">
             <div class="desc-wrapper">
@@ -153,7 +170,7 @@ Story/Task  : US585/TA1082
                  <apex:actionFunction status="ajax-status" name="toggleToWine" action="{!toggleToWine}"/>
                  <apex:actionFunction status="ajax-status" name="toggleToSpirits" action="{!toggleToSpirits}"/>
                  <apex:outputPanel id="sTheme" >
-                        <apex:outputPanel rendered="{!siteTheme == 'Spirits'}">
+                         <apex:outputPanel rendered="{!siteTheme == 'Spirits'}">
                             <a href="javascript:;" class="active btn">Spirits</a>
                             <a href="javascript:;" class="btn" onclick="toggleToWine()">Wine</a>
                             <a href="javascript:;" class="btn last" style="visibility: hidden">Beer</a>
@@ -162,7 +179,7 @@ Story/Task  : US585/TA1082
                             <a href="javascript:;" class="btn" onclick="toggleToSpirits()">Spirits</a>
                             <a href="javascript:;" class="active btn">Wine</a>
                             <a href="javascript:;" class="btn last" style="visibility: hidden">Beer</a>
-                        </apex:outputPanel>
+                        </apex:outputPanel>                        
                  </apex:outputPanel>
              </apex:form>
             </div>
@@ -184,4 +201,45 @@ Story/Task  : US585/TA1082
         </div>
     </div>
     <!-- end of header -->
+    <!-- START - Changed for  - Basant Verma -->
+    <!-- site theme select -->
+      
+    <apex:outputPanel id="selectThemeHolder" styleClass="selectThemeHolderClass {!if(OR(siteTheme == null, siteTheme == ''), 'selectThemeRequired','')}" rendered="{!if(ISNULL(siteTheme),'true','false')}" >
+		<div class="modal" id="theme-selector-modal">
+	  	<div class="title">
+	  		<div style="height: 10px; width: 100%;"></div>
+	        <img src="{!URLFOR($Resource.Responsive_Base, 'i/logo.png')}"/>
+			<div style="height: 10px; width: 100%;"></div>
+	    </div>
+	    <div class="moreInfoError">
+				<apex:outputPanel id="moreInfoError">
+        	<apex:messages styleClass="errorMessagesList" />
+        </apex:outputPanel>
+     	</div>
+     	<apex:form >
+	     	<apex:actionFunction status="ajax-status" name="changeSiteTheme" action="{!changeSiteTheme}" rerender="moreInfoError, selectThemeHolder"/>
+	     	<apex:inputText value="{!siteTheme}" id="themeWrapperSelector" styleClass="themeWrapperSelector" style="display: none;"/>
+		    <div class="html">
+		        <div class="boxes">
+		        		<apex:variable var="counter" value="{!1}"/>
+		        		<apex:repeat value="{!SiteThemes}" var="theme">
+		        			<div class="column default {!IF(counter == SiteThemes.size,'last','')}">
+			                <a class="{!theme['label']}-bg" onclick="themeClicked('{!theme['label']}');" href="javascript:;">{!theme["label"]}</a>
+			            </div>
+			            <apex:variable var="counter" value="{!counter + 1}"/>
+		        		</apex:repeat>
+		            <div class="clear"></div>
+		        </div>
+		        <label>
+		            Use as default
+		        </label>
+		        <apex:inputCheckbox value="{!isSiteThemeDef}"/>
+		        <a href="javascript:;" onclick="preChangeSiteTheme();" class="button go-btn" >GO</a>
+		        <a href="javascript:;" onclick="changeSiteTheme();" class="button go-btn postSelectThemeButton" rel="modal:close" style="display: none;">GO</a>
+		    </div>
+	    </apex:form>
+		</div>
+		</apex:outputPanel>
+	
+		<!-- END - Changed for  - Basant Verma -->
 </apex:component>

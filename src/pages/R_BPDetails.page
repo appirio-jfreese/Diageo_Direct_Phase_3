@@ -82,7 +82,10 @@
                                 <div class="comment" style="float: left;">
                                     <div style="float: left;">
                                         <apex:inputField value="{!newComment.Comment__c}" style="height: 100px;"/>
-                                        <input type="button" value="post" OnClick="postComment()" class="btn" style="position: relative; top: -60px; left: 500px;" />
+                                        <!-- START : Changed for DE564 : Basant -->
+                                        <!-- <input type="button" value="post" OnClick="postComment()" class="btn" style="position: relative; top: -60px; left: 500px;" /> -->
+                                        <button class="go_btn" onclick="postComment(); return false;">post</button>
+                                        <!-- END : Changed for DE564 : Basant -->
                                     </div>
                                     <apex:actionFunction name="postComment" action="{!postComment}">
                                     </apex:actionFunction>

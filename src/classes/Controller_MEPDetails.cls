@@ -132,13 +132,13 @@ public with sharing class Controller_MEPDetails extends Controller_Base {
     }
     
     public PageReference initTheme(){
-        if(Service_API.getSectionTheme() != mepItem.classification__c && mepItem.classification__c != 'Mixed'){
-			Service_API.setUserSiteTheme(mepItem.classification__c, false);
-    		PageReference pr = ApexPages.currentPage();
-    		pr.setRedirect(true);
-    		return pr;
-		}
-		return null;
+			if(mepItem != null && Service_API.getSectionTheme() != mepItem.classification__c && mepItem.classification__c != 'Mixed'){
+				Service_API.setUserSiteTheme(mepItem.classification__c, false);
+	    		PageReference pr = ApexPages.currentPage();
+	    		pr.setRedirect(true);
+	    		return pr;
+			}
+			return null;
     }
     
     public override void refreshPageContent() {
