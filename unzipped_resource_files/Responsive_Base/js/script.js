@@ -357,7 +357,9 @@ $j(document).ready(function() {
         $j(".select-all input[type='checkbox']").change(function() {
             var c = $j(this);
             $j(".doc-list input[type='checkbox']").each(function() {
-                if($j(this).prop("checked") !== c.prop("checked")) {
+                if($j(this).prop("checked") !== c.prop("checked") &&
+                  !$j(this).parents("."+pageNamePrefix+"-Section-Blok").hasClass("hidden")
+                  ){
                     $j(this).trigger("click");
                 }
             });
@@ -500,7 +502,9 @@ $j(document).ready(function() {
         $j(".select-all input[type='checkbox']").change(function() {
             var c = $j(this);
             $j(".doc-list input[type='checkbox']").each(function() {
-                if($j(this).prop("checked") !== c.prop("checked")) {
+                if($j(this).prop("checked") !== c.prop("checked") &&
+                  !$j(this).parents("."+pageNamePrefix+"-Section-Blok").hasClass("hidden")
+                  ){
                     $j(this).trigger("click");
                 }
             });
