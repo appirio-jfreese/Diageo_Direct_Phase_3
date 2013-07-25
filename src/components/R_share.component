@@ -12,6 +12,73 @@ Description	: Integrated modal dialog for responsive site
     <apex:attribute name="cShareLinkLow" description="sharelinklow" type="String" required="false" assignTo="{!cShareLinkLow}"/>
     <apex:attribute name="cvids" description="String of ids" type="String" required="false" assignTo="{!cvids}"/>
 
+	<style type="text/css">
+		/* autocomplete menu */
+		.ui-menu {
+			list-style:none;
+			display:block;
+			float: left;
+			-webkit-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.60) !important;
+			-moz-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.60) !important;
+			box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.60) !important;
+			-webkit-border-radius: 1px !important;
+			-moz-border-radius: 1px !important;
+			border-radius: 1px !important;	
+			background: #efefef !important;	 /* Old browsers */
+		    border: 2px solid #DFDFDF !important;
+		    border-top: 0px solid transparent !important;	
+		    color: #575757 !important;
+		    cursor: pointer;
+		    font-family: Tahoma !important;
+		    font-size: 12px !important;
+		    font-weight: bold !important;
+			padding-top: 2px !important;
+			padding-bottom: 2px !important;	
+			padding-left: 2px !important;
+			padding-right: 2px !important;
+			z-index: 1001;
+		}
+		.ui-menu .ui-menu {
+			margin-top: -4px;
+		}
+		.ui-menu .ui-menu-item {
+			zoom: 1;
+			float: left;
+			clear: left;
+			width: 100%;
+		}
+		.ui-menu .ui-menu-item a {
+			text-decoration:none;
+			display:block;
+			zoom:1;
+		}
+		.ui-menu .ui-menu-item a {
+			padding: 6px;
+			padding-left: 11px;
+		}
+		.ui-menu .ui-menu-item a.ui-state-hover,
+		.ui-menu .ui-menu-item a.ui-state-active {
+			margin: -1px;
+			-webkit-border-radius: 1px !important;
+			-moz-border-radius: 1px !important;
+			border-radius: 1px !important;	
+			background: #ad2b5f !important; /* Old browsers */
+			background: -moz-linear-gradient(top, #ad2b5f 1%, #7e0c3a 100%) !important; /* FF3.6+ */
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#ad2b5f), color-stop(100%,#7e0c3a)) !important; /* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, #ad2b5f 1%,#7e0c3a 100%) !important; /* Chrome10+,Safari5.1+ */
+			background: -o-linear-gradient(top, #ad2b5f 1%,#7e0c3a 100%) !important; /* Opera11.10+ */
+			background: -ms-linear-gradient(top, #ad2b5f 1%,#7e0c3a 100%) !important; /* IE10+ */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ad2b5f', endColorstr='#7e0c3a',GradientType=0 ) !important; /* IE6-9 */
+			background: linear-gradient(top, #ad2b5f 1%,#7e0c3a 100%) !important; /* W3C */
+			border-color: #ad2b5f !important;
+			-webkit-border-radius: 2px !important;
+			-moz-border-radius: 2px !important;
+			border-radius: 2px !important;		
+			color: #ffffff;
+		    cursor: pointer;	
+		}
+	
+	</style>
 	<!-- START :: MODAL DIALOG -->
 	<div class="modal" id="shareModal" > 
 	    
@@ -32,91 +99,36 @@ Description	: Integrated modal dialog for responsive site
 		<apex:form >
 			<apex:actionFunction status="ajax-status" name="sendEmailMsg" action="{!sendEmailMsg}" rerender="sendBox, moreInfoError"/>
 			<apex:actionFunction status="ajax-status" name="sendEmailMsgMultiple" action="{!sendEmailMsgMultiple}" rerender="sendBox, moreInfoError"/>
-			<apex:actionFunction status="ajax-status" name="closeEmailMsg" action="{!closeEmailMsg}" rerender="sendBox, moreInfoError"/>	
+			<apex:actionFunction status="ajax-status" name="closeEmailMsg" action="{!closeEmailMsg}" rerender="sendBox, moreInfoError"/>
+				
 			<apex:pageBlock id="sendBox">
 	 			<div class="shareRecipientInformation">
-				<apex:outputPanel rendered="{!isSend!=true}">
-					<div class="html">
-							<label>
-			            Recipient Email
-			        </label>
-							<apex:inputTextarea rows="1" value="{!sRecipientEmail}" styleClass="recipientEmailInput ui-autocomplete-input"/>
-							<label>
-			            Custom Message (optional) 
-			        </label>
-							<apex:inputTextarea value="{!sRecipientMsg}"/>
-					</div>
-					<div class="buttons">
-		                <apex:outputPanel rendered="{! OR(ISNULL(cvids), len(cvids)=0 )}"> 
-			        		<a href="javascript:void(0);" onclick="closeEmailMsg();return false;" rel="modal:close" class="link">Cancel</a>
-			        		<a href="javascript:void(0);" onclick="sendEmailMsg(); return false;" class="button">Send</a>
-						</apex:outputPanel>
-						<apex:outputPanel rendered="{! AND(NOT(ISNULL(cvids)), len(cvids)!=0 )}">
-							<a href="javascript:void(0);" onclick="closeEmailMsg(); return false;" rel="modal:close" class="link">Cancel</a>
-		        			<a href="javascript:void(0);" onclick="sendEmailMsgMultiple(); return false;" class="button">Send</a>
-						</apex:outputPanel> 			
-					</div>     
-    		</apex:outputPanel>
-    		</div>
-	    		
-			    <apex:outputPanel rendered="{!isSend==true}">
-			    	<div class="html">
+					<apex:outputPanel rendered="{!isSend!=true}">
+						<div class="html">
+							Recipient Email<br/>
+							<apex:inputTextarea rows="1" value="{!sRecipientEmail}" styleClass="recipientEmailInput"/><br/>
+			            	Custom Message (optional)<br/>
+							<apex:inputTextarea value="{!sRecipientMsg}"/><br/>
+						</div>
+						<div class="buttons">
+			                <apex:outputPanel rendered="{! OR(ISNULL(cvids), len(cvids)=0 )}"> 
+				        		<a href="javascript:;" onclick="closeEmailMsg();" rel="modal:close" class="link">Cancel</a>
+				        		<a href="javascript:;" onclick="sendEmailMsg();" class="button">Send</a>
+							</apex:outputPanel>
+							<apex:outputPanel rendered="{! AND(NOT(ISNULL(cvids)), len(cvids)!=0 )}">
+								<a href="javascript:;" onclick="closeEmailMsg();" rel="modal:close" class="link">Cancel</a>
+			        			<a href="javascript:;" onclick="sendEmailMsgMultiple();" class="button">Send</a>
+							</apex:outputPanel>
+						</div>
+	    			</apex:outputPanel>
+				    <apex:outputPanel rendered="{!isSend==true}">
 						<label>Message sent. Thank You.</label>
-						<a href="javascript:void(0);" onclick="closeEmailMsg();return false;" rel="modal:close" class="button">CLOSE</a>		
-					</div>
-				</apex:outputPanel>
-	
+						<a href="javascript:;" onclick="closeEmailMsg();" rel="modal:close" class="button">CLOSE</a>		
+					</apex:outputPanel>	    			
+    			</div>
     		</apex:pageBlock>	
     	</apex:form>
 	</div> 
 	<!-- END :: MODAL DIALOG -->
-    
-    <!-- <div class="moreInfoWrapper">
-        <div class="moreInfoDescriptionWrapper sectionBackground">
-            <div class="moreInfoDescription">Share:
-            	<apex:outputPanel rendered="{! OR(ISNULL(cvids), len(cvids)=0 )}"> 
-            		<b>{! IF (len(description)>30, LEFT(description, 30)+'...',description)}</b>
-            	</apex:outputPanel>
-            	<apex:outputPanel rendered="{! AND(NOT(ISNULL(cvids)), len(cvids)!=0 )}"> 
-            		<b>Multiple files</b>
-            	</apex:outputPanel>
-            </div>
-            <div class="moreInfoClose close emptyBasketPopupRequired" onclick="closeEmailMsg()">&nbsp;</div>
-        </div>
-		<div class="moreInfoError">
-			<apex:outputPanel id="moreInfoError">
-				<apex:messages styleClass="errorMessagesList" />
-			</apex:outputPanel>
-		</div>          
-		<div class="moreInfoContentWrapper">
-			<apex:form >
-				<apex:actionFunction status="ajax-status" name="sendEmailMsg" action="{!sendEmailMsg}" rerender="sendBox, moreInfoError"/>
-				<apex:actionFunction status="ajax-status" name="sendEmailMsgMultiple" action="{!sendEmailMsgMultiple}" rerender="sendBox, moreInfoError"/>
-				<apex:actionFunction status="ajax-status" name="closeEmailMsg" action="{!closeEmailMsg}" rerender="sendBox, moreInfoError"/>
-
-				<apex:pageBlock id="sendBox">
-					<div class="shareRecipientInformation">
-						<apex:outputPanel rendered="{!isSend!=true}">
-							Recipient Email<br/>
-							<apex:inputTextarea rows="1" value="{!sRecipientEmail}" styleClass="recipientEmailInput"/><br/>
-							Custom Message (optional)<br/>
-							<apex:inputTextarea value="{!sRecipientMsg}"/><br/>
-            				<apex:outputPanel rendered="{! OR(ISNULL(cvids), len(cvids)=0 )}"> 
-								<button class="green" onclick="sendEmailMsg(); return false;">SEND</button> <span class="close defaultTheme" onclick="closeEmailMsg();">cancel</span>
-							</apex:outputPanel>
-							<apex:outputPanel rendered="{! AND(NOT(ISNULL(cvids)), len(cvids)!=0 )}">
-								<button class="green" onclick="sendEmailMsgMultiple(); return false;">SEND</button> <span class="close defaultTheme" onclick="closeEmailMsg();">cancel</span>
-							</apex:outputPanel> 			
-						</apex:outputPanel>
-						<apex:outputPanel rendered="{!isSend==true}">
-							Message sent. Thank You.<br/><br/>
-							<button class="green close emptyBasketPopupRequired" onclick="closeEmailMsg(); return false;">CLOSE</button>
-						</apex:outputPanel>
-					</div>		
-				</apex:pageBlock>	
-			</apex:form>						
-			
-		</div>
-	</div> -->
  
 </apex:component>

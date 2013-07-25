@@ -100,7 +100,7 @@ Story/Task  : US612/DE634
                                     <div class="list-view">
                                         <apex:repeat value="{!sectionContentHolder}" var="contentItem">
                                         <apex:outputPanel styleClass="ListViewContents hidden">
-                                <c:R_contentItem pageNamePrefix="mep" followIds="{!currentFollowIds}"  basketIds="{!currentBasketIds}" aggregated="{!contentItem}" renderAsList="true" displayUploadDate="true" lastLoginDateItem="{!lastLoginDate}" allowFileEdit="false"/>
+                                						<c:R_contentItem pageNamePrefix="mep" followIds="{!currentFollowIds}"  basketIds="{!currentBasketIds}" aggregated="{!contentItem}" renderAsList="true" displayUploadDate="true" lastLoginDateItem="{!lastLoginDate}" allowFileEdit="false"/>
                                         </apex:outputPanel>
                                         <apex:outputPanel styleClass="GridViewContents hidden">
                                             <c:R_contentItem pageNamePrefix="mep" followIds="{!currentFollowIds}"  basketIds="{!currentBasketIds}" aggregated="{!contentItem}" renderAsList="false" displayUploadDate="true" lastLoginDateItem="{!lastLoginDate}" allowFileEdit="false"/>

@@ -9,16 +9,20 @@
 <apex:attribute name="p_selectedChildBrandIds" assignTo="{!selectedChildBrandIds}" description="Selected ChildBrandIds" type="string" required="true"/>
 <apex:attribute name="p_selectedBrandIds"  assignTo="{!selectedBrandIds}" description="Selected BrandIds" type="string" required="true"/>
 <apex:attribute name="p_selectedTimePeriods" assignTo="{!selectedTimePeriods}" description="Selected TimePeriod" type="string" required="true"/>
-<apex:attribute name="p_selectedClassificationItemsRow1" description="Selected BrandIds" type="string[]" required="true"/>
-<apex:attribute name="p_selectedClassificationItemsRow2" description="Selected BrandIds" type="string[]" required="true"/>
+<apex:attribute name="p_selectedClassificationItemsRow1" assignTo="{!selectedClassificationItemsRow1}" description="Selected BrandIds" type="string[]" required="true"/>
+<apex:attribute name="p_selectedClassificationItemsRow2" assignTo="{!selectedClassificationItemsRow2}" description="Selected BrandIds" type="string[]" required="true"/>
 <apex:attribute name="p_classificationItemsRow1" description="Selected BrandIds" type="SelectOption[]" required="true"/>
 <apex:attribute name="p_classificationItemsRow2" description="Selected BrandIds" type="SelectOption[]" required="true"/>
 <apex:attribute name="applyFilter" description=" Method for apply filter" type="String" required="true"/>
 
 <apex:attribute name="resetFilter" description=" Method for Reset filter" type="String" required="true"/>
 
-<apex:actionFunction status="ajax-status" name="previousPeriodC" action="{!previousPeriodComp}" onComplete="loadFilterJs();" rerender="messages, timeFilterItem, parentBrands, variantBrands, smFilterItem"/>
-<apex:actionFunction status="ajax-status" name="nextPeriodC" action="{!nextPeriodComp}" onComplete="loadFilterJs();" rerender="messages, timeFilterItem, parentBrands, variantBrands, smFilterItem"/>
+<apex:actionFunction status="ajax-status" name="previousPeriodC" action="{!previousPeriodComp}" onComplete="loadFilterJs();" rerender="messages, timeFilterItem, parentBrands, variantBrands, smFilterItem">
+	<apex:param name="isMonthOrQuarter" assignTo="{!monthOrQuarterRender}" value="" />
+</apex:actionFunction>
+<apex:actionFunction status="ajax-status" name="nextPeriodC" action="{!nextPeriodComp}" onComplete="loadFilterJs();" rerender="messages, timeFilterItem, parentBrands, variantBrands, smFilterItem">
+	<apex:param name="isMonthOrQuarter" assignTo="{!monthOrQuarterRender}" value="" />
+</apex:actionFunction>
 <apex:actionFunction status="ajax-status" name="updateVariantBrands" action="{!updateVariantBrands}" onComplete="reRenderFilterJS();reloadBrandVarient();" rerender="messages, variantBrands">
 	<apex:param name="parentId" assignTo="{!parentId}" value="" />
 </apex:actionFunction>
@@ -95,6 +99,10 @@
 	                    <p>
 	                        Additional Brands
 	                    </p>
+	                    <script>
+	                    //console.log('{!additionalBrandList}');
+	                    //console.log('{!p_selectedClassificationItemsRow1}');
+	                    </script>
 	                    <apex:repeat value="{!additionalBrandList}" var="brand">
                             <div class="other-brand {!if(Len(brand.Name)>13,'two-lines','')}" id="{!brand.id}" name="{!brand.Name}">
                                 <apex:outputPanel rendered="{!IF(contains(selectedBrandIds,brand.Id), true, false)}">
@@ -137,7 +145,7 @@
 	                </div>
 	                <div class="inner ok">
 	                	<apex:repeat value="{!childBrandList}" var="childBrand">
-						  <div class="form-left" id="{!childBrand.id}" name="{!childBrand.Name}">
+						  <div class="form-left" id="{!childBrand.id}" name="{!childBrand.Name}" >
 							<apex:outputPanel rendered="{!IF(contains(selectedChildBrandIds,childBrand.Id), true, false)}">
 								<input type="checkbox" checked="checked" />
 							</apex:outputPanel>
@@ -157,6 +165,22 @@
 				</apex:outputPanel>
 	
 	            <apex:outputPanel id="timeFilterItem" rendered="{!showTimePeriodFilter}" style="display:none;" styleClass="result-filter-layer time-filter hide">
+	                <script>
+	                	jQuery('.result-filter-layer').find('input[type=hidden]').each(function(){
+		    	        	var elemId = jQuery(this).attr('id');
+		    	        	if( elemId != undefined){
+			        	    	if(elemId.search('monthShift') != -1){
+			            			jQuery(this).val('{!monthShift}'); 
+			            		}
+			            		if(elemId.search('monthOrQuarterRender') != -1){
+			            			jQuery(this).val('{!monthOrQuarterRender}'); 
+			            		}
+			            		if(elemId.search('quarterShift') != -1){
+			            			jQuery(this).val('{!quarterShift}');
+			            		}
+		            		}
+		            	});
+	            	</script>
 	                <a href="javascript:;" class="close-btn"></a>
 	                <apex:outputPanel rendered="{!NOT(monthOrQuarterRender)}">
 						<p>Select one or more of the months listed below. View different months by clicking on the right or left arrows.</p>
@@ -171,7 +195,7 @@
 	                    <a href="javascript:;" class="{!pageCls} {!IF(monthOrQuarterRender,'active','')} last" data-related="quarterly">
 	                        Quarterly
 	                    </a>
-	                    <apex:inputHidden value="{!monthOrQuarterRender}" id="monthOrQuarterRender" />
+	                    
 	                </div>
 	                <div class="date-selector quarterly">
 	                	<ul class="slides">
@@ -272,7 +296,7 @@
 	            	</div>
 	            </apex:outputPanel>
 				
-				<apex:outputPanel id="smFilterItem" layout="block" rendered="{!showSMFilter}" styleClass="result-filter-layer sm-filter hide">
+				<!--<apex:outputPanel id="smFilterItem" layout="block" rendered="{!showSMFilter}" styleClass="result-filter-layer sm-filter hide">
 	                <a href="javascript:;" class="close-btn"></a>
 	                <p>Select one or more of the filters listed below.</p>
 	                <div class="select-filter-all">
@@ -283,10 +307,10 @@
 	                </div>
 	                <div class="inner ok">
 	                	<div class="form-left">
-	                		<apex:selectCheckboxes value="{!p_selectedClassificationItemsRow1}">
+	                		<apex:selectCheckboxes styleClass="row1" value="{!selectedClassificationItemsRow1}">
 								<apex:selectOptions value="{!p_classificationItemsRow1}" />
 							</apex:selectCheckboxes>
-							<apex:selectCheckboxes value="{!p_selectedClassificationItemsRow2}">
+							<apex:selectCheckboxes styleClass="row2" value="{!selectedClassificationItemsRow2}">
 								<apex:selectOptions value="{!p_classificationItemsRow2}" />
 							</apex:selectCheckboxes>
 						<div class="clear"></div>
@@ -299,7 +323,7 @@
 	                    <a href="javascript:;" onclick="preApplyFilters(); return false;" class="apply-btn button {!pageCls}">Apply</a>
 	            	</div>
 				</apex:outputpanel>
-				
+				-->
 	</apex:outputpanel>
 <script type="text/javascript">
 	    jQuery(document).ready(function() {
@@ -321,7 +345,7 @@
 				if(a.hasClass("active")){
 					var related = a.data("related");
 					//console.log('related:::'+related);
-					if(typeof related !== "undefined") {
+					if(typeof related != "undefined") {
 		                jQuery(".result-filter-layer").hide();
 						if( jQuery(".brand-filter .other-btn").hasClass("selected"))
 	                		jQuery(".brand-filter .other").show();
@@ -348,7 +372,7 @@
 				                        	
 				                        }
 				                    });
-				                    updateSlideNxtPrevBtn();
+				                    updateSlideNxtPrevBtn(related2);
 			                    }
 		                    });
 		                
@@ -365,7 +389,7 @@
 		            var checked = input.is(":checked");
 		            jQuery(".bv-ok-filter .form-left input").each(function() {
 		                var i = jQuery(this);
-		                if(i.is(":checked") !== checked) {
+		                if(i.is(":checked") != checked) {
 		                    i.parent().find("a").trigger("click");
 		                }
 		            });
@@ -378,7 +402,7 @@
 		        	//alert('in .content > .button-line a click' );
 		            var a = jQuery(this);
 		            var related = a.data("related");
-		            if(typeof related !== "undefined") {
+		            if(typeof related != "undefined") {
 		                jQuery(".result-filter-layer").hide();
 		
 		                if(related === 'bv-filter') {
@@ -399,7 +423,7 @@
 		                        	
 		                        }
 		                    });
-		                    updateSlideNxtPrevBtn();
+		                    updateSlideNxtPrevBtn('quarterly');
 		                }
 		
 		                jQuery("."+related).show();
@@ -419,11 +443,13 @@
 		                return false;
 		            }
 		            a.toggleClass("selected");
-		            var brandId = a.attr('id')
-		            console.log('in brands a click--'+brandId);
-		            var othBrandLen = jQuery(".brand-filter .other .other-brand input:checked").length;
-		            if(a.hasClass("selected") && jQuery(".brand-filter .brands a.selected").not('#Portfolio').not('#RTS').not('#ADB').size() == 1 && othBrandLen == 0){
-						if(brandId!=undefined && brandId.length != 0){
+		            var brandLen = jQuery(".brand-filter .brands a.selected").not('#Portfolio').not('#RTS').not('#ADB').size();
+	                var othBrandLen = jQuery(".brand-filter .other .other-brand input:checked").length;
+	                if( (othBrandLen == 1 && brandLen ==0) || (othBrandLen == 0 && brandLen == 1)){
+	                	var brandId = (othBrandLen == 1) ? jQuery(".brand-filter .other .other-brand input:checked").parent().parent().parent().attr('id')
+	                									   : jQuery(".brand-filter .brands a.selected").not('#Portfolio').not('#RTS').not('#ADB').first().attr('id');
+		            	//console.log('in brands a click--'+brandId);
+		            	if(brandId!=undefined && brandId.length != 0){
 							updateVariantBrands(''+brandId+'');
 						}
 						//jQuery(".bv-ok-filter .inner
@@ -437,31 +463,31 @@
 		        });
 		        jQuery(".brand-filter .other .other-brand input").change(function() {
 		            var input = jQuery(this);
-		            console.log('in other-brand input--');
 		            if(jQuery(".brand-filter .other .other-brand input:checked").length > 0) {
 		                jQuery(".brand-filter .other-btn").addClass("selected");
-		                var adBrandId = input.parent().parent().parent().attr('id');
-		                if(jQuery(".brand-filter .other .other-brand input:checked").length == 1 
-		                		&& jQuery(".brand-filter .brands a.selected").not('#Portfolio').not('#RTS').not('#ADB').size() ==0 
-		                		&& adBrandId!=undefined && adBrandId.length != 0){
-		                	updateVariantBrands(''+adBrandId+'');
-		                	
-		                }else{
-		                	jQuery(".bv-ok-filter .inner").html('');
-		                	jQuery('#selectedChildBrandIds').val('');
-		                }  
 		            }
-		            else {
-		                jQuery(".brand-filter .other-btn").removeClass("selected");
-		                jQuery('#selectedChildBrandIds').val('');
-		            }
+		            var brandLen = jQuery(".brand-filter .brands a.selected").not('#Portfolio').not('#RTS').not('#ADB').size();
+	                var othBrandLen = jQuery(".brand-filter .other .other-brand input:checked").length;
+	                //console.log('brandLen--'+brandLen+'--othBrandLen--'+othBrandLen);
+	                if( (othBrandLen == 1 && brandLen ==0) || (othBrandLen == 0 && brandLen == 1)){
+	                	var adBrandId = (othBrandLen == 1) ? jQuery(".brand-filter .other .other-brand input:checked").parent().parent().parent().attr('id')
+	                									   : jQuery(".brand-filter .brands a.selected").not('#Portfolio').not('#RTS').not('#ADB').first().attr('id');
+	                	//console.log('in adBrandId a change--'+adBrandId);
+	            		if(adBrandId!=undefined && adBrandId.length != 0){
+							updateVariantBrands(''+adBrandId+'');
+	                	}
+	                }else{
+	                	jQuery(".bv-ok-filter .inner").html('');
+	                	jQuery('#selectedChildBrandIds').val('');
+	                }
+		            
 		        });
 		        jQuery(".sm-filter .select-filter-all input").change(function() {
 		            var input = jQuery(this);
 		            var checked = input.is(":checked");
 		            jQuery(".sm-filter .form-left input").each(function() {
 		                var i = jQuery(this);
-		                if(i.is(":checked") !== checked) {
+		                if(i.is(":checked") != checked) {
 		                    i.parent().find("a").trigger("click");
 		                }
 		            });
@@ -497,7 +523,7 @@
 		                after: function() {
 		                 }
 		            });
-		           updateSlideNxtPrevBtn();
+		           updateSlideNxtPrevBtn(related);
 		
 		        })
 		        jQuery(".time-filter .date-selector .slides a").click(function() {
@@ -506,18 +532,24 @@
 		        });
 				
         }
-        function updateSlideNxtPrevBtn(){
+        function updateSlideNxtPrevBtn(relatedTo){
+        	var isQuarterly = false;
+        	if(relatedTo == 'quarterly') 
+        	 isQuarterly =true ;
+			console.log('in updateSlideNxtPrevBtn--'+isQuarterly);
         	jQuery(".date-selector .flex-direction-nav a").each(function() {
 		                var a = jQuery(this);
 		                a.removeClass("flex-disabled");
 		                if(a.hasClass("flex-prev"))
 		                	a.live('click',function(){
-		                		//alert('previousPeriodC::');
-		                		previousPeriodC();
-		                		//return false;
+		                		console.log('in previousPeriodC');
+		                		previousPeriodC(isQuarterly);
 		                	});
 		                else if(a.hasClass("flex-next") )	
-		                	a.live('click',nextPeriodC);
+		                	a.live('click',function(){
+		                	console.log('in nextPeriodC');
+		                		nextPeriodC(isQuarterly);
+		                	});
 		            });
         }
         
@@ -555,7 +587,7 @@
         	var selectedBrandIdsString = '';
 			jQuery('.brand-filter a.selected').each(function(){
 				brandId = jQuery(this).attr('id');
-				console.log('brandId::'+brandId);
+				//console.log('brandId::'+brandId);
 				if(brandId != undefined && brandId != 'RTS' && brandId != 'ADB' &&  brandId != 'Portfolio'){
 					if(selectedBrandIdsString == '' || selectedBrandIdsString == null){
 						selectedBrandIdsString = ''+brandId;
@@ -565,7 +597,7 @@
 				}else if(brandId == 'ADB'){
 					jQuery('.brand-filter .other-brand  a.jqTransformChecked').each(function(){
 						var adBrandId = jQuery(this).parent().parent().parent().attr('id');
-						console.log('parent---'+adBrandId);
+						//console.log('parent---'+adBrandId);
 						if(adBrandId != undefined){
 							if(selectedBrandIdsString == '' || selectedBrandIdsString == null){
 								selectedBrandIdsString = ''+adBrandId;
@@ -577,12 +609,12 @@
 					
 				}
 			});
-        	console.log('selectedBrandIdsString::'+selectedBrandIdsString);
+        	//console.log('selectedBrandIdsString::'+selectedBrandIdsString);
         	var selectedChildBrandIdsString = '';
-        	jQuery('.bv-ok-filter a.selected').each(function(){
-        		childbrandId = jQuery(this).attr('id');
+        	jQuery('.bv-ok-filter .inner input:checked').each(function(){
+        		childbrandId = jQuery(this).parent().parent().parent().attr('id');
         		//console.log('childbrandId:::'+childbrandId);
-				if(childbrandId !== undefined){
+				if(childbrandId != undefined){
 					if(selectedChildBrandIdsString == '' || selectedChildBrandIdsString == null){
 						selectedChildBrandIdsString = ''+childbrandId;
 					} else {
@@ -592,10 +624,17 @@
 			});
 			//console.log('selectedChildBrandIdsString::'+selectedChildBrandIdsString);
         	var selectedQuartersString = '';
-			jQuery('.time-filter .date-selector a.selected').each(function(){
+        	/*var a = jQuery('.time-filter .button-line a.active');
+   			var isQuarterly = false;
+   			var timeFilterRelated = a.data("related");
+   			//console.log('timeFilterRelated:::'+timeFilterRelated);
+   			if(timeFilterRelated == 'quarterly')
+     				isQuarterly = true;
+            */			
+			jQuery('.time-filter .'+timeFilterRelated+' a.selected').each(function(){
 				timeperName = jQuery(this).attr('name');
 				//console.log('timeperName:::'+timeperName);
-				if(timeperName!== undefined){
+				if(timeperName!= undefined){
 					if(selectedQuartersString == '' || selectedQuartersString == null){
 						selectedQuartersString = ''+timeperName;
 					} else {
@@ -603,10 +642,11 @@
 					}
 				}
 			});
-			console.log('selectedQuartersString::'+selectedQuartersString);
+			var selClassifiactionRow2 = new Array();
+			//console.log('selectedQuartersString::'+selectedQuartersString);
         	jQuery('.result-filter-layer').find('input[type=hidden]').each(function(){
     	        var elemId = jQuery(this).attr('id');
-    	        if( elemId!== undefined){
+    	        if( elemId != undefined){
         	    	if(elemId.search('selectedQuarters') != -1){
             			jQuery(this).val(selectedQuartersString);
             		}else if(elemId.search('selectedBrandIds') != -1){
@@ -614,6 +654,36 @@
             		}else if(elemId.search('selectedChildBrandIds') != -1){
             			jQuery(this).val(selectedChildBrandIdsString);
             		}
+            		/*else if(elemId.search('monthOrQuarterRender') != -1){
+            			jQuery(this).val(isQuarterly);
+            			//console.log('monthOrQuarterRender:::'+jQuery(this).val());
+            		}
+            		else if(elemId.search('selectedClassificationItemsRow1') != -1){
+            			var selClassifiactionRow1 ='';//= new Array();
+            			jQuery('.sm-filter .inner .row1 input:checked').each(function(){
+            				var selValue1 = jQuery(this).val();
+            				if(selValue1 != undefined && selValue1 != ''){
+            					//selClassifiactionRow1.push(selValue1);
+            					if(selClassifiactionRow1 == '' || selClassifiactionRow1 == null){
+									selClassifiactionRow1 = ''+selValue1;
+								} else {
+									selClassifiactionRow1 += ', '+selValue1;
+								}
+            				}
+            			});
+            			console.log('selClassifiactionRow1::'+selClassifiactionRow1);
+            			//jQuery(this).val(selClassifiactionRow1);
+            		}
+            		//else if(elemId.search('selectedClassificationItemsRow2') != -1){
+            			jQuery('.sm-filter .inner .row2 input:checked').each(function(){
+            				var selValue2 = jQuery(this).val();
+            				if(selValue2 != undefined && selValue2 != '')
+            					selClassifiactionRow2.push(selValue2);
+            			});
+            			console.log('selClassifiactionRow2::'+selClassifiactionRow2);
+            			//jQuery(this).val(selClassifiactionRow2);
+            		//}
+            		*/
             	}
 			});
             //console.log('befroe applyFilter--'+jQuery('#selectedBrandIds').val());
@@ -622,10 +692,12 @@
 			//jQuery(".result-filter").toggleClass("open");
 			jQuery(".result-filter-layer").hide();
 			{!applyFilter};
+			//console.log('before applyfilter selClassifiactionRow2::'+selClassifiactionRow2);
+        	//changeFilter(selClassifiactionRow2);
 			
         }
         function preResetFilter(filterSection){
-        	console.log('in preResetFilter');
+        	//console.log('in preResetFilter');
         	if(filterSection=='time'){
         		jQuery('.time-filter .date-selector a.selected').removeClass("selected");
         		
@@ -640,9 +712,9 @@
                 jQuery('.brand-filter .other').hide();
         		
         	}else if(filterSection == 'bv'){
-        		jQuery('.bv-ok-filter a.selected').trigger("click");
+        		jQuery(".bv-ok-filter input:checked").trigger("click");
         	}else if(filterSection =='sm'){
-        		jQuery('.sm-filter a.selected').trigger("click");
+        		jQuery('.sm-filter input:checked').trigger("click");
         	}
         	preApplyFilters();
         	

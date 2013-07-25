@@ -523,6 +523,7 @@ global public without sharing virtual class Controller_Base {
     }
     
     public PageReference changeSiteTheme(){
+    	System.Debug('<----- ' + siteTheme + ' ----->');
         if(siteTheme == null || siteTheme == ''){
             ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Site theme is required.' ));
             return null;
@@ -541,6 +542,9 @@ global public without sharing virtual class Controller_Base {
         String currentUserPageUrl = ApexPages.currentPage().getUrl();
         Integer ask = currentUserPageUrl.indexOf('?');
         String currentUserPage = (ask==-1) ? currentUserPageUrl : currentUserPageUrl.substring(0, ask);
+        
+		System.Debug('<----- ' + currentUserPageUrl + ' ----->');
+		System.Debug('<----- ' + currentUserPage + ' ----->');        
 
         if(currentUserPage != null && currentUserPage != ''){
             p = new PageReference(currentUserPage);

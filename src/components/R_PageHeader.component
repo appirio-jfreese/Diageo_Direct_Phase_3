@@ -12,6 +12,10 @@ Story/Task  : US585/TA1082
 Updated By  : Basant Verma (Appirio OffShore)
 Date        : 7/23/13
 Story/Task  : DE670
+
+Updated By  : Basant Verma (Appirio OffShore)
+Date        : 7/24/13
+Story/Task  : US645/DE675, US646/DE674
 ------------------------------------------------------------------------------------------------------------------->
 <apex:component controller="Controller_Base" extensions="Controller_BaseRemote" allowDML="true"> 
 	<!-- Start : Changes by Basant for Responsive Behavior : US585/TA1082 -->
@@ -24,18 +28,21 @@ Story/Task  : DE670
     <apex:attribute name="showThemeSelector" description="" type="Boolean" required="false"/>
     <apex:attribute name="basketItemsNumber" description="" type="String" required="false"/>
 		
-    <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/jquery-1.8.2.min.js')}"></script> 
+<!--    <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/jquery-1.8.2.min.js')}"></script>  -->
+	<script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.js')}"></script>
 
     <!-- Start : Changes by Basant for JQueries Library Load  : US585/TA1082-->
-<!--  <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery-ui-1.8.15.custom.min.js')}"></script>  --> 
-	<script type="text/javascript" src="{!URLFOR($Resource.jquery, 'utils.js')}"></script>
-    <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.mousewheel.js')}"></script>
+     
+ 	<script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery-ui-1.8.15.custom.min.js')}"></script> 
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.jscrollpane.min.js')}"></script>
-    <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'imgscale.js')}"></script>
-    <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.treeview.js')}"></script>
-    <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.autosize.js')}"></script>
+ 	<script type="text/javascript" src="{!URLFOR($Resource.jquery, 'imgscale.js')}"></script>
+
+ 	<script type="text/javascript" src="{!URLFOR($Resource.jquery, 'utils.js')}"></script>
+ 	<script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.mousewheel.js')}"></script>
+	<script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.treeview.js')}"></script>  
+	<script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.autosize.js')}"></script>
     <apex:stylesheet value="{!URLFOR($Resource.jquery, 'jquery.jscrollpane.css')}"/>
-    <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'autosuggest.js')}"></script> 
+	<script type="text/javascript" src="{!URLFOR($Resource.jquery, 'autosuggest.js')}"></script>
 	<!-- END : Changes by Basant for JQueries Library Load -->
 
 
@@ -45,12 +52,43 @@ Story/Task  : DE670
     <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/mod_script.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/PageHeaderJQ.js')}"></script>
     <script type="text/javascript" src="{!URLFOR($Resource.Responsive_Base, 'js/jquery.modal.min.js')}"></script>
-
+ 	
     <apex:stylesheet value="{!URLFOR($Resource.Responsive_Base, 'css/base.css')}" />
     <apex:stylesheet value="{!URLFOR($Resource.Responsive_Base, 'css/skeleton-fluid.css')}" /> 
     <apex:stylesheet value="{!URLFOR($Resource.Responsive_Base, 'css/layout.css')}" />
    
     <style type="text/css">
+		.theme-selector-modal {
+		    width: 100%;
+		    max-width: 721px;
+		    height: 100%;
+		    z-index: 1001;
+		}
+		    .theme-selector-modal .html {
+		        margin: 0;
+		        padding-bottom: 10px;
+		    }
+		    .theme-selector-modal .column {
+		        float: none;
+		        width: 99.4%;
+		        margin: 15px 0 15px .6%;
+		        height: 135px;
+		    }
+		        .theme-selector-modal .boxes a {
+		            line-height: 105px;
+		            height: 105px;
+		        }
+		        .theme-selector-modal label {
+		            float: left;
+		            font-size: 18px;
+		            margin: 0 10px 0 0.68870523415978%;
+		            color: #e0e0e0;
+		        }
+		        .theme-selector-modal .html .go-btn {
+		            float: right;
+		            margin-right: 0.68870523415978%;
+		        }  
+		                    
         /*Create a go_btn for search submit*/
 	    .header .go_btn {
 	        float: left;
@@ -141,14 +179,18 @@ Story/Task  : DE670
             <div class="icons">
             		<!-- Start Changes for US585/TA1082 - Basant Verma (OffShore) {Just added outputPanel and it's Id so we can rerender it after AJAX actionFunction Call}-->
             		<apex:outputPanel id="currentBasketItemsNo">
-                 <a href="javascript:;" class="cart">
+                 <!-- START : Commenting code now for US646/DE674 - Basant Verma -->
+                 <!-- <a href="javascript:;" class="cart">
                      {!basketItemsNumber}
-                 </a>
+                 </a> -->
+                 <!-- END : Commenting code now for US646/DE674 - Basant Verma -->
                 </apex:outputPanel>
                 <apex:outputPanel id="currentFollowedItemsNo">
-                 <a href="javascript:;" class="fav">
+                 <!-- START : Commenting code now for US645/DE675 - Basant Verma -->
+                 <!-- <a href="javascript:;" class="fav">
                      {!followItemsNo}
-                 </a>
+                 </a> -->
+                 <!-- END : Commenting code now for US645/DE675 - Basant Verma -->
                 </apex:outputPanel>
                 <!-- End Changes for US585/TA1082 - Basant -->
             </div>
@@ -205,7 +247,9 @@ Story/Task  : DE670
     <!-- site theme select -->
       
     <apex:outputPanel id="selectThemeHolder" styleClass="selectThemeHolderClass {!if(OR(siteTheme == null, siteTheme == ''), 'selectThemeRequired','')}" rendered="{!if(ISNULL(siteTheme),'true','false')}" >
-		<div class="modal" id="theme-selector-modal">
+<!--		<div class="modal" id="theme-selector-modal">
+	  	<div class="title">  -->
+		<div id="theme-selector-modal-r">
 	  	<div class="title">
 	  		<div style="height: 10px; width: 100%;"></div>
 	        <img src="{!URLFOR($Resource.Responsive_Base, 'i/logo.png')}"/>

@@ -2,8 +2,13 @@
 Name        : R_MEPDetails.page
 
 Created By  : Basant Kumar Verma (Appirio OffShore)
-Date                : 7/1/13
-Story/Task  : US585/TA1082 
+Date        : 7/1/13
+Story/Task  : US585/TA1082
+
+
+Updated By  : Basant Kumar Verma (Appirio OffShore)
+Date        : 7/24/13
+Story/Task  : US685/DE679 
 ------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_MEPDetails" action="{!initTheme}">
     <body class="mep-landing-page mep-page mep-item-page">
@@ -35,11 +40,17 @@ Story/Task  : US585/TA1082
                         
                         <apex:outputPanel rendered="{! if( detailId != null, 'true','false' )}" id="pageContent">
                             <div class="button-line five-btns">
-                                <a href="javascript:;" class="active mep-bg section-options">Overview</a>
+                                <!-- START : Added width to make it use full screen size, for US685/DE679 - Basant -->
+                                <a style="width: 23.954514501%" href="javascript:;" class="active mep-bg section-options">Overview</a>
+                                <!-- END : Added width to make it use full screen size, for US685/DE679 - Basant -->
                                 <apex:repeat value="{!detailsMapOrder}" var="silderSection">
-                                    <a href="javascript:;" class="mep-bg section-options {!if(silderSection == 'Media', 'mediaPage', '')}">{!silderSection}</a>
+                                		<!-- START : Added width to make it use full screen size, for US685/DE679 - Basant -->
+                                    <a style="width: 23.954514501%" href="javascript:;" class="mep-bg section-options {!if(silderSection == 'Media', 'mediaPage', '')}">{!silderSection}</a>
+                                    <!-- END : Added width to make it use full screen size, for US685/DE679 - Basant -->
                                 </apex:repeat>
-                                <a href="javascript:;" class="mep-bg last section-options">Goals</a>
+                                <!-- START : Commented for now, for US685/DE679 - Basant -->
+																	<!-- <a href="javascript:;" class="mep-bg last section-options">Goals</a> -->
+                                <!-- EEND : Commented for now, for US685/DE679 - Basant -->
                             </div>
                             
                             <h2 class="with-select with-small">
@@ -104,17 +115,16 @@ Story/Task  : US585/TA1082
                             </c:R_OperationLines>
                             
                             <!-- goals section -->
-<!-- Start: Randy Wandell (Appirio) 7/12/13 - Commented for now because collaboration is not being delivered in release 4 -->                           
-                            <div class="story without-image Goals-Section mep-Section-Blok noContent">
+                            <!-- START : Commented for now, for US685/DE679 - Basant -->                           
+                            <!-- <div class="story without-image Goals-Section mep-Section-Blok noContent">
                                 <div class="p">
                                     <p>
-<!--                                        Program Goals can be found in the Goals folder in <a href="javascript:;">Collaboration</a>.   -->
+	                                        Program Goals can be found in the Goals folder in <a href="javascript:;">Collaboration</a>.
                                     </p>
                                 </div>          
-                            </div>
-                        
+                            </div> -->
+                            <!-- END : Commented for now, for US685/DE679 - Basant -->
                             <!-- end of goals section -->
-<!-- End: -->
                         </apex:outputPanel>
                     </apex:form>
                 </div>

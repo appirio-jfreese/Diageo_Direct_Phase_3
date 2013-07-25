@@ -33,7 +33,8 @@ Date        : 7/10/13
                   <apex:actionFunction status="ajax-status" name="showPageRequested" action="{!showPageRequested}" rerender="messages, pageContent, downloadAllDialog" onComplete="jqTransformScript();sectionVisibility();initializationFunction();">
                   	<apex:param name="requestedPageNumber" assignTo="{!numberOfCurrentPage}" value="" />
                   </apex:actionFunction>
-                  <apex:actionFunction status="ajax-status" name="changeFilter" action="{!changeFilter}" onComplete="jqTransformScript();sectionVisibility();initializationFunction();" rerender="messages, pageContent, downloadAllDialog"/>
+                  <apex:actionFunction status="ajax-status" name="changeFilter" action="{!changeFilter}" onComplete="jqTransformScript();sectionVisibility();initializationFunction();" rerender="messages, pageContent, downloadAllDialog">
+                  </apex:actionFunction>
 				  <apex:actionFunction status="ajax-status" name="resetFilter" action="{!resetFilter}" rerender="messages, filter, pageContent, downloadAllDialog"/>	                
 				
 				<!--  END :: ACTION FUNCTIONS -->  
@@ -58,16 +59,49 @@ Date        : 7/10/13
 		          	p_classificationItemsRow2="{!classificationItemsRow2}" 
 		          	showSMFilter="{!IF(currentSection != 'Quarterly Selling Materials',false,true)}"
 		          	showTimePeriodFilter="{!IF(currentSection != 'Quarterly Selling Materials',false,true)}"/>
+		          	<div class="content">
+		          	<apex:outputPanel id="smFilterItem" layout="block" styleClass="result-filter-layer sm-filter hide">
+	                <a href="javascript:;" class="close-btn"></a>
+	                <p>Select one or more of the filters listed below.</p>
+	                <div class="select-filter-all">
+	                    <label>
+	                        Select All
+	                    </label>
+	                    <input type="checkbox"/>
+	                </div>
+	                <div class="inner ok">
+	                	<div class="form-left">
+	                		<apex:selectCheckboxes styleClass="row1" value="{!selectedClassificationItemsRow1}">
+								<apex:selectOptions value="{!classificationItemsRow1}" />
+							</apex:selectCheckboxes>
+							<apex:selectCheckboxes styleClass="row2" value="{!selectedClassificationItemsRow2}">
+								<apex:selectOptions value="{!classificationItemsRow2}" />
+							</apex:selectCheckboxes>
+						<div class="clear"></div>
+						</div>
+	                    <div class="clear"></div>
+	                </div>
+	            
+	            	<div class="buttons">
+	                    <a href="javascript:;" onclick="preResetFilter('sm'); return false;" class="clear-btn">Clear Filters</a>
+	                    <a href="javascript:;" onclick="preApplyFilters(); return false;" class="apply-btn button sm-bg">Apply</a>
+	            	</div>
+				</apex:outputpanel>
+				</div>
+				
                 <div class="result-filter-layer">
             		<apex:inputHidden value="{!selectedBrandIds}" id="selectedBrandIds"/>
 		            <apex:inputHidden value="{!selectedChildBrandIds}" id="selectedChildBrandIds"/>
 		            <apex:inputHidden value="{!selectedTimePeriods}" id="selectedQuarters"/>
-            	</div>
+		            <apex:inputHidden value="{!monthOrQuarterRender}" id="monthOrQuarterRender" />
+		        </div>
             	
             	<!-- END :: FILTER -->	
                     <!-- START :: Panel pageContent -->
                     <apex:outputPanel id="pageContent"> 
-                    
+                    	<script>
+	                    	console.log('--in page:::{!selectedClassificationItemsRow1}');
+	                    </script>
 	                    <apex:outputPanel rendered="{!AND(OR(ISNULL(content),content.size=0))}">
 							<div class="content-no-items-msg">No items.</div>
 						</apex:outputPanel>

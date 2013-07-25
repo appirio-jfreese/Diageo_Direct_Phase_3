@@ -273,6 +273,55 @@ Story/Task  : DE670
     <c:R_pageFooter isInternal="{!isInternalUser }" />
 </div>
 
+  <!-- START - Changed for  - Basant Verma -->
+  <!-- site theme select -->
+    
+<apex:outputPanel id="selectThemeHolder" styleClass="selectThemeHolderClass {!if(OR(siteTheme == null, siteTheme == ''), 'selectThemeRequired','')}" rendered="{!if(ISNULL(siteTheme),'true','false')}" >
+<!--		<div class="modal" id="theme-selector-modal">
+	  	<div class="title">  -->
+	<div align="center" style="position: fixed; top: 0px; left: 0px; background-color: #000000; width: 100%; height: 100%; z-index: 10001;">
+		<div align="left" class="theme-selector-modal">
+			<div class="title">
+				<div style="height: 10px; width: 100%;"></div>
+					<img src="{!URLFOR($Resource.Responsive_Base, 'i/logo.png')}"/>
+				<div style="height: 10px; width: 100%;"></div>
+			</div>
+			 <div class="moreInfoError">
+				<apex:outputPanel id="moreInfoError">
+					<apex:messages styleClass="errorMessagesList" />
+				</apex:outputPanel>
+			</div>
+			<apex:form >
+				<apex:actionFunction status="ajax-status" name="changeSiteTheme" action="{!changeSiteTheme}" rerender="moreInfoError, selectThemeHolder" onComplete="alert('hello');"/>
+				<apex:inputText value="{!siteTheme}" id="themeWrapperSelector" styleClass="themeWrapperSelector" style="display: none;"/>
+				<div class="html">
+					<div class="boxes">
+						<apex:variable var="counter" value="{!1}"/>
+						<apex:repeat value="{!SiteThemes}" var="theme">
+							<div class="column default {!IF(counter == SiteThemes.size,'last','')}">
+<!--								<a class="{!theme['label']}-bg" onclick="themeClicked('{!theme['label']}');" href="javascript:;">{!theme["label"]}</a> -->
+								<a class="{!theme['label']}-bg" onclick="{!IF(theme['label']='Wine','toggleToWine()','toggleToSpirits()')};" href="javascript:;">{!theme["label"]}</a>
+							</div>
+							<apex:variable var="counter" value="{!counter + 1}"/>
+						</apex:repeat>
+						<div class="clear"></div>
+					</div>
+<!-- 					
+					<label>
+						Use as default
+					</label>
+					<apex:inputCheckbox value="{!isSiteThemeDef}"/>
+					<a href="javascript:;" onclick="preChangeSiteTheme();" class="button go-btn" >GO</a>
+					<a href="javascript:;" onclick="changeSiteTheme();" class="button go-btn postSelectThemeButton" rel="modal:close" style="display: none;">GO</a>
+-->					
+				</div>
+			</apex:form>
+		</div>
+	</div>
+</apex:outputPanel>
+
+<!-- END - Changed for  - Basant Verma -->
+
 <!-- START - Changed for  - Basant Verma -->
 </body>
 <!-- END - Changed for  - Basant Verma -->
