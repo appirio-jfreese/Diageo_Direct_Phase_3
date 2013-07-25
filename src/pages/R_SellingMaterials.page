@@ -33,7 +33,7 @@ Date        : 7/10/13
                   <apex:actionFunction status="ajax-status" name="showPageRequested" action="{!showPageRequested}" rerender="messages, pageContent, downloadAllDialog" onComplete="jqTransformScript();sectionVisibility();initializationFunction();">
                   	<apex:param name="requestedPageNumber" assignTo="{!numberOfCurrentPage}" value="" />
                   </apex:actionFunction>
-                  <apex:actionFunction status="ajax-status" name="changeFilter" action="{!changeFilter}" onComplete="jqTransformScript();sectionVisibility();initializationFunction();" rerender="messages, pageContent, downloadAllDialog">
+                  <apex:actionFunction status="ajax-status" name="changeFilter" action="{!changeFilter}" onComplete="jqTransformScript();sectionVisibility();initializationFunction();reloadClassificationFilter()" rerender="messages, pageContent, smFilterItem,downloadAllDialog">
                   </apex:actionFunction>
 				  <apex:actionFunction status="ajax-status" name="resetFilter" action="{!resetFilter}" rerender="messages, filter, pageContent, downloadAllDialog"/>	                
 				
@@ -70,7 +70,7 @@ Date        : 7/10/13
 	                    <input type="checkbox"/>
 	                </div>
 	                <div class="inner ok">
-	                	<div class="form-left">
+	                	<div class="form-left {!classificationType}">
 	                		<apex:selectCheckboxes styleClass="row1" value="{!selectedClassificationItemsRow1}">
 								<apex:selectOptions value="{!classificationItemsRow1}" />
 							</apex:selectCheckboxes>
@@ -94,14 +94,19 @@ Date        : 7/10/13
 		            <apex:inputHidden value="{!selectedChildBrandIds}" id="selectedChildBrandIds"/>
 		            <apex:inputHidden value="{!selectedTimePeriods}" id="selectedQuarters"/>
 		            <apex:inputHidden value="{!monthOrQuarterRender}" id="monthOrQuarterRender" />
+		            <apex:inputHidden value="{!quarterShift}" id="quarterShift" />
+		            <apex:inputHidden value="{!monthShift}" id="monthShift" />
 		        </div>
             	
             	<!-- END :: FILTER -->	
                     <!-- START :: Panel pageContent -->
                     <apex:outputPanel id="pageContent"> 
                     	<script>
-	                    	console.log('--in page:::{!selectedClassificationItemsRow1}');
-	                    </script>
+                    		console.log('--classificationType:::{!classificationType}:::');
+                    		console.log('--classificationItemsRow1:::{!classificationItemsRow1}');
+                    		console.log('--classificationItemsRow2:::{!classificationItemsRow2}');
+                    	</script>
+	                		
 	                    <apex:outputPanel rendered="{!AND(OR(ISNULL(content),content.size=0))}">
 							<div class="content-no-items-msg">No items.</div>
 						</apex:outputPanel>
@@ -250,235 +255,24 @@ Date        : 7/10/13
 		
 		.filter .jqTransformSelectWrapper 
 		{width: 94px;}
-	
-	</style>
-	<!-- End : New CSS Added -->
-	
-	<!-- Start : CSS Added for Share Dialog box -->
-	<style type="text/css">
-		#overlayDisable {
-		    background-color: #555555;
-		    width:            100%;
-		    height:           0px;
-		    position:         absolute;
-		    left:             0px;
-		    top:              0px;
-		    z-index:          2000;
-				opacity:		  0;
-		}
-	
-		div.moreInfoWrapper{
-			-webkit-box-shadow: 1px 1px 4px 4px rgba(0, 0, 0, 0.4);
-			-moz-box-shadow: 1px 1px 4px 4px rgba(0, 0, 0, 0.4);
-			box-shadow: 1px 1px 4px 4px rgba(0,0, 0, 0.4);
-			border: 1px solid #333333;	
-		}
-		
-		div.moreInfoDescriptionWrapper{
-			color:	#ffffff;
-			width: 465px;
-			height:	50px;
-		    font-family: Tahoma, Arial;
-			background: #606060; /* Old browsers */
-			background: -moz-linear-gradient(top, #606060 0%, #2d2d2d 100%); /* FF3.6+ */
-			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#606060), color-stop(100%,#2d2d2d)); /* Chrome,Safari4+ */
-			background: -webkit-linear-gradient(top, #606060 0%,#2d2d2d 100%); /* Chrome10+,Safari5.1+ */
-			background: -o-linear-gradient(top, #606060 0%,#2d2d2d 100%); /* Opera11.10+ */
-			background: -ms-linear-gradient(top, #606060 0%,#2d2d2d 100%); /* IE10+ */
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606060', endColorstr='#2d2d2d',GradientType=0 ); /* IE6-9 */
-			background: linear-gradient(top, #606060 0%,#2d2d2d 100%); /* W3C */
-		}
-		
-		div.moreInfoDescription{
-			margin:	14px;
-			float:	left;
-			font-size:	17px;
-			text-align:	left;
-			width:	400px;
-		}
-		
-		div.moreInfoDescription{
-			clear: both;
-		}
 		
 		div.moreInfoError{
-			background: #ffffff; /* Old browsers */
-		    font-family: Tahoma, Arial;	
-		}
-		
-		div.moreInfoClose {
-		    position: absolute;
-		    right:    12px;
-		    top:      12px;
-		    width:    25px;
-		    height:   25px;
-		    background: url("images/close.png") no-repeat scroll 50% 50% transparent;    
-			cursor: pointer;
-		}
-		
-		.close {
-			cursor: pointer;
-		}
-		
-		.errorMessagesList{
-		    padding:	10px;
-			margin:     0px;
-		    text-align: 	left;
-			font-weight: 	bold;
-			color: 			#dd0000;
-			list-style-type: none;
-			font-size: 		12px;
-		}
-		
-		div.moreInfoContentWrapper{
-			width: 465px;
-			color:	#000000;
-			text-align: center;
-		    font-family: Tahoma, Arial;	
-			background: #ffffff; /* Old browsers */
-			background: -moz-linear-gradient(top, #ffffff 0%, #e9e9e9 100%); /* FF3.6+ */
-			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e9e9e9)); /* Chrome,Safari4+ */
-			background: -webkit-linear-gradient(top, #ffffff 0%,#e9e9e9 100%); /* Chrome10+,Safari5.1+ */
-			background: -o-linear-gradient(top, #ffffff 0%,#e9e9e9 100%); /* Opera11.10+ */
-			background: -ms-linear-gradient(top, #ffffff 0%,#e9e9e9 100%); /* IE10+ */
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e9e9e9',GradientType=0 ); /* IE6-9 */
-			background: linear-gradient(top, #ffffff 0%,#e9e9e9 100%); /* W3C */	
-		}
-		
-		div.shareRecipientInformation {
-			text-align: left;
-			padding: 10px;
-			font-size: 15px;
-		 }
-		div.shareRecipientInformation  input{
-			background-color: #ffffff;
-			border: 1px solid #dfdfdf;
-			font-size: 12px;
-			font-family: Tahoma;
-			background: #ffffff; /* Old browsers */
-			background: -moz-linear-gradient(top, #efefef 0%, #ffffff 100%); /* FF3.6+ */
-			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
-			background: -webkit-linear-gradient(top, #efefef 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
-			background: -o-linear-gradient(top, #efefef 0%,#ffffff 100%); /* Opera11.10+ */
-			background: -ms-linear-gradient(top, #efefef 0%,#ffffff 100%); /* IE10+ */
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efefef', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
-			background: linear-gradient(top, #efefef 0%,#ffffff 100%); /* W3C */
-			color: #575757;
-			font-weight: bold;
-		    padding: 8px;
-		    width: 425px;
-			margin-top: 10px;
-			margin-bottom: 20px;
-		}
-		
-		div.shareRecipientInformation  input[type=submit]{
-			text-transform:		   uppercase;
-		    text-decoration: none;
-			color:                 #FFFFFF;
-			font-weight:           bold;
-			border:                2px solid #8aa922;
-			background: #cae806; /* Old browsers */
-			background: -moz-linear-gradient(top, #cae806 0%, #a4b91f 100%); /* FF3.6+ */
-			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cae806), color-stop(100%,#a4b91f)); /* Chrome,Safari4+ */
-			background: -webkit-linear-gradient(top, #cae806 0%,#a4b91f 100%); /* Chrome10+,Safari5.1+ */
-			background: -o-linear-gradient(top, #cae806 0%,#a4b91f 100%); /* Opera11.10+ */
-			background: -ms-linear-gradient(top, #cae806 0%,#a4b91f 100%); /* IE10+ */
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cae806', endColorstr='#a4b91f',GradientType=0 ); /* IE6-9 */
-			background: linear-gradient(top, #cae806 0%,#a4b91f 100%); /* W3C */
-		    -webkit-border-radius: 2px;
-		    -moz-border-radius:    2px;
-		    border-radius:         2px;
-			cursor:	pointer;
-			padding: 5px;
-			font-size:11px;
-		    margin: 2px;
-			margin-right: 5px;
-		    width: 80px;
-		}
-		
-		div.shareRecipientInformation textarea{
-			background-color: #ffffff;
-			border: 1px solid #dfdfdf;
-			font-size: 12px;
-			font-family: Tahoma;
-			background: #ffffff; /* Old browsers */
-			background: -moz-linear-gradient(top, #efefef 0%, #ffffff 100%); /* FF3.6+ */
-			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
-			background: -webkit-linear-gradient(top, #efefef 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
-			background: -o-linear-gradient(top, #efefef 0%,#ffffff 100%); /* Opera11.10+ */
-			background: -ms-linear-gradient(top, #efefef 0%,#ffffff 100%); /* IE10+ */
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efefef', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
-			background: linear-gradient(top, #efefef 0%,#ffffff 100%); /* W3C */
-			color: #575757;
-			font-weight: bold;
-		    padding: 8px;	
-			overflow: auto;
-			width: 425px;
-			height: 100px;
-			margin-top: 10px;
-			margin-bottom: 10px;	
-		}
-		
-		button.green  {
-			text-transform:		   uppercase;
-		    text-decoration: none;
-			color:                 #FFFFFF;
-			font-size:             15px;
-			font-weight:           bold;
-			border:                2px solid #8aa922;
-			background: #cae806; /* Old browsers */
-			background: -moz-linear-gradient(top, #cae806 0%, #a4b91f 100%); /* FF3.6+ */
-			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cae806), color-stop(100%,#a4b91f)); /* Chrome,Safari4+ */
-			background: -webkit-linear-gradient(top, #cae806 0%,#a4b91f 100%); /* Chrome10+,Safari5.1+ */
-			background: -o-linear-gradient(top, #cae806 0%,#a4b91f 100%); /* Opera11.10+ */
-			background: -ms-linear-gradient(top, #cae806 0%,#a4b91f 100%); /* IE10+ */
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cae806', endColorstr='#a4b91f',GradientType=0 ); /* IE6-9 */
-			background: linear-gradient(top, #cae806 0%,#a4b91f 100%); /* W3C */
-			color: #ffffff;
-		    -webkit-border-radius: 2px;
-		    -moz-border-radius:    2px;
-		    border-radius:         2px;
-			cursor:	pointer;
-			padding: 5px;
-			font-size:11px;
-		    margin: 2px;
-			margin-right: 5px;
-		}
-		
-		button.green.over{
-			text-transform:		   uppercase;
-		    text-decoration: none;
-			color:                 #FFFFFF;
-			font-size:             15px;
-			font-weight:           bold;
-			border:                2px solid #678701 !important;
-			background: #9cc105 !important; /* Old browsers */
-			background: -moz-linear-gradient(top,  #9cc105 0%, #678701 100%) !important; /* FF3.6+ */
-			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#9cc105), color-stop(100%,#678701)) !important; /* Chrome,Safari4+ */
-			background: -webkit-linear-gradient(top,  #9cc105 0%,#678701 100%) !important; /* Chrome10+,Safari5.1+ */
-			background: -o-linear-gradient(top,  #9cc105 0%,#678701 100%) !important; /* Opera 11.10+ */
-			background: -ms-linear-gradient(top,  #9cc105 0%,#678701 100%) !important; /* IE10+ */
-			background: linear-gradient(top,  #9cc105 0%,#678701 100%) !important; /* W3C */
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9cc105', endColorstr='#678701',GradientType=0 ) !important; /* IE6-9 */
-			color: #ffffff;
-		    -webkit-border-radius: 2px;
-		    -moz-border-radius:    2px;
-		    border-radius:         2px;
-			cursor:	pointer;
-			padding: 5px;
-			font-size:11px;
-		    margin: 2px;
-			margin-right: 5px;
-		}
-		
-		.dialog {
-			position:		absolute;
-			top:			0px;
-			left:			0px;
-			z-index:		2001;
-		}
+        background: #ffffff; /* Old browsers */
+        font-family: Tahoma, Arial; 
+    }
+    
+    
+    .errorMessagesList{
+        padding:    10px;
+        margin:     0px;
+        text-align:     left;
+        font-weight:    bold;
+        color:          #dd0000;
+        list-style-type: none;
+        font-size:      12px;
+    }
 	</style>
-	<!-- End : CSS Added for Share Dialog box -->
+	<!-- End : New CSS Added -->
 	
     
 </apex:page>

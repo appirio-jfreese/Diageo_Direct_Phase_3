@@ -111,24 +111,26 @@ Description	: Integrated modal dialog for responsive site
 							<apex:inputTextarea value="{!sRecipientMsg}"/><br/>
 						</div>
 						<div class="buttons">
-			                <apex:outputPanel rendered="{! OR(ISNULL(cvids), len(cvids)=0 )}"> 
-				        		<a href="javascript:;" onclick="closeEmailMsg();" rel="modal:close" class="link">Cancel</a>
-				        		<a href="javascript:;" onclick="sendEmailMsg();" class="button">Send</a>
+							<apex:outputPanel rendered="{! OR(ISNULL(cvids), len(cvids)=0 )}">
+										<a href="javascript:void(0);" onclick="closeEmailMsg();return false;" rel="modal:close" class="link">Cancel</a> 
+				        		<a href="javascript:void(0);" onclick="sendEmailMsg(); return false;" class="button">Send</a>
 							</apex:outputPanel>
 							<apex:outputPanel rendered="{! AND(NOT(ISNULL(cvids)), len(cvids)!=0 )}">
-								<a href="javascript:;" onclick="closeEmailMsg();" rel="modal:close" class="link">Cancel</a>
-			        			<a href="javascript:;" onclick="sendEmailMsgMultiple();" class="button">Send</a>
+										<a href="javascript:void(0);" onclick="closeEmailMsg(); return false;" rel="modal:close" class="link">Cancel</a>
+										<a href="javascript:void(0);" onclick="sendEmailMsgMultiple(); return false;" class="button">Send</a>
 							</apex:outputPanel>
 						</div>
 	    			</apex:outputPanel>
 				    <apex:outputPanel rendered="{!isSend==true}">
-						<label>Message sent. Thank You.</label>
-						<a href="javascript:;" onclick="closeEmailMsg();" rel="modal:close" class="button">CLOSE</a>		
+				    	<div class="html">
+							<label>&nbsp;&nbsp;Message sent. Thank You.</label>
+							<a href="javascript:void(0);" onclick="closeEmailMsg();return false;" rel="modal:close" class="button">CLOSE</a>
+							</div>
 					</apex:outputPanel>	    			
     			</div>
     		</apex:pageBlock>	
     	</apex:form>
-	</div> 
+	</div>
 	<!-- END :: MODAL DIALOG -->
  
 </apex:component>

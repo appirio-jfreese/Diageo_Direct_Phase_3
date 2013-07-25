@@ -380,8 +380,9 @@
 		            }
 	            	
 				}
-					
 			});
+			
+			
         }
         function reloadBrandVarient(){
         	jQuery(".bv-ok-filter .select-filter-all input").change(function() {
@@ -395,6 +396,21 @@
 		            });
 		        });
         }
+        function reloadClassificationFilter(){
+        	jQuery(".result-filter-layer").hide();
+        	jQuery(".sm-filter").jqTransform();
+        	jQuery(".sm-filter .select-filter-all input").change(function() {
+		            var input = jQuery(this);
+		            var checked = input.is(":checked");
+		            jQuery(".sm-filter .form-left input").each(function() {
+		                var i = jQuery(this);
+		                if(i.is(":checked") != checked) {
+		                    i.parent().find("a").trigger("click");
+		                }
+		            });
+		        });
+		}
+        
        	function loadFilterJs(){
        		//console.log('in loadFilterJs');
         	 reRenderFilterJS();	
@@ -624,13 +640,13 @@
 			});
 			//console.log('selectedChildBrandIdsString::'+selectedChildBrandIdsString);
         	var selectedQuartersString = '';
-        	/*var a = jQuery('.time-filter .button-line a.active');
+        	var a = jQuery('.time-filter .button-line a.active');
    			var isQuarterly = false;
    			var timeFilterRelated = a.data("related");
    			//console.log('timeFilterRelated:::'+timeFilterRelated);
    			if(timeFilterRelated == 'quarterly')
      				isQuarterly = true;
-            */			
+            			
 			jQuery('.time-filter .'+timeFilterRelated+' a.selected').each(function(){
 				timeperName = jQuery(this).attr('name');
 				//console.log('timeperName:::'+timeperName);
@@ -642,6 +658,7 @@
 					}
 				}
 			});
+			
 			var selClassifiactionRow2 = new Array();
 			//console.log('selectedQuartersString::'+selectedQuartersString);
         	jQuery('.result-filter-layer').find('input[type=hidden]').each(function(){
@@ -654,11 +671,11 @@
             		}else if(elemId.search('selectedChildBrandIds') != -1){
             			jQuery(this).val(selectedChildBrandIdsString);
             		}
-            		/*else if(elemId.search('monthOrQuarterRender') != -1){
+            		else if(elemId.search('monthOrQuarterRender') != -1){
             			jQuery(this).val(isQuarterly);
             			//console.log('monthOrQuarterRender:::'+jQuery(this).val());
             		}
-            		else if(elemId.search('selectedClassificationItemsRow1') != -1){
+            		/*else if(elemId.search('selectedClassificationItemsRow1') != -1){
             			var selClassifiactionRow1 ='';//= new Array();
             			jQuery('.sm-filter .inner .row1 input:checked').each(function(){
             				var selValue1 = jQuery(this).val();

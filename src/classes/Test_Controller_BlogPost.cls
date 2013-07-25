@@ -62,6 +62,34 @@ private class Test_Controller_BlogPost {
 				  System.assertNotEquals(controller.tagList.size(), null);
 				  System.assertNotEquals(controller.acrhiveMap.keySet().size(), null);
 				  System.assertNotEquals(controller.getArchiveList().size(), null);
+				  
+				  controller.showForTag();
+				  // Test Get getMonthName
+				  /*String monthName = controller.getMonthName(2013, 1);
+				  System.assertEquals('January 2013');
+				  monthName = controller.getMonthName(2013, 2);
+				  System.assertEquals('February 2013');
+				  monthName = controller.getMonthName(2013, 3);
+				  System.assertEquals('March 2013');
+				  monthName = controller.getMonthName(2013, 4);
+				  System.assertEquals('April 2013');
+				  monthName = controller.getMonthName(2013, 5);
+				  System.assertEquals('May 2013');
+				  monthName = controller.getMonthName(2013, 6);
+				  System.assertEquals('June 2013');
+				  monthName = controller.getMonthName(2013, 7);
+				  System.assertEquals('July 2013');
+				  monthName = controller.getMonthName(2013, 8);
+				  System.assertEquals('August 2013');
+				  monthName = controller.getMonthName(2013, 9);
+				  System.assertEquals('September 2013');
+				  monthName = controller.getMonthName(2013, 10);
+				  System.assertEquals('October 2013');
+				  monthName = controller.getMonthName(2013, 11);
+				  System.assertEquals('November 2013');
+				  monthName = controller.getMonthName(2013, 12);
+				  System.assertEquals('December 2013');*/
+				  
         }
         Test.stopTest();
     }
@@ -92,7 +120,7 @@ private class Test_Controller_BlogPost {
     		Blog__c b = new Blog__c();
     		b.AllowComments__c = true;
     		b.Detail__c = 'TestClass Blog'+1;
-    		b.EndDate__c = DateTime.now().addMonths(1).addYears(1);
+    		b.EndDate__c = DateTime.now().addMonths(i+1).addYears(1);
     		b.StartDate__c = DateTime.now();
     		b.Name = 'Test Clss Blog'+1;
     		b.Sub_Title__c = 'Test Blog'+1;

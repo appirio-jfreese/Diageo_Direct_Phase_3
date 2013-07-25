@@ -344,7 +344,13 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     
     // Start Detail Page : By Parul
     public String backToBlogPostsUrl {get; private set;} // URL of Last Page viewed
-    public Integer bpIndex {public get; protected set;} // Index of Currntly showing Blog in All Blog's List
+    public Integer bpIndex {
+    	public get{
+    		if(bpIndex == null)
+    			bpIndex = 1;
+    		return bpIndex;
+    	} 
+    protected set;} // Index of Currntly showing Blog in All Blog's List
     public Blog__c blogItem {public get; protected set;} // Current Blog Record
     public Comment__c newComment {public get; protected set;} // New Comment can be made by user through UI
     
