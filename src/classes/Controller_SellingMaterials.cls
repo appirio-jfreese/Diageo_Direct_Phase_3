@@ -54,9 +54,9 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
 	public List<Map<String, String>> monthViewsList {public get; public set;}
     public String selectedTimePeriods {get; set;}
 	protected List<Integer> selectedTimePeriodsList {protected get; protected set;}
-    protected Integer quarterShift {protected get; protected set;}
+    public Integer quarterShift {public get; public set;}
     protected Integer currentQtr {protected get; protected set;}
-    protected Integer monthShift {protected get; protected set;}
+    public Integer monthShift {public get; public set;}
     protected Integer currentMTH {protected get; protected set;}
     public Boolean monthOrQuarterRender {get; set;} // true = Quarter
     
