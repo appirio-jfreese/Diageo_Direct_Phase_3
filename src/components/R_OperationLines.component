@@ -21,7 +21,7 @@ Story/Task	: US585/TA1082
  <apex:attribute name="className" description="Select class name" type="string" required="false"/>
  <apex:attribute name="R_MultInFollow" description="R_MultInFollow" type="Boolean" required="false"/>
   <div class="operation-line">
-     <a href="javascript: operationLine('download');" class="download disabled {!pageNamePrefix}-bg">
+     <a href="javascript: operationLineTestOnly('download');" class="download disabled {!pageNamePrefix}-bg">
          <span>Download</span>
      </a>
      <a href="javascript: operationLine('email');" class="email disabled {!pageNamePrefix}-bg">

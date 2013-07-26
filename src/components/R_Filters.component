@@ -13,15 +13,17 @@
 <apex:attribute name="p_selectedClassificationItemsRow2" assignTo="{!selectedClassificationItemsRow2}" description="Selected BrandIds" type="string[]" required="true"/>
 <apex:attribute name="p_classificationItemsRow1" description="Selected BrandIds" type="SelectOption[]" required="true"/>
 <apex:attribute name="p_classificationItemsRow2" description="Selected BrandIds" type="SelectOption[]" required="true"/>
+<apex:attribute name="p_selectedRTS"   description="Selected RTS" type="string" required="true"/>
+<apex:attribute name="p_selectedPortfolio"  description="Selected Portfolio" type="string" required="true"/>
 <apex:attribute name="applyFilter" description=" Method for apply filter" type="String" required="true"/>
 
 <apex:attribute name="resetFilter" description=" Method for Reset filter" type="String" required="true"/>
 
 <apex:actionFunction status="ajax-status" name="previousPeriodC" action="{!previousPeriodComp}" onComplete="loadFilterJs();" rerender="messages, timeFilterItem, parentBrands, variantBrands, smFilterItem">
-	<apex:param name="isMonthOrQuarter" assignTo="{!monthOrQuarterRender}" value="" />
+	<apex:param name="isMonthOrQuarterPrev" assignTo="{!monthOrQuarterRender}" value="" />
 </apex:actionFunction>
 <apex:actionFunction status="ajax-status" name="nextPeriodC" action="{!nextPeriodComp}" onComplete="loadFilterJs();" rerender="messages, timeFilterItem, parentBrands, variantBrands, smFilterItem">
-	<apex:param name="isMonthOrQuarter" assignTo="{!monthOrQuarterRender}" value="" />
+	<apex:param name="isMonthOrQuarterNxt" assignTo="{!monthOrQuarterRender}" value="" />
 </apex:actionFunction>
 <apex:actionFunction status="ajax-status" name="updateVariantBrands" action="{!updateVariantBrands}" onComplete="reRenderFilterJS();reloadBrandVarient();" rerender="messages, variantBrands">
 	<apex:param name="parentId" assignTo="{!parentId}" value="" />
@@ -395,6 +397,10 @@
 		                }
 		            });
 		        });
+		        jQuery(".result-filter-layer a.close-btn").click(function() {
+		            jQuery(this).parent().hide();
+		            jQuery(".filter-buttons a").removeClass("active");
+		        });
         }
         function reloadClassificationFilter(){
         	jQuery(".result-filter-layer").hide();
@@ -552,21 +558,21 @@
         	var isQuarterly = false;
         	if(relatedTo == 'quarterly') 
         	 isQuarterly =true ;
-			console.log('in updateSlideNxtPrevBtn--'+isQuarterly);
-        	jQuery(".date-selector .flex-direction-nav a").each(function() {
-		                var a = jQuery(this);
-		                a.removeClass("flex-disabled");
-		                if(a.hasClass("flex-prev"))
-		                	a.live('click',function(){
-		                		console.log('in previousPeriodC');
-		                		previousPeriodC(isQuarterly);
-		                	});
-		                else if(a.hasClass("flex-next") )	
-		                	a.live('click',function(){
-		                	console.log('in nextPeriodC');
-		                		nextPeriodC(isQuarterly);
-		                	});
-		            });
+			jQuery("."+relatedTo+" .flex-direction-nav a").each(function() {
+	           var a = jQuery(this);
+               a.removeClass("flex-disabled");
+               a.click(function() {
+	                if(a.hasClass("flex-prev")){
+	                	console.log('click flex-prev');	
+	                	previousPeriodC(isQuarterly);
+	                }else if(a.hasClass("flex-next") ){
+	                	console.log('click flex-next');	
+	                	nextPeriodC(isQuarterly);
+	                	
+	                }
+               });
+           });
+		            
         }
         
         function selectALLBrands(elemnt){
@@ -601,6 +607,8 @@
         }
         function preApplyFilters(){
         	var selectedBrandIdsString = '';
+        	var isRTSSelected = false;
+        	var isPortfolioSelected = false;
 			jQuery('.brand-filter a.selected').each(function(){
 				brandId = jQuery(this).attr('id');
 				//console.log('brandId::'+brandId);
@@ -623,7 +631,13 @@
 						}
 					});
 					
-				}
+				}else if(brandId=='RTS'){
+	            	console.log('in RTS');
+	            	isRTSSelected = true;
+	            }else if(brandId=='Portfolio'){
+	            	console.log('in Portfolio');
+	            	isPortfolioSelected = true;
+	            }
 			});
         	//console.log('selectedBrandIdsString::'+selectedBrandIdsString);
         	var selectedChildBrandIdsString = '';
@@ -674,34 +688,14 @@
             		else if(elemId.search('monthOrQuarterRender') != -1){
             			jQuery(this).val(isQuarterly);
             			//console.log('monthOrQuarterRender:::'+jQuery(this).val());
+            		}else if(elemId.search('selectedRTS') != -1){
+            			jQuery(this).val(isRTSSelected);
+            			console.log('selectedRTS:::'+jQuery(this).val());
+            		}else if(elemId.search('selectedPortfolio') != -1){
+            			jQuery(this).val(isPortfolioSelected);
+            			console.log('selectedPortfolio:::'+jQuery(this).val());
             		}
-            		/*else if(elemId.search('selectedClassificationItemsRow1') != -1){
-            			var selClassifiactionRow1 ='';//= new Array();
-            			jQuery('.sm-filter .inner .row1 input:checked').each(function(){
-            				var selValue1 = jQuery(this).val();
-            				if(selValue1 != undefined && selValue1 != ''){
-            					//selClassifiactionRow1.push(selValue1);
-            					if(selClassifiactionRow1 == '' || selClassifiactionRow1 == null){
-									selClassifiactionRow1 = ''+selValue1;
-								} else {
-									selClassifiactionRow1 += ', '+selValue1;
-								}
-            				}
-            			});
-            			console.log('selClassifiactionRow1::'+selClassifiactionRow1);
-            			//jQuery(this).val(selClassifiactionRow1);
-            		}
-            		//else if(elemId.search('selectedClassificationItemsRow2') != -1){
-            			jQuery('.sm-filter .inner .row2 input:checked').each(function(){
-            				var selValue2 = jQuery(this).val();
-            				if(selValue2 != undefined && selValue2 != '')
-            					selClassifiactionRow2.push(selValue2);
-            			});
-            			console.log('selClassifiactionRow2::'+selClassifiactionRow2);
-            			//jQuery(this).val(selClassifiactionRow2);
-            		//}
-            		*/
-            	}
+             	}
 			});
             //console.log('befroe applyFilter--'+jQuery('#selectedBrandIds').val());
 			

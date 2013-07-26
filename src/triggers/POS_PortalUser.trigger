@@ -2,6 +2,12 @@
  * @author      Model Metrics {Venkatesh Kamat}
  * @date        06/01/2012
  * @description create Account Member record when a Portal User corresponding to a contact is added.
+ *
+ *
+ * Modified By	: 	Basant Kumar Verma (Appirio OffShore)
+ * Date					:		07/25/2013
+ * Story/Task		:		It was unnecessarily calling future method which hit SFDC Governor Limits
+ *
  */
 trigger POS_PortalUser on User (after insert, after update) {
 	
@@ -17,7 +23,11 @@ trigger POS_PortalUser on User (after insert, after update) {
 		
 		System.debug('acctMbrMap.keySet().size() -' + acctMbrMap.keySet().size() );
 		// workaround done to avoid MIXED_DML_OPERATION error by calling @future method as to create seperate transaction context
-		POS_PortalUser.createAccountMembers(acctMbrMap);
+		// START - Changed by Basant - It was unnecessarily calling future method which hit SFDC Governor Limits
+		if(acctMbrMap != null && acctMbrMap.size() > 0){
+			POS_PortalUser.createAccountMembers(acctMbrMap);
+		}
+		// END - Changed by Basant - It was unnecessarily calling future method which hit SFDC Governor Limits
 	
 	} else if (trigger.isUpdate) {
 		   //List<Id> contactIds = new List<Id>();
@@ -37,8 +47,11 @@ trigger POS_PortalUser on User (after insert, after update) {
 		  
 		System.debug('acctMbrMap.keySet().size() Update -' + acctMbrMap.keySet().size() );
 		// workaround done to avoid MIXED_DML_OPERATION error by calling @future method as to create seperate transaction context
-		POS_PortalUser.deleteAccountMembers(acctMbrMap);		   
-		
+		// START - Changed by Basant - It was unnecessarily calling future method which hit SFDC Governor Limits
+		if(acctMbrMap != null && acctMbrMap.size() > 0){
+			POS_PortalUser.deleteAccountMembers(acctMbrMap);
+		}
+		// END - Changed by Basant - It was unnecessarily calling future method which hit SFDC Governor Limits		   
 	}
 
 }

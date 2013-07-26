@@ -57,6 +57,8 @@ Date        : 7/10/13
 		          	p_classificationItemsRow1="{!classificationItemsRow1}"
 		          	applyFilter="changeFilter()"  resetFilter="resetFilter()" 
 		          	p_classificationItemsRow2="{!classificationItemsRow2}" 
+		          	p_selectedRTS="{!selectedRTS}" 
+		          	p_selectedPortfolio="{!selectedPortfolio}" 
 		          	showSMFilter="{!IF(currentSection != 'Quarterly Selling Materials',false,true)}"
 		          	showTimePeriodFilter="{!IF(currentSection != 'Quarterly Selling Materials',false,true)}"/>
 		          	<div class="content">
@@ -96,18 +98,14 @@ Date        : 7/10/13
 		            <apex:inputHidden value="{!monthOrQuarterRender}" id="monthOrQuarterRender" />
 		            <apex:inputHidden value="{!quarterShift}" id="quarterShift" />
 		            <apex:inputHidden value="{!monthShift}" id="monthShift" />
+		            <apex:inputHidden value="{!selectedPortfolio}" id="selectedPortfolio" />
+		            <apex:inputHidden value="{!selectedRTS}" id="selectedRTS" />
 		        </div>
             	
             	<!-- END :: FILTER -->	
                     <!-- START :: Panel pageContent -->
                     <apex:outputPanel id="pageContent"> 
-                    	<script>
-                    		console.log('--classificationType:::{!classificationType}:::');
-                    		console.log('--classificationItemsRow1:::{!classificationItemsRow1}');
-                    		console.log('--classificationItemsRow2:::{!classificationItemsRow2}');
-                    	</script>
-	                		
-	                    <apex:outputPanel rendered="{!AND(OR(ISNULL(content),content.size=0))}">
+                    	<apex:outputPanel rendered="{!AND(OR(ISNULL(content),content.size=0))}">
 							<div class="content-no-items-msg">No items.</div>
 						</apex:outputPanel>
 	                           

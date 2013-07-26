@@ -132,13 +132,18 @@ public with sharing class Controller_MEPDetails extends Controller_Base {
     }
     
     public PageReference initTheme(){
+    	// Start : Changes for DE700 Parul Gupta : Added Parameter condition
+        if(ApexPages.currentPage().getParameters().get('toggled') == null
+        && ApexPages.currentPage().getParameters().get('toggled') == ''){
 			if(mepItem != null && Service_API.getSectionTheme() != mepItem.classification__c && mepItem.classification__c != 'Mixed'){
 				Service_API.setUserSiteTheme(mepItem.classification__c, false);
 	    		PageReference pr = ApexPages.currentPage();
 	    		pr.setRedirect(true);
 	    		return pr;
 			}
-			return null;
+        }
+        // End : Changes for DE700 Parul Gupta
+		return null;
     }
     
     public override void refreshPageContent() {

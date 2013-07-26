@@ -24,19 +24,22 @@ private class Test_Controller_BlogPost {
 				  controller = new Controller_BlogPost();
 				  controller.getDisplayOptions();
 				  controller.blogFormat = 'TitlesAndShortDesc';
-				  controller.blogTag = 'Location:Test';
-				  
+				  ApexPages.currentPage().getParameters().put('blogTagsParam', 'Location:Test');
+				   
 				  List<String> currTags = controller.blogTags;
 				  List<Blog__c> currBlogs = controller.blogPosts;
-				  
-				  System.assertEquals(controller.allBlogPosts.size(),8);
+				  blogs = controller.allBlogPosts;
+				  System.assertEquals(controller.allBlogPosts.size(),12);
 				  System.assertEquals(controller.blogCount,5);
 				  System.assertEquals(controller.blogPostsCount, 5);
 				  
 				  controller.nextPage();
+				  System.assertEquals(controller.blogPostsCount, 5);
 				  
-				  System.assertEquals(controller.blogPostsCount, 3);
+				  controller.nextPage();
+				  System.assertEquals(controller.blogPostsCount, 2);
 				  
+				  controller.previousPage();
 				  controller.previousPage();
 				  controller.currPage = 2;
 				  controller.pageChanged();
@@ -63,32 +66,15 @@ private class Test_Controller_BlogPost {
 				  System.assertNotEquals(controller.acrhiveMap.keySet().size(), null);
 				  System.assertNotEquals(controller.getArchiveList().size(), null);
 				  
-				  controller.showForTag();
-				  // Test Get getMonthName
-				  /*String monthName = controller.getMonthName(2013, 1);
-				  System.assertEquals('January 2013');
-				  monthName = controller.getMonthName(2013, 2);
-				  System.assertEquals('February 2013');
-				  monthName = controller.getMonthName(2013, 3);
-				  System.assertEquals('March 2013');
-				  monthName = controller.getMonthName(2013, 4);
-				  System.assertEquals('April 2013');
-				  monthName = controller.getMonthName(2013, 5);
-				  System.assertEquals('May 2013');
-				  monthName = controller.getMonthName(2013, 6);
-				  System.assertEquals('June 2013');
-				  monthName = controller.getMonthName(2013, 7);
-				  System.assertEquals('July 2013');
-				  monthName = controller.getMonthName(2013, 8);
-				  System.assertEquals('August 2013');
-				  monthName = controller.getMonthName(2013, 9);
-				  System.assertEquals('September 2013');
-				  monthName = controller.getMonthName(2013, 10);
-				  System.assertEquals('October 2013');
-				  monthName = controller.getMonthName(2013, 11);
-				  System.assertEquals('November 2013');
-				  monthName = controller.getMonthName(2013, 12);
-				  System.assertEquals('December 2013');*/
+				  controller.switchToTag();
+				  controller.switchToTheme();
+				  for(String key : controller.acrhiveMap.keySet()){
+				  	controller.archive = key+' ';
+				  	controller.switchToArchive();
+				  }
+				  
+				  ApexPages.currentPage().getParameters().put('filterByTag', 'Location:Test');
+				  controller.processFilters();
 				  
         }
         Test.stopTest();
@@ -116,12 +102,12 @@ private class Test_Controller_BlogPost {
     	insert tags;
     	
     	blogs = new List<Blog__c>();
-    	for(Integer i=0; i<8; i++){
+    	for(Integer i=0; i<12; i++){
     		Blog__c b = new Blog__c();
     		b.AllowComments__c = true;
     		b.Detail__c = 'TestClass Blog'+1;
-    		b.EndDate__c = DateTime.now().addMonths(i+1).addYears(1);
-    		b.StartDate__c = DateTime.now();
+    		b.StartDate__c = DateTime.newInstance(2008, i+1, 1);
+    		b.EndDate__c = DateTime.newInstance(2008, i+1, 1).addYears(1);
     		b.Name = 'Test Clss Blog'+1;
     		b.Sub_Title__c = 'Test Blog'+1;
     		b.Summary__c = 'Test Blog Summary'+1;
@@ -131,7 +117,7 @@ private class Test_Controller_BlogPost {
     	insert blogs;
     	
     	blogTags = new List<Blog2Tag__c>();
-    	for(Integer i=0; i<8; i++){
+    	for(Integer i=0; i<12; i++){
     		Blog2Tag__c bt = new Blog2Tag__c();
     		bt.Blog__c = blogs.get(i).Id;
     		bt.Tag__c = t.Id;
