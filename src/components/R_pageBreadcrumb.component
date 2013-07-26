@@ -67,6 +67,10 @@
         .results-page .breadcrumb .site-nav {
             background: url({!URLFOR($Resource.Responsive_Base)}/i/breadcrumb-icon.png) 10px 50% no-repeat;
         }
+        
+		.blog-home .breadcrumb .site-nav {
+			background: url({!URLFOR($Resource.Responsive_Base)}/i/breadcrumb-icon.png) 10px 50% no-repeat;
+		}         
 
         /* nav ~= R_PageHeader name */
         .breadcrumb .site-nav span.nav {

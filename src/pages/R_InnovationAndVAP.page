@@ -7,7 +7,7 @@ Story/Task  : US503/TA1011
 ------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_InnovationAndVAP">
 <body class="isv-landing-page isv-page">    
-         
+        
 <div class="wrapper">
 
     <div class="container">
@@ -90,6 +90,37 @@ Story/Task  : US503/TA1011
                     
                 </apex:outputPanel>
                 <!--  END :: plans-header Section - displayed for timePeriod != Monthly -->
+                
+                <!-- Start :: General Updates  -->
+            
+            	<div class="general-updates">
+	                <h3>
+	                    <a href="{!$Page.R_BlogHome}">General Updates</a>
+	                </h3>
+	                <h5>Performance Updates</h5>
+	                <div class="items">
+	                    <c:R_NarrowBlogList format="Titles" isLoggedIn="{!isLoggedIn}" url="" singleTag="Location:innovation-vap" id="blogPostComp" />
+	                </div>
+	                <!-- END : Commented By Basant - Need Confirmation -->
+	                <h5>Planning Calendars</h5>
+	                <div class="items">
+	                    <apex:outputPanel rendered="{!OR(ISNULL(planningCalendars),planningCalendars.size=0)}">No items.</apex:outputPanel>
+	                    <apex:outputPanel rendered="{!OR(ISNULL(planningCalendars),planningCalendars.size!=0)}" styleClass="left">                  
+	                        <apex:repeat value="{!planningCalendars}" var="pc">
+	                            <p>
+	                                <apex:image url="{!URLFOR($Resource.CommonPage, 'images/transparent.gif')}" styleClass="file-ico24 ico-{!pc['fileType']}"/>
+	                                <span class="list-description">
+	                                    <a href="/sfc/servlet.shepherd/version/download/{!pc['cvid']}">
+	                                        {! IF (len(pc['description'])>17, LEFT(pc['description'], 20)+'...', pc['description'])}
+	                                    </a>
+	                                </span>
+	                            </p>
+	                        </apex:repeat>
+	                    </apex:outputPanel> 
+	                </div>
+            	</div>
+            
+            	<!-- END :: General Updates  -->
             
                 <!--  START :: Months Loop -->
                 <apex:variable var="calMnth" value="{!selectedMonth}"/>
@@ -164,37 +195,6 @@ Story/Task  : US503/TA1011
                 <!--  END :: Months Loop -->
             </apex:outputPanel>
             
-            <!-- Start :: General Updates  -->
-            
-            <div class="general-updates">
-                <h3>
-                    <a href="{!$Page.R_BlogHome}">General Updates</a>
-                </h3>
-                <h5>Performance Updates</h5>
-                <div class="items">
-                    <c:R_NarrowBlogList format="Titles" isLoggedIn="{!isLoggedIn}" url="" singleTag="Location:innovation-vap" id="blogPostComp" />
-                </div>
-                <!-- END : Commented By Basant - Need Confirmation -->
-                <h5>Planning Calendars</h5>
-                <div class="items">
-                    <apex:outputPanel rendered="{!OR(ISNULL(planningCalendars),planningCalendars.size=0)}">No items.</apex:outputPanel>
-                    <apex:outputPanel rendered="{!OR(ISNULL(planningCalendars),planningCalendars.size!=0)}" styleClass="left">                  
-                        <apex:repeat value="{!planningCalendars}" var="pc">
-                            <p>
-                                <apex:image url="{!URLFOR($Resource.CommonPage, 'images/transparent.gif')}" styleClass="file-ico24 ico-{!pc['fileType']}"/>
-                                <span class="list-description">
-                                    <a href="/sfc/servlet.shepherd/version/download/{!pc['cvid']}">
-                                        {! IF (len(pc['description'])>17, LEFT(pc['description'], 20)+'...', pc['description'])}
-                                    </a>
-                                </span>
-                            </p>
-                        </apex:repeat>
-                    </apex:outputPanel> 
-                </div>
-            </div>
-            
-            <!-- END :: General Updates  -->            
-
             <div class="clear"></div>
         </apex:form>
         </div>

@@ -6,6 +6,7 @@
     Usage           : Blog Post detail page 
 -->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo Blogs" controller="Controller_BlogPost" action="{!initBPDetails}">
+<body class="blog-home"> 
     <script type="text/javascript">
         function showComments(showHide){
             if(showHide == "Show"){
@@ -34,14 +35,14 @@
                 pageViewed('Blog Posts - Detail Page');
             </script>
             
-            <!--  BREADCRUMB -->
-<!--           <c:pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>   -->
-    
+	        <!-- BREADCRUMB -->
+	        <apex:outputPanel id="beadcrumblinks">
+	            <c:R_pageBreadcrumb breadcrumbLinks="{!breadCrumbLinks}" menuLinks="{!menuLinks}"/>
+	        </apex:outputPanel>
+	            
             <!-- PAGE CONTENT -->
             <div class="content clearfix" style="text-align: left;">
-                <h1>
-                    <span>News Blog</span>
-                </h1>
+                
                 <apex:form >              
                     <div class="main columns" >
                         <!-- <c:BlogItem /> -->
@@ -114,4 +115,5 @@
         <c:R_pageFooter isInternal="{!isInternalUser}" />
     
     </div>
+</body>
 </apex:page>

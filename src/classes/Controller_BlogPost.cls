@@ -10,6 +10,10 @@ Date        : 5/31/13
 Story/Task  : US503/TA906/TA907/TA908
 *****************************************************************************************************************/
 public without sharing class Controller_BlogPost extends Controller_Base{
+	public String detailPagePath {public get; protected set;}
+	public String currentPageUrl {public get; protected set;}
+	public String currentSectionConstant {get; private set;}
+	
 		// Blog Post Count
     public integer blogPostsCount { set;
         get{
@@ -356,6 +360,7 @@ public without sharing class Controller_BlogPost extends Controller_Base{
     
     // Process any filters passed from another page before displaying the list
     public PageReference processFilters() {
+    	setResponsiveState();
         if(ApexPages.currentPage().getParameters().get('filterByTag') != null){
             filterByTag = ApexPages.currentPage().getParameters().get('filterByTag');
             System.Debug('<----- processFilters:filterByTag: ' + filterByTag + ' ----->');
@@ -422,7 +427,24 @@ public without sharing class Controller_BlogPost extends Controller_Base{
 		 
 		// End : Changes for US503/TA1011 : Comment All Blog Code - Basant
 
+	private void prepareBreadcrumbs(){
+		cleanBreadcrumbs();
+		
+		// Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
+//       	currentPageUrl = Page.InnovationAndVAP.getUrl();
+		currentPageUrl = ApexPages.currentPage().getUrl();
+		if(isResponsive) {
+			detailPagePath = Page.R_IVAPDetails.getUrl();
+		} else {
+        	detailPagePath = Page.IVAPDetails.getUrl();
+		}
+		//End:
 
+        detailPagePath += '&'+parseSelectedThemesToUrl();
+        
+        addBreadcrumbItem(currentPageUrl, currentSectionConstant);
+	}    
+    
 	// Start: Changes for Responsive Site - Randy Wandell (Appirio) 7/10/13    
     public void setResponsiveState() {
 		pageUrl = ApexPages.currentPage().getUrl();
