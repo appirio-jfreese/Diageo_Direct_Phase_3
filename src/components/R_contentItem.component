@@ -41,6 +41,18 @@ Story/Task  : US585/TA1082
     <apex:attribute name="responsivePage" description="for responsive Pages" type="Boolean" required="false" default="true" />
     <apex:attribute name="pageNamePrefix" description="for responsive Pages" type="String" required="false" default="mep" />
     <!-- End : Changes for US585/TA1082 - Basant Verma -->
+
+    <!-- Custom CSS over-rides -->
+    <style type="text/css">
+        /*Start: Changes for DE668 - JFreese Appirio*/
+        @media only screen and (max-width: 670px) {
+            .doc-list .list-view img {
+                margin-right: 0px;
+            }
+        }
+        /*End: Changes for DE668 - JFreese Appirio*/
+    </style>
+
     <!-- BOX VIEW --> 
     <!-- Start : Changes for US585/TA1082 - Basant Verma -->
     <apex:outputPanel rendered="{! IF(AND(renderAsList1 != true, NOT(responsivePage)), 'true', 'false')}">
