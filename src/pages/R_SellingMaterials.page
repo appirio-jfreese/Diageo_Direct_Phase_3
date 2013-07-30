@@ -72,16 +72,17 @@ Date        : 7/10/13
 	                    <input type="checkbox"/>
 	                </div>
 	                <div class="inner ok">
-	                	<div class="form-left {!classificationType}">
+	                	
 	                		<apex:selectCheckboxes styleClass="row1" value="{!selectedClassificationItemsRow1}">
 								<apex:selectOptions value="{!classificationItemsRow1}" />
 							</apex:selectCheckboxes>
+							
 							<apex:selectCheckboxes styleClass="row2" value="{!selectedClassificationItemsRow2}">
 								<apex:selectOptions value="{!classificationItemsRow2}" />
 							</apex:selectCheckboxes>
 						<div class="clear"></div>
-						</div>
-	                    <div class="clear"></div>
+						
+	                   
 	                </div>
 	            
 	            	<div class="buttons">
@@ -110,7 +111,7 @@ Date        : 7/10/13
 						</apex:outputPanel>
 	                           
 	                	<apex:outputPanel rendered="{!AND(AND(!ISNULL(content),content.size!=0))}">       
-	                		<c:R_OperationLines showPages="true" className="period-select"  value="{!numberOfItemsOnPage}" options="{!NumberOfItemsPerPageList}" pagesStatus="Showing {!showFromIndex+1}-{!showToIndex} of {!numberOfItems} documents" pageNamePrefix="sm" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
+	                		<c:R_OperationLines showPages="true" R_MultInFollow="{!R_MultInFollowWithselAll}" className="period-select"  value="{!numberOfItemsOnPage}" options="{!NumberOfItemsPerPageList}" pagesStatus="Showing {!showFromIndex+1}-{!showToIndex} of {!numberOfItems} documents" pageNamePrefix="sm" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
 							<div class="doc-list">
 	                      		<div class="list-view">                
 	                        	<apex:variable value="" var="currentSubSubSubCategory"/>
@@ -185,9 +186,11 @@ Date        : 7/10/13
         </apex:actionFunction>
         <apex:actionFunction status="ajax-status" name="addToFollowMultiple" action="{!addToFollowMultiple}" rerender="messages, currentFollowedItemsNo, pageContent, downloadAllDialog" onComplete="jqTransformScript(); sectionVisibility();">
             <apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+            <apex:param name="selAll" assignTo="{!R_MultInFollowWithselAll}" value="" />
         </apex:actionFunction>
         <apex:actionFunction status="ajax-status" name="removeFromFollowMultiple" action="{!removeFromFollowMultiple}" rerender="messages, currentFollowedItemsNo, pageContent, downloadAllDialog" onComplete="jqTransformScript(); sectionVisibility();">
             <apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+            <apex:param name="selAll" assignTo="{!R_MultInFollowWithselAll}" value="" />
         </apex:actionFunction>      
     </apex:form>
   

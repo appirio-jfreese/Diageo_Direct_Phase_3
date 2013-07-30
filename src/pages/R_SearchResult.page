@@ -36,7 +36,7 @@ Story/Task  : US612/DE634
                     <apex:messages styleClass="errorMessagesList" />
                 </apex:outputPanel>
                 
-                <apex:outputPanel id="pageContent">
+                
                     <!-- START : changed for US612/DE636 - Basant -->
                     <apex:outputPanel rendered="{!firstZeroResult}" styleClass="searchMessage">
                         <br/><h6>Please refine your search and try again.</h6><br/>
@@ -82,10 +82,9 @@ Story/Task  : US612/DE634
                                 <!-- END : Changed for US612/DE634 - Basant Verma -->
                     </h2>
                         </apex:outputPanel>
-                        
+                        <apex:outputPanel id="pageContent">
                         <apex:variable value="1" var="firstRow"/>
-
-                        <apex:inputText value="{!R_MultInFollowWithselAll}" id="multiFollow" styleClass="multiFollow" style="display:none"  /> 
+ 
                         <c:R_OperationLines showPages="true" options="{!NumberOfItemsPerPageList}" R_MultInFollow="{!R_MultInFollowWithselAll}" value="{!numberOfItemsOnPage}" className="period-select"   pagesStatus="Showing {!showFromIndex+1}-{!showToIndex} of {!numberOfItems} documents" pageNamePrefix="mep" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
                             <div class="doc-list">
                             <!-- <div class="list-view">
@@ -110,8 +109,9 @@ Story/Task  : US612/DE634
                             </div>
                         </c:R_OperationLines>
                         <c:R_pagination totalNumberOfPages="{!numberOfPages}" isNewContent="{!isNewContent}" pageNumbers="{!pageNumbers}" numberOfCurrentPage="{!numberOfCurrentPage}" />
-                    </apex:outputPanel>         
-                </apex:outputPanel> 
+                        </apex:outputPanel>
+                    </apex:outputPanel>
+                 
             </div>
             </apex:form>
       </div>

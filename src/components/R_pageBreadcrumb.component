@@ -1,3 +1,10 @@
+<!------------------------------------------------------------------------------
+Name 		 		:	R_pageBreadcrumb.component
+
+Modified By	:	Basant Kumar Verma (Appirio OffShore)
+Date				:	29/07/2013
+Story/Task	: DE705
+------------------------------------------------------------------------------->
 <apex:component >
     <apex:attribute name="breadcrumbLinks" description="" type="pageLink[]" required="true"/>
     <apex:attribute name="menuLinks" description="" type="pageLink[]" required="true"/>
@@ -8,10 +15,9 @@
     <style type="text/css">
         /*Hide breadcrumb crumbs for screens under 670px, else hrefs turn into tabs*/
         @media only screen and (max-width: 670px) {
-            /*.breadcrumb a {
-                visibility: hidden;
-                display: none;
-            }*/
+            .breadcrumb a {
+                font-size: 13px;
+            }
         }
         
         /*disable images, redefined below in .site-nav*/

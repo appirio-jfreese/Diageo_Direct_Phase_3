@@ -404,23 +404,30 @@
         }
         function reloadClassificationFilter(){
         	jQuery(".result-filter-layer").hide();
+        	updateClassificationLblHeight();
         	jQuery(".sm-filter").jqTransform();
         	jQuery(".sm-filter .select-filter-all input").change(function() {
-		            var input = jQuery(this);
-		            var checked = input.is(":checked");
-		            jQuery(".sm-filter .form-left input").each(function() {
-		                var i = jQuery(this);
-		                if(i.is(":checked") != checked) {
-		                    i.parent().find("a").trigger("click");
-		                }
-		            });
-		        });
+	            var input = jQuery(this);
+	            var checked = input.is(":checked");
+	            jQuery(".sm-filter .form-left input").each(function() {
+	                var i = jQuery(this);
+	                if(i.is(":checked") != checked) {
+	                    i.parent().find("a").trigger("click");
+	                }
+	            });
+	        });
+		    jQuery(".result-filter-layer a.close-btn").click(function() {
+	            jQuery(this).parent().hide();
+	            jQuery(".filter-buttons a").removeClass("active");
+	        });
+		        
 		}
         
        	function loadFilterJs(){
        		//console.log('in loadFilterJs');
-        	 reRenderFilterJS();	
-		     jQuery(".content > .button-line a").click(function() {
+        	 updateClassificationLblHeight();	
+		     reRenderFilterJS();
+        	 jQuery(".content > .button-line a").click(function() {
 		        	//alert('in .content > .button-line a click' );
 		            var a = jQuery(this);
 		            var related = a.data("related");
@@ -730,6 +737,33 @@
         	preApplyFilters();
         	
         }
+        function updateClassificationLblHeight() {
+        	console.log('---updateClassificationLblHeight');
+        	var classification = jQuery('.sm-filter .inner');
+        	var smCheckBoxes = '';
+        	classification.find('td').each(function(){
+				elem = jQuery(this);
+				smCheckBoxes += '<div class="form-left" >';
+				smCheckBoxes += elem.html();
+				smCheckBoxes += '<div class="cleart" ></div></div>';
+				elem.append('<div class="clear" ></div>');
+			});
+			
+			smCheckBoxes += '<div class="clear"></div>';
+			classification.html(smCheckBoxes);
+			jQuery(".sm-filter .form-left label").each(function() {
+	              var lbl = jQuery(this);
+	              var data= lbl.html();
+	              console.log('lbl.height()--'+data.length);
+	              if(data.length > 30) {
+	              	lbl.addClass("two-lines");
+	              }
+	              else if(data.length < 30) {
+	                  lbl.removeClass("two-lines");
+	              }
+	         });
+         }
         
     </script>
+    
 </apex:component>

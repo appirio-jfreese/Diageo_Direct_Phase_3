@@ -104,10 +104,9 @@ Story/Task	: US585/TA1082
 								</div>
 							</div>
 							<!-- End of Overview section -->
-							
-							<c:R_OperationLines showPages="false" pageNamePrefix="isv" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
-								<!-- slider section -->
-								<apex:outputPanel id="sliderContentItemsBxLs">
+							<!-- slider section -->
+							<apex:outputPanel id="sliderContentItemsBxLs">
+								<c:R_OperationLines showPages="false" R_MultInFollow="{!R_MultInFollowWithselAll}" pageNamePrefix="isv" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
 	            		<div class="doc-list">
 	            			<div class="list-view">
 				            	<apex:repeat value="{!detailsMapOrder}" var="silderSection">	            	
@@ -144,8 +143,8 @@ Story/Task	: US585/TA1082
 											</apex:repeat>
 										</div>
 									</div>
-								</apex:outputPanel>
-	            </c:R_OperationLines>
+								</c:R_OperationLines>
+							</apex:outputPanel>
 	            
 						</apex:outputPanel>
 					</apex:form>
@@ -182,9 +181,11 @@ Story/Task	: US585/TA1082
 		</apex:actionFunction>
 		<apex:actionFunction status="status" name="addToFollowMultiple" action="{!addToFollowMultiple}" rerender="messages, currentFollowedItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems" onComplete="jqTransformScript(); sectionVisibility();">
 			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+			<apex:param name="selAll" assignTo="{!R_MultInFollowWithselAll}" value="" />
 		</apex:actionFunction>
 		<apex:actionFunction status="ajax-status" name="removeFromFollowMultiple" action="{!removeFromFollowMultiple}" rerender="messages, currentFollowedItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems" onComplete="jqTransformScript(); sectionVisibility();">
 			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+			<apex:param name="selAll" assignTo="{!R_MultInFollowWithselAll}" value="" />
 		</apex:actionFunction>		
 	</apex:form>	
 	

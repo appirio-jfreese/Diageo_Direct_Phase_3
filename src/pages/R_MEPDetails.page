@@ -72,9 +72,9 @@ Story/Task  : US685/DE679
                             </div>
                             <!-- End of Overview section -->
                             
-                            <c:R_OperationLines showPages="false" pageNamePrefix="mep" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
                             <!-- slider section -->
                             <apex:outputPanel id="sliderContentItemsBxLs">
+                            <c:R_OperationLines showPages="false" R_MultInFollow="{!R_MultInFollowWithselAll}" pageNamePrefix="mep" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
                     <div class="doc-list">
                         <div class="list-view">
                             <apex:repeat value="{!detailsMapOrder}" var="silderSection">                    
@@ -111,8 +111,9 @@ Story/Task  : US685/DE679
                                         </apex:repeat>
                                     </div>
                                 </div>
+                            	</c:R_OperationLines>
                             </apex:outputPanel>
-                            </c:R_OperationLines>
+                            
                             
                             <!-- goals section -->
                             <!-- START : Commented for now, for US685/DE679 - Basant -->                           
@@ -160,9 +161,11 @@ Story/Task  : US685/DE679
         </apex:actionFunction>
         <apex:actionFunction status="ajax-status" name="addToFollowMultiple" action="{!addToFollowMultiple}" rerender="messages, currentFollowedItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems" onComplete="jqTransformScript(); sectionVisibility();">
             <apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+            <apex:param name="selAll" assignTo="{!R_MultInFollowWithselAll}" value="" />
         </apex:actionFunction>
         <apex:actionFunction status="ajax-status" name="removeFromFollowMultiple" action="{!removeFromFollowMultiple}" rerender="messages, currentFollowedItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems" onComplete="jqTransformScript(); sectionVisibility();">
             <apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+            <apex:param name="selAll" assignTo="{!R_MultInFollowWithselAll}" value="" />
         </apex:actionFunction>      
     </apex:form>
 

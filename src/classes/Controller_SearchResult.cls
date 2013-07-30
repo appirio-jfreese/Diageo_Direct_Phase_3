@@ -97,9 +97,7 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 		}
 		private set;
 	}
-     
-    public Boolean R_MultInFollowWithselAll {get; set;}  
-    
+	 
     public Controller_SearchResult() {
     	// Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
 		//pageUrl = Page.MonthlyExecutionPlan.getUrl();

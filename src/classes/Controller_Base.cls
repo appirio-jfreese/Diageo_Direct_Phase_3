@@ -96,7 +96,7 @@ global public without sharing virtual class Controller_Base {
 
     public String videoPlayerId{get; protected set;}
     public String videoPlayerKey{get; protected set;}
-
+		public Boolean R_MultInFollowWithselAll {get; set;}  
     public String searchPhrase {public get; public set;}
     
     public String googleAnalyticsUID {public get; protected set;}

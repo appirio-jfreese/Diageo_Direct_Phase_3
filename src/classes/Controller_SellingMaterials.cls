@@ -612,11 +612,16 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
 				}
 				
 				list<String> cl = new list<String>();				
-				
-					if(!selectedPortfolio && !selectedRTS && !selectedTBA && !brandIdsSet.isEmpty()){
-						if(brandIdsString != null && brandIdsString != ''){
+				// Start : Changes for US588/DE698 - Geeta Kumawat
+				if(brandIdsString != null && brandIdsString != ''){
+					cl.add(' (( content_description__r.Content_Id__c in ('+brandIdsString+') ) )');
+				}
+				if(!isFiltering){
+					if(!selectedPortfolio && !selectedRTS && !selectedTBA ){
+					//if(!selectedPortfolio && !selectedRTS && !selectedTBA && !brandIdsSet.isEmpty() ){
+						/*if(brandIdsString != null && brandIdsString != ''){
 							cl.add(' ( content_description__r.Content_Id__c in ('+brandIdsString+') ) ');
-						}
+						}*/
 
 						if(siteTheme != 'Wine'){
 							List<Brand__c> rtsBrandList = Service_API.getRTSBrands();
@@ -634,17 +639,15 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
 						}
 	                    cl.add(' ( content_description__r.TBA__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ');
 					}
-
-					if(!selectedBrandIdsList.isEmpty()){
+				}else{
+					/*if(!selectedBrandIdsList.isEmpty()){
 						if(brandIdsString != null && brandIdsString != ''){
 							cl.add(' (( content_description__r.Content_Id__c in ('+brandIdsString+') ) )');
 						}
-					}
-
+					}*/
 		            if (selectedPortfolio && siteTheme != 'Wine') {
 						cl.add(' ( content_description__r.Portfolio__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ');
 		            }
-					
 					if (selectedRTS && siteTheme != 'Wine') {
 						List<Brand__c> rtsBrandList = Service_API.getRTSBrands();
 						List<ID> selectedRTSBrandIdsList = new List<ID>();
@@ -658,47 +661,47 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
 						}
 						cl.add(' ( content_description__r.RTS__c = true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ');						
 					}
-
 	                if (selectedTBA) {
 	                    cl.add(' ( content_description__r.TBA__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ');
 	                }
-	
-					if(cl.size() > 0){
-						String cGlue = '';
-						queryString+=' AND (';
-						for(String c : cl){
-							queryString += cGlue + ' ' + c;
-							cGlue = ' OR ';
-						}
-						queryString+=')';
+				}// End : Changes for US588/DE698  - Geeta Kumawat
+				
+				if(cl.size() > 0){
+					String cGlue = '';
+					queryString+=' AND (';
+					for(String c : cl){
+						queryString += cGlue + ' ' + c;
+						cGlue = ' OR ';
 					}
-					classificationItemsBreadCrumb = new List<String>();
-					if(currentSection == Constant.QUARTERLY_SELLING_MATERIALS && selectedClassificationItemsRow1 != null && selectedClassificationItemsRow1.size() > 0){
-						String glue = '';
-						String classificationItemsString = '';
-						for(String s : selectedClassificationItemsRow1){
-							classificationItemsString += glue+'\''+s+'\'';
-							classificationItemsBreadCrumb.add(s);
-							glue =', ';
-						}
-					
-						queryString += ' AND ( Selling_Materials_Classification_Row_1__c includes ('+classificationItemsString+') ) ';						
+					queryString+=')';
+				}
+				classificationItemsBreadCrumb = new List<String>();
+				if(currentSection == Constant.QUARTERLY_SELLING_MATERIALS && selectedClassificationItemsRow1 != null && selectedClassificationItemsRow1.size() > 0){
+					String glue = '';
+					String classificationItemsString = '';
+					for(String s : selectedClassificationItemsRow1){
+						classificationItemsString += glue+'\''+s+'\'';
+						classificationItemsBreadCrumb.add(s);
+						glue =', ';
 					}
-					if(currentSection == Constant.QUARTERLY_SELLING_MATERIALS && selectedClassificationItemsRow2 != null && selectedClassificationItemsRow2.size() > 0){
-						String glue = '';
-						String classificationItemsString = '';
-						for(String s : selectedClassificationItemsRow2){
-							classificationItemsString += glue+'\''+s+'\'';
-							classificationItemsBreadCrumb.add(s);
-							glue =', ';
-						}
-					
-						queryString += ' AND ( Selling_Materials_Classification_Row_2__c includes ('+classificationItemsString+') ) ';
+				
+					queryString += ' AND ( Selling_Materials_Classification_Row_1__c includes ('+classificationItemsString+') ) ';						
+				}
+				if(currentSection == Constant.QUARTERLY_SELLING_MATERIALS && selectedClassificationItemsRow2 != null && selectedClassificationItemsRow2.size() > 0){
+					String glue = '';
+					String classificationItemsString = '';
+					for(String s : selectedClassificationItemsRow2){
+						classificationItemsString += glue+'\''+s+'\'';
+						classificationItemsBreadCrumb.add(s);
+						glue =', ';
 					}
+				
+					queryString += ' AND ( Selling_Materials_Classification_Row_2__c includes ('+classificationItemsString+') ) ';
+				}
 				queryString += quarterViewSelect + 
 			        		  +' GROUP BY Sub_Category__c, Sub_Sub_Category__c, Sub_Sub_Sub_Category__c, content_description__r.is_video__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.Content_Version_Id_Low__c, content_description__r.image_resolution__c, Id '+ 
 			        		  +' ORDER BY Sub_Sub_Sub_Category__c, content_description__r.Description__c ASC';
-				//System.debug('^^^queryString='+queryString);
+				System.debug('^^^queryString='+queryString);
 	
 				if(queryString != null && queryString != ''){
 				    content = database.query(queryString);

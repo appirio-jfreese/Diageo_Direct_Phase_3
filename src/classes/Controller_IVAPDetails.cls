@@ -151,16 +151,18 @@ public with sharing class Controller_IVAPDetails extends Controller_Base {
     }
     
     public PageReference initTheme(){
-    	try {
-	        if(Service_API.getSectionTheme() != ivapItem.classification__c && ivapItem.classification__c != 'Mixed'){
+    	// Start : Changes for DE700 Parul Gupta : Added Parameter condition
+        if(ApexPages.currentPage().getParameters().get('toggled') == null
+        && ApexPages.currentPage().getParameters().get('toggled') == ''){
+			
+    		if(ivapItem != null && Service_API.getSectionTheme() != ivapItem.classification__c && ivapItem.classification__c != 'Mixed'){
 				Service_API.setUserSiteTheme(ivapItem.classification__c, false);
 	    		PageReference pr = ApexPages.currentPage();
 	    		pr.setRedirect(true);
 	    		return pr;
-			}
-    	} catch (Exception e) {
-    		
-    	}
+    		}
+        }
+		// End : Changes for DE700 Parul Gupta	   	
 		return null;
     }
     
