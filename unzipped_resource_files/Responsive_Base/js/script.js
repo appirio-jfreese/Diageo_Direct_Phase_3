@@ -407,8 +407,8 @@ $j(document).ready(function() {
             btns.toggle();
         });
         var positionDocBtns = function(btns) {
-            var doc = btns.parent();
-            if(doc.parent().hasClass("grid-view")) {
+            var doc = btns.parents(".doc");
+            if(doc.parents(".list-view").hasClass("grid-view")) {
                 btns.css({
                     width: '100%',
                     right: 0,
