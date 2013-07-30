@@ -19,7 +19,7 @@ Description	: Integrated modal dialog for responsive site
 		}
 	</script>
 	<!-- START :: MODAL DIALOG -->
-	<div class="modal" id="shareModal" > 
+	<div class="modal" id="shareModal" style="overflow: auto;"> 
 	    
 	    <div class="title">
 	        Share: <apex:outputPanel rendered="{! OR(ISNULL(cvids), len(cvids)=0 )}"> 
