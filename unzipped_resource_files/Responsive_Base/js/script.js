@@ -58,7 +58,23 @@ $j(document).ready(function() {
 
     if($j(".modal").length > 0) {
         $j(window).resize(function() {
-            $j.modal.resize();
+            if($j(".modal:visible").length > 0) {
+                $j.modal.resize();
+                if($j(window).width() < 670) {
+                    disable_scroll();
+                }
+                else if($j(window).width() < 670) {
+                    enable_scroll();
+                }
+            }
+        });
+        $j("body").on($j.modal.OPEN, function() {
+            if($j(window).width() < 670) {
+                disable_scroll();
+            }
+        });
+        $j("body").on($j.modal.CLOSE, function() {
+            enable_scroll();
         });
     }
     $j("a").live("click", function() {
@@ -68,6 +84,15 @@ $j(document).ready(function() {
             return false;
         }
         return true;
+    });
+
+    $j(".breadcrumb a.dropdown").click(function() {
+        $j(".bread-menu").slideToggle();
+    });
+    $j(window).resize(function() {
+        if($j(window).width() < 670) {
+            $j(".bread-menu").hide();
+        }
     });
 
 
@@ -104,6 +129,10 @@ $j(document).ready(function() {
 
     if($j(".home-page").length > 0) {
 
+        $j("#theme-selector-modal .column a").click(function() {
+            $j("#theme-selector-modal .column a").removeClass("selected");
+            $j(this).addClass("selected");
+        });
 
         $j(".boxes a").hover(
             function() {
@@ -128,6 +157,7 @@ $j(document).ready(function() {
             if(related) {
                 $j(".boxes .column").hide();
                 $j("."+related).show();
+                $j(window).scrollTop(180);
             }
         });
 
@@ -144,9 +174,15 @@ $j(document).ready(function() {
         $j("#theme-selector-modal").jqTransform().modal();
 
         var href = window.location.href;
-        if(href.indexOf('?t=1') !== -1) {
+        if(href.indexOf('?t') !== -1) {
             $j("#theme-selector-modal .go-btn").trigger("click");
         }
+        var to = href.indexOf("?to=");
+        if(to !== -1) {
+            var b = href.substr(to+4);
+            $j("a[data-related='"+b+"']").trigger("click");
+        }
+
     }
 
     if($j(".pil-landing-page").length > 0) {
@@ -265,24 +301,6 @@ $j(document).ready(function() {
             slide.flexslider("next");
         });
 
-        $j(".brand-box li a").click(function() {
-            var a = $j(this);
-            var brand = a.closest('.brand-box');
-            var popover = $j(".pil-popover");
-            var left = a.offset().left - brand.offset().left - 40;
-            if(left < -10) left = -10;
-            popover.appendTo(brand).css({
-                left: left,
-                top: a.offset().top - brand.offset().top + 128
-            });
-            if(a.hasClass("clicked")) popover.toggle();
-            else {
-                popover.show();
-                $j(".brand-box li a").removeClass("clicked");
-                a.addClass("clicked");
-            }
-        });
-
         $j(".brand-box li a").hover(
             function() {
                 $j("body").data("hover-brand", 1);
@@ -329,6 +347,12 @@ $j(document).ready(function() {
     if($j(".pil-page, .col-page").length > 0) {
         $j(".filter").jqTransform();
         $j(".capacity").jqTransform();
+
+        $j("input.file").change(function() {
+            var file = $j(this);
+            var val = file.val();
+            file.closest(".form-line").find("input.text").val(val);
+        });
 
         $j(".brand-variants li.with-sub a:eq(0)").click(function() {
             var li = $j(this).parent();
@@ -392,10 +416,46 @@ $j(document).ready(function() {
     }
 
     if($j(".col-page").length > 0) {
+        $j("a.conversation").click(function() {
+            var a = $j(this);
+            if(a.hasClass("disabled")) return false;
+            $j("#conversation-modal").modal();
+        });
         $j("#conversation-modal .remove-btn").click(function() {
             var a = $j(this);
             var post = a.closest(".post");
             post.slideUp();
+        });
+        $j(".has-datepicker").datepicker();
+
+        $j(".uploaded-to-btn").click(function() {
+            $j(this).hide();
+            $j(".uploaded-destination-1").show();
+
+            $j(".form-line").jqTransform();
+        });
+        $j(".uploaded-destination-1 .cancel-btn, .uploaded-destination-2 .cancel-btn, .uploaded-destination-2 .folder-btn").click(function() {
+            $j(".uploaded-destination-1").hide();
+            $j(".uploaded-destination-2").hide();
+            $j(".uploaded-to-btn").show();
+        });
+        $j(".uploaded-destination-2 .folder-btn").click(function() {
+            $j(".new-folder").show();
+        });
+        $j(".uploaded-destination-1 .next-step-btn").click(function() {
+            $j(".uploaded-destination-1").hide();
+            $j(".uploaded-destination-2").show();
+            $j(".folder").jqTransform();
+        });
+        $j(".uploaded-destination-2 .previous-step-btn").click(function() {
+            $j(".uploaded-destination-1").show();
+            $j(".uploaded-destination-2").hide();
+        });
+
+        $j(".folder input[type='checkbox']").change(function() {
+            var input = $j(this);
+            var folder = input.closest(".folder");
+            folder.toggleClass("selected-folder");
         });
     }
 
@@ -429,29 +489,13 @@ $j(document).ready(function() {
         $j(".doc-list .list-view .doc").jqTransform();
         $j(".filter").jqTransform();
 
-        $j(".include-select div").click(function() {
-            var div = $j(this);
-            var w = div.parent();
-            $j("ul", w).slideToggle();
+        $j(".include-select > div").click(function() {
+            $j(this).next().slideToggle();
         });
-        $j(".include-select ul a input").click(function() {
-            $j(this).parent().trigger("click");
-            //return false;
-        });
-        $j(".include-select ul a").click(function() {
-            var a = $j(this);
-            var check = $j("input", a);
-            var ul = a.closest("ul");
-            ul.slideUp();
-            if(check.prop("disabled")) return false;
-            var to = false;
-            if(check.prop("checked")) to = true;
-            check.prop("checked", to);
-            /*if(a.attr("index") == 0) {
-                $j("input", ul).eq(1).prop("checked", to);
-                $j("input", ul).eq(2).prop("checked", to);
-            }
-            */
+        $j(".include-select input[type='checkbox']").change(function() {
+            var check = $j(this);
+            var ul = check.closest("ul");
+            ul.slideToggle();
         });
 
         $j(".calendar-head a.with-dropdown").click(function() {
@@ -493,11 +537,11 @@ $j(document).ready(function() {
         });
     }
 
-    if($j(".mep-item-page, .isv-item-page, .results-page, .sm-page, .bmi-page, .pla-page, .cd-page").length > 0) {
+    if($j(".pil-page, .mep-item-page, .isv-item-page, .results-page, .sm-page, .bmi-page, .pla-page, .cd-page, .col-page").length > 0) {
         $j("a.email, a.share").click(function() {
             var a = $j(this);
             if(a.hasClass("disabled")) return false;
-            //$j("#shareModal").modal();
+            $j("#share-modal").modal();
         });
         $j(".select-all input[type='checkbox']").change(function() {
             var c = $j(this);
@@ -509,13 +553,18 @@ $j(document).ready(function() {
                 }
             });
         });
+        $j(".operation-line a").click(function() {
+            var a = $j(this);
+            if(a.hasClass("disabled")) return false;
+            return true;
+        });
         $j(".doc-list input[type='checkbox']").change(function() {
             setTimeout(function() {
                 if($j(".doc-list input[type='checkbox']:checked").length > 0) {
                     $j(".operation-line a").removeClass("disabled");
                 }
                 else {
-                    $j(".operation-line a").addClass("disabled");
+                    $j(".operation-line a").not(".upload").addClass("disabled");
                 }
             }, 100);
         });
@@ -552,6 +601,12 @@ $j(document).ready(function() {
             });
         });
 
+        $j("a.preview").click(function() {
+            var a = $j(this);
+            if(a.hasClass("disabled")) return false;
+            $j("#preview-modal").modal();
+        });
+
     }
 
 
@@ -561,25 +616,15 @@ $j(document).ready(function() {
         $j(".doc-list .list-view .doc").jqTransform();
         $j(".filter").jqTransform();
 
-
-        $j(".include-select div").click(function() {
-            var div = $j(this);
-            var w = div.parent();
-            $j("ul", w).slideToggle();
+        $j(".include-select > div").click(function() {
+            $j(this).next().slideToggle();
         });
-        $j(".include-select ul a input").click(function() {
-            $j(this).parent().trigger("click");
-        });
-        $j(".include-select ul a").click(function() {
-            var a = $j(this);
-            var check = $j("input", a);
-            var ul = a.closest("ul");
-            ul.slideUp();
-            if(check.prop("disabled")) return false;
-            var to = false;
-            if(check.prop("checked")) to = true;
-            check.prop("checked", to);
-
+        $j(".include-select input[type='checkbox']").change(function() {
+            var check = $j(this);
+            var to = check.prop("checked");
+            var ul = check.closest("ul");
+            ul.slideToggle();
+            var a = check.closest(".option");
             if(a.attr("index") == 0) {
                 if(to) {
                     $j(".plans").removeClass("no-spirits");
@@ -717,6 +762,8 @@ $j(document).ready(function() {
                     var len = $j(".brand-filter .brands a.selected").length + $j(".brand-filter .other .other-brand input:checked").length;
                     if(len > 0) related = 'bv-ok-filter';
                 }
+                $j("."+related).show();
+
                 if(related === 'time-filter') {
                     $j(".time-filter .quarterly").flexslider({
                         animation: "slide",
@@ -730,8 +777,10 @@ $j(document).ready(function() {
                         }
                     });
                 }
+                else if(related === 'brand-filter') {
+                    resetBrandClass();
+                }
 
-                $j("."+related).show();
 
                 resetFormLeft();
             }
@@ -746,6 +795,7 @@ $j(document).ready(function() {
             var a = $j(this);
             if(a.hasClass("other-btn")) {
                 $j(".brand-filter .other").toggle();
+                resetBrandClass();
                 return false;
             }
             a.toggleClass("selected");
@@ -771,6 +821,7 @@ $j(document).ready(function() {
         });
         $j(window).resize(function() {
             resetFormLeft();
+            resetBrandClass();
         });
         var resetFormLeft = function() {
             $j(".result-filter-layer .form-left label").each(function() {
@@ -782,7 +833,27 @@ $j(document).ready(function() {
                     label.removeClass("two-lines");
                 }
             });
-        }
+        };
+        var resetBrandClass = function() {
+            $j(".brand-filter .brands a.text").each(function() {
+                var a = $j(this);
+                if(a.height() > 50) {
+                    a.addClass("two-lines");
+                }
+                else if(a.height() < 35) {
+                    a.removeClass("two-lines");
+                }
+            });
+            $j(".brand-filter .other .name").each(function() {
+                var span = $j(this);
+                if(span.height() > 50) {
+                    span.parent().addClass("two-lines");
+                }
+                else if(span.height() < 35) {
+                    span.parent().removeClass("two-lines");
+                }
+            });
+        };
 
         $j(".time-filter .button-line a").click(function() {
             var a = $j(this);
@@ -810,7 +881,7 @@ $j(document).ready(function() {
             a.toggleClass("selected");
         });
 
-    }
+    }*/
 
     if($j(".pos-page").length > 0) {
         $j(".agreeBtn").click(function() {
@@ -831,6 +902,41 @@ $j(document).ready(function() {
             $j(".case > p").slideUp("fast");
             $j(".toggle-btn").removeClass("expanded");
         });
-    }*/
+    }
 
 });
+
+// left: 37, up: 38, right: 39, down: 40,
+// spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+var keys = [37, 38, 39, 40];
+
+function preventDefault(e) {
+  e = e || window.event;
+  if (e.preventDefault)
+      e.preventDefault();
+  e.returnValue = false;
+}
+
+function keydown(e) {
+    for (var i = keys.length; i--;) {
+        if (e.keyCode === keys[i]) {
+            preventDefault(e);
+            return;
+        }
+    }
+}
+
+function wheel(e) {
+  preventDefault(e);
+}
+
+function disable_scroll() {
+    var top = $j("body").scrollTop();
+    $j("body").css("position", "fixed");
+    if(top > 0) $j("body").data("top", top);
+
+}
+
+function enable_scroll() {
+  $j("body").css("position", "inherit").scrollTop(+$j("body").data("top"));
+}

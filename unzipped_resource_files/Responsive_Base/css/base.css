@@ -180,7 +180,7 @@
 	input[type="password"],
 	input[type="email"],
 	textarea,
-	select { padding: 0 }
+	select { padding: 0; font-family: Arial }
 	select {
 		padding: 0; }
 	input[type="text"]:focus,

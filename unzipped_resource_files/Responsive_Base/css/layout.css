@@ -81,6 +81,10 @@ strong {
     background-image: -webkit-linear-gradient(top, #f9e084 1%, #e7a723 100%) !important;
     background-image: linear-gradient(180deg, #f9e084, #e7a723 100%) !important;
 }
+.beer-bg {
+    background-image: -webkit-linear-gradient(top, #72C07F 1%, #06841B 100%) !important;
+    background-image: linear-gradient(180deg, #72C07F, #06841B 100%) !important;
+}
 
 .sm-page a.button {
     background-image: -webkit-linear-gradient(top, #863b93 1%, #4f2158 100%) !important;
@@ -98,9 +102,13 @@ strong {
     background-image: -webkit-linear-gradient(top, #c6554c 1%, #b22216 100%) !important;
     background-image: linear-gradient(180deg, #c6554c, #b22216 100%) !important;
 }
-.pil-page a.button {
+.pla-page a.button {
     background-image: -webkit-linear-gradient(top, #F7AD78 1%, #EC8041 100%) !important;
     background-image: linear-gradient(180deg, #F7AD78, #EC8041 100%) !important;
+}
+.pil-page a.button {
+    background-image: -webkit-linear-gradient(top, #ad2b5f 1%, #7e0c3a 100%) !important;
+    background-image: linear-gradient(180deg, #ad2b5f, #7e0c3a 100%) !important;
 }
 .cd-page a.button {
     background-image: -webkit-linear-gradient(top, #f86e1b 1%, #b74f11 100%) !important;
@@ -152,6 +160,9 @@ a.jqTransformCheckbox {
 .pla-page a.jqTransformCheckbox {
     background: transparent url(../i/checkbox-pla.png) no-repeat 0 0;
 }
+.mul-page a.jqTransformCheckbox {
+    background: transparent url(../i/checkbox-mul.png) no-repeat 0 0;
+}
 .login-form a.jqTransformCheckbox {
   float: left;
   background: transparent url(../i/login-checkbox.png) no-repeat 0 0;
@@ -171,7 +182,7 @@ a.jqTransformChecked {
 .jqTransformSelectWrapper {
   float: left;
   display: block;
-  width: 45px;
+  width: 97px;
   position: relative;
   height: 36px;
   background: #ddd;
@@ -254,8 +265,8 @@ a.jqTransformChecked {
 
 .jqTransformSelectWrapper ul a {
   display: block;
-  padding: 0 20px;
-  line-height: 36px;
+  padding: 8px 20px;
+  line-height: 18px;
   text-decoration: none;
   color: #333;
   background-color: #FFF;
@@ -267,7 +278,7 @@ a.jqTransformChecked {
   color: #333;
 }
 
-.jqTransformSelectWrapper ul a:hover, .jqTransformSelectWrapper ul a.selected:hover {
+.jqTransformSelectWrapper ul li > a:hover, .jqTransformSelectWrapper ul li > a.selected:hover {
   background: #eee;
   color: #333;
 }
@@ -384,8 +395,9 @@ a.jqTransformChecked {
             .header .company {
                 position: absolute;
                 right: 5px;
-                bottom: 6px;
-                width: 120%;
+                top: 24px;
+                width: 500px;
+                text-align: right;
                 z-index: 0;
             }
             .header .hello {
@@ -546,6 +558,9 @@ a.jqTransformChecked {
     }
     .pos-page .content a.link {
         color: #7580b7;
+    }
+    .col-page .content a.link {
+        color: #b22216;
     }
 h1 {
     font-size: 30px;
@@ -1065,7 +1080,36 @@ h3 {
         margin: 10px 0 10px 0;
         font-family: Arial;
         font-size: 14px;
+        position: relative;
     }
+    .breadcrumb a.dropdown {
+        display: block;
+        width: 36px;
+        height: 36px;
+        position: absolute;
+        left: 10px;
+        top: 10px;
+    }
+    .breadcrumb .bread-menu {
+        position: absolute;
+        display: none;
+        top: 46px;
+        left: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        background: #ededed;
+        z-index: 1000;
+    }
+        .breadcrumb .bread-menu a {
+            display: block;
+            margin: 0 0 10px 0;
+            width: 350px;
+            font-size: 18px;
+            text-align: center;
+            line-height: 46px;
+            height: 46px;
+            text-decoration: none;
+        }
         .breadcrumb .inner {
             padding: 0 0 0 56px;
             background: url(../i/breadcrumb-icon.png) 10px 50% no-repeat;
@@ -1118,6 +1162,9 @@ h3 {
         line-height: 28px;
         border-bottom: 1px solid #ddd;
         padding-bottom: 20px;
+    }
+    .col-page h2.with-select {
+        border-bottom: 1px solid #ddd;
     }
         h2 .status {
             font-size: 16px;
@@ -1222,17 +1269,38 @@ h3 {
             h2 .jqTransformSelectWrapper ul a {
                 font-weight: normal;
             }
-            h2 .include-select ul a {
+            h2 .include-select ul div.option {
                 padding-left: 10px;
-            }
-            h2 .jqTransformSelectWrapper a {
                 font-size: 15px;
+                height: 36px;
             }
+                h2 .jqTransformSelectWrapper li.indent div.option {
+                    padding-left: 20px;
+                }
+                    h2 .jqTransformSelectWrapper li.indent label {
+                        font-size: 13px;
+                        padding-left: 5px;
+                        font-weight: normal;
+                    }
+            h2 .include-select li {
+                padding: 5px 0;
+            }
+                h2 .jqTransformSelectWrapper ul .jqTransformCheckboxWrapper {
+                    float: left;
+                    position: inherit;
+                }
+                h2 .jqTransformSelectWrapper ul label {
+                    float: left;
+                    padding-left: 10px;
+                }
+                h2 .jqTransformSelectWrapper ul .jqTransformCheckboxWrapper a {
+                    padding: 0;
+                }
+                h2 .jqTransformSelectWrapper ul div span.jqTransformCheckboxWrapper {
+                    padding: 0;
+                }
             h2 .jqTransformSelectWrapper ul {
-                height: 144px;
-            }
-            h2 .jqTransformSelectWrapper li.indent a {
-                padding-left: 20px;
+                height: auto;
             }
 
     .story {
@@ -1389,7 +1457,7 @@ h3 {
         .form .form-line select,
         .form .form-line input.text,
         .form .form-line textarea,
-        .form .form-line .jqTransformSelectWrapper {
+        .form .form-line .jqTransformSelectWrapper{
             width: 66.49%;
             font-size: 18px;
         }
@@ -1408,9 +1476,20 @@ h3 {
             line-height: 36px;
             text-indent: 10px;
         }
-        .form .form-line .jqTransformSelectWrapper div span,
-        .form .form-line .jqTransformSelectWrapper ul a {
-            padding-left: 10px;
+        .form .form-line input.has-datepicker {
+            width: 140px;
+        }
+            .col-page .form .form-line input.has-datepicker {
+                background: #ddd url(../i/arrow-down-col.png) 90% 50% no-repeat;
+            }
+        .form .form-line .jqTransformSelectWrapper div span {
+            text-indent: 10px;
+            padding-left: 0;
+            width: 100% !important;
+        }
+        .form .form-line .jqTransformSelectWrapper ul {
+            width: 99% !important;
+            overflow-y: auto;
         }
         .form .form-line textarea {
             float: left;
@@ -1445,7 +1524,73 @@ h3 {
         .form .form-line.medium-control .jqTransformSelectWrapper  {
             width: 32%;
         }
-
+        .col-page .form-line-link {
+            color: #b22216;
+            display: inline-block;
+            line-height: 36px;
+        }
+            .col-page .form-line-link:hover {
+                text-decoration: underline;
+            }
+            .col-page .uploaded-to-btn {
+                float: right;
+                font-weight: bold;
+            }
+        .form-line label.strong {
+            width: 70%;
+            font-weight: bold;
+        }
+        .folders .folder {
+            float: left;
+            width: 47.12041884816754%;
+            margin-right: 5.75916230366492%;
+            line-height: 36px;
+            border-bottom: 1px solid #ddd;
+            height: 36px;
+            padding: 8px 0;
+        }
+            .folders .folder label {
+                float: left;
+                width: 80%;
+                font-size: 18px;
+                color: #b22216;
+                font-weight: normal;
+            }
+            .folders .selected-folder label {
+                font-weight: bold;
+            }
+            .folders .folder .jqTransformCheckboxWrapper {
+                float: right;
+            }
+        .folders .last-folder {
+            margin-right: 0;
+        }
+        .form-line .delete-btn {
+            float: right;
+            width: 36px;
+            height: 36px;
+        }
+        .form-line .right-links {
+            display: block;
+            text-align: right;
+            font-size: 18px;
+        }
+            .form-line .right-links .form-line-link {
+                display: inline-block;
+                margin: 0 10px;
+            }
+            .form-line .right-links .last-link {
+                margin-right: 0;
+            }
+        .col-page .form-line .delete-btn {
+            background-image: -webkit-linear-gradient(top, #c6554c 1%, #b22216 100%) !important;
+            background-image: linear-gradient(180deg, #c6554c, #b22216 100%) !important;
+        }
+            .form-line .delete-btn span {
+                display: block;
+                height: 36px;
+                background: url(../i/delete-btn-icon.png) center center no-repeat;
+            }
     .brand-box {
         border: 1px solid #919191;
         border-bottom: 1px solid #5A5A5A;
@@ -1929,12 +2074,11 @@ h3 {
             padding: 0 10px 0 18px;
         }
         .result-filter-layer .brands a {
-            display: block;
+            float: left;
             width: 149px;
-            height: 50px;
             margin: 0 0.52465897166842% 5px 0;
             line-height: 0;
-            float: left;
+            height: 50px;
             background: #fff;
             text-align: center;
         }
@@ -1957,10 +2101,10 @@ h3 {
             .result-filter-layer .brands a.text {
                 line-height: 50px;
                 color: #666;
+                height: auto;
             }
             .result-filter-layer .brands a.two-lines {
                 line-height: 20px;
-                height: 40px;
                 padding: 5px 0;
                 color: #666;
             }
@@ -2337,6 +2481,57 @@ h3 {
                 background-image: -webkit-linear-gradient(top, #f86e1b 1%, #b74f11 100%) !important;
                 background-image: linear-gradient(180deg, #f86e1b, #b74f11 100%) !important;
             }
+
+        .edit-file-wrapper {
+            float: left;
+            width: 66.28272251308901%;
+            padding-top: 10px;
+        }
+            .edit-file-wrapper .image-wrapper {
+                border: 1px solid #ddd;
+                text-align: center;
+                padding: 15px 0;
+            }
+            .edit-file-wrapper h3 {
+                font-size: 24px;
+                font-weight: normal;
+                line-height: 55px;
+                border-bottom: 1px solid #ddd;
+                margin: 0;
+            }
+        .edit-file-wrapper .form-line {
+            border-bottom: 1px solid #ddd;
+        }
+            .edit-file-wrapper .form-line label {
+                float: left;
+                font-size: 18px;
+                width: 45.80152671755725%;
+                line-height: 36px;
+                padding: 0 0 0 3.05343511450382%;
+            }
+                .edit-file-wrapper .form-line label.with-small {
+                    line-height: 18px;
+                }
+                    .edit-file-wrapper .form-line label.with-small span {
+                        color: #999;
+                        font-size: 12px;
+                    }
+            .edit-file-wrapper .form-line input.text {
+                float: left;
+                width: 50.86614173228346%;
+                text-indent: 10px;
+            }
+            .edit-file-wrapper .form-line strong {
+                float: left;
+                width: 50.86614173228346%;
+                line-height: 36px;
+                font-size: 18px;
+                font-weight: bold;
+            }
+        .edit-file-wrapper .buttons .button {
+            margin-left: 10px;
+            padding: 0 25px;
+        }
     .doc-list {
     }
         .doc-list .grid-view {
@@ -2346,7 +2541,7 @@ h3 {
         .doc-list .list-view h6 {
             font-size: 20px;
             color: #333;
-            padding: 15px 0;
+            padding: 20px 0;
             border-bottom: 1px solid #dddddd;
         }
         .doc-list .grid-view h6 {
@@ -2474,6 +2669,9 @@ h3 {
                 .doc-list .list-view .doc-btns.single a {
                     width: 100%;
                 }
+                .doc-list .list-view .doc-btns.five-btns a {
+                    width: 20%;
+                }
             .doc-list .grid-view .doc-btns {
 
             }
@@ -2491,6 +2689,9 @@ h3 {
                     }
                     .doc-list .list-view .doc-btns a.conversation {
                         background: url(../i/ico_conv_white.png) center center no-repeat;
+                    }
+                    .doc-list .list-view .doc-btns a.preview {
+                        background: url(../i/ico_preview_white.png) center center no-repeat;
                     }
                     .doc-list .list-view .doc-btns a.follow {
                         background: url(../i/follow.png) center center no-repeat;
@@ -2562,7 +2763,7 @@ h3 {
             .doc-list .grid-view .setting-btn {
                 bottom: 3px;
                 right: 44px;
-                border: 1px solid #800030;
+                border: 1px solid #600030;
             }
                 .doc-list .list-view .setting-btn span {
                     display: block;
@@ -2579,7 +2780,7 @@ h3 {
             .doc-list .grid-view .jqTransformCheckboxWrapper {
                 bottom: 3px;
                 right: 3px;
-                border: 1px solid #800030;
+                border: 1px solid #600030;
             }
             .isv-page .doc-list .grid-view .setting-btn,
             .isv-page .doc-list .grid-view .jqTransformCheckboxWrapper {
@@ -2961,6 +3162,7 @@ h3 {
             text-align: center;
             font-weight: normal;
             color: #fff;
+            z-index: 1;
         }
     .desc-block {
         margin: 5px 0;
@@ -3006,32 +3208,16 @@ h3 {
     z-index: 20;
     background: #fff;
 }
-    .pil-popover .btn {
-        display: block;
-        width: 150px;
-        height: 36px;
-        line-height: 36px;
-        background: url(../i/search-btn-bg.png) 0 0 repeat-x;
-        font-size: 16px;
-        color: #D8D5D5;
-        text-align: center;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-        .pil-popover .btn:hover {
-            color: #fff;
-        }
-
 .modal {
     display: none;
     width: 460px;
     background: #fff;
 }
     .modal .title {
-        height: 50px;
-        line-height: 50px;
-        padding-left: 10px;
-        background: url(../i/breadcrumb-bg.png) 0 0 repeat-x;
+        height: auto;
+        padding: 15px 10px;
+        line-height: 20px;
+        background: #080808 url(../i/breadcrumb-bg.png) 0 0 repeat-x;
         font-size: 18px;
         color: #fff;
     }
@@ -3109,10 +3295,11 @@ h3 {
 
     }
         .modal .post {
-            padding: 10px 0;
+            padding: 10px 20px 10px 0;
             border-bottom: 1px solid #ddd;
             line-height: 20px;
             color: #666;
+            position: relative;
         }
             .modal .post a {
                 color: #b22216;
@@ -3129,14 +3316,23 @@ h3 {
                 color: #999;
             }
             .modal .post .remove-btn {
+                position: absolute;
                 display: inline-block;
                 width: 19px;
                 height: 20px;
+                right: 0;
+                top: 10px;
                 background: url(../i/blackclose.png) center center no-repeat;
             }
-
+.modal .preview-image {
+    text-align: center;
+    padding: 20px 0;
+}
 #theme-selector-modal {
     width: 721px;
+}
+#theme-selector-modal.three-boxes {
+    width: 920px;
 }
     #theme-selector-modal .html {
         margin: 0;
@@ -3148,10 +3344,19 @@ h3 {
         margin: 15px 0 15px 0.68870523415978%;
         height: 260px;
     }
+    #theme-selector-modal.three-boxes .column {
+        width: 32.60869565217391%;
+        margin: 15px 0 15px 0.54347826086957%;
+        height: 260px;
+    }
         #theme-selector-modal .boxes a {
             line-height: 105px;
             height: 105px;
+            opacity: 0.5;
         }
+            #theme-selector-modal .boxes a.selected {
+                opacity: 1;
+            }
         #theme-selector-modal label {
             float: left;
             font-size: 18px;
@@ -3226,6 +3431,134 @@ h3 {
             background: url(../i/ad-4.png) 0 0 no-repeat;
             margin-right: 0;
         }
+
+#datepicker{
+	width:				290px;
+	padding-bottom:		10px;
+
+}
+.ui-datepicker {
+    z-index: 100!important;
+	font-family: Helvetica, Arial;
+	border: 1px solid #000000;
+	background: #3d3d3d; /* Old browsers */
+	background: -moz-linear-gradient(top, #3d3d3d 0%, #1e1e1e 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3d3d3d), color-stop(100%,#1e1e1e)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #3d3d3d 0%,#1e1e1e 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #3d3d3d 0%,#1e1e1e 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #3d3d3d 0%,#1e1e1e 100%); /* IE10+ */
+	background: linear-gradient(top, #3d3d3d 0%,#1e1e1e 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3d3d3d', endColorstr='#1e1e1e',GradientType=0 ); /* IE6-9 */
+}
+#datepicker-header{
+	width:				290px !important;
+	border-bottom:		2px solid #000000 !important;
+	color:				#ffffff !important;
+	font-size:			13px !important;
+	padding-bottom:		2px !important;
+}
+#datepicker-footer {
+	padding-top:		2px !important;
+	width:				290px !important;
+	color:				#ffffff !important;
+	font-size:			9px !important;
+	height:				14px !important;
+	text-align:			right !important;
+	cursor:				pointer !important;
+}
+.ui-datepicker-calendar {
+	border-spacing: 	0px !important;
+	border-collapse:	collapse !important;
+	padding: 			0px !important;
+	width:				290px !important;
+}
+.ui-datepicker-calendar a {
+	color: 				#d4ccc9 !important;
+	text-decoration: 	none !important;
+	padding: 			0px !important;
+}
+.chcecked-date-day {
+	width:	41px !important;
+	height:	30px !important;
+	margin-left: 2px !important;
+	text-align:	left !important;
+	font-size:	14px !important;
+
+}
+.chcecked-date-description {
+	margin-right: 2px !important;
+	width:	41px !important;
+	padding: 0px !important;
+	height:	30px !important;
+	text-align:	right !important;
+	font-size:	8px !important;
+}
+.ui-datepicker-unselectable  {
+	color:		#6f6f6e !important;
+}
+.ui-state-disabled  {
+	color:		#6f6f6e !important;
+}
+.ui-datepicker-calendar td {
+	font-size:			13px !important;
+	width:				41px !important;
+	height:				30px !important;
+	vertical-align:		middle !important;
+	text-align:			center !important;
+	padding:			0px !important;
+}
+.ui-datepicker-calendar th {
+	color:				#aaaaaa !important;
+	font-size:			10px !important;
+	font-weight:		normal !important;
+	width:				41px !important;
+	vertical-align:		middle !important;
+	text-align:			center !important;
+}
+.ui-datepicker-other-month a{
+	color:				#3b3b3a !important;
+	text-decoration: 	none !important;
+}
+.ui-datepicker-prev {
+    color: #FFFFFF !important;
+    cursor: pointer !important;
+    font-size: 9px !important;
+    left: 20px !important;
+    position: absolute !important;
+    top: 20px !important;
+	width:	52px !important;
+	height:	12px !important;
+	background: none !important;
+	font-size:		9px !important;
+	text-align:		center !important;
+}
+.ui-datepicker-next {
+    color: #FFFFFF !important;
+    cursor: pointer !important;
+    font-size: 9px !important;
+    right: 25px !important;
+	width:	52px !important;
+    position: absolute !important;
+    top: 20px !important;
+	height:	12px !important;
+	background: none !important;
+	font-size:		9px !important;
+	text-align:		center !important;
+}
+.ui-datepicker-title {
+	width:				290px !important;
+	font-size:			13px !important;
+	color:				#ffffff !important;
+	padding-top: 		17px !important;
+	padding-bottom:		23px !important;
+	text-align:			center !important;
+}
+.ui-helper-clearfix {
+	display: 			inline-block;
+	zoom:				1;
+	*display:			inline;
+}
+
 
 /* footer */
 .footer {
@@ -3325,11 +3658,18 @@ h3 {
         }
         .contact-new-case-page h2.jqtransformdone,
         .user-profile-page h2.jqtransformdone,
-        .faq-page h2.jqtransformdone {
+        .faq-page h2.jqtransformdone,
+        .col-page h2.with-select {
             height: 36px;
         }
             h2.jqtransformdone .jqTransformSelectWrapper {
                 margin-top: 46px ;
+            }
+            .results-page h2.jqtransformdone .jqTransformSelectWrapper {
+                margin-top: 0;
+            }
+            .results-page h2.jqtransformdone {
+                height: 36px;
             }
             h2.jqtransformdone a.right-btn {
                 float: left;
@@ -3420,6 +3760,9 @@ h3 {
             .header .fav {
                 margin-left: 5px;
             }
+            .header .company {
+                max-width: 290px;
+            }
         .header .logo {
             float: none;
             display: block;
@@ -3475,6 +3818,10 @@ h3 {
             float: none;
             width: 100%;
         }
+            .login-left p,
+            .login-right p.hint {
+                padding-bottom: 10px;
+            }
         .login-modal input.text {
             width: 100%;
         }
@@ -3488,6 +3835,9 @@ h3 {
             height: auto;
             margin-bottom: 0;
             line-height: 0;
+        }
+        .breadcrumb a.dropdown {
+            display: none;
         }
         .breadcrumb .inner {
             padding: 0 !important;
@@ -3514,6 +3864,7 @@ h3 {
             display: block;
             width: 96.875%;
             margin: 5px auto 10px auto;
+            background: #fff;
         }
             #theme-selector-modal .boxes .column {
                 min-height: 0;
@@ -3524,6 +3875,14 @@ h3 {
             }
             #theme-selector-modal .go-btn {
                 margin-right: 1.5625%;
+            }
+            #theme-selector-modal .boxes a {
+                height: 55px;
+                line-height: 55px;
+            }
+            #theme-selector-modal .title img {
+                width: 100%;
+                max-width: 300px;
             }
         .boxes .column.last {
             margin-right: auto;
@@ -3703,6 +4062,9 @@ h3 {
             height: auto;
             text-align: center;
         }
+        .results-page h2.jqtransformdone {
+            height: 90px;
+        }
         .faq-page h2.jqtransformdone {
             height: 60px;
         }
@@ -3743,6 +4105,15 @@ h3 {
                 padding: 0;
                 margin-top: -25px;
             }
+    .col-page h2.jqtransformdone {
+        height: 72px;
+    }
+        .col-page h2.with-select a.back-btn {
+            margin-top: -5px;
+        }
+        .col-page h2.jqtransformdone span.title {
+            padding-top: 36px;
+        }
             h2.jqtransformdone .jqTransformSelectWrapper {
                 float: none;
                 clear: both;
@@ -3755,6 +4126,25 @@ h3 {
                     text-indent: 20px;
                     padding: 0;
                 }
+                h2.jqtransformdone .jqTransformSelectWrapper div span.jqTransformCheckboxWrapper {
+                    width: 36px !important;
+                }
+                h2.jqtransformdone .jqTransformSelectWrapper div.option label {
+                    font-size: 18px;
+                }
+        .edit-file-wrapper {
+            float: none;
+            width: 100%;
+        }
+            .edit-file-wrapper .form-line strong {
+                text-align: center;
+                display: block;
+                float: none;
+                width: 100%;
+            }
+            .edit-file-wrapper .buttons .button {
+                padding: 0 10px;
+            }
         .form .form-line label,
         .form .form-line span.value {
             display: block;
@@ -3782,6 +4172,33 @@ h3 {
             top: auto;
             bottom: 12px;
         }
+        .form .uploaded-to-btn {
+            float: none;
+            display: block;
+            text-align: center;
+            font-size: 18px;
+            padding-top: 10px;
+        }
+        .form-line .right-links .form-line-link {
+            margin: 0 2px;
+        }
+
+        .form .uploaded-destination-1 .form-line label,
+        .col-page .form .form-line label {
+            line-height: 36px;
+        }
+        .col-page .form-line .delete-btn {
+            position: absolute;
+            right: 0;
+            bottom: 10px;
+        }
+        .folders .folder {
+            float: none;
+            width: 100%;
+        }
+        .folders .empty-folder {
+            display: none;
+        }
 
         .story .image {
             display: none;
@@ -3795,12 +4212,15 @@ h3 {
             margin-right: 0;
         }
         .plans,
-        .calendar-head,
-        .plan-header,
         .desc-block {
             float: none;
             width: 100% !important;
             z-index: 5;
+        }
+        .calendar-head,
+        .plan-header {
+            float: none;
+            width: 100% !important;
         }
         .plans .plan {
             width: 100% !important;
@@ -3893,6 +4313,9 @@ h3 {
                 line-height: 20px;
                 background-color: #080808;
             }
+            .modal textarea {
+                height: 50px;
+            }
 
         .hide-phone {
             display: none !important;
@@ -3900,7 +4323,11 @@ h3 {
     }
 
 	/* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
-	@media only screen and (min-width: 480px) and (max-width: 660px) {
+	@media only screen and (min-width: 480px) and (max-width: 660px) and (orientation: landscape) {
+        .modal {
+            max-height: 200px;
+            overflow-y: auto;
+        }
     }
 
 	/* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
