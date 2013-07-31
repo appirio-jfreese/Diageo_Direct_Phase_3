@@ -40,8 +40,8 @@ Story/Task  : US503/TA1011
         </apex:outputPanel>
             
             <h2 class="with-select">
-                <span class="title" style="display: {!IF(siteTheme == 'Spirits', 'block', 'none')};">Innovation, Sustainovation  &amp; VAP</span>
-                <span class="title" style="display: {!IF(siteTheme != 'Spirits', 'block', 'none')};">Innovation, Sustainovation  &amp; Vintage Transition</span>
+                <span class="title" style="display: {!IF(siteTheme == 'Spirits', 'block', 'none')}; font-size: 90%">Innovation, Sustainovation  &amp; VAP</span>
+                <span class="title" style="display: {!IF(siteTheme != 'Spirits', 'block', 'none')}; font-size: 70%">Innovation, Sustainovation  &amp; Vintage Transition</span>
                 <c:R_selectList options="{!timePeriods}"  value="{!timePeriod}" onchange="refreshContent()" />
                 <c:R_checkboxList width="150" options="{!themeOptions}" noOfOptions="{!noOfThemesAvailable}" onchange="refreshContent()" />
                 

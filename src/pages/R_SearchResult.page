@@ -18,7 +18,7 @@ Story/Task  : US612/DE634
     <div class="wrapper">
         <div class="container">
         <!-- PAGE HEADER -->
-        <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
+        <c:R_PageHeader showThemeSelector="false" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
         <script type="text/javascript">
             pageViewed('Search Result Page');
           </script>

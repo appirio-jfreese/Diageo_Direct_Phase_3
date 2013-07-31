@@ -19,7 +19,7 @@ Story/Task	: US585/TA1082
 	<div class="wrapper">
 		<div class="container">
 			<!-- PAGE HEADER -->
-			<c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" /> <!--thisAvatarURL="{!avatarUrl}"-->
+			<c:R_PageHeader showThemeSelector="false" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" /> <!--thisAvatarURL="{!avatarUrl}"-->
 			<script type="text/javascript">
 				pageViewed('Innovation, Sustainovation &amp; VAP - Detail Page');
 			</script>

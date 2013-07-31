@@ -456,7 +456,6 @@ global public without sharing virtual class Controller_Base {
             if(currentUserPage().equalsIgnoreCase('/apex/MonthlyExecutionPlan')
                     || currentUserPage().equalsIgnoreCase('/apex/MonthlyExecutionPlanPDF')
                     || currentUserPage().equalsIgnoreCase('/apex/R_MonthlyExecutionPlan')
-                    || currentUserPage().equalsIgnoreCase('/apex/R_MonthlyExecutionPlan1')
                     || currentUserPage().equalsIgnoreCase('/apex/R_MonthlyExecutionPlanPDF')
                     || currentUserPage().equalsIgnoreCase('/apex/R_InnovationAndVAP')
                     || currentUserPage().equalsIgnoreCase('/apex/R_InnovationAndVAPPDF')){

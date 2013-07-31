@@ -22,7 +22,7 @@ Story/Task	: US585/TA1082
  <apex:attribute name="R_MultInFollow" description="R_MultInFollow" type="Boolean" required="false"/>
  <apex:inputText value="{!R_MultInFollow}" id="multiFollow" styleClass="multiFollow" style="display:none"  />
   <div class="operation-line">
-     <a href="javascript: operationLine('download');" class="download disabled {!pageNamePrefix}-bg">
+     <a href="javascript: responsiveDownloadOnly('download');" class="download disabled {!pageNamePrefix}-bg">
          <span>Download</span>
      </a>
      <a href="javascript: operationLine('email');" class="email disabled {!pageNamePrefix}-bg">
@@ -83,7 +83,7 @@ Story/Task	: US585/TA1082
 	<apex:componentBody />
     
   <div class="operation-line">
-     <a href="javascript: operationLine('download');" class="download disabled {!pageNamePrefix}-bg">
+     <a href="javascript: responsiveDownloadOnly('download');" class="download disabled {!pageNamePrefix}-bg">
          <span>Download</span>
      </a>
      <a href="javascript: operationLine('email');" class="email disabled {!pageNamePrefix}-bg">

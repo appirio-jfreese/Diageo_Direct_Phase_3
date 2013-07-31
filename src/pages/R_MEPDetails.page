@@ -16,7 +16,7 @@ Story/Task  : US685/DE679
     <div class="wrapper">
         <div class="container">
             <!-- PAGE HEADER -->
-            <c:R_PageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" /> <!--thisAvatarURL="{!avatarUrl}"-->
+            <c:R_PageHeader showThemeSelector="false" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" /> <!--thisAvatarURL="{!avatarUrl}"-->
             <script type="text/javascript">
                 pageViewed('Monthly Execution Plan - Detail Page');
             </script>
@@ -135,6 +135,7 @@ Story/Task  : US685/DE679
     </div>
     </body>
     <apex:form >
+    		
         <apex:actionFunction status="ajax-status" name="userShareOverview" action="{!userShareOverview}" rerender="overviewDialog, shareDialog, messages" onComplete="bindUserAutoComplete();sectionVisibility();showModalPopup();">
             <apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
         </apex:actionFunction>
@@ -164,9 +165,43 @@ Story/Task  : US685/DE679
             <apex:param name="selAll" assignTo="{!R_MultInFollowWithselAll}" value="" />
         </apex:actionFunction>
         <apex:actionFunction status="ajax-status" name="removeFromFollowMultiple" action="{!removeFromFollowMultiple}" rerender="messages, currentFollowedItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems" onComplete="jqTransformScript(); sectionVisibility();">
+        		<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+            <apex:param name="selAll" assignTo="{!R_MultInFollowWithselAll}" value="" />
+        </apex:actionFunction>
+        <!--
+         <apex:actionFunction status="ajax-status" name="userShareOverview" action="{!userShareOverview}" rerender="overviewDialog, shareDialog, messages" onComplete="bindUserAutoComplete();showModalPopup();">
+            <apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
+        </apex:actionFunction>
+        <apex:actionFunction status="ajax-status" name="userMultipleShare" action="{!userMultipleShare}" rerender="overviewDialog, shareDialog, messages" onComplete="bindUserAutoComplete();uncheckAllDoc();showModalPopup();">
+            <apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+        </apex:actionFunction> 
+         <apex:actionFunction status="ajax-status" name="addToBasket" action="{!addToBasket}" rerender="messages, currentBasketItemsNo, downloadAllCalendarItems">
+            <apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
+        </apex:actionFunction>
+        <apex:actionFunction status="ajax-status" name="removeFromBasket" action="{!removeFromBasket}" rerender="messages, currentBasketItemsNo, downloadAllCalendarItems">
+            <apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
+        </apex:actionFunction>
+        <apex:actionFunction status="ajax-status" name="addToBasketMultiple" action="{!addToBasketMultiple}" rerender="messages, currentBasketItemsNo, downloadAllCalendarItems" onComplete="uncheckAllDoc();">
+            <apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+        </apex:actionFunction>
+        <apex:actionFunction status="ajax-status" name="removeFromBasketMultiple" action="{!removeFromBasketMultiple}" rerender="messages, currentBasketItemsNo, downloadAllCalendarItems" onComplete="uncheckAllDoc();">
+            <apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+        </apex:actionFunction>
+        <apex:actionFunction status="ajax-status" name="addToFollow" action="{!addToFollow}" rerender="messages, currentFollowedItemsNo, downloadAllCalendarItems">
+            <apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
+        </apex:actionFunction>
+        <apex:actionFunction status="ajax-status" name="removeFromFollow" action="{!removeFromFollow}" rerender="messages, currentFollowedItemsNo, downloadAllCalendarItems">
+            <apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
+        </apex:actionFunction>
+        <apex:actionFunction status="ajax-status" name="addToFollowMultiple" action="{!addToFollowMultiple}" rerender="messages, currentFollowedItemsNo, downloadAllCalendarItems" onComplete="uncheckAllDoc();">
             <apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
             <apex:param name="selAll" assignTo="{!R_MultInFollowWithselAll}" value="" />
-        </apex:actionFunction>      
+        </apex:actionFunction>
+        <apex:actionFunction status="ajax-status" name="removeFromFollowMultiple" action="{!removeFromFollowMultiple}" rerender="messages, currentFollowedItemsNo, downloadAllCalendarItems" onComplete="uncheckAllDoc();">
+            <apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
+            <apex:param name="selAll" assignTo="{!R_MultInFollowWithselAll}" value="" />
+        </apex:actionFunction>
+        -->      
     </apex:form>
 
     <div id="moreInfo" class="hidden dialog" >

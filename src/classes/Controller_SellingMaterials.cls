@@ -610,18 +610,13 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
 				if(currentSubSection != '' && currentSubSection != null){
 					queryString += ' AND Sub_Sub_Category__c in (\''+currentSubSection+'\') ';
 				}
-				
+				system.debug('^^^isFiltering::'+isFiltering+'@@ selectedPortfolio::'+selectedPortfolio+'@@ selectedRTS::'+selectedRTS);
 				list<String> cl = new list<String>();				
 				// Start : Changes for US588/DE698 - Geeta Kumawat
-				if(brandIdsString != null && brandIdsString != ''){
-					cl.add(' (( content_description__r.Content_Id__c in ('+brandIdsString+') ) )');
-				}
-				if(!isFiltering){
-					if(!selectedPortfolio && !selectedRTS && !selectedTBA ){
-					//if(!selectedPortfolio && !selectedRTS && !selectedTBA && !brandIdsSet.isEmpty() ){
-						/*if(brandIdsString != null && brandIdsString != ''){
+				if(!selectedPortfolio && !selectedRTS && !selectedTBA && !isFiltering){
+						if(brandIdsString != null && brandIdsString != ''){
 							cl.add(' ( content_description__r.Content_Id__c in ('+brandIdsString+') ) ');
-						}*/
+						}
 
 						if(siteTheme != 'Wine'){
 							List<Brand__c> rtsBrandList = Service_API.getRTSBrands();
@@ -638,13 +633,15 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
 							cl.add(' ( content_description__r.Portfolio__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\')  ) ');
 						}
 	                    cl.add(' ( content_description__r.TBA__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ');
-					}
 				}else{
 					/*if(!selectedBrandIdsList.isEmpty()){
 						if(brandIdsString != null && brandIdsString != ''){
 							cl.add(' (( content_description__r.Content_Id__c in ('+brandIdsString+') ) )');
 						}
 					}*/
+					if(brandIdsString != null && brandIdsString != '' && isFiltering){
+						cl.add(' (( content_description__r.Content_Id__c in ('+brandIdsString+') ) )');
+					}
 		            if (selectedPortfolio && siteTheme != 'Wine') {
 						cl.add(' ( content_description__r.Portfolio__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ');
 		            }

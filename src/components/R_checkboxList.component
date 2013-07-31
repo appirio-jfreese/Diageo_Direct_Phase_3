@@ -6,9 +6,11 @@
 			var bIndeterminate = false;
 			var bChecked = false;
 			var i=0;
+			//var currentCB = jQuery(currentdiv).find("input[type='checkbox']");
 			jQuery("."+childClass).each(function() {
 					
 			//alert('in subop :'+jQuery(this).prop('checked'));
+			console.log('in subop :'+jQuery(this).prop('checked'));
     		if(jQuery(this).is(':checked')){
     			bIndeterminate = true
 			  	if(!bChecked && i == 0)
@@ -27,15 +29,23 @@
 			if(childClass == '{!siteTheme}' && !bChecked && !bIndeterminate){
 				alert('{!$Label.SubThemeOptionError}' + " '" + '{!siteTheme}' + "'..!!!");
 				currentCB.checked = !currentCB.checked;
-				calledOnClick = false;
+				jQuery(currentCB).parent().find('a').addClass('jqTransformChecked');
+    			calledOnClick = false;
 			}
 			else{
 				var parentCheckBoxId;
 				jQuery("."+childClass+"_P").each(function() {
-					parentCheckBoxId = jQuery(this).attr('id');
+					//parentCheckBoxId = jQuery(this).attr('id');
 					jQuery(this).prop('checked',bChecked);
 					jQuery(this).prop('indeterminate',bIndeterminate);
-					
+					var aLink = jQuery(this).parent().find('a');
+	    			//Change to support Active/Inactive status switch 
+					if ( bChecked || bIndeterminate){
+						aLink.addClass('jqTransformChecked');		
+					}else{
+						aLink.removeClass('jqTransformChecked');		
+					}
+    			
 				});
 			}
 			
@@ -47,10 +57,20 @@
 			var bChecked;
 			jQuery("."+childClass+"_P").each(function() {
 					bChecked = jQuery(this).is(':checked');
+					console.log('in parentOp bChecked:'+jQuery(this).prop('checked'));
+    			
 			});
 			
 			jQuery("."+childClass).each(function() {
     			jQuery(this).prop('checked',bChecked);
+    			var aLink = jQuery(this).parent().find('a');
+    			//Change to support Active/Inactive status switch 
+				if ( !bChecked ){
+					aLink.removeClass('jqTransformChecked');		
+				}else{
+					aLink.addClass('jqTransformChecked');		
+				}
+    			console.log('in parentOp child:'+jQuery(this).prop('checked'));
     			//alert('in p :'+jQuery(this).prop('checked'));
 			});
 			
@@ -87,19 +107,20 @@
         	</script>
         	<apex:repeat value="{!themeOptions}" var="option">
    				<li>
-                 <a href="#" onclick="javascript:;" index="{!CEILING(ind)}">
-                        <apex:inputCheckbox styleClass="{!option.name}_P noTransform" value="{!option.chosen}" disabled="{!option.disabled}" onclick="parentOptionChange('{!option.name}', true)" /> {!option.name}
-                     <!-- <input type="checkbox" class="{!option.name}_P noTransform" value="{!option.chosen}" disabled="{!option.disabled}" onclick="parentOptionChange('{!option.name}', true)" /> {!option.name}
-                 --></a>
-             	</li>
-             	<apex:repeat value="{!option.subOptions}" var="subOp">
+                    <div class="option" href="#" index="{!CEILING(ind)}" >
+                        <apex:inputCheckbox styleClass="{!option.name}_P" value="{!option.chosen}" onchange="parentOptionChange('{!option.name}',true)" disabled="{!option.disabled}" /> 
+                        <label>{!option.name}</label>
+                    </div>
+                </li>
+   				<apex:repeat value="{!option.subOptions}" var="subOp">
              		<apex:variable var="ind" value="{!ind+1}"/>
              		<li class="indent">
-	                 <a href="#" index="{!CEILING(ind)}">
-	                     <apex:inputCheckbox styleClass="{!option.name} noTransform" value="{!subOp.chosen}" disabled="{!subOp.disabled}" onclick="subOptionChange('{!option.name}', true,this)" /> {!subOp.name}
-	                 </a>
-	             	</li>
-	             	<script type="text/javascript">
+                            <div class="option" href="#" index="{!CEILING(ind)}">
+                                <apex:inputCheckbox styleClass="{!option.name}" onchange="subOptionChange('{!option.name}', true,this)" value="{!subOp.chosen}" disabled="{!subOp.disabled}" />
+                                <label>{!subOp.name}</label>
+                            </div>
+                    </li>
+             		<script type="text/javascript">
 						allChildClasses[allChildClasses.length] = '{!option.name}';
 					</script>
              	</apex:repeat>

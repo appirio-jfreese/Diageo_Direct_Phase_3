@@ -404,7 +404,8 @@
         }
         function reloadClassificationFilter(){
         	jQuery(".result-filter-layer").hide();
-        	updateClassificationLblHeight();
+        	updateClassification();
+        	resetFormLeft();
         	jQuery(".sm-filter").jqTransform();
         	jQuery(".sm-filter .select-filter-all input").change(function() {
 	            var input = jQuery(this);
@@ -425,7 +426,7 @@
         
        	function loadFilterJs(){
        		//console.log('in loadFilterJs');
-        	 updateClassificationLblHeight();	
+        	 updateClassification();	
 		     reRenderFilterJS();
         	 jQuery(".content > .button-line a").click(function() {
 		        	//alert('in .content > .button-line a click' );
@@ -439,6 +440,7 @@
 		                    var bv_ok_len = jQuery(".bv-ok-filter .inner a").length
 		                    if(len > 0 && bv_ok_len >0) related = 'bv-ok-filter';
 		                }
+		                jQuery("."+related).show();
 		                if(related === 'time-filter' && jQuery(".time-filter .quarterly") != "undefined") {
 		                    jQuery(".time-filter .quarterly").flexslider({
 		                        animation: "slide",
@@ -454,8 +456,11 @@
 		                    });
 		                    updateSlideNxtPrevBtn('quarterly');
 		                }
-		
-		                jQuery("."+related).show();
+						else if(related === 'brand-filter') {
+		                    resetBrandClass();
+		                }
+						resetFormLeft();
+		                
 		            }
 		            a.parent().find("a").removeClass("active");
 		            a.addClass("active");
@@ -469,6 +474,7 @@
 		            var a = jQuery(this);
 		            if(a.hasClass("other-btn")) {
 		                jQuery(".brand-filter .other").toggle();
+		                resetBrandClass();
 		                return false;
 		            }
 		            a.toggleClass("selected");
@@ -522,7 +528,10 @@
 		            });
 		        });
 		        
-		
+				jQuery(window).resize(function() {
+		            resetFormLeft();
+		            resetBrandClass();
+		        });
 		        jQuery(".time-filter .button-line a").click(function() {
 		        
 		            var a = jQuery(this);
@@ -737,8 +746,8 @@
         	preApplyFilters();
         	
         }
-        function updateClassificationLblHeight() {
-        	console.log('---updateClassificationLblHeight');
+        function updateClassification() {
+        	console.log('---updateClassification');
         	var classification = jQuery('.sm-filter .inner');
         	var smCheckBoxes = '';
         	classification.find('td').each(function(){
@@ -751,18 +760,39 @@
 			
 			smCheckBoxes += '<div class="clear"></div>';
 			classification.html(smCheckBoxes);
-			jQuery(".sm-filter .form-left label").each(function() {
-	              var lbl = jQuery(this);
-	              var data= lbl.html();
-	              console.log('lbl.height()--'+data.length);
-	              if(data.length > 30) {
-	              	lbl.addClass("two-lines");
-	              }
-	              else if(data.length < 30) {
-	                  lbl.removeClass("two-lines");
-	              }
-	         });
-         }
+		 }
+         function resetFormLeft() {
+            jQuery(".result-filter-layer .form-left label").each(function() {
+                var label = jQuery(this);
+                if(label.height() > 70) {
+                    label.addClass("two-lines");
+                }
+                else if(label.height() < 20) {
+                    label.removeClass("two-lines");
+                }
+            });
+        }
+         function resetBrandClass() {
+            jQuery(".brand-filter .brands a.text").each(function() {
+                var a = jQuery(this);
+                if(a.height() > 50) {
+                    a.addClass("two-lines");
+                }
+                else if(a.height() < 35) {
+                    a.removeClass("two-lines");
+                }
+            });
+            jQuery(".brand-filter .other .name").each(function() {
+                var span = jQuery(this);
+                console.log('in resetBrandClass other brand:: '+span.height());
+                if(span.height() > 50) {
+                    span.parent().addClass("two-lines");
+                }
+                else if(span.height() < 35) {
+                    span.parent().removeClass("two-lines");
+                }
+            });
+        }
         
     </script>
     
