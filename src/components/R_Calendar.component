@@ -1,0 +1,71 @@
+<apex:component controller="Controller_Base">
+<apex:attribute name="monthName" description="Month name to Display" type="string" required="true"/>
+<apex:attribute name="selYear" description="Selected Year in Calendar" type="string" required="true"/>
+<apex:attribute name="selMonth" description="Selected Month in Calendar" type="string" required="true"/>
+    
+
+
+
+<!--  START :: Calendar-Head -->
+    <div class="calendar-head">
+     <a href="javascript:void(0);" onclick="previousMonth();" class="prev isv-bg">
+         <span></span>
+     </a>          
+        <a href="javascript:void(0);" class="date with-dropdown">{!monthName}</a>               
+     <a href="javascript:void(0);" onclick="nextMonth();" class="next isv-bg">
+         <span></span>
+     </a>
+    
+        <!--  START :: Popover Section -->
+        <div class="popover">
+        <apex:outputPanel id="popoverPanel">
+        
+            <div class="select">
+                <a href="javascript:void(0);" onclick="popoverPrev();" class="">Prev</a>
+                <apex:selectList value="{!selMonth}" size="1" styleClass="selMonth">
+                    <apex:selectOptions value="{!monthOptions}"/>
+                </apex:selectList>
+                <apex:selectList value="{!selYear}" size="1" styleClass="selYear">
+                    <apex:selectOptions value="{!yearOptions}"/>
+                </apex:selectList>                      
+                <a href="javascript:void(0);" onclick="popoverNext();">Next</a>
+            </div>
+            <div class="buttons">
+                <a href="javascript:;" class="isv-bg " onclick="setTodayDate();">Today</a>
+                <a href="javascript:;" class="isv-bg close-btn">Close</a>
+                <a href="javascript:;" class="isv-bg select-btn" 
+                onclick="setStartDate();">
+                Select
+                </a>
+            </div>
+        </apex:outputPanel>
+        </div>
+        <!--  END :: Popover Section -->
+    </div>
+    <!--  END :: Calendar-Head -->
+    
+    <script>
+      function loadCalenderJs(){
+        jQuery(".doc-list .list-view .doc").jqTransform();
+        jQuery(".filter").jqTransform();
+        jQuery(".calendar-head a.with-dropdown").click(function() {
+            var a = jQuery(this);
+            var d = a.closest(".calendar-head");
+            var p = jQuery(".popover", d);
+            p.css({
+                    left: a.position().left - 60
+            }).show();
+        });
+        jQuery(".calendar-head .popover .close-btn, .calendar-head .popover .select-btn").click(function() {
+            jQuery(".calendar-head .popover").hide();
+        });
+      }
+      
+      function setStartDate(){
+        var mnthVal = jQuery(".calendar-head .popover .select .selMonth").val();
+        var yrVal = jQuery(".calendar-head .popover .select .selYear").val();
+        setStartDateValue(yrVal+'-'+mnthVal+'-01');
+      }
+    </script>
+    <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/CalendarJQ.js')}"></script>
+</apex:component>
