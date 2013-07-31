@@ -138,10 +138,10 @@ Story/Task  : US612/DE634
             <apex:param name="switchSection" assignTo="{!currentSection}" value=""/>
     </apex:actionFunction>
     
-    <apex:actionFunction status="ajax-status" name="userShareOverview" action="{!userShareOverview}" rerender="overviewDialog, shareDialog, messages" onComplete="sectionVisibility();showModalPopup();">
+    <apex:actionFunction status="ajax-status" name="userShareOverview" action="{!userShareOverview}" rerender="overviewDialog, shareDialog, messages" onComplete="bindUserAutoComplete();sectionVisibility();showModalPopup();">
             <apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
         </apex:actionFunction>                          
-        <apex:actionFunction status="ajax-status" name="userMultipleShare" action="{!userMultipleShare}" rerender="overviewDialog, shareDialog, messages" onComplete="sectionVisibility();showModalPopup();">
+        <apex:actionFunction status="ajax-status" name="userMultipleShare" action="{!userMultipleShare}" rerender="overviewDialog, shareDialog, messages" onComplete="bindUserAutoComplete();sectionVisibility();showModalPopup();">
             <apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
         </apex:actionFunction>  
         

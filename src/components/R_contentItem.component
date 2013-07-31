@@ -610,13 +610,6 @@ Story/Task  : US585/TA1082
                 <a href="javascript: userTryToShare('{!cvid1}'); userShareOverview('{!cvid1}');" class="share"></a>
             </apex:outputPanel>
             <!-- END SHARE ICONS -->
-                        
-            <!-- START PREVIEW ICONS -->
-            <apex:outputtext rendered="{!IF(isVideo1==false && previewAvailable1==true && fileType1!='LINK', 'true','false')}" styleClass="item-buttons">
-                <div title="PREVIEW" class="preview" onclick="userTryToShare('{!cvid1}'); userShareOverview('{!cvid1}');">&nbsp;</div>
-            </apex:outputtext>
-            <!-- END PREVIEW ICONS -->
-                        
                         <!-- START EDIT ICONS -->
             <apex:outputPanel rendered="{!AND(AND(editable,allowFileEdit),AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1!='LINK'))}">
                 <div title="EDIT" class="edit" onclick="setFileToEdit('{!cvid1}');showDialog('editFileInfo');">&nbsp;</div>
@@ -624,13 +617,13 @@ Story/Task  : US585/TA1082
             <!-- END EDIT ICONS -->
             
             <!-- START CONVERSATION ICONS -->
-                        <apex:outputPanel rendered="{!allowFileConversation}">
-                            <div title="CONVERSATIONS ({!numberOfComments})" class="conversation" onclick="userAddComment('{!cid}'); jQuery('#addCommentInfo').addClass('readyToShowInvisible'); showDialog('addCommentInfo', true);">&nbsp;</div>
-                        </apex:outputPanel>
-                        <!-- END CONVERSATION ICONS -->
+			<apex:outputPanel rendered="{!allowFileConversation}">
+				<div title="CONVERSATIONS ({!numberOfComments})" class="conversation" onclick="userAddComment('{!cid}'); jQuery('#addCommentInfo').addClass('readyToShowInvisible'); showDialog('addCommentInfo', true);">&nbsp;</div>
+			</apex:outputPanel>
+			<!-- END CONVERSATION ICONS -->
                         
-                        <!-- START BASKET ICONS -->
-                <apex:outputPanel rendered="{!AND(NOT(isBasketAction),OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK')))}">
+			<!-- START BASKET ICONS -->
+			<apex:outputPanel rendered="{!AND(NOT(isBasketAction),OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK')))}">
                 <apex:outputPanel rendered="{!AND(inBasket==false)}">
                     <a href="javascript: addToBasket('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');" class="add-to-basket"></a>
                 </apex:outputPanel>
@@ -642,32 +635,41 @@ Story/Task  : US585/TA1082
                 <a href="javascript: removeFromBasket('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');" class="add-to-basket remove-basket"></a>
             </apex:outputPanel>
             <!-- END BASKET ICONS -->
+            
             <!-- START FOLLOW ICONS -->
-                        <apex:outputPanel rendered="{!AND(NOT(isFollowAction),OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK')))}">
-                <apex:outputPanel rendered="{!AND(inFollow==false)}">
-                    <a href="javascript: addToFollow('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');" class="follow"></a>
-                </apex:outputPanel>
-                <apex:outputPanel rendered="{!AND(inFollow==true)}">
-                        <a href="javascript: removeFromFollow('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');" class="follow unfollow"></a>
-                </apex:outputPanel>
+			<apex:outputPanel rendered="{!AND(NOT(isFollowAction),OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK')))}">
+				<apex:outputPanel rendered="{!AND(inFollow==false)}">
+					<a href="javascript: addToFollow('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');" class="follow"></a>
+				</apex:outputPanel>
+				<apex:outputPanel rendered="{!AND(inFollow==true)}">
+					<a href="javascript: removeFromFollow('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');" class="follow unfollow"></a>
+				</apex:outputPanel>
             </apex:outputPanel>
             <apex:outputPanel rendered="{!AND(isFollowAction,OR(AND(isVideo1==true, NOT(ISNULL(videoId1))),AND(isVideo1==false,fileType1!='LINK')))}">
                 <a href="javascript: removeFromFollow('{!if(ISNULL(cvid1), cvidlow1,cvid1)}');" class="follow unfollow"></a>
             </apex:outputPanel>
             <!-- END FOLLOW ICONS -->
+            
             <!-- START LAUNCH LINK -->
-            <apex:outputPanel rendered="{!AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1=='LINK')}">
-                            <a href="{!title1}" target="_blank" class="openlink"></a>
-                        </apex:outputPanel>
-                        <!-- END LAUNCH LINK -->
+			<apex:outputPanel rendered="{!AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1=='LINK')}">
+				<a href="{!title1}" target="_blank" class="openlink"></a>
+			</apex:outputPanel>
+            <!-- END LAUNCH LINK -->
+                        
+            <!-- START PREVIEW ICONS -->
+            <apex:outputtext rendered="{!IF(isVideo1==false && previewAvailable1==true && fileType1!='LINK', 'true','false')}" styleClass="item-buttons">
+                <div title="PREVIEW" class="preview" onclick="userTryToShare('{!cvid1}'); userShareOverview('{!cvid1}');">&nbsp;</div>
+            </apex:outputtext>
+            <!-- END PREVIEW ICONS -->
+			
             </div>
-              <a href="javascript:;" class="{!pageNamePrefix}-bg setting-btn">
-                    <span></span>
-                    </a>
-                    <apex:outputPanel rendered="{!NOT(AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1=='LINK'))}">
-                        <input type="checkbox" class="{!IF(isVideo1==true, 'videofile','')} {!IF(fileType1=='LINK', 'linkfile','')}" name="{! IF (fileSize1 != null, fileSize1, '0kb')}"/>
-                    </apex:outputPanel>
-                </apex:outputPanel>
+			<a href="javascript:;" class="{!pageNamePrefix}-bg setting-btn">
+				<span></span>
+			</a>
+			<apex:outputPanel rendered="{!NOT(AND(isVideo1==false,!ISNULL(cvid1),ISNULL(cvidlow1),ISNULL(imageRes1),fileType1=='LINK'))}">
+				<input type="checkbox" class="{!IF(isVideo1==true, 'videofile','')} {!IF(fileType1=='LINK', 'linkfile','')}" name="{! IF (fileSize1 != null, fileSize1, '0kb')}"/>
+			</apex:outputPanel>
+			</apex:outputPanel>
             </div>
     </apex:outputPanel>
     <!-- End : Changes for US585/TA1082 - Basant Verma -->

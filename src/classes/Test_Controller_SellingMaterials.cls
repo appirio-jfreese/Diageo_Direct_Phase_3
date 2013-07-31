@@ -255,7 +255,7 @@ private class Test_Controller_SellingMaterials{
         
        static testmethod void testCnstructor4b(){
          
-          PageReference pageRef = Page.SellingMaterials;
+          PageReference pageRef = Page.R_SellingMaterials;
          Test.setCurrentPage(pageRef);
          
          TestSettings ts = new TestSettings();
@@ -297,7 +297,9 @@ private class Test_Controller_SellingMaterials{
 
              c.currentSection = Constant.FACT_SHEETS;
              c.clearVariantBrandsSelected();
-       c.switchToMonthView();
+       		 c.switchToMonthView();
+       		 c.selectedTimePeriods = '0,1,2,3,4,5,6,7,8,9,10,11';
+             c.refreshPageContent(); 
           }
          Test.stopTest();
        }       
@@ -314,6 +316,9 @@ private class Test_Controller_SellingMaterials{
              Controller_SellingMaterials c = new Controller_SellingMaterials();
              c.selectedBrandIds = ts.parentBrands[0].id;
              c.selectedChildBrandIds = ts.childBrands1[0].id;
+             c.selectedRTS = true;
+             c.selectedTBA = true;
+             c.selectedPortfolio = true;
              c.changeFilter();
              
              c.renderAsList();

@@ -155,10 +155,10 @@ Story/Task	: US585/TA1082
 	</div>
 	</body>
 	<apex:form >
-		<apex:actionFunction status="ajax-status" name="userShareOverview" action="{!userShareOverview}" rerender="overviewDialog, shareDialog, messages" onComplete="sectionVisibility();showModalPopup();">
+		<apex:actionFunction status="ajax-status" name="userShareOverview" action="{!userShareOverview}" rerender="overviewDialog, shareDialog, messages" onComplete="bindUserAutoComplete();sectionVisibility();showModalPopup();">
 			<apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
 		</apex:actionFunction>
-		<apex:actionFunction status="ajax-status" name="userMultipleShare" action="{!userMultipleShare}" rerender="overviewDialog, shareDialog, messages" onComplete="sectionVisibility();showModalPopup();">
+		<apex:actionFunction status="ajax-status" name="userMultipleShare" action="{!userMultipleShare}" rerender="overviewDialog, shareDialog, messages" onComplete="bindUserAutoComplete();sectionVisibility();showModalPopup();">
 			<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
 		</apex:actionFunction> 
 		<apex:actionFunction status="ajax-status" name="addToBasket" action="{!addToBasket}" rerender="messages, currentBasketItemsNo, sliderContentItemsBxLs, downloadAllCalendarItems" onComplete="jqTransformScript(); sectionVisibility();">
@@ -201,15 +201,17 @@ Story/Task	: US585/TA1082
 		</apex:outputPanel>        
 	</div> 
 
-	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4DetailPage.js')}"></script>
+	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/docKeyDown4DetailPage.js')}"></script> 
 	<!-- <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/commonFunctions.js')}"></script>
 	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/common4DetailPage.js')}"></script> -->
 	<!-- START : New Script Added -->
+
 	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/R_DetailPages.js')}"></script>
 	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/contentItemCheckBox.js')}"></script>
 	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/sectionOptions.js')}"></script>
 	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/contentViewMode.js')}"></script>
 	<script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/contentViewShare.js')}"></script>
+
 	<script type="text/javascript">
 	/*****************************************************************************
 				START : THIS JAVASCRIPT MUST BE IN PAGE ITSELF

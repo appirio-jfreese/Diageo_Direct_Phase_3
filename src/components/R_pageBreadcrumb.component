@@ -131,7 +131,7 @@ Story/Task	: DE705
                             <apex:repeat value="{!menuLinks}" var="menuLink">
                             
                                 <apex:repeat value="{!menuLink.subLinks}" var="subMenuLink">
-                                    <a href="{!subMenuLink.link}">{!subMenuLink.linkName}</a> 
+                                    <a href="{!subMenuLink.link}" style="line-height: 1;">{!subMenuLink.linkName}</a> 
                                 </apex:repeat>
                                                             
                                 <a name="subnavtitle" href="{!menuLink.link}" onlick="{!if(menuLink.subLinks.size==0,'','return false;')}" class="{!if(menuLink.subLinks.size==0,'','topNavRoot')}" target="{!IF(OR(menuLink.linkName == 'DWS', menuLink.linkName == 'diageowines.com'), '_blank', '_self')}">{!menuLink.linkName}</a>
