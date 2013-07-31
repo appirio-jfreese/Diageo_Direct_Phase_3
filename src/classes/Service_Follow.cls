@@ -17,7 +17,7 @@ public without sharing class Service_Follow {
                 if(!followIds.contains(cvId))
                     cvIds.add(cvId);
             }
-            
+            System.debug('---- content Id'+cvIds);
             if(cvIds.size() > 0){
                 List<Content_Subscription__c> subsList = new List<Content_Subscription__c>(); 
                 
@@ -57,8 +57,8 @@ public without sharing class Service_Follow {
             
             ContentVersion prevCv = null;
             for(ContentVersion cv : [SELECT Id, ContentDocumentId, VersionNumber 
-                FROM ContentVersion 
-                WHERE ContentDocumentId IN :docIds ORDER BY ContentDocumentId, VersionNumber desc]){
+                FROM ContentVersion // Added isLatest = true in the below query by Jai Gupta [Appirio Jaipur] on July 23,2013 for case #00006101
+                WHERE ContentDocumentId IN :docIds AND isLatest = true ORDER BY ContentDocumentId, VersionNumber desc]){
                 if(prevCv == null || (prevCv != null && prevCv.ContentDocumentId != cv.ContentDocumentId)){
 									prevCv = cv;
                 	followIds.add(prevCv.Id);
