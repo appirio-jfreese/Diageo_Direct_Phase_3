@@ -35,13 +35,13 @@ Story/Task  : US685/DE679
                             <apex:messages styleClass="errorMessagesList" />
                         </apex:outputPanel>
                         
-                        <apex:actionFunction status="ajax-status" name="renderAsListSlider" action="{!renderAsListSlider}" rerender="messages, sliderContentItemsBxLs"/>
-                        <apex:actionFunction status="ajax-status" name="renderAsBoxSlider" action="{!renderAsBoxSlider}" rerender="messages, sliderContentItemsBxLs"/>
+                        <apex:actionFunction name="renderAsListSlider" action="{!renderAsListSlider}" rerender="messages, sliderContentItemsBxLs" onComplete="jqTransformScript(); sectionVisibility();"/>
+                        <apex:actionFunction name="renderAsBoxSlider" action="{!renderAsBoxSlider}" rerender="messages, sliderContentItemsBxLs" onComplete="jqTransformScript(); sectionVisibility();"/>
                         
                         <apex:outputPanel rendered="{! if( detailId != null, 'true','false' )}" id="pageContent">
                             <div class="button-line five-btns">
                                 <!-- START : Added width to make it use full screen size, for US685/DE679 - Basant -->
-                                <a style="width: 23.954514501%" href="javascript:;" class="active mep-bg section-options">Overview</a>
+                                <a style="width: 23.954514501%" href="javascript:;" class="mep-bg active section-options">Overview</a>
                                 <!-- END : Added width to make it use full screen size, for US685/DE679 - Basant -->
                                 <apex:repeat value="{!detailsMapOrder}" var="silderSection">
                                 		<!-- START : Added width to make it use full screen size, for US685/DE679 - Basant -->
@@ -74,7 +74,7 @@ Story/Task  : US685/DE679
                             
                             <!-- slider section -->
                             <apex:outputPanel id="sliderContentItemsBxLs">
-                            <c:R_OperationLines showPages="false" R_MultInFollow="{!R_MultInFollowWithselAll}" pageNamePrefix="mep" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
+                            <c:R_OperationLines showPages="false" renderAsList="{!displayAsList}" R_MultInFollow="{!R_MultInFollowWithselAll}" pageNamePrefix="mep" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
                     <div class="doc-list">
                         <div class="list-view">
                             <apex:repeat value="{!detailsMapOrder}" var="silderSection">                    
@@ -168,40 +168,6 @@ Story/Task  : US685/DE679
         		<apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
             <apex:param name="selAll" assignTo="{!R_MultInFollowWithselAll}" value="" />
         </apex:actionFunction>
-        <!--
-         <apex:actionFunction status="ajax-status" name="userShareOverview" action="{!userShareOverview}" rerender="overviewDialog, shareDialog, messages" onComplete="bindUserAutoComplete();showModalPopup();">
-            <apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
-        </apex:actionFunction>
-        <apex:actionFunction status="ajax-status" name="userMultipleShare" action="{!userMultipleShare}" rerender="overviewDialog, shareDialog, messages" onComplete="bindUserAutoComplete();uncheckAllDoc();showModalPopup();">
-            <apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
-        </apex:actionFunction> 
-         <apex:actionFunction status="ajax-status" name="addToBasket" action="{!addToBasket}" rerender="messages, currentBasketItemsNo, downloadAllCalendarItems">
-            <apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
-        </apex:actionFunction>
-        <apex:actionFunction status="ajax-status" name="removeFromBasket" action="{!removeFromBasket}" rerender="messages, currentBasketItemsNo, downloadAllCalendarItems">
-            <apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
-        </apex:actionFunction>
-        <apex:actionFunction status="ajax-status" name="addToBasketMultiple" action="{!addToBasketMultiple}" rerender="messages, currentBasketItemsNo, downloadAllCalendarItems" onComplete="uncheckAllDoc();">
-            <apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
-        </apex:actionFunction>
-        <apex:actionFunction status="ajax-status" name="removeFromBasketMultiple" action="{!removeFromBasketMultiple}" rerender="messages, currentBasketItemsNo, downloadAllCalendarItems" onComplete="uncheckAllDoc();">
-            <apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
-        </apex:actionFunction>
-        <apex:actionFunction status="ajax-status" name="addToFollow" action="{!addToFollow}" rerender="messages, currentFollowedItemsNo, downloadAllCalendarItems">
-            <apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
-        </apex:actionFunction>
-        <apex:actionFunction status="ajax-status" name="removeFromFollow" action="{!removeFromFollow}" rerender="messages, currentFollowedItemsNo, downloadAllCalendarItems">
-            <apex:param name="cVersionId" assignTo="{!cVersionId}" value="" />
-        </apex:actionFunction>
-        <apex:actionFunction status="ajax-status" name="addToFollowMultiple" action="{!addToFollowMultiple}" rerender="messages, currentFollowedItemsNo, downloadAllCalendarItems" onComplete="uncheckAllDoc();">
-            <apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
-            <apex:param name="selAll" assignTo="{!R_MultInFollowWithselAll}" value="" />
-        </apex:actionFunction>
-        <apex:actionFunction status="ajax-status" name="removeFromFollowMultiple" action="{!removeFromFollowMultiple}" rerender="messages, currentFollowedItemsNo, downloadAllCalendarItems" onComplete="uncheckAllDoc();">
-            <apex:param name="cVersionIds" assignTo="{!cVersionIds}" value="" />
-            <apex:param name="selAll" assignTo="{!R_MultInFollowWithselAll}" value="" />
-        </apex:actionFunction>
-        -->      
     </apex:form>
 
     <div id="moreInfo" class="hidden dialog" >

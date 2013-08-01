@@ -18,7 +18,9 @@
 <apex:attribute name="applyFilter" description=" Method for apply filter" type="String" required="true"/>
 
 <apex:attribute name="resetFilter" description=" Method for Reset filter" type="String" required="true"/>
-
+<script>
+var isShowTimePeriodFilter = {!showTimePeriodFilter};
+</script>
 <apex:actionFunction status="ajax-status" name="previousPeriodC" action="{!previousPeriodComp}" onComplete="loadFilterJs();" rerender="messages, timeFilterItem, parentBrands, variantBrands, smFilterItem">
 	<apex:param name="isMonthOrQuarterPrev" assignTo="{!monthOrQuarterRender}" value="" />
 </apex:actionFunction>
@@ -199,11 +201,14 @@
 	                    </a>
 	                    
 	                </div>
+	                <script>
+	                console.log('quarterViewsList:::{!quarterViewsList}');
+	                </script>
 	                <div class="date-selector quarterly">
 	                	<ul class="slides">
 	                        <apex:repeat value="{!quarterViewsList}" var="option">
 	                    	<li>
-	                            <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,option['value']) ,'selected','')}" name="{!option['value']}">
+	                            <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,option['value']) ,'selected','')}" name="{!option['value']}-{!option['year']}">
 	                            	<apex:outputPanel styleClass="month" rendered="{!if(option['className'] = 'jfm', true, false)}">
 	                                    <span>January</span><br></br>
 	                                    <span>February</span><br></br>
@@ -237,7 +242,7 @@
 	                        <li>
 							<apex:repeat value="{!monthViewsList}" var="option">
 							<apex:outputpanel layout="none" rendered="{!if(counter < 4,true,false)}" >
-							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}">
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
 	                                <span class="month">
 	                                    <span>{!option['monthName']} </span>
 	                                </span>
@@ -252,7 +257,7 @@
 							<apex:variable var="counter" value="{!1}" />
 	                        <apex:repeat value="{!monthViewsList}" var="option">
 							<apex:outputpanel layout="none" rendered ="{!if(counter > 3 && counter < 7,true,false)}" >
-							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}">
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
 	                                <span class="month">
 	                                    <span>{!option['monthName']}</span>
 	                                </span>
@@ -266,7 +271,7 @@
 							<apex:variable var="counter" value="{!1}" />
 	                        <apex:repeat value="{!monthViewsList}" var="option">
 							<apex:outputpanel layout="none" rendered ="{!if(counter > 6 && counter < 10,true,false)}" >
-							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}">
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
 	                                <span class="month" >
 	                                    <span>{!option['monthName']}</span>
 	                                </span>
@@ -279,8 +284,120 @@
 	                        <li>
 							<apex:variable var="counter" value="{!1}" />
 	                        <apex:repeat value="{!monthViewsList}" var="option">
-							<apex:outputpanel layout="none" rendered ="{!if(counter > 9 ,true,false)}" >
-							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}">
+							<apex:outputpanel layout="none" rendered ="{!if(counter > 9 && counter < 13 ,true,false)}" >
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
+	                                <span class="month">
+	                                    <span>{!option['monthName']}</span>
+	                                </span>
+	                                <span class="year">{!option['year']}</span>
+	                            </a>
+	                        </apex:outputpanel>
+	                        <apex:variable var="counter" value="{!counter+1}" />
+	                        </apex:repeat>
+	                        </li>
+	                        <li>
+							<apex:variable var="counter" value="{!1}" />
+	                        <apex:repeat value="{!monthViewsList}" var="option">
+							<apex:outputpanel layout="none" rendered ="{!if(counter > 12 && counter < 16 ,true,false)}" >
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
+	                                <span class="month">
+	                                    <span>{!option['monthName']}</span>
+	                                </span>
+	                                <span class="year">{!option['year']}</span>
+	                            </a>
+	                        </apex:outputpanel>
+	                        <apex:variable var="counter" value="{!counter+1}" />
+	                        </apex:repeat>
+	                        </li>
+	                        <li>
+							<apex:variable var="counter" value="{!1}" />
+	                        <apex:repeat value="{!monthViewsList}" var="option">
+							<apex:outputpanel layout="none" rendered ="{!if(counter > 15 && counter < 19 ,true,false)}" >
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
+	                                <span class="month">
+	                                    <span>{!option['monthName']}</span>
+	                                </span>
+	                                <span class="year">{!option['year']}</span>
+	                            </a>
+	                        </apex:outputpanel>
+	                        <apex:variable var="counter" value="{!counter+1}" />
+	                        </apex:repeat>
+	                        </li>
+	                        <li>
+							<apex:variable var="counter" value="{!1}" />
+	                        <apex:repeat value="{!monthViewsList}" var="option">
+							<apex:outputpanel layout="none" rendered ="{!if(counter > 18 && counter < 22 ,true,false)}" >
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
+	                                <span class="month">
+	                                    <span>{!option['monthName']}</span>
+	                                </span>
+	                                <span class="year">{!option['year']}</span>
+	                            </a>
+	                        </apex:outputpanel>
+	                        <apex:variable var="counter" value="{!counter+1}" />
+	                        </apex:repeat>
+	                        </li>
+	                        <li>
+							<apex:variable var="counter" value="{!1}" />
+	                        <apex:repeat value="{!monthViewsList}" var="option">
+							<apex:outputpanel layout="none" rendered ="{!if(counter > 21 && counter < 25 ,true,false)}" >
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
+	                                <span class="month">
+	                                    <span>{!option['monthName']}</span>
+	                                </span>
+	                                <span class="year">{!option['year']}</span>
+	                            </a>
+	                        </apex:outputpanel>
+	                        <apex:variable var="counter" value="{!counter+1}" />
+	                        </apex:repeat>
+	                        </li>
+	                        <li>
+							<apex:variable var="counter" value="{!1}" />
+	                        <apex:repeat value="{!monthViewsList}" var="option">
+							<apex:outputpanel layout="none" rendered ="{!if(counter > 24 && counter < 28 ,true,false)}" >
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
+	                                <span class="month">
+	                                    <span>{!option['monthName']}</span>
+	                                </span>
+	                                <span class="year">{!option['year']}</span>
+	                            </a>
+	                        </apex:outputpanel>
+	                        <apex:variable var="counter" value="{!counter+1}" />
+	                        </apex:repeat>
+	                        </li>
+	                        <li>
+							<apex:variable var="counter" value="{!1}" />
+	                        <apex:repeat value="{!monthViewsList}" var="option">
+							<apex:outputpanel layout="none" rendered ="{!if(counter > 27 && counter < 31 ,true,false)}" >
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
+	                                <span class="month">
+	                                    <span>{!option['monthName']}</span>
+	                                </span>
+	                                <span class="year">{!option['year']}</span>
+	                            </a>
+	                        </apex:outputpanel>
+	                        <apex:variable var="counter" value="{!counter+1}" />
+	                        </apex:repeat>
+	                        </li>
+	                        <li>
+							<apex:variable var="counter" value="{!1}" />
+	                        <apex:repeat value="{!monthViewsList}" var="option">
+							<apex:outputpanel layout="none" rendered ="{!if(counter > 30 && counter < 34 ,true,false)}" >
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
+	                                <span class="month">
+	                                    <span>{!option['monthName']}</span>
+	                                </span>
+	                                <span class="year">{!option['year']}</span>
+	                            </a>
+	                        </apex:outputpanel>
+	                        <apex:variable var="counter" value="{!counter+1}" />
+	                        </apex:repeat>
+	                        </li>
+	                        <li>
+							<apex:variable var="counter" value="{!1}" />
+	                        <apex:repeat value="{!monthViewsList}" var="option">
+							<apex:outputpanel layout="none" rendered ="{!if(counter > 33 && counter < 37 ,true,false)}" >
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
 	                                <span class="month">
 	                                    <span>{!option['monthName']}</span>
 	                                </span>
@@ -374,7 +491,7 @@
 				                        	
 				                        }
 				                    });
-				                    updateSlideNxtPrevBtn(related2);
+				                    //updateSlideNxtPrevBtn(related2);
 			                    }
 		                    });
 		                
@@ -454,7 +571,7 @@
 		                        	
 		                        }
 		                    });
-		                    updateSlideNxtPrevBtn('quarterly');
+		                    //updateSlideNxtPrevBtn('quarterly');
 		                }
 						else if(related === 'brand-filter') {
 		                    resetBrandClass();
@@ -561,7 +678,7 @@
 		                after: function() {
 		                 }
 		            });
-		           updateSlideNxtPrevBtn(related);
+		           //updateSlideNxtPrevBtn(related);
 		
 		        })
 		        jQuery(".time-filter .date-selector .slides a").click(function() {
@@ -694,17 +811,21 @@
         	jQuery('.result-filter-layer').find('input[type=hidden]').each(function(){
     	        var elemId = jQuery(this).attr('id');
     	        if( elemId != undefined){
-        	    	if(elemId.search('selectedQuarters') != -1){
-            			jQuery(this).val(selectedQuartersString);
-            		}else if(elemId.search('selectedBrandIds') != -1){
+        	    	if(elemId.search('selectedBrandIds') != -1){
             			jQuery(this).val(selectedBrandIdsString);
             		}else if(elemId.search('selectedChildBrandIds') != -1){
             			jQuery(this).val(selectedChildBrandIdsString);
             		}
-            		else if(elemId.search('monthOrQuarterRender') != -1){
-            			jQuery(this).val(isQuarterly);
-            			//console.log('monthOrQuarterRender:::'+jQuery(this).val());
-            		}else if(elemId.search('selectedRTS') != -1){
+            		if(isShowTimePeriodFilter){
+	            		if(elemId.search('selectedQuarters') != -1){
+	            			jQuery(this).val(selectedQuartersString);
+	            		}
+	            		else if(elemId.search('monthOrQuarterRender') != -1){
+	            			jQuery(this).val(isQuarterly);
+	            			//console.log('monthOrQuarterRender:::'+jQuery(this).val());
+	            		}
+            		}
+            		if(elemId.search('selectedRTS') != -1){
             			jQuery(this).val(isRTSSelected);
             			console.log('selectedRTS:::'+jQuery(this).val());
             		}else if(elemId.search('selectedPortfolio') != -1){

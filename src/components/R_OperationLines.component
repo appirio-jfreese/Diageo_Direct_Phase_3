@@ -12,6 +12,7 @@ Story/Task	: US585/TA1082
 	<apex:attribute name="allowAddBasket" description="for responsive Pages" type="Boolean" required="false" default="true" />
 	<apex:attribute name="allowFollow" description="for responsive Pages" type="Boolean" required="false" default="true" />
 	<apex:attribute name="showPages" description="for responsive Pages" type="Boolean" required="false" default="false" />
+	<apex:attribute name="renderAsList" description="for responsive Pages" type="Boolean" required="false" default="true" />
 	<apex:attribute name="pagesStatus" description="for responsive Pages" type="String" required="false" default="" />
 	
 	<apex:attribute name="options" description="Select option list" type="list" required="false"/>
@@ -63,8 +64,8 @@ Story/Task	: US585/TA1082
   
   <!-- START : Modified by Basant : Always Need to show List/Grid view buttons and Select All checkbox. It's visiblity does not depends on showPages param --> 
  	<div class="filter">
-	  	<a class="list-mode active {!pageNamePrefix}-bg"></a>
-	    <a class="grid-mode {!pageNamePrefix}-bg"></a>
+	  	<a class="list-mode {!IF(renderAsList, 'active', '')} {!pageNamePrefix}-bg"></a>
+	    <a class="grid-mode {!IF(NOT(renderAsList), 'active', '')} {!pageNamePrefix}-bg"></a>
  	    <apex:outputPanel rendered="{!if(showPages == true, 'true','false')}">
 		    <div class="desc">
 		         {!pagesStatus}

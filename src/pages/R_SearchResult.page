@@ -85,7 +85,7 @@ Story/Task  : US612/DE634
                         <apex:outputPanel id="pageContent">
                         <apex:variable value="1" var="firstRow"/>
  
-                        <c:R_OperationLines showPages="true" options="{!NumberOfItemsPerPageList}" R_MultInFollow="{!R_MultInFollowWithselAll}" value="{!numberOfItemsOnPage}" className="period-select"   pagesStatus="Showing {!showFromIndex+1}-{!showToIndex} of {!numberOfItems} documents" pageNamePrefix="mep" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
+                        <c:R_OperationLines showPages="true" options="{!NumberOfItemsPerPageList}" R_MultInFollow="{!R_MultInFollowWithselAll}" value="{!numberOfItemsOnPage}" className="period-select"   pagesStatus="Showing {!showFromIndex+1}-{!showToIndex} of {!numberOfItems} items" pageNamePrefix="mep" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
                             <div class="doc-list">
                             <!-- <div class="list-view">
                                         <h6>{!currentSection}</h6>

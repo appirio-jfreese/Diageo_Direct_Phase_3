@@ -38,8 +38,8 @@ Story/Task	: US585/TA1082
 							<apex:messages styleClass="errorMessagesList" />
 						</apex:outputPanel>
 						
-						<apex:actionFunction status="ajax-status" name="renderAsListSlider" action="{!renderAsListSlider}" rerender="messages, sliderContentItemsBxLs"/>
-						<apex:actionFunction status="ajax-status" name="renderAsBoxSlider" action="{!renderAsBoxSlider}" rerender="messages, sliderContentItemsBxLs"/>
+						<apex:actionFunction name="renderAsListSlider" action="{!renderAsListSlider}" rerender="messages, sliderContentItemsBxLs" onComplete="jqTransformScript(); sectionVisibility();"/>
+						<apex:actionFunction name="renderAsBoxSlider" action="{!renderAsBoxSlider}" rerender="messages, sliderContentItemsBxLs" onComplete="jqTransformScript(); sectionVisibility();"/>
 						
 						<apex:outputPanel rendered="{! if( detailId != null, 'true','false' )}" id="pageContent">
 							<div class="button-line three-btns">
@@ -106,7 +106,7 @@ Story/Task	: US585/TA1082
 							<!-- End of Overview section -->
 							<!-- slider section -->
 							<apex:outputPanel id="sliderContentItemsBxLs">
-								<c:R_OperationLines showPages="false" R_MultInFollow="{!R_MultInFollowWithselAll}" pageNamePrefix="isv" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
+								<c:R_OperationLines showPages="false" renderAsList="{!displayAsList}" R_MultInFollow="{!R_MultInFollowWithselAll}" pageNamePrefix="isv" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
 	            		<div class="doc-list">
 	            			<div class="list-view">
 				            	<apex:repeat value="{!detailsMapOrder}" var="silderSection">	            	

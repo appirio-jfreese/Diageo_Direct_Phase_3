@@ -23,7 +23,7 @@
 		if (!window.brightcove) {
 			if(!window.brightcoveLoading) {
 				window.brightcoveLoading = true;
-				var headID = document.getElementsByTagName("head")[0];         
+				var headID = document.getElementsByTagName("head")[0];
 				var newScript = document.createElement('script');
 				newScript.type = 'text/javascript';
 				newScript.src = 'https://sadmin.brightcove.com/js/BrightcoveExperiences_all.js';
@@ -35,7 +35,7 @@
 						clearInterval(timer);
 						brightcove.createExperiences('myExperience{!videoId}');
 					}
-				}, 100)
+				}, 1)
 			})();
 		} else {
 			brightcove.createExperiences('myExperience{!videoId}');

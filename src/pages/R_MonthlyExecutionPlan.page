@@ -186,9 +186,8 @@ Story/Task  : US585/TA1081
 
 <script type="text/javascript">
     jQuery(document).ready(function() {
-        loadCalenderJs();
-        
-    }); 
+        loadCalenderJs(); 
+	});    
 </script>
 
 <script type="text/javascript" src="{!URLFOR($Resource.RF_JQueries, 'js/jumpToDateKeyDown.js')}"></script>
