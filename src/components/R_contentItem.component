@@ -656,11 +656,11 @@ Story/Task  : US585/TA1082
 			</apex:outputPanel>
             <!-- END LAUNCH LINK -->
                         
-            <!-- START PREVIEW ICONS -->
+            <!-- START PREVIEW ICONS - not for responsive - jfreese 8/1/13
             <apex:outputtext rendered="{!IF(isVideo1==false && previewAvailable1==true && fileType1!='LINK', 'true','false')}" styleClass="item-buttons">
                 <div title="PREVIEW" class="preview" onclick="userTryToShare('{!cvid1}'); userShareOverview('{!cvid1}');">&nbsp;</div>
             </apex:outputtext>
-            <!-- END PREVIEW ICONS -->
+            END PREVIEW ICONS -->
 			
             </div>
 			<a href="javascript:;" class="{!pageNamePrefix}-bg setting-btn">
