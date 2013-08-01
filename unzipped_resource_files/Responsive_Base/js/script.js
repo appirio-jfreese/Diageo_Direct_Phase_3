@@ -60,16 +60,16 @@ $j(document).ready(function() {
         $j(window).resize(function() {
             $j.modal.resize();
         });
-		if($j(".modal").length > 0) {
-		  $j(window).bind( "orientationchange", function( event ) {
-			$j("#shareModal").modal();
+		$j(window).bind( "orientationchange", function( event ) {
+			if($j(".modal").css("display") != "none"){
+				$j("#shareModal").modal();
 				$j("#shareModal").css({
 					marginTop: - ($j("#shareModal").outerHeight(true) / 2),
 					marginLeft: - ($j("#shareModal").outerWidth(true) / 2)
 					
-				});        
-			});
-		}
+				});
+			}
+		});
     }
     $j("a").live("click", function() {
         var href = $j(this).attr("href");
