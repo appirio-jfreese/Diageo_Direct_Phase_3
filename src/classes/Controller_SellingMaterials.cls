@@ -228,7 +228,7 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
         selectedTBA = false;
         selectedBrandCategories = null;
     	Set<string> sectionSet = new Set<string>(sections);
-        if( !sectionSet.contains(currentSection) ) {
+        if( !sectionSet.contains(currentSection) && currentSection != 'Fact Sheets' ) {
             ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable switch section.' ));
    	        return;
     	}
@@ -243,7 +243,7 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
     // switch subSection
     public void switchSubSection() {
     	Set<string> subSectionSet = new Set<string>(subSections);
-        if( !subSectionSet.contains(currentSubSection) ) {
+        if( !subSectionSet.contains(currentSubSection) && currentSubSection != 'Fact Sheets'  ) {
             ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable switch section.' ));
    	        return;
     	}

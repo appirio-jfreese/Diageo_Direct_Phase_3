@@ -10,14 +10,25 @@ Story/Task	: DE705
     <apex:attribute name="menuLinks" description="" type="pageLink[]" required="true"/>
     <apex:attribute name="showExtendedBreancrumbs" description="" type="Boolean" required="false" default="false"/>
     <apex:attribute name="breadcrumbHolder" description="" type="BreadcrumbsHolder" required="false" />
-    
+
     <!-- CSS for site navigation dropdown -->
     <style type="text/css">
         /*Hide breadcrumb crumbs for screens under 670px, else hrefs turn into tabs*/
         @media only screen and (max-width: 670px) {
-            .breadcrumb a {
-                font-size: 13px;
+		.breadcrumb a {
+/*                font-size: 13px;    */
+				line-height: 1.25;
+				padding-top: 10px;
+				margin-bottom: -1px;
             }
+            
+            h2 span.title {
+            	line-height: 1.25;
+           	}
+           	
+           	h2 a.back-btn {
+           		font-weight: bold;
+           	}          
         }
         
         /*disable images, redefined below in .site-nav*/
@@ -125,21 +136,22 @@ Story/Task	: DE705
         <div class="inner">
             <span class="site-nav-wrapper">
                 <span class="site-nav">
-                    <!-- <img src="{!URLFOR($Resource.Responsive_Base, 'i/breadcrumb-icon.png')}" style="vertical-align: middle;"/> -->
+                    <!-- <img src="{!URLFOR($Resource.Responsive_Base, 'i/breadcrumb-icon.png')}" style="vertical-align: middle;"/> -->                
                     <span class="nav">
                         <span class="dropdown">
                             <apex:repeat value="{!menuLinks}" var="menuLink">
-                            
+
                                 <apex:repeat value="{!menuLink.subLinks}" var="subMenuLink">
                                     <a href="{!subMenuLink.link}" style="line-height: 1;">{!subMenuLink.linkName}</a> 
                                 </apex:repeat>
-                                                            
+
                                 <a name="subnavtitle" href="{!menuLink.link}" onlick="{!if(menuLink.subLinks.size==0,'','return false;')}" class="{!if(menuLink.subLinks.size==0,'','topNavRoot')}" target="{!IF(OR(menuLink.linkName == 'DWS', menuLink.linkName == 'diageowines.com'), '_blank', '_self')}">{!menuLink.linkName}</a>
                             </apex:repeat>
                         </span>
                     </span>
                 </span>
             </span>
+   
             <a href="{!$Page.R_HomePage}">Home</a>
             <apex:repeat rows="1" value="{!breadcrumbLinks}" var="breadcrumbLink">
                 >
