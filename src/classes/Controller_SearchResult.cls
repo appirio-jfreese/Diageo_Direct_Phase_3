@@ -12,8 +12,21 @@ Story/Task	: US612/DE636
 Modified By	: Basant Kumar Verma
 Date				: 7/17/2013
 Story/Task	: US612/DE634
+
+Modified By	: Basant Kumar Verma
+Date				: 8/02/2013
+Story/Task	: US612/DE716
+
+Modified By	: Basant Kumar Verma
+Date				: 8/02/2013
+Story/Task	: US585/DE678
 *******************************************************************************/
 public with sharing class Controller_SearchResult extends Controller_Base {
+		// START : Changed for US585/DE678 - Basant
+		// display as list (true) or box (false)
+    public Boolean displayAsList {get; set;}
+    // END : Changed for US585/DE678 - Basant
+    
 		//START : changed for US612/DE636 - Basant
 		private static final String RESPONSIVE = 'Responsive';	
 		//END : changed for US612/DE636 - Basant	
@@ -101,6 +114,9 @@ public with sharing class Controller_SearchResult extends Controller_Base {
     public Controller_SearchResult() {
     	// Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
 		//pageUrl = Page.MonthlyExecutionPlan.getUrl();
+		// START : Changed for US585/DE678 - Basant
+		displayAsList = true;
+		// END : Changed for US585/DE678 - Basant
 		pageUrl = ApexPages.currentPage().getUrl();
 		setResponsiveState();
     	sectionQuery = new map<string, string>();
@@ -139,7 +155,15 @@ public with sharing class Controller_SearchResult extends Controller_Base {
      	}
      	// END : Changed for US612/DE634 - Basant Verma
     }
+    // START : Changed for US585/DE678 - Basant
+    public void renderAsListSlider() {
+    	displayAsList = true; // other action if needed
+    }   
 
+    public void renderAsBoxSlider() {
+    	displayAsList = false; // other action if needed    	
+    }
+		// END : Changed for US585/DE678 - Basant
     // switch section
     public void switchSection() {
     	isDetails = true;
@@ -213,7 +237,7 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 		    	for(String sectionName : sectionOrder){
 		    		sectionQueryString = sectionQuery.get(sectionName);
 		    		// START : Changed for US612/DE634 - Basant Verma
-		    		sectionResultList = customSortByDate(database.query(sectionQueryString+' limit '+limitPerSection));
+		    		sectionResultList = database.query(sectionQueryString+' limit '+limitPerSection);
 		    		// END : Changed for US612/DE634 - Basant Verma
 			        if (isNewContent==false && sectionResultList!=null && sectionResultList.size()>0) {
 				        for (AggregateResult currentItem : sectionResultList) {
@@ -248,6 +272,30 @@ public with sharing class Controller_SearchResult extends Controller_Base {
     		Apexpages.addmessage(new apexpages.message(apexpages.severity.info, ex.getMessage()+' '+ex.getStackTraceString()));
     	}
     }
+    
+    // START : Changed for US612/DE716 - Basant Verma
+    // This Method will remove those entries where we have multiple Content Properties record on a single ContentDescription 
+    // ***** NOTE ***** : FOR RESPONSIVE SITE ONLY 
+    /*private List<AggregateResult> UniqueContentOnly(List<AggregateResult> inList){
+    	if(!isResponsive){
+    		return inList;
+    	}
+    	List<AggregateResult> uniqueResList = new List<AggregateResult>();
+    	Set<String> contentVIdSet = new Set<String>();
+	    if(inList != null && inList.size() > 0){
+	    	String tCvId = '';
+		    for(AggregateResult arg : inList){
+		    	tCvId = String.valueOf(arg.get('cvid'));
+		    	tCvId = (tCvId == null || tCvId.trim().equals('')) ? String.valueOf(arg.get('cvidlow')) : tCvId;
+		    	if(!contentVIdSet.contains(tCvId)){
+		    		contentVIdSet.add(tCvId);
+		    		uniqueResList.add(arg);
+		    	}
+		    }
+	    }
+	    return uniqueResList;
+    }*/
+    // END : Changed for US612/DE716 - Basant Verma
     
     // START : Changed for US612/DE634 - Basant Verma
     private List<AggregateResult> customSortByDate(List<AggregateResult> inList){
@@ -480,18 +528,24 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 		sectionQuery.put(CONSTANT.MULTICULTURAL, queryMUL);
 		/* End: changes for R_SearchResult page Harish Khatri(Appirio Offshore) */
 			//START : changed for US612/DE636 - Basant	
-	     String queryResponsive    	= ' SELECT Sub_Category__c, Sub_Sub_Category__c, Sub_Sub_Sub_Category__c, content_description__r.Tags__c, content_description__r.is_video__c is_video, content_description__r.video_id__c video_id, content_description__r.Title__c title, content_description__r.Description__c description, content_description__r.Content_Version_Id__c cvid, content_description__r.filetype__c filetype, content_description__r.Preview_Available__c previewAvailable, content_description__r.Preview_Id__c previewId, content_description__r.filesize__c filesize, content_description__r.filesize_low__c filesize_low, content_description__r.Content_Version_Id_Low__c cvidlow, max(content_description__r.Uploaded_date__c) createdDate, content_description__r.image_resolution__c imageRes  FROM content_property__c' 
+	     /*String queryResponsive    	= ' SELECT Sub_Category__c, Sub_Sub_Category__c, Sub_Sub_Sub_Category__c, content_description__r.Tags__c, content_description__r.is_video__c is_video, content_description__r.video_id__c video_id, content_description__r.Title__c title, content_description__r.Description__c description, content_description__r.Content_Version_Id__c cvid, content_description__r.filetype__c filetype, content_description__r.Preview_Available__c previewAvailable, content_description__r.Preview_Id__c previewId, content_description__r.filesize__c filesize, content_description__r.filesize_low__c filesize_low, content_description__r.Content_Version_Id_Low__c cvidlow, max(content_description__r.Uploaded_date__c) createdDate, content_description__r.image_resolution__c imageRes FROM content_property__c' 
 	 	 		   		  	+ ' WHERE content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') and Category__c in ('+sectionsListsForResponsive()+') '
    						   	+ ' AND (content_description__r.Content_Id__c in ('+brandIdsString+') OR ( content_description__r.Portfolio__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ) '
 				   		   	+ ' AND (((content_description__r.Title__c like \'%'+searchValue+'%\' OR content_description__r.Description__c like \'%'+searchValue+'%\' OR content_description__r.Tags__c like \'%'+searchValue+'%\'))' + ((ids!='') ? ' OR (content_description__r.content_version_id__c in ('+ids+') OR content_description__r.content_version_id_low__c in ('+ids+'))) ' : ')') +
-				          + ' GROUP BY Sub_Category__c, content_description__r.Tags__c, Sub_Sub_Category__c, Sub_Sub_Sub_Category__c, content_description__r.is_video__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.Content_Version_Id_Low__c, content_description__r.image_resolution__c  '+ 
-				          + ' ORDER BY content_description__r.Description__c '+ (R_OrdertByAlpha != null && R_OrdertByAlpha.trim() != '' ? R_OrdertByAlpha+' ' : 'ASC ') ;
-		sectionQuery.put(RESPONSIVE, queryResponsive);
+				          + ' GROUP BY Sub_Category__c, content_description__r.Tags__c, Sub_Sub_Category__c, content_description__r.is_video__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.Content_Version_Id_Low__c, content_description__r.image_resolution__c  '+ 
+				          + ' ORDER BY content_description__r.Description__c '+ (R_OrdertByAlpha != null && R_OrdertByAlpha.trim() != '' ? R_OrdertByAlpha+' ' : 'ASC ') ; */
+			String queryResponsive = ' SELECT Tags__c, is_video__c is_video, video_id__c video_id, Title__c title, Description__c description, Content_Version_Id__c cvid, filetype__c filetype, Preview_Available__c previewAvailable, Preview_Id__c previewId, filesize__c filesize, filesize_low__c filesize_low, Content_Version_Id_Low__c cvidlow, max(Uploaded_date__c) createdDate, image_resolution__c imageRes FROM content_description__c ' 
+						+ ' WHERE Classification__c includes (\''+Service_API.getSectionTheme()+'\') '
+						+ ' AND (Content_Id__c in ('+brandIdsString+') OR ( Portfolio__c=true and Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ) '
+						+ ' AND (((Title__c like \'%'+searchValue+'%\' OR Description__c like \'%'+searchValue+'%\' OR Tags__c like \'%'+searchValue+'%\'))' + ((ids!='') ? ' OR (content_version_id__c in ('+ids+') OR content_version_id_low__c in ('+ids+'))) ' : ')') +
+						+ ' GROUP BY Tags__c, is_video__c, video_id__c, Title__c, Description__c, Content_Version_Id__c, filetype__c, Preview_Available__c, Preview_Id__c, filesize__c, filesize_low__c, Content_Version_Id_Low__c, image_resolution__c  '+ 
+						+ ' ORDER BY Description__c '+ (R_OrdertByAlpha != null && R_OrdertByAlpha.trim() != '' ? R_OrdertByAlpha+' ' : 'ASC ') ;
+			sectionQuery.put(RESPONSIVE, queryResponsive);
 	    //END : changed for US612/DE636 - Basant
     }
     
 	//START : changed for US612/DE636 - Basant
-	private String sectionsListsForResponsive() {
+	/*private String sectionsListsForResponsive() {
 		String R_sections = '';
 		R_sections = '\'' + CONSTANT.MONTHLY_EXECUTION_PLAN + '\'' +
 			', \'' + innovationSectionName + '\'' +
@@ -505,7 +559,7 @@ public with sharing class Controller_SearchResult extends Controller_Base {
 			}
 	    R_sections += ', \'' + CONSTANT.MULTICULTURAL + '\'';	
 		return R_sections;
-	}
+	}*/
 	//END : changed for US612/DE636 - Basant
     
 	// Start: Changes for Responsive Site - Randy Wandell (Appirio) 7/10/13    

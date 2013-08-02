@@ -6,7 +6,7 @@ Date        : 7/19/13
 Story/Task  : US609/DE654
 *******************************************************************************/
 public with sharing class Controller_SellingMaterials extends Controller_Base {
-
+		
 	// display as list (true) or box (false)
     public Boolean displayAsList {get; set;}
 
@@ -59,7 +59,7 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
     public Integer monthShift {public get; public set;}
     protected Integer currentMTH {protected get; protected set;}
     public Boolean monthOrQuarterRender {get; set;} // true = Quarter
-    
+    private List<Integer> selQtrShiftList;
 	// content
     public List<AggregateResult> content {get; set;}
     public List<AggregateResultHolder> contentHolder {
@@ -607,10 +607,13 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
 
 				queryString = 'SELECT Id, Sub_Category__c, Sub_Sub_Category__c, Sub_Sub_Sub_Category__c, content_description__r.is_video__c is_video, content_description__r.video_id__c video_id, content_description__r.Title__c title, content_description__r.Description__c description, content_description__r.Content_Version_Id__c cvid, content_description__r.filetype__c filetype, content_description__r.Preview_Available__c previewAvailable, content_description__r.Preview_Id__c previewId, content_description__r.filesize__c filesize, content_description__r.filesize_low__c filesize_low, content_description__r.Content_Version_Id_Low__c cvidlow, max(content_description__r.Uploaded_date__c) createdDate, content_description__r.image_resolution__c imageRes FROM content_property__c ' +
 	 		 		          'WHERE content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') and Category__c = \''+CONSTANT.SELLING_MATERILAS+'\' AND Sub_Category__c in (\''+currentSection+'\') ';
-				if(currentSubSection != '' && currentSubSection != null){
+				
+				//START : Changed for US588/DE672(Fact sheet related data not stored under any subsection) - Geeta Kumawat -->
+				if(currentSubSection != '' && currentSubSection != null && currentSubSection !='Fact Sheets'){
 					queryString += ' AND Sub_Sub_Category__c in (\''+currentSubSection+'\') ';
 				}
-				system.debug('^^^isFiltering::'+isFiltering+'@@ selectedPortfolio::'+selectedPortfolio+'@@ selectedRTS::'+selectedRTS);
+				//END : Changed for US588/DE672(Fact sheet related data not stored under any subsection) - Geeta Kumawat -->
+				//system.debug('^^^isFiltering::'+isFiltering+'@@ selectedPortfolio::'+selectedPortfolio+'@@ selectedRTS::'+selectedRTS);
 				list<String> cl = new list<String>();				
 				// Start : Changes for US588/DE698 - Geeta Kumawat
 				if(!selectedPortfolio && !selectedRTS && !selectedTBA && !isFiltering){
@@ -833,28 +836,36 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
     private List<Integer> validSelectedTimePeriodsList(){
 		List<String> quarterListTemp = new List<String>();
 		selectedTimePeriodsList = new List<Integer>();
+		selQtrShiftList = new List<Integer>();
 		if(selectedTimePeriods == null || selectedTimePeriods == ''){
 			selectedTimePeriods = '';
 			return selectedTimePeriodsList;
 		}
 		
-		quarterListTemp = selectedTimePeriods.split(',');
-	    if(monthOrQuarterRender){
+		
+	    quarterListTemp = selectedTimePeriods.split(',');
+		if(monthOrQuarterRender){
 		    for(String selectedQtr : quarterListTemp){
 		    	if(selectedQtr != null && selectedQtr != ''){
 		    		Integer tempQtr = Integer.valueOf(selectedQtr);
-		    		if(tempQtr >= 0 && tempQtr <= 3){
+		    		// Start : Changes for US588/DE699 - Geeta Kumawat
+		    		if(!isResponsive && tempQtr >= 0 && tempQtr <= 3){
 		    			selectedTimePeriodsList.add(tempQtr);
-		    		}
+		    		}else
+		    			selectedTimePeriodsList.add(tempQtr);
+		    		// End : Changes for US588/DE699 - Geeta Kumawat
 		    	}
 		    }
 	    } else {
 	    	for(String selectedQtr : quarterListTemp){
 		    	if(selectedQtr != null && selectedQtr != ''){
 		    		Integer tempQtr = Integer.valueOf(selectedQtr);
-		    		if(tempQtr >= 0 && tempQtr <= 11){
+		    		// Start : Changes for US588/DE699 - Geeta Kumawat
+		    		if(!isResponsive && tempQtr >= 0 && tempQtr <= 11){
 		    			selectedTimePeriodsList.add(tempQtr);
-		    		}
+		    		}else
+		    			selectedTimePeriodsList.add(tempQtr);
+		    		// End : Changes for US588/DE699 - Geeta Kumawat
 		    	}
 		    }
 	    }

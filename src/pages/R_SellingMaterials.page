@@ -23,6 +23,8 @@ Date        : 7/10/13
                   </apex:outputPanel>
                     
                   <!--  START :: ACTION FUNCTIONS -->  
+                  <apex:actionFunction name="renderAsListSlider" action="{!renderAsList}" rerender="messages, pageContent" onComplete="jqTransformScript(); sectionVisibility();"/>
+                        <apex:actionFunction name="renderAsBoxSlider" action="{!renderAsBox}" rerender="messages, pageContent" onComplete="jqTransformScript(); sectionVisibility();"/>
                   <apex:actionFunction status="ajax-status" name="changeNumberOfItemPerPage" action="{!changeNumberOfItemPerPage}" rerender="messages, pageContent, downloadAllDialog" onComplete="jqTransformScript();sectionVisibility();initializationFunction();">
 			 		<apex:param name="numberOfItemsOnPage" assignTo="{!numberOfItemsOnPage}" value="" />
 				  </apex:actionFunction>
@@ -48,6 +50,7 @@ Date        : 7/10/13
                 </apex:outputPanel>
     
             	<!-- START :: FILTER --> 
+            	<apex:outputPanel layout="none" rendered="{! disableFilter!=true}">
             	<c:R_Filters pSiteTheme="{!SiteTheme}" pageCls="sm-bg" 
 		          	p_selectedChildBrandIds="{!selectedChildBrandIds}"
 		          	p_selectedTimePeriods="{!selectedTimePeriods}"
@@ -102,7 +105,7 @@ Date        : 7/10/13
 		            <apex:inputHidden value="{!selectedPortfolio}" id="selectedPortfolio" />
 		            <apex:inputHidden value="{!selectedRTS}" id="selectedRTS" />
 		        </div>
-            	
+            	</apex:outputPanel>
             	<!-- END :: FILTER -->	
                     <!-- START :: Panel pageContent -->
                     <apex:outputPanel id="pageContent"> 
@@ -111,7 +114,7 @@ Date        : 7/10/13
 						</apex:outputPanel>
 	                           
 	                	<apex:outputPanel rendered="{!AND(AND(!ISNULL(content),content.size!=0))}">       
-	                		<c:R_OperationLines showPages="true" R_MultInFollow="{!R_MultInFollowWithselAll}" className="period-select"  value="{!numberOfItemsOnPage}" options="{!NumberOfItemsPerPageList}" pagesStatus="Showing {!showFromIndex+1}-{!showToIndex} of {!numberOfItems} documents" pageNamePrefix="sm" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
+	                		<c:R_OperationLines showPages="true" renderAsList="{!displayAsList}" R_MultInFollow="{!R_MultInFollowWithselAll}" className="period-select"  value="{!numberOfItemsOnPage}" options="{!NumberOfItemsPerPageList}" pagesStatus="Showing {!showFromIndex+1}-{!showToIndex} of {!numberOfItems} documents" pageNamePrefix="sm" allowRemoveBasket="false" allowAddBasket="true" allowUnfollow="false" allowFollow="true">
 							<div class="doc-list">
 	                      		<div class="list-view">                
 	                        	<apex:variable value="" var="currentSubSubSubCategory"/>

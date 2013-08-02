@@ -21,17 +21,16 @@
 <script>
 var isShowTimePeriodFilter = {!showTimePeriodFilter};
 </script>
+<apex:actionFunction status="ajax-status" name="updateVariantBrands" action="{!updateVariantBrands}" onComplete="reRenderFilterJS();reloadBrandVarient();" rerender="messages, variantBrands">
+	<apex:param name="parentId" assignTo="{!parentId}" value="" />
+</apex:actionFunction>
+<apex:actionFunction status="ajax-status" name="resetFilters" action="{!resetFilter}" />	                
 <apex:actionFunction status="ajax-status" name="previousPeriodC" action="{!previousPeriodComp}" onComplete="loadFilterJs();" rerender="messages, timeFilterItem, parentBrands, variantBrands, smFilterItem">
 	<apex:param name="isMonthOrQuarterPrev" assignTo="{!monthOrQuarterRender}" value="" />
 </apex:actionFunction>
 <apex:actionFunction status="ajax-status" name="nextPeriodC" action="{!nextPeriodComp}" onComplete="loadFilterJs();" rerender="messages, timeFilterItem, parentBrands, variantBrands, smFilterItem">
 	<apex:param name="isMonthOrQuarterNxt" assignTo="{!monthOrQuarterRender}" value="" />
-</apex:actionFunction>
-<apex:actionFunction status="ajax-status" name="updateVariantBrands" action="{!updateVariantBrands}" onComplete="reRenderFilterJS();reloadBrandVarient();" rerender="messages, variantBrands">
-	<apex:param name="parentId" assignTo="{!parentId}" value="" />
-</apex:actionFunction>
-<apex:actionFunction status="ajax-status" name="resetFilters" action="{!resetFilter}" />	                
-												  
+</apex:actionFunction>												  
                 				                                
 
 
@@ -206,9 +205,10 @@ var isShowTimePeriodFilter = {!showTimePeriodFilter};
 	                </script>
 	                <div class="date-selector quarterly">
 	                	<ul class="slides">
-	                        <apex:repeat value="{!quarterViewsList}" var="option">
+	                		<apex:variable var="qtrShft" value="{!-4}" />
+	                		<apex:repeat value="{!quarterViewsList}" var="option">
 	                    	<li>
-	                            <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,option['value']) ,'selected','')}" name="{!option['value']}-{!option['year']}">
+	                            <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,option['value']) ,'selected','')}" name="{!qtrShft}">
 	                            	<apex:outputPanel styleClass="month" rendered="{!if(option['className'] = 'jfm', true, false)}">
 	                                    <span>January</span><br></br>
 	                                    <span>February</span><br></br>
@@ -229,220 +229,221 @@ var isShowTimePeriodFilter = {!showTimePeriodFilter};
 	                                    <span>November</span><br></br>
 	                                    <span>December</span>
 	                                </apex:outputPanel>
-	                                <span class="year"> {!option['year']}</span>
+	                                <span class="year"> {!option['year']} </span>
 	                            </a>
 	                        </li>
+	                        <apex:variable var="qtrShft" value="{!qtrShft+1}" />
 	                        </apex:repeat>
 	                    </ul>
+	                    
 	                </div>
 	
 	                <div class="date-selector monthly hide">
 	                    <ul class="slides">
 	                        <apex:variable var="counter" value="{!1}" />
+	                        <apex:variable var="mnthShift" value="{!-12}" />
 	                        <li>
 							<apex:repeat value="{!monthViewsList}" var="option">
 							<apex:outputpanel layout="none" rendered="{!if(counter < 4,true,false)}" >
-							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!mnthShift}">
 	                                <span class="month">
 	                                    <span>{!option['monthName']} </span>
 	                                </span>
 	                                <span class="year">{!option['year']}</span>
 	                            </a>
 	                        </apex:outputpanel>
+	                        <apex:variable var="mnthShift" value="{!mnthShift+1}" />
 	                        <apex:variable var="counter" value="{!counter+1}" />
 	                        </apex:repeat>
 	                        </li>
-	                         
 	                        <li>
 							<apex:variable var="counter" value="{!1}" />
+	                        <apex:variable var="mnthShift" value="{!-12}" />
 	                        <apex:repeat value="{!monthViewsList}" var="option">
-							<apex:outputpanel layout="none" rendered ="{!if(counter > 3 && counter < 7,true,false)}" >
-							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
+							<apex:outputpanel layout="none" rendered ="{!if(counter > 3 && counter < 7 ,true,false)}" >
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!mnthShift}">
 	                                <span class="month">
 	                                    <span>{!option['monthName']}</span>
 	                                </span>
 	                                <span class="year">{!option['year']}</span>
 	                            </a>
 	                        </apex:outputpanel>
+	                        <apex:variable var="mnthShift" value="{!mnthShift+1}" />
 	                        <apex:variable var="counter" value="{!counter+1}" />
 	                        </apex:repeat>
 	                        </li>
 	                        <li>
 							<apex:variable var="counter" value="{!1}" />
+	                        <apex:variable var="mnthShift" value="{!-12}" />
 	                        <apex:repeat value="{!monthViewsList}" var="option">
-							<apex:outputpanel layout="none" rendered ="{!if(counter > 6 && counter < 10,true,false)}" >
-							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
-	                                <span class="month" >
+							<apex:outputpanel layout="none" rendered ="{!if(counter > 6 && counter < 10 ,true,false)}" >
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!mnthShift}">
+	                                <span class="month">
 	                                    <span>{!option['monthName']}</span>
 	                                </span>
 	                                <span class="year">{!option['year']}</span>
 	                            </a>
 	                        </apex:outputpanel>
+	                        <apex:variable var="mnthShift" value="{!mnthShift+1}" />
 	                        <apex:variable var="counter" value="{!counter+1}" />
 	                        </apex:repeat>
 	                        </li>
 	                        <li>
 							<apex:variable var="counter" value="{!1}" />
+	                        <apex:variable var="mnthShift" value="{!-12}" />
 	                        <apex:repeat value="{!monthViewsList}" var="option">
 							<apex:outputpanel layout="none" rendered ="{!if(counter > 9 && counter < 13 ,true,false)}" >
-							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!mnthShift}">
 	                                <span class="month">
 	                                    <span>{!option['monthName']}</span>
 	                                </span>
 	                                <span class="year">{!option['year']}</span>
 	                            </a>
 	                        </apex:outputpanel>
+	                        <apex:variable var="mnthShift" value="{!mnthShift+1}" />
 	                        <apex:variable var="counter" value="{!counter+1}" />
 	                        </apex:repeat>
 	                        </li>
 	                        <li>
 							<apex:variable var="counter" value="{!1}" />
+	                        <apex:variable var="mnthShift" value="{!-12}" />
 	                        <apex:repeat value="{!monthViewsList}" var="option">
 							<apex:outputpanel layout="none" rendered ="{!if(counter > 12 && counter < 16 ,true,false)}" >
-							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!mnthShift}">
 	                                <span class="month">
 	                                    <span>{!option['monthName']}</span>
 	                                </span>
 	                                <span class="year">{!option['year']}</span>
 	                            </a>
 	                        </apex:outputpanel>
+	                        <apex:variable var="mnthShift" value="{!mnthShift+1}" />
 	                        <apex:variable var="counter" value="{!counter+1}" />
 	                        </apex:repeat>
 	                        </li>
+	                        
 	                        <li>
 							<apex:variable var="counter" value="{!1}" />
+	                        <apex:variable var="mnthShift" value="{!-12}" />
 	                        <apex:repeat value="{!monthViewsList}" var="option">
 							<apex:outputpanel layout="none" rendered ="{!if(counter > 15 && counter < 19 ,true,false)}" >
-							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!mnthShift}">
 	                                <span class="month">
 	                                    <span>{!option['monthName']}</span>
 	                                </span>
 	                                <span class="year">{!option['year']}</span>
 	                            </a>
 	                        </apex:outputpanel>
+	                        <apex:variable var="mnthShift" value="{!mnthShift+1}" />
 	                        <apex:variable var="counter" value="{!counter+1}" />
 	                        </apex:repeat>
 	                        </li>
+	                        
 	                        <li>
 							<apex:variable var="counter" value="{!1}" />
+	                        <apex:variable var="mnthShift" value="{!-12}" />
 	                        <apex:repeat value="{!monthViewsList}" var="option">
 							<apex:outputpanel layout="none" rendered ="{!if(counter > 18 && counter < 22 ,true,false)}" >
-							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!mnthShift}">
 	                                <span class="month">
 	                                    <span>{!option['monthName']}</span>
 	                                </span>
 	                                <span class="year">{!option['year']}</span>
 	                            </a>
 	                        </apex:outputpanel>
+	                        <apex:variable var="mnthShift" value="{!mnthShift+1}" />
 	                        <apex:variable var="counter" value="{!counter+1}" />
 	                        </apex:repeat>
 	                        </li>
 	                        <li>
 							<apex:variable var="counter" value="{!1}" />
+	                        <apex:variable var="mnthShift" value="{!-12}" />
 	                        <apex:repeat value="{!monthViewsList}" var="option">
 							<apex:outputpanel layout="none" rendered ="{!if(counter > 21 && counter < 25 ,true,false)}" >
-							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!mnthShift}">
 	                                <span class="month">
 	                                    <span>{!option['monthName']}</span>
 	                                </span>
 	                                <span class="year">{!option['year']}</span>
 	                            </a>
 	                        </apex:outputpanel>
+	                        <apex:variable var="mnthShift" value="{!mnthShift+1}" />
 	                        <apex:variable var="counter" value="{!counter+1}" />
 	                        </apex:repeat>
 	                        </li>
 	                        <li>
 							<apex:variable var="counter" value="{!1}" />
+	                        <apex:variable var="mnthShift" value="{!-12}" />
 	                        <apex:repeat value="{!monthViewsList}" var="option">
 							<apex:outputpanel layout="none" rendered ="{!if(counter > 24 && counter < 28 ,true,false)}" >
-							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!mnthShift}">
 	                                <span class="month">
 	                                    <span>{!option['monthName']}</span>
 	                                </span>
 	                                <span class="year">{!option['year']}</span>
 	                            </a>
 	                        </apex:outputpanel>
+	                        <apex:variable var="mnthShift" value="{!mnthShift+1}" />
 	                        <apex:variable var="counter" value="{!counter+1}" />
 	                        </apex:repeat>
 	                        </li>
 	                        <li>
 							<apex:variable var="counter" value="{!1}" />
+	                        <apex:variable var="mnthShift" value="{!-12}" />
 	                        <apex:repeat value="{!monthViewsList}" var="option">
 							<apex:outputpanel layout="none" rendered ="{!if(counter > 27 && counter < 31 ,true,false)}" >
-							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!mnthShift}">
 	                                <span class="month">
 	                                    <span>{!option['monthName']}</span>
 	                                </span>
 	                                <span class="year">{!option['year']}</span>
 	                            </a>
 	                        </apex:outputpanel>
+	                        <apex:variable var="mnthShift" value="{!mnthShift+1}" />
 	                        <apex:variable var="counter" value="{!counter+1}" />
 	                        </apex:repeat>
 	                        </li>
 	                        <li>
 							<apex:variable var="counter" value="{!1}" />
+	                        <apex:variable var="mnthShift" value="{!-12}" />
 	                        <apex:repeat value="{!monthViewsList}" var="option">
 							<apex:outputpanel layout="none" rendered ="{!if(counter > 30 && counter < 34 ,true,false)}" >
-							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!mnthShift}">
 	                                <span class="month">
 	                                    <span>{!option['monthName']}</span>
 	                                </span>
 	                                <span class="year">{!option['year']}</span>
 	                            </a>
 	                        </apex:outputpanel>
+	                        <apex:variable var="mnthShift" value="{!mnthShift+1}" />
 	                        <apex:variable var="counter" value="{!counter+1}" />
 	                        </apex:repeat>
 	                        </li>
 	                        <li>
 							<apex:variable var="counter" value="{!1}" />
+	                        <apex:variable var="mnthShift" value="{!-12}" />
 	                        <apex:repeat value="{!monthViewsList}" var="option">
 							<apex:outputpanel layout="none" rendered ="{!if(counter > 33 && counter < 37 ,true,false)}" >
-							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!option['value']}-{!option['year']}">
+							    <a href="javascript:;" class="{!IF(contains(selectedTimePeriods,','+option['value']+',') ,'selected','')}" name="{!mnthShift}">
 	                                <span class="month">
 	                                    <span>{!option['monthName']}</span>
 	                                </span>
 	                                <span class="year">{!option['year']}</span>
 	                            </a>
 	                        </apex:outputpanel>
+	                        <apex:variable var="mnthShift" value="{!mnthShift+1}" />
 	                        <apex:variable var="counter" value="{!counter+1}" />
 	                        </apex:repeat>
 	                        </li>
 	                    </ul>
+	                    
 	                </div>
 	             	<div class="buttons">
-	                    <a href="javascript:;" onclick="preResetFilter('time'); return false;" class="clear-btn">Clear Filters</a>
+	             	    <a href="javascript:;" onclick="preResetFilter('time'); return false;" class="clear-btn">Clear Filters</a>
 	                    <a href="javascript:;" onclick="preApplyFilters(); return false;" class="apply-btn button {!pageCls}">Apply</a>
 	            	</div>
 	            </apex:outputPanel>
 				
-				<!--<apex:outputPanel id="smFilterItem" layout="block" rendered="{!showSMFilter}" styleClass="result-filter-layer sm-filter hide">
-	                <a href="javascript:;" class="close-btn"></a>
-	                <p>Select one or more of the filters listed below.</p>
-	                <div class="select-filter-all">
-	                    <label>
-	                        Select All
-	                    </label>
-	                    <input type="checkbox"/>
-	                </div>
-	                <div class="inner ok">
-	                	<div class="form-left">
-	                		<apex:selectCheckboxes styleClass="row1" value="{!selectedClassificationItemsRow1}">
-								<apex:selectOptions value="{!p_classificationItemsRow1}" />
-							</apex:selectCheckboxes>
-							<apex:selectCheckboxes styleClass="row2" value="{!selectedClassificationItemsRow2}">
-								<apex:selectOptions value="{!p_classificationItemsRow2}" />
-							</apex:selectCheckboxes>
-						<div class="clear"></div>
-						</div>
-	                    <div class="clear"></div>
-	                </div>
-	            
-	            	<div class="buttons">
-	                    <a href="javascript:;" onclick="preResetFilter('sm'); return false;" class="clear-btn">Clear Filters</a>
-	                    <a href="javascript:;" onclick="preApplyFilters(); return false;" class="apply-btn button {!pageCls}">Apply</a>
-	            	</div>
-				</apex:outputpanel>
-				-->
+				
 	</apex:outputpanel>
 <script type="text/javascript">
 	    jQuery(document).ready(function() {
@@ -453,6 +454,7 @@ var isShowTimePeriodFilter = {!showTimePeriodFilter};
 		        });
 		
 	    	loadFilterJs();
+	    	
        	});
        	function reRenderFilterJS(){
         	jQuery(".result-filter-layer").hide();
@@ -491,7 +493,7 @@ var isShowTimePeriodFilter = {!showTimePeriodFilter};
 				                        	
 				                        }
 				                    });
-				                    //updateSlideNxtPrevBtn(related2);
+				                    updateSlideNxtPrevBtn(related2);
 			                    }
 		                    });
 		                
@@ -500,7 +502,7 @@ var isShowTimePeriodFilter = {!showTimePeriodFilter};
 	            	
 				}
 			});
-			
+			jQuery(".flex-prev").addClass('flex-disabled1');
 			
         }
         function reloadBrandVarient(){
@@ -571,7 +573,7 @@ var isShowTimePeriodFilter = {!showTimePeriodFilter};
 		                        	
 		                        }
 		                    });
-		                    //updateSlideNxtPrevBtn('quarterly');
+		                    updateSlideNxtPrevBtn('quarterly');
 		                }
 						else if(related === 'brand-filter') {
 		                    resetBrandClass();
@@ -678,7 +680,7 @@ var isShowTimePeriodFilter = {!showTimePeriodFilter};
 		                after: function() {
 		                 }
 		            });
-		           //updateSlideNxtPrevBtn(related);
+		           updateSlideNxtPrevBtn(related);
 		
 		        })
 		        jQuery(".time-filter .date-selector .slides a").click(function() {
@@ -693,17 +695,24 @@ var isShowTimePeriodFilter = {!showTimePeriodFilter};
         	 isQuarterly =true ;
 			jQuery("."+relatedTo+" .flex-direction-nav a").each(function() {
 	           var a = jQuery(this);
-               a.removeClass("flex-disabled");
-               a.click(function() {
-	                if(a.hasClass("flex-prev")){
-	                	console.log('click flex-prev');	
-	                	previousPeriodC(isQuarterly);
-	                }else if(a.hasClass("flex-next") ){
-	                	console.log('click flex-next');	
-	                	nextPeriodC(isQuarterly);
-	                	
+	           a.click(function() {
+               		if(a.hasClass("flex-disabled")){
+               			console.log('disabled...');
+               			if(a.hasClass("flex-disabled1")){
+				            if(a.hasClass("flex-prev")){
+			                	console.log('click flex-prev');	
+			                	previousPeriodC(isQuarterly);
+			                }else if(a.hasClass("flex-next") ){
+			                		console.log('click flex-next');	
+				                	nextPeriodC(isQuarterly);
+			                	
+			                }
+			                a.removeClass("flex-disabled1");
+		                }
+		                a.addClass("flex-disabled1");
 	                }
                });
+               
            });
 		            
         }
@@ -819,6 +828,7 @@ var isShowTimePeriodFilter = {!showTimePeriodFilter};
             		if(isShowTimePeriodFilter){
 	            		if(elemId.search('selectedQuarters') != -1){
 	            			jQuery(this).val(selectedQuartersString);
+	            			console.log('selectedQuartersString:::'+jQuery(this).val());
 	            		}
 	            		else if(elemId.search('monthOrQuarterRender') != -1){
 	            			jQuery(this).val(isQuarterly);
