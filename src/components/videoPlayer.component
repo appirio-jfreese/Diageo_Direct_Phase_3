@@ -35,7 +35,7 @@
 						clearInterval(timer);
 						brightcove.createExperiences('myExperience{!videoId}');
 					}
-				}, 1)
+				}, 100)
 			})();
 		} else {
 			brightcove.createExperiences('myExperience{!videoId}');
