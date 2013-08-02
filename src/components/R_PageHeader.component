@@ -21,6 +21,9 @@ Story/Task  : US645/DE675, US646/DE674
 	<!-- Start : Changes by Basant for Responsive Behavior : US585/TA1082 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 	<!-- End : Changes by Basant for Responsive Behavior  -->
+
+	<link rel="stylesheet" href="path/to/add2home.css" />
+	<script type="application/javascript" src="path/to/add2home.js"></script>		
 		
     <apex:attribute name="isLoggedIn" description="Tell if user is logged in or not" type="Boolean" required="true"/>
     <apex:attribute name="preview" description="" type="String" required="false" default="false"/>

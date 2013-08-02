@@ -171,12 +171,12 @@ Story/Task  : US584/DE706
                 <!--  Add link to full site as a tab per client request, with two blank tabs to the right -->
                 
                 <div class="column default">
-                    <a class="black" href="{!$Page.R_BlogHome}">News Blog</a>
-                </div>
-
-                <div class="column default">
                     <a class="black" href="{!$Page.HomePage}">Full Site</a>
                 </div>
+                
+                <div class="column default empty">
+                    <a class="black" href=""></a>
+                </div>                
 
                 <div class="column default empty last">
                     <a class="black" href="javascript:;"></a>

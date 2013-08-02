@@ -170,13 +170,16 @@ Story/Task  : US503/TA1011
            
            	<div class="general-updates">
                 <h3>
-                    <a href="{!$Page.R_BlogHome}">General Updates</a>
+<!-- Randy Wandell 8/2/13 - Removed link to blog per Jenn  -->
+<!--                    <a href="{!$Page.R_BlogHome}">General Updates</a>  -->
+                    <a href="">General Updates</a>
                 </h3>
-                <h5>Performance Updates</h5>
+<!-- Randy Wandell 8/2/13 - Removed blog items per Jenn   -->
+<!--                <h5>Performance Updates</h5>
                 <div class="items">
                     <c:R_NarrowBlogList format="Titles" isLoggedIn="{!isLoggedIn}" url="" singleTag="Location:innovation-vap" id="blogPostComp" />
                 </div>
-                <!-- END : Commented By Basant - Need Confirmation -->
+-->                
                 <h5>Planning Calendars</h5>
                 <div class="items">
                     <apex:outputPanel rendered="{!OR(ISNULL(planningCalendars),planningCalendars.size=0)}">No items.</apex:outputPanel>
