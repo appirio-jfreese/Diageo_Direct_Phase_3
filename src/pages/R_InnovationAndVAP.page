@@ -144,11 +144,11 @@ Story/Task  : US503/TA1011
                                     <div style="{!programData.styleBackgroundImage} background-repeat: no-repeat; background-position: center;  height: 60%;"></div>
 <!--                                    <div style="height: 10px; width: 145px;"></div>    -->
                                         <div style="height: 2px; width: 100%;"></div>
-                                        <a class="p" href="#" style="line-height: 1; {!programData.styleTextColor}; font-weight: bold;">{!programData.label}</a>
+                                        <a class="p" href="#" style="line-height: 1; {!programData.styleTextColor}; font-weight: bold;">{!programData.label} </a>
                                     </div>
                                 </apex:outputPanel>
                                 <apex:outputPanel rendered="{!timePeriod >1 }">
-                                    <a class="p c{!CEILING(itemcount)}" href="#" style="">{!programData.label}</a>
+                                    <a class="p c{!CEILING(itemcount)}" href="{!$Page.R_IVAPDetails}?id={!programData.id}" style="">{!programData.label}</a>
                                 </apex:outputPanel>
                                 <div style="height: 2px; width: 100%; display: {!IF(timePeriod > 1,'none','')};"></div>
                                 <apex:variable var="itemcount" value="{!itemcount + 1}"/>

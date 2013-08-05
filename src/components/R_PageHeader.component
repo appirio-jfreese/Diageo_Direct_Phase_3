@@ -23,8 +23,8 @@ Story/Task  : US645/DE675, US646/DE674
 	<!-- End : Changes by Basant for Responsive Behavior  -->
 
 	<link rel="stylesheet" href="path/to/add2home.css" />
-	<script type="application/javascript" src="path/to/add2home.js"></script>		
-		
+	<script type="application/javascript" src="path/to/add2home.js"></script>
+			
     <apex:attribute name="isLoggedIn" description="Tell if user is logged in or not" type="Boolean" required="true"/>
     <apex:attribute name="preview" description="" type="String" required="false" default="false"/>
     <apex:attribute name="showSearch" description="" type="Boolean" required="false" default="true"/>

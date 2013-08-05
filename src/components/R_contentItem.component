@@ -460,7 +460,12 @@ Story/Task  : US585/TA1082
                     <c:videoPlayer videoId="{!videoId1}" width="{!IF(ISNULL(width1), '255', width1)}" height="{!IF(ISNULL(height1), '145', text(value(height1)-22))}"/>
                 </apex:outputPanel>
             </apex:outputPanel>
-            <input type="hidden" value="url({!URLFOR($Resource.Responsive_Base, fileTypePath)}) 50% 10px no-repeat"/>
+            <apex:outputPanel rendered="{!AND(previewAvailable1==true, !ISNULL(previewId1), isVideo1==false)}">
+            	<input type="hidden" value="url({!URLFOR($Action.Attachment.Download, previewId1)}) 50% 10px no-repeat"/>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!NOT(AND(previewAvailable1==true, !ISNULL(previewId1), isVideo1==false))}">
+            	<input type="hidden" value="url({!URLFOR($Resource.Responsive_Base, fileTypePath)}) 50% 10px no-repeat"/>
+            </apex:outputPanel>
                 <div class="info" style="text-align: left;">
                     <apex:image height="50px" url="{!URLFOR($Resource.Responsive_Base, fileTypePath)}"/>
                     <div class="desc">
