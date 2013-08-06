@@ -867,6 +867,9 @@ jQuery(document).ready(function() {
 			window.open(jQuery(this).attr('href'));
 		}
 	});
+	if(jQuery(".theme-selector-modal").length > 0 && jQuery(".wrapper").length > 0){
+		jQuery(".wrapper").css("display","none");
+	}
 
 });
 

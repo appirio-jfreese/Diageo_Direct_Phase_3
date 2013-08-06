@@ -12,7 +12,11 @@ jQuery('.grid-mode').live('click', function(){
 			}
 
 			jQuery(".doc-list .grid-view .doc").each(function() {
-				jQuery(this).css("background", jQuery(this).find("input[type='hidden']").val());
+				if(jQuery(this).find("input[type='hidden']").val() == "IMG"){
+					jQuery(this).css("background", "");
+				}else{
+					jQuery(this).css("background", jQuery(this).find("input[type='hidden']").val());
+				}
 			});
 		}
 		closeAllGear();
