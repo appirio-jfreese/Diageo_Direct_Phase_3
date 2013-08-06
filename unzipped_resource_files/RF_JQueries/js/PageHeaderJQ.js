@@ -869,3 +869,21 @@ jQuery(document).ready(function() {
 	});
 
 });
+
+
+function themeClicked(clickedTheme){
+	jQuery(".themeWrapperSelector").first().attr('value', clickedTheme);
+	if(jQuery(".selectThemeHolderClass").length != 0 && jQuery(".selectThemeHolderClass").first().hasClass('selectThemeRequired')){
+		jQuery(".selectThemeHolderClass").first().removeClass('selectThemeRequired');
+	}
+}
+
+function preChangeSiteTheme(){
+	if(jQuery(".themeWrapperSelector").length != 0 && jQuery(".selectThemeHolderClass").length != 0){
+		if(jQuery(".selectThemeHolderClass").first().hasClass('selectThemeRequired')){
+			alert("Site Theme Required.");
+		}else{
+			jQuery('.postSelectThemeButton').first().trigger("click");
+		}
+	}
+}

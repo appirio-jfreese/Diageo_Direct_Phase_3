@@ -6,12 +6,15 @@ jQuery('.section-options').live('click', function(){
 		}
 	});
 	jQuery(this).addClass('active');
-	sectionVisibility();
+	if(jQuery('.grid-mode').hasClass("active")){
+		renderAsBoxSlider();
+	}else{
+		sectionVisibility();
+	}
 });
 
 
-// Hide or show the section based on selected section-option
-function sectionVisibility(){
+function uncheckAllDoc(){
 	jQuery(".doc-list input[type='checkbox']:checked").each(function(){
 		if(jQuery(this).prop('checked')){
 			jQuery(this).trigger("click");
@@ -22,10 +25,13 @@ function sectionVisibility(){
 			jQuery(this).trigger("click");
 		}
 	});
+}
+
+// Hide or show the section based on selected section-option
+function sectionVisibility(){
+	uncheckAllDoc();
 	
-	jQuery(".doc-btns").each(function(){
-		jQuery(this).css("display", "none");
-	});
+	closeAllGear();
 	
 	jQuery(".section-options").each(function() {
 		var currentSectionClass = jQuery(this).text()+"-Section";
@@ -76,8 +82,14 @@ function sectionVisibility(){
 	});
 	
 	if(jQuery('.grid-mode').hasClass("active")){
+		if(!jQuery('.grid-mode').hasClass("DoNotCallActionFunction")){
+			jQuery('.grid-mode').addClass("DoNotCallActionFunction");
+		}
 		jQuery('.grid-mode').trigger("click");
 	}else if(jQuery('.list-mode').hasClass("active")){
+		if(!jQuery('.list-mode').hasClass("DoNotCallActionFunction")){
+			jQuery('.list-mode').addClass("DoNotCallActionFunction");
+		}
 		jQuery('.list-mode').trigger("click");
 	}
 }

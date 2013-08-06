@@ -1,9 +1,66 @@
+var currentActiveMode = "";
+var currentInactiveMode = "";
+	
 // On Document Load
 jQuery(document).ready(function() {
+	//var modeSwitched = false;
 	sectionVisibility();
 	initializationFunction();
+	
+	/*if(jQuery(".mediaPage").length > 0){
+		if(!jQuery(".mediaPage").hasClass("active")){
+			jQuery(".mediaPage").addClass("active");
+		}		
+		checkViewMode();
+		if(currentActiveMode == ".list-mode"){
+			modeSwitched = true;
+			switchViewMode();
+		}
+		
+		sectionVisibility();
+		
+		jQuery(".mediaPage").each(function() {
+			jQuery(this).removeClass("active");
+		});
+	}
+	
+	if(!jQuery(".section-options").first().hasClass("active")){
+		jQuery(".section-options").first().addClass("active");
+	}
+	sectionVisibility();
+	if(modeSwitched){
+		switchViewMode();
+	}*/
 });
 
+
+function checkViewMode(){
+	if(jQuery(".list-mode").hasClass("active")){
+		currentActiveMode = ".list-mode";
+		currentInactiveMode = ".grid-mode";
+	}else if(jQuery(".grid-mode").hasClass("active")){
+		currentActiveMode = ".grid-mode";
+		currentInactiveMode = ".list-mode";
+	}
+}
+
+function switchViewMode(){
+	jQuery(currentActiveMode).each(function() {
+		if(jQuery(this).hasClass("active")){
+			jQuery(this).removeClass("active");
+		}
+	});
+	
+	jQuery(currentInactiveMode).each(function() {
+		if(!jQuery(this).hasClass("active")){
+			jQuery(this).addClass("active");
+		}
+	});
+	
+	var tempMode = currentInactiveMode;
+	currentInactiveMode = currentActiveMode;
+	currentActiveMode = tempMode;
+}
 
 // Action to perform JQ Tratnsformation
 // *** NOTE : NO NEED OF THIS IF WE USE WHOLE (document).ready SCRIPT IN A SEPRATE METHOD, WILL USE THAT METHOD INSTEAD OF THIS
@@ -13,10 +70,11 @@ function jqTransformScript(){
 	jQuery(".filter").jqTransform();
 	jQuery(".doc-list .list-view .doc").jqTransform();
 	jQuery(".select-all input[type='checkbox']").change(function() {
-            var c = $j(this);
-            $j(".doc-list input[type='checkbox']").each(function() {
-                if($j(this).prop("checked") !== c.prop("checked")) {
-                    $j(this).trigger("click");
+            var c = jQuery(this);
+            jQuery(".doc-list input[type='checkbox']").each(function() {
+                if(jQuery(this).prop("checked") !== c.prop("checked") 
+					&& !jQuery(this).parents("."+pageNamePrefix+"-Section-Blok").hasClass("hidden")) {
+                    jQuery(this).trigger("click");
                 }
             });
     });
@@ -79,6 +137,13 @@ function jqTransformScript(){
 		jQuery(".doc-btns:visible").each(function() {
 			positionDocBtns(jQuery(this));
 		});
+	});
+	
+	jQuery(".add-to-basket").click(function() {
+		jQuery(this).toggleClass("remove-basket");
+	});
+	jQuery(".follow").click(function() {
+		jQuery(this).toggleClass("unfollow");
 	});
 }
 
