@@ -79,7 +79,7 @@ Date        : 7/10/13
 	                		<apex:selectCheckboxes styleClass="row1" value="{!selectedClassificationItemsRow1}">
 								<apex:selectOptions value="{!classificationItemsRow1}" />
 							</apex:selectCheckboxes>
-							
+							<br/>
 							<apex:selectCheckboxes styleClass="row2" value="{!selectedClassificationItemsRow2}">
 								<apex:selectOptions value="{!classificationItemsRow2}" />
 							</apex:selectCheckboxes>
@@ -282,7 +282,13 @@ Date        : 7/10/13
 		width: 95%;
 		height: 25px;
 		}
+		.result-filter-layer .form-left.last{
+			padding-bottom: 25px;
+		}
 	}
+	.result-filter-layer .form-left.last{
+			padding-bottom: 15px;
+		}
 	</style>
 	<!-- End : New CSS Added -->
 	

@@ -200,9 +200,7 @@ var isShowTimePeriodFilter = {!showTimePeriodFilter};
 	                    </a>
 	                    
 	                </div>
-	                <script>
-	                console.log('quarterViewsList:::{!quarterViewsList}');
-	                </script>
+	                
 	                <div class="date-selector quarterly">
 	                	<ul class="slides">
 	                		<apex:variable var="qtrShft" value="{!-4}" />
@@ -481,19 +479,9 @@ var isShowTimePeriodFilter = {!showTimePeriodFilter};
 			            			jQuery(".time-filter .date-selector").hide();
 			            			jQuery(".time-filter ."+related2).show();
 			            
-				                    jQuery(".time-filter ."+related2).flexslider({
-				                        animation: "slide",
-				                        animationLoop: false,
-				                        minItems: 1,
-				                        maxItems: 4,
-				                        itemWidth: 215,
-				                        itemMargin: 5,
-				                        slideshow: false,
-				                        after: function() {
-				                        	
-				                        }
-				                    });
-				                    updateSlideNxtPrevBtn(related2);
+				                    
+				                    updateSlideNxtPrevBtn(related2,true);
+				                    
 			                    }
 		                    });
 		                
@@ -502,7 +490,7 @@ var isShowTimePeriodFilter = {!showTimePeriodFilter};
 	            	
 				}
 			});
-			jQuery(".flex-prev").addClass('flex-disabled1');
+			
 			
         }
         function reloadBrandVarient(){
@@ -561,19 +549,8 @@ var isShowTimePeriodFilter = {!showTimePeriodFilter};
 		                }
 		                jQuery("."+related).show();
 		                if(related === 'time-filter' && jQuery(".time-filter .quarterly") != "undefined") {
-		                    jQuery(".time-filter .quarterly").flexslider({
-		                        animation: "slide",
-		                        animationLoop: false,
-		                        minItems: 1,
-		                        maxItems: 4,
-		                        itemWidth: 215,
-		                        itemMargin: 5,
-		                        slideshow: false,
-		                        after: function() {
-		                        	
-		                        }
-		                    });
-		                    updateSlideNxtPrevBtn('quarterly');
+		                    
+		                    updateSlideNxtPrevBtn('quarterly',false);
 		                }
 						else if(related === 'brand-filter') {
 		                    resetBrandClass();
@@ -669,52 +646,80 @@ var isShowTimePeriodFilter = {!showTimePeriodFilter};
 		            }
 		            jQuery(".time-filter .date-selector").hide();
 		            jQuery(".time-filter ."+related).show();
-		            jQuery(".time-filter ."+related).flexslider({
-		                animation: "slide",
-		                animationLoop: false,
-		                minItems: 1,
-		                maxItems: 4,
-		                itemWidth: 215,
-		                itemMargin: 5,
-		                slideshow: false,
-		                after: function() {
-		                 }
-		            });
-		           updateSlideNxtPrevBtn(related);
+		            
+		            updateSlideNxtPrevBtn(related,false);
+		           
 		
-		        })
+		        });
 		        jQuery(".time-filter .date-selector .slides a").click(function() {
 		            var a = jQuery(this);
 		            a.toggleClass("selected");
 		        });
+		        
 				
         }
-        function updateSlideNxtPrevBtn(relatedTo){
+        
+        function updateSlideNxtPrevBtn(relatedTo,isRender){
         	var isQuarterly = false;
+        	console.log('in updateSlideNxtPrevBtn');	
+        	jQuery(".time-filter ."+relatedTo).flexslider({
+				                        animation: "slide",
+				                        animationLoop: false,
+				                        minItems: 1,
+				                        maxItems: 4,
+				                        startAt: 0,
+				                        itemWidth: 215,
+				                        itemMargin: 5,
+				                        touch: false,
+				                        slideshow: false,
+				                        after: function() {
+				                        	
+				                        }
+				                    });
         	if(relatedTo == 'quarterly') 
         	 isQuarterly =true ;
-			jQuery("."+relatedTo+" .flex-direction-nav a").each(function() {
+        	 
+        	 if(isRender){
+        	 	setTimeout(function(){flexNavigation(relatedTo,isQuarterly);},2000)
+        	 }else{
+        	 	flexNavigation(relatedTo,isQuarterly);
+        	 }
+	    }
+        
+        function flexNavigation(relatedTo,isQuarterly){
+        	console.log('in flexNavigation');
+        	console.log('window.width()--'+jQuery(window).width());
+        	if(jQuery(window).width()>900){
+        		jQuery("."+relatedTo).flexslider(1);
+        	}else{
+        		jQuery("."+relatedTo).flexslider(4);
+        	}
+        	jQuery("."+relatedTo+" .flex-direction-nav a").each(function() {
 	           var a = jQuery(this);
 	           a.click(function() {
-               		if(a.hasClass("flex-disabled")){
-               			console.log('disabled...');
-               			if(a.hasClass("flex-disabled1")){
-				            if(a.hasClass("flex-prev")){
-			                	console.log('click flex-prev');	
-			                	previousPeriodC(isQuarterly);
-			                }else if(a.hasClass("flex-next") ){
-			                		console.log('click flex-next');	
-				                	nextPeriodC(isQuarterly);
-			                	
-			                }
-			                a.removeClass("flex-disabled1");
+	           		if(a.hasClass("flex-disabled")){
+	           			a.removeClass("flex-disabled");
+               			a.addClass("flex-disabled2")
+	           		}
+                   	if(a.hasClass("flex-disabled2") && (a.hasClass("flex-disabled1") || /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) )){
+	               		//alert('disabled1...');
+               			if(a.hasClass("flex-prev")){
+		                	console.log('click flex-prev----');	
+		                	previousPeriodC(isQuarterly);
+		                	
+		                }else if(a.hasClass("flex-next") ){
+	                		console.log('click flex-next----');
+	                		nextPeriodC(isQuarterly);
+		                	
 		                }
-		                a.addClass("flex-disabled1");
-	                }
-               });
+		             }else if(a.hasClass("flex-disabled2")){
+               			//alert('disabled...');
+               			a.removeClass("flex-disabled2");
+               			a.addClass("flex-disabled1");
+	               	}  	
+	           });
                
            });
-		            
         }
         
         function selectALLBrands(elemnt){
@@ -881,14 +886,26 @@ var isShowTimePeriodFilter = {!showTimePeriodFilter};
         	console.log('---updateClassification');
         	var classification = jQuery('.sm-filter .inner');
         	var smCheckBoxes = '';
-        	classification.find('td').each(function(){
-				elem = jQuery(this);
-				smCheckBoxes += '<div class="form-left" >';
-				smCheckBoxes += elem.html();
-				smCheckBoxes += '<div class="cleart" ></div></div>';
-				elem.append('<div class="clear" ></div>');
-			});
-			
+        	var isRow1 = false;
+        	var isRow2 = false;
+        	jQuery(".row1 td:last").addClass("lastTD");
+        	//jQuery(".row2 td:last").addClass("lastTD");
+        	classification.find('table').each(function(){
+        		var tbl = jQuery(this);
+        		smCheckBoxes += '<table width="100%"><tr><tdwidth="100%">';
+        		tbl.find('td').each(function(){
+					elem = jQuery(this);
+					if(elem.hasClass("lastTD"))
+						smCheckBoxes += '<div class="form-left last" >';
+					else
+						smCheckBoxes += '<div class="form-left" >';
+					smCheckBoxes += elem.html();
+					smCheckBoxes += '<div class="clear" ></div></div>';
+					
+				});
+				smCheckBoxes += '</td></tr></table>';
+        	});
+        	
 			smCheckBoxes += '<div class="clear"></div>';
 			classification.html(smCheckBoxes);
 		 }
@@ -915,7 +932,7 @@ var isShowTimePeriodFilter = {!showTimePeriodFilter};
             });
             jQuery(".brand-filter .other .name").each(function() {
                 var span = jQuery(this);
-                console.log('in resetBrandClass other brand:: '+span.height());
+                //console.log('in resetBrandClass other brand:: '+span.height());
                 if(span.height() > 50) {
                     span.parent().addClass("two-lines");
                 }

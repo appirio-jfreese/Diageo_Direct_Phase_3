@@ -59,12 +59,16 @@ public with sharing class Service_FilterSection {
         calendar = new Service_Calendar();
 		calendar.initDateRange(3, null);	// quarter view
 		calendarMonthView = new Service_Calendar();
-		calendarMonthView.initDateRange(1, null);
+		Date currDate = date.today();
+		Integer modmonth = math.mod(currDate.month()-1,3);
+		//Monthview with current quarter
+		calendarMonthView.initDateRange(1, date.valueof(currDate.year() + '-' + (currDate.month()-modmonth) + '-01'));
+		//calendarMonthView.initDateRange(1,null); //Monthview with current month
 		currentQtr = calendar.fiscalQuarter;
 		currentMth = calendarMonthView.fiscalMonth;
 		quarterShift = 0;
 		monthShift = 0;
-    	initTimePeriodsComp();
+		initTimePeriodsComp();
     	
     	
     	

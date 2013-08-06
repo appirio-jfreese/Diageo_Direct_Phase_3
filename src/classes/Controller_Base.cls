@@ -262,8 +262,8 @@ global public without sharing virtual class Controller_Base {
                 {
                    new PageLink(Page.R_MonthlyExecutionPlan.getUrl(),Constant.MONTHLY_EXECUTION_PLAN, 'menu-mep'),
                    new PageLink(Page.R_InnovationAndVAP.getUrl(),((Service_API.getSectionTheme() == 'Spirits') ? Constant.INNOVATION_AND_SUSTAINOVATION : Constant.INNOVATION_SUSTAINOVATION_AND_VINTAGE) , 'menu-isv'),
-                   new PageLink(Page.R_SMIntro.getUrl(),Constant.SELLING_MATERILAS, 'menu-sm'),
-                   new PageLink(Page.R_BlogHome.getUrl(),'News Blog', 'menu-mep')
+                   new PageLink(Page.R_SMIntro.getUrl(),Constant.SELLING_MATERILAS, 'menu-sm')/*,
+                   new PageLink(Page.R_BlogHome.getUrl(),'News Blog', 'menu-mep')*/
                 };          
         } else {
             return new list<pageLink>
