@@ -670,7 +670,6 @@ var isShowTimePeriodFilter = {!showTimePeriodFilter};
 				                        startAt: 0,
 				                        itemWidth: 215,
 				                        itemMargin: 5,
-				                        touch: false,
 				                        slideshow: false,
 				                        after: function() {
 				                        	
@@ -892,7 +891,7 @@ var isShowTimePeriodFilter = {!showTimePeriodFilter};
         	//jQuery(".row2 td:last").addClass("lastTD");
         	classification.find('table').each(function(){
         		var tbl = jQuery(this);
-        		smCheckBoxes += '<table width="100%"><tr><tdwidth="100%">';
+        		smCheckBoxes += '<table width="100%"><tr><td width="100%">';
         		tbl.find('td').each(function(){
 					elem = jQuery(this);
 					if(elem.hasClass("lastTD"))

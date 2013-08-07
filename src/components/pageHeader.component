@@ -20,6 +20,10 @@ Story/Task  : US507/TA918
 Updated By  : Basant Verma (Appirio OffShore)
 Date        : 6/6/13
 Story/Task  : US79/TA1007
+
+Updated By  : Basant Verma (Appirio JDC)
+Date        : 8/7/13
+Story/Task  : DE557
 ------------------------------------------------------------------------------------------------------------------->
 <apex:component controller="Controller_Base" extensions="Controller_BaseRemote" allowDML="true"> 
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.js')}"></script>
@@ -935,19 +939,25 @@ Story/Task  : US79/TA1007
         });
           
         jQuery('.cion').live('mouseenter', function(){
-            if(typeof jQuery(this).attr('title') != 'undefined' && jQuery(this).attr('title').length != 0){
-                jQuery(this).parents('.cionwrapper').first().find('.content-item-tooltip').html(jQuery(this).attr('title'));
-            } else {
-                jQuery(this).parents('.cionwrapper').first().find('.content-item-tooltip').html('&nbsp;');
+        		if(!(jQuery(this).parent().hasClass("content-item-hi-resolution") 
+            			|| jQuery(this).parent().hasClass("content-item-low-resolution"))){
+	            if(typeof jQuery(this).attr('title') != 'undefined' && jQuery(this).attr('title').length != 0){
+	                jQuery(this).parents('.cionwrapper').first().find('.content-item-tooltip').html(jQuery(this).attr('title'));
+	            } else {
+	                jQuery(this).parents('.cionwrapper').first().find('.content-item-tooltip').html('&nbsp;');
+	            }
             }
         });
             
         jQuery('.cion').live('mouseleave', function(){
-            jQuery(this).parents('.cionwrapper').first().find('.content-item-tooltip').html('&nbsp;');
+        		if(!(jQuery(this).parent().hasClass("content-item-hi-resolution") 
+            			|| jQuery(this).parent().hasClass("content-item-low-resolution"))){
+            	jQuery(this).parents('.cionwrapper').first().find('.content-item-tooltip').html('&nbsp;');
+            }
         });
         
         var clickedHovers=new Array();          
-        jQuery(".cion").live('touchstart',function() {              
+        jQuery(".cion").live('touchstart',function() {      
             if(typeof jQuery(this).attr('title') != 'undefined' && jQuery(this).attr('title').length != 0){
                 var unique = jQuery(this).parent().attr('id')+ jQuery(this).attr('title');
                 var uniquetab = jQuery(this).parent().attr('id');                   
@@ -956,13 +966,21 @@ Story/Task  : US79/TA1007
                 }else{
                     clickedHovers=new Array();
                     clickedHovers.push(unique);
-                    clickedHovers.push(uniquetab); 
-                    jQuery(".content-item-wrapper").find('.content-item-tooltip').html('&nbsp;');
-                    jQuery(this).parents('.cionwrapper').first().find('.content-item-tooltip').html(jQuery(this).attr('title'));
+                    clickedHovers.push(uniquetab);
+                    if(!(jQuery(this).parent().hasClass("content-item-hi-resolution") 
+            					|| jQuery(this).parent().hasClass("content-item-low-resolution"))){ 
+	                    jQuery(".content-item-wrapper").find('.content-item-tooltip').html('&nbsp;');
+	                    jQuery(this).parents('.cionwrapper').first().find('.content-item-tooltip').html(jQuery(this).attr('title'));
+                    }
                     return false;
                 }                       
-            } else {            
-                jQuery(this).parents('.cionwrapper').first().find('.content-item-tooltip').html('&nbsp;');
+            } else {
+            		if(jQuery(this).parent().hasClass("content-item-hi-resolution") 
+            			|| jQuery(this).parent().hasClass("content-item-low-resolution")){
+            			jQuery(this).trigger('click');
+            		}else{
+            			jQuery(this).parents('.cionwrapper').first().find('.content-item-tooltip').html('&nbsp;');
+            		}
             }        
         });     
         

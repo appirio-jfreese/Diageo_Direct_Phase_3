@@ -231,10 +231,12 @@ Story/Task  : US495/DE600
                 <apex:outputPanel rendered="{!AND(!ISNULL(cvid1),!ISNULL(cvidlow1))}">
                     <div class="content-item-resolution">
                         <div class="content-item-hi-resolution pointer">
-                            <a target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvid1}" onclick="addToDownloadCache('{!cvid1}');">high res.</a>
+<!--                            <a class="cion" style="width: 100%; height: 100%; color: #ffffff;" target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvid1}" onclick="addToDownloadCache('{!cvid1}');">high res.</a>-->
+														<div class="cion box-cion-download pointer" style="width: 100%; background: none;" href="/sfc/servlet.shepherd/version/download/{!cvid1}" onclick="addToDownloadCache('{!cvid1}');">high res.</div>
                         </div>
                         <div class="content-item-low-resolution pointer">
-                            <a target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvidlow1}" onclick="addToDownloadCache('{!cvidlow1}');">low res.</a>
+<!--                            <a class="cion" style="width: 100%; height: 100%; color: #ffffff;" target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvidlow1}" onclick="addToDownloadCache('{!cvidlow1}');">low res.</a>-->
+                            <div class="cion box-cion-download pointer" style="width: 100%; background: none;" href="/sfc/servlet.shepherd/version/download/{!cvidlow1}" onclick="addToDownloadCache('{!cvidlow1}');">low res.</div>
                         </div>
                         <div class="content-item-clean"></div>                  
                     </div>
@@ -242,7 +244,8 @@ Story/Task  : US495/DE600
                 <apex:outputPanel rendered="{!AND(!ISNULL(cvid1),ISNULL(cvidlow1),imageRes1=='High')}">
                     <div class="content-item-resolution">
                         <div class="content-item-hi-resolution pointer">
-                            <a target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvid1}" onclick="addToDownloadCache('{!cvid1}');">high res.</a>
+<!--                            <a target="_blank" class="cion" style="width: 100%; height: 100%; color: #ffffff;" href="/sfc/servlet.shepherd/version/download/{!cvid1}" onclick="addToDownloadCache('{!cvid1}');">high res.</a>-->
+                            <div class="cion box-cion-download pointer" style="width: 100%; background: none;" href="/sfc/servlet.shepherd/version/download/{!cvid1}" onclick="addToDownloadCache('{!cvid1}');">high res.</div>
                         </div>
                         <div class="content-item-low-resolution pointer grey">&nbsp;</div>
                         <div class="content-item-clean"></div>                  
@@ -252,7 +255,8 @@ Story/Task  : US495/DE600
                     <div class="content-item-resolution">
                         <div class="content-item-hi-resolution pointer grey">&nbsp;</div>
                         <div class="content-item-low-resolution pointer">
-                            <a target="_blank" href="/sfc/servlet.shepherd/version/download/{!cvid1}" onclick="addToDownloadCache('{!cvid1}');">low res.</a>
+<!--                            <a target="_blank" class="cion" style="width: 100%; height: 100%; color: #ffffff;" href="/sfc/servlet.shepherd/version/download/{!cvid1}" onclick="addToDownloadCache('{!cvid1}');">low res.</a>-->
+                            <div class="cion box-cion-download pointer" style="width: 100%; background: none;" href="/sfc/servlet.shepherd/version/download/{!cvid1}" onclick="addToDownloadCache('{!cvid1}');" title="low res.">low res.</div>
                         </div>
                         <div class="content-item-clean"></div>                  
                     </div>
