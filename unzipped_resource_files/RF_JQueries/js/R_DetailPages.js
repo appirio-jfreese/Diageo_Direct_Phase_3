@@ -152,7 +152,7 @@ function jqTransformScript(){
 	jQuery(".follow").click(function() {
 		jQuery(this).toggleClass("unfollow");
 	});
-	jQuery('img.scaleImg').imgscale({parent : '.preview-wrapper',scale: 'fit',fade : 1000});
+	rescalImagesResponisve();
 }
 
 function initializationFunction() {
