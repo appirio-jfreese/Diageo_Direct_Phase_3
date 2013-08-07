@@ -44,6 +44,10 @@ Story/Task  : US607/TA1014
 Updated By  : Basant Verma (Appirio OffShore)   
 Date        : 7/19/13
 Story/Task  : US609/DE654
+
+Updated By  : Basant Verma (Appirio OffShore)   
+Date        : 08/06/13
+Story/Task  : DE725
 *******************************************************************************************************************/
 
 global public without sharing virtual class Controller_Base {
@@ -262,8 +266,10 @@ global public without sharing virtual class Controller_Base {
                 {
                    new PageLink(Page.R_MonthlyExecutionPlan.getUrl(),Constant.MONTHLY_EXECUTION_PLAN, 'menu-mep'),
                    new PageLink(Page.R_InnovationAndVAP.getUrl(),((Service_API.getSectionTheme() == 'Spirits') ? Constant.INNOVATION_AND_SUSTAINOVATION : Constant.INNOVATION_SUSTAINOVATION_AND_VINTAGE) , 'menu-isv'),
+                   // START : Changed for DE725 - Basant
                    new PageLink(Page.R_SMIntro.getUrl(),Constant.SELLING_MATERILAS, 'menu-sm')/*,
                    new PageLink(Page.R_BlogHome.getUrl(),'News Blog', 'menu-mep')*/
+                   // END : Changed for DE725 - Basant
                 };          
         } else {
             return new list<pageLink>

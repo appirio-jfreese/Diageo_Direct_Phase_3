@@ -460,12 +460,22 @@ Story/Task  : US585/TA1082
                     <c:videoPlayer videoId="{!videoId1}" width="{!IF(ISNULL(width1), '255', width1)}" height="{!IF(ISNULL(height1), '145', text(value(height1)-22))}"/>
                 </apex:outputPanel>
             </apex:outputPanel>
-            <apex:outputPanel rendered="{!AND(previewAvailable1==true, !ISNULL(previewId1), isVideo1==false)}">
-            	<input type="hidden" value="url({!URLFOR($Action.Attachment.Download, previewId1)}) 50% 10px no-repeat"/>
+            <!-- START : Changed for DE722 - Basant-->
+            <apex:outputPanel rendered="{!AND(previewAvailable1==true, !ISNULL(previewId1), isVideo1==false, renderAsList1 == false)}">
+							<!-- <input type="hidden" value="url({!URLFOR($Action.Attachment.Download, previewId1)}) 50% 10px no-repeat"/> -->
+							<input type="hidden" value="IMG"/>
+							<div class="content-item-image">
+								<div class="preview-wrapper imgLoading" style="width: {!IF(ISNULL(width1), '255px', width1+'px')};  height: {!IF(ISNULL(height1), '145px', text(value(height1)-22)+'px')};">
+									<img class="scaleImgNew" src="{!URLFOR($Action.Attachment.Download, previewId1)}" />
+									<!-- <img class="scaleImg" src="{!URLFOR($Action.Attachment.Download, previewId1)}" style="float:none; margin-left:0px; margin-right:0px; width: {!IF(ISNULL(width1), '255px', width1+'px')};  height: {!IF(ISNULL(height1), '145px', text(value(height1)-22)+'px')};"/>
+									<img class="scaleImg" src="{!URLFOR($Action.Attachment.Download, previewId1)}"/> -->
+								</div>
+							</div>
             </apex:outputPanel>
-            <apex:outputPanel rendered="{!NOT(AND(previewAvailable1==true, !ISNULL(previewId1), isVideo1==false))}">
+            <apex:outputPanel rendered="{!NOT(AND(previewAvailable1==true, !ISNULL(previewId1), isVideo1==false, renderAsList1 == false))}">
             	<input type="hidden" value="url({!URLFOR($Resource.Responsive_Base, fileTypePath)}) 50% 10px no-repeat"/>
             </apex:outputPanel>
+            <!-- END : Changed for DE722 - Basant-->
                 <div class="info" style="text-align: left;">
                     <apex:image height="50px" url="{!URLFOR($Resource.Responsive_Base, fileTypePath)}"/>
                     <div class="desc">

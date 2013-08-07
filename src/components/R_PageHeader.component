@@ -150,10 +150,6 @@ Story/Task  : US645/DE675, US646/DE674
 				}
 				
 				div.content-item-image{
-					position: absolute;
-					left: 0px;
-					top: 0px;
-					width: 100%;
 					text-align: center;
 				}
     </style>
