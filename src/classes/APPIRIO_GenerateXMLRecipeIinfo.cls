@@ -86,7 +86,7 @@ public with sharing class APPIRIO_GenerateXMLRecipeIinfo {
         //recipes
         w.writeStartElement(null,'recipes',null);
         
-        for(Recipe__c recipe : [SELECT API_External_ID__c, LastModifiedDate, NEO_Recipe_Id__c, Recipe_Tag__c, Name, Id, Recipe_Title__c, Locale__c, 
+        for(Recipe__c recipe : [SELECT API_External_ID__c, LastModifiedDate, NEO_Recipe_Id__c, Recipe_Tags__c, Name, Id, Recipe_Title__c, Locale__c, 
                                       Additional_Image_1__c, Additional_Image_1__r.Content_Display_ID__c, 
                                       Additional_Image_2__c, Additional_Image_2__r.Content_Display_ID__c,
                                       Additional_Image_3__c, Additional_Image_3__r.Content_Display_ID__c,
@@ -241,8 +241,8 @@ public with sharing class APPIRIO_GenerateXMLRecipeIinfo {
                     
                     //tags
                     w.writeStartElement(null,'tags',null);
-                        if(recipe.Recipe_Tag__c != null)
-                            w.writeCharacters(recipe.Recipe_Tag__c);
+                        if(recipe.Recipe_Tags__c != null)
+                            w.writeCharacters(recipe.Recipe_Tags__c);
                     w.writeEndElement();
                     //end of tags
                 
