@@ -10,6 +10,10 @@ public with sharing class LeadTriggerHandler {
     private boolean m_isExecuting = false;  
     private integer BatchSize = 0;
     
+    private Map<String, Contact> contactEmails = new Map<String, Contact>();
+    private List<Lead> duplicateLeads = new List<Lead>();
+    private Map<String, Lead> leadEmails = new Map<String, Lead>(); 
+    
     public LeadTriggerHandler(boolean isExecuting, integer size) {
         m_isExecuting = isExecuting;
         BatchSize = size;    
@@ -19,7 +23,11 @@ public with sharing class LeadTriggerHandler {
     // On before insert trigger method
     //-------------------------------------------------------------------------
     public void OnBeforeInsert(List<lead> leads) {
+        getContactsWithMatchingEmail(leads);
 
+        for(Lead lead : leads) {
+            checkEmailForMatch(lead);
+        }
     } 
 
     //-------------------------------------------------------------------------
@@ -57,5 +65,26 @@ public with sharing class LeadTriggerHandler {
       
     }
     
+    //------------------------------------------------------------------------
+    // Get a list of contacts that an email that matches the lead so we
+    // can ensure that duplicate contacts are not created
+    //------------------------------------------------------------------------
+    private void getContactsWithMatchingEmail(List<Lead> leads) {
+        Set<String> emailAddresses = new Set<String>();
+        List<Contact> contacts = [SELECT Id, Email FROM Contact WHERE Email IN : emailAddresses];
+        for(Contact contact : contacts) {
+            contactEmails.put(contact.Email, contact);
+        }
+    }
     
+    //-------------------------------------------------------------------------
+    // Check to see if the email on the lead matches an existing account
+    //-------------------------------------------------------------------------
+    private void checkEmailForMatch(Lead lead) {
+        if(contactEmails.containsKey(lead.Email)) {
+            lead.Has_Existing_Contact__c = true;
+            lead.Existing_ContactId__c = contactEmails.get(lead.Email).Id;        
+            duplicateLeads.add(lead);
+        }
+    }
 }
