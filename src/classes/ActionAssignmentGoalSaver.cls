@@ -34,6 +34,7 @@ public without sharing class ActionAssignmentGoalSaver {
 					(SELECT Id,
 							Product_Classification__c,
 							Product_Group__c,
+							Report_Brand__c,
 							Generic_Brand__c,
 							Sub_Brand__c,
 							Individual_Brand__c,
@@ -85,6 +86,7 @@ public without sharing class ActionAssignmentGoalSaver {
 					newGPL.Goal__c = childGoal.Id;
 					newGPL.Product_Classification__c = oldGPL.Product_Classification__c;
 					newGPL.Product_Group__c = oldGPL.Product_Group__c;
+					newGPL.Report_Brand__c = oldGPL.Report_Brand__c;
 					newGPL.Generic_Brand__c = oldGPL.Generic_Brand__c;
 					newGPL.Sub_Brand__c = oldGPL.Sub_Brand__c;
 					newGPL.Individual_Brand__c = oldGPL.Individual_Brand__c;
@@ -93,11 +95,7 @@ public without sharing class ActionAssignmentGoalSaver {
 					gpls.add(newGPL);
 				}
 			}
-			//try {
-				insert gpls;
-			//} catch(Exception e){
-				
-			//}
+			insert gpls;
 		}
 		
 		parentGoal.Completed__c = true;

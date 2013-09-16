@@ -115,14 +115,22 @@ global with sharing class APPIRIO_WebServiceCallRecipeClasifDtl {
 					//end of key
 					//values
 					w.writeStartElement(null,'values',null);
-						for(Occasion__c occasion :[Select Name_Of_The_Occasion__c, API_External_ID__c, Locale__c From Occasion__c order by Name_Of_The_Occasion__c]) {
+						for(Occasion__c occasion :[Select Name_Of_The_Occasion__c, API_External_ID__c, Locale__c, Occasion_Tags__c, Occasion_Type__c From Occasion__c order by Name_Of_The_Occasion__c]) {
 							//value
 							w.writeStartElement(null,'value',null);
 								w.writeAttribute(null, null, 'id', occasion.API_External_ID__c);
 				                w.writeAttribute(null, null, 'Locale', ''+occasion.Locale__c);
+				                w.writeAttribute(null, null, 'Type', ''+occasion.Occasion_Type__c);
 								w.writeCharacters(occasion.Name_Of_The_Occasion__c);
 							w.writeEndElement();
 							//end of value
+							
+							//tags
+		                    w.writeStartElement(null,'tags',null);
+		                        if(occasion.Occasion_Tags__c != null)
+		                            w.writeCharacters(occasion.Occasion_Tags__c);
+		                    w.writeEndElement();
+		                    //end of tags
 						}
 					w.writeEndElement();
 					//end of values
@@ -147,10 +155,14 @@ global with sharing class APPIRIO_WebServiceCallRecipeClasifDtl {
 					//end of key
 					//values
 					w.writeStartElement(null,'values',null);
-						for(Diageo_Brand__c brand :[Select Name, API_External_ID__c From Diageo_Brand__c order by Name]) {
+						for(Diageo_Brand__c brand :[Select Name, API_External_ID__c, Locale__c, Category__c From Diageo_Brand__c order by Name]) {
 							//value
 							w.writeStartElement(null,'value',null);
 								w.writeAttribute(null, null, 'id', ''+brand.API_External_ID__c);
+								if(brand.Locale__c == null) brand.Locale__c = '';
+								w.writeAttribute(null, null, 'Locale', brand.Locale__c +'');
+								if(brand.Category__c == null) brand.Category__c = '';
+								w.writeAttribute(null, null, 'Category', brand.Category__c +'');
 				                w.writeCharacters(brand.Name);
 							w.writeEndElement();
 							//end of value
@@ -178,11 +190,16 @@ global with sharing class APPIRIO_WebServiceCallRecipeClasifDtl {
 					//end of key
 					//values
 					w.writeStartElement(null,'values',null);
-						for(Diageo_Product__c product :[Select Name, API_External_ID__c From Diageo_Product__c order by Name]) {
+						for(Diageo_Product__c product :[Select Name, API_External_ID__c, Locale__c, Category__c, Diageo_Brand_Id__r.API_External_ID__c From Diageo_Product__c order by Name]) {
 							//value
 							w.writeStartElement(null,'value',null);
 								w.writeAttribute(null, null, 'id', ''+product.API_External_ID__c);
-				                w.writeCharacters(product.Name);
+								if(product.Locale__c == null) product.Locale__c = '';
+								w.writeAttribute(null, null, 'Locale', product.Locale__c +'');
+								if(product.Category__c == null) product.Category__c = '';
+								w.writeAttribute(null, null, 'Category', product.Category__c +'');
+								w.writeAttribute(null, null, 'BrandId', product.Diageo_Brand_Id__r.API_External_ID__c +'');
+	                            w.writeCharacters(product.Name);
 							w.writeEndElement();
 							//end of value
 						}
@@ -197,6 +214,7 @@ global with sharing class APPIRIO_WebServiceCallRecipeClasifDtl {
 		
 		w.writeEndDocument();
 		xmlString = w.getXmlString();
+		system.debug('===================xmlString: '+ xmlString);
 		w.close();
 		
 		return xmlString;

@@ -1313,7 +1313,7 @@ public without sharing class Service_API {
     public static List<Calendar__c> getMEPs(Date startDate, Date endDate, String salesDriver, Set<String> themes){
         Set<ID> ids = getCalendarBrands(themes);
         if (salesDriver != 'All') {
-            return [
+           return [
                 SELECT Id, name, sales_channel__c, description__c, start_date__c, end_date__c , background_color__c, background_color2__c,
                     Logo_Image_Small__r.content_id__c, Logo_Image_Large__r.content_id__c, text_color__c, classification__c   
                     FROM Calendar__c

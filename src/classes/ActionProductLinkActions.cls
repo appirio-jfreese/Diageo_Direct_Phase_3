@@ -54,7 +54,8 @@ public with sharing class ActionProductLinkActions {
 					Generic_Brand__c,
 					Sub_Brand__c,
 					Individual_Brand__c,
-					Size__c
+					Size__c,
+					Report_Brand__c
 			   FROM Product__c
 			  WHERE Individual_Brand__c IN :indBrands
 			];
@@ -85,12 +86,14 @@ public with sharing class ActionProductLinkActions {
 			} else {
 				apl.Product_Classification__c = match.Product_Classification__c;
 				apl.Product_Group__c = match.Product_Group__c;
+				apl.Report_Brand__c = match.Report_Brand__c;
 				apl.Generic_Brand__c = match.Generic_Brand__c;
 				apl.Sub_Brand__c = match.Sub_Brand__c;
 				apl.Individual_Brand__c = match.Individual_Brand__c;
 				if(apl.Size_Offline__c != null){
 					apl.Size__c = apl.Size_Offline__c;
 				}
+				apl.Report_Brand__c = match.Report_Brand__c;
 			}
 		}
 	}
@@ -99,6 +102,65 @@ public with sharing class ActionProductLinkActions {
 		for(Action_Product_Link__c apl : apls){
 			apl.Individual_Brand_Offline__c = apl.Individual_Brand__c;
 			apl.Size_Offline__c = apl.Size__c;
+		}
+	}
+	
+	public static void checkToPopulateReportBrand(List<Action_Product_Link__c> apls){
+		List<Action_Product_Link__c> validAPLs = new List<Action_Product_Link__c>();
+		for(Action_Product_Link__c apl : apls){
+			if(apl.Report_Brand__c == null && apl.Generic_Brand__c != null){
+				validAPLs.add(apl);
+			}
+		}
+		if(validAPLs.size() > 0){
+			populateReportBrand(validAPLs);
+		}
+	}
+	
+	public static void checkToPopulateReportBrand(Map<Id, Action_Product_Link__c> oldMap, List<Action_Product_Link__c> apls){
+		List<Action_Product_Link__c> validAPLs = new List<Action_Product_Link__c>();
+		for(Action_Product_Link__c apl : apls){
+			Action_Product_Link__c old = oldMap.get(apl.Id);
+			if(apl.Generic_Brand__c != old.Generic_Brand__c || apl.Sub_Brand__c != old.Sub_Brand__c){
+				validAPLs.add(apl);
+			}
+		}
+		if(validAPLs.size() > 0){
+			populateReportBrand(validAPLs);
+		}
+	}
+	
+	public static void populateReportBrand(List<Action_Product_Link__c> apls){
+		Set<String> gBrands = new Set<String>();
+		Set<String> sBrands = new Set<String>();
+		
+		for(Action_Product_Link__c apl : apls){
+			gBrands.add(apl.Generic_Brand__c);
+			sBrands.add(apl.Sub_Brand__c);
+		}
+		
+		List<Product__c> prods = [
+			SELECT Id,
+				   Generic_Brand__c,
+				   Sub_Brand__c,
+				   Report_Brand__c
+			  FROM Product__c
+			 WHERE Generic_Brand__c IN :gBrands
+			    OR Sub_Brand__c IN :sBrands
+		];
+		
+		Map<String, String> rBrandsByKey = new Map<String, String>();
+		for(Product__c prod : prods){
+			rBrandsByKey.put(prod.Generic_Brand__c + '|' + prod.Sub_Brand__c, prod.Report_Brand__c);
+		}
+		
+		for(Action_Product_Link__c apl : apls){
+			String match = rBrandsByKey.get(apl.Generic_Brand__c + '|' + apl.Sub_Brand__c);
+			if(match != null){
+				apl.Report_Brand__c = match;
+			} else {
+				apl.Report_Brand__c = apl.Generic_Brand__c;
+			}
 		}
 	}
 

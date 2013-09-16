@@ -295,6 +295,7 @@ public with sharing class ActionAssignmentController {
 					(SELECT Id,
 							Product_Classification__c,
 							Product_Group__c,
+							Report_Brand__c,
 							Generic_Brand__c,
 							Sub_Brand__c,
 							Individual_Brand__c,
@@ -388,6 +389,7 @@ public with sharing class ActionAssignmentController {
 						newAPL.Action__c = act.Id;
 						newAPL.Product_Classification__c = oldGPL.Product_Classification__c;
 						newAPL.Product_Group__c = oldGPL.Product_Group__c;
+						newAPL.Report_Brand__c = oldGPL.Report_Brand__c;
 						newAPL.Generic_Brand__c = oldGPL.Generic_Brand__c;
 						newAPL.Sub_Brand__c = oldGPL.Sub_Brand__c;
 						newAPL.Individual_Brand__c = oldGPL.Individual_Brand__c;

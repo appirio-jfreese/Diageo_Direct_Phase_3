@@ -106,7 +106,8 @@ global without sharing class ActionTriggerActions {
 						   Generic_Brand__c,
 						   Sub_Brand__c,
 						   Individual_Brand__c,
-						   Size__c
+						   Size__c,
+						   Report_Brand__c
 					  FROM Goal_Product_Links__r)
 			  FROM Goal__c
 			 WHERE Id IN :goalIds]);
@@ -141,6 +142,7 @@ global without sharing class ActionTriggerActions {
 				apl.Sub_Brand__c = gpl.Sub_Brand__c;
 				apl.Individual_Brand__c = gpl.Individual_Brand__c;
 				apl.Size__c = gpl.Size__c;
+				apl.Report_Brand__c = gpl.Report_Brand__c;
 				
 				aplsToInsert.add(apl);
 			}
@@ -293,13 +295,13 @@ global without sharing class ActionTriggerActions {
 					goal.Completed__c = true;
 					goal.Goal_Level__c = 'Rep';
 					goal.Priority__c = 'Local';
-					goal.Minimum_of_Accounts__c = 1;
+					//goal.Minimum_of_Accounts__c = 1;
 					
 					goalsToInsert.add(goal);
 					possibleParentsByKey.put(key, goal);
 				} else {
 					act.Goal__c = goal.Id;
-					goal.Minimum_of_Accounts__c++;
+					//goal.Minimum_of_Accounts__c++;
 					
 					if(goal.Id != null && goalsToUpdateById.get(goal.Id) == null){
 						goalsToUpdateById.put(goal.Id, goal);
@@ -407,7 +409,14 @@ global without sharing class ActionTriggerActions {
 		if(goals.size() > 0){
 			Set<Id> allIds = new Set<Id>();
 			for(Goal__c goal : goals){
-				if(!dupeFuturePreventerSet.contains(goal.Id)){
+				allIds.add(goal.Id);
+				if(goal.Parent_Goal__c != null){
+					allIds.add(goal.Parent_Goal__c);
+					if(goal.Parent_Goal__r.Parent_Goal__c != null){
+						allIds.add(goal.Parent_Goal__r.Parent_Goal__c);
+					}
+				}
+				/*if(!dupeFuturePreventerSet.contains(goal.Id)){
 					dupeFuturePreventerSet.add(goal.Id);
 					allIds.add(goal.Id);
 				}
@@ -422,11 +431,19 @@ global without sharing class ActionTriggerActions {
 						dupeFuturePreventerSet.add(goal.Parent_Goal__r.Parent_Goal__c);
 						allIds.add(goal.Parent_Goal__r.Parent_Goal__c);
 					}
-				}
+				}*/
 			}
-			
+			System.assertNotEquals(0, allIds.size());
 			futurePerformGoalUpdate(allIds);
 		}
+	}
+	
+	public static void performGoalUpdate(Set<Id> allIds){
+		if(recountCompleteActions){
+			countCompletedActionsForGoals(allIds);
+		}
+		createGBRIsForGoals(allIds);
+		createGARIsForGoals(allIds);
 	}
 	
 	@future
@@ -434,7 +451,22 @@ global without sharing class ActionTriggerActions {
 		performGoalUpdate(allIds);
 	}
 	
-	public static void performGoalUpdate(Set<Id> allIds){
+	@future
+	public static void futureCountCompletedActionsForGoals(Set<Id> allIds){
+		countCompletedActionsForGoals(allIds);
+	}
+	
+	@future
+	public static void futureCreateGBRIsForGoals(Set<Id> allIds){
+		createGBRIsForGoals(allIds);
+	}
+	
+	@future
+	public static void futureCreateGARIsForGoals(Set<Id> allIds){
+		createGARIsForGoals(allIds);
+	}
+	
+	public static void countCompletedActionsForGoals(Set<Id> allIds){
 		List<Goal__c> allGoals =
 			[SELECT Id,
 					Parent_Goal__c,
@@ -455,7 +487,10 @@ global without sharing class ActionTriggerActions {
 							Generic_Brand__c,
 							Sub_Brand__c,
 							Individual_Brand__c,
-							Size__c
+							Size__c,
+							Report_Brand__c,
+							Ind_Brand_Size__c,
+							API_Level__c
 					   FROM Goal_Brand_Report_Items__r
 					)
 			   FROM Goal__c
@@ -465,98 +500,141 @@ global without sharing class ActionTriggerActions {
 			];
 			
 		Set<Id> allActionIds = new Set<Id>();
-		Map<String, Goal_Brand_Report_Item__c> gbrisByKey = new Map<String, Goal_Brand_Report_Item__c>();
+		gbrisByKey = new Map<String, Goal_Brand_Report_Item__c>();
 		
-		if(recountCompleteActions){		
-			Map<Id, Map<Id,Integer>> actionCompletesByGoalIdBySourceId = new Map<Id, Map<Id, Integer>>();
-			Map<Id, Map<Id,Integer>> actionCasesByGoalIdBySourceId = new Map<Id, Map<Id, Integer>>();
+		Map<Id, Map<Id,Integer>> actionCompletesByGoalIdBySourceId = new Map<Id, Map<Id, Integer>>();
+		Map<Id, Map<Id,Integer>> actionCasesByGoalIdBySourceId = new Map<Id, Map<Id, Integer>>();
+		
+		for(Goal__c goal : allGoals){
+			Integer count = 0;
+			Integer cases = 0;
 			
-			for(Goal__c goal : allGoals){
-				Integer count = 0;
-				Integer cases = 0;
-				
-				Boolean shouldCountPODStyle = false;
-				if(goal.RecordType.DeveloperName == 'Distribution_POD_Goals'){
-					shouldCountPODStyle = true;
+			Boolean shouldCountPODStyle = false;
+			if(goal.RecordType.DeveloperName == 'Distribution_POD_Goals'){
+				shouldCountPODStyle = true;
+			}
+			
+			for(Action__c act : goal.Actions__r){
+				allActionIds.add(act.Id);
+				if(act != null && act.Cases_Displayed__c != null){
+					cases += Integer.valueOf(act.Cases_Displayed__c);
 				}
-				
-				for(Action__c act : goal.Actions__r){
-					allActionIds.add(act.Id);
-					if(act != null && act.Cases_Displayed__c != null){
-						cases += Integer.valueOf(act.Cases_Displayed__c);
-					}
-					if(shouldCountPODStyle){
-						count += Integer.valueOf(act.Product_Link_Count__c);
-					} else {
-						count++;
-					}
-				}
-				
-				for(Goal_Brand_Report_Item__c gbri : goal.Goal_Brand_Report_Items__r){
-					gbri.Completed_Actions__c = 0;
-					if(gbri.Level__c == 'Product Classification'){
-						gbrisByKey.put(goal.Id + '|Product_Classification__c|' + gbri.Product_Classification__c, gbri);
-					} else if(gbri.Level__c == 'Product Group'){
-						gbrisByKey.put(goal.Id + '|Product_Group__c|' + gbri.Product_Group__c, gbri);
-					} else if(gbri.Level__c == 'Generic Brand'){
-						gbrisByKey.put(goal.Id + '|Generic_Brand__c|' + gbri.Generic_Brand__c, gbri);
-					} else if(gbri.Level__c == 'Sub Brand'){
-						gbrisByKey.put(goal.Id + '|Sub_Brand__c|' + gbri.Sub_Brand__c, gbri);
-					} else if(gbri.Level__c == 'Individual Brand'){
-						gbrisByKey.put(goal.Id + '|Individual_Brand__c|' + gbri.Individual_Brand__c, gbri);
-					} else if(gbri.Level__c == 'Size'){
-						gbrisByKey.put(goal.Id + '|Size__c|' + gbri.Size__c, gbri);
-					}
-				}
-				
-				addToMap(actionCompletesByGoalIdBySourceId, goal.Id, goal.Id, count);
-				addToMap(actionCasesByGoalIdBySourceId, goal.Id, goal.Id, cases);
-				
-				if(goal.Parent_Goal__c != null){
-					addToMap(actionCompletesByGoalIdBySourceId, goal.Parent_Goal__c, goal.Id, count);
-					addToMap(actionCasesByGoalIdBySourceId, goal.Parent_Goal__c, goal.Id, cases);
-				}
-				
-				if(goal.Parent_Goal__r.Parent_Goal__c != null){
-					addToMap(actionCompletesByGoalIdBySourceId, goal.Parent_Goal__r.Parent_Goal__c, goal.Id, count);
-					addToMap(actionCasesByGoalIdBySourceId, goal.Parent_Goal__r.Parent_Goal__c, goal.Id, cases);
+				if(shouldCountPODStyle){
+					count += Integer.valueOf(act.Product_Link_Count__c);
+				} else {
+					count++;
 				}
 			}
 			
-			for(Goal__c goal : allGoals){
-				Integer count = 0;
-				Integer cases = 0;
-				for(Integer i : actionCompletesByGoalIdBySourceId.get(goal.Id).values()){
-					count += i;
+			for(Goal_Brand_Report_Item__c gbri : goal.Goal_Brand_Report_Items__r){
+				gbri.Completed_Actions__c = 0;
+				if(gbri.Level__c == 'Product Classification'){
+					gbrisByKey.put(goal.Id + '|Product_Classification__c|' + gbri.Product_Classification__c, gbri);
+				} else if(gbri.Level__c == 'Product Group'){
+					gbrisByKey.put(goal.Id + '|Product_Group__c|' + gbri.Product_Group__c, gbri);
+				} else if(gbri.Level__c == 'Generic Brand'){
+					gbrisByKey.put(goal.Id + '|Generic_Brand__c|' + gbri.Generic_Brand__c, gbri);
+				} else if(gbri.Level__c == 'Sub Brand'){
+					gbrisByKey.put(goal.Id + '|Sub_Brand__c|' + gbri.Sub_Brand__c, gbri);
+				} else if(gbri.Level__c == 'Individual Brand'){
+					gbrisByKey.put(goal.Id + '|Individual_Brand__c|' + gbri.Individual_Brand__c, gbri);
+				} else if(gbri.Level__c == 'Size'){
+					gbrisByKey.put(goal.Id + '|Size__c|' + gbri.Size__c, gbri);
+				} else if(gbri.Level__c == 'Report Brand'){
+					gbrisByKey.put(goal.Id + '|Report_Brand__c|' + gbri.Report_Brand__c, gbri);
+				} else if(gbri.Level__c == 'Ind. Brand / Size'){
+					gbrisByKey.put(goal.Id + '|Ind_Brand_Size__c|' + gbri.Ind_Brand_Size__c, gbri);
 				}
-				for(Integer i : actionCasesByGoalIdBySourceId.get(goal.Id).values()){
-					cases += i;
-				}
-				goal.Action_Complete__c = count;
-				goal.Cases_Complete__c = cases;
 			}
 			
-			update allGoals;
-		} else {
-			for(Goal__c goal : allGoals){
-				for(Action__c act : goal.Actions__r){
-					allActionIds.add(act.Id);
-				}
-				for(Goal_Brand_Report_Item__c gbri : goal.Goal_Brand_Report_Items__r){
-					gbri.Completed_Actions__c = 0;
-					if(gbri.Level__c == 'Product Classification'){
-						gbrisByKey.put(goal.Id + '|Product_Classification__c|' + gbri.Product_Classification__c, gbri);
-					} else if(gbri.Level__c == 'Product Group'){
-						gbrisByKey.put(goal.Id + '|Product_Group__c|' + gbri.Product_Group__c, gbri);
-					} else if(gbri.Level__c == 'Generic Brand'){
-						gbrisByKey.put(goal.Id + '|Generic_Brand__c|' + gbri.Generic_Brand__c, gbri);
-					} else if(gbri.Level__c == 'Sub Brand'){
-						gbrisByKey.put(goal.Id + '|Sub_Brand__c|' + gbri.Sub_Brand__c, gbri);
-					} else if(gbri.Level__c == 'Individual Brand'){
-						gbrisByKey.put(goal.Id + '|Individual_Brand__c|' + gbri.Individual_Brand__c, gbri);
-					} else if(gbri.Level__c == 'Size'){
-						gbrisByKey.put(goal.Id + '|Size__c|' + gbri.Size__c, gbri);
-					}
+			addToMap(actionCompletesByGoalIdBySourceId, goal.Id, goal.Id, count);
+			addToMap(actionCasesByGoalIdBySourceId, goal.Id, goal.Id, cases);
+			
+			if(goal.Parent_Goal__c != null){
+				addToMap(actionCompletesByGoalIdBySourceId, goal.Parent_Goal__c, goal.Id, count);
+				addToMap(actionCasesByGoalIdBySourceId, goal.Parent_Goal__c, goal.Id, cases);
+			}
+			
+			if(goal.Parent_Goal__r.Parent_Goal__c != null){
+				addToMap(actionCompletesByGoalIdBySourceId, goal.Parent_Goal__r.Parent_Goal__c, goal.Id, count);
+				addToMap(actionCasesByGoalIdBySourceId, goal.Parent_Goal__r.Parent_Goal__c, goal.Id, cases);
+			}
+		}
+		
+		for(Goal__c goal : allGoals){
+			Integer count = 0;
+			Integer cases = 0;
+			for(Integer i : actionCompletesByGoalIdBySourceId.get(goal.Id).values()){
+				count += i;
+			}
+			for(Integer i : actionCasesByGoalIdBySourceId.get(goal.Id).values()){
+				cases += i;
+			}
+			goal.Action_Complete__c = count;
+			goal.Cases_Complete__c = cases;
+		}
+		
+		update allGoals;
+	}
+	
+	public static void createGBRIsForGoals(Set<Id> allIds){
+		List<Goal__c> allGoals =
+			[SELECT Id,
+					Parent_Goal__c,
+					Parent_Goal__r.Parent_Goal__c,
+					RecordType.DeveloperName,
+					(SELECT Id,
+							Cases_Displayed__c,
+							Product_Link_Count__c
+					   FROM Actions__r
+					  WHERE Status__c = 'Closed - Complete'
+					),
+					(SELECT Id,
+							Goal__c,
+							Level__c,
+							Label__c,
+							Product_Classification__c,
+							Product_Group__c,
+							Generic_Brand__c,
+							Sub_Brand__c,
+							Individual_Brand__c,
+							Size__c,
+							Report_Brand__c,
+							Ind_Brand_Size__c,
+							API_Level__c
+					   FROM Goal_Brand_Report_Items__r
+					)
+			   FROM Goal__c
+			   WHERE Id IN :allIds
+			   OR Parent_Goal__c IN :allIds
+			   OR Parent_Goal__r.Parent_Goal__c IN :allIds
+			];
+		
+		Set<Id> allActionIds = new Set<Id>();
+		gbrisByKey = new Map<String, Goal_Brand_Report_Item__c>();
+		
+		for(Goal__c goal : allGoals){
+			for(Action__c act : goal.Actions__r){
+				allActionIds.add(act.Id);
+			}
+			for(Goal_Brand_Report_Item__c gbri : goal.Goal_Brand_Report_Items__r){
+				gbri.Completed_Actions__c = 0;
+				if(gbri.Level__c == 'Product Classification'){
+					gbrisByKey.put(goal.Id + '|Product_Classification__c|' + gbri.Product_Classification__c, gbri);
+				} else if(gbri.Level__c == 'Product Group'){
+					gbrisByKey.put(goal.Id + '|Product_Group__c|' + gbri.Product_Group__c, gbri);
+				} else if(gbri.Level__c == 'Generic Brand'){
+					gbrisByKey.put(goal.Id + '|Generic_Brand__c|' + gbri.Generic_Brand__c, gbri);
+				} else if(gbri.Level__c == 'Sub Brand'){
+					gbrisByKey.put(goal.Id + '|Sub_Brand__c|' + gbri.Sub_Brand__c, gbri);
+				} else if(gbri.Level__c == 'Individual Brand'){
+					gbrisByKey.put(goal.Id + '|Individual_Brand__c|' + gbri.Individual_Brand__c, gbri);
+				} else if(gbri.Level__c == 'Size'){
+					gbrisByKey.put(goal.Id + '|Size__c|' + gbri.Size__c, gbri);
+				} else if(gbri.Level__c == 'Report Brand'){
+					gbrisByKey.put(goal.Id + '|Report_Brand__c|' + gbri.Report_Brand__c, gbri);
+				} else if(gbri.Level__c == 'Ind. Brand / Size'){
+					gbrisByKey.put(goal.Id + '|Ind_Brand_Size__c|' + gbri.Ind_Brand_Size__c, gbri);
 				}
 			}
 		}
@@ -573,7 +651,9 @@ global without sharing class ActionTriggerActions {
 							Generic_Brand__c,
 							Sub_Brand__c,
 							Individual_Brand__c,
-							Size__c
+							Size__c,
+							Report_Brand__c,
+							Ind_Brand_Size__c
 					   FROM Action_Product_Links__r
 					)
 			   FROM Action__c
@@ -583,367 +663,52 @@ global without sharing class ActionTriggerActions {
 			
 		String key;
 		Goal_Brand_Report_Item__c gbri;
-		Set<String> keysAlreadyUpdatedForThisAction;
-		Boolean shouldCountPODStyle;
-		
-		for(Action__c act : completedActs){
-			shouldCountPODStyle = (act.Goal__r.RecordType.DeveloperName == 'Distribution_POD_Goals');
-			keysAlreadyUpdatedForThisAction = new Set<String>();
+		levelGoalKeys = new Set<String>();
+		if(completedActs.size() > 0){
+			Boolean shouldCountPODStyle = completedActs[0].Goal__r.RecordType.DeveloperName == 'Distribution_POD_Goals';
 			
-			for(Action_Product_Link__c apl : act.Action_Product_Links__r){
-				if(apl.Product_Classification__c != null){
-					key = act.Goal__c + '|Product_Classification__c|' + apl.Product_Classification__c;
-					gbri = gbrisByKey.get(key);
-					if(gbri == null){
-						gbri = new Goal_Brand_Report_Item__c();
-						gbri.Goal__c = act.Goal__c;
-						gbri.Product_Classification__c = apl.Product_Classification__c;
-						gbri.Completed_Actions__c = 0;
-					}
-					if(shouldCountPODStyle){
-						gbri.Completed_Actions__c++;
-						gbrisByKey.put(key, gbri);
-					} else if(keysAlreadyUpdatedForThisAction.contains(key) == false){
-						keysAlreadyUpdatedForThisAction.add(key);
-						gbri.Completed_Actions__c++;
-						gbrisByKey.put(key, gbri);
-					}
-				}
+			for(Action__c act : completedActs){
+				keysAlreadyUpdatedForThisAction = new Set<String>();
 				
-				if(apl.Product_Group__c != null){
-					key = act.Goal__c + '|Product_Group__c|' + apl.Product_Group__c;
-					gbri = gbrisByKey.get(key);
-					if(gbri == null){
-						gbri = new Goal_Brand_Report_Item__c();
-						gbri.Goal__c = act.Goal__c;
-						gbri.Product_Group__c = apl.Product_Group__c;
-						gbri.Completed_Actions__c = 0;
-					}
-					if(shouldCountPODStyle){
-						gbri.Completed_Actions__c++;
-						gbrisByKey.put(key, gbri);
-					} else if(keysAlreadyUpdatedForThisAction.contains(key) == false){
-						keysAlreadyUpdatedForThisAction.add(key);
-						gbri.Completed_Actions__c++;
-						gbrisByKey.put(key, gbri);
-					}
-				}
-				
-				if(apl.Generic_Brand__c != null){
-					key = act.Goal__c + '|Generic_Brand__c|' + apl.Generic_Brand__c;
-					gbri = gbrisByKey.get(key);
-					if(gbri == null){
-						gbri = new Goal_Brand_Report_Item__c();
-						gbri.Goal__c = act.Goal__c;
-						gbri.Generic_Brand__c = apl.Generic_Brand__c;
-						gbri.Completed_Actions__c = 0;
-					}
-					if(shouldCountPODStyle){
-						gbri.Completed_Actions__c++;
-						gbrisByKey.put(key, gbri);
-					} else if(keysAlreadyUpdatedForThisAction.contains(key) == false){
-						keysAlreadyUpdatedForThisAction.add(key);
-						gbri.Completed_Actions__c++;
-						gbrisByKey.put(key, gbri);
-					}
-				}
-				
-				if(apl.Sub_Brand__c != null){
-					key = act.Goal__c + '|Sub_Brand__c|' + apl.Sub_Brand__c;
-					gbri = gbrisByKey.get(key);
-					if(gbri == null){
-						gbri = new Goal_Brand_Report_Item__c();
-						gbri.Goal__c = act.Goal__c;
-						gbri.Sub_Brand__c = apl.Sub_Brand__c;
-						gbri.Completed_Actions__c = 0;
-					}
-					if(shouldCountPODStyle){
-						gbri.Completed_Actions__c++;
-						gbrisByKey.put(key, gbri);
-					} else if(keysAlreadyUpdatedForThisAction.contains(key) == false){
-						keysAlreadyUpdatedForThisAction.add(key);
-						gbri.Completed_Actions__c++;
-						gbrisByKey.put(key, gbri);
-					}
-				}
-				
-				if(apl.Individual_Brand__c != null){
-					key = act.Goal__c + '|Individual_Brand__c|' + apl.Individual_Brand__c;
-					gbri = gbrisByKey.get(key);
-					if(gbri == null){
-						gbri = new Goal_Brand_Report_Item__c();
-						gbri.Goal__c = act.Goal__c;
-						gbri.Individual_Brand__c = apl.Individual_Brand__c;
-						gbri.Completed_Actions__c = 0;
-					}
-					if(shouldCountPODStyle){
-						gbri.Completed_Actions__c++;
-						gbrisByKey.put(key, gbri);
-					} else if(keysAlreadyUpdatedForThisAction.contains(key) == false){
-						keysAlreadyUpdatedForThisAction.add(key);
-						gbri.Completed_Actions__c++;
-						gbrisByKey.put(key, gbri);
-					}
-				}
-				
-				if(apl.Size__c != null){
-					key = act.Goal__c + '|Size__c|' + apl.Size__c;
-					gbri = gbrisByKey.get(key);
-					if(gbri == null){
-						gbri = new Goal_Brand_Report_Item__c();
-						gbri.Goal__c = act.Goal__c;
-						gbri.Size__c = apl.Size__c;
-						gbri.Completed_Actions__c = 0;
-					}
-					if(shouldCountPODStyle){
-						gbri.Completed_Actions__c++;
-						gbrisByKey.put(key, gbri);
-					} else if(keysAlreadyUpdatedForThisAction.contains(key) == false){
-						keysAlreadyUpdatedForThisAction.add(key);
-						gbri.Completed_Actions__c++;
-						gbrisByKey.put(key, gbri);
-					}
-				}
-				
-				if(act.Goal__r.Parent_Goal__c != null){
-					if(apl.Product_Classification__c != null){
-						key = act.Goal__r.Parent_Goal__c + '|Product_Classification__c|' + apl.Product_Classification__c;
-						gbri = gbrisByKey.get(key);
-						if(gbri == null){
-							gbri = new Goal_Brand_Report_Item__c();
-							gbri.Goal__c = act.Goal__r.Parent_Goal__c;
-							gbri.Product_Classification__c = apl.Product_Classification__c;
-							gbri.Completed_Actions__c = 0;
-						}
-						if(shouldCountPODStyle){
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						} else if(keysAlreadyUpdatedForThisAction.contains(key) == false){
-							keysAlreadyUpdatedForThisAction.add(key);
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						}
-					}
-					
-					if(apl.Product_Group__c != null){
-						key = act.Goal__r.Parent_Goal__c + '|Product_Group__c|' + apl.Product_Group__c;
-						gbri = gbrisByKey.get(key);
-						if(gbri == null){
-							gbri = new Goal_Brand_Report_Item__c();
-							gbri.Goal__c = act.Goal__r.Parent_Goal__c;
-							gbri.Product_Group__c = apl.Product_Group__c;
-							gbri.Completed_Actions__c = 0;
-						}
-						if(shouldCountPODStyle){
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						} else if(keysAlreadyUpdatedForThisAction.contains(key) == false){
-							keysAlreadyUpdatedForThisAction.add(key);
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						}
-					}
-					
-					if(apl.Generic_Brand__c != null){
-						key = act.Goal__r.Parent_Goal__c + '|Generic_Brand__c|' + apl.Generic_Brand__c;
-						gbri = gbrisByKey.get(key);
-						if(gbri == null){
-							gbri = new Goal_Brand_Report_Item__c();
-							gbri.Goal__c = act.Goal__r.Parent_Goal__c;
-							gbri.Generic_Brand__c = apl.Generic_Brand__c;
-							gbri.Completed_Actions__c = 0;
-						}
-						if(shouldCountPODStyle){
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						} else if(keysAlreadyUpdatedForThisAction.contains(key) == false){
-							keysAlreadyUpdatedForThisAction.add(key);
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						}
-					}
-					
-					if(apl.Sub_Brand__c != null){
-						key = act.Goal__r.Parent_Goal__c + '|Sub_Brand__c|' + apl.Sub_Brand__c;
-						gbri = gbrisByKey.get(key);
-						if(gbri == null){
-							gbri = new Goal_Brand_Report_Item__c();
-							gbri.Goal__c = act.Goal__r.Parent_Goal__c;
-							gbri.Sub_Brand__c = apl.Sub_Brand__c;
-							gbri.Completed_Actions__c = 0;
-						}
-						if(shouldCountPODStyle){
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						} else if(keysAlreadyUpdatedForThisAction.contains(key) == false){
-							keysAlreadyUpdatedForThisAction.add(key);
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						}
-					}
-					
-					if(apl.Individual_Brand__c != null){
-						key = act.Goal__r.Parent_Goal__c + '|Individual_Brand__c|' + apl.Individual_Brand__c;
-						gbri = gbrisByKey.get(key);
-						if(gbri == null){
-							gbri = new Goal_Brand_Report_Item__c();
-							gbri.Goal__c = act.Goal__r.Parent_Goal__c;
-							gbri.Individual_Brand__c = apl.Individual_Brand__c;
-							gbri.Completed_Actions__c = 0;
-						}
-						if(shouldCountPODStyle){
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						} else if(keysAlreadyUpdatedForThisAction.contains(key) == false){
-							keysAlreadyUpdatedForThisAction.add(key);
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						}
-					}
-					
-					if(apl.Size__c != null){
-						key = act.Goal__r.Parent_Goal__c + '|Size__c|' + apl.Size__c;
-						gbri = gbrisByKey.get(key);
-						if(gbri == null){
-							gbri = new Goal_Brand_Report_Item__c();
-							gbri.Goal__c = act.Goal__r.Parent_Goal__c;
-							gbri.Size__c = apl.Size__c;
-							gbri.Completed_Actions__c = 0;
-						}
-						if(shouldCountPODStyle){
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						} else if(keysAlreadyUpdatedForThisAction.contains(key) == false){
-							keysAlreadyUpdatedForThisAction.add(key);
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						}
-					}
-				}
-				
-				if(act.Goal__r.Parent_Goal__r.Parent_Goal__c != null){
-					if(apl.Product_Classification__c != null){
-						key = act.Goal__r.Parent_Goal__r.Parent_Goal__c + '|Product_Classification__c|' + apl.Product_Classification__c;
-						gbri = gbrisByKey.get(key);
-						if(gbri == null){
-							gbri = new Goal_Brand_Report_Item__c();
-							gbri.Goal__c = act.Goal__r.Parent_Goal__r.Parent_Goal__c;
-							gbri.Product_Classification__c = apl.Product_Classification__c;
-							gbri.Completed_Actions__c = 0;
-						}
-						if(shouldCountPODStyle){
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						} else if(keysAlreadyUpdatedForThisAction.contains(key) == false){
-							keysAlreadyUpdatedForThisAction.add(key);
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						}
-					}
-					
-					if(apl.Product_Group__c != null){
-						key = act.Goal__r.Parent_Goal__r.Parent_Goal__c + '|Product_Group__c|' + apl.Product_Group__c;
-						gbri = gbrisByKey.get(key);
-						if(gbri == null){
-							gbri = new Goal_Brand_Report_Item__c();
-							gbri.Goal__c = act.Goal__r.Parent_Goal__r.Parent_Goal__c;
-							gbri.Product_Group__c = apl.Product_Group__c;
-							gbri.Completed_Actions__c = 0;
-						}
-						if(shouldCountPODStyle){
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						} else if(keysAlreadyUpdatedForThisAction.contains(key) == false){
-							keysAlreadyUpdatedForThisAction.add(key);
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						}
-					}
-					
-					if(apl.Generic_Brand__c != null){
-						key = act.Goal__r.Parent_Goal__r.Parent_Goal__c + '|Generic_Brand__c|' + apl.Generic_Brand__c;
-						gbri = gbrisByKey.get(key);
-						if(gbri == null){
-							gbri = new Goal_Brand_Report_Item__c();
-							gbri.Goal__c = act.Goal__r.Parent_Goal__r.Parent_Goal__c;
-							gbri.Generic_Brand__c = apl.Generic_Brand__c;
-							gbri.Completed_Actions__c = 0;
-						}
-						if(shouldCountPODStyle){
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						} else if(keysAlreadyUpdatedForThisAction.contains(key) == false){
-							keysAlreadyUpdatedForThisAction.add(key);
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						}
-					}
-					
-					if(apl.Sub_Brand__c != null){
-						key = act.Goal__r.Parent_Goal__r.Parent_Goal__c + '|Sub_Brand__c|' + apl.Sub_Brand__c;
-						gbri = gbrisByKey.get(key);
-						if(gbri == null){
-							gbri = new Goal_Brand_Report_Item__c();
-							gbri.Goal__c = act.Goal__r.Parent_Goal__r.Parent_Goal__c;
-							gbri.Sub_Brand__c = apl.Sub_Brand__c;
-							gbri.Completed_Actions__c = 0;
-						}
-						if(shouldCountPODStyle){
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						} else if(keysAlreadyUpdatedForThisAction.contains(key) == false){
-							keysAlreadyUpdatedForThisAction.add(key);
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						}
-					}
-					
-					if(apl.Individual_Brand__c != null){
-						key = act.Goal__r.Parent_Goal__r.Parent_Goal__c + '|Individual_Brand__c|' + apl.Individual_Brand__c;
-						gbri = gbrisByKey.get(key);
-						if(gbri == null){
-							gbri = new Goal_Brand_Report_Item__c();
-							gbri.Goal__c = act.Goal__r.Parent_Goal__r.Parent_Goal__c;
-							gbri.Individual_Brand__c = apl.Individual_Brand__c;
-							gbri.Completed_Actions__c = 0;
-						}
-						if(shouldCountPODStyle){
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						} else if(keysAlreadyUpdatedForThisAction.contains(key) == false){
-							keysAlreadyUpdatedForThisAction.add(key);
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						}
-					}
-					
-					if(apl.Size__c != null){
-						key = act.Goal__r.Parent_Goal__r.Parent_Goal__c + '|Size__c|' + apl.Size__c;
-						gbri = gbrisByKey.get(key);
-						if(gbri == null){
-							gbri = new Goal_Brand_Report_Item__c();
-							gbri.Goal__c = act.Goal__r.Parent_Goal__r.Parent_Goal__c;
-							gbri.Size__c = apl.Size__c;
-							gbri.Completed_Actions__c = 0;
-						}
-						if(shouldCountPODStyle){
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
-						} else if(keysAlreadyUpdatedForThisAction.contains(key) == false){
-							keysAlreadyUpdatedForThisAction.add(key);
-							gbri.Completed_Actions__c++;
-							gbrisByKey.put(key, gbri);
+				for(Action_Product_Link__c apl : act.Action_Product_Links__r){
+					buildGBRI(apl, act.Goal__c, 'Product_Classification__c', shouldCountPODStyle);
+					buildGBRI(apl, act.Goal__c, 'Product_Group__c', shouldCountPODStyle);
+					buildGBRI(apl, act.Goal__c, 'Generic_Brand__c', shouldCountPODStyle);
+					buildGBRI(apl, act.Goal__c, 'Sub_Brand__c', shouldCountPODStyle);
+					buildGBRI(apl, act.Goal__c, 'Individual_Brand__c', shouldCountPODStyle);
+					buildGBRI(apl, act.Goal__c, 'Size__c', shouldCountPODStyle);
+					buildGBRI(apl, act.Goal__c, 'Report_Brand__c', shouldCountPODStyle);
+					buildGBRI(apl, act.Goal__c, 'Ind_Brand_Size__c', shouldCountPODStyle);
+					if(act.Goal__r.Parent_Goal__c != null){
+						buildGBRI(apl, act.Goal__r.Parent_Goal__c, 'Product_Classification__c', shouldCountPODStyle);
+						buildGBRI(apl, act.Goal__r.Parent_Goal__c, 'Product_Group__c', shouldCountPODStyle);
+						buildGBRI(apl, act.Goal__r.Parent_Goal__c, 'Generic_Brand__c', shouldCountPODStyle);
+						buildGBRI(apl, act.Goal__r.Parent_Goal__c, 'Sub_Brand__c', shouldCountPODStyle);
+						buildGBRI(apl, act.Goal__r.Parent_Goal__c, 'Individual_Brand__c', shouldCountPODStyle);
+						buildGBRI(apl, act.Goal__r.Parent_Goal__c, 'Size__c', shouldCountPODStyle);
+						buildGBRI(apl, act.Goal__r.Parent_Goal__c, 'Report_Brand__c', shouldCountPODStyle);
+						buildGBRI(apl, act.Goal__r.Parent_Goal__c, 'Ind_Brand_Size__c', shouldCountPODStyle);
+						if(act.Goal__r.Parent_Goal__r.Parent_Goal__c != null){
+							buildGBRI(apl, act.Goal__r.Parent_Goal__r.Parent_Goal__c, 'Product_Classification__c', shouldCountPODStyle);
+							buildGBRI(apl, act.Goal__r.Parent_Goal__r.Parent_Goal__c, 'Product_Group__c', shouldCountPODStyle);
+							buildGBRI(apl, act.Goal__r.Parent_Goal__r.Parent_Goal__c, 'Generic_Brand__c', shouldCountPODStyle);
+							buildGBRI(apl, act.Goal__r.Parent_Goal__r.Parent_Goal__c, 'Sub_Brand__c', shouldCountPODStyle);
+							buildGBRI(apl, act.Goal__r.Parent_Goal__r.Parent_Goal__c, 'Individual_Brand__c', shouldCountPODStyle);
+							buildGBRI(apl, act.Goal__r.Parent_Goal__r.Parent_Goal__c, 'Size__c', shouldCountPODStyle);
+							buildGBRI(apl, act.Goal__r.Parent_Goal__r.Parent_Goal__c, 'Report_Brand__c', shouldCountPODStyle);
+							buildGBRI(apl, act.Goal__r.Parent_Goal__r.Parent_Goal__c, 'Ind_Brand_Size__c', shouldCountPODStyle);
 						}
 					}
 				}
 			}
 		}
+		
 		List<Goal_Brand_Report_Item__c> gbrisToUpsert = new List<Goal_Brand_Report_Item__c>();
 		List<Goal_Brand_Report_Item__c> gbrisToDelete = new List<Goal_Brand_Report_Item__c>();
 		for(Goal_Brand_Report_Item__c gbri2 : gbrisByKey.values()){
 			if(gbri2.Completed_Actions__c > 0){
 				gbrisToUpsert.add(gbri2);
-			} else if(gbri2.Label__c != '(Undefined)'){
+			} else if(levelGoalKeys.contains(gbri2.Goal__c + '|' + gbri2.API_Level__c)){
 				gbrisToDelete.add(gbri2);
 			}
 		}
@@ -955,12 +720,211 @@ global without sharing class ActionTriggerActions {
 		}
 	}
 	
-	private static void addToMap(Map<Id, Map<Id, Integer>> theMap, Id mainId, Id sourceId, Integer value){
+	public static Map<String, Goal_Brand_Report_Item__c> gbrisByKey {get;set;}
+	public static Set<String> keysAlreadyUpdatedForThisAction {get;set;}
+	public static Set<String> levelGoalKeys {get;set;}
+	
+	public static void buildGBRI(Action_Product_Link__c apl, Id goalId, String fieldName, Boolean shouldCountPODStyle){
+		if(apl.get(fieldName) != null){
+			levelGoalKeys.add(goalId + '|' + fieldName);
+			
+			String key = goalId + '|' + fieldName + '|' + apl.get(fieldName);
+			Goal_Brand_Report_Item__c gbri = gbrisByKey.get(key);
+			if(gbri == null){
+				gbri = new Goal_Brand_Report_Item__c();
+				gbri.Goal__c = goalId;
+				gbri.put(fieldName, apl.get(fieldName));
+				gbri.Completed_Actions__c = 0;
+			}
+			if(shouldCountPODStyle){
+				gbri.Completed_Actions__c++;
+				gbrisByKey.put(key, gbri);
+			} else if(keysAlreadyUpdatedForThisAction.contains(key) == false){
+				keysAlreadyUpdatedForThisAction.add(key);
+				gbri.Completed_Actions__c++;
+				gbrisByKey.put(key, gbri);
+			}
+		}
+	}
+	
+	public static void addToMap(Map<Id, Map<Id, Integer>> theMap, Id mainId, Id sourceId, Integer value){
 		if(theMap.get(mainId) == null){
 			theMap.put(mainId, new Map<Id, Integer>());
 		}
 		if(value > 0){
 			theMap.get(mainId).put(sourceId, value);
 		}
+	}
+	
+	public static void createGARIsForGoals(Set<Id> allIds){
+		List<Goal__c> allGoals =
+			[SELECT Id,
+					Parent_Goal__c,
+					Parent_Goal__r.Parent_Goal__c,
+					(SELECT Id,
+							Account__c,
+							Account__r.State__c,
+							Account__r.OwnerId,
+							Account__r.Account_Segmentatiobn__c,
+							Account__r.Primary_Demographic__c,
+							Account__r.RecordType.Name
+					   FROM Actions__r
+					  WHERE Status__c = 'Closed - Complete'
+					    AND Account__c != null
+					    AND Account__r.RecordType.Name LIKE '%Premise%'
+					    AND ((Account__r.State__c != null AND Account__r.Account_Segmentatiobn__c != null)
+					    OR   (Account__r.State__c != null AND Account__r.Primary_Demographic__c != null)
+					    OR   (Account__r.OwnerId != null AND Account__r.Account_Segmentatiobn__c != null)
+					    OR   (Account__r.OwnerId != null AND Account__r.Primary_Demographic__c != null))
+					),
+					(SELECT Id,
+							Goal__c,
+							Account__c
+					   FROM Goal_Account_Report_Items__r
+					)
+			   FROM Goal__c
+			   WHERE (Id IN :allIds
+			   OR Parent_Goal__c IN :allIds
+			   OR Parent_Goal__r.Parent_Goal__c IN :allIds)
+			   AND Action_Complete__c > 0
+			];
+		
+		Set<Id> stateAndUserIds = new Set<Id>();
+		for(Goal__c goal : allGoals){
+			for(Action__c act : goal.Actions__r){
+				stateAndUserIds.add(act.Account__r.State__c);
+				stateAndUserIds.add(act.Account__r.OwnerId);
+			}
+		}
+		List<State_User_Report_Item__c> suris =
+			[SELECT Id,
+					Key__c,
+					Accounts__c,
+					Called_On_Accounts__c
+			   FROM State_User_Report_Item__c
+			  WHERE State__c IN :stateAndUserIds
+			     OR User__c IN :stateAndUserIds
+			];
+		Map<String, Id> suriIDsByKey = new Map<String, Id>();
+		
+		for(State_User_Report_Item__c suri : suris){
+			suriIDsByKey.put(suri.Key__c, suri.Id);
+		}
+		
+		Map<String, Goal_Account_Report_Item__c> garisByKey = new Map<String, Goal_Account_Report_Item__c>();
+		Id goalId;
+		String stateId;
+		String userId;
+		String key;
+		Goal_Account_Report_Item__c gari;
+		Id stateASSURIId;
+		Id statePDSURIId;
+		Id userASSURIId;
+		Id userPDSURIId;
+		String prem;
+		
+		for(Goal__c goal : allGoals){
+			for(Goal_Account_Report_Item__c gari2 : goal.Goal_Account_Report_Items__r){
+				gari2.Completed_Actions__c = 0;
+				garisByKey.put(gari2.Goal__c + '|' + gari2.Account__c, gari2);
+			}
+			for(Action__c act : goal.Actions__r){
+				if(act.Account__r.RecordType.Name == 'On Premise' || act.Account__r.RecordType.Name == 'On-Premise - Control'){
+					prem = 'On';
+				} else {
+					prem = 'Off';
+				}
+				stateASSURIId = null;
+				statePDSURIId = null;
+				userASSURIId = null;
+				userPDSURIId = null;
+				
+				if(act.Account__r.State__c != null){		
+					stateId = String.valueOf(act.Account__r.State__c).subString(0, 15);
+					if(act.Account__r.Account_Segmentatiobn__c != null){
+						stateASSURIId = suriIDsByKey.get(stateId + '|' + act.Account__r.Account_Segmentatiobn__c + '|' + prem);
+					}
+					if(act.Account__r.Primary_Demographic__c != null){
+						statePDSURIId = suriIDsByKey.get(stateId + '|' + act.Account__r.Primary_Demographic__c + '|' + prem);
+					}
+				}
+				if(act.Account__r.OwnerId != null){
+					userId = String.valueOf(act.Account__r.OwnerId).subString(0, 15);
+					if(act.Account__r.Account_Segmentatiobn__c != null){
+						userASSURIId = suriIDsByKey.get(userId + '|' + act.Account__r.Account_Segmentatiobn__c + '|' + prem);
+					}
+					if(act.Account__r.Primary_Demographic__c != null){
+						userPDSURIId = suriIDsByKey.get(userId + '|' + act.Account__r.Primary_Demographic__c + '|' + prem);
+					}
+				}
+				
+				goalId = goal.Id;
+				key = goalId + '|' + act.Account__c;
+				gari = garisByKey.get(key);
+				if(gari == null){
+					gari = new Goal_Account_Report_Item__c();
+					gari.Goal__c = goalId;
+					gari.Account__c = act.Account__c;
+					gari.State_AS_SURI__c = stateASSURIId;
+					gari.State_PD_SURI__c = statePDSURIId;
+					gari.User_AS_SURI__c = userASSURIId;
+					gari.User_PD_SURI__c = userPDSURIId;
+					gari.Completed_Actions__c = 1;
+				} else {
+					gari.Completed_Actions__c++;
+				}
+				garisByKey.put(key, gari);
+				
+				if(goal.Parent_Goal__c != null){
+					goalId = goal.Parent_Goal__c;
+					key = goalId + '|' + act.Account__c;
+					gari = garisByKey.get(key);
+					if(gari == null){
+						gari = new Goal_Account_Report_Item__c();
+						gari.Goal__c = goalId;
+						gari.Account__c = act.Account__c;
+						gari.State_AS_SURI__c = stateASSURIId;
+						gari.State_PD_SURI__c = statePDSURIId;
+						gari.User_AS_SURI__c = userASSURIId;
+						gari.User_PD_SURI__c = userPDSURIId;
+						gari.Completed_Actions__c = 1;
+					} else {
+						gari.Completed_Actions__c++;
+					}
+					garisByKey.put(key, gari);
+					
+					if(goal.Parent_Goal__r.Parent_Goal__c != null){
+						goalId = goal.Parent_Goal__r.Parent_Goal__c;
+						key = goalId + '|' + act.Account__c;
+						gari = garisByKey.get(key);
+						if(gari == null){
+							gari = new Goal_Account_Report_Item__c();
+							gari.Goal__c = goalId;
+							gari.Account__c = act.Account__c;
+							gari.State_AS_SURI__c = stateASSURIId;
+							gari.State_PD_SURI__c = statePDSURIId;
+							gari.User_AS_SURI__c = userASSURIId;
+							gari.User_PD_SURI__c = userPDSURIId;
+							gari.Completed_Actions__c = 1;
+						} else {
+							gari.Completed_Actions__c++;
+						}
+						garisByKey.put(key, gari);
+					}
+				}
+			}
+		}
+		
+		List<Goal_Account_Report_Item__c> garisToUpsert = new List<Goal_Account_Report_Item__c>();
+		List<Goal_Account_Report_Item__c> garisToDelete = new List<Goal_Account_Report_Item__c>();
+		for(Goal_Account_Report_Item__c gari2 : garisByKey.values()){
+			if(gari2.Completed_Actions__c > 0){
+				garisToUpsert.add(gari2);
+			} else {
+				garisToDelete.add(gari2);
+			}
+		}
+		upsert garisToUpsert;
+		delete garisToDelete;
 	}
 }

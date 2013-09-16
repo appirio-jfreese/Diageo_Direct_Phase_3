@@ -53,6 +53,7 @@ global with sharing class POS_APIDeleteImage {
     public static void testDeleteItemImage () {	
     	
     	RestContext.response = new RestResponse(); // Important to set this for testMethod
+    	POS_TestDataUtil.initializeTestData();   
     	Program__c pg1 = POS_TestDataUtil.createProgram();
     	Item__c itm = POS_TestDataUtil.createItem(pg1);
 		

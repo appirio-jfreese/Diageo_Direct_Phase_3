@@ -8,14 +8,15 @@
 global without sharing class POS_MagentoCartRESTResource {
     
     private static String GENERIC_ERROR='There was an error Submitting your cart. Please try again or contact Diageo Direct support';
-    
+    public static boolean deleteCartItem = false ;
     private static Integer CART_LIMIT=500;
+    //private static Integer CART_LIMIT=5;
     private static RestRequest req;
     private static RestResponse res;
-	//added by LSLEVIN Case-3987/START-1
+    //added by LSLEVIN Case-3987/START-1
     private static decimal sfCartTotal=0;
-  	private static decimal mCartTotal=0;
-  	//End-1
+    private static decimal mCartTotal=0;
+    //End-1
     @HttpGet
     global static String doGet() {
         req = RestContext.request;
@@ -30,12 +31,13 @@ global without sharing class POS_MagentoCartRESTResource {
             res.addHeader('Error','required parameter "cart_id" is missing');
             
             return null;
-        }        
+        }
         
-        return processCart(mCartId,false);
+        return processCart(mCartId,false) ;
     }
     
     global static String batchProcessCart (String mCartId) {
+        System.debug('++++++++++ mCartId ' + mCartId );
         res = new RestResponse(); //Need to fill this in since it's not a REST request
         return processCart(mCartId,true);
     }
@@ -62,27 +64,28 @@ global without sharing class POS_MagentoCartRESTResource {
                 try {
                     // call to saveCartItems in SFDC
                     String errorMessage = validateBudget(cartItems);
-
                     if (errorMessage == null) {
                         System.debug('Validation of budget passed; save cart');
                         
                         saveCartItems(cartItems);
-                         
+
                         sendOverageNotification(cartItems);
                     }
                     else {
                         if (batchMode) {
+                            //Changes done by Jai Gupta [Appirio Jaipur] for case 00005338 on May 24,2013
+                            sendError(null,cartItems,errorMessage,true);
+                            // End for 00005338
                             System.debug('ERROR: '+errorMessage);
                         }
                         res.StatusCode = 400;
                         res.addHeader('Error', errorMessage);
                         return 'failed';
                     }
-               
-                    
                 }   
                 catch(DmlException ex) { // 
                     if (batchMode) {
+
                         throw ex;
                     }
                     if(ex.getDmlType(0) == StatusCode.FIELD_CUSTOM_VALIDATION_EXCEPTION) {
@@ -100,20 +103,25 @@ global without sharing class POS_MagentoCartRESTResource {
                     else {
                         res.StatusCode = 400;
                         res.addHeader('Error',GENERIC_ERROR);
-                        sendError(ex,cartItems);
+                        //Changes done by Jai Gupta [Appirio Jaipur] for case 00005338 on May 24,2013
+                        sendError(ex,cartItems,null,false);
+                        // end 00005338
                         return 'failed';
                     }      
                 } catch (Exception ex) {
-                    System.debug('Handling uncaught exception');
+                    System.debug('Handling uncaught exception===='+batchMode);
                     if (batchMode) {
+                        
                         throw ex;
                     }
                     res.StatusCode = 400;
                     res.addHeader('Error',GENERIC_ERROR);
-                    sendError(ex,cartItems);
+                    //Changes done by Jai Gupta [Appirio Jaipur] for case 00005338 on May 24,2013
+                    sendError(ex,cartItems,null,false);
+                    // end 00005338
                     return 'failed';
                 }
-	/*	//3.21.2013-LSLEVIN-Case3987//Start-2
+    /*  //3.21.2013-LSLEVIN-Case3987//Start-2
              //SFDC Cart
              Cart__c sfCart = [SELECT Id,Magento_ID__c, Name from Cart__c WHERE Magento_ID__c =: mCartId ];
              //Magento Cart
@@ -124,34 +132,37 @@ global without sharing class POS_MagentoCartRESTResource {
              list<Cart_Item__c> mCartItems = [SELECT Account_Name__c,Cart__c,Id,Item__r.Current_Price__c, Item__r.Estimated_Shipping_Tax__c,Name,Quantity__c FROM Cart_Item__c WHERE Cart__c =: mCart.Id];
              //Calculate Cart for SFDC
              for(Cart_Item__c sItems : sfCartItems){
-             	decimal taxRate = sItems.Item__r.Estimated_Shipping_Tax__c.Divide(100,2);
-             	decimal taxShipping =  taxRate * sItems.Item__r.Current_Price__c;
-             	decimal indTotal = taxShipping + sItems.Item__r.Current_Price__c;
-             	decimal cTotal = indTotal * sItems.Quantity__c;
-             	
-             	sfCartTotal += cTotal;
-             	sfCartTotal = sfCartTotal.setScale(2,RoundingMode.Half_UP);
+                decimal taxRate = sItems.Item__r.Estimated_Shipping_Tax__c.Divide(100,2);
+                decimal taxShipping =  taxRate * sItems.Item__r.Current_Price__c;
+                decimal indTotal = taxShipping + sItems.Item__r.Current_Price__c;
+                decimal cTotal = indTotal * sItems.Quantity__c;
+                
+                sfCartTotal += cTotal;
+                sfCartTotal = sfCartTotal.setScale(2,RoundingMode.Half_UP);
              }
              //Calculate Cart for Magento
              for(Cart_Item__c mItems : mCartItems){
-             	decimal taxRate = mItems.Item__r.Estimated_Shipping_Tax__c.Divide(100,2);
-             	decimal taxShipping =  taxRate * mItems.Item__r.Current_Price__c;
-             	decimal indTotal = taxShipping + mItems.Item__r.Current_Price__c;
-             	decimal cTotal = indTotal * mItems.Quantity__c;
-             	
-             	mCartTotal += cTotal;
-             	mCartTotal = mCartTotal.setScale(2,RoundingMode.Half_UP);
+                decimal taxRate = mItems.Item__r.Estimated_Shipping_Tax__c.Divide(100,2);
+                decimal taxShipping =  taxRate * mItems.Item__r.Current_Price__c;
+                decimal indTotal = taxShipping + mItems.Item__r.Current_Price__c;
+                decimal cTotal = indTotal * mItems.Quantity__c;
+                
+                mCartTotal += cTotal;
+                mCartTotal = mCartTotal.setScale(2,RoundingMode.Half_UP);
              }
              //Success Message sent to sync.log
-             	res.StatusCode = 200;
+                res.StatusCode = 200;
                 res.addHeader('Success',' [CLIENT INFO]: Magento Cart Submission Start: {Magento Cart Id: ' + mCartId + '} {Magento Cart Quantity: ' + cartItems.size()  + '} {Magento Cart Total: $'+ mCartTotal
                 + '} [SERVICE INFO] Success: {SFDC Cart Id: ' + sfCart.Name + '} {SFDC Cart Quantity: ' + sfCartItems.size() + '} {SFDC Cart Total: $' + sfCartTotal+'}' +
                 ' [CLIENT INFO]: '+ ' Magento Cart Submission End:    [CLIENT INFO]: Success');
-		//Case3987End-2   */ 
+        //Case3987End-2   */ 
             }
             else {
                 //Cart too big, so need to process offline
                 POS_PullMagentoCartsBatch batch = new POS_PullMagentoCartsBatch(mCartId);
+                // Changes done by Jai Gupta [Appirio Jaipur] for case 00005338 on May 23,2013
+                batch.errorCartItems.addAll(cartItems);
+                // End for case 00005338
                 Database.executeBatch(batch);
                 res.StatusCode = 400;
                 res.addHeader('Notice', 'Due to large cart size it will take time to process this request. You will recieve an email when it is complete.');
@@ -170,12 +181,18 @@ global without sharing class POS_MagentoCartRESTResource {
     class CartProcessingException extends Exception {
     
     }
-   
-    
-    private static void sendError (Exception e, List<CartItemWrapper> cartItems) {
+    // Changed signature of the function to include more information in the email
+    // Changes done by Jai Gupta [Appirio Jaipur] for case 00005338 on May 24,2013
+    public static void sendError(Exception e , List<CartItemWrapper> cartItems , String errorMessage, boolean batchMode) {
         try {
+            // Changes done by Jai Gupta [Appirio Jaipur] for case 00005338
+            List<String> toAddresses = new list<String>{'pos-order-confirmation@diageo.com'};
+            // End for case 00005338
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-            mail.setToAddresses(new list<String>{'pos-order-confirmation@diageo.com'});
+            // Changes done by Jai Gupta [Appirio Jaipur] for case 00005338
+            //Commented out below line
+            //mail.setToAddresses(new list<String>{'pos-order-confirmation@diageo.com'});
+            // End for case 00005338
             //mail.setToAddresses(new list<String>{'sstearns@modelmetrics.com'});
             
             mail.setReplyTo('pos-order-confirmation@diageo.com');
@@ -183,30 +200,42 @@ global without sharing class POS_MagentoCartRESTResource {
             mail.setSenderDisplayName('Diageo POS Processing');
             mail.setBccSender(false);
             mail.setUseSignature(false);
-            
-            String body = 'There was an error received when a cart was submitted: \n\n';
-            
+            // Changes done by Jai Gupta [Appirio Jaipur] for case 00005338 on May 24,2013
+            String body = 'There was an error received when processing your Cart:\n\n';
+            if(errorMessage != null) {
+                body = 'The Cart you submitted failed to be successfully processed due to:\n';
+                body += errorMessage +'\n\n';
+            }
+            // End for case 00005338
             String server = System.URL.getSalesforceBaseURL().getHost();
             
             if (server.indexOf('na7.salesforce.com')>-1) {
-                body=body+'  This error was experienced in the live PRODUCTION environment\n';
+                // Changes done by Jai Gupta [Appirio Jaipur] for case 00005338 on June 05,13
+               // body=body+'This error was experienced in the live PRODUCTION environment\n';
             }
             else {
-                body=body+'  This error was received in the SANDBOX environment and is a result of testing/development there.  Please forward '+
+                body=body+'This error was received in the SANDBOX environment and is a result of testing/development there.  Please forward '+
                     'this message to the development/qa team';
             }
-            body=body+'\n\n';
-            body=body+'Error occured on server: '+server;
+            //body=body+'\n';
+            //body=body+'Error occurred on server: '+server;
+            // End for case 00005338
             if(e != null){
-                body=body+'\nError was: '+e.getMessage();
+                body=body+'\n\nError was: '+e.getMessage();
                 body=body+'\nTrace was: \n';
-                body=body+' '+e.getStackTraceString();
-                body=body+'\n\n';
+                body=body+e.getStackTraceString();
+                body=body+'\n';
             }
             // For case 00003703 by Jai Gupta on 17 Jan , 2013
             body=body+'\nCart contained '+cartItems.size()+' item(s)\n';
-            body=body+'\nRequest XML is : \n'+req+'\n';
-            body=body+'\nResponse XML is : \n'+res+'\n';
+            // Changes done by Jai Gupta [Appirio Jaipur] for case 00005338 on May 24,2013
+            if(req != null) {
+                body=body+'\nRequest XML is : \n'+req+'\n';
+            }
+            if(res.responseBody != null) {
+                body=body+'\nResponse XML is : \n'+res+'\n';    
+            }
+            // End for case 00005338
             //body = body+' User name : '+Userinfo.getFirstName() + ' ' + Userinfo.getLastName();
             if (cartItems!=null && cartItems.size()>0) {
                 //body=body+'  Cart contained '+cartItems.size()+' items\n';
@@ -219,14 +248,19 @@ global without sharing class POS_MagentoCartRESTResource {
                     }
                 }
                 // End for case 00003703
+                // Changes done by Jai Gupta [Appirio Jaipur] for case 00005338 // Querying email and storing in a variable to send email
                 String userId = cartItems.get(0).magentoCustomerId;
                 if (userId!=null) {
-                    User user = [select Id, Name from User where Magento_Id__c=:userId];
+                    User user = [select Id, Name,Email from User where Magento_Id__c=:userId];
                     if (user!=null) {
-                        body=body+' Error was for user: '+user.Name+'\n\n';    
+                        body=body+'Cart submission for user: '+user.Name+'\n\n';
+                        toAddresses.add(user.Email);
                     }
                 }
             }
+            // Changes done by Jai Gupta [Appirio Jaipur] for case 00005338
+            mail.setToAddresses(toAddresses);
+            // End for case 00005338
             mail.setPlainTextBody(body);
             Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{mail});
         }
@@ -234,7 +268,7 @@ global without sharing class POS_MagentoCartRESTResource {
             System.debug('FAILURE TO SEND EMAIL: '+ex.getMessage());
         }
     }
-    
+        
     /*
     This method validates the budget.  If the user is blocked from submission (distributor with no budget) this
     method will return false.  Otherwise it returns true.
@@ -392,7 +426,7 @@ global without sharing class POS_MagentoCartRESTResource {
     This method sends the relevant notification to users responsible for the budgets directly touched by this Cart Submission.
     */
     private static void sendOverageNotification (List<CartItemWrapper> cartItems) {
-        
+        system.debug(':::----cartItems----::'+cartItems);
         POS_Magento_Configuration__c settings = POS_Magento_Configuration__c.getOrgDefaults();
         Decimal overagePercentage;
         Decimal overageAmount;
@@ -406,8 +440,12 @@ global without sharing class POS_MagentoCartRESTResource {
             overagePercentage = settings.Budget_Overage_Percent__c/100;
             overageAmount = settings.Budget_Overage_Amount__c;
         }
-        System.debug('Overage percent: '+overagePercentage + ' overageAmount: '+overageAmount);        
-
+        System.debug('Overage percent: '+overagePercentage + ' overageAmount: '+overageAmount); 
+        // Added by Jai gupta to avoid Null pointer exception / list index out of bounds exceptions       
+        if(cartItems.size() == 0 ) {
+            return ;
+        }
+        // end
         //Get user based on item ownership
         String magentoCustomerId = cartItems.get(0).magentoCustomerId;
         User user = [select Id, Name, Profile.Name from User where Magento_Id__c = :magentoCustomerId];
@@ -593,7 +631,7 @@ global without sharing class POS_MagentoCartRESTResource {
             //Adding shipTo_idNode for Case 00003923 - Diana - 2/22/2013
             Dom.XMLNode shipTo_idNode = keyNode.getChildElement('shipto_id', null); 
             if(shipTo_idNode != null) {
-				citmW.sfdcShipToId = shipTo_idNode.getText();
+                citmW.sfdcShipToId = shipTo_idNode.getText();
             }//End case 00003923
             
             Dom.XMLNode optionsNode = keyNode.getChildElement('options', null); 
@@ -679,7 +717,7 @@ private static Boolean saveCartItems(List<CartItemWrapper> cartItemWrappers) {
         }
         
         /*
- 		//Commented out by Diana for Case 00003923 on 2/22/2013
+        //Commented out by Diana for Case 00003923 on 2/22/2013
         //Changes made by Jai gupta for case 00003802 on Feb 01,2013
         
         Map<String,List<user_ship_to__c>> userShipToMapTest = new Map<String,List<user_ship_to__c>>();
@@ -701,7 +739,7 @@ private static Boolean saveCartItems(List<CartItemWrapper> cartItemWrappers) {
                 List<User_Ship_To__c> userShipToList = userShipToMapTest.get(stmId);
                 system.debug('==============userShipToList============='+userShipToList);
                 if(userShipToList == null) { // Added this condition to avoind null pointer exception
-                	userShipToList = new List<User_Ship_To__c>();
+                    userShipToList = new List<User_Ship_To__c>();
                 }
                 // End for case 00003802
                 if(userShipToList.size() > 0) { // there should always be one and only one ShipTo returned, but handling this to support any data descrepancies b/w Magento/SFDC that may exists
@@ -763,7 +801,7 @@ private static Boolean saveCartItems(List<CartItemWrapper> cartItemWrappers) {
                 
                 Map<String,String> cwMap = new Map<String,String>();
                 for(CartItemWrapper cw :cartItemWrappers) {
-                	//Commented out for Case 00003923 - Diana - 2/22/2013
+                    //Commented out for Case 00003923 - Diana - 2/22/2013
                     //cwMap.put(cw.citm.Item__c+':'+shipToMap.get(cw.magentoShipToId),'exists');
                     cwMap.put(cw.citm.Item__c+':'+cw.sfdcShipToId,'exists');
                 }
@@ -807,6 +845,7 @@ private static Boolean saveCartItems(List<CartItemWrapper> cartItemWrappers) {
         
         
         if(cartItemsRemoved != null) {
+        	deleteCartItem = true ;// Code optimization done by Jai Gupta [Appirio Jaipur] on June 26,13 for case 00048953
             delete cartItemsRemoved;
         }
         
@@ -815,8 +854,8 @@ private static Boolean saveCartItems(List<CartItemWrapper> cartItemWrappers) {
             Cart_Item__c cItem = cw.citm;
             //Commented out for case 00003923 - Diana - 2/22/2013
             //String shipToId = shipToMap.get(cw.magentoShipToId);
-			String shipToId = cw.sfdcShipToId;
-			            
+            String shipToId = cw.sfdcShipToId;
+                        
             if(existingCartItemMap.get(cw.citm.Item__c+shipToId) != null) { // will have the Cart Item with existing ItemId + ShipTo Id combination
                 cItem = existingCartItemMap.get(cw.citm.Item__c+shipToId);
                 cItem.Quantity__c = cw.citm.Quantity__c;
@@ -1082,13 +1121,13 @@ private static Boolean saveCartItems(List<CartItemWrapper> cartItemWrappers) {
    }
    // For case 00003802
    private static User createStdUser(){
-    	Profile p = [select id from profile where name='Standard User' limit 1]; 
-    	User testUser = new User(alias = 'standt', email='standarduser@modelmetrics.pos.com', 
+        Profile p = [select id from profile where name='Standard User' limit 1]; 
+        User testUser = new User(alias = 'standt', email='standarduser@modelmetrics.pos.com', 
         emailencodingkey='UTF-8', lastname='Testing', languagelocalekey='en_US', 
         localesidkey='en_US', profileid = p.Id, firstname='phil',
         timezonesidkey='America/Los_Angeles', username='standarduser'+system.now().getTime()+'@modelmetrics.pos.com');
-    	insert testUser;
-    	return testUser ;
+        insert testUser;
+        return testUser ;
     }    
 
 }

@@ -216,8 +216,17 @@ public with sharing class MM_RecipeViewController extends MM_RecipeBase {
     
     public string selLocaleDetailsFilter{get;set;}
     public string selLocaleAddOccasionsFilter{get;set;}
-    public string selLocaleIngredientsFilter{get;set;}
-    
+    // Changed by Rahul Chitkara Case  - 00005214
+    public string selLocaleIngredientsFilter{
+    get
+    {
+     	  if(selLocaleIngredientsFilter=='-None-')
+          	selLocaleIngredientsFilter='EN-US';  
+           return selLocaleIngredientsFilter;
+    }
+    set;
+    }
+    // Changes End
     public boolean publishedRecipeExist{get;set;}
     //T-103789 - Add Manage Images to Recipe View screen
     public boolean showManageImages{get;set;}
@@ -232,7 +241,7 @@ public with sharing class MM_RecipeViewController extends MM_RecipeBase {
     
     
     transient map<String, Convert_Measurements__c> mapConvertMeasurements;
-    private map<String, String> mapOZTo5Mils;
+    private map<String, String> mapOZTo5Mils;   
     private map<String, String> mapMLToOZ;
     private boolean isConvertOZMeasurement;
     private boolean isConvertMLMeasurement;
@@ -241,9 +250,9 @@ public with sharing class MM_RecipeViewController extends MM_RecipeBase {
     //I-47100 - For Draft Recipes, only can be edited by Recipe-Admin or user in Recipe__c.CurrentEditor__c
     public boolean isEditRecipeButtonShow {
         get {
-        	//I-47102 - No user can edit recipe while status = Pending Approval
+            //I-47102 - No user can edit recipe while status = Pending Approval
             if(currentRecipe.Status__c.equals('Pending Approval')) {
-				return false;
+                return false;
             }
             return  !editMode && canEdit;
         }
@@ -332,7 +341,10 @@ public with sharing class MM_RecipeViewController extends MM_RecipeBase {
             system.debug('====================convertMeasurements: '+convertMeasurements);
             if(convertMeasurements != null) {
                 mapOZTo5Mils.put(convertMeasurements.fl_Oz__c.trim(),convertMeasurements.X5Mils__c.trim());
-                mapMLToOZ.put(convertMeasurements.mL__c.trim(),convertMeasurements.fl_Oz__c.trim());
+                // Modified by Rahul Chitkara on 30th July , case 6067
+                //mapMLToOZ.put(convertMeasurements.mL__c.trim(),convertMeasurements.fl_Oz__c.trim());
+                mapMLToOZ.put(convertMeasurements.X5Mils__c.trim(),convertMeasurements.fl_Oz__c.trim());
+                // End Changes 6067
             }
         }
     }
@@ -377,13 +389,13 @@ public with sharing class MM_RecipeViewController extends MM_RecipeBase {
             wrDiageoIngredient = new WrapperDiageoIngredient(ingredients,ingredients.Ingredient_Unit__c,ingredients.Quantity__c);
             
             if(isConvertMLMeasurement && wrDiageoIngredient.convertedUnit.equals('oz.') && wrDiageoIngredient.convertedQuantity != null) {
-            	if(mapOZTo5Mils.get(wrDiageoIngredient.convertedQuantity) != null)
-                	wrDiageoIngredient = new WrapperDiageoIngredient(ingredients , 'ml.', mapOZTo5Mils.get(wrDiageoIngredient.convertedQuantity));
+                if(mapOZTo5Mils.get(wrDiageoIngredient.convertedQuantity) != null)
+                    wrDiageoIngredient = new WrapperDiageoIngredient(ingredients , 'ml.', mapOZTo5Mils.get(wrDiageoIngredient.convertedQuantity));
             } 
             
             if(isConvertOZMeasurement && wrDiageoIngredient.convertedUnit.equals('ml.') && wrDiageoIngredient.convertedQuantity != null) {
-            	if(mapMLToOZ.get(wrDiageoIngredient.convertedQuantity) != null)
-                	wrDiageoIngredient = new WrapperDiageoIngredient(ingredients , 'oz.', mapMLToOZ.get(wrDiageoIngredient.convertedQuantity));
+                if(mapMLToOZ.get(wrDiageoIngredient.convertedQuantity) != null)
+                    wrDiageoIngredient = new WrapperDiageoIngredient(ingredients , 'oz.', mapMLToOZ.get(wrDiageoIngredient.convertedQuantity));
             }
             
             wrDiageoIngredients.add(wrDiageoIngredient);
@@ -425,18 +437,18 @@ public with sharing class MM_RecipeViewController extends MM_RecipeBase {
         if(concatenateTagsValue == null || concatenateTagsValue.trim() == '') {
             return null;
         }
-        if(currentRecipe.Recipe_Tag__c == null) {
-            currentRecipe.Recipe_Tag__c = concatenateTagsValue; 
+        if(currentRecipe.Recipe_Tags__c == null) {
+            currentRecipe.Recipe_Tags__c = concatenateTagsValue; 
         } else {
-            currentRecipe.Recipe_Tag__c = currentRecipe.Recipe_Tag__c + ', ' + concatenateTagsValue;
+            currentRecipe.Recipe_Tags__c = currentRecipe.Recipe_Tags__c + ', ' + concatenateTagsValue;
         }
         update currentRecipe;
         return null;
     }
     
     public PageReference LocaleAddOccasionsFilter() {
-    	selLocaleDetailsFilter = selLocaleAddOccasionsFilter;
-    	return localeDetailsFilter();
+        selLocaleDetailsFilter = selLocaleAddOccasionsFilter;
+        return localeDetailsFilter();
     }
     public PageReference localeDetailsFilter() {
         /*By Rishi Khirbat -> I-39172*/
@@ -806,7 +818,7 @@ public with sharing class MM_RecipeViewController extends MM_RecipeBase {
             showManageImages = true;
             showAddTagsLink = true;
             if(getIsPublisher() || getIsSuperAdmin())
-            	showAddOccasionsLink = true;
+                showAddOccasionsLink = true;
         } else {
             showManageImages = false;
         }
@@ -862,7 +874,7 @@ public with sharing class MM_RecipeViewController extends MM_RecipeBase {
                 currentRecipe = [SELECT Comments__c, lastModifiedTime__c, CreatedById, CreatedDate, IsDeleted,LastActivityDate, LastModifiedById, 
                                         LastModifiedDate, Main_Drink_Image__r.Content_id__c, Main_Drink_Image__c, Main_Drink_Image__r.Name, Language__c,
                                         Master_Recipe__r.Name, Master_Recipe__r.Id, Menu_Description__c, Mobile_Drink_Image__r.Content_Id__c, Occasion__c, Occasion_Type__c, Preparation_Steps__c, 
-                                        Recipe_Flavor_del__c, Recipe_Tag__c, Name, Recipe_Type_del__c,Mobile_Selected_Image__c,Mobile_Selected_Image__r.Content_Id__c,
+                                        Recipe_Flavor_del__c, Recipe_Tags__c, Name, Recipe_Type_del__c,Mobile_Selected_Image__c,Mobile_Selected_Image__r.Content_Id__c,
                                         Mobile_Unselected_Image__c,Mobile_Unselected_Image__r.Content_Id__c,Background_Image__c,Background_Image__r.Content_Id__c,
                                         Brand_Recipe_Image__c,Brand_Recipe_Image__r.Content_Id__c,Search_Recipe_Image__c,Search_Recipe_Image__r.Content_Id__c,
                                         Recipe_Version__c, Id,Recipe_Title__c,RecordSaved__c, Short_Description__c, Status__c, SystemModstamp, 
@@ -881,7 +893,7 @@ public with sharing class MM_RecipeViewController extends MM_RecipeBase {
              list<string> occasionTypeList = new list<String>();
              
              if(currentRecipe != null && !currentRecipe.Recipe_Title__c.contains('temp recipe')) {
-				recipeTitle = currentRecipe.Recipe_Title__c;	
+                recipeTitle = currentRecipe.Recipe_Title__c;    
              }
              
              //Getting all the Recipe Attributes based on the Respective Attribute Type.
@@ -1353,23 +1365,23 @@ public with sharing class MM_RecipeViewController extends MM_RecipeBase {
                 canEdit = false;
                 
                 if(getCurrentRole() == RECIPE_PUBLISHER) {
-                	for(Published_Recipe__c pRecipe :[Select Digital_Published_Asset__r.Publisher__c From Published_Recipe__c 
-	                                                    Where Status__c = 'Published'
-	                                                    And Recipe__c =: currentRecipe.Id]) {
-	                    if(pRecipe.Digital_Published_Asset__r.Publisher__c == UserInfo.getUserId()) {
-	                        canEdit = true;     
-	                    } 
-	                }
-	            } 
+                    for(Published_Recipe__c pRecipe :[Select Digital_Published_Asset__r.Publisher__c From Published_Recipe__c 
+                                                        Where Status__c = 'Published'
+                                                        And Recipe__c =: currentRecipe.Id]) {
+                        if(pRecipe.Digital_Published_Asset__r.Publisher__c == UserInfo.getUserId()) {
+                            canEdit = true;     
+                        } 
+                    }
+                } 
             }
             
             //I-47100 - For Draft Recipes, only can be edited by Recipe-Admin or user in Recipe__c.CurrentEditor__c
             if(currentRecipe.Status__c.equals('Draft')) {
-				if(getIsSuperAdmin() || currentRecipe.Current_Editor__c == UserInfo.getUserId()) {
-					canEdit = true;	
-				} else {
-					canEdit = false;
-				}
+                if(getIsSuperAdmin() || currentRecipe.Current_Editor__c == UserInfo.getUserId()) {
+                    canEdit = true; 
+                } else {
+                    canEdit = false;
+                }
             }
         } else {
             system.debug('=================canEdit5');
@@ -2208,7 +2220,10 @@ public with sharing class MM_RecipeViewController extends MM_RecipeBase {
         
         List<Recipe_Non_Diageo_Product__c> tmpList;
         if(selLocaleIngredientsFilter == null || selLocaleIngredientsFilter.trim().equals('-None-')) {
-            tmpList = [Select SystemModstamp, Name, LastModifiedDate, LastModifiedById, IsDeleted, Id, CreatedDate, CreatedById, Available__c From Recipe_Non_Diageo_Product__c order by Name]; 
+        	//LSLEVIN 8.19.2013 Case 6317 Diageo 52095 Appirio START
+        	//tmpList = [Select SystemModstamp, Name, LastModifiedDate, LastModifiedById, IsDeleted, Id, CreatedDate, CreatedById, Available__c From Recipe_Non_Diageo_Product__c order by Name];
+            tmpList = [Select SystemModstamp, Name, LastModifiedDate, LastModifiedById, IsDeleted, Id, CreatedDate, CreatedById, Available__c From Recipe_Non_Diageo_Product__c Where Locale__c = 'EN-US' order by Name];
+            //LSLEVIN 8.19.2013 Case 6317 Diageo 52095 Appirio END 
         } else {
             tmpList = [Select SystemModstamp, Name, LastModifiedDate, LastModifiedById, IsDeleted, Id, CreatedDate, CreatedById, Available__c From Recipe_Non_Diageo_Product__c Where Locale__c =:selLocaleIngredientsFilter order by Name];
         }
@@ -2306,7 +2321,7 @@ public with sharing class MM_RecipeViewController extends MM_RecipeBase {
         try {
             system.debug('===========currentRecipe============' + currentRecipe);
             if(currentRecipe.Status__c.equals('Approved') && getIsSuperAdmin()) {
-            	currentRecipe.Edit_Notification_To_Publisher__c = true;
+                currentRecipe.Edit_Notification_To_Publisher__c = true;
             }
             upsert currentRecipe;
         } catch(Exception e) {
@@ -2631,7 +2646,7 @@ public with sharing class MM_RecipeViewController extends MM_RecipeBase {
         if(selOutdoor4Ids.size()>0)
             selOccasionIdSet.addAll(selOutdoor4Ids);
     
-        list<Recipe_Attribute__c> recAttributeList = [select id,Recipe__c,Attribute__c,Attribute__r.Attribute_Type__c,Attribute__r.Attribute_Value__c from Recipe_Attribute__c where Recipe__c =:currentRecipe.Id];
+        list<Recipe_Attribute__c> recAttributeList = [select id,Recipe__c,Attribute__c,Attribute__r.Attribute_Type__c,Attribute__r.Attribute_Value__c,Attribute__r.API_External_ID__c,Dynamic_Value__c from Recipe_Attribute__c where Recipe__c =:currentRecipe.Id];
         list<Recipe_Attribute__c> colorList = new list<Recipe_Attribute__c>();
         list<Recipe_Attribute__c> effortList = new list<Recipe_Attribute__c>();
         list<Recipe_Attribute__c> glasswareList = new list<Recipe_Attribute__c>();
@@ -3020,12 +3035,13 @@ public with sharing class MM_RecipeViewController extends MM_RecipeBase {
             }
         }
         
-        /*By Rishi Khirbat -> T-98032: Updates to MM_RecipeView
+         /*By Rishi Khirbat -> T-98032: Updates to MM_RecipeView
         //Add the following items to Details as text boxes. When the user enters a value and saves the recipe, 
         //create a Recipe_Attribute__c junction object using where the Attribute__c.Attribute_Type__c maps to the name of the field. 
         //Save the value entered in the textbox in Recipe_Attribute__c.Dynamic_Value__c.
         */
         map<String,Id> mapTypeAttributeIds = new map<String,Id>();
+        
         set<String> setAttributeTypes = new set<String>();
         setAttributeTypes.add('Description/Overview');
         setAttributeTypes.add('Recipe Story');
@@ -3034,58 +3050,134 @@ public with sharing class MM_RecipeViewController extends MM_RecipeBase {
         setAttributeTypes.add('Food Pairings');
         setAttributeTypes.add('Standard Average Analysis');
         setAttributeTypes.add('Tasting Notes');
+        /*
+      Moified by Rahul Chitkara (Appirio jaipur) on 23th august 2013
+      Case - 00006327       
+         */
+         map<String,Recipe_Attribute__c> uniqueAttrRecipeMap = new map<String,Recipe_Attribute__c>();
+         map<String,Attribute__c> mapTypeAttribute = new map<String,Attribute__c>();
+         list<Recipe_Attribute__c> updateRecList = new list<Recipe_Attribute__c>();
+         if(recAttributeList.size() > 0){
+           for(Recipe_Attribute__c recAttr : recAttributeList){
+             uniqueAttrRecipeMap.put(recAttr.Attribute__r.Attribute_Type__c + '-' +recAttr.Attribute__r.API_External_ID__c,recAttr);
+           }
+         }
+         // End 00006327
         
-        for(Attribute__c att :[Select Id, Attribute_Type__c From Attribute__c Where Attribute_Type__c IN :setAttributeTypes]) {
+        for(Attribute__c att :[Select Id, Attribute_Type__c,API_External_ID__c From Attribute__c Where Attribute_Type__c IN :setAttributeTypes]) {
             mapTypeAttributeIds.put(att.Attribute_Type__c, att.Id);
+            mapTypeAttribute.put(att.Attribute_Type__c, att);
         }
         
         //Description/Overview - textbox
         if(descriptionOverview != null && descriptionOverview.trim() != '' && mapTypeAttributeIds.get('Description/Overview') != null) {
-            Recipe_Attribute__c recRecAttrNew = new Recipe_Attribute__c();
-            recRecAttrNew.Attribute__c = mapTypeAttributeIds.get('Description/Overview');
-            recRecAttrNew.Recipe__c = currentRecipe.Id;
-            recRecAttrNew.Dynamic_Value__c = descriptionOverview;
-            insertList.add(recRecAttrNew);
+          // Modified by Rahul Case 00006327 . added a condtion so Recipe Attribute does not create at each time when Recipe is edited. 
+          String key = mapTypeAttribute.get('Description/Overview').Attribute_Type__c + '-' + mapTypeAttribute.get('Description/Overview').API_External_ID__c;
+          if(!uniqueAttrRecipeMap.containsKey(key) || uniqueAttrRecipeMap==null){
+              Recipe_Attribute__c recRecAttrNew = new Recipe_Attribute__c();
+              recRecAttrNew.Attribute__c = mapTypeAttributeIds.get('Description/Overview');
+              recRecAttrNew.Recipe__c = currentRecipe.Id;
+              recRecAttrNew.Dynamic_Value__c = descriptionOverview;
+              insertList.add(recRecAttrNew);
+          }
+          // Modified by Rahul Case 00006327
+          else if(uniqueAttrRecipeMap.values().size() > 0 && uniqueAttrRecipeMap.get(key).Dynamic_Value__c!=descriptionOverview){
+            Recipe_Attribute__c updateRec = uniqueAttrRecipeMap.get(key);
+            updateRec.Dynamic_Value__c = descriptionOverview;
+            updateRecList.add(updateRec);
+          }  
+          
         }
         //Recipe Story - textbox
         if(recipeStory != null && recipeStory.trim() != '' && mapTypeAttributeIds.get('Recipe Story') != null) {
-            Recipe_Attribute__c recRecAttrNew = new Recipe_Attribute__c();
-            recRecAttrNew.Attribute__c = mapTypeAttributeIds.get('Recipe Story');
-            recRecAttrNew.Recipe__c = currentRecipe.Id;
-            recRecAttrNew.Dynamic_Value__c = recipeStory;
-            insertList.add(recRecAttrNew);
+          String key = mapTypeAttribute.get('Recipe Story').Attribute_Type__c + '-' + mapTypeAttribute.get('Recipe Story').API_External_ID__c;
+          // Modified by Rahul Case 00006327 . added a condtion so Recipe Attribute does not create at each time when Recipe is edited.
+          if(!uniqueAttrRecipeMap.containsKey(key) || uniqueAttrRecipeMap==null){
+              Recipe_Attribute__c recRecAttrNew = new Recipe_Attribute__c();
+              recRecAttrNew.Attribute__c = mapTypeAttributeIds.get('Recipe Story');
+              recRecAttrNew.Recipe__c = currentRecipe.Id;
+              recRecAttrNew.Dynamic_Value__c = recipeStory;
+              insertList.add(recRecAttrNew);
+          }
+          // Modified by Rahul Case 00006327
+          else if(uniqueAttrRecipeMap.values().size() > 0 && uniqueAttrRecipeMap.get(key).Dynamic_Value__c!=recipeStory){
+            Recipe_Attribute__c updateRec = uniqueAttrRecipeMap.get(key);
+            updateRec.Dynamic_Value__c = recipeStory;
+            updateRecList.add(updateRec);
+          }  
+          
         }
         //Serving Size - textbox
         if(servingSize != null && servingSize.trim() != '' && mapTypeAttributeIds.get('Serving Size') != null) {
-            Recipe_Attribute__c recRecAttrNew = new Recipe_Attribute__c();
-            recRecAttrNew.Attribute__c = mapTypeAttributeIds.get('Serving Size');
-            recRecAttrNew.Recipe__c = currentRecipe.Id;
-            recRecAttrNew.Dynamic_Value__c = servingSize;
-            insertList.add(recRecAttrNew);
+          String key = mapTypeAttribute.get('Serving Size').Attribute_Type__c + '-' + mapTypeAttribute.get('Serving Size').API_External_ID__c;
+          // Modified by Rahul Case 00006327 . added a condtion so Recipe Attribute does not create at each time when Recipe is edited.
+          if(!uniqueAttrRecipeMap.containsKey(key) || uniqueAttrRecipeMap==null){
+              Recipe_Attribute__c recRecAttrNew = new Recipe_Attribute__c();
+              recRecAttrNew.Attribute__c = mapTypeAttributeIds.get('Serving Size');
+              recRecAttrNew.Recipe__c = currentRecipe.Id;
+              recRecAttrNew.Dynamic_Value__c = servingSize;
+              insertList.add(recRecAttrNew);
+          }
+          // Modified by Rahul Case 00006327
+          else if(uniqueAttrRecipeMap.values().size() > 0 && uniqueAttrRecipeMap.get(key).Dynamic_Value__c!=servingSize){
+            Recipe_Attribute__c updateRec = uniqueAttrRecipeMap.get(key);
+            updateRec.Dynamic_Value__c = servingSize;
+            updateRecList.add(updateRec);
+          }
         }
         //Food Pairings - textbox
         if(foodPairings != null && foodPairings.trim() != '' && mapTypeAttributeIds.get('Food Pairings') != null) {
-            Recipe_Attribute__c recRecAttrNew = new Recipe_Attribute__c();
-            recRecAttrNew.Attribute__c = mapTypeAttributeIds.get('Food Pairings');
-            recRecAttrNew.Recipe__c = currentRecipe.Id;
-            recRecAttrNew.Dynamic_Value__c = foodPairings;
-            insertList.add(recRecAttrNew);
+          String key = mapTypeAttribute.get('Food Pairings').Attribute_Type__c + '-' + mapTypeAttribute.get('Food Pairings').API_External_ID__c;
+          // Modified by Rahul Case 00006327 . added a condtion so Recipe Attribute does not create at each time when Recipe is edited.
+          if(!uniqueAttrRecipeMap.containsKey(key) || uniqueAttrRecipeMap==null){
+              Recipe_Attribute__c recRecAttrNew = new Recipe_Attribute__c();
+              recRecAttrNew.Attribute__c = mapTypeAttributeIds.get('Food Pairings');
+              recRecAttrNew.Recipe__c = currentRecipe.Id;
+              recRecAttrNew.Dynamic_Value__c = foodPairings;
+              insertList.add(recRecAttrNew);
+          }
+          // Modified by Rahul Case 00006327
+          else if(uniqueAttrRecipeMap.values().size() > 0 && uniqueAttrRecipeMap.get(key).Dynamic_Value__c!=foodPairings){
+            Recipe_Attribute__c updateRec = uniqueAttrRecipeMap.get(key);
+            updateRec.Dynamic_Value__c = foodPairings;
+            updateRecList.add(updateRec);
+          }
         }
         //Standard Average Analysis - textbox
         if(standardAverageAnalysis != null && standardAverageAnalysis.trim() != '' && mapTypeAttributeIds.get('Standard Average Analysis') != null) {
-            Recipe_Attribute__c recRecAttrNew = new Recipe_Attribute__c();
-            recRecAttrNew.Attribute__c = mapTypeAttributeIds.get('Standard Average Analysis');
-            recRecAttrNew.Recipe__c = currentRecipe.Id;
-            recRecAttrNew.Dynamic_Value__c = standardAverageAnalysis;
-            insertList.add(recRecAttrNew);
+          String key = mapTypeAttribute.get('Standard Average Analysis').Attribute_Type__c + '-' + mapTypeAttribute.get('Standard Average Analysis').API_External_ID__c;
+          // Modified by Rahul Case 00006327 . added a condtion so Recipe Attribute does not create at each time when Recipe is edited.
+          if(!uniqueAttrRecipeMap.containsKey(key) || uniqueAttrRecipeMap==null){
+              Recipe_Attribute__c recRecAttrNew = new Recipe_Attribute__c();
+              recRecAttrNew.Attribute__c = mapTypeAttributeIds.get('Standard Average Analysis');
+              recRecAttrNew.Recipe__c = currentRecipe.Id;
+              recRecAttrNew.Dynamic_Value__c = standardAverageAnalysis;
+              insertList.add(recRecAttrNew);
+          }
+          // Modified by Rahul Case 00006327
+          else if(uniqueAttrRecipeMap.values().size() > 0 && uniqueAttrRecipeMap.get(key).Dynamic_Value__c!=standardAverageAnalysis){
+            Recipe_Attribute__c updateRec = uniqueAttrRecipeMap.get(key);
+            updateRec.Dynamic_Value__c = standardAverageAnalysis;
+            updateRecList.add(updateRec);
+          }
         }
         //Tasting Notes - textbox
         if(tastingNotes != null && tastingNotes.trim() != '' && mapTypeAttributeIds.get('Tasting Notes') != null) {
-            Recipe_Attribute__c recRecAttrNew = new Recipe_Attribute__c();
-            recRecAttrNew.Attribute__c = mapTypeAttributeIds.get('Tasting Notes');
-            recRecAttrNew.Recipe__c = currentRecipe.Id;
-            recRecAttrNew.Dynamic_Value__c = tastingNotes;
-            insertList.add(recRecAttrNew);
+          String key = mapTypeAttribute.get('Tasting Notes').Attribute_Type__c + '-' + mapTypeAttribute.get('Tasting Notes').API_External_ID__c;
+          // Modified by Rahul Case 00006327 . added a condtion so Recipe Attribute does not create at each time when Recipe is edited.
+          if(!uniqueAttrRecipeMap.containsKey(key) || uniqueAttrRecipeMap==null){
+              Recipe_Attribute__c recRecAttrNew = new Recipe_Attribute__c();
+              recRecAttrNew.Attribute__c = mapTypeAttributeIds.get('Tasting Notes');
+              recRecAttrNew.Recipe__c = currentRecipe.Id;
+              recRecAttrNew.Dynamic_Value__c = tastingNotes;
+              insertList.add(recRecAttrNew);
+          }
+          // Modified by Rahul Case 00006327
+          else if(uniqueAttrRecipeMap.values().size() > 0 && uniqueAttrRecipeMap.get(key).Dynamic_Value__c!=tastingNotes){
+            Recipe_Attribute__c updateRec = uniqueAttrRecipeMap.get(key);
+            updateRec.Dynamic_Value__c = tastingNotes;
+            updateRecList.add(updateRec);
+          }
         }
         /**********/
         
@@ -3093,6 +3185,10 @@ public with sharing class MM_RecipeViewController extends MM_RecipeBase {
             if(insertList.size() > 0) {
                 system.debug('===========insertList===============');
                 insert insertList;
+            }
+            // Added by Rahul Chitkara  (Appirio jaipur) for case 00006327 on 23th August 2013
+            if(updateRecList.size() > 0){
+            update updateRecList;
             }
             if(deleteList.size() > 0) {
                 system.debug('===========deleteList===============');

@@ -78,22 +78,22 @@ public with sharing class APPIRIO_GenerateXMLKeywordSearch   {
         }
     }
     
-    	// Pass in the endpoint to be used using the string url
-  		public String getContent(String url) {
+	// Pass in the endpoint to be used using the string url
+  	public String getContent(String url) {
 	
 		// Instantiate a new http object
-   			 Http h = new Http();
+   		Http h = new Http();
 
 		// Instantiate a new HTTP request, specify the method (GET) as well as the endpoint
-    		HttpRequest req = new HttpRequest();
-    		req.setEndpoint(url);
-    		req.setHeader('Authorization', 'OAuth '+UserInfo.getSessionId());
-   		 	req.setMethod('GET');
+    	HttpRequest req = new HttpRequest();
+    	req.setEndpoint(url);
+    	req.setHeader('Authorization', 'OAuth '+UserInfo.getSessionId());
+   		req.setMethod('GET');
 
 		// Send the request, and return a response
-   		 HttpResponse res = h.send(req);
-    		return res.getBody();
- 	 }
+   		HttpResponse res = h.send(req);
+    	return res.getBody();
+	}
     
     //Generating an XML with Recipe info.
     public void generateXMLRecipeIinfo() {
@@ -105,20 +105,21 @@ public with sharing class APPIRIO_GenerateXMLKeywordSearch   {
         
         //recipes
         w.writeStartElement(null,'recipes',null);
-	//Added Main_Drink__Image__r.Content_Display_ID__c and Main_Drink_Image__c to query below
-	//Removed Thumbnail_Drink_Image__c, Thumbnail_Drink_Image__r.Content_Display_ID__c
-	//Limit the Recipe query to only return 10 recipes so that we do not hit the Call Out Limit
+		//Added Main_Drink__Image__r.Content_Display_ID__c and Main_Drink_Image__c to query below
+		//Removed Thumbnail_Drink_Image__c, Thumbnail_Drink_Image__r.Content_Display_ID__c
+		//Limit the Recipe query to only return 10 recipes so that we do not hit the Call Out Limit
         for(Recipe__c recipe :[SELECT API_External_ID__c, LastModifiedDate, NEO_Recipe_Id__c, Name, Id, Recipe_Title__c, Locale__c, 
                                       Main_Drink_Image__c,Main_Drink_Image__r.Content_Display_ID__c
-                                      ,(select id, API_External_ID__c,Ingredient_Number__c, Quantity__c,Ingredient_Unit__c,Featured_Brand__c,Recipe_Brand__c,Recipe_Brand__r.Name,Recipe_Brand__r.API_External_ID__c, 
-                                      Recipe_Diageo_Product__r.Name, Recipe_Diageo_Product__r.Diageo_Brand_Id__r.Name, Recipe_Diageo_Product__r.API_External_ID__c 
+                                      ,(select id, API_External_ID__c,Ingredient_Number__c, Quantity__c,Ingredient_Unit__c,Featured_Brand__c,
+                                      Recipe_Brand__c,Recipe_Brand__r.Name,Recipe_Brand__r.API_External_ID__c,Recipe_Brand__r.Locale__c, 
+                                      Recipe_Diageo_Product__r.Name,Recipe_Diageo_Product__r.API_External_ID__c,Recipe_Diageo_Product__r.Locale__c 
                                       from Diageo_Ingredients__r order by Ingredient_Number__c)
                                       FROM Recipe__c WHERE Id IN :recipeIds And recordSaved__c = true order by API_External_ID__c limit 10]) {
             
             RecipesReturned +=1;
             string str;
             
-            //recipe
+            //recipes
             w.writeStartElement(null,'recipe',null);
                 if(recipe.API_External_ID__c != null)   
                     w.writeAttribute(null, null, 'sfRecipeId', recipe.API_External_ID__c);
@@ -126,7 +127,7 @@ public with sharing class APPIRIO_GenerateXMLKeywordSearch   {
                     w.writeAttribute(null, null, 'sfRecipeId', '');
                 
                 if(recipe.NEO_Recipe_Id__c != null)
-                    w.writeAttribute(null, null, 'neoRecipeId', recipe.NEO_Recipe_Id__c);
+                    w.writeAttribute(null, null, 'neoRecipeId', recipe.NEO_Recipe_Id__c+'');
                 else
                     w.writeAttribute(null, null, 'neoRecipeId', '');
                     
@@ -152,18 +153,34 @@ public with sharing class APPIRIO_GenerateXMLKeywordSearch   {
                     for(Diageo_Ingredient__c diageoIngredient: recipe.Diageo_Ingredients__r){
                         if(diageoIngredient.Featured_Brand__c) {
                             w.writeStartElement(null,'featuredBrand',null);
+                                
                                 if(diageoIngredient.Recipe_Brand__r.API_External_ID__c != null)
                                     w.writeAttribute(null, null, 'id', diageoIngredient.Recipe_Brand__r.API_External_ID__c);
                                 else
                                     w.writeAttribute(null, null, 'id', '');
+                                
+                                system.debug('===================Recipe Brand Locale: '+ diageoIngredient.Recipe_Brand__r.Locale__c);    
+                                if(diageoIngredient.Recipe_Brand__r.Locale__c != null)
+                                    w.writeAttribute(null, null, 'Locale', diageoIngredient.Recipe_Brand__r.Locale__c);
+                                else
+                                    w.writeAttribute(null, null, 'Locale', '');
+                                
                                 if(diageoIngredient.Recipe_Brand__r.Name != null)
                                     w.writeCharacters(diageoIngredient.Recipe_Brand__r.Name);
+                                    
                             w.writeEndElement();
                             w.writeStartElement(null,'featuredProduct',null);
                                 if(diageoIngredient.Recipe_Diageo_Product__r.API_External_ID__c != null)
                                     w.writeAttribute(null, null, 'id', diageoIngredient.Recipe_Diageo_Product__r.API_External_ID__c);
                                 else
                                     w.writeAttribute(null, null, 'id', '');
+                                    
+                                system.debug('===================Recipe Brand Locale: '+ diageoIngredient.Recipe_Diageo_Product__r.Locale__c);    
+                                if(diageoIngredient.Recipe_Diageo_Product__r.Locale__c != null)
+                                    w.writeAttribute(null, null, 'Locale', diageoIngredient.Recipe_Diageo_Product__r.Locale__c);
+                                else
+                                    w.writeAttribute(null, null, 'Locale', '');
+                                    
                                 if(diageoIngredient.Recipe_Diageo_Product__r.Name != null)
                                     w.writeCharacters(diageoIngredient.Recipe_Diageo_Product__r.Name);
                             w.writeEndElement();
@@ -216,6 +233,13 @@ public with sharing class APPIRIO_GenerateXMLKeywordSearch   {
                             //diageoIngredient
                             w.writeStartElement(null,'diageoIngredient',null);
                                 w.writeAttribute(null, null, 'id', ''+diageoIngredient.Recipe_Diageo_Product__r.API_External_ID__c);
+                                
+                                system.debug('===================Recipe Brand Locale 1: '+ diageoIngredient.Recipe_Diageo_Product__r.Locale__c);    
+                                if(diageoIngredient.Recipe_Diageo_Product__r.Locale__c != null)
+                                    w.writeAttribute(null, null, 'Locale', diageoIngredient.Recipe_Diageo_Product__r.Locale__c);
+                                else
+                                    w.writeAttribute(null, null, 'Locale', '');
+                                    
                                 //name
                                 w.writeStartElement(null,'name',null);
                                     w.writeCharacters(diageoIngredient.Recipe_Diageo_Product__r.Name);
@@ -289,9 +313,16 @@ public with sharing class APPIRIO_GenerateXMLKeywordSearch   {
                                         w.writeAttribute(null, null, 'id', diageoIngredient.Recipe_Brand__r.API_External_ID__c);
                                     else
                                         w.writeAttribute(null, null, 'id', '');
-                                        
+                                    
+                                    system.debug('===================Recipe Brand Locale 1: '+ diageoIngredient.Recipe_Brand__r.Locale__c);
+                                    if(diageoIngredient.Recipe_Brand__r.Locale__c != null)
+	                                    w.writeAttribute(null, null, 'Locale', diageoIngredient.Recipe_Brand__r.Locale__c);
+	                                else
+	                                    w.writeAttribute(null, null, 'Locale', '');
+	                                        
                                     if(diageoIngredient.Recipe_Brand__r.Name != null)
                                         w.writeCharacters(diageoIngredient.Recipe_Brand__r.Name);
+                                        
                                 w.writeEndElement();
                                 //end of brand
                                 
@@ -334,6 +365,7 @@ public with sharing class APPIRIO_GenerateXMLKeywordSearch   {
         //end of recipes
         w.writeEndDocument();
         xmlString = w.getXmlString();
+        system.debug('===================xmlString: '+ xmlString);
         w.close();
         
         mapContentDisplayIDContentVersion = null;

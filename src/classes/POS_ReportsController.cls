@@ -10,6 +10,7 @@ global without sharing class POS_ReportsController extends Controller_Base {
     public String               orgUnitsString      { get; set{organizationalUnits=stringToList(value);} }
     public List<String>         distributors        { get; set; }
     public List<String>         shoppers            { get; set; }
+    public String               programs            { get; set; }
     
     public String owP { get; set; }
     public String clP { get; set; }
@@ -87,15 +88,18 @@ global without sharing class POS_ReportsController extends Controller_Base {
     }
         
     public static Set<Id> getAccBrandIds(){
-        System.debug('=========aids1= ' + aids); //Testing Reports - Diana 2/5
+
+       System.debug('=========aids1= ' + aids); //Testing Reports - Diana 2/5
         if(aids == null) {
             getUserAccountInfo();
         }
+        
         
         List<Brand__c> brands = [
             SELECT Id from Brand__c
                 where ID in (select Brand__c from AccountBrand__c                    
                 WHERE Account__c in :aids)
+               // WHERE Account__c in :aids && Brand__c.Brand_Type__c == 'Individual' )
         ];
         
         Set<Id> brandIds = new Set<Id>();
@@ -103,12 +107,12 @@ global without sharing class POS_ReportsController extends Controller_Base {
             brandIds.add(brand.Id);
         }
         
-        return brandIds;
+        return brandIds; 
         
         /*
         //This is the original code here but it was hitting a query limit because it 
         //retrieves too many rows.  Leaving here for now in case there's some side effect
-        //of the above fix.  SS 11/28/12
+        //of the above fix.  SS 11/28/12 
         if(aids == null)
             getUserAccountInfo();
         List<AggregateResult> userAccountBrands = [
@@ -121,14 +125,15 @@ global without sharing class POS_ReportsController extends Controller_Base {
         for (AggregateResult ar: userAccountBrands) {
             brandIDs.add((Id)ar.get('Brand__c'));
         }
-        return brandIds;*/
+        return brandIds; */
         
         
     }
-        
+
     public void fillBrandOptions(){
         Set<Id> brandsIds = getAccBrandIds();
-        List<Brand__c> brands = [select Id, Name from Brand__c where id in :brandsIds and Classification__c = :classification order by Name];
+     // List<Brand__c> brands = [select Id, Name from Brand__c where id in :brandsIds and Classification__c = :classification and order by Name]; Commented out per case 5259
+        List<Brand__c> brands = [select Id, Name from Brand__c where id in :brandsIds and Classification__c = :classification and (Brand_Type__c = 'Individual' OR Brand_Type__c = '')  order by Name]; //Line modified per case 5259
         brandOptions = new List<SelectOption>();
         for(Brand__c brand : brands){
             brandOptions.add(new SelectOption(brand.id, brand.Name));

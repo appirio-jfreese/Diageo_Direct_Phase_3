@@ -42,48 +42,47 @@ global class POS_QueueProcessorBatch implements Database.Batchable<SObject>, Dat
         List<REST_Queue_Message__c> queueMsgsForUpdate = new List<REST_Queue_Message__c>();
         List<REST_Queue_Error__c> queueErrorForInsert = new List<REST_Queue_Error__c>();
         Map<String, Map<String, Dom.Document>> magentoIdMap = new Map<String, Map<String, Dom.Document>>();
-        try {
-            String msessionId = POS_MagentoIntegrationUtil.getMagentoSessionId();
-            for(SObject sObj : scope) {         
-                REST_Queue_Message__c msg = (REST_Queue_Message__c)sobj;
-                System.debug('**** Name -'+ msg.Name + ' msg.Request_apiPath__c -'+ msg.Request_apiPath__c + ' msg.Status__c -' 
-                        + msg.Status__c + ' msg.ObjectName__c' + msg.ObjectName__c );
+        String msessionId = POS_MagentoIntegrationUtil.getMagentoSessionId();
+        for(SObject sObj : scope) {         
+            REST_Queue_Message__c msg = (REST_Queue_Message__c)sobj;
+            System.debug('**** Name -'+ msg.Name + ' msg.Request_apiPath__c -'+ msg.Request_apiPath__c + ' msg.Status__c -' 
+                    + msg.Status__c + ' msg.ObjectName__c' + msg.ObjectName__c );
 
-                    // synchronous callout to Magento
-                    Dom.Document resp = POS_MagentoIntegrationUtil.getMagentoCallDocument(msessionId, msg.Request_apiPath__c, msg.Request_apiArguments__c); 
-                    String status = POS_MagentoIntegrationUtil.getMagentoResponseElement(resp, 'status');
+                // synchronous callout to Magento
+                Dom.Document resp = POS_MagentoIntegrationUtil.getMagentoCallDocument(msessionId, msg.Request_apiPath__c, msg.Request_apiArguments__c); 
+                String status = POS_MagentoIntegrationUtil.getMagentoResponseElement(resp, 'status');
+                
+                msg.LastProcessedTime__c = DateTime.now();
+                msg.Response_Body__c = resp.toXmlString();
                     
-                    msg.LastProcessedTime__c = DateTime.now();
-                    msg.Response_Body__c = resp.toXmlString();
-                    
-                    if(status != 'success') { 
-                        if(msg.Status__c == 'Ready-to-Process' || msg.FailedCount__c == null) {
-                            msg.FailedCount__c = 0; // reset the failed count is the status was changed back to Ready
-                        }
-                        msg.FailedCount__c = msg.FailedCount__c + 1.0;
-                        if (msg.FailedCount__c >=3) {
-                            msg.Status__c = 'Failed-3-Attempts';
-                        } else {
-                            msg.Status__c = 'Processed-Failed';
-                        }
-                        
-                        // insert a record into REST_Queue_Error__c
-                        REST_Queue_Error__c err = new REST_Queue_Error__c(REST_Queue_Message__c=msg.id, name=msg.name+'-'+msg.FailedCount__c, ErrorBody__c=resp.toXmlString());
-                        queueErrorForInsert.add(err);
-                        
-                    } else { // respose status == success
-                        msg.Status__c = 'Processed-Successfully';
-                        if(resp != null && msg.ObjectName__c != null && msg.ObjectName__c!='') {
-                            
-                            // create Map of all successful calls to update the MagentoId back on to the record
-                            Map<String, Dom.Document> m2 = new Map<String, Dom.Document>();
-                            m2.put(msg.ObjectName__c, resp);
-                            magentoIdMap.put(msg.ObjectId__c, m2);
-                            
-                        }
+                if(status != 'success') { 
+                    if(msg.Status__c == 'Ready-to-Process' || msg.FailedCount__c == null) {
+                        msg.FailedCount__c = 0; // reset the failed count is the status was changed back to Ready
+                    }
+                    msg.FailedCount__c = msg.FailedCount__c + 1.0;
+                    if (msg.FailedCount__c >=3) {
+                        msg.Status__c = 'Failed-3-Attempts';
+                    } else {
+                        msg.Status__c = 'Processed-Failed';
                     }
                     
-                    queueMsgsForUpdate.add(msg);
+                    // insert a record into REST_Queue_Error__c
+                    REST_Queue_Error__c err = new REST_Queue_Error__c(REST_Queue_Message__c=msg.id, name=msg.name+'-'+msg.FailedCount__c, ErrorBody__c=resp.toXmlString());
+                    queueErrorForInsert.add(err);
+                    
+                } else { // respose status == success
+                    msg.Status__c = 'Processed-Successfully';
+                    if(resp != null && msg.ObjectName__c != null && msg.ObjectName__c!='') {
+                        
+                        // create Map of all successful calls to update the MagentoId back on to the record
+                        Map<String, Dom.Document> m2 = new Map<String, Dom.Document>();
+                        m2.put(msg.ObjectName__c, resp);
+                        magentoIdMap.put(msg.ObjectId__c, m2);
+                        
+                    }
+                }
+                    
+                queueMsgsForUpdate.add(msg);
              }
          
              // looping through the map to do all DML after the callouts to avoid - CalloutException: uncommitted work pending
@@ -101,22 +100,16 @@ global class POS_QueueProcessorBatch implements Database.Batchable<SObject>, Dat
                         // avoids aborting the Job due to Field validation errors
                          // Re-added by Jai gupta on Mar 21,2013 for case 00003906
                          // Error function enhancement for case 00043236 By Jai Gupta [Mar 29,2013]
-                        sendError(de,'Error occurred in POS_QueueProcessorBatch class','POS_QueueProcessorBatch');
+                        //sendError(de,'Error occurred in POS_QueueProcessorBatch class','POS_QueueProcessorBatch',null);
                     }
                 }
-                
              }
         
          System.debug('**** queueMsgsForUpdate.size() -'+ queueMsgsForUpdate.size() + ' ** queueErrorForInsert.size() -'+ queueErrorForInsert.size());
         
-             update(queueMsgsForUpdate);
-             insert(queueErrorForInsert);
+         update(queueMsgsForUpdate);
+         insert(queueErrorForInsert);
         // Re-added by Jai gupta on Mar 21,2013 for case 00003906
-        } catch(Exception e) {
-        	system.debug('======Exception occurred=========='+e);
-        	// Error function enhancement for case 00043236 By Jai Gupta [Mar 29,2013]
-        	sendError(e,'Error occurred in POS_QueueProcessorBatch class','POS_QueueProcessorBatch');
-        }
          
     } 
 	
@@ -125,7 +118,7 @@ global class POS_QueueProcessorBatch implements Database.Batchable<SObject>, Dat
 	// Added two more arguments subject and classname
 	// Can be called from different classes and a generic message can be send to users.
 	*/ 
-	public static void sendError (Exception e, String subject, string className) {
+	public static void sendError (Exception e, String subject, string className, string otherDetails) {
         try {
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
             mail.setToAddresses(new list<String>{'pos-order-confirmation@diageo.com','diageo.support@appirio.com'});
@@ -154,11 +147,16 @@ global class POS_QueueProcessorBatch implements Database.Batchable<SObject>, Dat
                 body=body+'\nError was: '+e.getMessage();
                 body=body+'\nTrace was: \n';
                 body=body+' '+e.getStackTraceString();
-                body=body+'\n\n';
+                body=body+'\n';
             }
+            // Changes done by Jai Gupta for case 00043236 to get the additional details for HTTPRequest and HTTPResponse on May 17,2013
+            if(otherDetails != '' && otherDetails != null) {
+            	body += otherDetails ;
+            }
+            // End May 17 changes
             // Changes Done for case 00043236 Start
             if(className.equalsIgnoreCase('POS_QueueProcessorBatch')) {
-            	body=body+'Please check the schedule jobs and rescheduled this batch class if it is no more scheduled.';
+            	body=body+'\nPlease check the schedule jobs and rescheduled this batch class if it is no more scheduled.';
             }
             // End for case 00043236
             mail.setPlainTextBody(body);

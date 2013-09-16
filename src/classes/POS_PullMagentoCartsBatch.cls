@@ -5,7 +5,9 @@
  **/
 global class POS_PullMagentoCartsBatch implements Database.Batchable<SObject>, Database.AllowsCallouts {
 	global final String cartMagentoId;
-
+	// Changes done by Jai Gupta [Appirio Jaipur] for case 00005338 on May 23,2013
+	global List<POS_MagentoCartRESTResource.CartItemWrapper> errorCartItems = new List<POS_MagentoCartRESTResource.CartItemWrapper>();
+	// End for case 00005338
 	global POS_PullMagentoCartsBatch(String cmId) {
 		cartMagentoId = cmId;
 	}	
@@ -50,7 +52,12 @@ global class POS_PullMagentoCartsBatch implements Database.Batchable<SObject>, D
 		
         System.debug('Batch POS_PullMagentoCartsBatch execute - END'); 
         */
+        try {
         POS_MagentoCartRestResource.batchProcessCart(cartMagentoId);
+        } catch(Exception e){
+        	system.debug('=======errorCartItems========'+errorCartItems);
+        	POS_MagentoCartRESTResource.sendError(e,errorCartItems,null,true);
+        }
     }
     
     /**

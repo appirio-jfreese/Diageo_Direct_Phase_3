@@ -96,9 +96,8 @@ global with sharing class APPIRIO_WebServiceCallShoppingList {
 			
 			//Grabbing/getting all the details of the recipes that is already created.
 			for(Recipe__c recipe :[SELECT API_External_ID__c, (select id, API_External_ID__c,Ingredient_Number__c, Quantity__c,Ingredient_Unit__c,Featured_Brand__c,
-											Recipe_Brand__c,Recipe_Brand__r.Name,Recipe_Brand__r.API_External_ID__c, Recipe_Diageo_Product__r.Name, 
-											Recipe_Non_Diageo_Product__r.Name, Recipe_Non_Diageo_Product__r.API_External_ID__c, Recipe_Non_Diageo_Product__r.Locale__c, 
-	                                      	Recipe_Diageo_Product__r.Diageo_Brand_Id__r.Name, Recipe_Diageo_Product__r.API_External_ID__c 
+											Recipe_Diageo_Product__r.Name, Recipe_Diageo_Product__r.API_External_ID__c, Recipe_Diageo_Product__r.Locale__c,
+	                                      	Recipe_Non_Diageo_Product__r.Name, Recipe_Non_Diageo_Product__r.API_External_ID__c, Recipe_Non_Diageo_Product__r.Locale__c 
 	                                      	from Diageo_Ingredients__r order by Ingredient_Number__c)
 	                                      FROM Recipe__c WHERE API_External_ID__c IN :recipeAPIExternalIDServings.keySet() order by API_External_ID__c]) {
 				
@@ -120,11 +119,13 @@ global with sharing class APPIRIO_WebServiceCallShoppingList {
 		  			if(diageoIngredient.Recipe_Diageo_Product__r.Name != null) {
 		  				
 		  				mapDiageoIngredient_APIExternalID.put(diageoProductUnit, diageoIngredient.Recipe_Diageo_Product__r.API_External_ID__c);
+		  				mapDiageoIngredient_Locale.put(diageoIngredient.Recipe_Diageo_Product__r.API_External_ID__c,diageoIngredient.Recipe_Diageo_Product__r.Locale__c+'');
 		  				
 		  			 	if(!mapDiageoIngredient_Unit_Quantity.containsKey(diageoProductUnit)) {
 			  				mapDiageoIngredient_Unit_Quantity.put(diageoProductUnit, 0);
 			  			}
 			  			mapDiageoIngredient_Unit_Quantity.put(diageoProductUnit, mapDiageoIngredient_Unit_Quantity.get(diageoProductUnit) + quantity);
+			  			
 		  			} else if(diageoIngredient.Recipe_Non_Diageo_Product__r.Name != null) {
 		  				
 		  				mapDiageoIngredient_APIExternalID.put(diageoProductUnit, diageoIngredient.Recipe_Non_Diageo_Product__r.API_External_ID__c);
@@ -152,6 +153,7 @@ global with sharing class APPIRIO_WebServiceCallShoppingList {
 							//diageoIngredient
 							w.writeStartElement(null,'diageoIngredient',null);
 								w.writeAttribute(null, null, 'id', ''+mapDiageoIngredient_APIExternalID.get(str));
+								w.writeAttribute(null, null, 'Locale', ''+mapDiageoIngredient_Locale.get(mapDiageoIngredient_APIExternalID.get(str)));
 								//name
 								w.writeStartElement(null,'name',null);
 									w.writeCharacters(productName);
@@ -210,6 +212,7 @@ global with sharing class APPIRIO_WebServiceCallShoppingList {
 
 			w.writeEndDocument();
 			xmlString = w.getXmlString();
+			system.debug('===================xmlString: '+ xmlString);
 			w.close();
 		}
 	}

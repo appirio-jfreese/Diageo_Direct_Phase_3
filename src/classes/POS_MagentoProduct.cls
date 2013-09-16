@@ -233,7 +233,7 @@ public with sharing class POS_MagentoProduct {
     public static Dom.Document getMagentoProductInfo(String itemId) {
     	
         String API_ARGUMENTS = '&arg2[Id]='+ itemId;
-    	Dom.Document doc = POS_MagentoIntegrationUtil.getMagentoCallDocument('product.info', 'API_ARGUMENTS');
+    	Dom.Document doc = POS_MagentoIntegrationUtil.getMagentoCallDocument('product.info', API_ARGUMENTS); // Changes made by Jai Gupta 
     	
     	return doc;
     }   

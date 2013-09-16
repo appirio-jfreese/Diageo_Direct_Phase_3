@@ -571,7 +571,9 @@ public with sharing class APPIRIO_RecipeAssetLinkingController extends MM_Recipe
 			rQuery += 'From Recipe__c ';	
     	}
     		
-    	whereClause = ' Where recordSaved__c = true and Recipe_Title__c <> null ';
+    	whereClause = ' Where recordSaved__c = true and Recipe_Title__c <> null and Status__c = \'Approved\' ';
+      //whereClause = ' Where recordSaved__c = true and Recipe_Title__c <> null - Modified on July 18 per Diageo case 00006064
+    	
     	
     	if(!countRecipe) {
 			if(recIds.isEmpty()) {
@@ -589,7 +591,8 @@ public with sharing class APPIRIO_RecipeAssetLinkingController extends MM_Recipe
 					
 			} else {
 				string brandSearchTerm = searchTerm.replace(' ','%');
-			    if(isNavigatingFromdetail!='true')
+			    //if(isNavigatingFromdetail!='true') - Modified on July 30 per Diageo case 00006102
+			    if(isNavigatingFromdetail=='true')
 			    searchTerm = String.escapeSingleQuotes(searchTerm);
 			    searchTerm = searchTerm.replace('*','\\*');
 			    set<string> childBrandNames = new set<string>();
@@ -1002,7 +1005,7 @@ public with sharing class APPIRIO_RecipeAssetLinkingController extends MM_Recipe
       	recipes = new List<RecipeWrapper>();
       	for(Recipe__c recipe : setWrapperRecipes(Database.query(createQuery(false,ids)))) {
       		if(recipe.Published_Recipes__r.size() > 0 && recipe.Published_Recipes__r[0].Status__c != null) 
-      			recipes.add(new RecipeWrapper(recipe,recipe.Published_Recipes__r[0].Status__c));
+      	    	recipes.add(new RecipeWrapper(recipe,recipe.Published_Recipes__r[0].Status__c));
       		else
       			recipes.add(new RecipeWrapper(recipe,'Ready to Publish'));
       	}

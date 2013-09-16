@@ -12,6 +12,7 @@ private class ActionTriggerActionsTest {
 		gpl1.Goal__c = goal.Id;
 		gpl1.Product_Classification__c = 'test1';
 		gpl1.Product_Group__c = 'test1';
+		gpl1.Report_Brand__c = 'test1';
 		gpl1.Generic_Brand__c = 'test1';
 		gpl1.Sub_Brand__c = 'test1';
 		gpl1.Individual_Brand__c = 'test1';
@@ -22,6 +23,7 @@ private class ActionTriggerActionsTest {
 		gpl2.Goal__c = goal.Id;
 		gpl2.Product_Classification__c = 'test2';
 		gpl2.Product_Group__c = 'test2';
+		gpl2.Report_Brand__c = 'test2';
 		gpl2.Generic_Brand__c = 'test2';
 		gpl2.Sub_Brand__c = 'test2';
 		gpl2.Individual_Brand__c = 'test2';
@@ -32,6 +34,7 @@ private class ActionTriggerActionsTest {
 		gpl3.Goal__c = goal2.Id;
 		gpl3.Product_Classification__c = 'test3';
 		gpl3.Product_Group__c = 'test3';
+		gpl3.Report_Brand__c = 'test3';
 		gpl3.Generic_Brand__c = 'test3';
 		gpl3.Sub_Brand__c = 'test3';
 		gpl3.Individual_Brand__c = 'test3';
@@ -57,39 +60,8 @@ private class ActionTriggerActionsTest {
 		insert acts;
 		
 		Test.stopTest();
-		/*
-		List<Action_Product_Link__c> apl1 = [SELECT Id, Match_Key__c FROM Action_Product_Link__c WHERE Action__c = :act1.Id ORDER BY Match_Key__c];
-		List<Action_Product_Link__c> apl2 = [SELECT Id, Match_Key__c FROM Action_Product_Link__c WHERE Action__c = :act2.Id ORDER BY Match_Key__c];
-		System.assertEquals(2, apl1.size());
-		System.assertEquals(gpl1.Match_Key__c, apl1[0].Match_Key__c);
-		System.assertEquals(gpl2.Match_Key__c, apl1[1].Match_Key__c);
-		System.assertEquals(0, apl2.size());
-		
-		//test update on act2
-		act2.Goal__c = goal.Id;
-		update acts;
-		
-		apl1 = [SELECT Id, Match_Key__c FROM Action_Product_Link__c WHERE Action__c = :act1.Id ORDER BY Match_Key__c];
-		apl2 = [SELECT Id, Match_Key__c FROM Action_Product_Link__c WHERE Action__c = :act2.Id ORDER BY Match_Key__c];
-		System.assertEquals(2, apl1.size());
-		System.assertEquals(gpl1.Match_Key__c, apl1[0].Match_Key__c);
-		System.assertEquals(gpl2.Match_Key__c, apl1[1].Match_Key__c);
-		System.assertEquals(2, apl2.size());
-		System.assertEquals(gpl1.Match_Key__c, apl2[0].Match_Key__c);
-		System.assertEquals(gpl2.Match_Key__c, apl2[1].Match_Key__c);
-		
-		//test de-parenting on act1 and re-parenting on act2
-		act1.Goal__c = null;
-		act2.Goal__c = goal2.Id;
-		update acts;
-		
-		apl1 = [SELECT Id, Match_Key__c FROM Action_Product_Link__c WHERE Action__c = :act1.Id ORDER BY Match_Key__c];
-		apl2 = [SELECT Id, Match_Key__c FROM Action_Product_Link__c WHERE Action__c = :act2.Id ORDER BY Match_Key__c];
-		System.assertEquals(2, apl1.size());
-		System.assertEquals(1, apl2.size());
-		System.assertEquals(gpl3.Match_Key__c, apl2[0].Match_Key__c);*/
 	}
-	
+	/*
 	static testmethod void testCheckGoalParentage2(){
 		Map<Id, RecordType> actionRTs = new Map<Id, RecordType>([SELECT Id, DeveloperName FROM RecordType WHERE SObjectType = 'Action__c']);
 		
@@ -149,7 +121,7 @@ private class ActionTriggerActionsTest {
 		
 		oldAct = [SELECT Id, Goal__c FROM Action__c WHERE Id = :oldAct.Id];
 		System.assertEquals(newActParent.Id, oldAct.Goal__c);
-	}
+	}*/
 	
 	static testmethod void testValidateProductLinks(){
     	Goal__c repGoal = new Goal__c();
@@ -307,7 +279,7 @@ private class ActionTriggerActionsTest {
     	System.assertEquals(1, dirGoal.Action_Complete__c);
     	System.assertEquals(10, dirGoal.Cases_Complete__c);
     }
-    
+    /*
     static testmethod void testActionCountUpdatesOnGoal3(){
     	Goal__c dirGoal = new Goal__c();
     	dirGoal.Minimum_of_Accounts__c = 1000;
@@ -382,5 +354,5 @@ private class ActionTriggerActionsTest {
     	System.assertEquals(0, dirGoal.Action_Complete__c);
     	System.assertEquals(0, dirGoal.Cases_Complete__c);
     	
-    }
+    }*/
 }

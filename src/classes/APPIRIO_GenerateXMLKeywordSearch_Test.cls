@@ -108,7 +108,11 @@ private class APPIRIO_GenerateXMLKeywordSearch_Test {
     //Test Web Service Call for Keyword Search.
     public static TestMethod void GenerateXMLKeywordSearchTest() {
     	Test.startTest();
-    	diagPrdct = [Select Id, API_External_ID__c From Diageo_Product__c Where Id=:diagPrdct.id];
+    	recipe = [Select API_External_ID__c, NEO_Recipe_Id__c, Locale__c From Recipe__c Where Id=:recipe.Id];
+    	diagPrdct = [Select Name, Locale__c, API_External_ID__c From Diageo_Product__c Where Id=:diagPrdct.id];
+        diagBrnd = [Select Name, Locale__c, API_External_ID__c From Diageo_Brand__c Where Id=:diagBrnd.id];
+        
+        if(recipe.NEO_Recipe_Id__c == null) recipe.NEO_Recipe_Id__c='';
          
          //3.27.2013-Case4405-LSLEVIN-START//
         APPIRIO_SingleCallOutMock fakeResponse = new APPIRIO_SingleCallOutMock(200,'Complete','[{"Name": "sForceTest1"}]',null);
@@ -120,11 +124,18 @@ private class APPIRIO_GenerateXMLKeywordSearch_Test {
         xmlRecipeIinfo.recipeIds.add(recipe1.Id);
         xmlRecipeIinfo.generateXMLRecipeIinfo();
         System.assert(xmlRecipeIinfo.xmlString.contains('<?xml version="1.0"?>'));
+        
+        System.assert(xmlRecipeIinfo.xmlString.contains('<recipes><recipe sfRecipeId="'+recipe.API_External_ID__c+'" neoRecipeId="'+recipe.NEO_Recipe_Id__c+'" Locale="'+recipe.Locale__c+'">'));
         System.assert(xmlRecipeIinfo.xmlString.contains('TestRecipe1'));
         System.assert(xmlRecipeIinfo.xmlString.contains('TestRecipe2'));
-        System.assert(xmlRecipeIinfo.xmlString.contains('Locale="EN-US"'));
+        
         System.assert(xmlRecipeIinfo.xmlString.contains('<RecipeThumbnailDrinkImage>'));
-        System.assert(xmlRecipeIinfo.xmlString.contains('<diageoIngredient id="'+diagPrdct.API_External_ID__c+'">'));
+        
+        System.assert(xmlRecipeIinfo.xmlString.contains('<featuredBrand id="'+diagBrnd.API_External_ID__c+'" Locale="'+diagBrnd.Locale__c+'">'+diagBrnd.Name+'</featuredBrand>'));
+        System.assert(xmlRecipeIinfo.xmlString.contains('<brand id="'+diagBrnd.API_External_ID__c+'" Locale="'+diagBrnd.Locale__c+'">'+diagBrnd.Name+'</brand>'));
+        System.assert(xmlRecipeIinfo.xmlString.contains('<featuredProduct id="'+diagPrdct.API_External_ID__c+'" Locale="'+diagPrdct.Locale__c+'">'+diagPrdct.Name+'</featuredProduct>'));
+        System.assert(xmlRecipeIinfo.xmlString.contains('<diageoIngredient id="'+diagPrdct.API_External_ID__c+'" Locale="'+diagPrdct.Locale__c+'"><name>'+diagPrdct.Name+'</name>'));
+        
         System.assert(xmlRecipeIinfo.xmlString.contains('<image ContentDisplayID="'+contentVersion.ContentDocumentId+'" fileName="'+contentVersion.Title+'.'+contentVersion.FileType.toLowerCase()+'">'));
 		Test.stopTest();    
     }

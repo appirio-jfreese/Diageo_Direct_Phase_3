@@ -106,10 +106,12 @@ public with sharing class APPIRIO_GenerateXMLRecipeLstModifiedInfo {
                                       Search_Recipe_Image__c, Search_Recipe_Image__r.Content_Display_ID__c,
                                       Thumbnail_Drink_Image__c, Thumbnail_Drink_Image__r.Content_Display_ID__c
                                       ,(select id, Attribute__r.Attribute_Type__c,Attribute__r.Attribute_Value__c, Dynamic_Value__c, Attribute__r.Locale__c, Attribute__r.API_External_ID__c from Recipe_Attributes__r) 
-                                      ,(select id, Occasion__r.API_External_ID__c, Occasion__r.Name_Of_The_Occasion__c, Occasion__r.Locale__c from Recipe_Occasions__r where Occasion__c IN:occasionIds)
-                                      ,(select id, API_External_ID__c,Ingredient_Number__c, Quantity__c,Ingredient_Unit__c,Featured_Brand__c,Recipe_Brand__c,Recipe_Brand__r.Name,Recipe_Brand__r.API_External_ID__c, 
-                                        Recipe_Diageo_Product__r.Name, Recipe_Non_Diageo_Product__r.Name, Recipe_Diageo_Product__r.Diageo_Brand_Id__r.Name, Recipe_Diageo_Product__r.API_External_ID__c, 
-                                      	Recipe_Non_Diageo_Product__r.Locale__c, Recipe_Non_Diageo_Product__r.API_External_ID__c from Diageo_Ingredients__r order by Ingredient_Number__c)
+                                      ,(select id, Occasion__r.API_External_ID__c, Occasion__r.Name_Of_The_Occasion__c, Occasion__r.Locale__c, Occasion__r.Occasion_Tags__c from Recipe_Occasions__r where Occasion__c IN:occasionIds)
+                                      ,(select id, API_External_ID__c,Ingredient_Number__c, Quantity__c,Ingredient_Unit__c,Featured_Brand__c,
+                                        Recipe_Brand__c,Recipe_Brand__r.Name,Recipe_Brand__r.API_External_ID__c,Recipe_Brand__r.Locale__c, 
+                                        Recipe_Diageo_Product__r.Name, Recipe_Diageo_Product__r.API_External_ID__c,Recipe_Diageo_Product__r.Locale__c, 
+                                      	Recipe_Non_Diageo_Product__r.Name,Recipe_Non_Diageo_Product__r.Locale__c, Recipe_Non_Diageo_Product__r.API_External_ID__c 
+                                      	from Diageo_Ingredients__r order by Ingredient_Number__c)
                                       ,(select Step_Number__c,Description__c from Preparation_Steps__r order by Step_Number__c)
                                       ,(Select Digital_Published_Asset__c, Status__c From Published_Recipes__r)
                                       FROM Recipe__c WHERE Id IN :recipeIds  And recordSaved__c = true order by API_External_ID__c]) {
@@ -184,6 +186,13 @@ public with sharing class APPIRIO_GenerateXMLRecipeLstModifiedInfo {
                                     w.writeAttribute(null, null, 'id', diageoIngredient.Recipe_Brand__r.API_External_ID__c);
                                 else
                                     w.writeAttribute(null, null, 'id', '');
+                                
+                                system.debug('===================Recipe Brand Locale: '+ diageoIngredient.Recipe_Brand__r.Locale__c);    
+                                if(diageoIngredient.Recipe_Brand__r.Locale__c != null)
+                                    w.writeAttribute(null, null, 'Locale', diageoIngredient.Recipe_Brand__r.Locale__c);
+                                else
+                                    w.writeAttribute(null, null, 'Locale', '');
+                                
                                 if(diageoIngredient.Recipe_Brand__r.Name != null)
                                     w.writeCharacters(diageoIngredient.Recipe_Brand__r.Name);
                             w.writeEndElement();
@@ -192,6 +201,13 @@ public with sharing class APPIRIO_GenerateXMLRecipeLstModifiedInfo {
                                     w.writeAttribute(null, null, 'id', diageoIngredient.Recipe_Diageo_Product__r.API_External_ID__c);
                                 else
                                     w.writeAttribute(null, null, 'id', '');
+                                
+                                system.debug('===================Recipe Brand Locale: '+ diageoIngredient.Recipe_Diageo_Product__r.Locale__c);    
+                                if(diageoIngredient.Recipe_Diageo_Product__r.Locale__c != null)
+                                    w.writeAttribute(null, null, 'Locale', diageoIngredient.Recipe_Diageo_Product__r.Locale__c);
+                                else
+                                    w.writeAttribute(null, null, 'Locale', '');
+                                    
                                 if(diageoIngredient.Recipe_Diageo_Product__r.Name != null)
                                     w.writeCharacters(diageoIngredient.Recipe_Diageo_Product__r.Name);
                             w.writeEndElement();
@@ -256,7 +272,7 @@ public with sharing class APPIRIO_GenerateXMLRecipeLstModifiedInfo {
                     }
 			  		
 					//tags
-                    w.writeStartElement(null,'tags',null);
+                    w.writeStartElement(null,'RecipeTags',null);
                         if(recipe.Recipe_Tag__c != null)
                             w.writeCharacters(recipe.Recipe_Tag__c);
                     w.writeEndElement();
@@ -275,6 +291,13 @@ public with sharing class APPIRIO_GenerateXMLRecipeLstModifiedInfo {
                         	w.writeCharacters(recipeOccasion.Occasion__r.Name_Of_The_Occasion__c);
                         w.writeEndElement();
                         //end of occasion
+                        
+                        //tags
+	                    w.writeStartElement(null,'tags',null);
+	                        if(recipeOccasion.Occasion__r.Occasion_Tags__c != null)
+	                            w.writeCharacters(recipeOccasion.Occasion__r.Occasion_Tags__c);
+	                    w.writeEndElement();
+	                    //end of tags
                     }
                 w.writeEndElement();
                 //end of occasions
@@ -488,6 +511,13 @@ public with sharing class APPIRIO_GenerateXMLRecipeLstModifiedInfo {
 			  				//diageoIngredient
 					  		w.writeStartElement(null,'diageoIngredient',null);
 					  			w.writeAttribute(null, null, 'id', ''+diageoIngredient.Recipe_Diageo_Product__r.API_External_ID__c);
+					  			
+					  			system.debug('===================Recipe Brand Locale: '+ diageoIngredient.Recipe_Diageo_Product__r.Locale__c);    
+                                if(diageoIngredient.Recipe_Diageo_Product__r.Locale__c != null)
+                                    w.writeAttribute(null, null, 'Locale', diageoIngredient.Recipe_Diageo_Product__r.Locale__c);
+                                else
+                                    w.writeAttribute(null, null, 'Locale', '');
+                                    
 					  			//name
 					  			w.writeStartElement(null,'name',null);
 					  				w.writeCharacters(diageoIngredient.Recipe_Diageo_Product__r.Name);
@@ -561,7 +591,13 @@ public with sharing class APPIRIO_GenerateXMLRecipeLstModifiedInfo {
                                         w.writeAttribute(null, null, 'id', diageoIngredient.Recipe_Brand__r.API_External_ID__c);
                                     else
                                         w.writeAttribute(null, null, 'id', '');
-					  					
+					  				
+					  				system.debug('===================Recipe Brand Locale: '+ diageoIngredient.Recipe_Brand__r.Locale__c);    
+	                                if(diageoIngredient.Recipe_Brand__r.Locale__c != null)
+	                                    w.writeAttribute(null, null, 'Locale', diageoIngredient.Recipe_Brand__r.Locale__c);
+	                                else
+	                                    w.writeAttribute(null, null, 'Locale', '');
+	                                    	
 					  				if(diageoIngredient.Recipe_Brand__r.Name != null)
 					  					w.writeCharacters(diageoIngredient.Recipe_Brand__r.Name);
 					  			w.writeEndElement();
@@ -705,6 +741,7 @@ public with sharing class APPIRIO_GenerateXMLRecipeLstModifiedInfo {
 		//end of recipes
 		w.writeEndDocument();
 		xmlString = w.getXmlString();
+		system.debug('===================xmlString: '+ xmlString);
 		w.close();
 	}
 }

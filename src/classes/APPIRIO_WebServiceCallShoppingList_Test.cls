@@ -116,7 +116,8 @@ private class APPIRIO_WebServiceCallShoppingList_Test {
     public static TestMethod void WebServiceCallShoppingListTest() {
     	String xmlString;
     	recipe = [Select API_External_ID__c From Recipe__c Where Id =:recipe.Id];
-    	
+    	diagPrdct = [Select Name, Locale__c, API_External_ID__c From Diageo_Product__c Where Id=:diagPrdct.id];
+        
     	Test.startTest();
 	    	// set up the request object
 	        System.RestContext.request = new RestRequest();
@@ -133,7 +134,7 @@ private class APPIRIO_WebServiceCallShoppingList_Test {
 			System.assert(xmlString.contains('<?xml version="1.0"?>'));
 	        System.assert(xmlString.contains('<shoppingList>'));
 	        System.assert(xmlString.contains('<diageoIngredients>'));
-	        System.assert(xmlString.contains('<name>ModelBrandCaramel</name><quantity>6.50</quantity><unit>oz.</unit>'));
+	        System.assert(xmlString.contains('<diageoIngredient id="'+diagPrdct.API_External_ID__c+'" Locale="'+diagPrdct.Locale__c+'"><name>'+diagPrdct.Name+'</name><quantity>6.50</quantity><unit>oz.</unit>'));
 	        System.assert(xmlString.contains('<name>Big Banana</name><quantity>236.588</quantity><unit>ml.</unit>'));
         Test.stopTest();
 	}
