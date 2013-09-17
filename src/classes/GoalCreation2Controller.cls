@@ -172,7 +172,7 @@ public with sharing class GoalCreation2Controller {
 		public void addExistingData(ProductLine pl){
 			sfdcId = pl.sfdcId;
 			plClass = pl.plClass;
-			plGroup = pl.sfdcId;
+			plGroup = pl.plGroup;
 			prodSel1 = pl.prodSel1;
 			prodSel2 = pl.prodSel2;
 			prodSel3 = pl.prodSel3;
@@ -618,6 +618,7 @@ public with sharing class GoalCreation2Controller {
 						(SELECT Id,
 								Product_Classification__c,
 								Product_Group__c,
+								Report_Brand__c,
 								Generic_Brand__c,
 								Sub_Brand__c,
 								Individual_Brand__c,
@@ -688,6 +689,7 @@ public with sharing class GoalCreation2Controller {
 		for(Product__c prod : [SELECT Id,
 									  Product_Classification__c,
 									  Product_Group__c,
+									  Report_Brand__c,
 									  Generic_Brand__c,
 									  Sub_Brand__c,
 									  Individual_Brand__c,
@@ -1448,6 +1450,7 @@ public with sharing class GoalCreation2Controller {
 		gpl.Goal__c = goal.Id;
 		gpl.Product_Classification__c	= convertPossibleAny(plVals[0]);
 		gpl.Product_Group__c			= convertPossibleAny(plVals[1]);
+		//gpl.Report_Brand__c 			= convertPossibleAny(plVals[2]);
 		gpl.Generic_Brand__c 			= convertPossibleAny(plVals[2]);
 		gpl.Sub_Brand__c 				= convertPossibleAny(plVals[3]);
 		gpl.Individual_Brand__c 		= convertPossibleAny(plVals[4]);

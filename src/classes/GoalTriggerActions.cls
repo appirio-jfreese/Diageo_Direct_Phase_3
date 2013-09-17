@@ -34,6 +34,16 @@ public without sharing class GoalTriggerActions {
             gbri.Goal__c = goal.Id;
             gbri.Size__c = '(Undefined)';
             gbris.add(gbri);
+            
+            gbri = new Goal_Brand_Report_Item__c();
+            gbri.Goal__c = goal.Id;
+            gbri.Report_Brand__c = '(Undefined)';
+            gbris.add(gbri);
+            
+            gbri = new Goal_Brand_Report_Item__c();
+            gbri.Goal__c = goal.Id;
+            gbri.Ind_Brand_Size__c = '(Undefined)';
+            gbris.add(gbri);
         }
         
        	insert gbris;
@@ -71,7 +81,9 @@ public without sharing class GoalTriggerActions {
                            Generic_Brand__c,
                            Sub_Brand__c,
                            Individual_Brand__c,
-                           Size__c
+                           Size__c,
+                           Report_Brand__c,
+                           Ind_Brand_Size__c
                       FROM Goal_Product_Links__r
                    ),
                    (SELECT Id
@@ -95,6 +107,8 @@ public without sharing class GoalTriggerActions {
         	Boolean hasSubBrand = false;
         	Boolean hasIndividualBrand = false;
         	Boolean hasSize = false;
+        	Boolean hasReportBrand = false;
+        	Boolean hasIndBrandSize = false;
         	
             for(Goal_Product_Link__c gpl : goal.Goal_Product_Links__r){
             	if(gpl.Product_Classification__c != null){
@@ -168,6 +182,30 @@ public without sharing class GoalTriggerActions {
 	                    gbrisToInsertByKey.put(key, gbri);
                 	}
             	}
+            	
+            	if(gpl.Report_Brand__c != null){
+            		hasReportBrand = true;
+                	key = goal.Id + '|Report_Brand__c|' + gpl.Report_Brand__c;
+                	gbri = gbrisToInsertByKey.get(key);
+                	if(gbri == null){
+	                    gbri = new Goal_Brand_Report_Item__c();
+	                    gbri.Goal__c = goal.Id;
+	                    gbri.Report_Brand__c = gpl.Report_Brand__c;
+	                    gbrisToInsertByKey.put(key, gbri);
+                	}
+            	}
+            	
+            	if(gpl.Ind_Brand_Size__c != null){
+            		hasIndBrandSize = true;
+                	key = goal.Id + '|Ind_Brand_Size__c|' + gpl.Ind_Brand_Size__c;
+                	gbri = gbrisToInsertByKey.get(key);
+                	if(gbri == null){
+	                    gbri = new Goal_Brand_Report_Item__c();
+	                    gbri.Goal__c = goal.Id;
+	                    gbri.Ind_Brand_Size__c = gpl.Ind_Brand_Size__c;
+	                    gbrisToInsertByKey.put(key, gbri);
+                	}
+            	}
             }
             
             if(!hasProductClassification){
@@ -205,6 +243,18 @@ public without sharing class GoalTriggerActions {
                 gbri.Goal__c = goal.Id;
                 gbri.Size__c = '(Undefined)';
                 gbrisToInsertByKey.put(goal.Id + '|Size__c|(Undefined)', gbri);
+            }
+            if(!hasReportBrand){
+            	gbri = new Goal_Brand_Report_Item__c();
+                gbri.Goal__c = goal.Id;
+                gbri.Report_Brand__c = '(Undefined)';
+                gbrisToInsertByKey.put(goal.Id + '|Report_Brand__c|(Undefined)', gbri);
+            }
+            if(!hasIndBrandSize){
+            	gbri = new Goal_Brand_Report_Item__c();
+                gbri.Goal__c = goal.Id;
+                gbri.Ind_Brand_Size__c = '(Undefined)';
+                gbrisToInsertByKey.put(goal.Id + '|Ind_Brand_Size__c|(Undefined)', gbri);
             }
         }
 

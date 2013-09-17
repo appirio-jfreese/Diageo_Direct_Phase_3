@@ -4,7 +4,9 @@ public with sharing class Controller_Home extends Controller_Base {
     public String videoId{get; private set;}
     public String videoDesc{get; private set;}
     public String showPlayer{get; private set;}
-
+    // Added by Rahul Chitkara, Case 00006383 on 31 August , 2013
+    public Boolean showLatestNews {get; private set;}
+	// End changes 00006383
     public Id contentBrand{get; set;}
 
 	// articles
@@ -25,6 +27,7 @@ public with sharing class Controller_Home extends Controller_Base {
 		// End:
         
         //articles
+        
         articles = Service_API.getNewsAndArticles();
 				articleUrl = Page.NewsAndArticles.getUrl();
 		
@@ -36,6 +39,9 @@ public with sharing class Controller_Home extends Controller_Base {
         } else {
             showPlayer = 'none';            
         }
+        // Added by Rahul Chitkara , 00006383 on 31th August 2013
+        showLatestNews = [Select Id,Access_dd_latest_news__c from User where Id =:UserInfo.getUserId() limit 1].Access_dd_latest_news__c;
+        // End Changes 00006383
     }
 
 	// Start: Changes for Responsive Site - Randy Wandell (Appirio) 7/10/13    

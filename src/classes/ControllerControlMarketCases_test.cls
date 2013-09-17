@@ -43,6 +43,10 @@ private class ControllerControlMarketCases_test {
         // TO DO: implement unit test
         createTestData();
         ControllerControlMarketCases controlMarketCase = new ControllerControlMarketCases();
-        controlMarketCase.getWrapperCaseList();
+        // Modified by Rahul for Case 00005400 
+       // controlMarketCase.getWrapperCaseList();
+        controlMarketCase.getSortDirection();
+        controlMarketCase.setSortDirection('ASC');
+        controlMarketCase.ViewData();
     }
 }

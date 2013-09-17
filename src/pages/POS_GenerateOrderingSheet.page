@@ -38,7 +38,10 @@
 				<apex:outputText value="${!BLANKVALUE(item.Current_Price__c, 0)}"/>
 			</apex:column>
 	        <apex:column >
-				<apex:facet name="header">Shipping/Tax %</apex:facet>
+	        	<!-- LSLEVIN Case 6123 7.25.2013 START -->
+				<!-- <apex:facet name="header">Shipping/Tax %</apex:facet>-->
+				<apex:facet name="header">Shipping</apex:facet>
+				<!-- LSLEVIN Case 6123 7.25.2013 END -->
 				<apex:outputText value="{!BLANKVALUE(item.Estimated_Shipping_Tax__c, 0)}%"/>
 				<apex:variable var="totalAcross" value="=ROUND(SUM(" />
 				<apex:variable var="totalAcrossSnH" value="=ROUND(SUM(" />
@@ -59,7 +62,10 @@
 				<apex:variable var="totalAcross" value="{!totalAcross} ,{!addr.itemTotalColumn}{!FLOOR(rowNum)}" />
 			</apex:column>	
 	        <apex:column style="text-align:right;">
-				<apex:facet name="header"><br/><br/><br/><br/><br/>Item Total &#43;<br/> Shipping &amp; Tax</apex:facet>
+	        <!-- LSLEVIN Case 6123 7.25.2013 START -->
+				<!--<apex:facet name="header"><br/><br/><br/><br/><br/>Item Total &#43;<br/> Shipping &amp; Tax</apex:facet> -->
+				    <apex:facet name="header"><br/><br/><br/><br/><br/>Item Total &#43;<br/> Shipping</apex:facet>
+			<!-- LSLEVIN Case 6123 7.25.2013 END -->	
 				<apex:outputText value="=ROUND({!addr.itemTotalColumn}{!FLOOR(rowNum)}+({!itemSnHColumn}{!FLOOR(rowNum)}*{!addr.itemTotalColumn}{!FLOOR(rowNum)}),2)"/>
 				<apex:variable var="totalAcrossSnH" value="{!totalAcrossSnH} ,{!addr.itemTotalSnHColumn}{!FLOOR(rowNum)}" />
 			</apex:column>				
@@ -71,7 +77,10 @@
 				<apex:outputText value="{!totalAcross}" />
 			</apex:column>	
 	         <apex:column style="font-weight:bold;background:silver;text-align:right;">
-				<apex:facet name="header"><br/><br/><br/><br/>Item Total &#43;<br/> Shipping &amp; Tax<br/>across all Ship Tos</apex:facet>
+	         <!-- LSLEVIN Case 6123 7.25.2013 START -->
+				<!--<apex:facet name="header"><br/><br/><br/><br/>Item Total &#43;<br/> Shipping &amp; Tax<br/>across all Ship Tos</apex:facet>-->
+				<apex:facet name="header"><br/><br/><br/><br/>Item Total &#43;<br/> Shipping<br/>across all Ship Tos</apex:facet>
+			<!-- LSLEVIN Case 6123 7.25.2013 END -->	
 				<apex:variable var="totalAcrossSnH" value="{!totalAcrossSnH} ), 2)"/>
 				<apex:outputText value="{!totalAcrossSnH}" />
 			</apex:column>	         

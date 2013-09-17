@@ -78,8 +78,8 @@ private class PerformanceControllerTest {
     		cont.dateSel = 'next';
     		cont.dateChanged();
     		cont.nameChanged();
-    		cont.gBrandChanged();
-    		cont.iBrandChanged();
+    		//cont.gBrandChanged();
+    		//cont.iBrandChanged();
     		cont.typeChanged();
     		cont.forChanged();
     		cont.priorChanged();

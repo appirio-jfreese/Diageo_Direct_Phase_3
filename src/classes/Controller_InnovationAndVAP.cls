@@ -166,13 +166,12 @@ public with sharing class Controller_InnovationAndVAP extends Controller_Base {
             if ((salesDriver == 'All' && o.getLabel() != 'All') || (salesDriver != 'All' && o.getLabel()==salesDriver)){
                 salesDriversToProcess.add(o.getLabel());
                 if(o.getLabel() != notShownDriver){
-                	salesDriversToShow.add(o.getLabel());
+                    salesDriversToShow.add(o.getLabel());
                     programMap.put(o.getLabel(), new list<map<String, String>>{new map<String, String>{'className' => 'empty', 'label' => ''}});
                 }
             }
         }
         salesDriversToShowCount = salesDriversToShow.size();
-        
         setMonths();
         
         // Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13

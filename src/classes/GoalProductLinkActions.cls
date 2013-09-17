@@ -1,4 +1,63 @@
 public without sharing class GoalProductLinkActions {
+	
+	public static void checkToPopulateReportBrand(List<Goal_Product_Link__c> gpls){
+		List<Goal_Product_Link__c> validGPLs = new List<Goal_Product_Link__c>();
+		for(Goal_Product_Link__c gpl : gpls){
+			if(gpl.Report_Brand__c == null && gpl.Generic_Brand__c != null){
+				validGPLs.add(gpl);
+			}
+		}
+		if(validGPLs.size() > 0){
+			populateReportBrand(validGPLs);
+		}
+	}
+	
+	public static void checkToPopulateReportBrand(Map<Id, Goal_Product_Link__c> oldMap, List<Goal_Product_Link__c> gpls){
+		List<Goal_Product_Link__c> validGPLs = new List<Goal_Product_Link__c>();
+		for(Goal_Product_Link__c gpl : gpls){
+			Goal_Product_Link__c old = oldMap.get(gpl.Id);
+			if(gpl.Generic_Brand__c != old.Generic_Brand__c || gpl.Sub_Brand__c != old.Sub_Brand__c){
+				validGPLs.add(gpl);
+			}
+		}
+		if(validGPLs.size() > 0){
+			populateReportBrand(validGPLs);
+		}
+	}
+	
+	public static void populateReportBrand(List<Goal_Product_Link__c> gpls){
+		Set<String> gBrands = new Set<String>();
+		Set<String> sBrands = new Set<String>();
+		
+		for(Goal_Product_Link__c gpl : gpls){
+			gBrands.add(gpl.Generic_Brand__c);
+			sBrands.add(gpl.Sub_Brand__c);
+		}
+		
+		List<Product__c> prods = [
+			SELECT Id,
+				   Generic_Brand__c,
+				   Sub_Brand__c,
+				   Report_Brand__c
+			  FROM Product__c
+			 WHERE Generic_Brand__c IN :gBrands
+			    OR Sub_Brand__c IN :sBrands
+		];
+		
+		Map<String, String> rBrandsByKey = new Map<String, String>();
+		for(Product__c prod : prods){
+			rBrandsByKey.put(prod.Generic_Brand__c + '|' + prod.Sub_Brand__c, prod.Report_Brand__c);
+		}
+		
+		for(Goal_Product_Link__c gpl : gpls){
+			String match = rBrandsByKey.get(gpl.Generic_Brand__c + '|' + gpl.Sub_Brand__c);
+			if(match != null){
+				gpl.Report_Brand__c = match;
+			} else {
+				gpl.Report_Brand__c = gpl.Generic_Brand__c;
+			}
+		}
+	}
 
 	public static void deduplicateLinks(Map<Id, Goal_Product_Link__c> linksById){
 		Set<String> linkKeys = new Set<String>();

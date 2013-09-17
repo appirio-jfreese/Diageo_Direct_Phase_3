@@ -209,7 +209,8 @@ public with sharing class Controller_MonthlyExecutionPlan extends Controller_Bas
     
     private void populateData(){
         calendarData.clear();
-        List<Calendar__c> cRecords = Service_API.getMEPs(calendar.startDate, calendar.endDate, salesDriver, selectedThemes());
+        set<String> selectedThemes1 = selectedThemes(); // Changes done by Jai Gupta for case 00006278 on Sep 09,2013
+        List<Calendar__c> cRecords = Service_API.getMEPs(calendar.startDate, calendar.endDate, salesDriver, selectedThemes1);// Changes done by Jai Gupta for case 00006278 on Sep 09,2013
         List<Calendar__c> cRecordsOrderCurrent = new List<Calendar__c>();
         List<Calendar__c> cRecordsOrderMixed = new List<Calendar__c>();
         List<Calendar__c> cRecordsOrderOther = new List<Calendar__c>();
@@ -222,6 +223,46 @@ public with sharing class Controller_MonthlyExecutionPlan extends Controller_Bas
         		cRecordsOrderOther.add(c);
         	}
         }
+        /* Start Changes for case 00006278 on Sep 09,2013 by Jai Gupta
+        Set priority for sub classifications (Us Spirits ,Catalyst).. If both are selected then Us Spirits must be visible before Catalysts.
+        */
+        if(selectedThemes1.contains('Catalyst') && selectedThemes1.contains('US Spirits')) {
+        	List<Calendar__c> cRecordsToShuffle = new List<Calendar__c>();
+        	if(siteTheme == 'Spirits') {
+        		cRecordsToShuffle.addAll(cRecordsOrderCurrent);
+        	} else {
+        		cRecordsToShuffle.addAll(cRecordsOrderOther);
+        	}
+        	
+        	List<Calendar__c> tmpUSSPirits = new List<Calendar__c>();
+        	List<Calendar__c> tmpCatalysts = new List<Calendar__c>();
+        	
+        	if(cRecordsToShuffle.size() > 0) {
+        		List<Calendar__c> tmp = [SELECT Id, name, sales_channel__c, description__c, start_date__c, end_date__c , background_color__c, background_color2__c,
+                    Logo_Image_Small__r.content_id__c, Logo_Image_Large__r.content_id__c, text_color__c, classification__c,(Select Brand__c,Brand__r.Catalyst__c from CalendarBrand__r Where Brand__r.Catalyst__c = false)     
+                    FROM Calendar__c where Id in :cRecordsToShuffle ORDER BY sales_channel__c, classification__c, priority__c ASC, start_date__c];
+                
+                for(Calendar__c c : tmp) {
+	            	if(c.CalendarBrand__r.size() > 0) {
+	            		tmpUSSPirits.add(c);
+	            	} else {
+	            		tmpCatalysts.add(c);
+	            	}
+                }
+        	}
+        	cRecordsToShuffle.clear();
+        	cRecordsToShuffle.addAll(tmpUSSPirits);
+        	cRecordsToShuffle.addAll(tmpCatalysts);
+        	
+        	if(siteTheme == 'Spirits') {
+        		cRecordsOrderCurrent.clear();
+        		cRecordsOrderCurrent.addAll(cRecordsToShuffle);
+        	} else {
+        		cRecordsOrderOther.clear();
+        		cRecordsOrderOther.addAll(cRecordsToShuffle);
+        	}
+        }
+        /* End for case 00006278 */
         cRecords.clear();
         cRecords.addAll(cRecordsOrderCurrent);
         cRecords.addAll(cRecordsOrderMixed);

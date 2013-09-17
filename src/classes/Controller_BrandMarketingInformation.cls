@@ -2,6 +2,7 @@
 Name        : Controller_BrandMarketingInformation.cls
 *******************************************************************************/
 public with sharing class Controller_BrandMarketingInformation extends Controller_Base {
+    
 	// display as list (true) or box (false)
     public Boolean displayAsList {get; set;}
 
@@ -244,6 +245,7 @@ public with sharing class Controller_BrandMarketingInformation extends Controlle
 		} else {
 			displayAsList = true;
 		}
+
     }
     
     public void switchToMonthView(){
@@ -699,9 +701,9 @@ public with sharing class Controller_BrandMarketingInformation extends Controlle
 			}
 			if(!Test.isRunningTest()){
 				currentBasketIds = Service_Basket.getBasketIds();
-				currentFollowIds = Service_Notification.getFollowIds();
+	            currentFollowIds = Service_Notification.getFollowIds();
 			}
-				} catch( Exception err ){
+        } catch( Exception err ){
 	        ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to load content.'));
             return;
         }

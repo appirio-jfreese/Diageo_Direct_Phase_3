@@ -16,7 +16,7 @@
 public with sharing class Controller_Legal extends Controller_Base
 {
 
-   
+    public Boolean tooManyRecords {get; set;}   
     public List<String> selectedState {get; set;}
     public List<String> selectedRule {get; set;}
     private List<State__c> stas {get; set;}
@@ -31,6 +31,7 @@ public with sharing class Controller_Legal extends Controller_Base
         addBreadcrumbItem(Apexpages.currentPage().getUrl(), 'Legal');
   
         displayList = false;
+        tooManyRecords = false;
         theIds = ',';
         stas = [SELECT id, name FROM State__c ORDER BY name];
         ruls = [SELECT id, name FROM Rule__c ORDER BY name];
@@ -61,41 +62,47 @@ public with sharing class Controller_Legal extends Controller_Base
   
     public void findIssues(){
     
+        issues = new List<State_Rules__c>();
         theIds = null;
     
-        if(selectedState.size() > 0 && selectedRule.size() > 0)
-        {
-            issues = [SELECT id, name, State__c, Rule_Applies__c, Rule__r.Name, State__r.Name, Rule__c, Applicability_Comment__c, Statute_Ref__c 
+            if(selectedState.size() > 0 && selectedRule.size() > 0)
+            {
+                issues = [SELECT id, name, State__c, Rule_Applies__c, Rule__r.Name, State__r.Name, Rule__c, Applicability_Comment__c, Statute_Ref__c 
                         FROM State_Rules__c 
                        WHERE (State__c in :selectedState AND Rule__c in :selectedRule) 
-                         AND (Rule_Applies__c = 'Yes' OR Rule_Applies__c = 'Yes (with Restrictions)')
-                    ORDER BY State__r.Name, Rule__r.Name];
-         }
-         else if(selectedState.size() > 0)
-         {
-            issues = [SELECT id, name, State__c, Rule_Applies__c, Rule__r.Name, State__r.Name, Rule__c, Applicability_Comment__c, Statute_Ref__c
+                    ORDER BY State__r.Name, Rule__r.Name
+                    LIMIT 400];
+             }
+             else if(selectedState.size() > 0)
+             {
+                issues = [SELECT id, name, State__c, Rule_Applies__c, Rule__r.Name, State__r.Name, Rule__c, Applicability_Comment__c, Statute_Ref__c
                         FROM State_Rules__c 
                        WHERE (State__c in :selectedState) 
-                         AND (Rule_Applies__c = 'Yes' OR Rule_Applies__c = 'Yes (with Restrictions)')
-                    ORDER BY State__r.Name, Rule__r.Name];
-         }
-         else if(selectedRule.size() > 0)
-         {
-            issues = [SELECT id, name, State__c, Rule_Applies__c, Rule__r.Name, State__r.Name, Rule__c, Applicability_Comment__c, Statute_Ref__c
-                        FROM State_Rules__c 
-                       WHERE (Rule__c in :selectedRule) 
-                         AND (Rule_Applies__c = 'Yes' OR Rule_Applies__c = 'Yes (with Restrictions)')
-                    ORDER BY State__r.Name, Rule__r.Name];
-         }
-         else
-         {
-              return;
-         }
-                   
+                    ORDER BY State__r.Name, Rule__r.Name
+                    LIMIT 400];
+             }
+             else if(selectedRule.size() > 0)
+             {
+                issues = [SELECT id, name, State__c, Rule_Applies__c, Rule__r.Name, State__r.Name, Rule__c, Applicability_Comment__c, Statute_Ref__c
+                            FROM State_Rules__c 
+                           WHERE (Rule__c in :selectedRule) 
+                        ORDER BY State__r.Name, Rule__r.Name
+                        LIMIT 400];
+             }
+             else
+             {
+                  return;
+             }
         
         if(issues.isEmpty())
         {
             displayList = false;
+            tooManyRecords = false;
+        }
+        else if (issues.size() > 399)
+        {
+            displayList = false;
+            tooManyRecords = true;
         }
         else
         {
@@ -104,6 +111,7 @@ public with sharing class Controller_Legal extends Controller_Base
                 theIds = theIds + ',' + rul.id;
             }
             displayList = true;
+            tooManyRecords = false;
         }
     }
     

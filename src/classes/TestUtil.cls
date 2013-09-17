@@ -97,6 +97,7 @@ public with sharing class TestUtil {
      	occ.Occasion_Type__c = occasionType;
      	occ.Name_Of_The_Occasion__c = occasionName;
      	occ.Recipe_Occasion_Image__c = imageId;
+     	occ.Occasion_Tags__c = 'Test Tag';
      	occ.Locale__c = 'EN-US';
      	
      	insert occ;
@@ -128,6 +129,7 @@ public with sharing class TestUtil {
      	Diageo_Brand__c diagBrnd = new Diageo_Brand__c();
      	diagBrnd.Name = diageoBrandName;
      	diagBrnd.Brand_Image__c = imageId;
+     	diagBrnd.Locale__c = 'EN-US';
      	insert diagBrnd;
      	return diagBrnd;
      }
@@ -143,7 +145,7 @@ public with sharing class TestUtil {
      	diagPrdct.Name = diageoProductName;
      	diagPrdct.Diageo_Brand_Id__c = brandId;
      	diagPrdct.Diageo_Product_Image__c = imageId;
-     	
+     	diagPrdct.Locale__c = 'EN-US';
      	insert diagPrdct;
      	return diagPrdct;	
      }

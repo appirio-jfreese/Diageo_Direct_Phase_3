@@ -6,7 +6,7 @@ Date        : 6/5/13
 Story/Task  : US79/TA1001
 Description : Handler Class for ContentVersionTrigger.trigger
 *******************************************************************************/
-public with sharing class ContentVersionTriggerHandler{
+public with sharing class ContentVersionTriggerHandler {
     private static boolean disabled = false;
     
     // This method called from ContentVersionTrigger on After Insert
@@ -17,7 +17,7 @@ public with sharing class ContentVersionTriggerHandler{
     
     // This method called from ContentVersionTrigger on After Update
     public static void onAfterUpdate(Map<ID, ContentVersion> newRecordsMap,
-    								Map<ID, ContentVersion> oldRecordsMap){
+                                    Map<ID, ContentVersion> oldRecordsMap){
         // Create Content Notification Records
         createContentNotifications(newRecordsMap);
     }
@@ -36,7 +36,7 @@ public with sharing class ContentVersionTriggerHandler{
         if(versionContentMap.size() > 0){
             
             if(disabled){
-            	return;
+                return;
             }
             // Set of user ids
             Set<String> userIds = new Set<String>();
@@ -97,14 +97,29 @@ public with sharing class ContentVersionTriggerHandler{
     }
     
     // Fetch All Content Subscriptions Records
-    private static List<Content_Subscription__c> getContentSubscriptions(Set<String> contentDocumentIds){       
+    private static List<Content_Subscription__c> getContentSubscriptions(Set<String> contentDocumentIds){     
         List<Content_Subscription__c> subscrips = [SELECT Id, User__c, 
                                                        User__r.Content_Notification_Frequency__c,
+                                                       User__r.Email,
                                                        Content__c 
                                                        FROM Content_Subscription__c 
-                                                       WHERE Content__c IN :contentDocumentIds];    
-        system.debug('===subscrips========='+subscrips);
-        return subscrips;
+                                                       WHERE Content__c IN :contentDocumentIds];
+		// Modified by Rahul Chitkara
+		// Case 6274
+		// Added condition to retain uniqueness for user. User email id is the element to show uniqueness                                                       
+        Set<String> emailIds = new Set<String>();
+        List<Content_Subscription__c> uniqueSubs = new list<Content_Subscription__c>();
+        for(Content_Subscription__c cs : subscrips){
+        	if(cs.User__r.Email!=''){
+        		if(!emailIds.contains(cs.User__r.Email)){
+        		    uniqueSubs.add(cs);   		
+        			emailIds.add(cs.User__r.Email);
+        		}	
+        	}
+        }
+        system.debug('=== unique subscrips========='+uniqueSubs+'------subscribe'+subscrips);
+        return uniqueSubs;
+        // End Changes 6274
     }
     
     /**************************************************************

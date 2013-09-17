@@ -3,10 +3,12 @@ trigger ActionProductLinkTrigger on Action_Product_Link__c (after delete, after 
 	if (trigger.isBefore) {
 		if (trigger.isInsert) {
 			ActionProductLinkActions.updateOnlineFields(trigger.new);
+			ActionProductLinkActions.checkToPopulateReportBrand(trigger.new);
 		}
 		
 		if (trigger.isUpdate) {
 			ActionProductLinkActions.updateOnlineFields(trigger.oldMap, trigger.new);
+			ActionProductLinkActions.checkToPopulateReportBrand(trigger.oldMap, trigger.new);
 		}
 	}
 	

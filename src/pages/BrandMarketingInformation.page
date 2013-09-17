@@ -13,8 +13,8 @@ Name        : BrandMarketingInformation.page
     <c:loader />	
     <div class="content-wrapper">
         <!-- PAGE HEADER -->
-        <c:pageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}"/>
-        
+        <c:pageHeader showThemeSelector="true" isLoggedIn="{!isLoggedIn}" basketItemsNumber="{!basketItemsNo}" />
+
 		<script type="text/javascript">
 	    	pageViewed('Brand Marketing Information');
 	    </script>
@@ -28,7 +28,7 @@ Name        : BrandMarketingInformation.page
         <div class="content bggradient specialContent {!if(ISNULL(siteTheme),'hidden','')}">
 			<apex:form >	
                 <apex:actionFunction status="ajax-status" name="switchSection" action="{!switchSection}" rerender="messages, pageContent, downloadAllDialog, beadcrumblinks">
-										<apex:param name="switchSection" assignTo="{!currentSection}" value="" />
+					<apex:param name="switchSection" assignTo="{!currentSection}" value="" />
                 </apex:actionFunction>
 				<apex:actionFunction status="ajax-status" name="resetFilter" action="{!resetFilter}" rerender="messages, filterBrandItem, variantBrands, timeFilterItem, pageContentResult, downloadAllDialog"/>	                
 				<apex:actionFunction status="ajax-status" name="changeFilter" action="{!changeFilter}" rerender="messages, pageContent, downloadAllDialog"/>
@@ -394,11 +394,11 @@ Name        : BrandMarketingInformation.page
 									Date  - 5th Mar 2013
 									Passed the attribute for Description
 									 -->
-                   <c:contentItem followIds="{!currentFollowIds}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" lastLoginDateItem="{!lastLoginDate}" description="{!cDescr}" width="301" displayUploadDate="true"/>
-                   <!-- End Case 00004201 -->
+		                            <c:contentItem followIds="{!currentFollowIds}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" lastLoginDateItem="{!lastLoginDate}" description="{!cDescr}" width="301" displayUploadDate="true"/>
+		                            <!-- End Case 00004201 -->
 								</apex:outputPanel>
 									<apex:outputPanel rendered="{!if(displayAsList = true,'true','false')}">
-	       						<c:contentItem followIds="{!currentFollowIds}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" lastLoginDateItem="{!lastLoginDate}" renderAsList="true" displayUploadDate="true"/>
+	       		                    <c:contentItem followIds="{!currentFollowIds}" basketIds="{!currentBasketIds}" aggregated="{!contentItem}" lastLoginDateItem="{!lastLoginDate}" renderAsList="true" displayUploadDate="true"/>
 								</apex:outputPanel>
 								</apex:repeat>
 							<div class="clear-float"></div>

@@ -574,6 +574,7 @@ body, html{
                 </div>
             </apex:form>
         </div>
+
         <!-- PAGE FOOTER -->
         <c:pageFooter isInternal="{!isInternalUser}" />
     </div>

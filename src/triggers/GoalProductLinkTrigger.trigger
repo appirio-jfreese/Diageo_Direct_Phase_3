@@ -2,9 +2,11 @@ trigger GoalProductLinkTrigger on Goal_Product_Link__c (before insert, before up
 	
 	if (trigger.isBefore) {
 		if (trigger.isInsert) {
+			GoalProductLinkActions.checkToPopulateReportBrand(trigger.new);
 		}
 		
 		if (trigger.isUpdate) {
+			GoalProductLinkActions.checkToPopulateReportBrand(trigger.oldMap, trigger.new);
 		}
 	}
 	

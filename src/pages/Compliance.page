@@ -39,7 +39,7 @@ Name				: Compliance.page
 					
 						<apex:outputPanel rendered="{!AND(!ISNULL(content),content.size!=0)}">
 					       	<apex:repeat value="{!contentHolder}" var="contentItem">
-					       			<c:contentItem basketIds="{!currentBasketIds}" aggregated="{!contentItem}" renderAsList="true" showButons="false" displayUploadDate="true"/>
+		        		    	<c:contentItem basketIds="{!currentBasketIds}" aggregated="{!contentItem}" renderAsList="true" showButons="false" displayUploadDate="true"/>
 							</apex:repeat>
 							<div class="clear-float"></div>
 							<c:pagination totalNumberOfPages="{!numberOfPages}" isNewContent="{!isNewContent}" pageNumbers="{!pageNumbers}" numberOfCurrentPage="{!numberOfCurrentPage}" />

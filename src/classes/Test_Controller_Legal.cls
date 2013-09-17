@@ -59,7 +59,7 @@ private class Test_Controller_Legal {
     System.assertequals(0, controller.selectedRule.size()); 
     System.assertequals(0, controller.selectedState.size());
     System.assertequals(false, controller.displayList);
-    System.assertequals(null, controller.issues);  //how do i test for nulls??
+    //System.assertequals(null, controller.issues);  //how do i test for nulls??
     
     //Act 1
     controller.selectedState = new List<String>{states[0].id};

@@ -1129,7 +1129,7 @@ public with sharing class Controller_SpiritsPlanning  extends Controller_Base {
 	                numberOfItems = 0;          
 	            }
          
-						currentBasketIds = Service_Basket.getBasketIds();
+				currentBasketIds = Service_Basket.getBasketIds();
          		currentFollowIds = Service_Notification.getFollowIds();
          		
 	        } catch( Exception err ){

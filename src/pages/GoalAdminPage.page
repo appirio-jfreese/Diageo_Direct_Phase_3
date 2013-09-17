@@ -272,7 +272,7 @@
 					<div style="text-align: center">
 						<apex:commandButton value="Save & Apply Changes"
 											action="{!saveChanges}"
-											rerender="selectedGroupPanel"/>
+											rerender="selectedGroupPanel, messagePanel"/>
 											<!-- 
 											oncomplete="var escape = '{!selectedGoal.Name}';
 														escape = escape.replace('\'', '\\\'');

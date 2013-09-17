@@ -1,5 +1,45 @@
 @isTest
 private class GoalProductLinkActionsTest {
+	
+	static testMethod void testPopulateReportBrand() {
+		Product__c prod = new Product__c();
+		prod.Generic_Brand__c = 'generic brand unique';
+		prod.Sub_Brand__c = 'sub brand unique';
+		prod.Report_Brand__c = 'report brand unique';
+		prod.Brand_Composite_Key__c = 'something';
+		insert prod;
+		
+		Goal__c parent = new Goal__c();
+        insert parent;
+        
+        Goal_Product_Link__c link1 = new Goal_Product_Link__c();
+        link1.Goal__c = parent.Id;
+        link1.Generic_Brand__c = 'generic brand unique';
+        link1.Sub_Brand__c = 'sub brand unique';
+        
+        Goal_Product_Link__c link2 = new Goal_Product_Link__c();
+        link2.Goal__c = parent.Id;
+        link2.Generic_Brand__c = 'generic brand unique';
+        link2.Sub_Brand__c = 'sub brand different';
+        
+        Test.startTest();
+        
+        insert link1;
+        insert link2;
+        
+        Test.stopTest();
+        
+        link1 = [SELECT Id, Report_Brand__c FROM Goal_Product_Link__c WHERE Id = :link1.Id];
+        System.assertEquals('report brand unique', link1.Report_Brand__c);
+        
+        link2 = [SELECT Id, Report_Brand__c FROM Goal_Product_Link__c WHERE Id = :link2.Id];
+        System.assertEquals('generic brand unique', link2.Report_Brand__c);
+        
+        link2.Sub_Brand__c = 'sub brand unique';
+        update link2;
+        link2 = [SELECT Id, Report_Brand__c FROM Goal_Product_Link__c WHERE Id = :link2.Id];
+        System.assertEquals('report brand unique', link2.Report_Brand__c);
+	}
 
     static testMethod void testDeduplicateLinks() {
         Goal__c parent = new Goal__c();

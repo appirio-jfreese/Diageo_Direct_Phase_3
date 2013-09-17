@@ -56,11 +56,7 @@ public with sharing class TriggerFile {
 	       file.Tags__c = f.Tags__c;	    
 	       file.Start_Date__c = f.Start_Date__c;
 	       file.RTS__c = f.RTS__c;
-	       system.debug('=====old preview id=============='+file.Preview_Id__c);
-	       system.debug('=====setting preview id=============='+f.Preview_Id__c);
-	       system.debug('=====old preview id=============='+file.Preview_Available__c);
-	       system.debug('=====setting preview id=============='+f.Preview_Available__c);
-	       file.Preview_Id__c = f.Preview_Id__c;	       
+	       file.Preview_Id__c = f.Preview_Id__c;
 	       file.Preview_Available__c = f.Preview_Available__c;
 	       file.Portfolio__c = f.Portfolio__c;
 	       file.Page_Section__c = f.Page_Section__c;

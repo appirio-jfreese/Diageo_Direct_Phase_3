@@ -1130,7 +1130,7 @@ public with sharing class Controller_WinePlanning  extends Controller_Base {
 	            }
          		
          		currentBasketIds = Service_Basket.getBasketIds();
-						currentFollowIds = Service_Notification.getFollowIds();
+				currentFollowIds = Service_Notification.getFollowIds();
 				
 	        } catch( Exception err ){
 	            ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to load content.'));

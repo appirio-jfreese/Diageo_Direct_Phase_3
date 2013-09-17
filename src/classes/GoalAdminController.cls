@@ -203,6 +203,8 @@ public with sharing class GoalAdminController {
 						Completed__c
 				   FROM Goal__c
 				  WHERE Id IN :goalIds
+				     OR Parent_Goal__c IN :goalIds
+				     OR Parent_Goal__r.Parent_Goal__c IN :goalIds
 				];
 				
 			selectedGoal = selectedGroupGoals[0];

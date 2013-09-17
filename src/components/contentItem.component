@@ -268,6 +268,7 @@ Story/Task  : US495/DE600
     
     
     <!-- LIST VIEW -->
+    
     <apex:outputPanel rendered="{! IF(renderAsList1 = true, 'true', 'false')}">
         <div class="cionwrapper content-item-list">
             <div class="content-item-list-ico">

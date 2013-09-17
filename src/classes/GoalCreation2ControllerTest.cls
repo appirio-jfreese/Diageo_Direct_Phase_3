@@ -84,6 +84,7 @@ private class GoalCreation2ControllerTest {
 		Product__c prod = new Product__c();
 		prod.Product_Group__c = 'testGroup';
 		prod.Product_Classification__c = 'testClassification';
+		prod.Report_Brand__c = 'testReport';
 		prod.Generic_Brand__c = 'testGene\'ric';
 		prod.Sub_Brand__c = 'testSub';
 		prod.Individual_Brand__c = 'testInd';

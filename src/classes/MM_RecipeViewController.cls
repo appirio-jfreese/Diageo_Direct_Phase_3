@@ -437,10 +437,10 @@ public with sharing class MM_RecipeViewController extends MM_RecipeBase {
         if(concatenateTagsValue == null || concatenateTagsValue.trim() == '') {
             return null;
         }
-        if(currentRecipe.Recipe_Tags__c == null) {
-            currentRecipe.Recipe_Tags__c = concatenateTagsValue; 
+        if(currentRecipe.Recipe_Tag__c == null) {
+            currentRecipe.Recipe_Tag__c = concatenateTagsValue; 
         } else {
-            currentRecipe.Recipe_Tags__c = currentRecipe.Recipe_Tags__c + ', ' + concatenateTagsValue;
+            currentRecipe.Recipe_Tag__c = currentRecipe.Recipe_Tag__c + ', ' + concatenateTagsValue;
         }
         update currentRecipe;
         return null;
@@ -874,7 +874,7 @@ public with sharing class MM_RecipeViewController extends MM_RecipeBase {
                 currentRecipe = [SELECT Comments__c, lastModifiedTime__c, CreatedById, CreatedDate, IsDeleted,LastActivityDate, LastModifiedById, 
                                         LastModifiedDate, Main_Drink_Image__r.Content_id__c, Main_Drink_Image__c, Main_Drink_Image__r.Name, Language__c,
                                         Master_Recipe__r.Name, Master_Recipe__r.Id, Menu_Description__c, Mobile_Drink_Image__r.Content_Id__c, Occasion__c, Occasion_Type__c, Preparation_Steps__c, 
-                                        Recipe_Flavor_del__c, Recipe_Tags__c, Name, Recipe_Type_del__c,Mobile_Selected_Image__c,Mobile_Selected_Image__r.Content_Id__c,
+                                        Recipe_Flavor_del__c, Recipe_Tag__c, Name, Recipe_Type_del__c,Mobile_Selected_Image__c,Mobile_Selected_Image__r.Content_Id__c,
                                         Mobile_Unselected_Image__c,Mobile_Unselected_Image__r.Content_Id__c,Background_Image__c,Background_Image__r.Content_Id__c,
                                         Brand_Recipe_Image__c,Brand_Recipe_Image__r.Content_Id__c,Search_Recipe_Image__c,Search_Recipe_Image__r.Content_Id__c,
                                         Recipe_Version__c, Id,Recipe_Title__c,RecordSaved__c, Short_Description__c, Status__c, SystemModstamp, 

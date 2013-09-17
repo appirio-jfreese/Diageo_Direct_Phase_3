@@ -101,8 +101,35 @@
 							 rerender="messagePanel, filterPanel, resultPanel, chartPanel"
 							 status="filterChangeStatus"
 							 oncomplete="adjustAxisLabelCSS();"/>
+		<apex:actionFunction name="bFieldTypeChanged"
+							 action="{!bFieldTypeChanged}"
+							 rerender="messagePanel, filterPanel, resultPanel, chartPanel, bFieldValuePanel, groupByPanel"
+							 status="filterChangeStatus"
+							 oncomplete="adjustAxisLabelCSS();"/>
+		<apex:actionFunction name="bFieldValueChanged"
+							 action="{!bFieldValueChanged}"
+							 rerender="messagePanel, filterPanel, resultPanel, chartPanel"
+							 status="filterChangeStatus"
+							 oncomplete="adjustAxisLabelCSS();"/>
+							 
+		<!-- 
+		<apex:actionFunction name="pClassChanged"
+							 action="{!pClassChanged}"
+							 rerender="messagePanel, filterPanel, resultPanel, chartPanel"
+							 status="filterChangeStatus"
+							 oncomplete="adjustAxisLabelCSS();"/>
+		<apex:actionFunction name="pGroupChanged"
+							 action="{!pGroupChanged}"
+							 rerender="messagePanel, filterPanel, resultPanel, chartPanel"
+							 status="filterChangeStatus"
+							 oncomplete="adjustAxisLabelCSS();"/>
 		<apex:actionFunction name="gBrandChanged"
 							 action="{!gBrandChanged}"
+							 rerender="messagePanel, filterPanel, resultPanel, chartPanel"
+							 status="filterChangeStatus"
+							 oncomplete="adjustAxisLabelCSS();"/>
+		<apex:actionFunction name="sBrandChanged"
+							 action="{!sBrandChanged}"
 							 rerender="messagePanel, filterPanel, resultPanel, chartPanel"
 							 status="filterChangeStatus"
 							 oncomplete="adjustAxisLabelCSS();"/>
@@ -111,6 +138,13 @@
 							 rerender="messagePanel, filterPanel, resultPanel, chartPanel"
 							 status="filterChangeStatus"
 							 oncomplete="adjustAxisLabelCSS();"/>
+		<apex:actionFunction name="sizeChanged"
+							 action="{!sizeChanged}"
+							 rerender="messagePanel, filterPanel, resultPanel, chartPanel"
+							 status="filterChangeStatus"
+							 oncomplete="adjustAxisLabelCSS();"/>
+		 -->
+		 
 		<apex:actionFunction name="typeChanged"
 							 action="{!typeChanged}"
 							 rerender="messagePanel, filterPanel, resultPanel, chartPanel"
@@ -245,8 +279,48 @@
 						</apex:outputPanel>
 					</apex:pageBlockSectionItem>
 					
+					<apex:pageBlockSectionItem rendered="{!showBFieldFilter}">
+						<apex:outputPanel id="bFieldTypePanel">
+							<apex:selectList value="{!bFieldTypeSel}"
+											 size="1"
+											 onchange="bFieldTypeChanged()">
+								<apex:selectOptions value="{!bFieldTypeSelections}"/>
+							</apex:selectList>
+						</apex:outputPanel>
+						<apex:outputPanel id="bFieldValuePanel">
+							<apex:selectList value="{!bFieldValueSel}"
+											 size="1"
+											 onchange="bFieldValueChanged()">
+								<apex:selectOptions value="{!bFieldValueSelections}"/>
+							</apex:selectList>
+						</apex:outputPanel>
+					</apex:pageBlockSectionItem>
+					
+					<!-- 
+					<apex:pageBlockSectionItem rendered="{!showPClass}">
+						<apex:outputLabel value="Product Class"/>
+						<apex:outputPanel id="pClassPanel">
+							<apex:selectList value="{!pClassSel}"
+											 size="1"
+											 onchange="pClassChanged()">
+								<apex:selectOptions value="{!pClassSelections}"/>
+							</apex:selectList>
+						</apex:outputPanel>
+					</apex:pageBlockSectionItem>
+					
+					<apex:pageBlockSectionItem rendered="{!showPGroup}">
+						<apex:outputLabel value="Product Group"/>
+						<apex:outputPanel id="pGroupPanel">
+							<apex:selectList value="{!pGroupSel}"
+											 size="1"
+											 onchange="pGroupChanged()">
+								<apex:selectOptions value="{!pGroupSelections}"/>
+							</apex:selectList>
+						</apex:outputPanel>
+					</apex:pageBlockSectionItem>
+					
 					<apex:pageBlockSectionItem rendered="{!showGBrand}">
-						<apex:outputLabel value="Brand"/>
+						<apex:outputLabel value="Generic Brand"/>
 						<apex:outputPanel id="gBrandPanel">
 							<apex:selectList value="{!gBrandSel}"
 											 size="1"
@@ -256,7 +330,17 @@
 						</apex:outputPanel>
 					</apex:pageBlockSectionItem>
 					
-					<!-- 
+					<apex:pageBlockSectionItem rendered="{!showSBrand}">
+						<apex:outputLabel value="Sub Brand"/>
+						<apex:outputPanel id="sBrandPanel">
+							<apex:selectList value="{!sBrandSel}"
+											 size="1"
+											 onchange="sBrandChanged()">
+								<apex:selectOptions value="{!sBrandSelections}"/>
+							</apex:selectList>
+						</apex:outputPanel>
+					</apex:pageBlockSectionItem>
+					
 					<apex:pageBlockSectionItem rendered="{!showIBrand}">
 						<apex:outputLabel value="Individual Brand"/>
 						<apex:outputPanel id="iBrandPanel">
@@ -267,8 +351,19 @@
 							</apex:selectList>
 						</apex:outputPanel>
 					</apex:pageBlockSectionItem>
+					
+					<apex:pageBlockSectionItem rendered="{!showSize}">
+						<apex:outputLabel value="Size"/>
+						<apex:outputPanel id="sizePanel">
+							<apex:selectList value="{!sizeSel}"
+											 size="1"
+											 onchange="sizeChanged()">
+								<apex:selectOptions value="{!sizeSelections}"/>
+							</apex:selectList>
+						</apex:outputPanel>
+					</apex:pageBlockSectionItem>
 					 -->
-
+					 
 				</apex:pageBlockSection>
 					
 				<apex:pageBlockSection title="Chart Details">

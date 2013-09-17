@@ -466,9 +466,7 @@ private class MM_TestRecipeViewController {
         rvc.standardAverageAnalysis = 'Test Standard Average Analysis'; 
         rvc.tastingNotes = 'Test Tasting Notes'; 
         
-        //rvc.currentRecipe.Recipe_Tag__c = 'Test Recipe Tag';
-        rvc.currentRecipe.Recipe_Tags__c = 'Test Recipe Tag';
-        //----
+        rvc.currentRecipe.Recipe_Tag__c = 'Test Recipe Tag';
         
         
         system.runAs(editor){
@@ -501,8 +499,7 @@ private class MM_TestRecipeViewController {
             system.assertEquals(diagIng[3].Recipe_Non_Diageo_Product__r.Name,'TestIng');    
             
             //By Rishi Khirbat on 10th Dec 2012
-            //system.assertEquals(rvc.currentRecipe.Recipe_Tag__c,'Test Recipe Tag');
-            system.assertEquals(rvc.currentRecipe.Recipe_Tags__c,'Test Recipe Tag');
+            system.assertEquals(rvc.currentRecipe.Recipe_Tag__c,'Test Recipe Tag');
             
             for(Recipe_Attribute__c ra: raList){
                 if(ra.Attribute__r.Attribute_Type__c.equals('Description/Overview')) {
@@ -528,7 +525,7 @@ private class MM_TestRecipeViewController {
             //By Rishi Khirbat on 18th Dec 2012
             rvc.concatenateTagsValue = 'Concatenate Tags Value';
             rvc.saveTags();
-            system.assertEquals(rvc.currentRecipe.Recipe_Tags__c,'Test Recipe Tag, Concatenate Tags Value');
+            system.assertEquals(rvc.currentRecipe.Recipe_Tag__c,'Test Recipe Tag, Concatenate Tags Value');
             
             List<MM_RecipeViewController.WrapperDiageoIngredient> wrDiageoIngredients;
             

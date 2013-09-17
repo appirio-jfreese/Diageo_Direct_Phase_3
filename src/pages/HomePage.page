@@ -82,6 +82,12 @@ Story/Task  : US503/TA907
             <div class="home-page-box home-page-box-news-article">
                 <div class="home-page-box-news-title">Latest News</div>
                 <!--  <div class="home-page-box-news-separator">&nbsp;</div> -->
+                <!--   Modified by Rahul Chitkara 
+                	   Added outputPanel box which shows latest news on a specific condition
+                	   Case 00006383 	
+                 -->
+                <apex:outputPanel layout="none" rendered="{!if(showLatestNews, 'true', 'false')}">
+                
                 <div class="home-page-news-wrapper">
                   <ul style="display: block;">
                     <apex:repeat value="{!articles}" var="article">
@@ -103,7 +109,14 @@ Story/Task  : US503/TA907
                         <!-- END : Changes for US503/TA1011 : Comment Blog Code - Basant Verma -->
                         <!-- END : Changes for TA907 -->               
                   </ul>
-                </div>                    
+                </div>
+                </apex:outputPanel>          
+                <apex:outputPanel layout="none" rendered="{!if(showLatestNews, 'false', 'true')}" >
+                <div class= "home-page-box-news-article_access" > </div>	
+                </apex:outputPanel>         
+                <!-- Changes End 00006383
+                Added Output panel which does show black tile if current user's field Access dd Latest new is not checked.
+                 -->
             </div>
             <div class="home-page-box home-page-box-last" style="display:{!showPlayer};">
                 <div class="">

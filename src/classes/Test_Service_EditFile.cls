@@ -12,7 +12,7 @@ public class Test_Service_EditFile {
         Service_EditFile sv = new Service_EditFile();
         sv.file = cv;
         sv.DistributorId = account.id;
-        sv.folderId = folder.id; 
+        sv.folderId = folder.id;
         sv.commentBody = 'ABC';
         sv.saveFile();
         sv.fileId = cv.id;

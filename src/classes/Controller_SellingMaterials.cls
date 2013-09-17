@@ -466,7 +466,7 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
 		try{
 			
 			initParentBrands();
-            //disable filtering for fact sheets
+            //disable filtering for fact sheets1
             activeFilter = 0;
             if (currentSection == Constant.FACT_SHEETS || currentSubSection == Constant.COLLABORATION) {
                 // sub if condition to avoid inifite loop
@@ -633,8 +633,11 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
 								cl.add(' (( content_description__r.Content_Id__c in ('+rtsBrandIdsString+') ) )');
 							}
 							cl.add(' ( content_description__r.RTS__c = true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ');	
-							cl.add(' ( content_description__r.Portfolio__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\')  ) ');
+							// Modified by Rahul Chitkara Case 00006282 on 3th September
+							// Putting the below statement out of the condition. Content should be visible to all classifications. If portfolio is checked
+							//cl.add(' ( content_description__r.Portfolio__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\')  ) ');
 						}
+						cl.add(' ( content_description__r.Portfolio__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\')  ) ');
 	                    cl.add(' ( content_description__r.TBA__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ');
 				}else{
 					/*if(!selectedBrandIdsList.isEmpty()){
@@ -645,7 +648,10 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
 					if(brandIdsString != null && brandIdsString != '' && isFiltering){
 						cl.add(' (( content_description__r.Content_Id__c in ('+brandIdsString+') ) )');
 					}
-		            if (selectedPortfolio && siteTheme != 'Wine') {
+					//Modified by Rahul Chitkara Case 00006282 on 3th September
+					// Removing the clause for site them. Content should be visible to all site them . If portfolio is checked
+		            //if (selectedPortfolio && siteTheme != 'Wine') {
+		              if (selectedPortfolio) {
 						cl.add(' ( content_description__r.Portfolio__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ');
 		            }
 					if (selectedRTS && siteTheme != 'Wine') {
