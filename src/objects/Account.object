@@ -396,6 +396,32 @@
         <visibleLines>4</visibleLines>
     </fields>
     <fields>
+        <fullName>Calendar_Small_Logo__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Calendar Small logo</label>
+        <referenceTo>Content_Description__c</referenceTo>
+        <relationshipLabel>Accounts (Calendar Small logo)</relationshipLabel>
+        <relationshipName>Accounts1</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Calendar_large_logo__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Calendar large logo</label>
+        <referenceTo>Content_Description__c</referenceTo>
+        <relationshipLabel>Accounts (Calendar large logo)</relationshipLabel>
+        <relationshipName>Accounts</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>Call_Time_s__c</fullName>
         <externalId>false</externalId>
         <label>Call Time(s)</label>
@@ -3572,6 +3598,17 @@ IF(ISBLANK(Wine_Hierarchy__r.Parent__c), &quot;&quot;, IF(TEXT(Wine_Hierarchy__r
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>font_color__c</fullName>
+        <externalId>false</externalId>
+        <label>font color</label>
+        <length>6</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>geopointe__Geocode__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <deprecated>false</deprecated>
@@ -3585,6 +3622,39 @@ IF(ISBLANK(Wine_Hierarchy__r.Parent__c), &quot;&quot;, IF(TEXT(Wine_Hierarchy__r
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>gradient_bottom_color__c</fullName>
+        <externalId>false</externalId>
+        <label>gradient bottom color</label>
+        <length>6</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>gradient_top_color__c</fullName>
+        <externalId>false</externalId>
+        <label>gradient top color</label>
+        <length>6</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>stroke_color__c</fullName>
+        <externalId>false</externalId>
+        <label>stroke color</label>
+        <length>6</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <listViews>
         <fullName>AllAccountsDIAGEO</fullName>

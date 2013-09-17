@@ -69,19 +69,6 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Channel__c</fullName>
-        <externalId>false</externalId>
-        <label>Channel</label>
-        <picklist>
-            <picklistValues>
-                <fullName>Test</fullName>
-                <default>false</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
-        <type>Picklist</type>
-    </fields>
-    <fields>
         <fullName>Classification__c</fullName>
         <externalId>false</externalId>
         <label>Classification</label>
@@ -366,8 +353,8 @@
         <externalId>false</externalId>
         <label>Related National Program</label>
         <referenceTo>Calendar__c</referenceTo>
-        <relationshipLabel>Calendar</relationshipLabel>
-        <relationshipName>Calendar</relationshipName>
+        <relationshipLabel>Related National Program</relationshipLabel>
+        <relationshipName>Related_National_Program</relationshipName>
         <required>false</required>
         <type>Lookup</type>
     </fields>
@@ -541,6 +528,40 @@
         <label>Start Date</label>
         <required>false</required>
         <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Sub_Channel__c</fullName>
+        <externalId>false</externalId>
+        <label>Sub Channel</label>
+        <picklist>
+            <controllingField>Sales_Channel__c</controllingField>
+            <picklistValues>
+                <fullName>Casual Dining</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Neighborhood bar</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Hotels</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Grocery</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Drug</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>etc</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
     </fields>
     <fields>
         <fullName>Text_Color__c</fullName>
@@ -775,13 +796,6 @@
         <active>true</active>
         <label>Innovation, Sustainovation &amp; VAP</label>
         <picklistValues>
-            <picklist>Channel__c</picklist>
-            <values>
-                <fullName>Test</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
             <picklist>Classification__c</picklist>
             <values>
                 <fullName>Mixed</fullName>
@@ -893,6 +907,13 @@
             </values>
         </picklistValues>
         <picklistValues>
+            <picklist>Sub_Channel__c</picklist>
+            <values>
+                <fullName>Casual Dining</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
             <picklist>Theme__c</picklist>
             <values>
                 <fullName>Innovation%2C Sustainnovation %26 VAP</fullName>
@@ -915,13 +936,6 @@
         <fullName>Monthly_Execution_Plan</fullName>
         <active>true</active>
         <label>Monthly Execution Plan</label>
-        <picklistValues>
-            <picklist>Channel__c</picklist>
-            <values>
-                <fullName>Test</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
         <picklistValues>
             <picklist>Classification__c</picklist>
             <values>
@@ -1018,6 +1032,13 @@
             </values>
         </picklistValues>
         <picklistValues>
+            <picklist>Sub_Channel__c</picklist>
+            <values>
+                <fullName>Casual Dining</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
             <picklist>Theme__c</picklist>
             <values>
                 <fullName>Monthly Execution Plan</fullName>
@@ -1040,13 +1061,6 @@
         <fullName>Multicultural</fullName>
         <active>true</active>
         <label>Multicultural</label>
-        <picklistValues>
-            <picklist>Channel__c</picklist>
-            <values>
-                <fullName>Test</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
         <picklistValues>
             <picklist>Classification__c</picklist>
             <values>
@@ -1147,6 +1161,150 @@
             </values>
             <values>
                 <fullName>On Premise</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Sub_Channel__c</picklist>
+            <values>
+                <fullName>Casual Dining</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Theme__c</picklist>
+            <values>
+                <fullName>Current Programming</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Innovation%2C Sustainnovation %26 VAP</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Monthly Execution Plan</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>National Marketing Calendar</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Type__c</picklist>
+            <values>
+                <fullName>Overview</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Sell Sheet</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>National_Accounts</fullName>
+        <active>true</active>
+        <label>National Accounts</label>
+        <picklistValues>
+            <picklist>Classification__c</picklist>
+            <values>
+                <fullName>Mixed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Spirits</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Wine</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Priority__c</picklist>
+            <values>
+                <fullName>1</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>2</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>3</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>4</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>5</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Programs__c</picklist>
+            <values>
+                <fullName>Brand Program</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Portfolio Program</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Reserve Brand Program</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Sales_Channel__c</picklist>
+            <values>
+                <fullName>Off Premise</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>On Premise</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Segment__c</picklist>
+            <values>
+                <fullName>Off Premise</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>On Premise</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Sub_Channel__c</picklist>
+            <values>
+                <fullName>Casual Dining</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Drug</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Grocery</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Hotels</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Neighborhood bar</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>etc</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -1186,13 +1344,6 @@
         <active>true</active>
         <label>Planning</label>
         <picklistValues>
-            <picklist>Channel__c</picklist>
-            <values>
-                <fullName>Test</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
             <picklist>Classification__c</picklist>
             <values>
                 <fullName>Mixed</fullName>
@@ -1284,195 +1435,9 @@
             </values>
         </picklistValues>
         <picklistValues>
-            <picklist>Theme__c</picklist>
+            <picklist>Sub_Channel__c</picklist>
             <values>
-                <fullName>Current Programming</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Innovation%2C Sustainnovation %26 VAP</fullName>
-                <default>true</default>
-            </values>
-            <values>
-                <fullName>Monthly Execution Plan</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>National Marketing Calendar</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Type__c</picklist>
-            <values>
-                <fullName>Overview</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Sell Sheet</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-    </recordTypes>
-    <recordTypes>
-        <fullName>Program</fullName>
-        <active>true</active>
-        <label>Program</label>
-        <picklistValues>
-            <picklist>Channel__c</picklist>
-            <values>
-                <fullName>Test</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Classification__c</picklist>
-            <values>
-                <fullName>Mixed</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Spirits</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Wine</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Priority__c</picklist>
-            <values>
-                <fullName>1</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>2</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>3</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>4</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>5</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Programs__c</picklist>
-            <values>
-                <fullName>Brand Program</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Portfolio Program</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Reserve Brand Program</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Sales_Channel__c</picklist>
-            <values>
-                <fullName>African American</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Asian American</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Display%2FVisibility</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Distribution</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Hispanic</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Innovation</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Integrated National Program</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>LGBT</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>New Sizes%2C Pack%2FLabel Changes</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Off Premise</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>On Premise</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Pack%2FLabel Changes</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Planning</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Sustainovation</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>VAP</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Vintage Transition</fullName>
-                <default>false</default>
-            </values>
-        </picklistValues>
-        <picklistValues>
-            <picklist>Segment__c</picklist>
-            <values>
-                <fullName>AF AM</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Asian</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>GLBT</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Hispanic%2FLatino</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Mex Am</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>Off Premise</fullName>
-                <default>false</default>
-            </values>
-            <values>
-                <fullName>On Premise</fullName>
+                <fullName>Casual Dining</fullName>
                 <default>false</default>
             </values>
         </picklistValues>

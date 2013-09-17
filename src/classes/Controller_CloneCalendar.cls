@@ -24,6 +24,10 @@ public with sharing class Controller_CloneCalendar {
         	recordTypeToConstant.put('Multicultural', Constant.MULTICULTURAL);
 	        recordTypeToConstant.put('Innovation, Sustainovation & VAP', Constant.INNOVATION_AND_SUSTAINOVATION);
 	        recordTypeToConstant.put('Monthly Execution Plan', Constant.MONTHLY_EXECUTION_PLAN);
+	        
+	        // START : Changes for DE761 - Parul Gupta	        
+	        recordTypeToConstant.put('National Accounts', Constant.NATIONAL_ACCOUNTS);
+	        // END : Changes for DE761 - Parul Gupta
         } else {
         	recordTypeToConstant.put('Planning', Constant.PLANNING);
         }

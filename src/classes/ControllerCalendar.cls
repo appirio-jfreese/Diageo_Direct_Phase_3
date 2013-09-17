@@ -1,3 +1,10 @@
+/*******************************************************************************
+Name			: ControllerCalendar
+
+Updated By  : Basant Verma (Appirio JDC)   
+Date        : 17/09/13
+Story/Task  : US686/TA1274
+*******************************************************************************/
 public with sharing class ControllerCalendar {
   
     private ApexPages.StandardController con;
@@ -27,7 +34,10 @@ public with sharing class ControllerCalendar {
     public ControllerCalendar(ApexPages.StandardController controller) {
         con = controller;
         calendarRecord = (Calendar__c)controller.getRecord();
-        Calendar__c calendar = [select name, Logo_Image_Small__r.content_id__c, Logo_Image_Large__r.content_id__c, background_color__c, Background_Color2__c, Text_Color__c  from Calendar__c where id = :calendarRecord.id];
+        // Start : Modified for US686/TA1274 - Basant Verma (Appirio JDC)
+        Calendar__c calendar = [select name, Logo_Image_Small__r.content_id__c, Logo_Image_Large__r.content_id__c, background_color__c, Background_Color2__c, Text_Color__c, RecordType.Name  from Calendar__c where id = :calendarRecord.id];
+        themeFrom = calendar.RecordType.Name.equalsIgnoreCase(CALENDER_NATIONAL_ACC_RT) ? 'Account' : 'Brand';
+        // End : Modified for US686/TA1274 - Basant Verma (Appirio JDC)
         calendarName = calendar.Name;
         orginalGradientTop = calendar.background_color__c;
         orginalGradientBottom = calendar.Background_Color2__c;
@@ -78,12 +88,27 @@ public with sharing class ControllerCalendar {
     public list<SelectOption> getBrandThemes(){
         List<Brand__c> brands = [select id, name, gradient_bottom_color__c, gradient_top_color__c, font_color__c, stroke_color__c from Brand__c order by name];
         List<SelectOption> brandThemes = new List<SelectOption>();
-		brandThemes.add(new SelectOption('', 'Default Theme'));
+				brandThemes.add(new SelectOption('', 'Default Theme'));
         for(Brand__c brand : brands){
-			brandThemes.add(new SelectOption(brand.id, brand.name));
+					brandThemes.add(new SelectOption(brand.id, brand.name));
         }
         return brandThemes;
     }
+    
+    // Start : Modified for US686/TA1274 - Basant Verma (Appirio JDC)
+    public list<SelectOption> getAccountThemes(){
+        List<Account> accounts = [select id, name, gradient_bottom_color__c, gradient_top_color__c, font_color__c, stroke_color__c from Account Where RecordType.Name = :ACCOUNT_RT_FOR_COLOR_LOGO order by name];
+        List<SelectOption> accountThemes = new List<SelectOption>();
+				accountThemes.add(new SelectOption('', 'Default Theme'));
+        for(Account acc : accounts){
+					accountThemes.add(new SelectOption(acc.id, acc.name));
+        }
+        return accountThemes;
+    }
+    public String themeFrom {set; get;}
+    public static final String ACCOUNT_RT_FOR_COLOR_LOGO = 'Outlet';
+    public static final String CALENDER_NATIONAL_ACC_RT = 'National Accounts';
+    // End : Modified for US686/TA1274 - Basant Verma (Appirio JDC)
 
     public pageReference updateCalendarColors(){
     	calendarRecord.background_color__c = gradientTop;
@@ -113,24 +138,41 @@ public with sharing class ControllerCalendar {
     		initDefaultTheme();
     		return;
     	}
-    	Brand__c brand = [select Calendar_small_logo__c, Calendar_large_logo__c, Calendar_small_logo__r.content_id__c, Calendar_large_logo__r.content_id__c, gradient_bottom_color__c, gradient_top_color__c, font_color__c from Brand__c where id = :currentBrandTheme];
-    	gradientTop = brand.gradient_top_color__c;
-		gradientBottom = brand.gradient_bottom_color__c;
-		fontColor = brand.font_color__c;
-		calendarSmallLogo = brand.Calendar_small_logo__c;
-		calendarLargeLogo = brand.Calendar_large_logo__c;
-		ContentDocument[] cds = [SELECT LatestPublishedVersionId from ContentDocument where Id=: brand.Calendar_small_logo__r.content_id__c];
-		if (cds != null && cds.size()>0) {
-			calendarImg = 'background-image: url(/sfc/servlet.shepherd/version/download/' + cds[0].LatestPublishedVersionId + ');';
-		} else {
-			calendarImg = null;
-		}
-		ContentDocument[] cdl = [SELECT LatestPublishedVersionId from ContentDocument where Id=: brand.Calendar_large_logo__r.content_id__c];
-		if (cdl != null && cdl.size()>0) {
-			calendarImgLarge = 'background-image: url(/sfc/servlet.shepherd/version/download/' + cdl[0].LatestPublishedVersionId + ');';
-		} else {
-			calendarImgLarge = null;
-		}	
+    	// Start : Modified for US686/TA1274 - Basant Verma (Appirio JDC)
+    	String smallLogoContentId, largeLogoContentId;
+    	if(themeFrom != null && themeFrom.equalsIgnoreCase('Account')){
+    		Account acc = [select Calendar_small_logo__c, Calendar_large_logo__c, Calendar_small_logo__r.content_id__c, Calendar_large_logo__r.content_id__c, gradient_bottom_color__c, gradient_top_color__c, font_color__c from Account where id = :currentBrandTheme];
+	    	gradientTop = acc.gradient_top_color__c;
+				gradientBottom = acc.gradient_bottom_color__c;
+				fontColor = acc.font_color__c;
+				calendarSmallLogo = acc.Calendar_small_logo__c;
+				calendarLargeLogo = acc.Calendar_large_logo__c;
+				smallLogoContentId = acc.Calendar_small_logo__r.content_id__c;
+				largeLogoContentId = acc.Calendar_large_logo__r.content_id__c;
+    	}else{
+	    	Brand__c brand = [select Calendar_small_logo__c, Calendar_large_logo__c, Calendar_small_logo__r.content_id__c, Calendar_large_logo__r.content_id__c, gradient_bottom_color__c, gradient_top_color__c, font_color__c from Brand__c where id = :currentBrandTheme];
+	    	gradientTop = brand.gradient_top_color__c;
+				gradientBottom = brand.gradient_bottom_color__c;
+				fontColor = brand.font_color__c;
+				calendarSmallLogo = brand.Calendar_small_logo__c;
+				calendarLargeLogo = brand.Calendar_large_logo__c;
+				smallLogoContentId = brand.Calendar_small_logo__r.content_id__c;
+				largeLogoContentId = brand.Calendar_large_logo__r.content_id__c;
+    	}
+    	
+			ContentDocument[] cds = [SELECT LatestPublishedVersionId from ContentDocument where Id=: smallLogoContentId];
+			if (cds != null && cds.size()>0) {
+				calendarImg = 'background-image: url(/sfc/servlet.shepherd/version/download/' + cds[0].LatestPublishedVersionId + ');';
+			} else {
+				calendarImg = null;
+			}
+			ContentDocument[] cdl = [SELECT LatestPublishedVersionId from ContentDocument where Id=: largeLogoContentId];
+			if (cdl != null && cdl.size()>0) {
+				calendarImgLarge = 'background-image: url(/sfc/servlet.shepherd/version/download/' + cdl[0].LatestPublishedVersionId + ');';
+			} else {
+				calendarImgLarge = null;
+			}
+			// END : Modified for US686/TA1274 - Basant Verma (Appirio JDC)
     }
     
 }

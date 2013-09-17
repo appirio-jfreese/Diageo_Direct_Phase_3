@@ -153,10 +153,20 @@ div.large-logo {
 	    		<apex:pageMessages />
 	            <apex:actionFunction name="switchTheme" action="{!switchTheme}" rerender="color-configurator" oncomplete="rebindColorPickers();"/>
 				<div class="wrapper">
-					<div style="margin-bottom: 4px;">Brand Theme:</div>
-				    <apex:selectList value="{!currentBrandTheme}" onchange="jQuery('.toShow').addClass('hidden'); switchTheme();" size="1" styleClass="themeSelectBox">
-				   	    <apex:selectOptions value="{!brandThemes}"/>
-				   	</apex:selectList>    	
+						<!-- Start : Modified for US686/TA1274 - Basant Verma (Appirio JDC) -->
+						<apex:outputPanel rendered="{!if(AND(!ISNULL(themeFrom), themeFrom == 'Brand'),'true','false')}">
+							<div style="margin-bottom: 4px;">Brand Theme:</div>
+					    <apex:selectList value="{!currentBrandTheme}" onchange="jQuery('.toShow').addClass('hidden'); switchTheme();" size="1" styleClass="themeSelectBox">
+					   	    <apex:selectOptions value="{!brandThemes}"/>
+					   	</apex:selectList>
+				   	</apex:outputPanel>
+				   	<apex:outputPanel rendered="{!if(AND(!ISNULL(themeFrom), themeFrom == 'Account'),'true','false')}">
+					   	<div style="margin-bottom: 4px;">Account Theme:</div>
+					    <apex:selectList value="{!currentBrandTheme}" onchange="jQuery('.toShow').addClass('hidden'); switchTheme();" size="1" styleClass="themeSelectBox">
+					   	    <apex:selectOptions value="{!accountThemes}"/>
+					   	</apex:selectList>
+				   	</apex:outputPanel>
+				   	<!-- END : Modified for US686/TA1274 - Basant Verma (Appirio JDC) -->
 	    		</div>
 	    		<div class="wrapper toShow hidden">
 					<div style="margin-bottom: 4px;">Top Gradient Color:</div>
