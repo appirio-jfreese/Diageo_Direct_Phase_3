@@ -70,12 +70,23 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>Activation_Notification_sent__c</fullName>
+        <description>Time Stamp of when the email notification to mobile user was sent</description>
+        <externalId>false</externalId>
+        <label>Activation Notification sent</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <type>DateTime</type>
+    </fields>
+    <fields>
         <fullName>Actual_Title__c</fullName>
         <externalId>false</externalId>
         <label>Actual Title</label>
         <length>200</length>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
         <type>Text</type>
         <unique>false</unique>
     </fields>
@@ -99,6 +110,7 @@
             <sorted>false</sorted>
         </picklist>
         <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
         <type>MultiselectPicklist</type>
         <visibleLines>4</visibleLines>
     </fields>
@@ -150,6 +162,7 @@
             <sorted>false</sorted>
         </picklist>
         <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
         <type>Picklist</type>
     </fields>
     <fields>
@@ -204,7 +217,51 @@
             <sorted>false</sorted>
         </picklist>
         <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
         <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Direct_Dial_Activated__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Internal control field that determines if a contact is approved to use the mobile app survey</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Internal control field that determines if a contact is approved to use the mobile app survey</inlineHelpText>
+        <label>Direct Dial Activated</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Direct_Dial_Activation_Code_Time_Set__c</fullName>
+        <externalId>false</externalId>
+        <label>Direct Dial Activation Code Time Set</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Direct_Dial_Activation_Code__c</fullName>
+        <externalId>false</externalId>
+        <label>Direct Dial Activation Code</label>
+        <precision>6</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Direct_Dial_Mobile_User__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Flag to trigger the generation of the activation code</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Click this field to enable this user for the Diageo Direct Mobile app</inlineHelpText>
+        <label>Direct Dial Mobile User</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Checkbox</type>
     </fields>
     <fields>
         <fullName>LeadSource</fullName>
@@ -265,6 +322,7 @@
         <length>18</length>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
         <type>Text</type>
         <unique>true</unique>
     </fields>
@@ -275,6 +333,7 @@
         <length>18</length>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
         <type>Text</type>
         <unique>false</unique>
     </fields>
@@ -284,6 +343,7 @@
         <externalId>false</externalId>
         <label>New Org</label>
         <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
         <type>Checkbox</type>
     </fields>
     <fields>
@@ -293,6 +353,7 @@
         <length>18</length>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
         <type>Text</type>
         <unique>false</unique>
     </fields>
@@ -306,6 +367,7 @@
         <externalId>false</externalId>
         <label>Primary Contact</label>
         <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
         <type>Checkbox</type>
     </fields>
     <fields>
@@ -324,6 +386,7 @@
         <relationshipName>Contacts</relationshipName>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
         <type>Lookup</type>
     </fields>
     <listViews>
