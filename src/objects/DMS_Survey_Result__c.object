@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Account__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Account</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>DMS Survey Result</relationshipLabel>
+        <relationshipName>DMS_Survey_Result</relationshipName>
+        <required>false</required>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Answer_Text__c</fullName>
+        <externalId>false</externalId>
+        <label>Answer Text</label>
+        <length>100</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Answer_value__c</fullName>
+        <description>Value can present number of cases or prices</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Value can present number of cases or prices</inlineHelpText>
+        <label>Answer Value</label>
+        <precision>16</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Brand_Extension__c</fullName>
+        <description>Brand extension from the Nieisen Product table</description>
+        <externalId>false</externalId>
+        <formula>Nielson_Product__r.Nielsen_Brand_Variant__c</formula>
+        <inlineHelpText>Brand extension from the Nieisen Product table</inlineHelpText>
+        <label>Brand Extension</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Brand_Family__c</fullName>
+        <externalId>false</externalId>
+        <formula>Nielson_Product__r.Nielsen_Brand_Family__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Brand Family</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Business_Entrps_High__c</fullName>
+        <externalId>false</externalId>
+        <formula>Nielson_Product__r.Nielsen_Supplier__c</formula>
+        <label>Business Entrps High</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Diageo_Category2__c</fullName>
+        <description>Diageo category from the Neilsen Product table</description>
+        <externalId>false</externalId>
+        <formula>Nielson_Product__r.Diageo_Category_Formula__c</formula>
+        <inlineHelpText>Diageo category from the Neilsen Product table</inlineHelpText>
+        <label>Diageo Category</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Diageo_Segment__c</fullName>
+        <externalId>false</externalId>
+        <formula>TEXT(Nielson_Product__r.Diageo_Brand__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Diageo Segment</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>HARD_CODED_ONE__c</fullName>
+        <externalId>false</externalId>
+        <formula>1</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label># Displays</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Manually_Entered_Base_Size__c</fullName>
+        <description>If the user manually enters a product via the app, this value will be populated. This should be used ONLY to reconcile this result and relate it to the proper Nielsen Product via the actual link relationship.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If the user manually enters a product via the app, this value will be populated. This should be used ONLY to reconcile this result and relate it to the proper Nielsen Product via the actual link relationship.</inlineHelpText>
+        <label>Manually Entered Base Size</label>
+        <length>50</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Manually_Entered_Brand_Desc__c</fullName>
+        <description>If the user manually enters a product via the app, this value will be populated. This should be used ONLY to reconcile this result and relate it to the proper Nielsen Product via the actual link relationship.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If the user manually enters a product via the app, this value will be populated. This should be used ONLY to reconcile this result and relate it to the proper Nielsen Product via the actual link relationship.</inlineHelpText>
+        <label>Manually Entered Brand Desc</label>
+        <length>100</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Manually_Entered_City__c</fullName>
+        <description>If the user manually enters a location via the app, this value will be populated.  This should be used ONLY to reconcile this result and relate it to the proper location (Account) via the actual link relationship.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If the user manually enters a location via the app, this value will be populated.  This should be used ONLY to reconcile this result and relate it to the proper location (Account) via the actual link relationship.</inlineHelpText>
+        <label>Manually Entered City</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Manually_Entered_State__c</fullName>
+        <description>If the user manually enters a location via the app, this value will be populated. This should be used ONLY to reconcile this result and relate it to the proper location (Account) via the actual link relationship.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If the user manually enters a location via the app, this value will be populated. This should be used ONLY to reconcile this result and relate it to the proper location (Account) via the actual link relationship.</inlineHelpText>
+        <label>Manually Entered State</label>
+        <length>2</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Manually_Entered_Store_Address__c</fullName>
+        <description>If the user manually enters a location via the app, this value will be populated.  This should be used ONLY to reconcile this result and relate it to the proper location (Account) via the actual link relationship.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If the user manually enters a location via the app, this value will be populated.  This should be used ONLY to reconcile this result and relate it to the proper location (Account) via the actual link relationship.</inlineHelpText>
+        <label>Manually Entered Store Address</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Manually_Entered_Store_Name__c</fullName>
+        <description>If the user manually enters a location via the app, this value will be populated. This should be used ONLY to reconcile this result and relate it to the proper location (Account) via the actual link relationship.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If the user manually enters a location via the app, this value will be populated. This should be used ONLY to reconcile this result and relate it to the proper location (Account) via the actual link relationship.</inlineHelpText>
+        <label>Manually Entered Store Name</label>
+        <length>200</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Manually_Entered_Store_Number__c</fullName>
+        <description>If the user manually enters a location via the app, this value will be populated.  This should be used ONLY to reconcile this result and relate it to the proper location (Account) via the actual link relationship.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If the user manually enters a location via the app, this value will be populated</inlineHelpText>
+        <label>Manually Entered Store Number</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Manually_Entered_UPC_Description__c</fullName>
+        <description>If the user manually enters a product via the app, this value will be populated. This should be used ONLY to reconcile this result and relate it to the proper Nielsen Product via the actual link relationship.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If the user manually enters a product via the app, this value will be populated. This should be used ONLY to reconcile this result and relate it to the proper Nielsen Product via the actual link relationship.</inlineHelpText>
+        <label>Manually Entered UPC Description</label>
+        <required>false</required>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Nielson_Product__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Product ref data</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Product ref data</inlineHelpText>
+        <label>Nielson Product</label>
+        <referenceTo>DMS_Nielson_Product__c</referenceTo>
+        <relationshipLabel>DMS Survey Result</relationshipLabel>
+        <relationshipName>DMS_Survey_Result</relationshipName>
+        <required>false</required>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Note</label>
+        <required>false</required>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Question_Text__c</fullName>
+        <defaultValue>&quot;Number of cases on display&quot;</defaultValue>
+        <externalId>false</externalId>
+        <label>Question Text</label>
+        <required>false</required>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Question_Type__c</fullName>
+        <externalId>false</externalId>
+        <label>Question Type</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Count</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Price</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Text</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Question__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Ref to original Question</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Ref to original Question</inlineHelpText>
+        <label>Question</label>
+        <referenceTo>DMS_Question__c</referenceTo>
+        <relationshipLabel>DMS Survey Result</relationshipLabel>
+        <relationshipName>DMS_Survey_Result</relationshipName>
+        <required>false</required>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Survey_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Survey Date</label>
+        <required>false</required>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>UPC__c</fullName>
+        <description>Product Code</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Product Code</inlineHelpText>
+        <label>UPC</label>
+        <length>12</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>dms_survey__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Link to Survey definition header</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Link to Survey definition header</inlineHelpText>
+        <label>Survey</label>
+        <referenceTo>DMS_Survey__c</referenceTo>
+        <relationshipLabel>DMS Survey Result</relationshipLabel>
+        <relationshipName>DMS_Survey_Result</relationshipName>
+        <required>false</required>
+        <type>Lookup</type>
+    </fields>
+    <label>DMS Survey Result</label>
+    <nameField>
+        <displayFormat>S-{0000000}</displayFormat>
+        <label>DNA Survey Result Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>DMS Survey Result</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Diageo_Brand__c</fullName>
+        <externalId>false</externalId>
+        <label>Diageo Segment</label>
+        <picklist>
+            <picklistValues>
+                <fullName>BEER</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BRANDY/COGNAC</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CIDER</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>COOLERS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CORDIALS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>GIN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>GRAIN ALCOHOL</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MULTI COMBO PACKS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>PAB</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>POUCH</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>PREPARED COCKTAILS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>RUM</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SHANDY</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>TEQUILA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>VODKA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>WHISKEY</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NONE</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Diageo_Category_Formula__c</fullName>
+        <description>Converted nielsen category to diageo category</description>
+        <externalId>false</externalId>
+        <formula>CASE( TEXT(Nielsen_Category__c)
+,&apos;APERTIF&apos;,&apos;NOT DEFINED&apos;
+,&apos;BOURBON&apos;,&apos;NA WHISKEY&apos;
+,&apos;BOURBON-BLENDED&apos;,&apos;NA WHISKEY&apos;
+,&apos;BOURBON-STRAIGHT/BONDED&apos;,&apos;NA WHISKEY&apos;
+,&apos;BRANDY/COGNAC&apos;,&apos;BRANDY/COGNAC&apos;
+,&apos;CANADIAN WHISKEY&apos;,&apos;NA WHISKEY&apos;
+,&apos;COCKTAILS&apos;,&apos;COCKTAILS&apos;
+,&apos;CORDIALS &amp; PROPRIETARY LIQUEUR&apos;,&apos;CORDIALS &amp; PROPRIETARY LIQUEUR&apos;
+,&apos;FLAVORED REFRESHMENT&apos;,&apos;NOT DEFINED&apos;
+,&apos;GIN&apos;,&apos;GIN&apos;
+,&apos;IRISH WHISKEY&apos;,&apos;IRISH WHISKEY&apos;
+,&apos;NOT DEFINED&apos;,&apos;NOT DEFINED&apos;
+,&apos;REMAINING WHISKEY&apos;,&apos;NA WHISKEY&apos;
+,&apos;REPORTED UNCLASSIFIABLE UPC\&apos;S&apos;,&apos;NOT DEFINED&apos;
+,&apos;RUM&apos;,&apos;RUM&apos;
+,&apos;SCOTCH&apos;,&apos;SCOTCH&apos;
+,&apos;TEQUILA&apos;,&apos;TEQUILA&apos;
+,&apos;VODKA&apos;,&apos;VODKA&apos;
+,&apos;WHISKEY&apos;,&apos;WHISKEY&apos;
+,&apos;Wine Based&apos;,&apos;NOT DEFINED&apos;
+,&apos;DOMESTIC DRY TABLE&apos;,&apos;WINE&apos;
+,&apos;FORTIFIED WINE&apos;,&apos;WINE&apos;
+,&apos;IMPORTED DRY TABLE&apos;,&apos;WINE&apos;
+,&apos;SPARKLING WINE&apos;,&apos;WINE&apos;
+,&apos;STILL WINE&apos;,&apos;WINE&apos;
+,&apos;SWEET DESSERT DOMESTIC&apos;,&apos;WINE&apos;
+,&apos;WINE BASED&apos;,&apos;WINE&apos;
+, TEXT(Nielsen_Category__c))</formula>
+        <label>Diageo Category Formula</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Nielsen_Brand_Family__c</fullName>
+        <externalId>false</externalId>
+        <label>Brand Family</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Nielsen_Brand_Variant__c</fullName>
+        <externalId>false</externalId>
+        <label>Brand Extension</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Nielsen_Brand__c</fullName>
+        <externalId>false</externalId>
+        <label>Brand Description</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Nielsen_Category__c</fullName>
+        <externalId>false</externalId>
+        <label>Category</label>
+        <picklist>
+            <controllingField>Diageo_Brand__c</controllingField>
+            <picklistValues>
+                <fullName>ALE</fullName>
+                <controllingFieldValues>BEER</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>APERTIF</fullName>
+                <controllingFieldValues>NONE</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BEER</fullName>
+                <controllingFieldValues>BEER</controllingFieldValues>
+                <controllingFieldValues>PAB</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BOURBON-BLENDED</fullName>
+                <controllingFieldValues>WHISKEY</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BOURBON-STRAIGHT/BONDED</fullName>
+                <controllingFieldValues>WHISKEY</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BRANDY/COGNAC</fullName>
+                <controllingFieldValues>BRANDY/COGNAC</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CANADIAN WHISKEY</fullName>
+                <controllingFieldValues>WHISKEY</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>COCKTAILS</fullName>
+                <controllingFieldValues>COOLERS</controllingFieldValues>
+                <controllingFieldValues>CORDIALS</controllingFieldValues>
+                <controllingFieldValues>NONE</controllingFieldValues>
+                <controllingFieldValues>PAB</controllingFieldValues>
+                <controllingFieldValues>POUCH</controllingFieldValues>
+                <controllingFieldValues>PREPARED COCKTAILS</controllingFieldValues>
+                <controllingFieldValues>SHANDY</controllingFieldValues>
+                <controllingFieldValues>VODKA</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>COOLER</fullName>
+                <controllingFieldValues>BEER</controllingFieldValues>
+                <controllingFieldValues>CIDER</controllingFieldValues>
+                <controllingFieldValues>COOLERS</controllingFieldValues>
+                <controllingFieldValues>NONE</controllingFieldValues>
+                <controllingFieldValues>PAB</controllingFieldValues>
+                <controllingFieldValues>POUCH</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CORDIALS &amp; PROPRIETARY LIQUEUR</fullName>
+                <controllingFieldValues>BRANDY/COGNAC</controllingFieldValues>
+                <controllingFieldValues>CORDIALS</controllingFieldValues>
+                <controllingFieldValues>GRAIN ALCOHOL</controllingFieldValues>
+                <controllingFieldValues>PREPARED COCKTAILS</controllingFieldValues>
+                <controllingFieldValues>RUM</controllingFieldValues>
+                <controllingFieldValues>TEQUILA</controllingFieldValues>
+                <controllingFieldValues>VODKA</controllingFieldValues>
+                <controllingFieldValues>WHISKEY</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>DOMESTIC DRY TABLE</fullName>
+                <controllingFieldValues>NONE</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>FLAVORED REFRESHMENT</fullName>
+                <controllingFieldValues>CIDER</controllingFieldValues>
+                <controllingFieldValues>COOLERS</controllingFieldValues>
+                <controllingFieldValues>NONE</controllingFieldValues>
+                <controllingFieldValues>POUCH</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>GIN</fullName>
+                <controllingFieldValues>CORDIALS</controllingFieldValues>
+                <controllingFieldValues>GIN</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>IMPORTED DRY TABLE</fullName>
+                <controllingFieldValues>NONE</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>IRISH WHISKEY</fullName>
+                <controllingFieldValues>WHISKEY</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>KOSHER TABLE</fullName>
+                <controllingFieldValues>NONE</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>LIGHT BEER &apos;LOW CAL/ALCOHOL&apos;</fullName>
+                <controllingFieldValues>BEER</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MALT LIQUOR</fullName>
+                <controllingFieldValues>BEER</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NEAR BEER/MALT BEVERAGE</fullName>
+                <controllingFieldValues>BEER</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>REMAINING WHISKEY</fullName>
+                <controllingFieldValues>RUM</controllingFieldValues>
+                <controllingFieldValues>WHISKEY</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>REPORTED UNCLASSIFIABLE UPC&apos;S</fullName>
+                <controllingFieldValues>BEER</controllingFieldValues>
+                <controllingFieldValues>BRANDY/COGNAC</controllingFieldValues>
+                <controllingFieldValues>CORDIALS</controllingFieldValues>
+                <controllingFieldValues>GIN</controllingFieldValues>
+                <controllingFieldValues>MULTI COMBO PACKS</controllingFieldValues>
+                <controllingFieldValues>NONE</controllingFieldValues>
+                <controllingFieldValues>PREPARED COCKTAILS</controllingFieldValues>
+                <controllingFieldValues>RUM</controllingFieldValues>
+                <controllingFieldValues>TEQUILA</controllingFieldValues>
+                <controllingFieldValues>VODKA</controllingFieldValues>
+                <controllingFieldValues>WHISKEY</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>RUM</fullName>
+                <controllingFieldValues>CORDIALS</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SAKE</fullName>
+                <controllingFieldValues>NONE</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SANGRIA</fullName>
+                <controllingFieldValues>NONE</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SCOTCH</fullName>
+                <controllingFieldValues>WHISKEY</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>STOUT AND PORTER</fullName>
+                <controllingFieldValues>BEER</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SWEET DESSERT DOMESTIC</fullName>
+                <controllingFieldValues>NONE</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SWEET DESSERT IMPORTED</fullName>
+                <controllingFieldValues>NONE</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>TEQUILA</fullName>
+                <controllingFieldValues>TEQUILA</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>VERMOUTH</fullName>
+                <controllingFieldValues>NONE</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>VODKA</fullName>
+                <controllingFieldValues>PREPARED COCKTAILS</controllingFieldValues>
+                <controllingFieldValues>RUM</controllingFieldValues>
+                <controllingFieldValues>VODKA</controllingFieldValues>
+                <controllingFieldValues>WHISKEY</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Nielsen_Size__c</fullName>
+        <externalId>false</externalId>
+        <label>Base Size</label>
+        <length>50</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Nielsen_Supplier__c</fullName>
+        <externalId>false</externalId>
+        <label>Business Entrps High</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Nielsen_Unit__c</fullName>
+        <externalId>false</externalId>
+        <label>Multi Pack</label>
+        <precision>4</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>UPC_CODE__c</fullName>
+        <caseSensitive>false</caseSensitive>
+        <description>Universal Product Code</description>
+        <externalId>true</externalId>
+        <label>UPC</label>
+        <length>25</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>UPC_Code_11_Digit__c</fullName>
+        <externalId>false</externalId>
+        <formula>RIGHT(UPC_CODE__c , 11)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>UPC Code 11 Digit</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>UPC_DESC__c</fullName>
+        <externalId>false</externalId>
+        <label>UPC Description</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>UPC_Length__c</fullName>
+        <externalId>false</externalId>
+        <formula>LEN(UPC_CODE__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>UPC Length</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>DMS Nielson Product</label>
+    <nameField>
+        <displayFormat>DNP-{00000000}</displayFormat>
+        <label>DMS Nielson Product</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>DMS Nielson Product</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

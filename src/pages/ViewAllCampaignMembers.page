@@ -1,0 +1,37 @@
+<apex:page standardController="Campaign" extensions="ViewAllCampaignMembers">
+<style type="text/css" media="screen">
+         body {background-color:#F3F3EC;}
+        .bPageBlock {border-top:0; padding-bottom:0;}
+        .bPageBlock .pbBody {margin-right:0; padding:0;}
+        .bPageBlock .pbFooter {display:none;}
+</style>
+<apex:pageBlock >
+    <apex:PageBlockTable value="{!campMembers}" var="campMember" width="100%" rules="rows">
+         <apex:column value="{!IF(true,'Lead','')}" headerValue="Member Type" rendered="{!ISNULL(campMember.ContactId)}" />
+         <apex:column value="{!IF(true,'Contact','')}" headerValue="Member Type" rendered="{!NOT(ISNULL(campMember.ContactId))}" />
+         <apex:column value="{!campMember.Status}" headerValue="Member Status"/>
+         
+         <apex:column value="{!campMember.Contact.FirstName}" headerValue="First Name" rendered="{!NOT(ISNULL(campMember.ContactId))}"/>
+         <apex:column value="{!campMember.Lead.FirstName}" headerValue="First Name" rendered="{!ISNULL(campMember.ContactId)}"/>
+         
+         <apex:column value="{!campMember.Contact.LastName}" headerValue="Last Name" rendered="{!NOT(ISNULL(campMember.ContactId))}"/>
+         <apex:column value="{!campMember.Lead.LastName}" headerValue="Last Name" rendered="{!ISNULL(campMember.ContactId)}"/>
+         
+         <apex:column value="{!campMember.Contact.Title}" headerValue="Title" rendered="{!NOT(ISNULL(campMember.ContactId))}"/>
+         <apex:column value="{!campMember.Lead.Title}" headerValue="Title" rendered="{!ISNULL(campMember.ContactId)}"/>
+
+         <apex:column value="{!campMember.Contact.Phone}" headerValue="Phone" rendered="{!NOT(ISNULL(campMember.ContactId))}"/>
+         <apex:column value="{!campMember.Lead.Phone}" headerValue="Phone" rendered="{!ISNULL(campMember.ContactId)}"/>
+
+         <apex:column value="{!campMember.Contact.MobilePhone}" headerValue="Mobile Phone" rendered="{!NOT(ISNULL(campMember.ContactId))}"/>
+         <apex:column value="{!campMember.Lead.MobilePhone}" headerValue="Mobile Phone" rendered="{!ISNULL(campMember.ContactId)}"/>
+
+         <apex:column value="{!campMember.Contact.Email}" headerValue="Email" rendered="{!NOT(ISNULL(campMember.ContactId))}"/>
+         <apex:column value="{!campMember.Lead.Email}" headerValue="Email" rendered="{!ISNULL(campMember.ContactId)}"/>
+
+         <apex:column value="{!campMember.Contact.Owner.Name}" headerValue="Lead/Contact Owner" rendered="{!NOT(ISNULL(campMember.ContactId))}"/>
+         <apex:column value="{!campMember.Lead.Owner.Name}" headerValue="Lead/Contact Owner" rendered="{!ISNULL(campMember.ContactId)}"/>
+
+    </apex:PageBlockTable> 
+</apex:pageBlock>
+</apex:page>
