@@ -309,8 +309,7 @@
     <fields>
         <fullName>Program_Name__c</fullName>
         <externalId>false</externalId>
-        <formula>IF( On_Premise__c , &quot;On&quot;, &quot;Off&quot;) &amp; &quot;-Premise - &quot; &amp;  RecordType.Name &amp; &quot; - &quot; &amp; Name &amp; &quot; - &quot; &amp; TEXT(Fiscal_Year__c) &amp; &quot; - &quot; &amp; TEXT(Month__c)</formula>
-        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <formula>TEXT( Sales_Channel__c ) &amp; &quot; - &quot; &amp;  RecordType.Name &amp; &quot; - &quot; &amp; Name</formula>
         <label>Program Name</label>
         <required>false</required>
         <type>Text</type>
@@ -537,26 +536,62 @@
             <controllingField>Sales_Channel__c</controllingField>
             <picklistValues>
                 <fullName>Casual Dining</fullName>
+                <controllingFieldValues>On Premise</controllingFieldValues>
                 <default>false</default>
             </picklistValues>
             <picklistValues>
                 <fullName>Neighborhood bar</fullName>
+                <controllingFieldValues>On Premise</controllingFieldValues>
                 <default>false</default>
             </picklistValues>
             <picklistValues>
-                <fullName>Hotels</fullName>
+                <fullName>Lodging</fullName>
+                <controllingFieldValues>On Premise</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Fine Dining</fullName>
+                <controllingFieldValues>On Premise</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Lounge/Nightclub</fullName>
+                <controllingFieldValues>On Premise</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Sports Bar</fullName>
+                <controllingFieldValues>On Premise</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Transportation</fullName>
+                <controllingFieldValues>On Premise</controllingFieldValues>
                 <default>false</default>
             </picklistValues>
             <picklistValues>
                 <fullName>Grocery</fullName>
+                <controllingFieldValues>Off Premise</controllingFieldValues>
                 <default>false</default>
             </picklistValues>
             <picklistValues>
                 <fullName>Drug</fullName>
+                <controllingFieldValues>Off Premise</controllingFieldValues>
                 <default>false</default>
             </picklistValues>
             <picklistValues>
-                <fullName>etc</fullName>
+                <fullName>Chain Liquor</fullName>
+                <controllingFieldValues>Off Premise</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Mass Merchandizer</fullName>
+                <controllingFieldValues>Off Premise</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Wholesale Club</fullName>
+                <controllingFieldValues>Off Premise</controllingFieldValues>
                 <default>false</default>
             </picklistValues>
             <sorted>false</sorted>
@@ -912,6 +947,50 @@
                 <fullName>Casual Dining</fullName>
                 <default>false</default>
             </values>
+            <values>
+                <fullName>Chain Liquor</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Drug</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Fine Dining</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Grocery</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Lodging</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Lounge%2FNightclub</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Mass Merchandizer</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Neighborhood bar</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Sports Bar</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Transportation</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Wholesale Club</fullName>
+                <default>false</default>
+            </values>
         </picklistValues>
         <picklistValues>
             <picklist>Theme__c</picklist>
@@ -1035,6 +1114,50 @@
             <picklist>Sub_Channel__c</picklist>
             <values>
                 <fullName>Casual Dining</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Chain Liquor</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Drug</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Fine Dining</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Grocery</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Lodging</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Lounge%2FNightclub</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Mass Merchandizer</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Neighborhood bar</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Sports Bar</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Transportation</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Wholesale Club</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -1170,6 +1293,50 @@
                 <fullName>Casual Dining</fullName>
                 <default>false</default>
             </values>
+            <values>
+                <fullName>Chain Liquor</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Drug</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Fine Dining</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Grocery</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Lodging</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Lounge%2FNightclub</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Mass Merchandizer</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Neighborhood bar</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Sports Bar</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Transportation</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Wholesale Club</fullName>
+                <default>false</default>
+            </values>
         </picklistValues>
         <picklistValues>
             <picklist>Theme__c</picklist>
@@ -1288,7 +1455,15 @@
                 <default>false</default>
             </values>
             <values>
+                <fullName>Chain Liquor</fullName>
+                <default>false</default>
+            </values>
+            <values>
                 <fullName>Drug</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Fine Dining</fullName>
                 <default>false</default>
             </values>
             <values>
@@ -1296,7 +1471,15 @@
                 <default>false</default>
             </values>
             <values>
-                <fullName>Hotels</fullName>
+                <fullName>Lodging</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Lounge%2FNightclub</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Mass Merchandizer</fullName>
                 <default>false</default>
             </values>
             <values>
@@ -1304,7 +1487,15 @@
                 <default>false</default>
             </values>
             <values>
-                <fullName>etc</fullName>
+                <fullName>Sports Bar</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Transportation</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Wholesale Club</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -1438,6 +1629,50 @@
             <picklist>Sub_Channel__c</picklist>
             <values>
                 <fullName>Casual Dining</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Chain Liquor</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Drug</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Fine Dining</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Grocery</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Lodging</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Lounge%2FNightclub</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Mass Merchandizer</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Neighborhood bar</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Sports Bar</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Transportation</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Wholesale Club</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
