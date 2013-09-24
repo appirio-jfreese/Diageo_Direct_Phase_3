@@ -50,19 +50,67 @@
         <label>Activity Type</label>
         <picklist>
             <picklistValues>
-                <fullName>Sampling</fullName>
+                <fullName>Back Bar/Bar Area</fullName>
                 <default>false</default>
             </picklistValues>
             <picklistValues>
-                <fullName>One Time</fullName>
+                <fullName>Couponing Digital</fullName>
                 <default>false</default>
             </picklistValues>
             <picklistValues>
-                <fullName>Comm</fullName>
+                <fullName>Couponing FSI</fullName>
                 <default>false</default>
             </picklistValues>
             <picklistValues>
-                <fullName>KickOff</fullName>
+                <fullName>Couponing in Ad</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Couponing in Store</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Dispense Unit</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Display Counter</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Display In-Section</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Display Out of Section</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Display VAP</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Feature/Suggested On</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Influencer/Mentor</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Managed Bar Nights</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Sampling Events</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Menu/Signature Drink</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>POS Merchandising</fullName>
                 <default>false</default>
             </picklistValues>
             <sorted>false</sorted>
@@ -73,28 +121,17 @@
         <fullName>Call_to_Action__c</fullName>
         <externalId>false</externalId>
         <label>Call to Action</label>
-        <length>255</length>
-        <required>false</required>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Cost__c</fullName>
-        <externalId>false</externalId>
-        <label>Cost</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <type>Currency</type>
+        <length>32768</length>
+        <type>LongTextArea</type>
+        <visibleLines>10</visibleLines>
     </fields>
     <fields>
         <fullName>Description__c</fullName>
         <externalId>false</externalId>
         <label>Description</label>
-        <length>255</length>
-        <required>false</required>
-        <type>Text</type>
-        <unique>false</unique>
+        <length>32768</length>
+        <type>LongTextArea</type>
+        <visibleLines>10</visibleLines>
     </fields>
     <fields>
         <fullName>Program_End_Date__c</fullName>
@@ -140,16 +177,6 @@
         <relationshipName>Program_Activities</relationshipName>
         <required>false</required>
         <type>Lookup</type>
-    </fields>
-    <fields>
-        <fullName>Program_of_Units__c</fullName>
-        <externalId>false</externalId>
-        <label>Program # of Units</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <type>Number</type>
-        <unique>false</unique>
     </fields>
     <label>Program Activity</label>
     <nameField>

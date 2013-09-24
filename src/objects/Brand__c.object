@@ -105,6 +105,34 @@
                 <fullName>Individual</fullName>
                 <default>false</default>
             </picklistValues>
+            <picklistValues>
+                <fullName>Classification</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Group / Type</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Brand</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Brand Variant</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Individual Variant</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Volume</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Configuration &amp; Container</fullName>
+                <default>false</default>
+            </picklistValues>
             <sorted>false</sorted>
         </picklist>
         <trackFeedHistory>false</trackFeedHistory>
@@ -274,6 +302,16 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>Description__c</fullName>
+        <externalId>false</externalId>
+        <label>Description</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Filter_Order__c</fullName>
         <externalId>false</externalId>
         <label>Filter Order</label>
@@ -368,6 +406,16 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>Hierarchy_Code__c</fullName>
+        <externalId>false</externalId>
+        <label>Full Hierarchy Code</label>
+        <length>200</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Innovation_Logo__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
@@ -386,6 +434,240 @@
         <label>Innovation</label>
         <trackFeedHistory>true</trackFeedHistory>
         <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>L1_Classification_Code__c</fullName>
+        <externalId>false</externalId>
+        <formula>L1_Classification__r.Hierarchy_Code__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>L1: Classification Code</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>L1_Classification_Description__c</fullName>
+        <externalId>false</externalId>
+        <formula>L1_Classification__r.Description__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>L1: Classification Description</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>L1_Classification__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>L1: Classification</label>
+        <referenceTo>Brand__c</referenceTo>
+        <relationshipLabel>Brands (L1: Classification)</relationshipLabel>
+        <relationshipName>L1_Classification</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>L2_Group_Type_Code__c</fullName>
+        <externalId>false</externalId>
+        <formula>L2_Group_Type__r.Hierarchy_Code__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>L2: Group / Type Code</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>L2_Group_Type_Description__c</fullName>
+        <externalId>false</externalId>
+        <formula>L2_Group_Type__r.Description__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>L2: Group / Type Description</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>L2_Group_Type__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>L2: Group / Type</label>
+        <referenceTo>Brand__c</referenceTo>
+        <relationshipLabel>Brands (L2: Group / Type)</relationshipLabel>
+        <relationshipName>L2_Group_Type</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>L3_Brand_Code__c</fullName>
+        <externalId>false</externalId>
+        <formula>L3_Brand__r.Hierarchy_Code__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>L3: Brand Code</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>L3_Brand_Description__c</fullName>
+        <externalId>false</externalId>
+        <formula>L3_Brand__r.Description__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>L3: Brand Description</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>L3_Brand__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>L3: Brand</label>
+        <referenceTo>Brand__c</referenceTo>
+        <relationshipLabel>Brands (L3: Brand)</relationshipLabel>
+        <relationshipName>L3_Brand</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>L4_Brand_Variant_Code__c</fullName>
+        <externalId>false</externalId>
+        <formula>L1_Classification__r.Hierarchy_Code__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>L4: Brand Variant Code</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>L4_Brand_Variant_Description__c</fullName>
+        <externalId>false</externalId>
+        <formula>L4_Brand_Variant__r.Description__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>L4: Brand Variant Description</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>L4_Brand_Variant__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>L4: Brand Variant</label>
+        <referenceTo>Brand__c</referenceTo>
+        <relationshipLabel>Brands (L4: Brand Variant)</relationshipLabel>
+        <relationshipName>L4_Brand_Variant</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>L5_Individual_Variant_Code__c</fullName>
+        <externalId>false</externalId>
+        <formula>L5_Individual_Variant__r.Hierarchy_Code__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>L5: Individual Variant Code</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>L5_Individual_Variant_Description__c</fullName>
+        <externalId>false</externalId>
+        <formula>L5_Individual_Variant__r.Description__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>L5: Individual Variant Description</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>L5_Individual_Variant__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>L5: Individual Variant</label>
+        <referenceTo>Brand__c</referenceTo>
+        <relationshipLabel>Brands (L5: Individual Variant)</relationshipLabel>
+        <relationshipName>L5_Individual_Variant</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>L6_Volume_Code__c</fullName>
+        <externalId>false</externalId>
+        <formula>L6_Volume__r.Hierarchy_Code__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>L6: Volume Code</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>L6_Volume_Description__c</fullName>
+        <externalId>false</externalId>
+        <formula>L6_Volume__r.Description__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>L6: Volume Description</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>L6_Volume__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>L6: Volume</label>
+        <referenceTo>Brand__c</referenceTo>
+        <relationshipLabel>Brands (L6: Volume)</relationshipLabel>
+        <relationshipName>L6_Volume</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>L7_Configuration_Container_Code__c</fullName>
+        <externalId>false</externalId>
+        <formula>L7_Configuration_Container__r.Hierarchy_Code__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>L7: Configuration &amp; Container Code</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>L7_Configuration_Container_Desc__c</fullName>
+        <externalId>false</externalId>
+        <formula>L7_Configuration_Container__r.Description__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>L7: Configuration &amp; Container Desc</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>L7_Configuration_Container__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>L7: Configuration &amp; Container</label>
+        <referenceTo>Brand__c</referenceTo>
+        <relationshipLabel>Brands (L7: Configuration &amp; Container)</relationshipLabel>
+        <relationshipName>L7_Configuration_Container</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Legacy_Material_ID__c</fullName>
+        <externalId>false</externalId>
+        <label>Legacy Material ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Lifestyle_Logo__c</fullName>
@@ -473,6 +755,18 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>Parent_Product__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Parent Product</label>
+        <referenceTo>Product__c</referenceTo>
+        <relationshipLabel>Brands</relationshipLabel>
+        <relationshipName>Brands</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>Portfolio_Brand__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
@@ -499,6 +793,16 @@
         <label>Reserve Brand</label>
         <trackFeedHistory>true</trackFeedHistory>
         <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>SAP_Material_ID__c</fullName>
+        <externalId>false</externalId>
+        <label>SAP Material ID</label>
+        <length>200</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>WBS_Level_3__c</fullName>

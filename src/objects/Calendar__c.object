@@ -238,23 +238,6 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>Month__c</fullName>
-        <externalId>false</externalId>
-        <label>Month</label>
-        <precision>2</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <type>Number</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>National_Program__c</fullName>
-        <defaultValue>false</defaultValue>
-        <externalId>false</externalId>
-        <label>National Program?</label>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
         <fullName>New_Org_ID__c</fullName>
         <externalId>false</externalId>
         <label>New Org ID</label>
@@ -262,20 +245,6 @@
         <required>false</required>
         <type>Text</type>
         <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Off_Premise__c</fullName>
-        <defaultValue>false</defaultValue>
-        <externalId>false</externalId>
-        <label>Off Premise</label>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
-        <fullName>On_Premise__c</fullName>
-        <defaultValue>false</defaultValue>
-        <externalId>false</externalId>
-        <label>On Premise</label>
-        <type>Checkbox</type>
     </fields>
     <fields>
         <fullName>Priority__c</fullName>
@@ -594,6 +563,11 @@
                 <controllingFieldValues>Off Premise</controllingFieldValues>
                 <default>false</default>
             </picklistValues>
+            <picklistValues>
+                <fullName>Military</fullName>
+                <controllingFieldValues>Off Premise</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
             <sorted>false</sorted>
         </picklist>
         <type>Picklist</type>
@@ -759,6 +733,17 @@
         <label>Multicultural</label>
     </listViews>
     <listViews>
+        <fullName>National_Account_Programs</fullName>
+        <columns>NAME</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Record_Type_Name__c</field>
+            <operation>equals</operation>
+            <value>National Accounts</value>
+        </filters>
+        <label>National Account Programs</label>
+    </listViews>
+    <listViews>
         <fullName>Planning</fullName>
         <columns>RECORDTYPE</columns>
         <columns>Sales_Channel__c</columns>
@@ -779,6 +764,18 @@
         <label>Calendar Name</label>
         <type>Text</type>
     </nameField>
+    <namedFilters>
+        <fullName>Campaign_00NJ00000014936MAA</fullName>
+        <active>true</active>
+        <field>Campaign.Program__c</field>
+        <filterItems>
+            <field>Calendar__c.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>National Programs</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+        <name>Campaign_Program</name>
+    </namedFilters>
     <namedFilters>
         <fullName>nf_01IA00000024hCtMAI_00NA0000009YyKCMA0</fullName>
         <active>true</active>
@@ -976,6 +973,10 @@
                 <default>false</default>
             </values>
             <values>
+                <fullName>Military</fullName>
+                <default>false</default>
+            </values>
+            <values>
                 <fullName>Neighborhood bar</fullName>
                 <default>false</default>
             </values>
@@ -1142,6 +1143,10 @@
             </values>
             <values>
                 <fullName>Mass Merchandizer</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Military</fullName>
                 <default>false</default>
             </values>
             <values>
@@ -1322,6 +1327,10 @@
                 <default>false</default>
             </values>
             <values>
+                <fullName>Military</fullName>
+                <default>false</default>
+            </values>
+            <values>
                 <fullName>Neighborhood bar</fullName>
                 <default>false</default>
             </values>
@@ -1480,6 +1489,10 @@
             </values>
             <values>
                 <fullName>Mass Merchandizer</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Military</fullName>
                 <default>false</default>
             </values>
             <values>
@@ -1657,6 +1670,10 @@
             </values>
             <values>
                 <fullName>Mass Merchandizer</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Military</fullName>
                 <default>false</default>
             </values>
             <values>

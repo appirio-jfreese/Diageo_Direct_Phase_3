@@ -65,6 +65,12 @@ public with sharing class Controller_CloneCalendar {
     	cal.name = calendarName;
     	cal.Sales_Channel__c = selectedChanell;
     	
+    	 // START : Changes for DE766 - Parul Gupta
+    	if(SelectedRecordType == 'National Accounts'){
+    		cal.Related_National_Program__c = calendar.id;
+    	}
+    	 // END : Changes for DE766 - Parul Gupta
+    	 
     	cal.RecordTypeId = [Select r.Id, r.name From RecordType r WHERE r.Name= :selectedRecordType AND r.SobjectType = 'Calendar__c' LIMIT 1].id;
 
     	insert cal;

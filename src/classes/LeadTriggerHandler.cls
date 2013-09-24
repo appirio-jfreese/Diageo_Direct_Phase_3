@@ -71,6 +71,10 @@ public with sharing class LeadTriggerHandler {
     //------------------------------------------------------------------------
     private void getContactsWithMatchingEmail(List<Lead> leads) {
         Set<String> emailAddresses = new Set<String>();
+        for(Lead lead: leads) {
+            emailAddresses.add(lead.Email);
+        }
+        
         List<Contact> contacts = [SELECT Id, Email FROM Contact WHERE Email IN : emailAddresses];
         for(Contact contact : contacts) {
             contactEmails.put(contact.Email, contact);
