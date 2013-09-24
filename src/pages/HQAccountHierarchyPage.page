@@ -1,0 +1,39 @@
+<apex:page controller="HQAccountHierarchyController">
+	<script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.js')}"></script>
+	<apex:sectionHeader subTitle="{!hqAcc.Name} Hierarchy" />
+	<apex:form id="frm">
+		<apex:pageBlock id="pb">
+			<apex:pageMessages />
+			<a href="/{!hqAcc.Id}" >
+				<apex:outputText value="{!hqAcc.Name}" style="text-align: left;
+					font-weight: bold;white-space: nowrap;font-size: 20px;
+					font-family: Arial,Helvetica,sans-serif;"/>
+			</a><br/><br/>
+			<apex:outputLabel value="List of related Banner Accounts" style="text-align: left;
+				font-weight: bold;white-space: nowrap;font-size: 15px;
+				font-family: Arial,Helvetica,sans-serif;"/>
+			<apex:dataTable value="{!bannerAccList}" var="bannerAcc" id="bannerTab" 
+					rowClasses="odd,even" style="width: 50%;padding: 20px;">
+				<apex:column style="width: 60%text-align: left;">
+		    	<apex:facet name="header">Name</apex:facet>
+					<a href="/{!bannerAcc.Id}" ><apex:outputText value="{!bannerAcc.Name}"/></a>
+				</apex:column>
+				<apex:column style="width: 10%;text-align: left;">
+		    	<apex:facet name="header">Include/Exclude</apex:facet>
+					<input type="checkbox" id="{!bannerAcc.Id}" name="{!bannerAcc.Id}" 
+						class="bannerCheckBox"/>
+				</apex:column>
+			</apex:dataTable>
+			
+			<apex:repeat value="{!statesSet}" var="st">
+				<apex:outputText value="{!st}" style="{!states[st]}"/><br/>
+			</apex:repeat>
+		</apex:pageBlock>
+	</apex:form>
+	<script type="text/javascript">
+		jQuery('.bannerCheckBox').live('click',function(){
+			alert('Hello');
+			alert(jQuery(this));
+		});
+	</script>
+</apex:page>
