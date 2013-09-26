@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <customSettingsVisibility>Protected</customSettingsVisibility>
+    <description>Stores the List of States and their Abbreviations</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Abbreviation__c</fullName>
+        <externalId>false</externalId>
+        <label>Abbreviation</label>
+        <length>3</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>States</label>
+</CustomObject>
