@@ -4,10 +4,13 @@ Name        : Controller_IVAPDetails.cls
 Updated By 	: Basant Kumar Verma (Appirio OffShore)
 Date 				: 7/5/2013
 Story/Task	: US585/TA1082
+
+Updated By 	: Basant Kumar Verma (Appirio JDC)
+Date 				: 9/26/2013
+Story/Task	: US326/TA1515
 *******************************************************************************/
 public with sharing class Controller_IVAPDetails extends Controller_Base {
-
-	// display as list (true) or box (false)
+		// display as list (true) or box (false)
     public Boolean displayAsList {get; set;}
 
     public Id detailId {public get; protected set;}
@@ -111,7 +114,9 @@ public with sharing class Controller_IVAPDetails extends Controller_Base {
             try {
                 detailId = Id.valueOf(ApexPages.currentPage().getParameters().get('id'));
                 ivapItem = Service_API.getIVAP(detailId, selectedThemes());
-                
+                // Start : Changed for TA1515 : Basant
+                currentSectionConstant = (ivapItem.Classification__c == 'Spirits') ? (Constant.INNOVATION_AND_SUSTAINOVATION) : (Constant.INNOVATION_SUSTAINOVATION_AND_VINTAGE);
+                // End : Changed for TA1515 : Basant
                 dateDescription = ''+ivapItem.Start_Date__c.format()+' - '+ivapItem.End_Date__c.format();
                 salesDriverDescription = String.valueof(ivapItem.Sales_Channel__c);
 
@@ -177,12 +182,13 @@ public with sharing class Controller_IVAPDetails extends Controller_Base {
     	Case - 00002915
     	*/
     	Set<ID> brandIdsSet = new set<id>();
-    	
+    	// START : Changes for US826/TA1515 - Basant Verma
     	if(currentSectionConstant == Constant.INNOVATION_AND_SUSTAINOVATION) {
-    		brandIdsSet = Service_API.getAllContentBrandIDs(Constant.INNOVATION_AND_SUSTAINOVATION);
+    		brandIdsSet = Service_API.getAllContentBrandIDs(Constant.INNOVATION_AND_SUSTAINOVATION, ivapItem.Classification__c);
     	} else if (currentSectionConstant == Constant.INNOVATION_SUSTAINOVATION_AND_VINTAGE) {
-    		 brandIdsSet  = Service_API.getAllContentBrandIDs(Constant.INNOVATION_SUSTAINOVATION_AND_VINTAGE);
+    		 brandIdsSet  = Service_API.getAllContentBrandIDs(Constant.INNOVATION_SUSTAINOVATION_AND_VINTAGE, ivapItem.Classification__c);
     	}
+    	// END : Changes for US826/TA1515 - Basant Verma
 		/*
 		End for Case 00002915
 		*/
@@ -194,7 +200,9 @@ public with sharing class Controller_IVAPDetails extends Controller_Base {
 		}
 		
 		List<String> subCategoriesList = new List<String>();
-    	list<Sections__c> sectionTabs = Service_API.getSectionTabs(currentSectionConstant);
+    	// START : Changed for TA1515 : Basant
+    	list<Sections__c> sectionTabs = Service_API.getSectionTabs(currentSectionConstant, ivapItem.Classification__c);
+    	// END : Changed for TA1515 : Basant
     	for(Sections__c s : sectionTabs ){
     		if((s.Parent_Tab__c == null || s.Parent_Tab__c == '') && s.Sales_Driver__c == ivapItem.Sales_Channel__c){
     			subCategoriesList.add(s.Tab__c);
@@ -213,12 +221,13 @@ public with sharing class Controller_IVAPDetails extends Controller_Base {
 		}
 
         isNewContent = false;								  	
-		if(subCategoriesList.size() != 0 && brandIdsSet.size() != 0){    	
+		if(subCategoriesList.size() != 0 && brandIdsSet.size() != 0){
+			// Start : Changed for TA1515 - Basant
 			AggregateResult[] tmpList = database.query('SELECT Sub_Category__c, Sub_Sub_Category__c, content_description__r.is_video__c is_video, content_description__r.video_id__c video_id, content_description__r.Title__c title, content_description__r.Description__c description, content_description__r.Content_Version_Id__c cvid, content_description__r.filetype__c filetype, content_description__r.Preview_Available__c previewAvailable, content_description__r.Preview_Id__c previewId, content_description__r.filesize__c filesize, content_description__r.filesize_low__c filesize_low, content_description__r.Content_Version_Id_Low__c cvidlow, max(content_description__r.Uploaded_date__c) createdDate, content_description__r.image_resolution__c imageRes  FROM content_property__c ' +
-		        +' WHERE content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') and category__c=\''+currentSectionConstant+'\' and Sub_Category__c in ('+subCategoriesString+') AND content_description__r.Content_Id__c in ('+brandIdsString+') AND Calendar__c=\''+detailId+'\' '
+		        +' WHERE content_description__r.Classification__c includes (\''+ivapItem.Classification__c+'\') and category__c=\''+currentSectionConstant+'\' and Sub_Category__c in ('+subCategoriesString+') AND content_description__r.Content_Id__c in ('+brandIdsString+') AND Calendar__c=\''+detailId+'\' '
 		        +' GROUP BY Sub_Category__c, Sub_Sub_Category__c, content_description__r.is_video__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.Content_Version_Id_Low__c, content_description__r.image_resolution__c  '+ 
 		        +' ORDER BY Sub_Sub_Category__c, content_description__r.Description__c ASC');
-
+			// END : Changed for TA1515 - Basant
         	if (tmpList!= null) {
         		for(AggregateResult ar: tmpList) {
         			string subCategoryName = (string)ar.get('Sub_Category__c');

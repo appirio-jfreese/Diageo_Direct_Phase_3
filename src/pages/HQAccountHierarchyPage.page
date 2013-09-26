@@ -1,39 +1,112 @@
 <apex:page controller="HQAccountHierarchyController">
-	<script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.js')}"></script>
-	<apex:sectionHeader subTitle="{!hqAcc.Name} Hierarchy" />
-	<apex:form id="frm">
-		<apex:pageBlock id="pb">
-			<apex:pageMessages />
-			<a href="/{!hqAcc.Id}" >
-				<apex:outputText value="{!hqAcc.Name}" style="text-align: left;
-					font-weight: bold;white-space: nowrap;font-size: 20px;
-					font-family: Arial,Helvetica,sans-serif;"/>
-			</a><br/><br/>
-			<apex:outputLabel value="List of related Banner Accounts" style="text-align: left;
-				font-weight: bold;white-space: nowrap;font-size: 15px;
-				font-family: Arial,Helvetica,sans-serif;"/>
-			<apex:dataTable value="{!bannerAccList}" var="bannerAcc" id="bannerTab" 
-					rowClasses="odd,even" style="width: 50%;padding: 20px;">
-				<apex:column style="width: 60%text-align: left;">
-		    	<apex:facet name="header">Name</apex:facet>
-					<a href="/{!bannerAcc.Id}" ><apex:outputText value="{!bannerAcc.Name}"/></a>
-				</apex:column>
-				<apex:column style="width: 10%;text-align: left;">
-		    	<apex:facet name="header">Include/Exclude</apex:facet>
-					<input type="checkbox" id="{!bannerAcc.Id}" name="{!bannerAcc.Id}" 
-						class="bannerCheckBox"/>
-				</apex:column>
-			</apex:dataTable>
-			
-			<apex:repeat value="{!statesSet}" var="st">
-				<apex:outputText value="{!st}" style="{!states[st]}"/><br/>
-			</apex:repeat>
-		</apex:pageBlock>
-	</apex:form>
-	<script type="text/javascript">
-		jQuery('.bannerCheckBox').live('click',function(){
-			alert('Hello');
-			alert(jQuery(this));
-		});
-	</script>
+    <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.js')}"></script>
+    <apex:sectionHeader subTitle="{!hqAcc.Name} Hierarchy" />
+    <apex:form id="frm">
+        <apex:pageBlock id="pb">
+            <apex:pageMessages />
+            <a href="/{!hqAcc.Id}" >
+                <apex:outputText value="{!hqAcc.Name}" style="text-align: left;font-weight: bold;
+                white-space: nowrap;font-size: 20px;font-family: Arial,Helvetica,sans-serif;"/>
+            </a><br/><br/>
+            <table style="width:100%;height:50%;overflow:auto;">
+            <tr>
+	            <td>
+		            <apex:outputLabel value="Related accounts" style="text-align: left;font-weight: bold;
+		                white-space: nowrap;font-size: 15px;font-family: Arial,Helvetica,sans-serif;"/>
+		            <apex:dataTable value="{!bannerAccList}" var="bannerAcc" id="bannerTab" 
+		                    rowClasses="odd,even" style="width:50%;">
+		                <apex:column style="text-align: left;">
+		                		<apex:facet name="header">Name</apex:facet>
+		                    <a href="/{!bannerAcc.Id}" ><apex:outputText value="{!bannerAcc.Name}"/></a>
+		                </apex:column>
+		                <apex:column style="text-align: left;">
+		                		<apex:facet name="header">Include/Exclude</apex:facet>
+		                    <input type="checkbox" id="{!bannerAcc.Id}" name="{!bannerAcc.Id}" 
+		                        class="bannerCheckBox"/>
+		                </apex:column>
+		            </apex:dataTable>
+	            </td>
+	            
+	            <td>
+		            <apex:outputLabel value="Marketing Groups" style="text-align: left;font-weight: bold;
+		                white-space: nowrap;font-size: 15px;font-family: Arial,Helvetica,sans-serif;display:none;" 
+		                styleClass="grpLabel" />
+		            <apex:dataTable value="{!marketingGroupsSet}" var="grp" id="distinctMrktGrpTab" 
+		                    rowClasses="odd,even" style="width:50%;">
+		                <apex:column style="text-align: left;">
+		                		<a href="/{!mrktGrps[grp].Id}" class="{!mrktGrpsClass[grp]} grpNames" 
+		                			style="display: none;"><apex:outputText value="{!mrktGrps[grp].Name}"/></a>
+		                </apex:column>
+		                <apex:column style="text-align: left;">
+		                		<input type="checkbox" id="{!grp}" name="{!grp}" class="{!mrktGrpsClass[grp]} grpCheckBox" 
+		                			checked="true" style="display: none;"/> 
+		                </apex:column>             
+		            </apex:dataTable>
+	            </td>
+            </tr>
+            </table>
+            <br/>
+            <apex:outputLabel value="States covered by selection" styleClass="stateLabel" 
+                style="text-align: left;font-weight: bold;white-space: nowrap;display:none;
+                    font-size: 15px;font-family: Arial,Helvetica,sans-serif;padding-top: 20px;"/>
+            <apex:dataTable value="{!statesSet}" var="st" id="distinctStatesTab" 
+                    rowClasses="odd,even" style="width: 50%;padding-left: 20px;">
+                <apex:column style="width: 60%;text-align: left;">
+                		<apex:outputText value="{!st}" styleClass="{!states[st]} stateNames" 
+                			style="display: none;" />
+                </apex:column>
+                <apex:column style="width: 10%;text-align: left;">
+                		<input type="checkbox" id="{!st}" name="{!st}" class="{!states[st]} stateCheckBox" 
+                			checked="true" style="display: none;"/> 
+                </apex:column>             
+            </apex:dataTable>
+            <br/>
+            <apex:outputLabel value="Remaining States" styleClass="remStateLabel" 
+                style="text-align: left;font-weight: bold;white-space: nowrap;
+                    font-size: 15px;font-family: Arial,Helvetica,sans-serif;padding-top: 20px;"/>
+            <apex:selectList value="{!selectedState}" size="1" 
+            		multiselect="false" styleClass="allStateOptions">
+		            <apex:selectOptions value="{!allStatesList}"/>
+		        </apex:selectList>
+		        
+        </apex:pageBlock>
+    </apex:form>
+    <script type="text/javascript">
+        jQuery('.bannerCheckBox').live('click',function(){
+            jQuery(".stateNames").css("display", "none");
+            jQuery(".stateCheckBox").css("display", "none");
+            jQuery(".grpNames").css("display", "none");
+            jQuery(".grpCheckBox").css("display", "none");
+            jQuery(".stateLabel").css("display", "none");
+            jQuery(".grpLabel").css("display", "none");
+            jQuery('.allStateOptions').first().find('option').css("display", "block");
+            
+            jQuery('.bannerCheckBox').each(function(){
+                if(jQuery(this).is(':checked')){
+                    jQuery(".stateLabel").css("display", "block");
+                    jQuery(".grpLabel").css("display", "block");
+                    jQuery('.'+jQuery(this).attr('id')).css("display", "block");
+                }
+            });
+            
+            jQuery('.stateNames').each(function(){
+            	if(jQuery(this).css("display") == 'block'){
+            		var stateName = jQuery(this).text();
+              	jQuery('.allStateOptions').first().find('option').each(function() {
+			    				if(jQuery(this).val() == stateName){
+			    					jQuery(this).css("display", "none");
+			    				}
+			    			});
+			    		}
+            });
+            
+            var htmlText = '';
+            jQuery('.allStateOptions').first().find('option').each(function() {
+            	if(jQuery(this).css("display") == 'block'){
+            		htmlText += '<option value="'+jQuery(this).val()+'">'+jQuery(this).val()+'</option>';
+            	}
+            });
+            jQuery('.allStateOptions').first().html(htmlText);
+        });
+    </script>
 </apex:page>

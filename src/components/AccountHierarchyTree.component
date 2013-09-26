@@ -24,7 +24,7 @@
 <apex:component Controller="AccountStructure">
     <apex:attribute name="currentId" description="This is the Account Id for displaying Acccount Hierarchy" type="String" required="true" assignTo="{!currentId}"/>
 
-    <div class="treeNode">
+    <div class="treeNode" style="height: 250px; overflow: auto;">
             <apex:repeat value="{!ObjectStructure}" var="pos" >
             <apex:repeat value="{!pos.levelFlag}" var="flag" first="0">
                 <apex:image url="/img/tree/empty.gif" height="16" width="20" rendered="{!IF(flag,false,true)}"/>
@@ -57,7 +57,7 @@
                 <apex:image id="Icon_end_current" url="/img/icon/star16.png" width="16" height="16" rendered="{!IF(pos.currentNode,true,false)}"/>
             </apex:outputText>
 <!-- Change Below -->
-            <apex:outputLink value="/{!pos.account.id}" style="{!IF(pos.currentNode,'font-weight: bold;','')}" styleClass="columnHeadActiveBlack" target="_top">{!pos.account.name}</apex:outputLink>
+            <apex:outputLink value="/{!pos.account.id}" style="{!IF(pos.currentNode,'font-weight: bold;','')}" styleClass="columnHeadActiveBlack" target="_top">{!pos.account.name} - {!pos.account.TDLinx_Outlet_City__c}, {!pos.account.TDLinx_Outlet_State__c}</apex:outputLink>
 
 <!-- Include the following if you uses sites with accounts -->
 

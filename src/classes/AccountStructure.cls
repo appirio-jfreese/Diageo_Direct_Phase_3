@@ -30,9 +30,9 @@ public with sharing class AccountStructure{
     * Contructor
     */
     public AccountStructure() {
-    	this.asm = new List<ObjectStructureMap>{};
-    	this.masm = new Map<String, ObjectStructureMap>{};
-    	this.maxLevel = new List<Integer>{};
+        this.asm = new List<ObjectStructureMap>{};
+        this.masm = new Map<String, ObjectStructureMap>{};
+        this.maxLevel = new List<Integer>{};
     }
     
     /**
@@ -89,11 +89,11 @@ public with sharing class AccountStructure{
 
             if( level == 0 ){
                 //Change below     
-                al = [ SELECT a.Type, a.Site, a.ParentId, a.OwnerId, a.Name, a.Industry, a.Id FROM Account a WHERE a.id IN : CurrentParent ORDER BY a.Name ];
+                al = [ SELECT a.Type, a.Site, a.ParentId, a.OwnerId, a.Name, a.Industry, a.Id, a.TDLINX_Outlet_City__c, TDLINX_Outlet_State__c FROM Account a WHERE a.id IN : CurrentParent ORDER BY a.Name ];
             } 
             else {
                 //Change below      
-                al = [ SELECT a.Type, a.Site, a.ParentId, a.OwnerId, a.Name, a.Industry, a.Id FROM Account a WHERE a.ParentID IN : CurrentParent ORDER BY a.Name ];
+                al = [ SELECT a.Type, a.Site, a.ParentId, a.OwnerId, a.Name, a.Industry, a.Id, a.TDLINX_Outlet_City__c, TDLINX_Outlet_State__c FROM Account a WHERE a.ParentID IN : CurrentParent ORDER BY a.Name ];
             }
 
             if( al.size() == 0 ){
@@ -124,12 +124,12 @@ public with sharing class AccountStructure{
             List<String> nnl = new List<String> {};
             
             if ( i > 0 ){
-                String pn 	= NodeSortList[i-1];
-                pnl 		= pn.split( '\\.', -1 );
+                String pn   = NodeSortList[i-1];
+                pnl         = pn.split( '\\.', -1 );
             }
 
-            String cn 	= NodeSortList[i];
-            cnl 		= cn.split( '\\.', -1 );
+            String cn   = NodeSortList[i];
+            cnl         = cn.split( '\\.', -1 );
 
             if( i < NodeSortList.size()-1 ){
                 String nn = NodeSortList[i+1];
@@ -142,8 +142,8 @@ public with sharing class AccountStructure{
                 tasm.nodeType = ( isLastNode( cnl ) ) ? 'parent_end' : 'parent';
             }
             else if( cnl.size() > nnl.size() ){
-                tasm.nodeType 	= 'child_end';
-                tasm.closeFlag 	= setcloseFlag( cnl, nnl, tasm.nodeType );
+                tasm.nodeType   = 'child_end';
+                tasm.closeFlag  = setcloseFlag( cnl, nnl, tasm.nodeType );
             }
             else{
                 tasm.nodeType = 'child';
@@ -158,8 +158,8 @@ public with sharing class AccountStructure{
             asm.add( tasm );
         }
         
-        asm[0].nodeType 			= 'start';
-        asm[asm.size()-1].nodeType 	= 'end';
+        asm[0].nodeType             = 'start';
+        asm[asm.size()-1].nodeType  = 'end';
         
         return asm;
     }
@@ -169,17 +169,17 @@ public with sharing class AccountStructure{
     * @return flagList
     */
     public List<Boolean> setlevelFlag( List<String> nodeElements, String nodeType ){
-    	
+        
         List<Boolean> flagList = new List<Boolean>{};
-        String searchNode 	= '';
-        String workNode 	= '';
-        Integer cn 			= 0;
+        String searchNode   = '';
+        String workNode     = '';
+        Integer cn          = 0;
         
         for( Integer i = 0; i < nodeElements.size() - 1; i++ ){
             cn = Integer.valueOf( nodeElements[i] );
             cn++;
-            searchNode 	= workNode + String.valueOf( cn );
-            workNode 	= workNode + nodeElements[i] + '.';
+            searchNode  = workNode + String.valueOf( cn );
+            workNode    = workNode + nodeElements[i] + '.';
             if ( masm.containsKey( searchNode ) ){
                 flagList.add( true );
             }
@@ -196,14 +196,14 @@ public with sharing class AccountStructure{
     * @return flagList
     */
     public List<Boolean> setcloseFlag( List<String> cnl, List<String> nnl, String nodeType ){
-    	
+        
         List<Boolean> flagList = new List<Boolean>{};
-        String searchNode 	= '';
-        String workNode 	= '';
-        Integer cn 			= 0;
+        String searchNode   = '';
+        String workNode     = '';
+        Integer cn          = 0;
         
         for( Integer i = nnl.size(); i < cnl.size(); i++ ){
-        	flagList.add( true );
+            flagList.add( true );
         }
         
         return flagList;
@@ -214,9 +214,9 @@ public with sharing class AccountStructure{
     * @return Boolean
     */
     public Boolean isLastNode( List<String> nodeElements ){
-    	
-        String searchNode 	= '';
-        Integer cn 			= 0;
+        
+        String searchNode   = '';
+        Integer cn          = 0;
         
         for( Integer i = 0; i < nodeElements.size(); i++ ){
             if ( i == nodeElements.size()-1 ){
@@ -241,7 +241,7 @@ public with sharing class AccountStructure{
     * @return objId
     */
     public String GetTopElement( String objId ){
-    	
+        
         Boolean top = false;
         while ( !top ) {
             //Change below
@@ -257,7 +257,7 @@ public with sharing class AccountStructure{
         return objId ;
     }
     
-	/**
+    /**
     * Wrapper class
     */
     public with sharing class ObjectStructureMap{

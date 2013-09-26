@@ -32,6 +32,10 @@ Story/Task  : US85/TA910
 Updated By  : Jonathan Freese (Appirio)   
 Date        : 7/7/13
 Story/Task  : US614/TA1068
+
+Updated By 	: Basant Kumar Verma (Appirio JDC)
+Date 				: 9/26/2013
+Story/Task	: US326/TA1515
 *****************************************************************************************/
 
 public without sharing class Service_API {
@@ -1565,13 +1569,13 @@ public without sharing class Service_API {
     }
     
     public static Set<ID> getAllContentBrandIDs(String division){
-
+						
             List<ContentBrand__c> contentBrandIDs = [
-                SELECT Content_Description__r.Content_ID__c
-                    FROM ContentBrand__c 
-                    WHERE (Content_Description__c in (select Content_Description__c from Content_Property__c where category__c = :division))
-                          and Brand__c in :getAllBrands()
-            ];
+	                SELECT Content_Description__r.Content_ID__c
+	                    FROM ContentBrand__c 
+	                    WHERE (Content_Description__c in (select Content_Description__c from Content_Property__c where category__c = :division))
+	                          and Brand__c in :getAllBrands()
+	            ];
             
             allContentIDs = new Set<ID>();
             for(ContentBrand__c c : contentBrandIDs){
@@ -1580,6 +1584,38 @@ public without sharing class Service_API {
 
         return allContentIDs;
     }
+    
+    // Start : Changed for TA1515 - Basant
+    public static Set<ID> getAllContentBrandIDs(String division, String tempSiteTheme){
+						Set<String> themeList = new Set<String>();
+						themeList.add(tempSiteTheme);
+            List<ContentBrand__c> contentBrandIDs = [
+	                SELECT Content_Description__r.Content_ID__c
+	                    FROM ContentBrand__c 
+	                    WHERE (Content_Description__c in (select Content_Description__c from Content_Property__c where category__c = :division))
+	                          and Brand__c in :getAccBrandIds(themeList)
+	            ];
+            
+            allContentIDs = new Set<ID>();
+            for(ContentBrand__c c : contentBrandIDs){
+                allContentIDs.add(c.Content_Description__r.Content_ID__c);
+            }
+
+        return allContentIDs;
+    }
+    
+    public static List<Sections__c> getSectionTabs(String section, String tempSiteTheme){
+        if (sectionTabs==null) {
+            String thm = '%'+tempSiteTheme+'%';
+            // Changes done by Jai Gupta [Appirio Jaipur] for case #00033756 on Oct 03, 2012
+            // Revert back the change which was done for case #00033756 by Mohit for Case #00034036 on Oct 9,2012.
+            sectionTabs = [select Section__c, Parent_Tab__c, Tab__c, Sales_Driver__c, Order__c FROM Sections__c where Section__c = :section AND Classification__c like :thm ORDER BY Order__c];
+            //sectionTabs = [select Section__c, Parent_Tab__c, Tab__c, Sales_Driver__c, Order__c FROM Sections__c where Section__c = :section AND Classification__c like :thm ORDER BY Tab__c];
+            // End for case #00033756
+        }
+        return sectionTabs;
+    }  
+		// End : Changed for TA1515 - Basant
          
     /**
     * @author Denise Bacher
