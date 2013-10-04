@@ -95,6 +95,17 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>National_Account_Group__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>National Account Group</label>
+        <referenceTo>National_Account_Group__c</referenceTo>
+        <relationshipLabel>Campaigns</relationshipLabel>
+        <relationshipName>Campaigns</relationshipName>
+        <required>false</required>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>Program_Description__c</fullName>
         <externalId>false</externalId>
         <label>Program Description</label>

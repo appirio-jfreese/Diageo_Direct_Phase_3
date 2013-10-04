@@ -18,6 +18,6 @@
 
 <apex:page standardController="account" tabStyle="Account" > 
     <div style="height: 255px" class="bodyDiv" onclick="resizeFrame();">
-        <c:AccountHierarchyTree currentId="{!Account.id}" />
+        <c:AccountHierarchyTree currentId="{!Account.id}" displayFor="anyAcc"/>
     </div>
 </apex:page>

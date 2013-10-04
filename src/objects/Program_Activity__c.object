@@ -70,6 +70,10 @@
                 <default>false</default>
             </picklistValues>
             <picklistValues>
+                <fullName>Demo/Sampling Events</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
                 <fullName>Dispense Unit</fullName>
                 <default>false</default>
             </picklistValues>
@@ -90,7 +94,19 @@
                 <default>false</default>
             </picklistValues>
             <picklistValues>
-                <fullName>Feature/Suggested On</fullName>
+                <fullName>Distribution Opportunity</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Feature/Ad</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Feature/National</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Feature/Regional</fullName>
                 <default>false</default>
             </picklistValues>
             <picklistValues>
@@ -98,11 +114,15 @@
                 <default>false</default>
             </picklistValues>
             <picklistValues>
-                <fullName>Managed Bar Nights</fullName>
+                <fullName>Limited Time Offer</fullName>
                 <default>false</default>
             </picklistValues>
             <picklistValues>
-                <fullName>Sampling Events</fullName>
+                <fullName>Loyalty Card</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Managed Bar Nights</fullName>
                 <default>false</default>
             </picklistValues>
             <picklistValues>
@@ -110,7 +130,15 @@
                 <default>false</default>
             </picklistValues>
             <picklistValues>
+                <fullName>New Distribution Authorized</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
                 <fullName>POS Merchandising</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Temporary Price Reduction (legal approval)</fullName>
                 <default>false</default>
             </picklistValues>
             <sorted>false</sorted>
@@ -185,6 +213,18 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Program Activities</pluralLabel>
-    <searchLayouts/>
+    <searchLayouts>
+        <lookupDialogsAdditionalFields>Activity_Type__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Action_Date__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Description__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Call_to_Action__c</lookupDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Activity_Type__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Action_Date__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Description__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Call_to_Action__c</lookupPhoneDialogsAdditionalFields>
+        <searchFilterFields>NAME</searchFilterFields>
+        <searchFilterFields>Activity_Type__c</searchFilterFields>
+        <searchFilterFields>Action_Date__c</searchFilterFields>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
 </CustomObject>

@@ -1,112 +1,260 @@
+<!--<apex:page standardController="Campaign" extensions="HQAccountHierarchyController">-->
 <apex:page controller="HQAccountHierarchyController">
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.js')}"></script>
     <apex:sectionHeader subTitle="{!hqAcc.Name} Hierarchy" />
     <apex:form id="frm">
         <apex:pageBlock id="pb">
             <apex:pageMessages />
-            <a href="/{!hqAcc.Id}" >
-                <apex:outputText value="{!hqAcc.Name}" style="text-align: left;font-weight: bold;
-                white-space: nowrap;font-size: 20px;font-family: Arial,Helvetica,sans-serif;"/>
-            </a><br/><br/>
-            <table style="width:100%;height:50%;overflow:auto;">
-            <tr>
-	            <td>
-		            <apex:outputLabel value="Related accounts" style="text-align: left;font-weight: bold;
-		                white-space: nowrap;font-size: 15px;font-family: Arial,Helvetica,sans-serif;"/>
-		            <apex:dataTable value="{!bannerAccList}" var="bannerAcc" id="bannerTab" 
-		                    rowClasses="odd,even" style="width:50%;">
-		                <apex:column style="text-align: left;">
-		                		<apex:facet name="header">Name</apex:facet>
-		                    <a href="/{!bannerAcc.Id}" ><apex:outputText value="{!bannerAcc.Name}"/></a>
-		                </apex:column>
-		                <apex:column style="text-align: left;">
-		                		<apex:facet name="header">Include/Exclude</apex:facet>
-		                    <input type="checkbox" id="{!bannerAcc.Id}" name="{!bannerAcc.Id}" 
-		                        class="bannerCheckBox"/>
-		                </apex:column>
-		            </apex:dataTable>
-	            </td>
-	            
-	            <td>
-		            <apex:outputLabel value="Marketing Groups" style="text-align: left;font-weight: bold;
-		                white-space: nowrap;font-size: 15px;font-family: Arial,Helvetica,sans-serif;display:none;" 
-		                styleClass="grpLabel" />
-		            <apex:dataTable value="{!marketingGroupsSet}" var="grp" id="distinctMrktGrpTab" 
-		                    rowClasses="odd,even" style="width:50%;">
-		                <apex:column style="text-align: left;">
-		                		<a href="/{!mrktGrps[grp].Id}" class="{!mrktGrpsClass[grp]} grpNames" 
-		                			style="display: none;"><apex:outputText value="{!mrktGrps[grp].Name}"/></a>
-		                </apex:column>
-		                <apex:column style="text-align: left;">
-		                		<input type="checkbox" id="{!grp}" name="{!grp}" class="{!mrktGrpsClass[grp]} grpCheckBox" 
-		                			checked="true" style="display: none;"/> 
-		                </apex:column>             
-		            </apex:dataTable>
-	            </td>
-            </tr>
-            </table>
-            <br/>
-            <apex:outputLabel value="States covered by selection" styleClass="stateLabel" 
-                style="text-align: left;font-weight: bold;white-space: nowrap;display:none;
-                    font-size: 15px;font-family: Arial,Helvetica,sans-serif;padding-top: 20px;"/>
-            <apex:dataTable value="{!statesSet}" var="st" id="distinctStatesTab" 
-                    rowClasses="odd,even" style="width: 50%;padding-left: 20px;">
-                <apex:column style="width: 60%;text-align: left;">
-                		<apex:outputText value="{!st}" styleClass="{!states[st]} stateNames" 
-                			style="display: none;" />
-                </apex:column>
-                <apex:column style="width: 10%;text-align: left;">
-                		<input type="checkbox" id="{!st}" name="{!st}" class="{!states[st]} stateCheckBox" 
-                			checked="true" style="display: none;"/> 
-                </apex:column>             
+      <a href="/{!hqAcc.Id}" >
+          <apex:outputText value="{!hqAcc.Name}" style="text-align: left;font-weight: bold;
+          white-space: nowrap;font-size: 20px;font-family: Arial,Helvetica,sans-serif;"/>
+      </a><br/><br/>
+      <div style="width: 800px; height: 500px;">
+      <table style="width:100%;height:50%;overflow:auto;">
+       <tr>
+        <td width="500px">
+         <apex:outputLabel value="Related accounts" style="text-align: left;font-weight: bold;
+             white-space: nowrap;font-size: 15px;font-family: Arial,Helvetica,sans-serif;"/>
+         <c:AccountHierarchyTree currentId="{!hqAcc.id}" displayFor="OutletHQ"/>
+        </td>
+        <td width="300px">
+            <div style="height: 250px; overflow: auto;">
+            <apex:outputLabel value="Marketing Groups" style="text-align: left;font-weight: bold;
+              white-space: nowrap;font-size: 15px;font-family: Arial,Helvetica,sans-serif;display:block;" 
+              styleClass="grpLabel" />
+            <apex:dataTable value="{!marketingGroupsSet}" var="grp" id="distinctMrktGrpTab" 
+                  rowClasses="odd,even" style="width:80%;">
+                <apex:column style="text-align: left;">
+                    <a href="/{!mrktGrps[grp].Id}" class="{!mrktGrpsClass[grp]} grpNames" 
+                        style="display: none;"><apex:outputText value="{!mrktGrps[grp].Name}"/></a>
+              </apex:column>
+              <apex:column style="text-align: left;">
+                    <input type="checkbox" id="{!grp}" name="{!grp}" class="{!mrktGrpsClass[grp]} grpCheckBox" 
+                        checked="true" style="display: none;"/> 
+              </apex:column>             
             </apex:dataTable>
-            <br/>
+         </div>
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <apex:outputLabel value="States covered by selection" styleClass="stateLabel" 
+              style="text-align: left;font-weight: bold;white-space: nowrap;display:block;
+                  font-size: 15px;font-family: Arial,Helvetica,sans-serif;padding-top: 20px;"/>
+         <div style="height: 150px; overflow: auto;">
+            <apex:dataTable value="{!statesSet}" var="st" id="distinctStatesTab" 
+                  rowClasses="odd,even" style="width: 50%;padding-left: 20px;">
+              <apex:column style="width: 60%;text-align: left;">
+                    <apex:outputText value="{!st}" styleClass="{!states[st]} stateNames" 
+                        style="display: none;" />
+              </apex:column>
+              <apex:column style="width: 10%;text-align: left;">
+                    <input type="checkbox" id="{!st}" name="{!st}" class="{!states[st]} stateCheckBox" 
+                        checked="true" style="display: none;"/> 
+              </apex:column>             
+            </apex:dataTable>
+         </div>
+        </td>
+        </tr>
+        <tr>
+        <td>
+            
             <apex:outputLabel value="Remaining States" styleClass="remStateLabel" 
-                style="text-align: left;font-weight: bold;white-space: nowrap;
-                    font-size: 15px;font-family: Arial,Helvetica,sans-serif;padding-top: 20px;"/>
-            <apex:selectList value="{!selectedState}" size="1" 
-            		multiselect="false" styleClass="allStateOptions">
-		            <apex:selectOptions value="{!allStatesList}"/>
-		        </apex:selectList>
-		        
+             style="text-align: left;font-weight: bold;white-space: nowrap;
+                 font-size: 15px;font-family: Arial,Helvetica,sans-serif;padding-top: 20px;"/>
+            <apex:selectList value="{!selectedState}" size="1" id="selectState" onChange="javascript:stateChanged(this.value);"
+                multiselect="false" styleClass="allStateOptions">
+            <apex:selectOptions value="{!allStatesList}"/>
+            </apex:selectList>
+                    <apex:repeat value="{!allStatesList}" var="stateOp">
+                        <input id="{!stateOp.value}" value="{!stateOp.value}" type="hidden" name="{!stateOp.label}" class="hiddenStateName"/>
+                    </apex:repeat>
+            <a href="javascript:functionToAddState()" id="addToState" value="">(add)</a> 
+        </td>
+        </tr>
+        </table>
+        </div>
         </apex:pageBlock>
     </apex:form>
-    <script type="text/javascript">
-        jQuery('.bannerCheckBox').live('click',function(){
-            jQuery(".stateNames").css("display", "none");
-            jQuery(".stateCheckBox").css("display", "none");
-            jQuery(".grpNames").css("display", "none");
-            jQuery(".grpCheckBox").css("display", "none");
-            jQuery(".stateLabel").css("display", "none");
-            jQuery(".grpLabel").css("display", "none");
-            jQuery('.allStateOptions').first().find('option').css("display", "block");
-            
+  <script type="text/javascript">
+  	
+  	function stateChanged(val){
+  		jQuery('#addToState').val(val);
+  	}
+  	
+  	function functionToAddState(){
+  		var selectedDateAbbr = jQuery('#addToState').val(); 
+  		// for hiddenStateName
+  		jQuery('.hiddenStateName').each(function(){
+	  		if(jQuery(this).attr("id") == selectedDateAbbr){
+		  		if(!jQuery(this).hasClass("NeverShow")){
+		  			jQuery(this).addClass("NeverShow");
+		  		}
+	  		}
+  		});
+  		//for stateNames
+  		jQuery('.stateNames').each(function(){
+				if(jQuery(this).text() == selectedDateAbbr){
+					if(!jQuery(this).hasClass('AlwaysShow')){
+		  			jQuery(this).addClass('AlwaysShow');
+		  		}
+				}
+			});
+			
+			// for stateCheckBox 
+			jQuery('.stateCheckBox').each(function(){
+	  		if(jQuery(this).attr("id") == selectedDateAbbr){
+		  		if(!jQuery(this).hasClass("AlwaysShow")){
+		  			jQuery(this).addClass("AlwaysShow");
+		  		}
+	  		}
+  		});
+  		buildStateList();
+  	}
+  	
+    jQuery('.grpCheckBox').live('click',function(){
+    		rebuildAllStates();    	
+    });
+    
+    jQuery('.bannerCheckBox').live('click',function(){
+			rebuildAllStates();
+    });
+    
+    function rebuildAllStates(){
+    	changeAllChild(jQuery(this));
+      markIndeterminate(jQuery(this), false);
+      showHideStates();
+      buildStateList();
+    }
+    
+    function changeAllChild(node){
+        if(jQuery('.'+node.attr('id')+'_cb').length > 0){
+        var checked = node.is(':checked');
+        jQuery('.'+node.attr('id')+'_cb').each(function(){
+            if(jQuery(this).is(':checked') != checked){
+                if(jQuery(this).is(':indeterminate'))
+                            jQuery(this).prop('indeterminate',false);
+                jQuery(this).prop('checked', checked);
+                changeAllChild(jQuery(this));
+            }
+        });
+       }
+    }
+    
+    function showHideStates(){
+    		jQuery(".stateNames").css("display", "none");
+        jQuery(".stateCheckBox").css("display", "none");
+        jQuery(".grpNames").css("display", "none");
+        jQuery(".grpCheckBox").css("display", "none");
+        //jQuery(".stateLabel").css("display", "none");
+        //jQuery(".grpLabel").css("display", "none");
+        
+        jQuery('.bannerCheckBox').each(function(){
+            if(jQuery(this).is(':checked')){
+                //jQuery(".stateLabel").css("display", "block");
+                //jQuery(".grpLabel").css("display", "block");
+                jQuery('.'+jQuery(this).attr('id')).css("display", "block");
+            }
+        });
+        
+        
+        jQuery('.grpCheckBox').each(function(){
+            if(!jQuery(this).is(':checked')){
+                jQuery('.'+jQuery(this).attr('id')).each(function(){
+                	if(jQuery(this).css("display") == "block"){
+                		var curentItm = jQuery(this); 
+                		var flag = false;
+                		jQuery('.grpCheckBox:checked').each(function(){
+                			if(curentItm.hasClass(jQuery(this).attr('id')))
+                				flag = true;
+                		});
+                		if(!flag){
+                			jQuery(this).css("display", "none");
+                		}
+                	}
+                });
+            }
+        });
+       
+    }
+    
+    function buildStateList(){
+    	jQuery('.hiddenStateName').removeClass("doNotShowState");
+      jQuery('.hiddenStateName').addClass("showState");
+      jQuery('.AlwaysShow').css("display", "block");
+      
+    	jQuery('.stateNames').each(function(){
+    			if(jQuery(this).hasClass("AlwaysShow")){
+    				jQuery(this).css("display","block");
+    			}
+          if(jQuery(this).css("display") == 'block'){
+              var stateName = jQuery(this).text();
+          jQuery('.hiddenStateName').each(function() {
+                      if(jQuery(this).val() == stateName){
+                          if(jQuery(this).hasClass("showState"))
+                              jQuery(this).removeClass("showState");
+                          if(!jQuery(this).hasClass("doNotShowState"))
+                              jQuery(this).addClass("doNotShowState");
+                      }
+                  });
+              }
+      });
+      
+    	var htmlText = '';
+      jQuery('.hiddenStateName').each(function() {
+          if(jQuery(this).hasClass("showState")){
+              htmlText += '<option value="'+jQuery(this).val()+'">'+jQuery(this).attr('name')+'</option>';
+          }
+      });
+      jQuery('.allStateOptions').first().html(htmlText);
+    }
+    
+    function markIndeterminate(node, parentOnly){
+        if(parentOnly){
+            if(jQuery('.'+node.attr('id')+'_cb:checked').length == jQuery('.'+node.attr('id')+'_cb').length){
+                node.prop('checked',true);
+                if(node.is(':indeterminate'))
+                        node.prop('indeterminate',false);
+            }else if((jQuery('.'+node.attr('id')+'_cb:checked').length > 0 
+            && jQuery('.'+node.attr('id')+'_cb:checked').length  < jQuery('.'+node.attr('id')+'_cb').length)){
+                if(node.is(':checked'))
+                    node.prop('checked',false);
+                if(!node.is(':indeterminate')){
+                    node.prop('indeterminate',true);
+                }
+            }else if(jQuery('.'+node.attr('id')+'_cb:checked').length == 0){
+                var isIndeterminate = false;
+                jQuery('.'+node.attr('id')+'_cb').each(function(){
+                    if(jQuery(this).is(':indeterminate')){
+                        isIndeterminate = true;
+                    }
+                });
+                if(!isIndeterminate){
+                    node.prop('checked',false);
+                    if(node.is(':indeterminate'))
+                            node.prop('indeterminate',false);
+                }else{
+                    if(node.is(':checked'))
+                        node.prop('checked',false);
+                    if(!node.is(':indeterminate')){
+                        node.prop('indeterminate',true);
+                    }
+                }
+            }
+            if(jQuery('#'+node.attr('name').split('_')[0]).length > 0)
+                markIndeterminate(jQuery('#'+node.attr('name').split('_')[0]).first(), true);
+        }else{
             jQuery('.bannerCheckBox').each(function(){
-                if(jQuery(this).is(':checked')){
-                    jQuery(".stateLabel").css("display", "block");
-                    jQuery(".grpLabel").css("display", "block");
-                    jQuery('.'+jQuery(this).attr('id')).css("display", "block");
+                node = jQuery(this);
+                if(jQuery('.'+node.attr('id')+'_cb').length > 0){
+                markIndeterminate(node, true);
                 }
             });
-            
-            jQuery('.stateNames').each(function(){
-            	if(jQuery(this).css("display") == 'block'){
-            		var stateName = jQuery(this).text();
-              	jQuery('.allStateOptions').first().find('option').each(function() {
-			    				if(jQuery(this).val() == stateName){
-			    					jQuery(this).css("display", "none");
-			    				}
-			    			});
-			    		}
-            });
-            
-            var htmlText = '';
-            jQuery('.allStateOptions').first().find('option').each(function() {
-            	if(jQuery(this).css("display") == 'block'){
-            		htmlText += '<option value="'+jQuery(this).val()+'">'+jQuery(this).val()+'</option>';
-            	}
-            });
-            jQuery('.allStateOptions').first().html(htmlText);
-        });
+        }
+    }
+    
+    jQuery(document).ready(function() {
+    	jQuery('#addToState').val(jQuery('.allStateOptions').first().find("option").val());
+    });
     </script>
 </apex:page>
