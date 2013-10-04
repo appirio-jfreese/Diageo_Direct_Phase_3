@@ -17,9 +17,16 @@
 /**
 * To adapt this to anouther Object simply search for "Change" to go to the places 
 * where the sObject and query must be changed
+*
+*
+*Created By  : Basant Verma (Appirio JDC)   
+*Date        : 01/10/13
+*Story/Task  : US841/TA1508 : To show Outlet HeadQuater, Banner and Store Hierarchy
 */
 public with sharing class AccountStructure{
-
+		//START : Changed for US841/TA1508 - Basant
+		public String displayFor {get; set;}
+		//END : Changed for US841/TA1508 - Basant
     //Declare variables
     public String currentId;
     public List<ObjectStructureMap> asm ;
@@ -86,16 +93,28 @@ public with sharing class AccountStructure{
 
         //Loop though all children
         while ( !endOfStructure ){
-
-            if( level == 0 ){
-                //Change below     
-                al = [ SELECT a.Type, a.Site, a.ParentId, a.OwnerId, a.Name, a.Industry, a.Id, a.TDLINX_Outlet_City__c, TDLINX_Outlet_State__c FROM Account a WHERE a.id IN : CurrentParent ORDER BY a.Name ];
-            } 
-            else {
-                //Change below      
-                al = [ SELECT a.Type, a.Site, a.ParentId, a.OwnerId, a.Name, a.Industry, a.Id, a.TDLINX_Outlet_City__c, TDLINX_Outlet_State__c FROM Account a WHERE a.ParentID IN : CurrentParent ORDER BY a.Name ];
-            }
-
+						//START : Changed for US841/TA1508 - Basant
+						if(displayFor != null && displayFor.equals('OutletHQ')){
+							if( level == 0 ){
+	                //Change below     
+	                al = [ SELECT a.Type, a.Site, a.ParentId, a.OwnerId, a.Name, a.Industry, a.Id, a.TDLINX_Outlet_City__c, TDLINX_Outlet_State__c FROM Account a WHERE a.id IN : CurrentParent AND RecordType.Name = :Label.Outlet_Headquarters_Record_Type ORDER BY a.Name ];
+	            } 
+	            else {
+	                //Change below      
+	                al = [ SELECT a.Type, a.Site, a.ParentId, a.OwnerId, a.Name, a.Industry, a.Id, a.TDLINX_Outlet_City__c, TDLINX_Outlet_State__c FROM Account a WHERE a.ParentID IN : CurrentParent AND RecordType.Name = :Label.Outlet_Banner_Record_Type ORDER BY a.Name ];
+	            }
+						}
+						else{
+							if( level == 0 ){
+	                //Change below     
+	                al = [ SELECT a.Type, a.Site, a.ParentId, a.OwnerId, a.Name, a.Industry, a.Id, a.TDLINX_Outlet_City__c, TDLINX_Outlet_State__c FROM Account a WHERE a.id IN : CurrentParent ORDER BY a.Name ];
+	            } 
+	            else {
+	                //Change below      
+	                al = [ SELECT a.Type, a.Site, a.ParentId, a.OwnerId, a.Name, a.Industry, a.Id, a.TDLINX_Outlet_City__c, TDLINX_Outlet_State__c FROM Account a WHERE a.ParentID IN : CurrentParent ORDER BY a.Name ];
+	            }
+						}
+						//END : Changed for US841/TA1508 - Basant
             if( al.size() == 0 ){
                 endOfStructure = true;
             }
