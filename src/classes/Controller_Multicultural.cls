@@ -1,5 +1,9 @@
 /*******************************************************************************
 Name        : Controller_Multicultural.cls
+
+Updated By  : Siddharth Varshneya (Appirio JDC)
+Date        : 9/30/2013
+Story/Task  : US826/TA1522
 *******************************************************************************/
 public with sharing class Controller_Multicultural  extends Controller_Base {
 
@@ -10,18 +14,18 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
     
     public List<AggregateResult> content {get; protected set;} // for box/list view
     public List<AggregateResultHolder> contentHolder {
-    	get {
-    		List<AggregateResultHolder> contentHolder1 = new List<AggregateResultHolder>();
-    		if(content!=null){
-	    		for(AggregateResult ar : content){
-	    			AggregateResultHolder tmp = new AggregateResultHolder();
-	    			tmp.result = ar;
-	    			contentHolder1.add(tmp);
-	    		}
-    		}
-    		return contentHolder1;
-    	}
-    	set;
+        get {
+            List<AggregateResultHolder> contentHolder1 = new List<AggregateResultHolder>();
+            if(content!=null){
+                for(AggregateResult ar : content){
+                    AggregateResultHolder tmp = new AggregateResultHolder();
+                    tmp.result = ar;
+                    contentHolder1.add(tmp);
+                }
+            }
+            return contentHolder1;
+        }
+        set;
     }
     
     public Boolean displayAsList {get; set;} // display as list (true) or box (false)
@@ -48,7 +52,7 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
     protected Service_Calendar calendarForFilter;
     protected Service_Calendar calendarMonthView;
     public List<Map<String, String>> quarterViewsList {public get; public set;}
-	public List<Map<String, String>> monthViewsList {public get; public set;}
+    public List<Map<String, String>> monthViewsList {public get; public set;}
     public String selectedTimePeriods {get; set;}
     protected List<Integer> selectedTimePeriodsList {protected get; protected set;}
     protected Integer quarterShift {protected get; protected set;}
@@ -65,7 +69,7 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
     
     // portfolio
     public Boolean selectedPortfolio {get; set;} // false
-	public Integer brandBoxToRender {get;set;}
+    public Integer brandBoxToRender {get;set;}
     // rts
     public Boolean selectedRTS {get; set;}
     
@@ -119,22 +123,22 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
     public String contentDocumentId {public get;public set;}
     public MAP<string, List<AggregateResult>> detailsMap {public get; protected set;}
     public MAP<string, List<AggregateResultHolder>> contentHolderMap {
-    	get {
-    		MAP<string, List<AggregateResultHolder>> contentHolder1 = new MAP<string, List<AggregateResultHolder>>();
-    		if(detailsMap!=null){
-    			for(string key : detailsMap.keySet()){
-		    		List<AggregateResultHolder> tmpList = new List<AggregateResultHolder>();
-		    		for(AggregateResult ar : detailsMap.get(key)){
-		    			AggregateResultHolder tmp = new AggregateResultHolder();
-		    			tmp.result = ar;
-		    			tmpList.add(tmp);
-		    		}
-		    		contentHolder1.put(key,tmpList);
-    			}
-    		}
-    		return contentHolder1;
-    	}
-    	set;
+        get {
+            MAP<string, List<AggregateResultHolder>> contentHolder1 = new MAP<string, List<AggregateResultHolder>>();
+            if(detailsMap!=null){
+                for(string key : detailsMap.keySet()){
+                    List<AggregateResultHolder> tmpList = new List<AggregateResultHolder>();
+                    for(AggregateResult ar : detailsMap.get(key)){
+                        AggregateResultHolder tmp = new AggregateResultHolder();
+                        tmp.result = ar;
+                        tmpList.add(tmp);
+                    }
+                    contentHolder1.put(key,tmpList);
+                }
+            }
+            return contentHolder1;
+        }
+        set;
     }
     
     public MAP<string, string> detailsMapParser {public get; protected set;}
@@ -146,32 +150,32 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
     // ***********
     
     public Controller_Multicultural() {
-		pageUrl = Page.Multicultural.getUrl();
+        pageUrl = Page.Multicultural.getUrl();
         shareFromContentDescription = false;        
         isExport = false;
         displayAsList = true;
         sectionFolders = new list<string>();   
         subSectionFolders = new list<string>();     
-		expandFilter = false;
-		
-		sectionFolders = new List<String>();
-		
-    	list<Sections__c> sectionTabs = Service_API.getSectionTabs(CONSTANT.MULTICULTURAL);
-    	for(Sections__c s : sectionTabs ){
-    		if(s.Parent_Tab__c == null || s.Parent_Tab__c == ''){
-    			sectionFolders.add(s.Tab__c);
-    		}
-    	}
-	
+        expandFilter = false;
+        
+        sectionFolders = new List<String>();
+        
+        list<Sections__c> sectionTabs = Service_API.getSectionTabs(CONSTANT.MULTICULTURAL);
+        for(Sections__c s : sectionTabs ){
+            if(s.Parent_Tab__c == null || s.Parent_Tab__c == ''){
+                sectionFolders.add(s.Tab__c);
+            }
+        }
+    
         // sub sections
         currentSection    = '';
         currentSubSection = '';
         if(siteTheme != 'Wine'){
-   			selectedPortfolio = true;
+            selectedPortfolio = true;
         } else {
-        	selectedPortfolio = false;
+            selectedPortfolio = false;
         }
-    	selectedRTS = false;
+        selectedRTS = false;
         // **************
         // GET URL PARAMS
         // **************
@@ -195,45 +199,45 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
     // ************
     
     private void initStandardView(){
-    	showThemeSelector = true;
+        showThemeSelector = true;
         shareFromContentDescription = false;
         displayAsList = true;
         isFilterSet = false;
         if(siteTheme != 'Wine'){
-   			selectedPortfolio = true;
+            selectedPortfolio = true;
         } else {
-        	selectedPortfolio = false;
+            selectedPortfolio = false;
         }
-    	selectedRTS = false;        
+        selectedRTS = false;        
         selectAllBrands = false;
         selectAllVariants = false;
         content = new List<AggregateResult>();
         // get brands
         if(siteTheme != 'Wine') {
-        	brandBoxToRender = 21;
+            brandBoxToRender = 21;
         } else {
-        	brandBoxToRender = 23;
+            brandBoxToRender = 23;
         }
-		parentBrandList = Service_API.getBrandsForFilters(new list<String>());
-		/**by maciek**/
-		Set<Id> setOfBrands = new Set<Id>();
-		Integer i = 0;
-		for(Brand__c brand : parentBrandList)
-		{
-			setOfBrands.add(brand.id);
-			i++;
-			if(i == brandBoxToRender)
-			{
-				break;
-			}
-		}
-		
-		if(i > 0){
-			additionalBrandList = Service_API.getAdditionalBrandsForFilters(setOfBrands, new list<String>());
-		}
-		  
-		/*************/
-		
+        parentBrandList = Service_API.getBrandsForFilters(new list<String>());
+        /**by maciek**/
+        Set<Id> setOfBrands = new Set<Id>();
+        Integer i = 0;
+        for(Brand__c brand : parentBrandList)
+        {
+            setOfBrands.add(brand.id);
+            i++;
+            if(i == brandBoxToRender)
+            {
+                break;
+            }
+        }
+        
+        if(i > 0){
+            additionalBrandList = Service_API.getAdditionalBrandsForFilters(setOfBrands, new list<String>());
+        }
+          
+        /*************/
+        
         childBrandList = new list<Brand__c>();      
         brandNumberDescription = 'All';
         dateRangeDescription = 'All Time Periods';
@@ -243,22 +247,22 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
         selectedTimePeriods = '';
         selectedBrandIdsList = new List<Id>();          
         // get time periods
-		monthOrQuarterRender = true;        
+        monthOrQuarterRender = true;        
         calendarForFilter = new Service_Calendar();
         calendarForFilter.initDateRange(3, null);   // quarter view
-		calendarMonthView = new Service_Calendar();
-		calendarMonthView.initDateRange(1, null);
+        calendarMonthView = new Service_Calendar();
+        calendarMonthView.initDateRange(1, null);
         currentQtr = calendarForFilter.fiscalQuarter;
-		currentMth = calendarMonthView.fiscalMonth;
-		quarterShift = 0;
-		monthShift = 0;
+        currentMth = calendarMonthView.fiscalMonth;
+        quarterShift = 0;
+        monthShift = 0;
         detailId = null;
         expandFilter = false;
         initTimePeriods();
     }
 
     private void initCalendarView(){
-    	showThemeSelector = false;
+        showThemeSelector = false;
         salesDriversToShow = new list<String>();
         programMap = new map<String, list<map<String, String>>>();
         months       = new list<map<String, String>>();
@@ -312,10 +316,10 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
 
         try {
             calendarItem = Service_API.getMulticulturalCalendarItem(detailId, selectedThemes());
-        	if(Service_API.getSectionTheme() != calendarItem.classification__c && calendarItem.classification__c != 'Mixed'){
-				Service_API.setUserSiteTheme(calendarItem.classification__c, false);
-				siteTheme = calendarItem.classification__c;
-			}
+            if(Service_API.getSectionTheme() != calendarItem.classification__c && calendarItem.classification__c != 'Mixed'){
+                Service_API.setUserSiteTheme(calendarItem.classification__c, false);
+                siteTheme = calendarItem.classification__c;
+            }
             dateDescription = ''+calendarItem.Start_Date__c.format()+' - '+calendarItem.End_Date__c.format();
             salesDriverDescription = ''+calendarItem.Sales_Channel__c;
             description = calendarItem.Description__c==null?calendarItem.Description__c:calendarItem.Description__c.replaceAll('\n','<br/>');
@@ -328,48 +332,56 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
             
             List<string> folderNames = new List<string>();
             
-	    	list<Sections__c> sectionTabs = Service_API.getSectionTabs(CONSTANT.MULTICULTURAL);
-	    	for(Sections__c s : sectionTabs ){
-	    		if(currentSection != null && currentSection != '' && s.Parent_Tab__c == currentSection && s.Sales_Driver__c == calendarItem.Sales_Channel__c){
-	    			folderNames.add(s.Tab__c);
-	    		}
-	    	}
-        	
+              // START : Changed for TA1522 : Siddharth
+            list<Sections__c> sectionTabs = Service_API.getSectionTabs(CONSTANT.MULTICULTURAL,calendarItem.classification__c);
+            // End : Changed for TA1522 : Siddharth
+            
+            for(Sections__c s : sectionTabs ){
+                if(currentSection != null && currentSection != '' && s.Parent_Tab__c == currentSection && s.Sales_Driver__c == calendarItem.Sales_Channel__c){
+                    folderNames.add(s.Tab__c);
+                }
+            }
+            
             for(String folder : folderNames){
                 detailsMapOrder.add(folder);
                 detailsMap.put(folder, new List<AggregateResult>() );
                 detailsMapParser.put(folder,folder.replaceAll('[^a-zA-Z0-9]', ''));
                 detailsMapSize.put(folder, 0);
             }
-			Set<ID> brandIdsSet = Service_API.getAllContentBrandIDs(CONSTANT.MULTICULTURAL);
+             // START : Changed for TA1522 : Siddharth
+            Set<ID> brandIdsSet = Service_API.getAllContentBrandIDs(CONSTANT.MULTICULTURAL,calendarItem.classification__c);
+            // End : Changed for TA1522 : Siddharth
+            
             if(!folderNames.isEmpty() && !brandIdsSet.isEmpty()){
                 String foldersNamesString = IdListToString(folderNames);
-		        String brandIdsString = IdSetToString(brandIdsSet);
-		       
-		        //
+                String brandIdsString = IdSetToString(brandIdsSet);
+               
+                //
+                // START : Changed for TA1522 : Siddharth
                 String queryString = 'SELECT Sub_Category__c, Sub_Sub_Category__c, content_description__r.is_video__c is_video, content_description__r.video_id__c video_id, content_description__r.Title__c title, content_description__r.Description__c description, content_description__r.Content_Version_Id__c cvid, content_description__r.filetype__c filetype, content_description__r.Preview_Available__c previewAvailable, content_description__r.Preview_Id__c previewId, content_description__r.Content_Version_Id_Low__c cvidlow, content_description__r.filesize__c filesize, content_description__r.filesize_low__c filesize_low, max(content_description__r.Uploaded_date__c) createdDate, content_description__r.image_resolution__c imageRes FROM content_property__c' + 
-                	+' WHERE content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') and category__c=\''+Constant.MULTICULTURAL+'\' and Sub_Category__c in ('+foldersNamesString+') AND content_description__r.Content_Id__c in ('+brandIdsString+') AND Calendar__c=\''+detailId+'\' '
-                	+' GROUP BY Sub_Category__c, Sub_Sub_Category__c, content_description__r.is_video__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.Content_Version_Id_Low__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.image_resolution__c  '+ 
-                	+' ORDER BY Sub_Sub_Category__c, content_description__r.Description__c ASC limit 1000';
-
-				isNewContent = false;
+                    +' WHERE content_description__r.Classification__c includes (\''+calendarItem.classification__c+'\') and category__c=\''+Constant.MULTICULTURAL+'\' and Sub_Category__c in ('+foldersNamesString+') AND content_description__r.Content_Id__c in ('+brandIdsString+') AND Calendar__c=\''+detailId+'\' '
+                    +' GROUP BY Sub_Category__c, Sub_Sub_Category__c, content_description__r.is_video__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.Content_Version_Id_Low__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.image_resolution__c  '+ 
+                    +' ORDER BY Sub_Sub_Category__c, content_description__r.Description__c ASC limit 1000';
+                // End : Changed for TA1522 : Siddharth
+                    
+                isNewContent = false;
                 List<AggregateResult> tmpList = database.query(queryString);
                 for(AggregateResult ar : tmpList){
                     string fileId = (string)ar.get('Sub_Category__c');
-	                String dateString = String.valueOf(ar.get('createdDate'));
-	                DateTime itemTime = datetime.valueOf(dateString);
-	                if(lastLoginDate < itemTime){
-	                    isNewContent = true;
-	                }                       
+                    String dateString = String.valueOf(ar.get('createdDate'));
+                    DateTime itemTime = datetime.valueOf(dateString);
+                    if(lastLoginDate < itemTime){
+                        isNewContent = true;
+                    }                       
                     if(detailsMap.containsKey(fileId)){
-	                    List<AggregateResult> tempList = detailsMap.get(fileId);
+                        List<AggregateResult> tempList = detailsMap.get(fileId);
                         tempList.add(ar);
                         detailsMap.put(fileId, tempList);
-                       	detailsMapSize.put(fileId, tempList.size());
+                        detailsMapSize.put(fileId, tempList.size());
                     }
                 }
             }
-			expandFilter = false;	
+            expandFilter = false;   
             prepareBreadcrumbs();
         } catch( Exception err ){
             detailId = null;
@@ -392,7 +404,7 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
         detailsMapParser = new MAP<string,string>();
         detailsMapOrder = new list<String>();
         prepareBreadcrumbs();
-		expandFilter = false;	
+        expandFilter = false;   
     }
     
     // **********************
@@ -401,27 +413,27 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
     
     public void showContent() {
         try{
-			// need to add missing css and update "filter code"
+            // need to add missing css and update "filter code"
             filterByBrand = false;
             filterByTime = false;
             isCalendar = false;
             
-        	if(currentSection == null || currentSection == ''){
-        		currentSection = sectionFolders.get(0);
-        	}
-        	
-        	if(currentSection == CONSTANT.MULTICULTURAL_PROGRAMS){
-	            filterByBrand = false;
-	            filterByTime = false;
-				isCalendar = true;
-				initCalendarView();
-        	} else {
-	            filterByBrand = true;
-	            filterByTime = true;
-            	isCalendar = false;        		
-        		initStandardView();
-        	}
-        	
+            if(currentSection == null || currentSection == ''){
+                currentSection = sectionFolders.get(0);
+            }
+            
+            if(currentSection == CONSTANT.MULTICULTURAL_PROGRAMS){
+                filterByBrand = false;
+                filterByTime = false;
+                isCalendar = true;
+                initCalendarView();
+            } else {
+                filterByBrand = true;
+                filterByTime = true;
+                isCalendar = false;             
+                initStandardView();
+            }
+            
             if(!filterByBrand){ // no brand filters
                 selectedBrandIds = '';
                 parentId = '';
@@ -432,23 +444,23 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
                 brandNumberDescription = 'All';
                 parentBrandList = Service_API.getBrandsForFilters(new list<String>());
                 /**by maciek**/
-				Set<Id> setOfBrands = new Set<Id>();
-				Integer i = 0;
-				for(Brand__c brand : parentBrandList)
-				{
-					setOfBrands.add(brand.id);
-					i++;
-					if(i == brandBoxToRender)
-					{
-						break;
-					}
-				}
-				
-				if(i > 0){
-					additionalBrandList = Service_API.getAdditionalBrandsForFilters(setOfBrands, new list<String>());
-				}
-				  
-				/*************/
+                Set<Id> setOfBrands = new Set<Id>();
+                Integer i = 0;
+                for(Brand__c brand : parentBrandList)
+                {
+                    setOfBrands.add(brand.id);
+                    i++;
+                    if(i == brandBoxToRender)
+                    {
+                        break;
+                    }
+                }
+                
+                if(i > 0){
+                    additionalBrandList = Service_API.getAdditionalBrandsForFilters(setOfBrands, new list<String>());
+                }
+                  
+                /*************/
                 
                 
                 childBrandList = new list<Brand__c>();
@@ -461,7 +473,7 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
             if(!filterByBrand && !filterByBrand){ // no filters
                 isFilterSet = false;
             }
-			expandFilter = false;	
+            expandFilter = false;   
             initPager();
             refreshPageContent();
             prepareBreadcrumbs();
@@ -478,7 +490,7 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
         initPager();
         prepareBreadcrumbs();
         refreshPageContent();
-		expandFilter = false;	   
+        expandFilter = false;      
     }    
 
     // switch subSection
@@ -487,107 +499,107 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
         initPager();
         prepareBreadcrumbs();
         refreshPageContent();       
-		expandFilter = false;	   
+        expandFilter = false;      
     } 
     
     public void switchToMonthView(){
-    	monthOrQuarterRender = false;
-    	initTimePeriods();
-    	selectedTimePeriods = '';
-		selectedTimePeriodsList = new List<Integer>();
-		dateRangeDescription = 'All Time Periods';
-	    refreshPageContent();
+        monthOrQuarterRender = false;
+        initTimePeriods();
+        selectedTimePeriods = '';
+        selectedTimePeriodsList = new List<Integer>();
+        dateRangeDescription = 'All Time Periods';
+        refreshPageContent();
     }
     
     public void switchToQuarterView(){
-    	monthOrQuarterRender = true;
-    	selectedTimePeriods = '';
-		selectedTimePeriodsList = new List<Integer>();
-		dateRangeDescription = 'All Time Periods';
-	    initTimePeriods();
-	    refreshPageContent();
+        monthOrQuarterRender = true;
+        selectedTimePeriods = '';
+        selectedTimePeriodsList = new List<Integer>();
+        dateRangeDescription = 'All Time Periods';
+        initTimePeriods();
+        refreshPageContent();
     }
     
     public void renderAsList() {
         displayAsList = true; // other action if needed
         prepareBreadcrumbs();   
-		expandFilter = false;	   
+        expandFilter = false;      
     }   
 
     public void renderAsBox() {
         displayAsList = false; // other action if needed        
         prepareBreadcrumbs();
-		expandFilter = false;	   
+        expandFilter = false;      
     }
 
     public void renderAsListSlider() {
         displayAsList = true; // other action if needed
         prepareBreadcrumbs();   
-		expandFilter = false;	   
+        expandFilter = false;      
     }  
     public void renderAsBoxSlider() {
         displayAsList = false; // other action if needed        
         prepareBreadcrumbs();
-		expandFilter = false;	   
+        expandFilter = false;      
     }
 
     // init time periods for time filter
     private void initTimePeriods() {
-		quarterViewsList = Service_UserInput.getQuarterOptions(calendarForFilter.fiscalQuarter, calendarForFilter.fiscalYear, calendarForFilter.startDate);
-   		monthViewsList = Service_UserInput.getMonthsOptions(calendarMonthView);
+        quarterViewsList = Service_UserInput.getQuarterOptions(calendarForFilter.fiscalQuarter, calendarForFilter.fiscalYear, calendarForFilter.startDate);
+        monthViewsList = Service_UserInput.getMonthsOptions(calendarMonthView);
     }
 
     // filter: next time periods    
     public void nextPeriod() {
-		if(monthOrQuarterRender){
-	        calendarForFilter.incrementQuarter(1);
-	        quarterShift++;
-	        selectedTimePeriods = '';
-	        validselectedTimePeriodsList();
-	        initTimePeriods();
-	        refreshPageContent();      
-			expandFilter = false;
-		} else {//month
-			calendarMonthView.incrementMonth(3);
-			monthShift = monthShift + 3;
-			selectedTimePeriods = '';
-			validselectedTimePeriodsList();
-	        initTimePeriods();
-	        refreshPageContent();
-			expandFilter = false;
-		}
+        if(monthOrQuarterRender){
+            calendarForFilter.incrementQuarter(1);
+            quarterShift++;
+            selectedTimePeriods = '';
+            validselectedTimePeriodsList();
+            initTimePeriods();
+            refreshPageContent();      
+            expandFilter = false;
+        } else {//month
+            calendarMonthView.incrementMonth(3);
+            monthShift = monthShift + 3;
+            selectedTimePeriods = '';
+            validselectedTimePeriodsList();
+            initTimePeriods();
+            refreshPageContent();
+            expandFilter = false;
+        }
     }   
 
     // filter: prev time periods
     public void previousPeriod() {
-		if(monthOrQuarterRender){
-	        calendarForFilter.incrementQuarter(-1);
-	        quarterShift--;
-	        selectedTimePeriods = '';
-	        validselectedTimePeriodsList();
-	        initTimePeriods();
-	        refreshPageContent();      
-			expandFilter = false;
-		} else {
-			calendarMonthView.incrementMonth(-3);
-			monthShift = monthShift - 3;
-			selectedTimePeriods = '';
-			validselectedTimePeriodsList();
-	        initTimePeriods();
-	        refreshPageContent();
-			expandFilter = false;
-		} 
+        if(monthOrQuarterRender){
+            calendarForFilter.incrementQuarter(-1);
+            quarterShift--;
+            selectedTimePeriods = '';
+            validselectedTimePeriodsList();
+            initTimePeriods();
+            refreshPageContent();      
+            expandFilter = false;
+        } else {
+            calendarMonthView.incrementMonth(-3);
+            monthShift = monthShift - 3;
+            selectedTimePeriods = '';
+            validselectedTimePeriodsList();
+            initTimePeriods();
+            refreshPageContent();
+            expandFilter = false;
+        } 
     }
 
     // reset filters
     public void resetFilter(){
         isFilterSet = false;
         if(siteTheme != 'Wine'){
-   			selectedPortfolio = true;
+            selectedPortfolio = true;
         } else {
-        	selectedPortfolio = false;
+            selectedPortfolio = false;
         }
-		selectedRTS = false;
+        selectedRTS = false;
         selectedBrandIds = '';
         parentId = '';
         selectedTimePeriods = '';
@@ -600,29 +612,29 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
         dateRangeDescription = 'All Time Periods';
         parentBrandList = Service_API.getBrandsForFilters(new list<String>());        
         /**by maciek**/
-		Set<Id> setOfBrands = new Set<Id>();
-		Integer i = 0;
-		for(Brand__c brand : parentBrandList)
-		{
-			setOfBrands.add(brand.id);
-			i++;
-			if(i == brandBoxToRender)
-			{
-				break;
-			}
-		}
-		
-		if(i > 0){
-			additionalBrandList = Service_API.getAdditionalBrandsForFilters(setOfBrands, new list<String>());
-		}
-		  
-		/*************/
+        Set<Id> setOfBrands = new Set<Id>();
+        Integer i = 0;
+        for(Brand__c brand : parentBrandList)
+        {
+            setOfBrands.add(brand.id);
+            i++;
+            if(i == brandBoxToRender)
+            {
+                break;
+            }
+        }
+        
+        if(i > 0){
+            additionalBrandList = Service_API.getAdditionalBrandsForFilters(setOfBrands, new list<String>());
+        }
+          
+        /*************/
         
         
         childBrandList = new list<Brand__c>();
         initPager();
         refreshPageContent();
-		expandFilter = true;
+        expandFilter = true;
     }
     
     // update filter variant brands
@@ -638,14 +650,14 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
             selectAllVariants = false;
             parentId = '';  
         }
-		expandFilter = false;	   
+        expandFilter = false;      
     }
     
     // clear selected variant brands
     public void clearVariantBrandsSelected() {
         selectedChildBrandIds = '';
         selectAllVariants = false;  
-		expandFilter = false;	   
+        expandFilter = false;      
     }
     
     // clear variant brand filter list -> more then one parent brand selected
@@ -654,7 +666,7 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
         selectedChildBrandIds = '';
         parentId = '';
         selectAllVariants = false;      
-		expandFilter = false;	   
+        expandFilter = false;      
     }
     
     // set filter
@@ -723,7 +735,7 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
         }
         initPager();
         refreshPageContent();
-		expandFilter = false;	   
+        expandFilter = false;      
     }        
 
     // refresh box/list content
@@ -758,196 +770,196 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
             isExport = false;
             String queryString = '';
             try{
-				content = new List<AggregateResult>();
-				Set<ID> brandIdsSet = new Set<Id>();
-				
-				Boolean isFiltering = false;
-				// get content document ids		
-				if(!selectedBrandIdsList.isEmpty()) {
-					isFiltering = true;
-					brandIdsSet = Service_API.getContentBrandIDs(selectedBrandIdsList,CONSTANT.MULTICULTURAL, true);
-				} else {
-					isFiltering = false;
-					List<Id> currentBrandIds = new List<ID>();
-					for(Brand__c brand : parentBrandList){
-						currentBrandIds.add(brand.id);
-					}
-					brandIdsSet = Service_API.getContentBrandIDs(currentBrandIds,CONSTANT.MULTICULTURAL, false);
-				}
-		
-				String quarterViewSelect = '';
-				
-				dateRangeDescription = 'All Time Periods';	
-		
-				validselectedTimePeriodsList();
-		
-				// no filers
-				if(selectedTimePeriodsList.isEmpty() && !selectedPortfolio && !selectedRTS && selectedBrandIdsList.isEmpty()){
-	                // setup default time period
-	                String orGlue = '';
-	                quarterViewSelect = ' and ( ';
-	                String[] tmpQuarters = new String[]{};
-	                Service_Calendar[] tmpData = new Service_Calendar[]{};
-	                if(monthOrQuarterRender){
-	                    for(Integer qtr=0; qtr<4; qtr++){
-	                        Service_Calendar subCalendar = new Service_Calendar();
-	                        subCalendar.initDateRange(3, null); // quarter view
-	                        subCalendar.incrementQuarter(qtr);
-	                        quarterViewSelect += orGlue + ' ( ';
-	                        quarterViewSelect += ' Start_Date__c <= '+datetime.newInstance(subCalendar.endDate, Time.newInstance(0,0,0,0)).format('yyyy-MM-dd')+' and End_Date__c >= '+datetime.newInstance(subCalendar.StartDate, Time.newInstance(0,0,0,0)).format('yyyy-MM-dd')+' ';
-	                        quarterViewSelect += ' ) ';
-	                        orGlue = ' or ';
-	                    }
-	                } else {
-	                    for(Integer qtr=0; qtr<12; qtr++){
-	                        Service_Calendar subCalendar = new Service_Calendar();
-	                        subCalendar.initDateRange(1, null); // month view
-	                        subCalendar.incrementMonth(qtr);
-	                        quarterViewSelect += orGlue + ' ( ';
-	                        quarterViewSelect += ' Start_Date__c <= '+datetime.newInstance(subCalendar.endDate, Time.newInstance(0,0,0,0)).format('yyyy-MM-dd')+' and End_Date__c >= '+datetime.newInstance(subCalendar.StartDate, Time.newInstance(0,0,0,0)).format('yyyy-MM-dd')+' ';
-	                        quarterViewSelect += ' ) ';
-	                        orGlue = ' or ';
-	                    }
-	                }               
-	                quarterViewSelect += ' ) '; 
-                }
-		
-				if(!selectedTimePeriodsList.isEmpty()){
-					String orGlue = '';
-					quarterViewSelect = ' and ( ';
-					String[] tmpQuarters = new String[]{};
-					Service_Calendar[] tmpData = new Service_Calendar[]{};
-					if(monthOrQuarterRender){
-						for(Integer qtr : selectedTimePeriodsList){
-							Service_Calendar subCalendar = new Service_Calendar();
-							subCalendar.initDateRange(3, null);	// quarter view
-							subCalendar.incrementQuarter(qtr + quarterShift);
-							quarterViewSelect += orGlue + ' ( ';
-							quarterViewSelect += ' Start_Date__c <= '+datetime.newInstance(subCalendar.endDate, Time.newInstance(0,0,0,0)).format('yyyy-MM-dd')+' and End_Date__c >= '+datetime.newInstance(subCalendar.StartDate, Time.newInstance(0,0,0,0)).format('yyyy-MM-dd')+' ';
-							quarterViewSelect += ' ) ';
-							orGlue = ' or ';
-							tmpQuarters.add(String.valueOf(subCalendar.fiscalQuarter));
-							tmpData.add(subCalendar);
-						}
-					} else {
-						for(Integer qtr : selectedTimePeriodsList){
-							Service_Calendar subCalendar = new Service_Calendar();
-							subCalendar.initDateRange(1, null);	// month view
-							subCalendar.incrementMonth(qtr + monthShift);
-							quarterViewSelect += orGlue + ' ( ';
-							quarterViewSelect += ' Start_Date__c <= '+datetime.newInstance(subCalendar.endDate, Time.newInstance(0,0,0,0)).format('yyyy-MM-dd')+' and End_Date__c >= '+datetime.newInstance(subCalendar.StartDate, Time.newInstance(0,0,0,0)).format('yyyy-MM-dd')+' ';
-							quarterViewSelect += ' ) ';
-							orGlue = ' or ';
-							tmpData.add(subCalendar);
-						}
-											
-					}
-					quarterViewSelect += ' ) ';
-					dateRangeDescription = '';
-					String glue = '';
-					if(monthOrQuarterRender){
-			            SelectValues__c[] svs = [SELECT SelectValue__c, SelectSubValue__c FROM SelectValues__c WHERE SelectSubValue__c in: tmpQuarters AND SelectName__c = 'QuarterView'];
-		                map<String,String> names = new map<String,String>();
-			            for (SelectValues__c sv:svs) {
-			            	names.put(sv.SelectSubValue__c, sv.SelectValue__c.toUpperCase());
-			            }
-						for (Service_Calendar sc : tmpData) {
-							dateRangeDescription += glue + names.get(String.valueOf(sc.fiscalQuarter)) + ' ' + sc.startDate.year() + ' (FY' + String.valueOf(sc.fiscalYear).substring(2,4)+')';
-							glue = ', ';
-						}
-					} else {
-						for (Service_Calendar sc : tmpData) {
-							dateRangeDescription += glue + getMonthName(sc.startDate.year(), sc.startDate.month()) + ' (FY' + String.valueOf(sc.fiscalYear).substring(2,4)+')';
-							glue = ', ';
-						}
-					}
-				}
-
-	
-				if(currentSection != '' && currentSection != null && !brandIdsSet.isEmpty()){ 
-					
-					String brandIdsString = IdSetToString(brandIdsSet);		
-		
-					queryString = ' SELECT Sub_Category__c, Sub_Sub_Category__c, Sub_Sub_Sub_Category__c, content_description__r.is_video__c is_video, content_description__r.video_id__c video_id, content_description__r.Title__c title, content_description__r.Description__c description, content_description__r.Content_Version_Id__c cvid, content_description__r.filetype__c filetype, content_description__r.Preview_Available__c previewAvailable, content_description__r.Preview_Id__c previewId, content_description__r.filesize__c filesize, content_description__r.filesize_low__c filesize_low, content_description__r.Content_Version_Id_Low__c cvidlow, max(content_description__r.Uploaded_date__c) createdDate, content_description__r.image_resolution__c imageRes  FROM content_property__c' +
-		 		 		          ' WHERE content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') and Category__c = \''+CONSTANT.MULTICULTURAL+'\' AND Sub_Category__c in (\''+currentSection+'\') ';
-					if(currentSubSection != '' && currentSubSection != null){
-						queryString += ' AND Sub_Sub_Category__c in (\''+currentSubSection+'\') ';
-					}
-					
-					list<String> cl = new list<String>();				
-				
-					if(!selectedPortfolio && !selectedRTS && !brandIdsSet.isEmpty()){
-						if(brandIdsString != null && brandIdsString != ''){
-							cl.add(' ( content_description__r.Content_Id__c in ('+brandIdsString+') ) ');
-						}
-						if(siteTheme != 'Wine'){
-							List<Brand__c> rtsBrandList = Service_API.getRTSBrands();
-							List<ID> selectedRTSBrandIdsList = new List<ID>();
-							for(Brand__c rtsBrand : rtsBrandList){
-								selectedRTSBrandIdsList.add(rtsBrand.id);
-							}
-							set<Id> rtsBrandIdsSet = Service_API.getContentBrandIDs(selectedRTSBrandIdsList,CONSTANT.MULTICULTURAL, true);
-							if(rtsBrandIdsSet.size() != 0){
-								String rtsBrandIdsString = IdSetToString(rtsBrandIdsSet);
-								cl.add(' (( content_description__r.Content_Id__c in ('+rtsBrandIdsString+') ) )');
-							}
-							cl.add(' ( content_description__r.RTS__c = true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ');
-							cl.add(' ( content_description__r.Portfolio__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ');
-						}	
-					}
-
-					if(!selectedBrandIdsList.isEmpty()){
-						if(brandIdsString != null && brandIdsString != ''){
-							cl.add(' (( content_description__r.Content_Id__c in ('+brandIdsString+') ) )');
-						}
-					}
-
-		            if (selectedPortfolio && siteTheme != 'Wine') {
-						cl.add(' ( content_description__r.Portfolio__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ');
-		            }
-					
-					if (selectedRTS && siteTheme != 'Wine') {
-						List<Brand__c> rtsBrandList = Service_API.getRTSBrands();
-						List<ID> selectedRTSBrandIdsList = new List<ID>();
-						for(Brand__c rtsBrand : rtsBrandList){
-							selectedRTSBrandIdsList.add(rtsBrand.id);
-						}
-						set<Id> rtsBrandIdsSet = Service_API.getContentBrandIDs(selectedRTSBrandIdsList,CONSTANT.MULTICULTURAL, true);
-						if(rtsBrandIdsSet.size() != 0){
-							String rtsBrandIdsString = IdSetToString(rtsBrandIdsSet);
-							cl.add(' (( content_description__r.Content_Id__c in ('+rtsBrandIdsString+') ) )');
-						}
-						cl.add(' ( content_description__r.RTS__c = true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ');						
-					}
-
-					if(cl.size() > 0){
-						String cGlue = '';
-						queryString+=' AND (';
-						for(String c : cl){
-							queryString += cGlue + ' ' + c;
-							cGlue = ' OR ';
-						}
-						queryString+=')';
-					}
-
-					queryString += quarterViewSelect; 
-				    queryString += ' GROUP BY Sub_Category__c, Sub_Sub_Category__c, Sub_Sub_Sub_Category__c, content_description__r.is_video__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.Content_Version_Id_Low__c, content_description__r.image_resolution__c  '+ 
-				        		  +' ORDER BY Sub_Sub_Sub_Category__c, content_description__r.Description__c ASC';
+                content = new List<AggregateResult>();
+                Set<ID> brandIdsSet = new Set<Id>();
                 
-					if(queryString != null && queryString != ''){
-					    content = database.query(queryString);
-						numberOfItems = Integer.valueOf(content.size());
-						content = getRequestedPage(content);				
-					} else {
-						numberOfItems = 0;			
-					}
-				} else {
-					numberOfItems = 0;			
-				}
-				
-			currentBasketIds = Service_Basket.getBasketIds();
-			currentFollowIds = Service_Notification.getFollowIds();
-			
+                Boolean isFiltering = false;
+                // get content document ids     
+                if(!selectedBrandIdsList.isEmpty()) {
+                    isFiltering = true;
+                    brandIdsSet = Service_API.getContentBrandIDs(selectedBrandIdsList,CONSTANT.MULTICULTURAL, true);
+                } else {
+                    isFiltering = false;
+                    List<Id> currentBrandIds = new List<ID>();
+                    for(Brand__c brand : parentBrandList){
+                        currentBrandIds.add(brand.id);
+                    }
+                    brandIdsSet = Service_API.getContentBrandIDs(currentBrandIds,CONSTANT.MULTICULTURAL, false);
+                }
+        
+                String quarterViewSelect = '';
+                
+                dateRangeDescription = 'All Time Periods';  
+        
+                validselectedTimePeriodsList();
+        
+                // no filers
+                if(selectedTimePeriodsList.isEmpty() && !selectedPortfolio && !selectedRTS && selectedBrandIdsList.isEmpty()){
+                    // setup default time period
+                    String orGlue = '';
+                    quarterViewSelect = ' and ( ';
+                    String[] tmpQuarters = new String[]{};
+                    Service_Calendar[] tmpData = new Service_Calendar[]{};
+                    if(monthOrQuarterRender){
+                        for(Integer qtr=0; qtr<4; qtr++){
+                            Service_Calendar subCalendar = new Service_Calendar();
+                            subCalendar.initDateRange(3, null); // quarter view
+                            subCalendar.incrementQuarter(qtr);
+                            quarterViewSelect += orGlue + ' ( ';
+                            quarterViewSelect += ' Start_Date__c <= '+datetime.newInstance(subCalendar.endDate, Time.newInstance(0,0,0,0)).format('yyyy-MM-dd')+' and End_Date__c >= '+datetime.newInstance(subCalendar.StartDate, Time.newInstance(0,0,0,0)).format('yyyy-MM-dd')+' ';
+                            quarterViewSelect += ' ) ';
+                            orGlue = ' or ';
+                        }
+                    } else {
+                        for(Integer qtr=0; qtr<12; qtr++){
+                            Service_Calendar subCalendar = new Service_Calendar();
+                            subCalendar.initDateRange(1, null); // month view
+                            subCalendar.incrementMonth(qtr);
+                            quarterViewSelect += orGlue + ' ( ';
+                            quarterViewSelect += ' Start_Date__c <= '+datetime.newInstance(subCalendar.endDate, Time.newInstance(0,0,0,0)).format('yyyy-MM-dd')+' and End_Date__c >= '+datetime.newInstance(subCalendar.StartDate, Time.newInstance(0,0,0,0)).format('yyyy-MM-dd')+' ';
+                            quarterViewSelect += ' ) ';
+                            orGlue = ' or ';
+                        }
+                    }               
+                    quarterViewSelect += ' ) '; 
+                }
+        
+                if(!selectedTimePeriodsList.isEmpty()){
+                    String orGlue = '';
+                    quarterViewSelect = ' and ( ';
+                    String[] tmpQuarters = new String[]{};
+                    Service_Calendar[] tmpData = new Service_Calendar[]{};
+                    if(monthOrQuarterRender){
+                        for(Integer qtr : selectedTimePeriodsList){
+                            Service_Calendar subCalendar = new Service_Calendar();
+                            subCalendar.initDateRange(3, null); // quarter view
+                            subCalendar.incrementQuarter(qtr + quarterShift);
+                            quarterViewSelect += orGlue + ' ( ';
+                            quarterViewSelect += ' Start_Date__c <= '+datetime.newInstance(subCalendar.endDate, Time.newInstance(0,0,0,0)).format('yyyy-MM-dd')+' and End_Date__c >= '+datetime.newInstance(subCalendar.StartDate, Time.newInstance(0,0,0,0)).format('yyyy-MM-dd')+' ';
+                            quarterViewSelect += ' ) ';
+                            orGlue = ' or ';
+                            tmpQuarters.add(String.valueOf(subCalendar.fiscalQuarter));
+                            tmpData.add(subCalendar);
+                        }
+                    } else {
+                        for(Integer qtr : selectedTimePeriodsList){
+                            Service_Calendar subCalendar = new Service_Calendar();
+                            subCalendar.initDateRange(1, null); // month view
+                            subCalendar.incrementMonth(qtr + monthShift);
+                            quarterViewSelect += orGlue + ' ( ';
+                            quarterViewSelect += ' Start_Date__c <= '+datetime.newInstance(subCalendar.endDate, Time.newInstance(0,0,0,0)).format('yyyy-MM-dd')+' and End_Date__c >= '+datetime.newInstance(subCalendar.StartDate, Time.newInstance(0,0,0,0)).format('yyyy-MM-dd')+' ';
+                            quarterViewSelect += ' ) ';
+                            orGlue = ' or ';
+                            tmpData.add(subCalendar);
+                        }
+                                            
+                    }
+                    quarterViewSelect += ' ) ';
+                    dateRangeDescription = '';
+                    String glue = '';
+                    if(monthOrQuarterRender){
+                        SelectValues__c[] svs = [SELECT SelectValue__c, SelectSubValue__c FROM SelectValues__c WHERE SelectSubValue__c in: tmpQuarters AND SelectName__c = 'QuarterView'];
+                        map<String,String> names = new map<String,String>();
+                        for (SelectValues__c sv:svs) {
+                            names.put(sv.SelectSubValue__c, sv.SelectValue__c.toUpperCase());
+                        }
+                        for (Service_Calendar sc : tmpData) {
+                            dateRangeDescription += glue + names.get(String.valueOf(sc.fiscalQuarter)) + ' ' + sc.startDate.year() + ' (FY' + String.valueOf(sc.fiscalYear).substring(2,4)+')';
+                            glue = ', ';
+                        }
+                    } else {
+                        for (Service_Calendar sc : tmpData) {
+                            dateRangeDescription += glue + getMonthName(sc.startDate.year(), sc.startDate.month()) + ' (FY' + String.valueOf(sc.fiscalYear).substring(2,4)+')';
+                            glue = ', ';
+                        }
+                    }
+                }
+
+    
+                if(currentSection != '' && currentSection != null && !brandIdsSet.isEmpty()){ 
+                    
+                    String brandIdsString = IdSetToString(brandIdsSet);     
+        
+                    queryString = ' SELECT Sub_Category__c, Sub_Sub_Category__c, Sub_Sub_Sub_Category__c, content_description__r.is_video__c is_video, content_description__r.video_id__c video_id, content_description__r.Title__c title, content_description__r.Description__c description, content_description__r.Content_Version_Id__c cvid, content_description__r.filetype__c filetype, content_description__r.Preview_Available__c previewAvailable, content_description__r.Preview_Id__c previewId, content_description__r.filesize__c filesize, content_description__r.filesize_low__c filesize_low, content_description__r.Content_Version_Id_Low__c cvidlow, max(content_description__r.Uploaded_date__c) createdDate, content_description__r.image_resolution__c imageRes  FROM content_property__c' +
+                                  ' WHERE content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') and Category__c = \''+CONSTANT.MULTICULTURAL+'\' AND Sub_Category__c in (\''+currentSection+'\') ';
+                    if(currentSubSection != '' && currentSubSection != null){
+                        queryString += ' AND Sub_Sub_Category__c in (\''+currentSubSection+'\') ';
+                    }
+                    
+                    list<String> cl = new list<String>();               
+                
+                    if(!selectedPortfolio && !selectedRTS && !brandIdsSet.isEmpty()){
+                        if(brandIdsString != null && brandIdsString != ''){
+                            cl.add(' ( content_description__r.Content_Id__c in ('+brandIdsString+') ) ');
+                        }
+                        if(siteTheme != 'Wine'){
+                            List<Brand__c> rtsBrandList = Service_API.getRTSBrands();
+                            List<ID> selectedRTSBrandIdsList = new List<ID>();
+                            for(Brand__c rtsBrand : rtsBrandList){
+                                selectedRTSBrandIdsList.add(rtsBrand.id);
+                            }
+                            set<Id> rtsBrandIdsSet = Service_API.getContentBrandIDs(selectedRTSBrandIdsList,CONSTANT.MULTICULTURAL, true);
+                            if(rtsBrandIdsSet.size() != 0){
+                                String rtsBrandIdsString = IdSetToString(rtsBrandIdsSet);
+                                cl.add(' (( content_description__r.Content_Id__c in ('+rtsBrandIdsString+') ) )');
+                            }
+                            cl.add(' ( content_description__r.RTS__c = true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ');
+                            cl.add(' ( content_description__r.Portfolio__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ');
+                        }   
+                    }
+
+                    if(!selectedBrandIdsList.isEmpty()){
+                        if(brandIdsString != null && brandIdsString != ''){
+                            cl.add(' (( content_description__r.Content_Id__c in ('+brandIdsString+') ) )');
+                        }
+                    }
+
+                    if (selectedPortfolio && siteTheme != 'Wine') {
+                        cl.add(' ( content_description__r.Portfolio__c=true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ');
+                    }
+                    
+                    if (selectedRTS && siteTheme != 'Wine') {
+                        List<Brand__c> rtsBrandList = Service_API.getRTSBrands();
+                        List<ID> selectedRTSBrandIdsList = new List<ID>();
+                        for(Brand__c rtsBrand : rtsBrandList){
+                            selectedRTSBrandIdsList.add(rtsBrand.id);
+                        }
+                        set<Id> rtsBrandIdsSet = Service_API.getContentBrandIDs(selectedRTSBrandIdsList,CONSTANT.MULTICULTURAL, true);
+                        if(rtsBrandIdsSet.size() != 0){
+                            String rtsBrandIdsString = IdSetToString(rtsBrandIdsSet);
+                            cl.add(' (( content_description__r.Content_Id__c in ('+rtsBrandIdsString+') ) )');
+                        }
+                        cl.add(' ( content_description__r.RTS__c = true and content_description__r.Classification__c includes (\''+Service_API.getSectionTheme()+'\') ) ');                     
+                    }
+
+                    if(cl.size() > 0){
+                        String cGlue = '';
+                        queryString+=' AND (';
+                        for(String c : cl){
+                            queryString += cGlue + ' ' + c;
+                            cGlue = ' OR ';
+                        }
+                        queryString+=')';
+                    }
+
+                    queryString += quarterViewSelect; 
+                    queryString += ' GROUP BY Sub_Category__c, Sub_Sub_Category__c, Sub_Sub_Sub_Category__c, content_description__r.is_video__c, content_description__r.video_id__c, content_description__r.Title__c, content_description__r.Description__c, content_description__r.Content_Version_Id__c, content_description__r.filetype__c, content_description__r.Preview_Available__c, content_description__r.Preview_Id__c, content_description__r.filesize__c, content_description__r.filesize_low__c, content_description__r.Content_Version_Id_Low__c, content_description__r.image_resolution__c  '+ 
+                                  +' ORDER BY Sub_Sub_Sub_Category__c, content_description__r.Description__c ASC';
+                
+                    if(queryString != null && queryString != ''){
+                        content = database.query(queryString);
+                        numberOfItems = Integer.valueOf(content.size());
+                        content = getRequestedPage(content);                
+                    } else {
+                        numberOfItems = 0;          
+                    }
+                } else {
+                    numberOfItems = 0;          
+                }
+                
+            currentBasketIds = Service_Basket.getBasketIds();
+            currentFollowIds = Service_Notification.getFollowIds();
+            
             } catch( Exception err ){
                 ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to load content.'));
                 return;
@@ -968,14 +980,14 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
             currentPageUrl += '?displayas=box';
         }
         
- 		if(currentSection != null && currentSection != ''){
-			currentPageUrl += '&section='+EncodingUtil.urlEncode(currentSection,'UTF-8');
-        	if(currentSubSection != null && currentSubSection != ''){
-        		currentPageUrl += '&subsection='+EncodingUtil.urlEncode(currentSubSection,'UTF-8');
-        	}
-        	addBreadcrumbItem(currentPageUrl, currentSection);
- 		}
- 		
+        if(currentSection != null && currentSection != ''){
+            currentPageUrl += '&section='+EncodingUtil.urlEncode(currentSection,'UTF-8');
+            if(currentSubSection != null && currentSubSection != ''){
+                currentPageUrl += '&subsection='+EncodingUtil.urlEncode(currentSubSection,'UTF-8');
+            }
+            addBreadcrumbItem(currentPageUrl, currentSection);
+        }
+        
         if(detailId != null && detailId != ''){
             addBreadcrumbItem('#', calendarItem.name);
         }
@@ -983,43 +995,43 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
 
     // validation: quarter list
     private List<Integer> validselectedTimePeriodsList(){
-		List<String> quarterListTemp = new List<String>();
-		selectedTimePeriodsList = new List<Integer>();
-		if(selectedTimePeriods == null || selectedTimePeriods == ''){
-			selectedTimePeriods = '';
-			return selectedTimePeriodsList;
-		}
-		quarterListTemp = selectedTimePeriods.split(',');
-	    if(monthOrQuarterRender){
-		    for(String selectedQtr : quarterListTemp){
-		    	if(selectedQtr != null && selectedQtr != ''){
-		    		Integer tempQtr = Integer.valueOf(selectedQtr);
-		    		if(tempQtr >= 0 && tempQtr <= 3){
-		    			selectedTimePeriodsList.add(tempQtr);
-		    		}
-		    	}
-		    }
-	    } else {
-	    	for(String selectedQtr : quarterListTemp){
-		    	if(selectedQtr != null && selectedQtr != ''){
-		    		Integer tempQtr = Integer.valueOf(selectedQtr);
-		    		if(tempQtr >= 0 && tempQtr <= 11){
-		    			selectedTimePeriodsList.add(tempQtr);
-		    		}
-		    	}
-		    }
-	    }
+        List<String> quarterListTemp = new List<String>();
+        selectedTimePeriodsList = new List<Integer>();
+        if(selectedTimePeriods == null || selectedTimePeriods == ''){
+            selectedTimePeriods = '';
+            return selectedTimePeriodsList;
+        }
+        quarterListTemp = selectedTimePeriods.split(',');
+        if(monthOrQuarterRender){
+            for(String selectedQtr : quarterListTemp){
+                if(selectedQtr != null && selectedQtr != ''){
+                    Integer tempQtr = Integer.valueOf(selectedQtr);
+                    if(tempQtr >= 0 && tempQtr <= 3){
+                        selectedTimePeriodsList.add(tempQtr);
+                    }
+                }
+            }
+        } else {
+            for(String selectedQtr : quarterListTemp){
+                if(selectedQtr != null && selectedQtr != ''){
+                    Integer tempQtr = Integer.valueOf(selectedQtr);
+                    if(tempQtr >= 0 && tempQtr <= 11){
+                        selectedTimePeriodsList.add(tempQtr);
+                    }
+                }
+            }
+        }
 
-    	String validselectedTimePeriodsString = '';
-    	String glue = '';
-		for (Integer qtr : selectedTimePeriodsList) {         
-			validselectedTimePeriodsString += glue + qtr;
-			glue = ',';
-		}    	
-	    
-	    selectedTimePeriods =  ',' + validselectedTimePeriodsString + ',';
-	    return selectedTimePeriodsList;
-	}    
+        String validselectedTimePeriodsString = '';
+        String glue = '';
+        for (Integer qtr : selectedTimePeriodsList) {         
+            validselectedTimePeriodsString += glue + qtr;
+            glue = ',';
+        }       
+        
+        selectedTimePeriods =  ',' + validselectedTimePeriodsString + ',';
+        return selectedTimePeriodsList;
+    }    
 
     // *********************
     // CALENDAR VIEW METHODS
@@ -1028,13 +1040,13 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
     public void nextMonth() {
         calendarForView.incrementDates(timePeriod);
         refreshPageContent();      
-		expandFilter = false;	   
+        expandFilter = false;      
     }   
      
     public void previousMonth() {
         calendarForView.incrementDates(-timePeriod);
         refreshPageContent();      
-		expandFilter = false;	   
+        expandFilter = false;      
     }   
 
     public List<SelectOption> getTimePeriods() {
@@ -1052,7 +1064,7 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
 
     public void selectSalesDriver() {
         refreshPageContent();
-		expandFilter = false;	   
+        expandFilter = false;      
     }
     
     public void setStartDateValue() {
@@ -1060,7 +1072,7 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
             calendarForView.initDateRange(timePeriod, Date.valueOf(startFromDate));
             refreshPageContent();
         }
-		expandFilter = false;	   
+        expandFilter = false;      
     }    
     
     private void setMonths() {
@@ -1114,13 +1126,13 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
         List<Calendar__c> cRecordsOrderMixed = new List<Calendar__c>();
         List<Calendar__c> cRecordsOrderOther = new List<Calendar__c>();
         for(Calendar__c c : cRecords){
-        	if(c.classification__c == siteTheme){
-        		cRecordsOrderCurrent.add(c);
-        	} else if(c.classification__c == 'Mixed'){
-        		cRecordsOrderMixed.add(c);
-        	} else {
-        		cRecordsOrderOther.add(c);
-        	}
+            if(c.classification__c == siteTheme){
+                cRecordsOrderCurrent.add(c);
+            } else if(c.classification__c == 'Mixed'){
+                cRecordsOrderMixed.add(c);
+            } else {
+                cRecordsOrderOther.add(c);
+            }
         }
         cRecords.clear();
         cRecords.addAll(cRecordsOrderCurrent);

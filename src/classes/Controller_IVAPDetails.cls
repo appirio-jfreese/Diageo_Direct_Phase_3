@@ -7,7 +7,7 @@ Story/Task	: US585/TA1082
 
 Updated By 	: Basant Kumar Verma (Appirio JDC)
 Date 				: 9/26/2013
-Story/Task	: US326/TA1515
+Story/Task	: US826/TA1515
 *******************************************************************************/
 public with sharing class Controller_IVAPDetails extends Controller_Base {
 		// display as list (true) or box (false)
