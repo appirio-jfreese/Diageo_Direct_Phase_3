@@ -1,3 +1,11 @@
+/*****************************************************************************************************************
+Name        : POS_ReportPurchasedItems.cls
+
+Updated By  : Jonathan Freese   
+Date        : 9/26/13
+Story/Task  : US825/TA1516
+*******************************************************************************************************************/
+
 public without sharing class POS_ReportPurchasedItems extends POS_ReportRenderer {
 
     protected override String getOrderWindowWhereName()    {return 'Item__r.Order_Window_ID__c';}
@@ -27,6 +35,9 @@ public without sharing class POS_ReportPurchasedItems extends POS_ReportRenderer
                 +'Status__c, '
                 +'Item__r.Program__r.Brand__r.Name, '
                 +'Item__r.Program__r.Name, '
+                // Start: Changes for US825/TA1516 JFreese
+                +'Item__r.Item_ID__c, '
+                // End: Changes for US825/TA1516 JFreese
                 +'Item__r.Name, '
                 +'Item__r.RecordType_Name__c, '
                 +'Item__r.Category__c, '
@@ -119,7 +130,7 @@ public without sharing class POS_ReportPurchasedItems extends POS_ReportRenderer
     
     protected override void initData() {
         try {
-            header = 'Order Window,Shopper,Status,Item: Brand,Item: Program,Item: Item Name,Item: Record Type,Item: Category,Item: Customer Marketing Category,Item: Channel,Item: Sales Channel Group,Item: Status,Item: Packout Quantity,Item: Current Price,Quantity,Carrier,Tracking Code,Account Name,Division,Region,State District,Market,Ship To Name,Street,Street 2,City,State,Zip,Contact Name,Contact Phone,Contact Email,Total Spend';
+            header = 'Order Window,Shopper,Status,Item: Brand,Item: Program,Item: Item Number,Item: Item Name,Item: Record Type,Item: Category,Item: Customer Marketing Category,Item: Channel,Item: Sales Channel Group,Item: Status,Item: Packout Quantity,Item: Current Price,Quantity,Carrier,Tracking Code,Account Name,Division,Region,State District,Market,Ship To Name,Street,Street 2,City,State,Zip,Contact Name,Contact Phone,Contact Email,Total Spend';
 
             List<AggregateResult> c = Database.query('select count(ID) from cart_item__c ' + queryWhere);
             Integer queryCount = (Integer)c[0].get('expr0');
@@ -150,6 +161,9 @@ public without sharing class POS_ReportPurchasedItems extends POS_ReportRenderer
                         +(item.Status__c==null?'':item.Status__c.escapeCsv())+','
                         +(item.Item__r.Program__r.Brand__r.Name==null?'':item.Item__r.Program__r.Brand__r.Name.escapeCsv())+','
                         +(item.Item__r.Program__r.Name==null?'':item.Item__r.Program__r.Name.escapeCsv())+','
+                        // Start: Changes for US825/TA1516 JFreese
+                        +(item.Item__r.Item_ID__c==null?'':item.Item__r.Item_ID__c.escapeCsv())+','
+                        // End: Changes for US825/TA1516 JFreese
                         +(item.Item__r.Name==null?'':item.Item__r.Name.escapeCsv())+','
                         +(item.Item__r.RecordType_Name__c==null?'':item.Item__r.RecordType_Name__c.escapeCsv())+','
                         +(item.Item__r.Category__c==null?'':item.Item__r.Category__c.escapeCsv())+','
@@ -186,6 +200,9 @@ public without sharing class POS_ReportPurchasedItems extends POS_ReportRenderer
                         +'<td>'+(item.Status__c==null?'':item.Status__c)+'</td>'
                         +'<td>'+(item.Item__r.Program__r.Brand__r.Name==null?'':item.Item__r.Program__r.Brand__r.Name)+'</td>'
                         +'<td>'+(item.Item__r.Program__r.Name==null?'':item.Item__r.Program__r.Name)+'</td>'
+                        // Start: Changes for US825/TA1516 JFreese
+                        +'<td>'+(item.Item__r.Item_ID__c==null?'':item.Item__r.Item_ID__c)+'</td>'
+                        // End: Changes for US825/TA1516 JFreese
                         +'<td>'+(item.Item__r.Name==null?'':item.Item__r.Name)+'</td>'
                         +'<td>'+(item.Item__r.RecordType_Name__c==null?'':item.Item__r.RecordType_Name__c)+'</td>'
                         +'<td>'+(item.Item__r.Category__c==null?'':item.Item__r.Category__c)+'</td>'
