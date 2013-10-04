@@ -106,6 +106,17 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>National_Account__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>National Account</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Campaigns</relationshipLabel>
+        <relationshipName>Campaigns</relationshipName>
+        <required>false</required>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>Program_Description__c</fullName>
         <externalId>false</externalId>
         <label>Program Description</label>

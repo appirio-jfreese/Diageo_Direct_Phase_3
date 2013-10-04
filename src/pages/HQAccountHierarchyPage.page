@@ -1,7 +1,8 @@
-<!--<apex:page standardController="Campaign" extensions="HQAccountHierarchyController">-->
-<apex:page controller="HQAccountHierarchyController">
+<apex:page standardController="Campaign" extensions="HQAccountHierarchyController">
+<!-- <apex:page controller="HQAccountHierarchyController">   -->
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.js')}"></script>
     <apex:sectionHeader subTitle="{!hqAcc.Name} Hierarchy" />
+    
     <apex:form id="frm">
         <apex:pageBlock id="pb">
             <apex:pageMessages />
@@ -58,7 +59,6 @@
         </tr>
         <tr>
         <td>
-            
             <apex:outputLabel value="Remaining States" styleClass="remStateLabel" 
              style="text-align: left;font-weight: bold;white-space: nowrap;
                  font-size: 15px;font-family: Arial,Helvetica,sans-serif;padding-top: 20px;"/>
@@ -66,9 +66,9 @@
                 multiselect="false" styleClass="allStateOptions">
             <apex:selectOptions value="{!allStatesList}"/>
             </apex:selectList>
-                    <apex:repeat value="{!allStatesList}" var="stateOp">
-                        <input id="{!stateOp.value}" value="{!stateOp.value}" type="hidden" name="{!stateOp.label}" class="hiddenStateName"/>
-                    </apex:repeat>
+            <apex:repeat value="{!allStatesList}" var="stateOp">
+                <input id="{!stateOp.value}" value="{!stateOp.value}" type="hidden" name="{!stateOp.label}" class="hiddenStateName"/>
+            </apex:repeat>
             <a href="javascript:functionToAddState()" id="addToState" value="">(add)</a> 
         </td>
         </tr>
@@ -76,57 +76,63 @@
         </div>
         </apex:pageBlock>
     </apex:form>
+    
   <script type="text/javascript">
-  	
-  	function stateChanged(val){
-  		jQuery('#addToState').val(val);
-  	}
-  	
-  	function functionToAddState(){
-  		var selectedDateAbbr = jQuery('#addToState').val(); 
-  		// for hiddenStateName
-  		jQuery('.hiddenStateName').each(function(){
-	  		if(jQuery(this).attr("id") == selectedDateAbbr){
-		  		if(!jQuery(this).hasClass("NeverShow")){
-		  			jQuery(this).addClass("NeverShow");
-		  		}
-	  		}
-  		});
-  		//for stateNames
-  		jQuery('.stateNames').each(function(){
-				if(jQuery(this).text() == selectedDateAbbr){
-					if(!jQuery(this).hasClass('AlwaysShow')){
-		  			jQuery(this).addClass('AlwaysShow');
-		  		}
-				}
-			});
-			
-			// for stateCheckBox 
-			jQuery('.stateCheckBox').each(function(){
-	  		if(jQuery(this).attr("id") == selectedDateAbbr){
-		  		if(!jQuery(this).hasClass("AlwaysShow")){
-		  			jQuery(this).addClass("AlwaysShow");
-		  		}
-	  		}
-  		});
-  		buildStateList();
-  	}
-  	
+    // Update the value when State Changed
+    function stateChanged(val){
+        jQuery('#addToState').val(val);
+    }
+    
+    // Add State in State Covered by Section, and remove from drop down
+    function functionToAddState(){ 
+        var selectedDateAbbr = jQuery('#addToState').val();
+        // for hiddenStateName
+        jQuery('.hiddenStateName').each(function(){
+            if(jQuery(this).attr("id") == selectedDateAbbr){
+                if(!jQuery(this).hasClass("NeverShow")){
+                    jQuery(this).addClass("NeverShow");
+                }
+            }
+        });
+        //for stateNames
+        jQuery('.stateNames').each(function(){
+                if(jQuery(this).text() == selectedDateAbbr){
+                    if(!jQuery(this).hasClass('AlwaysShow')){
+                    jQuery(this).addClass('AlwaysShow');
+                }
+                }
+            });
+            // for stateCheckBox 
+            jQuery('.stateCheckBox').each(function(){
+            if(jQuery(this).attr("id") == selectedDateAbbr){
+                if(!jQuery(this).hasClass("AlwaysShow")){
+                    jQuery(this).addClass("AlwaysShow");
+                }
+            }
+        });
+        buildStateList();
+    }
+    
+    // Market Group Checkbox is get clicked 
     jQuery('.grpCheckBox').live('click',function(){
-    		rebuildAllStates();    	
+            rebuildAllStates(jQuery(this));     
     });
     
+    // Banner Account Checkbox is get clicked
     jQuery('.bannerCheckBox').live('click',function(){
-			rebuildAllStates();
+            rebuildAllStates(jQuery(this));
     });
     
-    function rebuildAllStates(){
-    	changeAllChild(jQuery(this));
-      markIndeterminate(jQuery(this), false);
+    // Rebuild all states by selected options
+    function rebuildAllStates(itm){
+        changeAllChild(itm);
+      markIndeterminate(itm, false);
       showHideStates();
       buildStateList();
     }
     
+    // Change the status of parent and child banner acc 
+    // checkbox when any banner acc checkbox is clicked
     function changeAllChild(node){
         if(jQuery('.'+node.attr('id')+'_cb').length > 0){
         var checked = node.is(':checked');
@@ -141,8 +147,9 @@
        }
     }
     
+    // Check which states need to be show and where 
     function showHideStates(){
-    		jQuery(".stateNames").css("display", "none");
+            jQuery(".stateNames").css("display", "none");
         jQuery(".stateCheckBox").css("display", "none");
         jQuery(".grpNames").css("display", "none");
         jQuery(".grpCheckBox").css("display", "none");
@@ -161,32 +168,33 @@
         jQuery('.grpCheckBox').each(function(){
             if(!jQuery(this).is(':checked')){
                 jQuery('.'+jQuery(this).attr('id')).each(function(){
-                	if(jQuery(this).css("display") == "block"){
-                		var curentItm = jQuery(this); 
-                		var flag = false;
-                		jQuery('.grpCheckBox:checked').each(function(){
-                			if(curentItm.hasClass(jQuery(this).attr('id')))
-                				flag = true;
-                		});
-                		if(!flag){
-                			jQuery(this).css("display", "none");
-                		}
-                	}
+                    if(jQuery(this).css("display") == "block"){
+                        var curentItm = jQuery(this); 
+                        var flag = false;
+                        jQuery('.grpCheckBox:checked').each(function(){
+                            if(curentItm.hasClass(jQuery(this).attr('id')))
+                                flag = true;
+                        });
+                        if(!flag){
+                            jQuery(this).css("display", "none");
+                        }
+                    }
                 });
             }
         });
        
     }
     
+    // Build State lists
     function buildStateList(){
-    	jQuery('.hiddenStateName').removeClass("doNotShowState");
+        jQuery('.hiddenStateName').removeClass("doNotShowState");
       jQuery('.hiddenStateName').addClass("showState");
       jQuery('.AlwaysShow').css("display", "block");
       
-    	jQuery('.stateNames').each(function(){
-    			if(jQuery(this).hasClass("AlwaysShow")){
-    				jQuery(this).css("display","block");
-    			}
+        jQuery('.stateNames').each(function(){
+                if(jQuery(this).hasClass("AlwaysShow")){
+                    jQuery(this).css("display","block");
+                }
           if(jQuery(this).css("display") == 'block'){
               var stateName = jQuery(this).text();
           jQuery('.hiddenStateName').each(function() {
@@ -200,15 +208,17 @@
               }
       });
       
-    	var htmlText = '';
+        var htmlText = '';
       jQuery('.hiddenStateName').each(function() {
           if(jQuery(this).hasClass("showState")){
               htmlText += '<option value="'+jQuery(this).val()+'">'+jQuery(this).attr('name')+'</option>';
           }
       });
       jQuery('.allStateOptions').first().html(htmlText);
+      assignFirstStateToVar();
     }
     
+    // Mark Parent as Indeterminate when few (not all) child checked 
     function markIndeterminate(node, parentOnly){
         if(parentOnly){
             if(jQuery('.'+node.attr('id')+'_cb:checked').length == jQuery('.'+node.attr('id')+'_cb').length){
@@ -253,8 +263,13 @@
         }
     }
     
+    function assignFirstStateToVar(){
+        jQuery('#addToState').val(jQuery('.allStateOptions').first().find("option").val());
+    }
+    
+    // On Page Load
     jQuery(document).ready(function() {
-    	jQuery('#addToState').val(jQuery('.allStateOptions').first().find("option").val());
+        assignFirstStateToVar();
     });
     </script>
 </apex:page>

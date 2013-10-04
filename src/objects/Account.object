@@ -4375,6 +4375,18 @@ IF(ISBLANK(Wine_Hierarchy__r.Parent__c), &quot;&quot;, IF(TEXT(Wine_Hierarchy__r
         </sharedTo>
     </listViews>
     <namedFilters>
+        <fullName>Campaign_00NJ00000014kDXMAY</fullName>
+        <active>true</active>
+        <field>Campaign.National_Account__c</field>
+        <filterItems>
+            <field>Account.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>Outlet - Headquarters</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+        <name>Campaign_National Account</name>
+    </namedFilters>
+    <namedFilters>
         <fullName>nf_01IK0000000D1PxMAK_00NK0000000WI0JMAW</fullName>
         <active>true</active>
         <field>Gold_Standard_Met__c.Account__c</field>
