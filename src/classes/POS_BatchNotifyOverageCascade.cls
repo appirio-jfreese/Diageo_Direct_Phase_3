@@ -228,9 +228,11 @@ global class POS_BatchNotifyOverageCascade implements Database.Batchable<sObject
     @IsTest
     public static void testUpsertItem () {
     	Brand__c brand1 = POS_TestDataUtil.createBrand();
-    	Brand__c brd = new Brand__c(Name = 'Test Brand', Classification__c='Spirits', Diageo_Direct_Visible__c=true, Brand_Type__c='Individual');
+    	// Start : Changing for US682/TA1267 - CC9/30: Note #2 - By Siddharth
+    	Brand__c brd = new Brand__c(Name = 'Test Brand', Classification__c='Spirits', Diageo_Direct_Visible__c=true, Brand_Type__c='Individual Variant');
         insert brd;
-        Brand__c brand = new Brand__c(Name = 'Test Brand', Classification__c='Spirits', Diageo_Direct_Visible__c=true, Brand_Type__c='Individual',Parent_Brand__c = brd.Id);
+        Brand__c brand = new Brand__c(Name = 'Test Brand', Classification__c='Spirits', Diageo_Direct_Visible__c=true, Brand_Type__c='Individual Variant',Parent_Brand__c = brd.Id);
+        // End : Changing for US682/TA1267 - CC9/30: Note #2 - By Siddharth
         insert brand;
     	brand.Classification__c='Spirits';
     	update brand;

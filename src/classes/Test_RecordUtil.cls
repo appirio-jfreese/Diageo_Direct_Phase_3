@@ -49,7 +49,9 @@ public class Test_RecordUtil {
     public static Brand__c newBrand(String name){
     	Brand__c brand = new Brand__c();
     	brand.Name = name;
-    	brand.Brand_Type__c = 'Individual';
+    	// Start : Changing for US682/TA1267 - CC9/30: Note #2 - By Siddharth
+    	brand.Brand_Type__c = 'Individual Variant';
+    	// End : Changing for US682/TA1267 - CC9/30: Note #2 - By Siddharth
     	return brand;
     }
     

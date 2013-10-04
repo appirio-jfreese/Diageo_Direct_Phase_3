@@ -133,7 +133,9 @@ global without sharing class POS_ReportsController extends Controller_Base {
     public void fillBrandOptions(){
         Set<Id> brandsIds = getAccBrandIds();
      // List<Brand__c> brands = [select Id, Name from Brand__c where id in :brandsIds and Classification__c = :classification and order by Name]; Commented out per case 5259
-        List<Brand__c> brands = [select Id, Name from Brand__c where id in :brandsIds and Classification__c = :classification and (Brand_Type__c = 'Individual' OR Brand_Type__c = '')  order by Name]; //Line modified per case 5259
+        // Start : Changing for US682/TA1267 - CC9/30: Note #2 - By Siddharth
+        List<Brand__c> brands = [select Id, Name from Brand__c where id in :brandsIds and Classification__c = :classification and (Brand_Type__c = 'Individual Variant' OR Brand_Type__c = '')  order by Name]; //Line modified per case 5259
+        // End : Changing for US682/TA1267 - CC9/30: Note #2 - By Siddharth
         brandOptions = new List<SelectOption>();
         for(Brand__c brand : brands){
             brandOptions.add(new SelectOption(brand.id, brand.Name));

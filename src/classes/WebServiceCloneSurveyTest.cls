@@ -37,7 +37,9 @@ private class WebServiceCloneSurveyTest {
 		Brand__c brand = new Brand__c();
         brand.Name = 'testBrand';
         brand.Innovation__c = true;
-        brand.Brand_Type__c = 'Individual';
+        // Start : Changing for US682/TA1267 - CC9/30: Note #2 - By Siddharth
+        brand.Brand_Type__c = 'Individual Variant';
+        // End : Changing for US682/TA1267 - CC9/30: Note #2 - By Siddharth
         insert brand;
         
         Bottle_Size__c bottleSize = new Bottle_Size__c();

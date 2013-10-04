@@ -55,9 +55,11 @@ trigger POS_Product_Item on Item__c (after delete, after insert, after update) {
                 
                 Boolean primary = true;
                 //If the Program is tied to a Portfolio Brand or Non-Individual Type, Item Brand record is not marked as Primary
-                if (prg.Brand__r.Portfolio_Brand__c || prg.Brand__r.Brand_Type__c != 'Individual') { 
+                // Start : Changing for US682/TA1267 - CC9/30: Note #2 - By Siddharth
+                if (prg.Brand__r.Portfolio_Brand__c || prg.Brand__r.Brand_Type__c != 'Individual Variant') { 
                     primary = false;
                 }
+                // End : Changing for US682/TA1267 - CC9/30: Note #2 - By Siddharth
                 System.debug('itmId - ' + itmId + ' prg.Brand__c - ' + prg.Brand__c);
                 Item_Brand__c ib = new Item_Brand__c(Brand__c=prg.Brand__c, Item__c=itmId, Primary__c=primary);
                 ibCreateList.add(ib);
@@ -201,9 +203,11 @@ trigger POS_Product_Item on Item__c (after delete, after insert, after update) {
                 
                 Boolean primary = true;
                 //If the Program is tied to a Portfolio Brand or Non-Individual Type, Item Brand record is not marked as Primary
-                if (prg.Brand__r.Portfolio_Brand__c || prg.Brand__r.Brand_Type__c != 'Individual') { 
+                // Start : Changing for US682/TA1267 - CC9/30: Note #2 - By Siddharth
+                if (prg.Brand__r.Portfolio_Brand__c || prg.Brand__r.Brand_Type__c != 'Individual Variant') { 
                     primary = false;
                 }
+                // End : Changing for US682/TA1267 - CC9/30: Note #2 - By Siddharth
                 System.debug('itmId - ' + itmId + ' prg.Brand__c - ' + prg.Brand__c);
                 Item_Brand__c ib = new Item_Brand__c(Brand__c=prg.Brand__c, Item__c=itmId, Primary__c=primary);
                 ibCreateList.add(ib);

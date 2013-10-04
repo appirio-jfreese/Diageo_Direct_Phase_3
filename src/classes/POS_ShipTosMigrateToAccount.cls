@@ -104,8 +104,9 @@ public class POS_ShipTosMigrateToAccount {
      static testmethod void testMigration(){
          Account newAccount = new Account(Name='test1');    
          insert newAccount;
-         
-           Brand__c brd = new Brand__c(Name = 'Portfolio', Classification__c='Spirits', Diageo_Direct_Visible__c=true, Brand_Type__c='Individual');
+         // Start : Changing for US682/TA1267 - CC9/30: Note #2 - By Siddharth
+           Brand__c brd = new Brand__c(Name = 'Portfolio', Classification__c='Spirits', Diageo_Direct_Visible__c=true, Brand_Type__c='Individual Variant');
+          // End : Changing for US682/TA1267 - CC9/30: Note #2 - By Siddharth
           insert brd;
          
          //let us create a ship to
