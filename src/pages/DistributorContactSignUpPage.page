@@ -1,0 +1,121 @@
+<apex:page showheader="false" standardStylesheets="false" sidebar="false" 
+	title="Diageo : Distributor Contact Sign-Up" controller="DistributorContactSignUpController">
+	<apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style.css')}"/>
+	<apex:stylesheet value="{!URLFOR($Resource.DistributorContactSignUp, 'style.css')}"/>
+  <style type="text/css">
+  	body, html{
+    	overflow: hidden;
+    }
+	</style>
+  <div class="content-wrapper">
+  	<div class="header">
+        <div class="logotype">&nbsp;</div>            
+   	</div>
+    <div class="content bggradient">
+      <div class="content-wrapper-center left">
+      	<div class="error-text">
+      		<apex:pageMessages />
+      	</div>
+      	<apex:pageBlock id="newContact" rendered="{!NOT(isSuccess)}">
+					<div class="cases-title">Welcome to Diageo Direct for Distributor Contact Sign-Up</div>
+						<apex:form styleClass="newContactSubscription">
+							<div class="info-text">
+								Please fill the following details and submit the form
+							</div>
+              <div class="form-header"><span class="bold">Contact Information</span></div>
+              <div class="left new-case-label">
+	              <div class="float-left form-section">
+	              	First Name
+	                <div class="input-holder">
+	                	<apex:inputField id="contNameF" value="{!distribuorCon.FirstName}"/><br/>
+	                </div>
+	                Last Name
+	                <div class="input-holder">
+	                	<apex:inputField id="contNameL" value="{!distribuorCon.LastName}"/><br/>
+	                </div>
+	              </div>
+	              <div class="float-left form-section">
+	              	Title
+	                <div class="input-holder">
+	                	<apex:inputField id="contTitle" value="{!distribuorCon.Title}"/><br/>
+	                </div>
+	              </div>
+	              <div class="clear-float"></div>
+							</div>
+							<div class="left new-case-label">
+	              <div class="float-left form-section">  
+	              	Email
+	              	<div class="input-holder">
+	                	<apex:inputField id="contEmail" value="{!distribuorCon.Email}"/><br/>
+	                </div>
+	              </div>
+	              <div class="float-left form-section">
+	              	Phone number
+	                <div class="input-holder">
+	                	<apex:inputField id="contPhone" value="{!distribuorCon.Phone}"/><br/>
+	                </div>
+	              </div>
+	              <div class="clear-float"></div>
+							</div>
+							<div class="left new-case-label">
+	              <div class="float-left form-section">  
+	              	Distributor Name
+	              	<div class="input-holder">
+	                	<apex:inputField id="contDistributorName" value="{!distribuorCon.Distributor_Name__c}"/><br/>
+	                </div>
+	              </div>
+	              <div class="float-left form-section">
+	              	Distributor Address - City
+	                <div class="input-holder">
+	                	<apex:inputField id="contAddCity" value="{!distribuorCon.Distributor_City__c}"/><br/>
+	                </div>
+	              </div>
+	              <div class="clear-float"></div>
+							</div>
+							<div class="left new-case-label">
+	              <div class="float-left form-section">  
+	              	Distributor Address - State
+	              	<div class="input-holder">
+	                	<apex:inputField id="contAddState" value="{!distribuorCon.Distributor_State__c}"/><br/>
+	                </div>
+	              </div>
+	              <div class="float-left form-section">
+	              	Distributor Address - Zip
+	                <div class="input-holder">
+	                	<apex:inputField id="contAddZip" value="{!distribuorCon.Distributor_Postal_Code__c}"/><br/>
+	                </div>
+	              </div>
+	              <div class="clear-float"></div>
+							</div>
+							<div class="left new-case-label">
+								<div class="float-left form-section caseType">  
+	              	Subscribe Interested In
+	              	<div class="select-type-wappper" style="margin-top: 5px;">
+		              	<div class="select-type-holder">
+		              		<apex:inputField id="SubscribeInterestedIn" value="{!distribuorCon.Subscribe_Interested_In__c}"/><br/>
+		               	</div>
+	               	</div>
+	              </div>
+	              <div class="float-left form-section caseType">  
+	              	Subscribe Premise
+	              	<div class="select-type-wappper" style="margin-top: 5px;">
+		              	<div class="select-type-holder">
+		              		<apex:inputField id="SubscribePremise" value="{!distribuorCon.Subscribe_Premise__c}"/><br/>
+		               	</div>
+	               	</div>
+	              </div>
+	              <div class="clear-float"></div>
+							</div><br/>
+              <div class="case-buttons">
+              	<apex:commandButton styleClass="green addNewContSubmitButton" action="{!subscribe}" value="Subscribe" 
+              		onclick="showDialog('ajaxLoader');"/>           
+              </div>
+						</apex:form>                
+				</apex:pageBlock>
+      </div>
+    </div>  
+		<div class="login-footer">
+			<a href="">&copy; Diageo 2011</a>
+		</div>
+  </div>
+</apex:page>

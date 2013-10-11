@@ -1,0 +1,47 @@
+<apex:page StandardController="Contact" title="Review Distributors" extensions="ReviewDistributorContactsController">
+<c:ajaxLoader />
+  <apex:form id="frm">
+    <apex:actionFunction status="ajax-status" name="getContactDetail" reRender="pBlock"/> 
+    <apex:pageBlock id="pBlock" title="Contacts need review">
+      <apex:pageBlockButtons rendered="{!(selectedContactId != null)}">
+        <apex:commandButton value="Approve" action="{!approveRequest}"/>
+        <apex:commandButton value="Reject" action="{!rejectRequest}"/>
+        <apex:commandButton value="Cancel" action="{!cancel}"/>
+      </apex:pageBlockButtons>
+      <apex:outputPanel rendered="{!(lstContacts.size = 0)}" >
+        No contacts for review.
+      </apex:outputPanel>
+      
+      <apex:outputPanel id="contactSelection" rendered="{!(lstContacts.size > 0)}" >        
+      	<apex:pageblockSection title="Select Contact">
+      	  <apex:pageBlockSectionItem >
+      	    <apex:outputText >Select Contact</apex:outputText>
+    				<apex:selectList value="{!selectedContactId}" multiselect="false" size="1" onChange="getContactDetail();">
+      				<apex:selectOptions value="{!lstContacts}"/>
+    				</apex:selectList>
+    			</apex:pageBlockSectionItem>
+    		</apex:pageblockSection>
+    	</apex:outputPanel>
+    	
+    	<apex:outputPanel id="contactDetail" rendered="{!(selectedContactId != null)}">
+    	  <apex:pageblockSection title="Contact Detail">
+    	    <apex:outputField value="{!mapContacts[selectedContactId].Title}"/>
+    	    <apex:outputField value="{!mapContacts[selectedContactId].Name}"/>
+    	    <apex:outputField value="{!mapContacts[selectedContactId].Email}"/>
+    	    <apex:outputField value="{!mapContacts[selectedContactId].Phone}"/>
+    	    <apex:outputField value="{!mapContacts[selectedContactId].Distributor_Name__c}"/>
+    	    <apex:outputField value="{!mapContacts[selectedContactId].Distributor_City__c}"/>
+    	    <apex:outputField value="{!mapContacts[selectedContactId].Distributor_State__c}"/>
+    	    <apex:outputField value="{!mapContacts[selectedContactId].Distributor_Postal_Code__c}"/>
+    	    <apex:outputField value="{!mapContacts[selectedContactId].Subscribe_Interested_In__c}"/>
+    	    <apex:outputField value="{!mapContacts[selectedContactId].Subscribe_Premise__c}"/>
+    	    <apex:outputField value="{!mapContacts[selectedContactId].Subscribe_Status__c}"/>    	  	
+    	  </apex:pageblockSection>
+    	  <apex:pageblockSection columns="1" title="Approve/Reject Approval Request">
+    	    <apex:inputTextArea value="{!comments}" label="Comments" rows="5" cols="100" style="width:auto;height:auto;"/>
+    	  </apex:pageblockSection>
+    	</apex:outputPanel>
+    	
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>
