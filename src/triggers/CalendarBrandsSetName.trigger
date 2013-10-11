@@ -1,3 +1,10 @@
+/*******************************************************************************
+Name        : CalendarBrandsSetName
+
+Updated By  : Basant Verma (Appirio JDC)   
+Date        : 10/11/13
+Story/Task  : US834/TA1500 : Only one Calendar Brand can marked as primary for an Calender
+*******************************************************************************/
 trigger CalendarBrandsSetName on CalendarBrand__c (before insert, before update) {
 	Id[] BrandIds = new Id[]{};
 	Id[] CalendarIds = new Id[]{};
@@ -16,4 +23,10 @@ trigger CalendarBrandsSetName on CalendarBrand__c (before insert, before update)
 		}
 		calBr.Name = name;
 	}
+	
+	// Start : Changed for US834/TA1500 - Basant
+	if(Trigger.isBefore && Trigger.isInsert){
+		CalenderBrandTriggerHandler.onBeforeInsert(Trigger.new);
+	}
+	// End : Changed for US834/TA1500 - Basant
 }

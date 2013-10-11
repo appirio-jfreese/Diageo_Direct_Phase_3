@@ -28,7 +28,7 @@ public with sharing class AccountStructure{
 		public String displayFor {get; set;}
 		//END : Changed for US841/TA1508 - Basant
     //Declare variables
-    public String currentId;
+    public String currentId {set; get;}
     public List<ObjectStructureMap> asm ;
     public Map<String, ObjectStructureMap> masm;
     public List<Integer> maxLevel;
@@ -42,13 +42,6 @@ public with sharing class AccountStructure{
         this.maxLevel = new List<Integer>{};
     }
     
-    /**
-    * Allow page to set the current ID
-    */
-    public void setcurrentId( String cid ){
-        currentId = cid;
-    }
-
     /**
     * Return ObjectStructureMap to page
     * @return asm
@@ -260,7 +253,6 @@ public with sharing class AccountStructure{
     * @return objId
     */
     public String GetTopElement( String objId ){
-        
         Boolean top = false;
         while ( !top ) {
             //Change below

@@ -62,6 +62,15 @@
         <type>MasterDetail</type>
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
     </fields>
+    <fields>
+        <fullName>Primary_Brand__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Only one Calendar Brand can marked as primary for a Calender</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Only one Calendar Brand can marked as primary for a Calender</inlineHelpText>
+        <label>Primary Brand</label>
+        <type>Checkbox</type>
+    </fields>
     <label>CalendarBrand</label>
     <listViews>
         <fullName>All</fullName>
@@ -69,6 +78,7 @@
         <columns>Brand__c</columns>
         <columns>Calendar__c</columns>
         <columns>CREATED_DATE</columns>
+        <columns>Primary_Brand__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>

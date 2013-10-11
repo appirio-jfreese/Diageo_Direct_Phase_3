@@ -149,9 +149,10 @@
         <fullName>Call_to_Action__c</fullName>
         <externalId>false</externalId>
         <label>Call to Action</label>
-        <length>32768</length>
-        <type>LongTextArea</type>
-        <visibleLines>10</visibleLines>
+        <length>140</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Description__c</fullName>

@@ -1,17 +1,20 @@
-<apex:page standardController="Campaign" extensions="HQAccountHierarchyController">
+<apex:page standardController="Campaign" extensions="HQAccountHierarchyController" id="subPg">
 <!-- <apex:page controller="HQAccountHierarchyController">   -->
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.js')}"></script>
-    <apex:sectionHeader subTitle="{!hqAcc.Name} Hierarchy" />
+		<!-- <apex:sectionHeader subTitle="{!hqAcc.Name} Hierarchy" /> -->
     
     <apex:form id="frm">
         <apex:pageBlock id="pb">
             <apex:pageMessages />
-      <a href="/{!hqAcc.Id}" >
+            <apex:pageBlockButtons location="bottom">
+            	<apex:commandButton onclick="createCamaignStatesJS();" value="Save"/>
+            </apex:pageBlockButtons>
+      <!-- <a href="/{!hqAcc.Id}" >
           <apex:outputText value="{!hqAcc.Name}" style="text-align: left;font-weight: bold;
           white-space: nowrap;font-size: 20px;font-family: Arial,Helvetica,sans-serif;"/>
-      </a><br/><br/>
+      </a><br/><br/> -->
       <div style="width: 800px; height: 500px;">
-      <table style="width:100%;height:50%;overflow:auto;">
+      <table style="width:100%;overflow:auto;" cellpadding="5">
        <tr>
         <td width="500px">
          <apex:outputLabel value="Related accounts" style="text-align: left;font-weight: bold;
@@ -38,7 +41,7 @@
         </td>
        </tr>
        <tr>
-        <td>
+        <td width="500px">
          <apex:outputLabel value="States covered by selection" styleClass="stateLabel" 
               style="text-align: left;font-weight: bold;white-space: nowrap;display:block;
                   font-size: 15px;font-family: Arial,Helvetica,sans-serif;padding-top: 20px;"/>
@@ -50,11 +53,29 @@
                         style="display: none;" />
               </apex:column>
               <apex:column style="width: 10%;text-align: left;">
-                    <input type="checkbox" id="{!st}" name="{!st}" class="{!states[st]} stateCheckBox" 
+              			<input type="checkbox" id="{!st}" name="{!st}" class="{!states[st]} stateCheckBox" 
                         checked="true" style="display: none;"/> 
               </apex:column>             
             </apex:dataTable>
          </div>
+        </td>
+        <td width="300px">
+            <apex:outputLabel value="States Associated with the Campaign" styleClass="statesAssociated" 
+             style="text-align: left;font-weight: bold;white-space: nowrap;display:block;
+                  font-size: 15px;font-family: Arial,Helvetica,sans-serif;padding-top: 20px;"/>
+          <div style="height: 150px; overflow: auto;">
+            <apex:dataTable value="{!existingCampStatesNames}" var="est" id="existingStatesTab" 
+                  rowClasses="odd,even" style="width: 50%;padding-left: 20px;">
+              <apex:column style="width: 60%;text-align: left;">
+              			<apex:facet name="header">State Name</apex:facet>
+                    <apex:outputText value="{!est}" styleClass="existingStateNames" />
+              </apex:column>
+              <apex:column style="width: 10%;text-align: left;">
+              			<apex:facet name="header">No of Stores</apex:facet>
+                    <apex:outputText value="{!existingCampStates[est]}" styleClass="existingStateStores" />
+              </apex:column>             
+            </apex:dataTable>
+        	</div>
         </td>
         </tr>
         <tr>
@@ -73,11 +94,26 @@
         </td>
         </tr>
         </table>
+        <apex:inputHidden value="{!allSelectedStateCheckBox}" id="allStateChb"/>
         </div>
         </apex:pageBlock>
+        <apex:actionFunction name="createCamaignStates" action="{!createCamaignStates}" />
     </apex:form>
     
   <script type="text/javascript">
+  	// createCamaignStates
+  	function createCamaignStatesJS(){
+  		var allSelectedStates = '', glue='';
+  		jQuery('.stateCheckBox').each(function(){
+  			if(jQuery(this).css("display") == "block" && jQuery(this).is(':checked')){
+  				allSelectedStates += glue + jQuery(this).attr("Id");
+  				glue = ',';
+  			}
+  		});
+  		document.getElementById("subPg:frm:pb:allStateChb").value = allSelectedStates;
+  		createCamaignStates();
+  	}
+  	
     // Update the value when State Changed
     function stateChanged(val){
         jQuery('#addToState').val(val);
@@ -85,10 +121,10 @@
     
     // Add State in State Covered by Section, and remove from drop down
     function functionToAddState(){ 
-        var selectedDateAbbr = jQuery('#addToState').val();
+        var selectedStateAbbr = jQuery('#addToState').val();
         // for hiddenStateName
         jQuery('.hiddenStateName').each(function(){
-            if(jQuery(this).attr("id") == selectedDateAbbr){
+            if(jQuery(this).attr("id") == selectedStateAbbr){
                 if(!jQuery(this).hasClass("NeverShow")){
                     jQuery(this).addClass("NeverShow");
                 }
@@ -96,7 +132,7 @@
         });
         //for stateNames
         jQuery('.stateNames').each(function(){
-                if(jQuery(this).text() == selectedDateAbbr){
+                if(jQuery(this).text() == selectedStateAbbr){
                     if(!jQuery(this).hasClass('AlwaysShow')){
                     jQuery(this).addClass('AlwaysShow');
                 }
@@ -104,7 +140,7 @@
             });
             // for stateCheckBox 
             jQuery('.stateCheckBox').each(function(){
-            if(jQuery(this).attr("id") == selectedDateAbbr){
+            if(jQuery(this).attr("id") == selectedStateAbbr){
                 if(!jQuery(this).hasClass("AlwaysShow")){
                     jQuery(this).addClass("AlwaysShow");
                 }
@@ -112,7 +148,7 @@
         });
         buildStateList();
     }
-    
+
     // Market Group Checkbox is get clicked 
     jQuery('.grpCheckBox').live('click',function(){
             rebuildAllStates(jQuery(this));     

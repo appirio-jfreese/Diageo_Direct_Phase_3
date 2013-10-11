@@ -82,6 +82,10 @@
                 <default>false</default>
             </picklistValues>
             <picklistValues>
+                <fullName>Beer</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
                 <fullName>Mixed</fullName>
                 <default>false</default>
             </picklistValues>
@@ -278,11 +282,32 @@
     <fields>
         <fullName>Program_Name__c</fullName>
         <externalId>false</externalId>
-        <formula>TEXT( Sales_Channel__c ) &amp; &quot; - &quot; &amp;  RecordType.Name &amp; &quot; - &quot; &amp; Name</formula>
         <label>Program Name</label>
+        <length>255</length>
         <required>false</required>
         <type>Text</type>
         <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Program_Type__c</fullName>
+        <externalId>false</externalId>
+        <label>Program Type</label>
+        <picklist>
+            <picklistValues>
+                <fullName>National</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Regional</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Local</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
     </fields>
     <fields>
         <fullName>Programs__c</fullName>
@@ -573,6 +598,15 @@
         <type>Picklist</type>
     </fields>
     <fields>
+        <fullName>Suggested_Case_Minimum__c</fullName>
+        <externalId>false</externalId>
+        <label>Suggested Case Minimum</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Text_Color__c</fullName>
         <description>text color in calendar view</description>
         <externalId>false</externalId>
@@ -825,6 +859,10 @@
         <picklistValues>
             <picklist>Classification__c</picklist>
             <values>
+                <fullName>Beer</fullName>
+                <default>false</default>
+            </values>
+            <values>
                 <fullName>Mixed</fullName>
                 <default>false</default>
             </values>
@@ -857,6 +895,21 @@
             </values>
             <values>
                 <fullName>5</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Program_Type__c</picklist>
+            <values>
+                <fullName>Local</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>National</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Regional</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -1014,6 +1067,10 @@
         <picklistValues>
             <picklist>Classification__c</picklist>
             <values>
+                <fullName>Beer</fullName>
+                <default>false</default>
+            </values>
+            <values>
                 <fullName>Mixed</fullName>
                 <default>false</default>
             </values>
@@ -1046,6 +1103,21 @@
             </values>
             <values>
                 <fullName>5</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Program_Type__c</picklist>
+            <values>
+                <fullName>Local</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>National</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Regional</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -1187,6 +1259,10 @@
         <picklistValues>
             <picklist>Classification__c</picklist>
             <values>
+                <fullName>Beer</fullName>
+                <default>false</default>
+            </values>
+            <values>
                 <fullName>Mixed</fullName>
                 <default>false</default>
             </values>
@@ -1219,6 +1295,21 @@
             </values>
             <values>
                 <fullName>5</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Program_Type__c</picklist>
+            <values>
+                <fullName>Local</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>National</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Regional</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -1380,6 +1471,10 @@
         <picklistValues>
             <picklist>Classification__c</picklist>
             <values>
+                <fullName>Beer</fullName>
+                <default>false</default>
+            </values>
+            <values>
                 <fullName>Mixed</fullName>
                 <default>false</default>
             </values>
@@ -1412,6 +1507,21 @@
             </values>
             <values>
                 <fullName>5</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Program_Type__c</picklist>
+            <values>
+                <fullName>Local</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>National</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Regional</fullName>
                 <default>false</default>
             </values>
         </picklistValues>
@@ -1545,6 +1655,10 @@
         <picklistValues>
             <picklist>Classification__c</picklist>
             <values>
+                <fullName>Beer</fullName>
+                <default>false</default>
+            </values>
+            <values>
                 <fullName>Mixed</fullName>
                 <default>false</default>
             </values>
@@ -1577,6 +1691,21 @@
             </values>
             <values>
                 <fullName>5</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Program_Type__c</picklist>
+            <values>
+                <fullName>Local</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>National</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Regional</fullName>
                 <default>false</default>
             </values>
         </picklistValues>

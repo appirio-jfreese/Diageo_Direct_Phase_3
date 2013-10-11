@@ -10,10 +10,20 @@ public with sharing class HQAccountHierarchyController {
     private final String INVALID_RT_ERROR = 'INVALID RECORD TYPE: This is applicable only on '+Label.Outlet_Headquarters_Record_Type+' Accounts';
     private final String INVALID_PARAM = 'INVALID PARAMETER: Account Id did not passed';
     private final String MISMATCHED_STATES = 'MISMATCHED STATES: There are few missmatched state names, please contact Administrator';
-    
+    private boolean isFirst = true;
     // Public propeties which we will use on Page
     public Id campaignId { get; set; }
     public String accId { get; set; }
+    public String allSelectedStateCheckBox { get; set; }
+    public Map<String, Integer> existingCampStates {get; set;}
+    public Set<String> existingCampStatesNames {
+    	get{
+    		if(existingCampStates != null)
+    			return existingCampStates.keySet();
+    		else 
+    			return new Set<String>();
+    	}
+    }
     
     public Account hqAcc {get; protected set;}
     public List<Account> bannerAccList {get; protected set;}
@@ -72,20 +82,16 @@ public with sharing class HQAccountHierarchyController {
     
     // Constructor
     public HQAccountHierarchyController(ApexPages.StandardController stdController) {
-//    public HQAccountHierarchyController() {
         // Check for National Account Group
         campaignId = stdController.getId();
-        Campaign campaign = [SELECT ID, National_Account__c FROM Campaign WHERE Id =: campaignId];
+        init();
+        isFirst = false;
+    }
+    
+    private void init(){
+    	Campaign campaign = [SELECT ID, National_Account__c FROM Campaign WHERE Id =: campaignId];
         if(campaign.National_Account__c != null) {
             accId = campaign.National_Account__c;
-//            String accId = null;
-            // Check for Account Id Parameter
-//            if(Apexpages.currentPage().getParameters().containsKey('id')){
-//                accId = Apexpages.currentPage().getParameters().get('id');
-//            }else{
-//                Apexpages.addMessage(new Apexpages.Message(Apexpages.Severity.ERROR, INVALID_PARAM));
-//                hqAcc = new Account();
-//            }
             if(accId != null){
                 // Fetch Account Details
                 hqAcc = [Select Id, Name, RecordTypeId, RecordType.Name From Account Where Id = :accId];
@@ -96,42 +102,51 @@ public with sharing class HQAccountHierarchyController {
                     mrktGrpsClass = new Map<String, String>();
                     bannerAccList = new List<Account>();
                     createHierarchy(hqAcc.Id);
-                    
+                    existingCampStates = new Map<String, Integer>();
+							    	for(Campaign_State__c cs : [Select Id, Name, Campaign__c From Campaign_State__c Where Campaign__c = :campaignId]){
+							    		if(!existingCampStates.containsKey(cs.Name))
+							    			existingCampStates.put(cs.Name, 0);
+							    	}
                     // Build Distinct States Map, with their Parent Banner info
-                                for(Account storeAcc : [Select Id, Name, RecordTypeId, RecordType.Name, 
-                                    ParentId, TDLinx_Outlet_State__c, Marketing_Group__c, Marketing_Group__r.Name  
-                                    From Account Where ParentId IN :bannerAccList 
-                                        AND RecordType.Name = : Label.Outlet_Store_Record_Type]){
-                                    if(!states.containsKey(storeAcc.TDLinx_Outlet_State__c ))
-                                        states.put(storeAcc.TDLinx_Outlet_State__c ,storeAcc.ParentId);
-                                    else if(!states.get(storeAcc.TDLinx_Outlet_State__c).contains(storeAcc.ParentId))
-                                        states.put(storeAcc.TDLinx_Outlet_State__c ,states.get(storeAcc.TDLinx_Outlet_State__c )+' '+storeAcc.ParentId);
-                                    // Also add Marketing Group Id
-                                    if(!states.get(storeAcc.TDLinx_Outlet_State__c).contains(storeAcc.Marketing_Group__c))
-                                            states.put(storeAcc.TDLinx_Outlet_State__c ,states.get(storeAcc.TDLinx_Outlet_State__c )+' '+storeAcc.Marketing_Group__c);
-                                    
-                                    if(storeAcc.Marketing_Group__c != null){
-                                        if(!mrktGrpsClass.containsKey(storeAcc.Marketing_Group__c))
-                                            mrktGrpsClass.put(storeAcc.Marketing_Group__c, storeAcc.ParentId);
-                                        else if(!mrktGrpsClass.get(storeAcc.Marketing_Group__c).contains(storeAcc.ParentId))
-                                            mrktGrpsClass.put(storeAcc.Marketing_Group__c, mrktGrpsClass.get(storeAcc.Marketing_Group__c)+' '+storeAcc.ParentId);
-                                    }
-                                    List<SelectOption> stateOptionList = allStatesList;
-                                    List<String> statesNameSet = statesSet;
-                                    if(statesNameSet.size() != stateOptionList.size()){
-                                        Apexpages.addMessage(new Apexpages.Message(Apexpages.Severity.ERROR, MISMATCHED_STATES));
-                                    } 
-                                }
-                                mrktGrps = new Map<String, Marketing_Group__c>([Select Id, Name From Marketing_Group__c Where Id IN :marketingGroupsSet]);
+                    for(Account storeAcc : [Select Id, Name, RecordTypeId, RecordType.Name, 
+                        ParentId, TDLinx_Outlet_State__c, Marketing_Group__c, Marketing_Group__r.Name  
+                        From Account Where ParentId IN :bannerAccList 
+                            AND RecordType.Name = : Label.Outlet_Store_Record_Type]){
+                        if(!states.containsKey(storeAcc.TDLinx_Outlet_State__c ))
+                            states.put(storeAcc.TDLinx_Outlet_State__c ,storeAcc.ParentId);
+                        else if(!states.get(storeAcc.TDLinx_Outlet_State__c).contains(storeAcc.ParentId))
+                            states.put(storeAcc.TDLinx_Outlet_State__c ,states.get(storeAcc.TDLinx_Outlet_State__c )+' '+storeAcc.ParentId);
+                        
+                        if(storeAcc.Marketing_Group__c != null){
+                        		// Also add Marketing Group Id
+                        		if(!states.get(storeAcc.TDLinx_Outlet_State__c).contains(storeAcc.Marketing_Group__c))
+                                states.put(storeAcc.TDLinx_Outlet_State__c ,states.get(storeAcc.TDLinx_Outlet_State__c )+' '+storeAcc.Marketing_Group__c);
+                            if(!mrktGrpsClass.containsKey(storeAcc.Marketing_Group__c))
+                                mrktGrpsClass.put(storeAcc.Marketing_Group__c, storeAcc.ParentId);
+                            else if(!mrktGrpsClass.get(storeAcc.Marketing_Group__c).contains(storeAcc.ParentId))
+                                mrktGrpsClass.put(storeAcc.Marketing_Group__c, mrktGrpsClass.get(storeAcc.Marketing_Group__c)+' '+storeAcc.ParentId);
+                        }
+                        List<SelectOption> stateOptionList = allStatesList;
+                        List<String> statesNameSet = statesSet;
+                        if(statesNameSet.size() != stateOptionList.size() && isFirst){
+                            Apexpages.addMessage(new Apexpages.Message(Apexpages.Severity.ERROR, MISMATCHED_STATES));
+                        }
+                        
+                        if(existingCampStates.containsKey(storeAcc.TDLinx_Outlet_State__c)){
+                        	existingCampStates.put(storeAcc.TDLinx_Outlet_State__c, existingCampStates.get(storeAcc.TDLinx_Outlet_State__c)+1);
+                        }
+                    }
+                    mrktGrps = new Map<String, Marketing_Group__c>([Select Id, Name From Marketing_Group__c Where Id IN :marketingGroupsSet]);
                                 
                 }else{
                     Apexpages.addMessage(new Apexpages.Message(Apexpages.Severity.ERROR, INVALID_RT_ERROR));
                 }
-                
             }
-        }
+        }else{
+					Apexpages.addMessage(new Apexpages.Message(Apexpages.Severity.ERROR, INVALID_PARAM));
+					hqAcc = new Account();
+				}
     }
-    
     
     /***************************************************************************
                 NEW MODIFICATION STARTS HERE
@@ -165,6 +180,23 @@ public with sharing class HQAccountHierarchyController {
                 }
             }
         }
+    }
+    
+    public Pagereference createCamaignStates(){
+    	List<Campaign_State__c> newCamStates = new List<Campaign_State__c>();
+    	
+    	for(String st : allSelectedStateCheckBox.split(',')){
+    		if(!existingCampStates.containsKey(st)){
+    			newCamStates.add( new Campaign_State__c(Name = st, Campaign__c = campaignId));
+    		}
+    	}
+    	
+    	if(newCamStates != null && newCamStates.size() > 0){
+    		insert newCamStates;
+    	}
+    	
+    	init();
+    	return null;
     }
     
     
