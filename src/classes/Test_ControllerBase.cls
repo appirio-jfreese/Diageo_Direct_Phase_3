@@ -293,7 +293,8 @@ private class Test_ControllerBase {
  				System.assert(bController.isNeedToggle);
  				bController.toggleToWine();
  				System.assertEquals(bController.clickedTheme, 'Wine');
- 				
+ 				bController.toggleToBeer();
+ 				System.assertEquals(bController.clickedTheme, 'Beer');
  				bController.toggleToSpirits();
  				System.assertEquals(bController.clickedTheme, 'Spirits');
  				num = Service_API.getUserNumberOfItemsPerPage();
@@ -308,6 +309,9 @@ private class Test_ControllerBase {
  				pageRef = bController.openPlanningPage();
  				
  				bController.planningTheme = 'Wine';
+ 				pageRef = bController.openPlanningPage();
+ 				
+ 				bController.planningTheme = 'Beer';
  				pageRef = bController.openPlanningPage();
  				
  				bController.planningTheme = 'Spirits';
@@ -342,6 +346,29 @@ private class Test_ControllerBase {
  				
  				//bController.siteTheme = 'Wine';
  				bController.openWinePlanningPage();
+ 				
+ 				bController.openBeerPlanningPage();
+ 				bController.userMultipleShare();
+ 				bController.getNotificationFrequency();
+ 				//Test.setCurrentPage(Page.Collaboration);
+ 				String idString = bController.contentCanEditIds;
+ 				bController.getMonthOptions();
+ 				bController.getYearOptions();
+ 				bController.selectedMonth = '11';
+ 				bController.selectedYear = '2012';
+ 				bController.popOverNext();
+ 				System.assertEquals(bController.selectedMonth, '12');
+ 				System.assertEquals(bController.selectedYear, '2012');
+ 				bController.popOverNext();
+ 				System.assertEquals(bController.selectedMonth, '1');
+ 				System.assertEquals(bController.selectedYear, '2013');
+ 				bController.popOverPrevious();
+ 				System.assertEquals(bController.selectedMonth, '12');
+ 				System.assertEquals(bController.selectedYear, '2012');
+ 				bController.setTodayDate();
+ 				bController.bdLink = Page.HomePage.getURL();
+ 				bController.bdLinkName = 'Home Page';
+ 				bController.addInBreadcrumb();
     	}
     	Test.stopTest();
     }

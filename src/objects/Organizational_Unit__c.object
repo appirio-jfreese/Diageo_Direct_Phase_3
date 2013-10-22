@@ -126,6 +126,10 @@
                 <fullName>Wine</fullName>
                 <default>false</default>
             </picklistValues>
+            <picklistValues>
+                <fullName>Beer</fullName>
+                <default>false</default>
+            </picklistValues>
             <sorted>false</sorted>
         </picklist>
         <type>Picklist</type>
@@ -195,6 +199,18 @@
         </filterItems>
         <isOptional>false</isOptional>
         <name>Account_Wine Hierarchy</name>
+    </namedFilters>
+    <namedFilters>
+        <fullName>Account_00NK00000013BR8MAM</fullName>
+        <active>false</active>
+        <field>Account.Beer_Hierarchy__c</field>
+        <filterItems>
+            <field>Organizational_Unit__c.Type__c</field>
+            <operation>equals</operation>
+            <value>Beer</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+        <name>Account_Beer Hierarchy</name>
     </namedFilters>
     <pluralLabel>Organizational Units</pluralLabel>
     <searchLayouts>

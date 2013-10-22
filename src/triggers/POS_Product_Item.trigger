@@ -1,16 +1,24 @@
-/**
- * @author      Model Metrics {Venkatesh Kamat}
- * @date        05/21/2012
- * @description Takes care of synching updates to Magento.
- *              Create/Update Item Brand record based on the Program an Item is associated with.
+/**************************************************************************************************
+@author      Model Metrics {Venkatesh Kamat}
+@date        05/21/2012
+@description Takes care of synching updates to Magento.
+             Create/Update Item Brand record based on the Program an Item is associated with.
  
- 
-     Modified By - Rahul Chitkara(Appirio Offshore)
-     Date - 27th Feb 2013
-     Related to - To prevent test class failure.
- */
- 
-trigger POS_Product_Item on Item__c (after delete, after insert, after update) {
+Modified By - Rahul Chitkara(Appirio Offshore)
+Date - 27th Feb 2013
+Related to - To prevent test class failure.
+     
+Updated By  : Jonathan Freese   
+Date        : 10/11/13
+Story/Task  : US861/TA1538
+     
+**************************************************************************************************/
+
+trigger POS_Product_Item on Item__c (
+    //Start: Changes for US861/TA1538 JFreese
+    before insert, 
+    //End: Changes for US861/TA1538 JFreese
+    after delete, after insert, after update) {
     
     
     
@@ -24,13 +32,31 @@ trigger POS_Product_Item on Item__c (after delete, after insert, after update) {
     Set<Id> itemsImpactingCartPrice = new Set<Id>();    // store Id of Item__c 
     
     if (trigger.isInsert) {
+        //Start: Changes for US861/TA1538 JFreese
+        if (trigger.isBefore) {
         
+            Id rollupRecTypeId;
+
+            List<RecordType> recTypes = [select id,DeveloperName from RecordType where DeveloperName = 'Roll_Up'];
+            for (RecordType recType:recTypes) {
+           	    rollupRecTypeId = recType.Id;
+            }
+
+            for(Item__c n : trigger.new) {
+                 //check that roll-up parent items have prices of $0.00
+                 if (n.RecordTypeId == rollupRecTypeId && (n.Current_Price__c != 0 || n.Estimated_Price__c != 0)){
+                	n.addError('Both the Current and Estimated Price must be $0.00 for Roll-Up (parent) items');
+                	continue;
+                }
+            }
+        }
+        else { // is after
+        //End: Changes for US861/TA1538 JFreese	
            Map<Id, Id> itemProgamIdMap = new Map<Id, Id>(); 
            for(Item__c n : trigger.new) {
                 
                 itemProgamIdMap.put(n.id, n.program__c); 
                 System.debug('n.Name -' +n.Name);
-                
             }
             Set<ID> itemIdsForSync = itemProgamIdMap.keySet();
             List<Item__c> itemsForSync = Database.query(itemsWithBrands + ' :itemIdsForSync');
@@ -66,7 +92,9 @@ trigger POS_Product_Item on Item__c (after delete, after insert, after update) {
             }   
             System.debug('ibCreateList.size() -' + ibCreateList.size());
             insert  ibCreateList;           
-               
+        //Start: Changes for US861/TA1538 JFreese
+        }
+        //End: Changes for US861/TA1538 JFreese
     } else if (trigger.isUpdate) {
         
            Id kitRecTypeId;
@@ -106,6 +134,13 @@ trigger POS_Product_Item on Item__c (after delete, after insert, after update) {
                     n.addError('Magento Product Id missing for this Item, please make sure the data is synched to Magento successfully before making any updates.');
                     continue;
                 }*/
+                
+                //Start: Changes for US861/TA1538 JFreese
+                //check that roll-up parent items have prices of $0.00
+                if (n.RecordTypeId == rollupRecTypeId && (n.Current_Price__c != 0 || n.Estimated_Price__c != 0)){
+                	n.addError('Both the Current and Estimated Price must be $0.00 for Roll-Up (parent) items');
+                }
+                //End: Changes for US861/TA1538 JFreese
                 
                 Item__c o = trigger.oldMap.get(n.id);
                 //add to the list for updating itembarnds only if the Program field on the Item has changed.

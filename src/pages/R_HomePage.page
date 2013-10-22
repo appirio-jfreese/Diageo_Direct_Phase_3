@@ -317,7 +317,7 @@ Story/Task  : US584/DE706
 						<apex:repeat value="{!SiteThemes}" var="theme">
 							<div class="column default {!IF(counter == SiteThemes.size,'last','')}">
 <!--								<a class="{!theme['label']}-bg" onclick="themeClicked('{!theme['label']}');" href="javascript:;">{!theme["label"]}</a> -->
-								<a class="{!theme['label']}-bg" onclick="{!IF(theme['label']='Wine','toggleToWine()','toggleToSpirits()')};" href="javascript:;">{!theme["label"]}</a>
+								<a class="{!theme['label']}-bg" onclick="{!'toggleTo'+theme['label']+'()'};" href="javascript:;">{!theme["label"]}</a>
 							</div>
 							<apex:variable var="counter" value="{!counter + 1}"/>
 						</apex:repeat>

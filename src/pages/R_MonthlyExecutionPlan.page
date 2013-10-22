@@ -4,6 +4,10 @@ Modified By : Parul Gupta (Appirio OffShore)
 Description : Integrated Responsive design with existing MEP functionality
 Date        : 6/28/13
 Story/Task  : US585/TA1081
+
+Modified By : Basant Kumar Verma (Appirio JDC)
+Date        : 8/13/13
+Story/Task  : DE733
 ------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_MonthlyExecutionPlan">
 <body class="mep-landing-page mep-page">
@@ -69,7 +73,31 @@ Story/Task  : US585/TA1081
                 <apex:outputPanel id="mepData" styleClass="{!if(timePeriod == 1, '', 'mep-quarterly-page')}">
            
                 <!--  START :: plans-header Section - displayed for timePeriod != Monthly -->
-                <apex:outputPanel rendered="{!timePeriod != 1}">                               
+                <!-- START : Changed for DE733 - Basant Verma -->
+                <apex:outputPanel rendered="{!timePeriod > 1}" layout="block" styleClass = "{!if(salesDriversToShowCount > 1,'plans plans-header no-spirits','plan-header')}" >
+                	<apex:variable var="counter" value="{!1}"/>
+                        <apex:repeat value="{!salesDriversToShow}" var="salesdrivername">
+                            
+                            <apex:outputPanel rendered="{!salesDriversToShowCount==1}">
+                                <div class="plan" style="width: {!(100/salesDriversToShowCount)-1}%;">
+                                <a href="javascript:void(0);" onclick="selectSalesDriver('All');return false;"  class="mep-bg btn">Back</a>
+                                <span>{!salesdrivername}</span>
+                            </div>
+                            </apex:outputPanel>
+                             
+                            <apex:outputPanel rendered="{!salesDriversToShowCount!=1}">          
+                                <div class="plan {!IF(counter == salesDriversToShowCount,'last','')}" style="width: {!(100/salesDriversToShowCount)-1}%;">
+                                    <h3 class="{!IF(counter == 1, 'two-lines', '')} mep-bg">                  
+                                    <a href="javascript:void(0);" onclick="selectSalesDriver('{!salesdrivername}')">                     
+                                        {!salesdrivername}                        
+                                    </a>
+                                    </h3>
+                                    <apex:variable var="counter" value="{!counter + 1}"/>              
+                                </div>
+                            </apex:outputPanel>              
+                        </apex:repeat>
+                </apex:outputPanel>
+                <!-- <apex:outputPanel rendered="{!timePeriod != 1}">                               
                     <div class="plans plans-header">
                         <apex:variable var="counter" value="{!1}"/>
                         <apex:repeat value="{!salesDriversToShow}" var="salesdrivername">
@@ -93,7 +121,8 @@ Story/Task  : US585/TA1081
                             </apex:outputPanel>              
                         </apex:repeat>
                     </div>
-                </apex:outputPanel>
+                </apex:outputPanel> -->
+                <!-- END : Changed for DE733 - Basant Verma -->
                 <!--  END :: plans-header Section - displayed for timePeriod != Monthly -->
             
                 <apex:variable var="aselYear" value="{!selectedyear}"/>

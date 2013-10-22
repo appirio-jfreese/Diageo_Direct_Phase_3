@@ -133,6 +133,86 @@ private class Test_Controller_PIL {
 
         Test.StopTest();  
     }
+    static testmethod void testConstructorBeer(){
+        PageReference pageRef = Page.PIL;
+        Test.setCurrentPage(pageRef);
+        
+        Test.StartTest();
+        Account a = Test_Helper.testInsertAccount('Test Account');
+        Contact c = Test_Helper.testInsertContact('TestFirst', 'TestLast', a.ID);
+        User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
+        User u; 
+        System.runAs (thisUser) {
+            u = Test_Helper.testInsertDistributorPortalUser(c.ID);
+            u.Diageo_Direct_Theme__c = 'Beer';
+            update u;
+        }
+                
+        Brand__c testBrand1 = new Brand__c();
+        testBrand1.Name = 'Test Brand1';
+        testBrand1.Classification__c = 'Beer';
+        testBrand1.Core_Trademarks__c = true;
+        testBrand1.diageo_direct_visible__c = true;
+        insert testBrand1;
+        
+        Brand__c testBrand2 = new Brand__c();
+        testBrand2.Name = 'Test Brand2';
+        testBrand2.Classification__c = 'Beer';
+        testBrand2.Reserve_Brand__c = true;
+        testBrand2.diageo_direct_visible__c = true;
+        insert testBrand2;
+        
+        Brand__c testBrand3 = new Brand__c();
+        testBrand3.Name = 'Test Brand3';
+        testBrand3.Classification__c = 'Beer';
+        testBrand3.diageo_direct_visible__c = true;
+        insert testBrand3;
+        
+        Brand__c testBrand4 = new Brand__c();
+        testBrand4.Name = 'Test Brand3';
+        testBrand4.Classification__c = 'Beer';
+        testBrand4.Innovation__c = true;
+        testBrand4.diageo_direct_visible__c = true;
+        insert testBrand4;
+        
+        Brand__c testBrand5 = new Brand__c();
+        testBrand5.Name = 'Test Brand3';
+        testBrand5.Classification__c = 'Beer';
+        testBrand5.Innovation__c = true;
+        testBrand5.diageo_direct_visible__c = true;
+        testBrand5.Heritage__c = true;
+        insert testBrand5;
+        
+        Brand__c testBrand6 = new Brand__c();
+        testBrand6.Name = 'Test Brand3';
+        testBrand6.Classification__c = 'Beer';
+        testBrand6.Innovation__c = true;
+        testBrand6.diageo_direct_visible__c = true;
+        testBrand6.Lifestyle__c = true;
+        insert testBrand6;
+        
+        Brand__c testBrand7 = new Brand__c();
+        testBrand7.Name = 'Test Brand3';
+        testBrand7.Classification__c = 'Beer';
+        testBrand7.Innovation__c = true;
+        testBrand7.diageo_direct_visible__c = true;
+        testBrand7.Luxury__c = true;
+        insert testBrand7;
+
+        Test_Helper.testInsertAccountBrand(a.ID, testBrand1.ID);
+        Test_Helper.testInsertAccountBrand(a.ID, testBrand2.ID);
+        Test_Helper.testInsertAccountBrand(a.ID, testBrand3.ID);
+        Test_Helper.testInsertAccountBrand(a.ID, testBrand4.ID);
+        Test_Helper.testInsertAccountBrand(a.ID, testBrand5.ID);
+        Test_Helper.testInsertAccountBrand(a.ID, testBrand6.ID);
+        Test_Helper.testInsertAccountBrand(a.ID, testBrand7.ID);
+
+        System.runAs(u){
+            Controller_PIL controller = new Controller_PIL();
+        }   
+
+        Test.StopTest();  
+    }
     
     static testMethod void testAddAdditionalBrands(){
         PageReference pageRef = Page.PIL;

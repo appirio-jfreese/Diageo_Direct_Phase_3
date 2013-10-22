@@ -17,6 +17,10 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
+        <actionName>ListClean</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
         <actionName>New</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -294,6 +298,44 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>Beer_Division__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISBLANK(Beer_Hierarchy__c), &quot;&quot;, IF(TEXT(Beer_Hierarchy__r.Label__c) = &quot;Division&quot;, Beer_Hierarchy__r.Name, 
+IF(ISBLANK(Beer_Hierarchy__r.Parent__c), &quot;&quot;, IF(TEXT(Beer_Hierarchy__r.Parent__r.Label__c) = &quot;Division&quot;, Beer_Hierarchy__r.Parent__r.Name, 
+IF(ISBLANK(Beer_Hierarchy__r.Parent__r.Parent__c), &quot;&quot;, IF(TEXT(Beer_Hierarchy__r.Parent__r.Parent__r.Label__c) = &quot;Division&quot;, Beer_Hierarchy__r.Parent__r.Parent__r.Name, 
+IF(ISBLANK(Beer_Hierarchy__r.Parent__r.Parent__r.Parent__c), &quot;&quot;, IF(TEXT(Beer_Hierarchy__r.Parent__r.Parent__r.Parent__r.Label__c) = &quot;Division&quot;, Beer_Hierarchy__r.Parent__r.Parent__r.Parent__r.Name, &quot;&quot;))))))))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Beer Division</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Beer_Hierarchy_Location__c</fullName>
+        <externalId>false</externalId>
+        <formula>Beer_Hierarchy__r.Hierarchy_Location__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Beer Hierarchy Location</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Beer_Hierarchy__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Beer Hierarchy</label>
+        <referenceTo>Organizational_Unit__c</referenceTo>
+        <relationshipLabel>Accounts (Beer Hierarchy)</relationshipLabel>
+        <relationshipName>Accounts2</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>Beer_Indicator__c</fullName>
         <externalId>false</externalId>
         <label>Beer Indicator</label>
@@ -313,6 +355,17 @@
         <type>Picklist</type>
     </fields>
     <fields>
+        <fullName>Beer_Market__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISBLANK(Beer_Hierarchy__c), &quot;&quot;, IF(TEXT(Beer_Hierarchy__r.Label__c) = &quot;Market&quot;, Beer_Hierarchy__r.Name, &quot;&quot;))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Beer Market</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Beer_Rank__c</fullName>
         <externalId>false</externalId>
         <label>Beer Rank</label>
@@ -322,6 +375,19 @@
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Beer_Region__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISBLANK(Beer_Hierarchy__c), &quot;&quot;, IF(TEXT(Beer_Hierarchy__r.Label__c) = &quot;Region&quot;, Beer_Hierarchy__r.Name, 
+IF(ISBLANK(Beer_Hierarchy__r.Parent__c), &quot;&quot;, IF(TEXT(Beer_Hierarchy__r.Parent__r.Label__c) = &quot;Region&quot;, Beer_Hierarchy__r.Parent__r.Name, 
+IF(ISBLANK(Beer_Hierarchy__r.Parent__r.Parent__c), &quot;&quot;, IF(TEXT(Beer_Hierarchy__r.Parent__r.Parent__r.Label__c) = &quot;Region&quot;, Beer_Hierarchy__r.Parent__r.Parent__r.Name, &quot;&quot;))))))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Beer Region</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
         <unique>false</unique>
     </fields>
     <fields>
@@ -342,6 +408,18 @@
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Beer_State_District__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISBLANK(Beer_Hierarchy__c), &quot;&quot;, IF(TEXT(Beer_Hierarchy__r.Label__c) = &quot;State District&quot;, Beer_Hierarchy__r.Name, 
+IF(ISBLANK(Beer_Hierarchy__r.Parent__c), &quot;&quot;, IF(TEXT(Beer_Hierarchy__r.Parent__r.Label__c) = &quot;State District&quot;, Beer_Hierarchy__r.Parent__r.Name, &quot;&quot;))))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Beer State District</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Beer_Volume__c</fullName>
@@ -22556,6 +22634,16 @@ TEXT(  State_Mandated_for_Display_Division__c ) = NULL)</errorConditionFormula>
      TEXT(State_Mandated_for_Shelf_Division__c) = NULL)</errorConditionFormula>
         <errorDisplayField>State_Mandated_for_Shelf_Division__c</errorDisplayField>
         <errorMessage>You must select a value for the State Mandated for Display Division field.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Type_of_Beer_Hierarchy</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND( 
+NOT(ISPICKVAL(Beer_Hierarchy__r.Type__c, &apos;&apos;)), 
+NOT(ISPICKVAL(Beer_Hierarchy__r.Type__c, &apos;Beer&apos;)) 
+)</errorConditionFormula>
+        <errorDisplayField>Beer_Hierarchy__c</errorDisplayField>
+        <errorMessage>Selected organizational unit type must be &apos;Beer&apos;</errorMessage>
     </validationRules>
     <validationRules>
         <fullName>Type_of_Spirits_Hierarchy</fullName>

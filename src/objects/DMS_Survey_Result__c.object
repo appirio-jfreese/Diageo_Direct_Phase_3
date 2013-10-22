@@ -320,5 +320,5 @@
     </nameField>
     <pluralLabel>DMS Survey Result</pluralLabel>
     <searchLayouts/>
-    <sharingModel>ReadWrite</sharingModel>
+    <sharingModel>Read</sharingModel>
 </CustomObject>

@@ -99,7 +99,7 @@ public with sharing class Constant {
 	public static final String SPIRITS_PLANNING = 'Spirits Planning';
 	public static final String WINE_PLANNING = 'Wine Planning';
 	public static final String NATIONAL_ACCOUNTS = 'National Accounts';
-		
+    public static final String BEER_PLANNING = 'Beer Planning';
 	// POS
 	// none...
 	

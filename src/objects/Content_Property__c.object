@@ -832,6 +832,41 @@
                 <controllingFieldValues>Selling Support</controllingFieldValues>
                 <default>false</default>
             </picklistValues>
+            <picklistValues>
+                <fullName>24 Pack</fullName>
+                <controllingFieldValues>Product Shots</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>18 Pack</fullName>
+                <controllingFieldValues>Product Shots</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>12 Pack</fullName>
+                <controllingFieldValues>Product Shots</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>8 Pack</fullName>
+                <controllingFieldValues>Product Shots</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>6 Pack</fullName>
+                <controllingFieldValues>Product Shots</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>4 Pack</fullName>
+                <controllingFieldValues>Product Shots</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>2 Pack</fullName>
+                <controllingFieldValues>Product Shots</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
             <sorted>false</sorted>
         </picklist>
         <trackHistory>false</trackHistory>

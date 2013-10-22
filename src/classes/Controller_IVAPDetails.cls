@@ -57,7 +57,7 @@ public with sharing class Controller_IVAPDetails extends Controller_Base {
 	public String backToInnovationAndVAPUrl {get; private set;}
 		
     public Controller_IVAPDetails() {
-    	currentSectionConstant = (siteTheme == 'Spirits') ? (Constant.INNOVATION_AND_SUSTAINOVATION) : (Constant.INNOVATION_SUSTAINOVATION_AND_VINTAGE);
+        currentSectionConstant = (siteTheme == 'Spirits' || siteTheme == 'Beer') ? (Constant.INNOVATION_AND_SUSTAINOVATION) : (Constant.INNOVATION_SUSTAINOVATION_AND_VINTAGE);
 
 		// Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13
 		//pageUrl = Page.IVAPDetails.getUrl();
@@ -113,6 +113,7 @@ public with sharing class Controller_IVAPDetails extends Controller_Base {
         if(ApexPages.currentPage().getParameters().get('id') != null){
             try {
                 detailId = Id.valueOf(ApexPages.currentPage().getParameters().get('id'));
+                system.debug('selectedThemes()---'+selectedThemes()+'::: detailId '+detailId );
                 ivapItem = Service_API.getIVAP(detailId, selectedThemes());
                 // Start : Changed for TA1515 : Basant
                 currentSectionConstant = (ivapItem.Classification__c == 'Spirits') ? (Constant.INNOVATION_AND_SUSTAINOVATION) : (Constant.INNOVATION_SUSTAINOVATION_AND_VINTAGE);
@@ -143,6 +144,7 @@ public with sharing class Controller_IVAPDetails extends Controller_Base {
             } catch( Exception err ){
             	detailId = null;
                 ApexPages.addMessage( new ApexPages.Message( ApexPages.Severity.ERROR, 'Unable to load details. '));
+                system.debug('error--'+ApexPages.Severity.ERROR);
                 return;
             }
         }

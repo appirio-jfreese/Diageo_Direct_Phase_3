@@ -17,4 +17,22 @@
         <type>Default</type>
     </actionOverrides>
     <enableFeeds>false</enableFeeds>
+    <searchLayouts>
+        <customTabListAdditionalFields>PRICEBOOK2.NAME</customTabListAdditionalFields>
+        <customTabListAdditionalFields>PRICEBOOK2.DESCRIPTION</customTabListAdditionalFields>
+        <customTabListAdditionalFields>PRICEBOOK2.LAST_UPDATE</customTabListAdditionalFields>
+        <customTabListAdditionalFields>PRICEBOOK2.IS_ACTIVE</customTabListAdditionalFields>
+        <lookupDialogsAdditionalFields>PRICEBOOK2.NAME</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>PRICEBOOK2.DESCRIPTION</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>PRICEBOOK2.LAST_UPDATE</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>PRICEBOOK2.IS_ACTIVE</lookupDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>PRICEBOOK2.NAME</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>PRICEBOOK2.DESCRIPTION</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>PRICEBOOK2.LAST_UPDATE</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>PRICEBOOK2.IS_ACTIVE</lookupPhoneDialogsAdditionalFields>
+        <searchResultsAdditionalFields>PRICEBOOK2.NAME</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>PRICEBOOK2.DESCRIPTION</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>PRICEBOOK2.LAST_UPDATE</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>PRICEBOOK2.IS_ACTIVE</searchResultsAdditionalFields>
+    </searchLayouts>
 </CustomObject>

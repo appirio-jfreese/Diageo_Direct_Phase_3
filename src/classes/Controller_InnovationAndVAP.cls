@@ -17,6 +17,9 @@ public with sharing class Controller_InnovationAndVAP extends Controller_Base {
             } else {
                 span = 1;
             }
+            //Start : changes for DE735 --Geeta Kumawat
+            calendar = new Service_Calendar();
+            //End : changes for DE735 --Geeta Kumawat
             calendar.initDateRange(timePeriod, calendar.startDate);
         }
     }    
@@ -161,17 +164,38 @@ public with sharing class Controller_InnovationAndVAP extends Controller_Base {
         salesDriversToProcess.clear();
         programMap.clear();
         //display all or only selected sales driver
-        String notShownDriver = (siteTheme == 'Wine') ? 'New Sizes, Pack/Label Changes' : 'Pack/Label Changes';
+        // Start : Changes for TA1103 -- Geeta Kumawat
+        String notShownDriver = (siteTheme == 'Wine' || siteTheme == 'Beer') ? 'New Sizes, Pack/Label Changes' : 'Pack/Label Changes';
+        // END: Changes for TA1103 -- Geeta Kumawat
         for (SelectOption o : getSalesDrivers()){
             if ((salesDriver == 'All' && o.getLabel() != 'All') || (salesDriver != 'All' && o.getLabel()==salesDriver)){
                 salesDriversToProcess.add(o.getLabel());
                 if(o.getLabel() != notShownDriver){
-                    salesDriversToShow.add(o.getLabel());
-                    programMap.put(o.getLabel(), new list<map<String, String>>{new map<String, String>{'className' => 'empty', 'label' => ''}});
+                   salesDriversToShow.add(o.getLabel());
+                   programMap.put(o.getLabel(), new list<map<String, String>>{new map<String, String>{'className' => 'empty', 'label' => ''}});
                 }
             }
         }
+        
         salesDriversToShowCount = salesDriversToShow.size();
+        system.debug('salesDriversToShowCount---'+salesDriversToShowCount);
+        if(salesDriversToShowCount>4){
+        	Integer ind = -1,i=0;
+        	for(String str :salesDriversToShow){
+        		if(str=='Empty'){
+        			ind =i;
+        			break;
+        		}
+        		i++;	
+        	}
+        	// Start: Changes for DE748 -- Geeta Kumawat(Appirio JDC)
+        	if(ind != -1){
+        		salesDriversToShow.remove(ind);
+        	}
+        	// End: Changes for DE748 -- Geeta Kumawat(Appirio JDC)
+        	salesDriversToShowCount = salesDriversToShow.size();
+        	system.debug('salesDriversToShowCount---'+salesDriversToShowCount);
+        }
         setMonths();
         
         // Start: Changes for responsive site - Randy Wandell (Appirio) 7/10/13

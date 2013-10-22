@@ -79,10 +79,16 @@ Story/Task  : US503/TA1011
                              
                             <apex:outputPanel rendered="{!salesDriversToShowCount!=1}">          
                                 <div class="plan {!IF(counter == salesDriversToShowCount,'last','')}" style="width: {!(100/salesDriversToShowCount)-1}%;">
-                                    <h3 class="{!IF((len(salesdrivername) > 15 && (100/salesDriversToShowCount)-1 < 24) || len(salesdrivername) > 25,'two-lines','')} isv-bg">                  
-                                    <a href="javascript:void(0);" onclick="selectSalesDriver('{!salesdrivername}')">                     
-                                        {!salesdrivername}                        
-                                    </a>
+                                    <h3 class="{!IF((len(salesdrivername) > 20 && (100/salesDriversToShowCount)-1 < 24) || len(salesdrivername) > 25,'two-lines','')} isv-bg">                  
+                                    	<!-- Start : changes for DE730 --Geeta Kumawat -->
+                                    	<apex:outputText rendered="{!salesdrivername=='Empty'}">
+                                    		<a href="javascript:void(0);" >.</a>
+                                    	</apex:outputText>
+                                    	<apex:outputText rendered="{!salesdrivername!='Empty'}">
+                                    	 <a href="javascript:void(0);" onclick="selectSalesDriver('{!salesdrivername}')">                     
+                                      	 {!salesdrivername}                        
+                                    	</a></apex:outputText>
+                                    	<!-- Start : changes for DE730 --Geeta Kumawat -->
                                     </h3>
                                     <apex:variable var="counter" value="{!counter + 1}"/>              
                                 </div>
@@ -132,10 +138,16 @@ Story/Task  : US503/TA1011
                         <apex:outputPanel rendered="{!salesDriversToShowCount != 1}" >
                         <div class="plan {!IF(lastItem == salesdrivername,'last','')}" id="plan{!FLOOR(counter)}{!monthName}"  style="width: {!(100/salesDriversToShowCount)-1}%;">
 <!--                            <h3 class="{!IF(counter == 4 || counter == 5,'two-lines','')} isv-bg">  -->
-                                <h3 class="{!IF((len(salesdrivername) > 25 && (100/salesDriversToShowCount)-1 < 24) || len(salesdrivername) > 25,'two-lines','')} isv-bg">                
-                                    <a href="javascript:void(0);" onclick="selectSalesDriver('{!salesdrivername}')">                     
-                                        {!salesdrivername}                        
-                                    </a>
+                                <h3 class="{!IF( (len(salesdrivername) > 20 && (100/salesDriversToShowCount)-1 < 24) || len(salesdrivername) > 25,'two-lines','')} isv-bg">                
+                                   <!-- Start : changes for DE730 --Geeta Kumawat -->
+                                    <apex:outputText rendered="{!salesdrivername=='Empty'}">
+                                    		<a href="javascript:void(0);" >.</a>
+                                   	</apex:outputText>
+                                   	<apex:outputText rendered="{!salesdrivername!='Empty'}">
+                                   	 <a href="javascript:void(0);" onclick="selectSalesDriver('{!salesdrivername}')">                     
+                                     	 {!salesdrivername}                        
+                                   	</a></apex:outputText>
+                                   	<!-- Start : changes for DE730 --Geeta Kumawat -->
                             </h3>
                             <apex:repeat value="{!calendarData[month.data][salesdrivername]}" var="programData">
                                 <apex:outputPanel rendered="{!timePeriod == 1}">
@@ -233,7 +245,7 @@ Story/Task  : US503/TA1011
 display: block;
 color: #fff;
 font-weight: bold;
-font-size: 85%;
+font-size: 82%;
 }
 </style>
 </apex:page>

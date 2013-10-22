@@ -8,7 +8,6 @@ public with sharing class DistributorContactSignUpController{
 	public Contact distribuorCon {get;set;}
 	private String contId;
 	private static final String DistributorSubmitedState = 'Submitted';
-	public String SuccessFullySubmitted = 'Distributor Contact Sign-Up Successfully Submited..!!';
 	public Boolean isSuccess {get; set;}
 	  
 	public DistributorContactSignUpController(){
@@ -17,15 +16,16 @@ public with sharing class DistributorContactSignUpController{
 	  	contId = Apexpages.currentPage().getParameters().get('contId');
 		
 		if(contId != null && !contId.trim().equals('')){
-			distribuorCon = [Select Id, Name, FirstName, LastName, Title, Email, Phone, 
+			distribuorCon = [Select Id, Name, AccountId, Account.Name, FirstName, 
+				LastName, Title, Email, Phone, 
 				Distributor_Name__c, Distributor_City__c, Distributor_State__c, 
 				Distributor_Postal_Code__c, Subscribe_Interested_In__c, 
 				Subscribe_Premise__c, Subscribe_Status__c 
 				From Contact Where Id = :contId Limit 1].get(0);
 		}else{
-			distribuorCon = new Contact();
+			distribuorCon = new Contact(AccountId = Label.DistributorPlaceHolderAccount);
+			distribuorCon.Subscribe_Status__c = DistributorSubmitedState;
 		}
-		distribuorCon.Subscribe_Status__c = DistributorSubmitedState;
 	}
 	
 	public Pagereference subscribe(){
@@ -38,7 +38,7 @@ public with sharing class DistributorContactSignUpController{
    		app.setObjectId(distribuorCon.id);
    		Approval.ProcessResult result = Approval.process(app);
    		
-   		Apexpages.addMessage(new Apexpages.Message(Apexpages.Severity.INFO, SuccessFullySubmitted));
+   		Apexpages.addMessage(new Apexpages.Message(Apexpages.Severity.INFO, Label.DistributorContactSubmitSuccessMessage));
    		isSuccess = true;
 		}catch(Exception e){
 			Apexpages.addMessage(new Apexpages.Message(Apexpages.Severity.ERROR, e.getMessage()));

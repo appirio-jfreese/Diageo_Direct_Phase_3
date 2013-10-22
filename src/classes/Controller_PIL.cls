@@ -1,5 +1,9 @@
 /*******************************************************************************
-Name        : Controller_PIL.cls
+NAME				:	PIL.page
+
+Updated By	:	Basant Kumar Verma (Appirio JDC)
+Date				:	12/08/2013
+Story/Task	: US554/TA1127
 *******************************************************************************/
 public with sharing class Controller_PIL extends Controller_Base {
 
@@ -156,7 +160,37 @@ public with sharing class Controller_PIL extends Controller_Base {
                         bottleImgMap.put(brand.id, '');
                     }   
             }
-        }else{
+        }
+        // START : Changed for US554/TA1127 - Basant Verma 
+        else if(siteTheme == 'Beer'){
+            allBrands = Service_API.getPILBrandsNew2(false);
+            for(Brand__c brand : allBrands){
+                 if(brand.Trademarks__c == true){
+                    if(coreBrands.size() < 30){
+                        coreBrands.add(brand);
+                    } else {
+                        addAdditionalBrands(brand);
+                    }
+                    if(!bottleImgMap.containsKey(brand.id) && brand.Trademarks_Logo__r.Content_Version_Id__c != '' && brand.Trademarks_Logo__r.Content_Version_Id__c != null){
+                        bottleImgMap.put(brand.id, brand.Trademarks_Logo__r.Content_Version_Id__c);
+                    }
+                }else{
+                	addAdditionalBrands(brand);
+	                if(!bottleImgMap.containsKey(brand.id) && brand.Trademarks_Logo__r.Content_Version_Id__c != '' && brand.Trademarks_Logo__r.Content_Version_Id__c != null){
+	                    bottleImgMap.put(brand.id, brand.Trademarks_Logo__r.Content_Version_Id__c);
+	                }
+	                if(!bottleImgMap.containsKey(brand.id) && brand.Reserve_Brand_Logo__r.Content_Version_Id__c != '' && brand.Reserve_Brand_Logo__r.Content_Version_Id__c != null){
+	                    bottleImgMap.put(brand.id, brand.Reserve_Brand_Logo__r.Content_Version_Id__c);
+	                }
+                }   
+                searchBrands.add(brand);
+                if(!bottleImgMap.containsKey(brand.id)){
+                    bottleImgMap.put(brand.id, '');
+                }   
+            }   
+        }
+        // END : Changed for US554/TA1127 - Basant Verma
+        else{
             allBrands = Service_API.getPILBrandsNew2(false);
             for(Brand__c brand : allBrands){
                  if(brand.Core_Trademarks__c == true){

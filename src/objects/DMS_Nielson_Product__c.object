@@ -453,7 +453,7 @@
         <type>Number</type>
         <unique>false</unique>
     </fields>
-    <label>DMS Nielson Product</label>
+    <label>Nielson Product</label>
     <nameField>
         <displayFormat>DNP-{00000000}</displayFormat>
         <label>DMS Nielson Product</label>
@@ -461,5 +461,5 @@
     </nameField>
     <pluralLabel>DMS Nielson Product</pluralLabel>
     <searchLayouts/>
-    <sharingModel>ReadWrite</sharingModel>
+    <sharingModel>Read</sharingModel>
 </CustomObject>

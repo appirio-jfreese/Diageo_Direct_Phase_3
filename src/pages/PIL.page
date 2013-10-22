@@ -1,5 +1,9 @@
 <!------------------------------------------------------------------------------
-Name				: PIL.page
+NAME				:	PIL.page
+
+Updated By	:	Basant Kumar Verma (Appirio JDC)
+Date				:	12/08/2013
+Story/Task	: US554/TA1127
 ------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_PIL">
     <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
@@ -65,7 +69,7 @@ body, html{
                     <div class="horizontal-slider-container">
                         <div class="horizontal-slider-content-wrapper">
                             <!-- Search screen -->
-                            <div class="horizontal-slider-content searchScreen {!IF(siteTheme == 'Spirits' , '' , 'wine')}">
+                            <div class="horizontal-slider-content searchScreen {!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer') , '' , 'wine')}">
                                 <div class="right-arrow core-arrow"><apex:image url="{!URLFOR($Resource.PIL, 'images/right_arrow.png')}"/><br/><br/><img src="{!URLFOR($Resource.PIL, 'images/core.png')}" style="margin-left: -7px;"/></div>
     
                                 <div class="box shelfBackground" style="background-position: 0 194px;">
@@ -90,14 +94,14 @@ body, html{
                                         Search Result 
                                     </div>                                  
 
-                                    <div class="{!IF(siteTheme == 'Spirits' , 'box-content box-content-all searchResult' , 'box-content box-content-all searchResult wine')}">
+                                    <div class="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer') , 'box-content box-content-all searchResult' , 'box-content box-content-all searchResult wine')}">
                                         <apex:variable value="{!0}" var="bc"/>
                                         <apex:repeat value="{!searchBrands}" var="brand">
                                             <apex:outputPanel rendered="{!if(bc == 0,'true','false')}">
                                                 <div class="clear-float"></div>
-                                                <div class="float-left alignBox" style="width: {!IF(siteTheme == 'Spirits' , '10' , '40')}px;">&nbsp;</div>                                         
+                                                <div class="float-left alignBox" style="width: {!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer') , '10' , '40')}px;">&nbsp;</div>                                         
                                             </apex:outputPanel>
-                                            <div class="{!IF(siteTheme == 'Spirits' , 'brand-box extra-bottle-margin' , 'brand-box extra-bottle-margin wine')}" name="{!brandValidNames[brand.Id]}" onclick="showContent('{!brand.id}','null');showDialog('brandPageContent', true);centerDialog();" style="{!IF(siteTheme == 'Spirits' , '' , 'width: 120px;' )}">
+                                            <div class="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer') , 'brand-box extra-bottle-margin' , 'brand-box extra-bottle-margin wine')}" name="{!brandValidNames[brand.Id]}" onclick="showContent('{!brand.id}','null');showDialog('brandPageContent', true);centerDialog();" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer') , '' , 'width: 120px;' )}">
                                                 <script type="text/javascript">
                                                     var brand = {
                                                         orgBrandName: "{!brand.Name}",
@@ -107,17 +111,17 @@ body, html{
                                                     orgBrandNames["{!brandValidNames[brand.Id]}"] = "{!brand.Name}";
                                                     validBrandNames["{!brand.Name}"] = "{!brandValidNames[brand.Id]}";
                                                 </script>
-                                                <apex:outputPanel rendered="{!IF(len(bottleImgMap[brand.Id])  > 0, 'true','false')}">               
-                                                    <img src="/sfc/servlet.shepherd/version/download/{!bottleImgMap[brand.Id]}" class="brand-box-bottle" style="{!IF(siteTheme == 'Spirits' , '' , 'padding:0px !important;' )}"/><br/>
-                                                    <div class="bottleShadow" style="{!IF(siteTheme == 'Spirits' , '' , 'display: none !important;' )}"></div>
+                                                <apex:outputPanel rendered="{!IF(len(bottleImgMap[brand.Id])  > 0, 'true','false')}">    
+                                                		<img src="/sfc/servlet.shepherd/version/download/{!bottleImgMap[brand.Id]}" class="brand-box-bottle" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer') , '' , 'padding:0px !important;' )}"/><br/>
+                                                    <div class="bottleShadow" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer') , '' , 'display: none !important;' )}"></div>
                                                 </apex:outputPanel>
                                                 <apex:outputPanel rendered="{!IF(len(bottleImgMap[brand.Id]) == 0, 'true','false')}">               
-                                                    <img src="{!IF(siteTheme == 'Spirits' , URLFOR($Resource.PIL, 'images/defaultbottle.png') , URLFOR($Resource.PIL, 'images/defaultwine.png') )}" class="brand-box-bottle" style="{!IF(siteTheme == 'Spirits' , '' , 'padding:0px !important;' )}"/><br/>
-                                                    <div class="bottleShadow" style="{!IF(siteTheme == 'Spirits' , '' , 'display: none !important;' )}"></div>
+                                                    <img src="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer') , URLFOR($Resource.PIL, 'images/defaultbottle.png') , URLFOR($Resource.PIL, 'images/defaultwine.png') )}" class="brand-box-bottle" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer') , '' , 'padding:0px !important;' )}"/><br/>
+                                                    <div class="bottleShadow" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer') , '' , 'display: none !important;' )}"></div>
                                                 </apex:outputPanel>
-                                                <div class="brand-box-description" style="{!IF(siteTheme == 'Spirits' , '' , 'width: 120px;' )}">{!brand.Name}</div>
+                                                <div class="brand-box-description" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer') , '' , 'width: 120px;' )}">{!brand.Name}</div>
                                             </div>
-                                            <apex:variable value="{!IF(siteTheme == 'Spirits' , mod(bc+1,10) , mod(bc+1,6) )}" var="bc"/>                                       
+                                            <apex:variable value="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer') , mod(bc+1,10) , mod(bc+1,6) )}" var="bc"/>                                       
                                         </apex:repeat>
                                         <div class="clear-float"></div>
                                     </div>
@@ -129,7 +133,7 @@ body, html{
                                 <div class="left-arrow search-arrow"><apex:image url="{!URLFOR($Resource.PIL, 'images/left_arrow.png')}"/><br/><br/><img src="{!URLFOR($Resource.PIL, 'images/sear.png')}" style="margin-left: -4px;"/></div>
                                 <div class="right-arrow additional-arrow"><apex:image url="{!URLFOR($Resource.PIL, 'images/right_arrow.png')}"/><br/><br/><img src="{!URLFOR($Resource.PIL, 'images/addb.png')}" style="margin-left: -7px;"/></div>
                                 <div class="box shelfBackground">
-                                    <apex:outputpanel rendered="{!IF(siteTheme == 'Spirits' , 'true','false')}">
+                                    <apex:outputpanel rendered="{!IF(siteTheme == 'Spirits', 'true','false')}">
                                         <div class="box-content">
                                             <div class="float-left alignBox onMainPage"></div>
                                             <apex:repeat value="{!coreBrands}" var="brand">
@@ -184,18 +188,18 @@ body, html{
                                         
                                         <div class="box-content innovation-slider">
                                             <div class="box-content-container innovation" style="width: 780px; height: 145px; overflow: hidden;">
-                                                <div class="{!IF(siteTheme == 'Spirits' , 'box-content-slide innovation','box-content-slide innovation wine')}">
+                                                <div class="{!IF(siteTheme == 'Spirits', 'box-content-slide innovation','box-content-slide innovation wine')}">
                                                     <div class="float-left alignBox onMainPage"></div>
                                                     <apex:repeat value="{!innovationBrands}" var="brand">
-                                                        <div class="{!IF(siteTheme == 'Spirits' , 'brand-box','brand-box wine')}" onclick="showDialog('brandPageContent', true);showContent('{!brand.id}', 'null');centerDialog();" style="{!IF(siteTheme == 'Spirits' , '' , 'width: 120px;' )}">
-                                                            <div class="brand-box-description" style="{!IF(siteTheme == 'Spirits' , '' , 'width: 120px;' )}">{!brand.Name}</div>
+                                                        <div class="{!IF(siteTheme == 'Spirits', 'brand-box','brand-box wine')}" onclick="showDialog('brandPageContent', true);showContent('{!brand.id}', 'null');centerDialog();" style="{!IF(siteTheme == 'Spirits', '' , 'width: 120px;' )}">
+                                                            <div class="brand-box-description" style="{!IF(siteTheme == 'Spirits', '' , 'width: 120px;' )}">{!brand.Name}</div>
                                                             <apex:outputPanel rendered="{!if(brand.Innovation_Logo__r.Content_Version_Id__c != '','true','false')}">
                                                                 <img src="/sfc/servlet.shepherd/version/download/{!brand.Innovation_Logo__r.Content_Version_Id__c}" class="brand-box-bottle"/><br/>
-                                                                <div class="bottleShadow" style="{!IF(siteTheme == 'Spirits' , '' , 'display: none !important;' )}"></div>
+                                                                <div class="bottleShadow" style="{!IF(siteTheme == 'Spirits', '' , 'display: none !important;' )}"></div>
                                                             </apex:outputPanel>
                                                             <apex:outputPanel rendered="{!IF(brand.Innovation_Logo__r.Content_Version_Id__c == '', 'true','false')}">               
-                                                                <img src="{!IF(siteTheme == 'Spirits' , URLFOR($Resource.PIL, 'images/defaultbottle.png') , URLFOR($Resource.PIL, 'images/defaultwine.png') )}" class="brand-box-bottle"/><br/>
-                                                                <div class="bottleShadow" style="{!IF(siteTheme == 'Spirits' , '' , 'display: none !important;' )}"></div>
+                                                                <img src="{!IF(siteTheme == 'Spirits', URLFOR($Resource.PIL, 'images/defaultbottle.png') , URLFOR($Resource.PIL, 'images/defaultwine.png') )}" class="brand-box-bottle"/><br/>
+                                                                <div class="bottleShadow" style="{!IF(siteTheme == 'Spirits', '' , 'display: none !important;' )}"></div>
                                                             </apex:outputPanel>
                                                         </div>
                                                     </apex:repeat>  
@@ -211,15 +215,15 @@ body, html{
                                                 <div class="box-content-slide heritage wine">
                                                     <div class="float-left alignBox onMainPage">&nbsp;</div> 
                                                     <apex:repeat value="{!heritageBrands}" var="brand"> 
-                                                        <div class="brand-box wine" onclick="showDialog('brandPageContent', true);showContent('{!brand.id}', 'null');centerDialog();" style="{!IF(siteTheme == 'Spirits' , '' , 'width: 120px;' )}">
-                                                            <div class="brand-box-description" style="{!IF(siteTheme == 'Spirits' , '' , 'width: 120px;' )}">{!brand.Name}</div>
+                                                        <div class="brand-box wine" onclick="showDialog('brandPageContent', true);showContent('{!brand.id}', 'null');centerDialog();" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '' , 'width: 120px;' )}">
+                                                            <div class="brand-box-description" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '' , 'width: 120px;' )}">{!brand.Name}</div>
                                                             <apex:outputPanel rendered="{!if(brand.Heritage_Logo__r.Content_Version_Id__c != '','true','false')}">
                                                                 <img src="/sfc/servlet.shepherd/version/download/{!brand.Heritage_Logo__r.Content_Version_Id__c}" class="brand-box-bottle" style="padding: 0px !important;"/><br/>
-                                                                <div class="bottleShadow" style="{!IF(siteTheme == 'Spirits' , '' , 'display: none !important;' )}"></div>
+                                                                <div class="bottleShadow" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '' , 'display: none !important;' )}"></div>
                                                             </apex:outputPanel>
                                                             <apex:outputPanel rendered="{!IF(brand.Heritage_Logo__r.Content_Version_Id__c == '', 'true','false')}">             
                                                                 <img src="{!URLFOR($Resource.PIL, 'images/defaultwine.png')}" class="brand-box-bottle" style="padding: 0px !important;"/><br/>
-                                                                <div class="bottleShadow" style="{!IF(siteTheme == 'Spirits' , '' , 'display: none !important;' )}"></div>
+                                                                <div class="bottleShadow" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '' , 'display: none !important;' )}"></div>
                                                             </apex:outputPanel>
                                                         </div>
                                                     </apex:repeat>  
@@ -233,15 +237,15 @@ body, html{
                                                 <div class="box-content-slide lifestyle wine">
                                                     <div class="float-left alignBox onMainPage">&nbsp;</div>
                                                     <apex:repeat value="{!lifestyleBrands}" var="brand"> 
-                                                        <div class="brand-box wine" onclick="showDialog('brandPageContent', true);showContent('{!brand.id}', 'null');centerDialog();" style="{!IF(siteTheme == 'Spirits' , '' , 'width: 120px;' )}">
-                                                            <div class="brand-box-description" style="{!IF(siteTheme == 'Spirits' , '' , 'width: 120px;' )}">{!brand.Name}</div>
+                                                        <div class="brand-box wine" onclick="showDialog('brandPageContent', true);showContent('{!brand.id}', 'null');centerDialog();" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '' , 'width: 120px;' )}">
+                                                            <div class="brand-box-description" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '' , 'width: 120px;' )}">{!brand.Name}</div>
                                                             <apex:outputPanel rendered="{!if(brand.Lifestyle_Logo__r.Content_Version_Id__c != '','true','false')}">
                                                                 <img src="/sfc/servlet.shepherd/version/download/{!brand.Lifestyle_Logo__r.Content_Version_Id__c}" class="brand-box-bottle" style="padding: 0px !important;"/><br/>
-                                                                <div class="bottleShadow" style="{!IF(siteTheme == 'Spirits' , '' , 'display: none !important;' )}"></div>
+                                                                <div class="bottleShadow" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '' , 'display: none !important;' )}"></div>
                                                             </apex:outputPanel>
                                                             <apex:outputPanel rendered="{!IF(brand.Lifestyle_Logo__r.Content_Version_Id__c == '', 'true','false')}">                
                                                                 <img src="{!URLFOR($Resource.PIL, 'images/defaultwine.png')}" class="brand-box-bottle" style="padding: 0px !important;"/><br/>
-                                                                <div class="bottleShadow" style="{!IF(siteTheme == 'Spirits' , '' , 'display: none !important;' )}"></div>
+                                                                <div class="bottleShadow" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '' , 'display: none !important;' )}"></div>
                                                             </apex:outputPanel>
                                                         </div>
                                                     </apex:repeat>  
@@ -255,15 +259,15 @@ body, html{
                                                 <div class="box-content-slide luxury wine">
                                                     <div class="float-left alignBox onMainPage">&nbsp;</div>
                                                     <apex:repeat value="{!luxuryBrands}" var="brand"> 
-                                                        <div class="brand-box wine" onclick="showDialog('brandPageContent', true);showContent('{!brand.id}', 'null');centerDialog();" style="{!IF(siteTheme == 'Spirits' , '' , 'width: 120px;' )}">
-                                                            <div class="brand-box-description" style="{!IF(siteTheme == 'Spirits' , '' , 'width: 120px;' )}">{!brand.Name}</div>
+                                                        <div class="brand-box wine" onclick="showDialog('brandPageContent', true);showContent('{!brand.id}', 'null');centerDialog();" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '' , 'width: 120px;' )}">
+                                                            <div class="brand-box-description" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '' , 'width: 120px;' )}">{!brand.Name}</div>
                                                             <apex:outputPanel rendered="{!if(brand.Luxury_Logo__r.Content_Version_Id__c != '','true','false')}">
                                                                 <img src="/sfc/servlet.shepherd/version/download/{!brand.Luxury_Logo__r.Content_Version_Id__c}" class="brand-box-bottle" style="padding: 0px !important;"/><br/>
-                                                                <div class="bottleShadow" style="{!IF(siteTheme == 'Spirits' , '' , 'display: none !important;' )}"></div>
+                                                                <div class="bottleShadow" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '' , 'display: none !important;' )}"></div>
                                                             </apex:outputPanel>
                                                             <apex:outputPanel rendered="{!IF(brand.Luxury_Logo__r.Content_Version_Id__c == '', 'true','false')}">               
                                                                 <img src="{!URLFOR($Resource.PIL, 'images/defaultwine.png')}" class="brand-box-bottle" style="padding: 0px !important;"/><br/>
-                                                                <div class="bottleShadow" style="{!IF(siteTheme == 'Spirits' , '' , 'display: none !important;' )}"></div>
+                                                                <div class="bottleShadow" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '' , 'display: none !important;' )}"></div>
                                                             </apex:outputPanel>
                                                         </div>
                                                     </apex:repeat>  
@@ -274,18 +278,18 @@ body, html{
                                         
                                         <div class="box-content innovation-slider">
                                             <div class="box-content-container innovation" style="width: 760px; height: 145px; overflow: hidden;">
-                                                <div class="{!IF(siteTheme == 'Spirits' , 'box-content-slide innovation','box-content-slide innovation wine')}">
+                                                <div class="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), 'box-content-slide innovation','box-content-slide innovation wine')}">
                                                     <div class="float-left alignBox onMainPage">&nbsp;</div>
                                                     <apex:repeat value="{!innovationBrands}" var="brand">
-                                                        <div class="{!IF(siteTheme == 'Spirits' , 'brand-box','brand-box wine')}" onclick="showDialog('brandPageContent', true);showContent('{!brand.id}', 'null');centerDialog();" style="{!IF(siteTheme == 'Spirits' , '' , 'width: 120px;' )}">
-                                                            <div class="brand-box-description" style="{!IF(siteTheme == 'Spirits' , '' , 'width: 120px;' )}">{!brand.Name}</div>
+                                                        <div class="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), 'brand-box','brand-box wine')}" onclick="showDialog('brandPageContent', true);showContent('{!brand.id}', 'null');centerDialog();" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer') , '' , 'width: 120px;' )}">
+                                                            <div class="brand-box-description" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '' , 'width: 120px;' )}">{!brand.Name}</div>
                                                             <apex:outputPanel rendered="{!if(brand.Innovation_Logo__r.Content_Version_Id__c != '','true','false')}">
                                                                 <img src="/sfc/servlet.shepherd/version/download/{!brand.Innovation_Logo__r.Content_Version_Id__c}" class="brand-box-bottle" style="padding: 0px !important;"/><br/>
-                                                                <div class="bottleShadow" style="{!IF(siteTheme == 'Spirits' , '' , 'display: none !important;' )}"></div>
+                                                                <div class="bottleShadow" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '' , 'display: none !important;' )}"></div>
                                                             </apex:outputPanel>
                                                             <apex:outputPanel rendered="{!IF(brand.Innovation_Logo__r.Content_Version_Id__c == '', 'true','false')}">               
-                                                                <img src="{!IF(siteTheme == 'Spirits' , URLFOR($Resource.PIL, 'images/defaultbottle.png') , URLFOR($Resource.PIL, 'images/defaultwine.png') )}" class="brand-box-bottle" style="padding: 0px !important;"/><br/>
-                                                                <div class="bottleShadow" style="{!IF(siteTheme == 'Spirits' , '' , 'display: none !important;' )}"></div>
+                                                                <img src="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), URLFOR($Resource.PIL, 'images/defaultbottle.png') , URLFOR($Resource.PIL, 'images/defaultwine.png') )}" class="brand-box-bottle" style="padding: 0px !important;"/><br/>
+                                                                <div class="bottleShadow" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '' , 'display: none !important;' )}"></div>
                                                             </apex:outputPanel>
                                                         </div>
                                                     </apex:repeat>  
@@ -293,6 +297,82 @@ body, html{
                                                 </div>
                                             </div>
                                         </div>                      
+                                        
+                                    </apex:outputpanel>
+                                    <apex:outputpanel rendered="{!IF(siteTheme == 'Beer', 'true','false')}">
+                                        <div class="box-content">
+                                            <div class="float-left alignBox onMainPage"></div>
+                                            <apex:repeat rows="10" value="{!coreBrands}" var="brand">
+                                                <div class="brand-box" onclick="showContent('{!brand.id}','core');showDialog('brandPageContent');">
+                                                    <div class="brand-box-description">{!brand.Name}</div>
+                                                    <apex:outputPanel rendered="{!if(brand.Trademarks_Logo__r.Content_Version_Id__c != '','true','false')}">
+                                                        <img src="/sfc/servlet.shepherd/version/download/{!brand.Trademarks_Logo__r.Content_Version_Id__c}" class="brand-box-bottle"/><br/>
+                                                        <div class="bottleShadow"></div>
+                                                    </apex:outputPanel>
+                                                    <apex:outputPanel rendered="{!if(brand.Trademarks_Logo__r.Content_Version_Id__c == '', 'true','false')}">              
+                                                        <img src="{!URLFOR($Resource.PIL, 'images/defaultbottle.png')}" class="brand-box-bottle"/><br/>
+                                                        <div class="bottleShadow"></div>
+                                                    </apex:outputPanel>
+                                                </div>
+                                            </apex:repeat>
+                                            <div class="clear-float"></div>
+                                        </div>
+                                        <div class="box-content">
+                                            <div class="float-left alignBox onMainPage"></div>
+                                            <apex:repeat rows="10" first="10" value="{!coreBrands}" var="brand">
+                                                <div class="brand-box" onclick="showContent('{!brand.id}', 'core');showDialog('brandPageContent'); ">
+                                                    <div class="brand-box-description">{!brand.Name}</div>
+                                                    <apex:outputPanel rendered="{!if(brand.Trademarks_Logo__r.Content_Version_Id__c != '','true','false')}">
+                                                        <img src="/sfc/servlet.shepherd/version/download/{!brand.Trademarks_Logo__r.Content_Version_Id__c}" class="brand-box-bottle"/><br/>
+                                                        <div class="bottleShadow"></div>
+                                                    </apex:outputPanel>
+                                                    <apex:outputPanel rendered="{!if(brand.Trademarks_Logo__r.Content_Version_Id__c == '', 'true','false')}">                
+                                                        <img src="{!URLFOR($Resource.PIL, 'images/defaultbottle.png')}" class="brand-box-bottle"/><br/>
+                                                        <div class="bottleShadow"></div>
+                                                    </apex:outputPanel>
+                                                </div>
+                                            </apex:repeat>
+                                            <div class="clear-float"></div>
+                                        </div>  
+                                        <div class="box-content">
+                                            <div class="float-left alignBox onMainPage"></div>
+                                            <apex:repeat rows="10" first="20" value="{!coreBrands}" var="brand">
+                                                <div class="brand-box" onclick="showContent('{!brand.id}','core');showDialog('brandPageContent'); ">
+                                                    <div class="brand-box-description">{!brand.Name}</div>
+                                                    <apex:outputPanel rendered="{!if(brand.Trademarks_Logo__r.Content_Version_Id__c != '','true','false')}">
+                                                        <img src="/sfc/servlet.shepherd/version/download/{!brand.Trademarks_Logo__r.Content_Version_Id__c}" class="brand-box-bottle"/><br/>
+                                                        <div class="bottleShadow"></div>
+                                                    </apex:outputPanel>
+                                                    <apex:outputPanel rendered="{!if(brand.Trademarks_Logo__r.Content_Version_Id__c == '', 'true','false')}">                
+                                                        <img src="{!URLFOR($Resource.PIL, 'images/defaultbottle.png')}" class="brand-box-bottle"/><br/>
+                                                        <div class="bottleShadow"></div>
+                                                    </apex:outputPanel>
+                                                </div>
+                                            </apex:repeat>  
+                                            <div class="clear-float"></div>
+                                        </div>
+                                        
+                                        <div class="box-content innovation-slider">
+                                            <div class="box-content-container innovation" style="width: 780px; height: 145px; overflow: hidden;">
+                                                <div class="{!IF(siteTheme == 'Beer', 'box-content-slide innovation','box-content-slide innovation wine')}">
+                                                    <div class="float-left alignBox onMainPage"></div>
+                                                    <apex:repeat value="{!innovationBrands}" var="brand">
+                                                        <div class="{!IF(siteTheme == 'Beer', 'brand-box','brand-box wine')}" onclick="showDialog('brandPageContent', true);showContent('{!brand.id}', 'null');centerDialog();" style="{!IF(siteTheme == 'Beer', '' , 'width: 120px;' )}">
+                                                            <div class="brand-box-description" style="{!IF(siteTheme == 'Beer', '' , 'width: 120px;' )}">{!brand.Name}</div>
+                                                            <apex:outputPanel rendered="{!if(brand.Innovation_Logo__r.Content_Version_Id__c != '','true','false')}">
+                                                                <img src="/sfc/servlet.shepherd/version/download/{!brand.Innovation_Logo__r.Content_Version_Id__c}" class="brand-box-bottle"/><br/>
+                                                                <div class="bottleShadow" style="{!IF(siteTheme == 'Beer', '' , 'display: none !important;' )}"></div>
+                                                            </apex:outputPanel>
+                                                            <apex:outputPanel rendered="{!IF(brand.Innovation_Logo__r.Content_Version_Id__c == '', 'true','false')}">               
+                                                                <img src="{!IF(siteTheme == 'Beer', URLFOR($Resource.PIL, 'images/defaultbottle.png') , URLFOR($Resource.PIL, 'images/defaultwine.png') )}" class="brand-box-bottle"/><br/>
+                                                                <div class="bottleShadow" style="{!IF(siteTheme == 'Beer', '' , 'display: none !important;' )}"></div>
+                                                            </apex:outputPanel>
+                                                        </div>
+                                                    </apex:repeat>  
+                                                    <div class="clear-float"></div>
+                                                </div>
+                                            </div>
+                                        </div>                                  
                                         
                                     </apex:outputpanel>
                                     
@@ -309,6 +389,11 @@ body, html{
                                         <apex:outputpanel rendered="{!IF(siteTheme == 'Spirits' , 'true','false')}">
                                             Core Trademarks
                                         </apex:outputpanel>
+                                        <!-- START : Changed for US554/TA1127 - Basant -->
+                                        <apex:outputpanel rendered="{!IF(siteTheme == 'Beer' , 'true','false')}">
+                                            Trademarks
+                                        </apex:outputpanel>
+                                        <!-- END : Changed for US554/TA1127 - Basant -->
                                         
                                     </div>                                  
                                     <div class="box-header box-header2">
@@ -323,6 +408,11 @@ body, html{
                                         <apex:outputpanel rendered="{!IF(siteTheme == 'Spirits' , 'true','false')}">
                                             Reserve Brands 
                                         </apex:outputpanel>
+                                        <!-- START : Changed for US554/TA1127 - Basant -->
+                                        <apex:outputpanel rendered="{!IF(siteTheme == 'Beer' , 'true','false')}">
+                                            Trademarks
+                                        </apex:outputpanel>
+                                        <!-- END : Changed for US554/TA1127 - Basant -->
                                     </div>                                  
                                     <div class="box-header box-header3">
                                         <apex:outputpanel rendered="{!IF(siteTheme == 'Wine' , 'true','false')}">                                                
@@ -336,9 +426,14 @@ body, html{
                                         <apex:outputpanel rendered="{!IF(siteTheme == 'Spirits' , 'true','false')}">
                                             Reserve Brands 
                                         </apex:outputpanel>
+                                        <!-- START : Changed for US554/TA1127 - Basant -->
+                                        <apex:outputpanel rendered="{!IF(siteTheme == 'Beer' , 'true','false')}">
+                                            Trademarks
+                                        </apex:outputpanel>
+                                        <!-- END : Changed for US554/TA1127 - Basant -->
                                     </div>                               
                                     <div class="box-header box-header4">
-                                        <apex:outputpanel rendered="{!IF(siteTheme == 'Spirits' , 'true','false')}">    
+                                        <apex:outputpanel rendered="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), 'true','false')}">    
                                             <apex:outputpanel rendered="{!IF(innovationBrands.size > 10 , 'true','false')}">
                                             <!-- Case 00004352   
             								Modified By - Rahul Chitkara [Appirio Jaipur]
@@ -394,20 +489,20 @@ body, html{
                                         <apex:repeat value="{!additionalBrandsMap[pageNumber]}" var="brand">
                                             <apex:outputPanel rendered="{!if(bc == 0,'true','false')}">
                                                 <div class="clear-float"></div>
-                                                <div class="float-left alignBox" style="width: {!IF(siteTheme == 'Spirits' , '10' , '40')}px;">&nbsp;</div>                                         
+                                                <div class="float-left alignBox" style="width: {!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '10' , '40')}px;">&nbsp;</div>                                         
                                             </apex:outputPanel>
-                                            <div class="{!IF(siteTheme == 'Spirits' , 'brand-box extra-bottle-margin' , 'brand-box extra-bottle-margin wine')}" onclick="showContent('{!brand.id}', 'null');showDialog('brandPageContent');" style="{!IF(siteTheme == 'Spirits' , '' , 'width: 120px;' )}">
+                                            <div class="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), 'brand-box extra-bottle-margin' , 'brand-box extra-bottle-margin wine')}" onclick="showContent('{!brand.id}', 'null');showDialog('brandPageContent');" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '' , 'width: 120px;' )}">
                                                 <apex:outputPanel rendered="{!IF(len(bottleImgMap[brand.Id])  > 0, 'true','false')}">               
-                                                    <img src="/sfc/servlet.shepherd/version/download/{!bottleImgMap[brand.Id]}" class="brand-box-bottle" style="{!IF(siteTheme == 'Spirits' , '' , 'padding:0px !important;' )}"/><br/>
-                                                    <div class="bottleShadow" style="{!IF(siteTheme == 'Spirits' , '' , 'display: none !important;' )}"></div>
+                                                    <img src="/sfc/servlet.shepherd/version/download/{!bottleImgMap[brand.Id]}" class="brand-box-bottle" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '' , 'padding:0px !important;' )}"/><br/>
+                                                    <div class="bottleShadow" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '' , 'display: none !important;' )}"></div>
                                                 </apex:outputPanel>
                                                 <apex:outputPanel rendered="{!IF(len(bottleImgMap[brand.Id]) == 0, 'true','false')}">               
-                                                    <img src="{!IF(siteTheme == 'Spirits' , URLFOR($Resource.PIL, 'images/defaultbottle.png') , URLFOR($Resource.PIL, 'images/defaultwine.png') )}" class="brand-box-bottle" style="{!IF(siteTheme == 'Spirits' , '' , 'padding:0px !important;' )}"/><br/>
-                                                    <div class="bottleShadow" style="{!IF(siteTheme == 'Spirits' , '' , 'display: none !important;' )}"></div>
+                                                    <img src="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), URLFOR($Resource.PIL, 'images/defaultbottle.png') , URLFOR($Resource.PIL, 'images/defaultwine.png') )}" class="brand-box-bottle" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '' , 'padding:0px !important;' )}"/><br/>
+                                                    <div class="bottleShadow" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '' , 'display: none !important;' )}"></div>
                                                 </apex:outputPanel>
-                                                <div class="brand-box-description" style="{!IF(siteTheme == 'Spirits' , '' , 'width: 120px;' )}">{!brand.Name}</div>
+                                                <div class="brand-box-description" style="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), '' , 'width: 120px;' )}">{!brand.Name}</div>
                                             </div>
-                                            <apex:variable value="{!IF(siteTheme == 'Spirits' , mod(bc+1,10) , mod(bc+1,6) )}" var="bc"/>
+                                            <apex:variable value="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), mod(bc+1,10) , mod(bc+1,6) )}" var="bc"/>
                                         </apex:repeat>
                                         <div class="clear-float"></div>
                                         <div class="box-header box-header1">
@@ -541,7 +636,7 @@ body, html{
                                                         <div class="clear-float"></div>
                                                     </apex:outputPanel>                            
                                                 </div>
-                                                <apex:outputpanel rendered="{!IF(siteTheme == 'Spirits' , 'true','false')}">
+                                                <apex:outputpanel rendered="{!IF(OR(siteTheme == 'Spirits', siteTheme == 'Beer'), 'true','false')}">
                                                     <div class="float-left {!IF(showTopMenu != true, 'hidden','')}" style="font-size: 11px; margin: 5px; width: 450px;">
                                                         <apex:selectCheckboxes value="{!selectedbottleSizes}" onclick="refreshPageContent();">
                                                             <apex:selectOptions value="{!bottleSizes}" />

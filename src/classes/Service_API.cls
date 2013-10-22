@@ -36,6 +36,10 @@ Story/Task  : US614/TA1068
 Updated By 	: Basant Kumar Verma (Appirio JDC)
 Date 				: 9/26/2013
 Story/Task	: US826/TA1515
+
+Updated By  : Basant Kumar Verma (Appirio JDC)   
+Date        : 14/8/13
+Story/Task  : US554/TA1127
 *****************************************************************************************/
 
 public without sharing class Service_API {
@@ -203,6 +207,11 @@ public without sharing class Service_API {
             else if(pagename.contains('SpiritsPlanning') || pageName.contains('spiritsplanning')){
                 siteTheme = 'Spirits';
             }
+            //Start: Changes for US570/TA1123 -Geeta Kumawat
+            else if(pagename.contains('BeerPlanning') || pageName.contains('beerplanning')){
+                siteTheme = 'Beer';
+            }
+            //End: Changes for US570/TA1123 -Geeta Kumawat
             else{
             siteThemeDefault = usr.Use_current_theme_as_default__c;
             siteTheme = usr.Diageo_Direct_Theme__c;
@@ -250,6 +259,11 @@ public without sharing class Service_API {
             else if(pagename.contains('SpiritsPlanning') || pageName.contains('spiritsplanning')){
                 siteTheme = 'Spirits';
             }
+            //Start: Changes for US570/TA1123 -Geeta Kumawat
+            else if(pagename.contains('BeerPlanning') || pageName.contains('beerplanning')){
+                siteTheme = 'Beer';
+            }
+            //End: Changes for US570/TA1123 -Geeta Kumawat
             else{
             siteThemeDefault = usr.Use_current_theme_as_default__c;
             siteTheme = usr.Diageo_Direct_Theme__c;
@@ -415,7 +429,12 @@ public without sharing class Service_API {
         settings__c s = settings__c.getValues('spiritsPlanningFolderId');
         return s == null ? '' : s.value__c;
     }
-
+    //Start: Changes for US570/TA1123 -Geeta Kumawat
+    public static String getBeerPlanningFolderId() {
+        settings__c s = settings__c.getValues('beerPlanningFolderId');
+        return s == null ? '' : s.value__c;
+    }
+	//End: Changes for US570/TA1123 -Geeta Kumawat
     
     /**
     * @author Bartek Dudziak
@@ -880,6 +899,9 @@ public without sharing class Service_API {
                         Heritage__c, Heritage_Logo__r.Content_Version_Id__c, Lifestyle__c, Lifestyle_Logo__r.Content_Version_Id__c, Luxury__c, Luxury_Logo__r.Content_Version_Id__c,
                         Core_Trademarks_Logo__r.Content_Version_Id__c, Innovation_Logo__r.Content_Version_Id__c, Reserve_Brand_Logo__r.Content_Version_Id__c,  
                         Brand_Variant_Grouping__c
+                        // START : Changed for US554/TA1127 - Basant
+                        , Trademarks__c, Trademarks_Logo__r.Content_Version_Id__c
+                        // END : Changed for US554/TA1127 - Basant
                         FROM Brand__c
                         WHERE (
                                 Id in :getAccBrandIds() 
@@ -897,6 +919,9 @@ public without sharing class Service_API {
                         Heritage__c, Heritage_Logo__r.Content_Version_Id__c, Lifestyle__c, Lifestyle_Logo__r.Content_Version_Id__c, Luxury__c, Luxury_Logo__r.Content_Version_Id__c,
                         Core_Trademarks_Logo__r.Content_Version_Id__c, Innovation_Logo__r.Content_Version_Id__c, Reserve_Brand_Logo__r.Content_Version_Id__c,  
                         Brand_Variant_Grouping__c
+                        // START : Changed for US554/TA1127 - Basant
+                        , Trademarks__c, Trademarks_Logo__r.Content_Version_Id__c
+                        // END : Changed for US554/TA1127 - Basant
                         FROM Brand__c
                         WHERE (
                                 Id in :getAccBrandIds() 
@@ -915,6 +940,9 @@ public without sharing class Service_API {
                         Heritage__c, Heritage_Logo__r.Content_Version_Id__c, Lifestyle__c, Lifestyle_Logo__r.Content_Version_Id__c, Luxury__c, Luxury_Logo__r.Content_Version_Id__c,
                         Core_Trademarks_Logo__r.Content_Version_Id__c, Innovation_Logo__r.Content_Version_Id__c, Reserve_Brand_Logo__r.Content_Version_Id__c,  
                         Brand_Variant_Grouping__c
+                        // START : Changed for US554/TA1127 - Basant
+                        , Trademarks__c, Trademarks_Logo__r.Content_Version_Id__c
+                        // END : Changed for US554/TA1127 - Basant
                         FROM Brand__c
                         WHERE (
                                 Id in :getAccBrandIds() 
@@ -932,6 +960,9 @@ public without sharing class Service_API {
                         Heritage__c, Heritage_Logo__r.Content_Version_Id__c, Lifestyle__c, Lifestyle_Logo__r.Content_Version_Id__c, Luxury__c, Luxury_Logo__r.Content_Version_Id__c,
                         Core_Trademarks_Logo__r.Content_Version_Id__c, Innovation_Logo__r.Content_Version_Id__c, Reserve_Brand_Logo__r.Content_Version_Id__c,  
                         Brand_Variant_Grouping__c
+                        // START : Changed for US554/TA1127 - Basant
+                        , Trademarks__c, Trademarks_Logo__r.Content_Version_Id__c
+                        // END : Changed for US554/TA1127 - Basant
                         FROM Brand__c
                         WHERE (
                                 Id in :getAccBrandIds() 
@@ -2486,6 +2517,7 @@ public without sharing class Service_API {
                 glue = ',';
             }       
         
+            String sectionTheme = Service_API.getSectionTheme();
             String distributorIdsString = '';
             glue = '';
             for (String value : distributorIds) {         

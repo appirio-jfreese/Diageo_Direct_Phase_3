@@ -17,6 +17,9 @@ public with sharing class Controller_MonthlyExecutionPlan extends Controller_Bas
             } else {
                 span = 1;
             }
+            //Start : changes for DE734 --Geeta Kumawat
+            calendar = new Service_Calendar();
+            //End : changes for DE734 --Geeta Kumawat
             calendar.initDateRange(timePeriod, calendar.startDate);
         }
     }    

@@ -33,6 +33,10 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
+        <actionName>ListClean</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
         <actionName>Merge</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -421,7 +425,7 @@
     <fields>
         <fullName>Subscribe_Interested_In__c</fullName>
         <externalId>false</externalId>
-        <label>Subscribe Interested In</label>
+        <label>Beverage Alcohol Category</label>
         <picklist>
             <picklistValues>
                 <fullName>Beer</fullName>
@@ -445,7 +449,7 @@
     <fields>
         <fullName>Subscribe_Premise__c</fullName>
         <externalId>false</externalId>
-        <label>Subscribe Premise</label>
+        <label>On or Off Premise</label>
         <picklist>
             <picklistValues>
                 <fullName>On Premise</fullName>
@@ -689,6 +693,8 @@
         <customTabListAdditionalFields>FULL_NAME</customTabListAdditionalFields>
         <customTabListAdditionalFields>ACCOUNT.NAME</customTabListAdditionalFields>
         <customTabListAdditionalFields>CONTACT.PHONE1</customTabListAdditionalFields>
+        <listViewButtons>test</listViewButtons>
+        <listViewButtons>Review_Subcribe_Requests</listViewButtons>
         <lookupDialogsAdditionalFields>FULL_NAME</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>ACCOUNT.NAME</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>ACCOUNT.SITE</lookupDialogsAdditionalFields>
@@ -744,6 +750,18 @@
         <showsLocation>false</showsLocation>
         <showsStatus>false</showsStatus>
         <url>http://www.google.com/search?q={!Contact_FirstName} {!Contact_LastName}</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Review_Subcribe_Requests</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Review Subcribe Requests</masterLabel>
+        <openType>sidebar</openType>
+        <page>ReviewDistributorContacts</page>
+        <protected>false</protected>
+        <requireRowSelection>false</requireRowSelection>
     </webLinks>
     <webLinks>
         <fullName>SendGmail</fullName>
@@ -907,5 +925,18 @@ f.submit();
         <showsLocation>true</showsLocation>
         <showsStatus>true</showsStatus>
         <url>/apex/geopointe__Map?id={!Contact.Id}</url>
+    </webLinks>
+    <webLinks>
+        <fullName>test</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <height>600</height>
+        <linkType>url</linkType>
+        <masterLabel>test</masterLabel>
+        <openType>sidebar</openType>
+        <protected>false</protected>
+        <requireRowSelection>true</requireRowSelection>
+        <url>http://www.google.com</url>
     </webLinks>
 </CustomObject>

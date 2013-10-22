@@ -53,6 +53,7 @@ global with sharing class POS_APIUpsertItem {
                 upsertResponse.Id=item.Id;
                 update item;
                 upsertResponse.status=STATUS_SUCCESS;
+                System.debug('DE759 - item.Magento_ID__c' + item.Magento_ID__c);
             }
             else {
                 item.Agency__c=agency;

@@ -4,6 +4,10 @@ Name        : Controller_SellingMaterials.cls
 Updated By  : Basant Verma (Appirio OffShore)   
 Date        : 7/19/13
 Story/Task  : US609/DE654
+
+Updated By  : Basant Verma (Appirio OffShore)   
+Date        : 8/13/13
+Story/Task  : US559/TA1140
 *******************************************************************************/
 public with sharing class Controller_SellingMaterials extends Controller_Base {
 		
@@ -120,13 +124,15 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
 		selectAllBrands = false;
 		selectAllVariants = false;
 		expandFilter = false;
-		
-        if(siteTheme != 'Wine') {
+				// START : Changed for US559/TA1140 - Basant
+        if(siteTheme == 'Beer') {
+        	brandBoxToRender = 21;
+        } else if(siteTheme != 'Wine') {
         	brandBoxToRender = 21;
         } else {
         	brandBoxToRender = 23;
         }
-        
+        // END : Changed for US559/TA1140 - Basant
         // setup sections
 		sectionInit();
 		
@@ -466,7 +472,7 @@ public with sharing class Controller_SellingMaterials extends Controller_Base {
 		try{
 			
 			initParentBrands();
-            //disable filtering for fact sheets1
+            //disable filtering for fact sheets
             activeFilter = 0;
             if (currentSection == Constant.FACT_SHEETS || currentSubSection == Constant.COLLABORATION) {
                 // sub if condition to avoid inifite loop

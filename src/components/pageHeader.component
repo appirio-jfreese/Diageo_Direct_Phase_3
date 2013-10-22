@@ -24,6 +24,9 @@ Story/Task  : US79/TA1007
 Updated By  : Basant Verma (Appirio JDC)
 Date        : 8/7/13
 Story/Task  : DE557
+
+Date        : 8/8/13
+Story/Task  : US549/TA1096
 ------------------------------------------------------------------------------------------------------------------->
 <apex:component controller="Controller_Base" extensions="Controller_BaseRemote" allowDML="true"> 
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.js')}"></script>
@@ -95,6 +98,23 @@ Story/Task  : DE557
             height: 34px !important;
             *height: 36px !important;
         }
+        
+        div.theme-page-box-title-bg-Beer{
+        	background: #6BD384; /* Old browsers */
+			background: -moz-linear-gradient(top,  #6BD384 0%, #096129 100%); /* FF3.6+ */
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6BD384), color-stop(100%,#096129)); /* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top,  #6BD384 0%,#096129 100%); /* Chrome10+,Safari5.1+ */
+			background: -o-linear-gradient(top,  #6BD384 0%,#096129 100%); /* Opera 11.10+ */
+			background: -ms-linear-gradient(top,  #6BD384 0%,#096129 100%); /* IE10+ */
+			background: linear-gradient(to bottom,  #6BD384 0%,#096129 100%); /* W3C */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6BD384', endColorstr='#096129',GradientType=0 ); /* IE6-9 */
+		}
+        div.theme-page-box-Beer {
+					background: url({!URLFOR($Resource.CommonPage, 'images/beertheme.png')}) repeat scroll 0 0 #DAA0F5;
+				}
+				div.themeSelectorContentWrapper {
+					height: 560px;
+				}
     </style>
          
     
@@ -1168,18 +1188,32 @@ Story/Task  : DE557
                 <apex:form >
                     <apex:actionFunction status="ajax-status" name="toggleToWine" action="{!toggleToWine}"/>
                     <apex:actionFunction status="ajax-status" name="toggleToSpirits" action="{!toggleToSpirits}"/>
+                    <!-- START : Changed for US549/TA1096 - Basant Verma -->
+                    <apex:actionFunction status="ajax-status" name="toggleToBeer" action="{!toggleToBeer}"/>
+                    <!-- END : Changed for US549/TA1096 - Basant Verma -->
                     <apex:outputPanel id="sTheme" rendered="{!showThemeSelector}">
                         <div class="btns">
                             <apex:outputPanel rendered="{!siteTheme == 'Spirits'}">
                                 <a href="javascript:;" class="active btn">Spirits</a>
+                                <!-- START : Changed for US549/TA1096 - Basant Verma -->
                                 <a href="javascript:;" class="btn last" styleClass="pointer" onclick="toggleToWine()">Wine</a>
-                                <!--  <a href="javascript:;" class="btn last">Beer</a> -->
+                                <a href="javascript:;" class="btn last" styleClass="pointer" onclick="toggleToBeer()">Beer</a>
+                                <!-- END : Changed for US549/TA1096 - Basant Verma -->
                             </apex:outputPanel>
                             <apex:outputPanel rendered="{!siteTheme == 'Wine'}">
                                 <a href="javascript:;" class="btn"  styleClass="pointer" onclick="toggleToSpirits()">Spirits</a>
+                                <!-- START : Changed for US549/TA1096 - Basant Verma -->
                                 <a href="javascript:;" class="active btn last">Wine</a>
-                                <!--  <a href="javascript:;" class="btn last">Beer</a> -->
+                                <a href="javascript:;" class="btn last" styleClass="pointer" onclick="toggleToBeer()">Beer</a>
+                                <!-- END : Changed for US549/TA1096 - Basant Verma -->
                             </apex:outputPanel>
+                            <!-- START : Changed for US549/TA1096 - Basant Verma -->
+                            <apex:outputPanel rendered="{!siteTheme == 'Beer'}">
+                                <a href="javascript:;" class="btn"  styleClass="pointer" onclick="toggleToSpirits()">Spirits</a>
+                                <a href="javascript:;" class="btn" styleClass="pointer" onclick="toggleToWine()">Wine</a>
+                                <a href="javascript:;" class="active btn last">Beer</a>
+                            </apex:outputPanel>
+                            <!-- END : Changed for US549/TA1096 - Basant Verma -->
                         </div>
                     </apex:outputPanel>
                 </apex:form>

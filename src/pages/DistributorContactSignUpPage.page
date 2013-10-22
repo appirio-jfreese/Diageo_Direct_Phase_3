@@ -1,5 +1,6 @@
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" 
 	title="Diageo : Distributor Contact Sign-Up" controller="DistributorContactSignUpController">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 	<apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style.css')}"/>
 	<apex:stylesheet value="{!URLFOR($Resource.DistributorContactSignUp, 'style.css')}"/>
   <style type="text/css">
@@ -13,94 +14,97 @@
    	</div>
     <div class="content bggradient">
       <div class="content-wrapper-center left">
-      	<div class="error-text">
+      	<div class="errorMsg" style="{!IF(isSuccess, 'padding:20%;color:BLACK;', '')}">
       		<apex:pageMessages />
       	</div>
       	<apex:pageBlock id="newContact" rendered="{!NOT(isSuccess)}">
-					<div class="cases-title">Welcome to Diageo Direct for Distributor Contact Sign-Up</div>
+					<div class="cases-title">{!$Label.DistributorContactPageTitle}</div>
 						<apex:form styleClass="newContactSubscription">
-							<div class="info-text">
-								Please fill the following details and submit the form
-							</div>
-              <div class="form-header"><span class="bold">Contact Information</span></div>
+							<div class="form-header"><span class="bold">Contact Information</span></div>
               <div class="left new-case-label">
 	              <div class="float-left form-section">
-	              	First Name
+	              	First Name <span class="required">*</span>
 	                <div class="input-holder">
-	                	<apex:inputField id="contNameF" value="{!distribuorCon.FirstName}"/><br/>
-	                </div>
-	                Last Name
-	                <div class="input-holder">
-	                	<apex:inputField id="contNameL" value="{!distribuorCon.LastName}"/><br/>
+	                	<apex:inputField id="contNameF" value="{!distribuorCon.FirstName}" required="true"/><br/>
 	                </div>
 	              </div>
 	              <div class="float-left form-section">
-	              	Title
+	                Last Name <span class="required">*</span>
 	                <div class="input-holder">
-	                	<apex:inputField id="contTitle" value="{!distribuorCon.Title}"/><br/>
+	                	<apex:inputField id="contNameL" value="{!distribuorCon.LastName}" required="true"/><br/>
+	                </div>
+	              </div>
+	              <div class="clear-float"></div>
+							</div>
+							<div class="left new-case-label">
+								<div class="float-left form-section">
+	              	Title <span class="required">*</span>
+	                <div class="input-holder">
+	                	<apex:inputField id="contTitle" value="{!distribuorCon.Title}" required="true"/><br/>
+	                </div>
+	              </div>
+	              <div class="clear-float"></div>
+	            </div>
+							<div class="left new-case-label">
+	              <div class="float-left form-section">  
+	              	Email <span class="required">*</span>
+	              	<div class="input-holder">
+	                	<apex:inputField id="contEmail" value="{!distribuorCon.Email}" required="true"/><br/>
+	                </div>
+	              </div>
+	              <div class="float-left form-section">
+	              	Phone number <span class="required">*</span>
+	                <div class="input-holder">
+	                	<apex:inputField id="contPhone" value="{!distribuorCon.Phone}" required="true" onBlur="javascript:format_phone(this, event)"
+	                	onFocus="if(this.value==this.defaultValue)this.value='';" onkeydown="javascript:format_phone(this, event)"/><br/>
 	                </div>
 	              </div>
 	              <div class="clear-float"></div>
 							</div>
 							<div class="left new-case-label">
 	              <div class="float-left form-section">  
-	              	Email
+	              	Distributor Name <span class="required">*</span>
 	              	<div class="input-holder">
-	                	<apex:inputField id="contEmail" value="{!distribuorCon.Email}"/><br/>
+	                	<apex:inputField id="contDistributorName" value="{!distribuorCon.Distributor_Name__c}" required="true"/><br/>
 	                </div>
 	              </div>
 	              <div class="float-left form-section">
-	              	Phone number
+	              	Distributor Address - City <span class="required">*</span>
 	                <div class="input-holder">
-	                	<apex:inputField id="contPhone" value="{!distribuorCon.Phone}"/><br/>
+	                	<apex:inputField id="contAddCity" value="{!distribuorCon.Distributor_City__c}" required="true"/><br/>
 	                </div>
 	              </div>
 	              <div class="clear-float"></div>
 							</div>
 							<div class="left new-case-label">
 	              <div class="float-left form-section">  
-	              	Distributor Name
+	              	Distributor Address - State <span class="required">*</span>
 	              	<div class="input-holder">
-	                	<apex:inputField id="contDistributorName" value="{!distribuorCon.Distributor_Name__c}"/><br/>
+	                	<apex:inputField id="contAddState" value="{!distribuorCon.Distributor_State__c}" required="true"/><br/>
 	                </div>
 	              </div>
 	              <div class="float-left form-section">
-	              	Distributor Address - City
+	              	Distributor Address - Zip <span class="required">*</span>
 	                <div class="input-holder">
-	                	<apex:inputField id="contAddCity" value="{!distribuorCon.Distributor_City__c}"/><br/>
-	                </div>
-	              </div>
-	              <div class="clear-float"></div>
-							</div>
-							<div class="left new-case-label">
-	              <div class="float-left form-section">  
-	              	Distributor Address - State
-	              	<div class="input-holder">
-	                	<apex:inputField id="contAddState" value="{!distribuorCon.Distributor_State__c}"/><br/>
-	                </div>
-	              </div>
-	              <div class="float-left form-section">
-	              	Distributor Address - Zip
-	                <div class="input-holder">
-	                	<apex:inputField id="contAddZip" value="{!distribuorCon.Distributor_Postal_Code__c}"/><br/>
+	                	<apex:inputField id="contAddZip" value="{!distribuorCon.Distributor_Postal_Code__c}" required="true"/><br/>
 	                </div>
 	              </div>
 	              <div class="clear-float"></div>
 							</div>
 							<div class="left new-case-label">
 								<div class="float-left form-section caseType">  
-	              	Subscribe Interested In
+	              	Beverage Alcohol Category <span class="required">*</span>
 	              	<div class="select-type-wappper" style="margin-top: 5px;">
 		              	<div class="select-type-holder">
-		              		<apex:inputField id="SubscribeInterestedIn" value="{!distribuorCon.Subscribe_Interested_In__c}"/><br/>
+		              		<apex:inputField id="SubscribeInterestedIn" value="{!distribuorCon.Subscribe_Interested_In__c}" required="true"/><br/>
 		               	</div>
 	               	</div>
 	              </div>
 	              <div class="float-left form-section caseType">  
-	              	Subscribe Premise
+	              	On or Off Premise <span class="required">*</span>
 	              	<div class="select-type-wappper" style="margin-top: 5px;">
 		              	<div class="select-type-holder">
-		              		<apex:inputField id="SubscribePremise" value="{!distribuorCon.Subscribe_Premise__c}"/><br/>
+		              		<apex:inputField id="SubscribePremise" value="{!distribuorCon.Subscribe_Premise__c}" required="true"/><br/>
 		               	</div>
 	               	</div>
 	              </div>
@@ -118,4 +122,72 @@
 			<a href="">&copy; Diageo 2011</a>
 		</div>
   </div>
+  <script type="text/javascript">
+  	/*Start of phone number formating */
+		function format_phone(m, evt){
+			var charCode = (evt.which) ? evt.which : event.keyCode;
+			if(m.value.length > 14){
+				alert(m.value);
+				m.value=m.value.substring(0,14);
+			}
+			if(charCode != 8 && charCode != 46){
+				var n  = m.name;
+				var p1 = m
+				var p  = p1.value;
+			
+				if(p.length==3){
+			    pp=p;
+			    d4=p.indexOf('(')
+			    d5=p.indexOf(')')
+			    if(d4==-1){
+			        pp="("+pp;
+			    }
+			    if(d5==-1){
+			        pp=pp+") ";
+			    }
+			    p1.value="";
+			    p1.value=pp;
+				}
+				if(p.length>3){
+			    d1=p.indexOf('(')
+			    d2=p.indexOf(')')
+			    if (d2==-1){
+			        l30=p.length;
+			        p30=p.substring(0,4);
+			        p30=p30+") "
+			        p31=p.substring(5,l30);
+			        pp=p30+p31;
+			        p1.value="";
+			        p1.value=pp;
+			    }
+				}
+				if(p.length>7){
+			    p11=p.substring(d1+1,d2);
+			    if(p11.length>4){
+				    p12=p11;
+				    l12=p12.length;
+				    l15=p.length
+				    p13=p11.substring(0,4);
+				    p14=p11.substring(4,l12);
+				    p15=p.substring(d2+1,l15);
+				    p1.value="";
+				    pp="("+p13+") "+p14+p15;
+				    p1.value=pp;
+			    }
+			    l16=p.length;
+			    p16=p.substring(d2+2,l16);
+			    l17=p16.length;
+			    if(l17>3&&p16.indexOf('-')==-1){
+			        p17=p.substring(d2+1,d2+5);
+			        p18=p.substring(d2+5,l16);
+			        p19=p.substring(0,d2+1);
+					    pp=p19+p17+"-"+p18;
+					    p1.value="";
+					    p1.value=pp;
+			    }
+				}
+			}
+		}
+		/* End of phone number formating */
+  </script>
 </apex:page>

@@ -1,47 +1,110 @@
-<apex:page StandardController="Contact" title="Review Distributors" extensions="ReviewDistributorContactsController">
+<apex:page StandardController="Contact" recordSetVar="Contacts" title="Review Distributors" extensions="ReviewDistributorContactsController">
+<script>
+        function checkAll(cb)
+        {
+            var inputElem = document.getElementsByTagName("input");
+            for(var i=0; i<inputElem.length; i++)
+            {
+                if(inputElem[i].id.indexOf("checkedone")!=-1)
+                inputElem[i].checked = cb.checked;
+            }
+            updateSelectList();
+        }
+        
+        function uncheckAll(){
+          var inputElem = document.getElementsByTagName("input");
+          var flag = true; 
+          var checkAll; 
+            for(var i=0; i<inputElem.length; i++)
+            {
+            if(inputElem[i].id.indexOf("checkAllDone") != -1){
+              checkAll = inputElem[i];
+             }
+                if(inputElem[i].id.indexOf("checkedone") != -1 && !inputElem[i].checked){
+                  flag = false;
+                  break; 
+                }                
+            }
+            checkAll.checked = flag;
+            updateSelectList();
+        }
+    </script>
 <c:ajaxLoader />
   <apex:form id="frm">
-    <apex:actionFunction status="ajax-status" name="getContactDetail" reRender="pBlock"/> 
+    <apex:pageMessages />    
+    <apex:actionFunction status="ajax-status" name="updateSelectList" action="{!populateSelected}" reRender="pBlock"/>
+    <apex:actionFunction action="{!doSort}" name="sortRecords" rerender="pBlock">
+      <apex:param name="sortField" assignTo="{!sortField}" value="" />    
+  	</apex:actionFunction>
+    <apex:actionFunction status="ajax-status" name="approve" action="{!approveRequest}" reRender="frm">
+      <apex:param name="firstParam" value="" assignTo="{!selectedContactId}"/>
+    </apex:actionFunction>
+    <apex:actionFunction status="ajax-status" name="reject" action="{!rejectRequest}" reRender="frm">
+      <apex:param name="secParam" value="" assignTo="{!selectedContactId}"/>
+    </apex:actionFunction>
+     
     <apex:pageBlock id="pBlock" title="Contacts need review">
-      <apex:pageBlockButtons rendered="{!(selectedContactId != null)}">
-        <apex:commandButton value="Approve" action="{!approveRequest}"/>
-        <apex:commandButton value="Reject" action="{!rejectRequest}"/>
-        <apex:commandButton value="Cancel" action="{!cancel}"/>
-      </apex:pageBlockButtons>
-      <apex:outputPanel rendered="{!(lstContacts.size = 0)}" >
-        No contacts for review.
+      <apex:outputPanel rendered="{!(lstContacts.size == 0)}">
+        No records available.
       </apex:outputPanel>
       
-      <apex:outputPanel id="contactSelection" rendered="{!(lstContacts.size > 0)}" >        
-      	<apex:pageblockSection title="Select Contact">
-      	  <apex:pageBlockSectionItem >
-      	    <apex:outputText >Select Contact</apex:outputText>
-    				<apex:selectList value="{!selectedContactId}" multiselect="false" size="1" onChange="getContactDetail();">
-      				<apex:selectOptions value="{!lstContacts}"/>
-    				</apex:selectList>
-    			</apex:pageBlockSectionItem>
-    		</apex:pageblockSection>
-    	</apex:outputPanel>
-    	
-    	<apex:outputPanel id="contactDetail" rendered="{!(selectedContactId != null)}">
-    	  <apex:pageblockSection title="Contact Detail">
-    	    <apex:outputField value="{!mapContacts[selectedContactId].Title}"/>
-    	    <apex:outputField value="{!mapContacts[selectedContactId].Name}"/>
-    	    <apex:outputField value="{!mapContacts[selectedContactId].Email}"/>
-    	    <apex:outputField value="{!mapContacts[selectedContactId].Phone}"/>
-    	    <apex:outputField value="{!mapContacts[selectedContactId].Distributor_Name__c}"/>
-    	    <apex:outputField value="{!mapContacts[selectedContactId].Distributor_City__c}"/>
-    	    <apex:outputField value="{!mapContacts[selectedContactId].Distributor_State__c}"/>
-    	    <apex:outputField value="{!mapContacts[selectedContactId].Distributor_Postal_Code__c}"/>
-    	    <apex:outputField value="{!mapContacts[selectedContactId].Subscribe_Interested_In__c}"/>
-    	    <apex:outputField value="{!mapContacts[selectedContactId].Subscribe_Premise__c}"/>
-    	    <apex:outputField value="{!mapContacts[selectedContactId].Subscribe_Status__c}"/>    	  	
-    	  </apex:pageblockSection>
-    	  <apex:pageblockSection columns="1" title="Approve/Reject Approval Request">
-    	    <apex:inputTextArea value="{!comments}" label="Comments" rows="5" cols="100" style="width:auto;height:auto;"/>
-    	  </apex:pageblockSection>
-    	</apex:outputPanel>
-    	
+      <apex:pageBlockButtons location="top">
+        <apex:commandButton value="Approve Selected Contacts" action="{!approveSelected}" reRender="frm" rendered="{!(lstContacts.size != 0)}"/>
+        <apex:commandButton value="Reject Selected Contacts" action="{!rejectSelected}" reRender="frm" rendered="{!(lstContacts.size != 0)}"/>
+        <apex:commandButton value="Go Back" action="{!cancel}"/>
+      </apex:pageBlockButtons>
+      
+      <apex:pageBlockTable value="{!lstContacts}" var="con" rendered="{!(lstContacts.size != 0)}">        
+        <apex:column >
+          <apex:facet name="header"> 
+            <apex:inputCheckbox id="checkAllDone" onClick="checkAll(this);"/>            
+          </apex:facet>
+          <apex:inputCheckbox value="{!con.isSelected}" id="checkedone" onclick="uncheckAll();" rendered="{!(con.processInstance.CreatedDate != null)}"/>
+        </apex:column>
+        
+        <apex:column headerValue="Action">
+          <apex:commandButton value="Approve" onclick="approve('{!con.Contact.Id}');" reRender="frm" rendered="{!(con.processInstance.CreatedDate != null)}"/>&nbsp;&nbsp;
+          <apex:commandButton value="Reject" onclick="reject('{!con.Contact.Id}');" reRender="frm" rendered="{!(con.processInstance.CreatedDate != null)}"/>
+        </apex:column>
+        <apex:column >
+          <apex:facet name="header">
+            <apex:outputLink value="javascript:void(0);" onclick="sortRecords('Name')">
+              Contact Name
+              <img src="{!IF(sortField = 'Name', IF(isAsc = true, '/img/sort_asc_arrow.gif','/img/sort_desc_arrow.gif'),'/s.gif')}" />
+            </apex:outputLink>
+          </apex:facet> 
+          <apex:outputLink value="/{!con.contact.Id}"> {!con.contact.Name}</apex:outputLink>
+        </apex:column>
+        <apex:column value="{!con.contact.Title}">
+          <apex:facet name="header">
+            <apex:outputLink value="javascript:void(0);" onclick="sortRecords('Title')">
+              Title
+              <img src="{!IF(sortField = 'Title', IF(isAsc = true, '/img/sort_asc_arrow.gif','/img/sort_desc_arrow.gif'),'/s.gif')}" />
+            </apex:outputLink>
+          </apex:facet>
+        </apex:column>
+        <apex:column value="{!con.contact.Distributor_Name__c}">
+          <apex:facet name="header">
+            <apex:outputLink value="javascript:void(0);" onclick="sortRecords('Distributor_Name__c')">
+              Distributor Name
+              <img src="{!IF(sortField = 'Distributor_Name__c', IF(isAsc = true, '/img/sort_asc_arrow.gif','/img/sort_desc_arrow.gif'),'/s.gif')}" />
+            </apex:outputLink>
+          </apex:facet>
+        </apex:column>
+        <apex:column headerValue="Interested In" value="{!con.contact.Subscribe_Interested_In__c}"/>
+        <apex:column headerValue="On/Off Premise" value="{!con.contact.Subscribe_Premise__c}"/>
+        <apex:column >
+          <apex:facet name="header">
+            <apex:outputLink value="javascript:void(0);" onclick="sortRecords('Date_Submitted')">
+              Date Submitted
+              <img src="{!IF(sortField = 'Date_Submitted', IF(isAsc = true, '/img/sort_asc_arrow.gif','/img/sort_desc_arrow.gif'),'/s.gif')}" />
+            </apex:outputLink>
+          </apex:facet>
+          <apex:outputField value="{!con.processInstance.CreatedDate}" rendered="{!(con.processInstance.CreatedDate != null)}"/>
+          <apex:outputText value="Not Submitted" rendered="{!(con.processInstance.CreatedDate = null)}"/> 
+        </apex:column>
+         
+      </apex:pageBlockTable>      
     </apex:pageBlock>
   </apex:form>
 </apex:page>

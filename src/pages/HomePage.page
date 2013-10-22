@@ -25,6 +25,7 @@ Story/Task  : US503/TA907
     <apex:form >
         <apex:actionFunction status="ajax-status" name="openSpiritsPlanningPage" action="{!openSpiritsPlanningPage}"/>
         <apex:actionFunction status="ajax-status" name="openWinePlanningPage" action="{!openWinePlanningPage}"/>
+        <apex:actionFunction status="ajax-status" name="openBeerPlanningPage" action="{!openBeerPlanningPage}"/>
         
         <apex:actionFunction status="ajax-status" name="openPlanningPage" action="{!openPlanningPage}">
             <apex:param name="firstParam" assignTo="{!planningTheme}" value="" />
@@ -214,7 +215,11 @@ Story/Task  : US503/TA907
                             <!-- <li><a href="{!$Page.SpiritsPlanning}" onclick="pageViewed('Home Page - Spirits Planning');">Spirits Planning</a></li> -->
                             <li><apex:outputLabel value="Spirits Planning" onclick="openSpiritsPlanningPage();" style="text-decoration: none; cursor: pointer;"/></li>
                             <!-- End changes for DE550 : Basant -->
-                            <li><a href="{!$Page.NationalAccounts}" onclick="pageViewed('Home Page - National Accounts');">National Accounts</a></li>
+                            <!--Start: Changes for US570/TA1123 -Geeta Kumawat-->
+            				<li><apex:outputLabel value="Beer Planning" onclick="openBeerPlanningPage();" style="text-decoration: none; cursor: pointer;"/></li>
+                            <!--End: Changes for US570/TA1123 -Geeta Kumawat-->
+            				<li><a href="{!$Page.NationalAccounts}" onclick="pageViewed('Home Page - National Accounts');">National Accounts</a></li>
+                            <!-- End changes for DE550 : Basant -->
                             <!-- Start changes for DE550 : Basant -->
                             <!-- <li class="last"><a href="{!$Page.WinePlanning}" onclick="pageViewed('Home Page - Wine Planning'); openPlanningPage('Wine')">Wine Planning</a></li> -->
                             <li class="last"><apex:outputLabel value="Wine Planning" onclick="openWinePlanningPage();" style="text-decoration: none; cursor: pointer;"/></li>

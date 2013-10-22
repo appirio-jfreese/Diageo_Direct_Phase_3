@@ -48,6 +48,10 @@ Story/Task  : US609/DE654
 Updated By  : Basant Verma (Appirio OffShore)   
 Date        : 08/06/13
 Story/Task  : DE725
+
+Updated By  : Basant Verma (Appirio JDC)
+Date        : 8/8/13
+Story/Task  : US549/TA1096
 *******************************************************************************************************************/
 
 global public without sharing virtual class Controller_Base {
@@ -651,7 +655,10 @@ global public without sharing virtual class Controller_Base {
             pageLink[] planningSubPageLinks = new pageLink[] {
                 new PageLink(Page.SpiritsPlanning.getUrl(), 'Spirits Planning', 'menu-plan'),
                 new PageLink(Page.NationalAccounts.getUrl(), 'National Accounts', 'menu-plan'),
-                new PageLink(Page.WinePlanning.getUrl(), 'Wine Planning', 'menu-plan')
+                new PageLink(Page.WinePlanning.getUrl(), 'Wine Planning', 'menu-plan'),
+                //Start: Changes for US570/TA1124 -Geeta Kumawat
+            	new PageLink(Page.BeerPlanning.getUrl(), 'Beer Planning', 'menu-plan')
+            	//End: Changes for US570/TA1124 -Geeta Kumawat
             };
             planningPageLink.addSubLinks(planningSubPageLinks);
             menuLinks.add(planningPageLink);
@@ -880,7 +887,12 @@ global public without sharing virtual class Controller_Base {
         return toggleTheme();
     }
     // End : Changes for TA920
-
+    // START : Changed for US549/TA1096 - Basant Verma
+    public virtual PageReference toggleToBeer(){
+        clickedTheme = 'Beer';
+        return toggleTheme();
+    }
+		// END : Changed for US549/TA1096 - Basant Verma
     // Start : Changes for DE550 : Basant
     public virtual PageReference openPlanningPage(){
         PageReference pr = ApexPages.currentPage();
@@ -912,6 +924,13 @@ global public without sharing virtual class Controller_Base {
             Service_API.setUserSiteTheme('Wine', false);
         return Page.WinePlanning;
     }
+    //Start: Changes for US570/TA1123 -Geeta Kumawat
+    public virtual PageReference openBeerPlanningPage(){
+        if(siteTheme != 'Beer')
+            Service_API.setUserSiteTheme('Beer', false);
+        return Page.BeerPlanning;
+    }
+    //End: Changes for US570/TA1123 -Geeta Kumawat
     // End : Changes for DE550
     // set current overview/share
     public void userShareOverview(){

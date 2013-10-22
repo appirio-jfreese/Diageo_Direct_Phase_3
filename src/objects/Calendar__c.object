@@ -242,6 +242,17 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>Marketing_Group__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Marketing Group</label>
+        <referenceTo>Marketing_Group__c</referenceTo>
+        <relationshipLabel>Calendar</relationshipLabel>
+        <relationshipName>Calendar</relationshipName>
+        <required>false</required>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>New_Org_ID__c</fullName>
         <externalId>false</externalId>
         <label>New Org ID</label>
@@ -763,12 +774,18 @@
     </listViews>
     <listViews>
         <fullName>National_Account_Programs</fullName>
+        <columns>RECORDTYPE</columns>
         <columns>NAME</columns>
+        <columns>Program_Name__c</columns>
+        <columns>Sales_Channel__c</columns>
+        <columns>Sub_Channel__c</columns>
+        <columns>Programs__c</columns>
+        <columns>Segment__c</columns>
         <filterScope>Everything</filterScope>
         <filters>
-            <field>Record_Type_Name__c</field>
+            <field>RECORDTYPE</field>
             <operation>equals</operation>
-            <value>National Accounts</value>
+            <value>Calendar__c.National_Accounts</value>
         </filters>
         <label>National Account Programs</label>
     </listViews>
@@ -800,7 +817,7 @@
         <filterItems>
             <field>Calendar__c.RecordType.Name</field>
             <operation>equals</operation>
-            <value>National Programs</value>
+            <value>National Accounts</value>
         </filterItems>
         <isOptional>false</isOptional>
         <name>Campaign_Program</name>
