@@ -1062,6 +1062,19 @@ IF(ISBLANK(Beer_Hierarchy__r.Parent__c), &quot;&quot;, IF(TEXT(Beer_Hierarchy__r
         <type>Picklist</type>
     </fields>
     <fields>
+        <fullName>Key_Account_Group__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Key Account Group</label>
+        <referenceTo>Key_Account_Group__c</referenceTo>
+        <relationshipLabel>Outlets</relationshipLabel>
+        <relationshipName>Accounts</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>Latitude__c</fullName>
         <externalId>false</externalId>
         <label>Latitude</label>
@@ -1495,7 +1508,7 @@ IF(ISBLANK(Beer_Hierarchy__r.Parent__c), &quot;&quot;, IF(TEXT(Beer_Hierarchy__r
         <externalId>false</externalId>
         <label>Marketing Group</label>
         <referenceTo>Marketing_Group__c</referenceTo>
-        <relationshipLabel>Outlets</relationshipLabel>
+        <relationshipLabel>Stores</relationshipLabel>
         <relationshipName>Accounts</relationshipName>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
@@ -1678,6 +1691,19 @@ IF(ISBLANK(Beer_Hierarchy__r.Parent__c), &quot;&quot;, IF(TEXT(Beer_Hierarchy__r
         <trackHistory>false</trackHistory>
         <type>Text</type>
         <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>National_Account_Group__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>National Account Group</label>
+        <referenceTo>National_Account_Group__c</referenceTo>
+        <relationshipLabel>Outlets</relationshipLabel>
+        <relationshipName>Accounts</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Lookup</type>
     </fields>
     <fields>
         <fullName>National_Accounts__c</fullName>
@@ -3238,58 +3264,68 @@ IF(ISBLANK(Spirits_Hierarchy__r.Parent__c), &quot;&quot;, IF(TEXT(Spirits_Hierar
     </fields>
     <fields>
         <fullName>TDLinx_Account_Level_A__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
         <label>Account Level A</label>
-        <length>255</length>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Accounts</relationshipLabel>
+        <relationshipName>Account_Level_A</relationshipName>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
-        <type>Text</type>
-        <unique>false</unique>
+        <type>Lookup</type>
     </fields>
     <fields>
         <fullName>TDLinx_Account_Level_B__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
         <label>Account Level B</label>
-        <length>255</length>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Account Level B</relationshipLabel>
+        <relationshipName>Account_Level_B</relationshipName>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
-        <type>Text</type>
-        <unique>false</unique>
+        <type>Lookup</type>
     </fields>
     <fields>
         <fullName>TDLinx_Account_Level_C__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
         <label>Account Level C</label>
-        <length>255</length>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Accounts (Account Level C)</relationshipLabel>
+        <relationshipName>Account_Level_C</relationshipName>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
-        <type>Text</type>
-        <unique>false</unique>
+        <type>Lookup</type>
     </fields>
     <fields>
         <fullName>TDLinx_Account_Level_D__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
         <label>Account Level D</label>
-        <length>255</length>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Account Level D</relationshipLabel>
+        <relationshipName>Account_Level_D</relationshipName>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
-        <type>Text</type>
-        <unique>false</unique>
+        <type>Lookup</type>
     </fields>
     <fields>
         <fullName>TDLinx_Account_Level_E__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
         <label>Account Level E</label>
-        <length>255</length>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Account Level E</relationshipLabel>
+        <relationshipName>Account_Level_E</relationshipName>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
-        <type>Text</type>
-        <unique>false</unique>
+        <type>Lookup</type>
     </fields>
     <fields>
         <fullName>TDLinx_Outlet_Addr__c</fullName>
@@ -4086,11 +4122,6 @@ IF(ISBLANK(Wine_Hierarchy__r.Parent__c), &quot;&quot;, IF(TEXT(Wine_Hierarchy__r
         <columns>ACCOUNT.RECORDTYPE</columns>
         <columns>Channel_Type__c</columns>
         <columns>ACCOUNT.TYPE</columns>
-        <columns>TDLinx_Account_Level_A__c</columns>
-        <columns>TDLinx_Account_Level_B__c</columns>
-        <columns>TDLinx_Account_Level_C__c</columns>
-        <columns>TDLinx_Account_Level_D__c</columns>
-        <columns>TDLinx_Account_Level_E__c</columns>
         <columns>Account_Geolocation_Latitude__c</columns>
         <columns>Account_Geolocation_Longitude__c</columns>
         <columns>TDLinx_Outlet_Addr__c</columns>
@@ -4453,6 +4484,66 @@ IF(ISBLANK(Wine_Hierarchy__r.Parent__c), &quot;&quot;, IF(TEXT(Wine_Hierarchy__r
         </sharedTo>
     </listViews>
     <namedFilters>
+        <fullName>Account_00NK0000001CpHBMA0</fullName>
+        <active>true</active>
+        <field>Account.TDLinx_Account_Level_A__c</field>
+        <filterItems>
+            <field>Account.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>Outlet - Division</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+        <name>Account_Account Level A</name>
+    </namedFilters>
+    <namedFilters>
+        <fullName>Account_00NK0000001CpHGMA0</fullName>
+        <active>true</active>
+        <field>Account.TDLinx_Account_Level_B__c</field>
+        <filterItems>
+            <field>Account.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>Outlet - Division</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+        <name>Account_Account Level B</name>
+    </namedFilters>
+    <namedFilters>
+        <fullName>Account_00NK0000001CpHLMA0</fullName>
+        <active>true</active>
+        <field>Account.TDLinx_Account_Level_C__c</field>
+        <filterItems>
+            <field>Account.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>Outlet - Division</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+        <name>Account_Account Level C</name>
+    </namedFilters>
+    <namedFilters>
+        <fullName>Account_00NK0000001CpHQMA0</fullName>
+        <active>true</active>
+        <field>Account.TDLinx_Account_Level_D__c</field>
+        <filterItems>
+            <field>Account.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>Outlet - Division</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+        <name>Account_Account Level D</name>
+    </namedFilters>
+    <namedFilters>
+        <fullName>Account_00NK0000001CpHVMA0</fullName>
+        <active>true</active>
+        <field>Account.TDLinx_Account_Level_E__c</field>
+        <filterItems>
+            <field>Account.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>Outlet - Headquarters</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+        <name>Account_Account Level E</name>
+    </namedFilters>
+    <namedFilters>
         <fullName>Campaign_00NJ00000014kDXMAY</fullName>
         <active>true</active>
         <field>Campaign.National_Account__c</field>
@@ -4463,6 +4554,18 @@ IF(ISBLANK(Wine_Hierarchy__r.Parent__c), &quot;&quot;, IF(TEXT(Wine_Hierarchy__r
         </filterItems>
         <isOptional>false</isOptional>
         <name>Campaign_National Account</name>
+    </namedFilters>
+    <namedFilters>
+        <fullName>nf_01IA00000024e5nMAA_00NJ000000155r4MAA</fullName>
+        <active>true</active>
+        <field>Calendar__c.National_Account__c</field>
+        <filterItems>
+            <field>Account.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>Outlet - Headquarters</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+        <name>Calendar_National Account</name>
     </namedFilters>
     <namedFilters>
         <fullName>nf_01IK0000000D1PxMAK_00NK0000000WI0JMAW</fullName>

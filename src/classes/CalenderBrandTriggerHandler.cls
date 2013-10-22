@@ -59,17 +59,19 @@ public with sharing class CalenderBrandTriggerHandler {
 		}
 		
 		String brandName = '';
-		for(Calendar__c cal : [Select Id, Name, Program_Name__c, RecordType.Name, 
-			Sales_Channel__c, Start_Date__c
+		for(Calendar__c cal : [Select Id, Name, RecordType.Name, 
+			Sales_Channel__c, Start_Date__c, Primary_Brand_Name__c
 			From Calendar__c Where Id IN :calBrandMap.keySet()]){
 			brandName = '';
 			if(calBrandMap.get(cal.Id) != null){
-				brandName = ' - ' + calBrandMap.get(cal.Id).Brand__r.Name;
+				//brandName = ' - ' + calBrandMap.get(cal.Id).Brand__r.Name;
+				brandName = calBrandMap.get(cal.Id).Brand__r.Name;
 			}else{
 				newList.get(0).Primary_Brand__c.addError(Label.PrimaryCalendarBrandMustError);
 			}
-			cal.Program_Name__c = cal.RecordType.Name + ' - ' + cal.Sales_Channel__c 
-					+ brandName + ' - ' + String.valueOf(cal.Start_Date__c);
+			/*cal.Program_Name__c = cal.RecordType.Name + ' - ' + cal.Sales_Channel__c 
+					+ brandName + ' - ' + String.valueOf(cal.Start_Date__c);*/
+			cal.Primary_Brand_Name__c = brandName;
 			calToBeUpdate.add(cal);
 		}
 		if(calToBeUpdate.size() > 0){

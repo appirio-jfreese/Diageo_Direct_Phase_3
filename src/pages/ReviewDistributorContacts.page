@@ -35,7 +35,7 @@
     <apex:actionFunction status="ajax-status" name="updateSelectList" action="{!populateSelected}" reRender="pBlock"/>
     <apex:actionFunction action="{!doSort}" name="sortRecords" rerender="pBlock">
       <apex:param name="sortField" assignTo="{!sortField}" value="" />    
-  	</apex:actionFunction>
+    </apex:actionFunction>
     <apex:actionFunction status="ajax-status" name="approve" action="{!approveRequest}" reRender="frm">
       <apex:param name="firstParam" value="" assignTo="{!selectedContactId}"/>
     </apex:actionFunction>
@@ -43,7 +43,7 @@
       <apex:param name="secParam" value="" assignTo="{!selectedContactId}"/>
     </apex:actionFunction>
      
-    <apex:pageBlock id="pBlock" title="Contacts need review">
+    <apex:pageBlock id="pBlock" title="Distributor Contact Submissions">
       <apex:outputPanel rendered="{!(lstContacts.size == 0)}">
         No records available.
       </apex:outputPanel>

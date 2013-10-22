@@ -471,12 +471,11 @@ Story/Task  : US570/TA1126
                                         <!-- month box -->
                                         <tr class="mep-month">
                                             <td colspan="{!salesDriversToShowCount}" class="month">
-<!--                                                <img src="{!URLFOR($Resource.CommonPage, 'images/transparent.gif')}" alt="Next Month" class="month-next" style="display:{!month.showArrows};"/><img src="{!URLFOR($Resource.CommonPage, 'images/transparent.gif')}" alt="Previous Month" class="month-previous" style="display:{!month.showArrows};"/><apex:inputText rendered="{!displayCalendar==1}" value="{!startFromDate}" styleClass="jumpToDate" style="opacity:0.0; filter:alpha(opacity=0);"/>{!month.name} <apex:inputText rendered="{!displayCalendar==1}" value="{!startFromDate}" styleClass="jumpToDate"/>  -->
+                                                <img src="{!URLFOR($Resource.CommonPage, 'images/transparent.gif')}" alt="Next Month" class="month-next" style="display:{!month.showArrows};"/><img src="{!URLFOR($Resource.CommonPage, 'images/transparent.gif')}" alt="Previous Month" class="month-previous" style="display:{!month.showArrows};"/><apex:inputText rendered="{!displayCalendar==1}" value="{!startFromDate}" styleClass="jumpToDate" style="opacity:0.0; filter:alpha(opacity=0);"/>{!month.name} <apex:inputText rendered="{!displayCalendar==1}" value="{!startFromDate}" styleClass="jumpToDate"/>
                                             </td>
                                         </tr>
                                         <tr class="month-data month{!span}">
                                             <apex:repeat value="{!salesDriversToShow}" var="program">
-<!--                                            
                                                 <td><apex:repeat value="{!calendarData[month.data][program]}" var="programData">
                                                         <div class="month{!span} mep-general mep_program{!salesDriversToShowCount}" style="width: auto !important; {!programData.styleBackgroundColor}{!programData.styleTextColor}" onclick="showDetails('{!programData.id}');">
                                                         <a href="#"></a>
@@ -492,10 +491,9 @@ Story/Task  : US570/TA1126
                                                         
                                                         </div>
                                                     </apex:repeat>
-                                                  
+                                                   
                                                 </td>
--->                                                
-                                            </apex:repeat>                                           
+                                            </apex:repeat>
                                         </tr>
                                         <apex:variable var="displayCalendar" value="{!0}"/>
                                     </apex:repeat>

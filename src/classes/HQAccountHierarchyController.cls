@@ -12,7 +12,8 @@ public with sharing class HQAccountHierarchyController {
     private final String MISMATCHED_STATES = 'MISMATCHED STATES: There are few missmatched state names, please contact Administrator';
     private boolean isFirst = true;
     // Public propeties which we will use on Page
-    public Id campaignId { get; set; }
+    public Id calendarId { get; set; }
+    public Calendar__c calendar {get; set;}
     public String accId { get; set; }
     public String allSelectedStateCheckBox { get; set; }
     public Map<String, Integer> existingCampStates {get; set;}
@@ -83,15 +84,15 @@ public with sharing class HQAccountHierarchyController {
     // Constructor
     public HQAccountHierarchyController(ApexPages.StandardController stdController) {
         // Check for National Account Group
-        campaignId = stdController.getId();
+        calendarId = stdController.getId();
         init();
         isFirst = false;
     }
     
     private void init(){
-    	Campaign campaign = [SELECT ID, National_Account__c FROM Campaign WHERE Id =: campaignId];
-        if(campaign.National_Account__c != null) {
-            accId = campaign.National_Account__c;
+    	calendar = [SELECT Id, Name, National_Account__c FROM Calendar__c WHERE Id =: calendarId];
+        if(calendar.National_Account__c != null) {
+            accId = calendar.National_Account__c;
             if(accId != null){
                 // Fetch Account Details
                 hqAcc = [Select Id, Name, RecordTypeId, RecordType.Name From Account Where Id = :accId];
@@ -103,7 +104,7 @@ public with sharing class HQAccountHierarchyController {
                     bannerAccList = new List<Account>();
                     createHierarchy(hqAcc.Id);
                     existingCampStates = new Map<String, Integer>();
-							    	for(Campaign_State__c cs : [Select Id, Name, Campaign__c From Campaign_State__c Where Campaign__c = :campaignId]){
+							    	for(Campaign_State__c cs : [Select Id, Name, Campaign__c From Campaign_State__c Where Campaign__r.Program__c = :calendarId]){
 							    		if(!existingCampStates.containsKey(cs.Name))
 							    			existingCampStates.put(cs.Name, 0);
 							    	}
@@ -182,7 +183,21 @@ public with sharing class HQAccountHierarchyController {
         }
     }
     
-    public Pagereference createCamaignStates(){
+    public Pagereference saveAction(){
+    	try{
+    		Campaign newCamp = new Campaign();
+	    	newCamp.Name = calendar.Name;
+	    	newCamp.National_Account__c = calendar.National_Account__c;
+	    	newCamp.Program__c = calendar.Id;
+	    	insert newCamp;
+	    	createCamaignStates(newCamp.Id);
+    	}catch(Exception e){
+    		 Apexpages.addMessage(new Apexpages.Message(Apexpages.Severity.ERROR, e.getMessage()));
+    	}
+    	return null;
+    }
+    
+    public Pagereference createCamaignStates(String campaignId){
     	List<Campaign_State__c> newCamStates = new List<Campaign_State__c>();
     	
     	for(String st : allSelectedStateCheckBox.split(',')){
@@ -200,7 +215,7 @@ public with sharing class HQAccountHierarchyController {
     }
     
     
-    // Test Method
+    /*// Test Method
     @isTest
     public static void testHQAccounts() {
         final String HQ_RT_NAME = Label.Outlet_Headquarters_Record_Type;
@@ -264,5 +279,5 @@ public with sharing class HQAccountHierarchyController {
         
         System.assertEquals(con.hqAcc.Id, hqAccount.Id);
         System.assertEquals(con.statesSet.size(), stateList.size());
-    }
+    }*/
 }

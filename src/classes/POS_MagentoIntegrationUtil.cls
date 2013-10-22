@@ -189,6 +189,7 @@ public with sharing class POS_MagentoIntegrationUtil {
                 Item__c o = new Item__c(id=sObjId, Magento_Id__c = responseId);
                 update o;
                 System.debug('Item MagentoId after update - ' + o.Magento_ID__c);
+                System.debug('DE759 POS_MagentoIntegrationUtil.cls Item after update MagentoId: Item Name - ' + o.name + ', Item_ID - ' + o.Item_ID__c + ', Agency_Item_ID - ' + o.Agency_Item_ID__c + ', Magento_ID - ' + o.Magento_ID__c);
             }
             
         } else if(newObj instanceof Item_Customization__c) { // IMP: Special Handling for this as product_custom_option.add always returns 1 as magentoId.

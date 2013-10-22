@@ -95,6 +95,7 @@ global public without sharing virtual class Controller_BaseRemote {
 	                    Download_cache__c cacheItem = new Download_cache__c();
 	                    cacheItem.Content_Version_Id__c = content.Content_Version_Id__c;
 	                    cacheItem.Content_Name__c = content.Title__c;
+	                    cacheItem.Content_Description_ID__c = content.Id;
 	                    cache.add(cacheItem);
 	                }
 	            }
@@ -104,6 +105,7 @@ global public without sharing virtual class Controller_BaseRemote {
 	                    Download_cache__c cacheItem = new Download_cache__c();
 	                    cacheItem.Content_Version_Id__c = content.Content_Version_Id_Low__c;
 	                    cacheItem.Content_Name__c = content.Title__c;
+	                    cacheItem.Content_Description_ID__c = content.Id;
 	                    cache.add(cacheItem);
 	                }
 	            }           

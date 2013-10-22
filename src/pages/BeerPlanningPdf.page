@@ -45,13 +45,12 @@ Story/Task  : US570/TA1126
                 <!-- month box -->
                 <tr class="mep-month">
                     <td colspan="{!salesDriversToShowCount}" class="month">
-<!--                        {!month.name}      -->
+                        {!month.name} 
                     </td>
                 </tr>
                 <tr class="month-data month{!span}">
                     <apex:repeat value="{!salesDriversToShow}" var="program">
                         <td>
-<!--                        
                             <apex:repeat value="{!calendarData[month.data][program]}" var="programData">
                                 <div class="month{!span} mep-general mep_program{!salesDriversToShowCount}" style="width: auto !important; {!programData.styleBackgroundColor}{!programData.styleTextColor}" >
                                     <a href="#">
@@ -66,7 +65,6 @@ Story/Task  : US570/TA1126
                                 </a>
                                 </div>
                             </apex:repeat>
--->                            
                         </td>
                     </apex:repeat>
                 </tr>

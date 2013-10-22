@@ -253,10 +253,30 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>National_Account__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>National Account</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Calendar</relationshipLabel>
+        <relationshipName>Calendar</relationshipName>
+        <required>false</required>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>New_Org_ID__c</fullName>
         <externalId>false</externalId>
         <label>New Org ID</label>
         <length>18</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Primary_Brand_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Primary Brand Name</label>
+        <length>255</length>
         <required>false</required>
         <type>Text</type>
         <unique>false</unique>
@@ -293,8 +313,8 @@
     <fields>
         <fullName>Program_Name__c</fullName>
         <externalId>false</externalId>
+        <formula>RecordType.Name &amp; &quot; - &quot; &amp; TEXT( Sales_Channel__c ) &amp; &quot; - &quot; &amp;  Marketing_Group__r.Name &amp; &quot; - &quot; &amp;  Primary_Brand_Name__c  &amp; &quot; - &quot; &amp; TEXT( Start_Date__c )</formula>
         <label>Program Name</label>
-        <length>255</length>
         <required>false</required>
         <type>Text</type>
         <unique>false</unique>
@@ -776,7 +796,6 @@
         <fullName>National_Account_Programs</fullName>
         <columns>RECORDTYPE</columns>
         <columns>NAME</columns>
-        <columns>Program_Name__c</columns>
         <columns>Sales_Channel__c</columns>
         <columns>Sub_Channel__c</columns>
         <columns>Programs__c</columns>

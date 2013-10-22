@@ -1,4 +1,4 @@
-<apex:page standardController="Campaign" extensions="HQAccountHierarchyController" id="subPg">
+<apex:page standardController="Calendar__c" extensions="HQAccountHierarchyController" id="subPg">
 <!-- <apex:page controller="HQAccountHierarchyController">   -->
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.js')}"></script>
 		<!-- <apex:sectionHeader subTitle="{!hqAcc.Name} Hierarchy" /> -->
@@ -97,7 +97,7 @@
         <apex:inputHidden value="{!allSelectedStateCheckBox}" id="allStateChb"/>
         </div>
         </apex:pageBlock>
-        <apex:actionFunction name="createCamaignStates" action="{!createCamaignStates}" />
+        <apex:actionFunction name="createCamaignStates" action="{!saveAction}" />
     </apex:form>
     
   <script type="text/javascript">
