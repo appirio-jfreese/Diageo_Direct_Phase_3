@@ -12,13 +12,8 @@ jQuery('.grid-mode').live('click', function(){
 			}
 
 			jQuery(".doc-list .grid-view .doc").each(function() {
-				if(jQuery(this).find("input[type='hidden']").val() == "IMG"){
-					jQuery(this).css("background", "none");
-				}else{
-					jQuery(this).css("background", jQuery(this).find("input[type='hidden']").val());
-				}
+				jQuery(this).css("background", jQuery(this).find("input[type='hidden']").val());
 			});
-			rescalImagesResponisve();
 		}
 		closeAllGear();
 	}

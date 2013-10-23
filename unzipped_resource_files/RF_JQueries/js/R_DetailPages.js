@@ -100,11 +100,8 @@ function jqTransformScript(){
 			btns.css({
 				width: '100%',
 				right: 0,
-				bottom: $j(".info", doc).height() + 1
+				bottom: jQuery(".info", doc).height() + 1
 			});
-			if(btns.find("a").length > 4){
-				btns.css("height", "72px");
-			}
 		}
 		else {
 			btns.css({
@@ -112,12 +109,8 @@ function jqTransformScript(){
 				right: 80,
 				bottom: 20
 			})
-			if(btns.find("a").length > 4){
-				btns.css("height", "72px");
-				btns.css("bottom", "5px");
-			}
 		}
-	};
+	}
 	
 	// Added By Basant - This will tarnsform List/Grid view buttons - 07/16/13
 	jQuery(".filter .list-mode").click(function() {
@@ -152,7 +145,6 @@ function jqTransformScript(){
 	jQuery(".follow").click(function() {
 		jQuery(this).toggleClass("unfollow");
 	});
-	rescalImagesResponisve();
 }
 
 function initializationFunction() {

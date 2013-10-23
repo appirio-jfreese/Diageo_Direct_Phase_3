@@ -867,11 +867,7 @@ jQuery(document).ready(function() {
 			window.open(jQuery(this).attr('href'));
 		}
 	});
-	if(jQuery(".theme-selector-modal").length > 0 && jQuery(".wrapper").length > 0){
-		jQuery(".wrapper").css("display","none");
-	}
-	
-	rescalImagesResponisve();
+
 });
 
 
@@ -890,26 +886,4 @@ function preChangeSiteTheme(){
 			jQuery('.postSelectThemeButton').first().trigger("click");
 		}
 	}
-}
-
-function rescalImagesResponisve() {
-	var maxHeight = 145;
-	var maxWidth = 255;
-	jQuery("img.scaleImgNew").each(function(){
-		var doc = jQuery(this).parents(".doc");
-		maxHeight = doc.height() - doc.find(".info").height();
-		maxWidth = doc.width();
-		if(jQuery(this).height() > maxHeight ){
-			 jQuery(this).css("height", maxHeight+"px");
-		}
-		if(jQuery(this).width() > maxWidth ){
-			jQuery(this).css("width", maxWidth+"px");
-		}
-		jQuery(this).css("opacity", "1");
-		jQuery(this).css("overflow", "hidden");
-		jQuery(this).css("float", "none");
-		jQuery(this).css("margin-right", ((maxWidth - jQuery(this).width())/2) + "px");
-		jQuery(this).css("margin-left", ((maxWidth - jQuery(this).width())/2) + "px");
-		doc.css("background", "none");
-	});
 }
