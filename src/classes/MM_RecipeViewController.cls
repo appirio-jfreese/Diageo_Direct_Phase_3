@@ -1,23 +1,26 @@
-/* 
+/****************************************************************************** 
   @An Apex Class that is Associated with MM_RecipeView Page.
   @Displays all Sections for creating A Recipe.
   @Author  : Raj Avirneni
   @Date    : Mar 23 2012
   @Version : 1.0
-*/
-/* Modified By  : Deepak Sharma(Appirio Offshore on 11-Sep-2012)
+
+   Modified By  : Deepak Sharma(Appirio Offshore on 11-Sep-2012)
    Details      : Modified against T-81876: Modify Code - Workflow rules / code   
-*/
-/* Modified By  : Rishi Khirbat(Appirio Offshore)
+
+   Modified By  : Rishi Khirbat(Appirio Offshore)
    Details      : Modified against: 
                     T-98032  - Updates to MM_RecipeView (on 29th-Nov-2012) 
                     T-103789 - Add Manage Images to Recipe View screen (on 13th-Dec-2012)
                     T-104879 - Add Measurement Conversion button to MM_ViewRecipe (on 18th-Dec-2012)
                     T-105835 - Conditonally Add "Edit Recipe" button on MM_ViewRecipe (on 2nd-Jan-2013)
-*/
-/* Modified By  : Harshit Jain(Appirio Offshore on 05th-Dec-2012)
+
+   Modified By  : Harshit Jain(Appirio Offshore on 05th-Dec-2012)
    Details      : Modified against T-101442: Add a Publish Button on MM_RecipeView 
-*/
+
+   Modified By : Basant Verma 9/16/13
+   Details     : Changes for DE751 
+*********************************************************************************/
 public with sharing class MM_RecipeViewController extends MM_RecipeBase {
   
     //T-81876
@@ -437,10 +440,12 @@ public with sharing class MM_RecipeViewController extends MM_RecipeBase {
         if(concatenateTagsValue == null || concatenateTagsValue.trim() == '') {
             return null;
         }
+        /* Start changes for DE751 Basant Verma */
         if(currentRecipe.Recipe_Tag__c == null) {
             currentRecipe.Recipe_Tag__c = concatenateTagsValue; 
         } else {
             currentRecipe.Recipe_Tag__c = currentRecipe.Recipe_Tag__c + ', ' + concatenateTagsValue;
+        /* End changes for DE751 Basant Verma */
         }
         update currentRecipe;
         return null;
@@ -874,7 +879,9 @@ public with sharing class MM_RecipeViewController extends MM_RecipeBase {
                 currentRecipe = [SELECT Comments__c, lastModifiedTime__c, CreatedById, CreatedDate, IsDeleted,LastActivityDate, LastModifiedById, 
                                         LastModifiedDate, Main_Drink_Image__r.Content_id__c, Main_Drink_Image__c, Main_Drink_Image__r.Name, Language__c,
                                         Master_Recipe__r.Name, Master_Recipe__r.Id, Menu_Description__c, Mobile_Drink_Image__r.Content_Id__c, Occasion__c, Occasion_Type__c, Preparation_Steps__c, 
+                                        /* Start changes for DE751 Basant Verma */
                                         Recipe_Flavor_del__c, Recipe_Tag__c, Name, Recipe_Type_del__c,Mobile_Selected_Image__c,Mobile_Selected_Image__r.Content_Id__c,
+                                        /* End changes for DE751 Basant Verma */
                                         Mobile_Unselected_Image__c,Mobile_Unselected_Image__r.Content_Id__c,Background_Image__c,Background_Image__r.Content_Id__c,
                                         Brand_Recipe_Image__c,Brand_Recipe_Image__r.Content_Id__c,Search_Recipe_Image__c,Search_Recipe_Image__r.Content_Id__c,
                                         Recipe_Version__c, Id,Recipe_Title__c,RecordSaved__c, Short_Description__c, Status__c, SystemModstamp, 

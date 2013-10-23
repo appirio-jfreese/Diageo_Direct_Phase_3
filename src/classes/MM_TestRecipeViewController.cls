@@ -1,17 +1,19 @@
-/*Test to check the Contorller Associated with MM_RecipeView Visualforce page.
-* @Author  : Raj Avirneni
-* @Date    : Mar 29 2012
-* @Version : 1.0
-* The @isTest class annotation indicates this class only contains test methods. 
-* Classes defined with the @isTest annotation do not count against the organization size limit for all Apex scripts.
-*/
+/****************************************************************************************************
+   Test to check the Controller Associated with MM_RecipeView Visualforce page.
+   @Author  : Raj Avirneni
+   @Date    : Mar 29 2012
+   @Version : 1.0
+   The @isTest class annotation indicates this class only contains test methods. 
+   Classes defined with the @isTest annotation do not count against the organization size limit for all Apex scripts.
 
-/* Modified By  : Rishi Khirbat(Appirio Offshore)
+   Modified By  : Rishi Khirbat(Appirio Offshore)
    Details      : Modified against: 
                     T-98032  - Updates to MM_RecipeView (on 10th-Dec-2012) 
                     T-104879 - Add Measurement Conversion button to MM_ViewRecipe (on 18th-Dec-2012)
-   
-*/
+
+   Modified By: Basant Verma (Appirio Jaipur)
+   Details    : DE751   
+******************************************************************************************************/
 
 @isTest
 private class MM_TestRecipeViewController {
@@ -466,8 +468,9 @@ private class MM_TestRecipeViewController {
         rvc.standardAverageAnalysis = 'Test Standard Average Analysis'; 
         rvc.tastingNotes = 'Test Tasting Notes'; 
         
+        /* Start changes for DE751 Basant Verma */
         rvc.currentRecipe.Recipe_Tag__c = 'Test Recipe Tag';
-        
+        /* End changes for DE751 Basant Verma */
         
         system.runAs(editor){
             rvc.getCanEdit();
@@ -499,7 +502,9 @@ private class MM_TestRecipeViewController {
             system.assertEquals(diagIng[3].Recipe_Non_Diageo_Product__r.Name,'TestIng');    
             
             //By Rishi Khirbat on 10th Dec 2012
+            /* Start changes for DE751 Basant Verma */
             system.assertEquals(rvc.currentRecipe.Recipe_Tag__c,'Test Recipe Tag');
+            /* End changes for DE751 Basant Verma */
             
             for(Recipe_Attribute__c ra: raList){
                 if(ra.Attribute__r.Attribute_Type__c.equals('Description/Overview')) {
@@ -525,7 +530,9 @@ private class MM_TestRecipeViewController {
             //By Rishi Khirbat on 18th Dec 2012
             rvc.concatenateTagsValue = 'Concatenate Tags Value';
             rvc.saveTags();
+            /* Start changes for DE751 Basant Verma */
             system.assertEquals(rvc.currentRecipe.Recipe_Tag__c,'Test Recipe Tag, Concatenate Tags Value');
+            /* End changes for DE751 Basant Verma */
             
             List<MM_RecipeViewController.WrapperDiageoIngredient> wrDiageoIngredients;
             

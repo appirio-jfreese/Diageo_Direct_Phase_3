@@ -2525,22 +2525,22 @@ public without sharing class Service_API {
                 glue = ',';
             }
             
-            if(accountRecordTypeIdsString == '' || distributorIdsString == '' || Service_API.getSectionTheme() == '' || Service_API.getSectionTheme() == null){
+            if(accountRecordTypeIdsString == '' || distributorIdsString == '' || sectionTheme == '' || sectionTheme == null){
                 return result;
             }
             
             list<sObject> ac = database.query(
                  ' SELECT '+ 
-                +' '+Service_API.getSectionTheme()+'_Hierarchy__c, '+
-                +' '+Service_API.getSectionTheme()+'_Hierarchy__r.Parent__c, '+
-                +' '+Service_API.getSectionTheme()+'_Hierarchy__r.Parent__r.Parent__c, '+
-                +' '+Service_API.getSectionTheme()+'_Hierarchy__r.Parent__r.Parent__r.Parent__c '+
+                +' '+sectionTheme+'_Hierarchy__c, '+
+                +' '+sectionTheme+'_Hierarchy__r.Parent__c, '+
+                +' '+sectionTheme+'_Hierarchy__r.Parent__r.Parent__c, '+
+                +' '+sectionTheme+'_Hierarchy__r.Parent__r.Parent__r.Parent__c '+
                 +' FROM Account  '+
                 +' WHERE id in ('+distributorIdsString+') and Account.RecordTypeId in ('+accountRecordTypeIdsString+') '
             );
             
             for(sObject a : ac){
-                Organizational_Unit__c ouCurrentTheme = (Organizational_Unit__c)a.getSObject(Service_API.getSectionTheme()+'_Hierarchy__r');
+                Organizational_Unit__c ouCurrentTheme = (Organizational_Unit__c)a.getSObject(sectionTheme+'_Hierarchy__r');
                 if(ouCurrentTheme == null){
                     continue;
                 }

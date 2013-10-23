@@ -1,3 +1,10 @@
+<!-----------------------------------------------------------------------------------------------------------------
+Name        : RecipeView.page
+
+Updated By  : Basant Verma (Appirio OffShore)
+Date        : 9/16/13
+Story/Task  : DE751 
+------------------------------------------------------------------------------------------------------------------->
 <apex:page id="pg" title="View Recipe" showHeader="false" sidebar="false" standardstylesheets="false" controller="MM_RecipeViewController" action="{!createTempRecipe}">
     <html>
         <head>
@@ -933,8 +940,10 @@
                                                         <apex:inputField styleClass="fieldNames"  value="{!currentRecipe.Language__c}" rendered="{!editMode}"/>&nbsp;
                                                         <br/><br/>
                                                         <apex:outputText styleClass="fieldNames" value="Tags: " />&nbsp;
+                                                        <!-- Start: Changes for DE751 Basant Verma --> 
                                                         <apex:inputTextarea styleClass="inputText" rendered="{!editMode}" rows="3" style="width:91%;" value="{!currentRecipe.Recipe_Tag__c}"/>
                                                         <apex:outputText rendered="{!!editMode}" styleClass="status" value="{!currentRecipe.Recipe_Tag__c}"/><br/>
+                                                        <!-- End: Changes for DE751 Basant Verma --> 
                                                         <apex:commandLink id="showAddTagsLink" onclick="clickAddTags(); return false;" value="Add Tags"/>
                                                         <apex:inputTextarea id="concatenateTagsValue" styleClass="inputText" rendered="true" rows="3" style="width:91%" value="{!concatenateTagsValue}"/>
                                                         <apex:commandButton id="saveTagsValue" onclick="saveTags(); return false;" oncomplete="clickSaveTags();" styleClass="actionButton" value="Save"/>

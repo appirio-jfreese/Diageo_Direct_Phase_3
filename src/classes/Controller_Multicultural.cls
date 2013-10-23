@@ -1,10 +1,16 @@
-/*******************************************************************************
+/*****************************************************************************************************************
 Name        : Controller_Multicultural.cls
 
 Updated By  : Siddharth Varshneya (Appirio JDC)
 Date        : 9/30/2013
 Story/Task  : US826/TA1522
-*******************************************************************************/
+
+Updated By      : Vikash Goyal (Appirio JDC)   
+Date            : 21/10/2013
+Story/Defect  : US553/DE797
+
+*******************************************************************************************************************/
+
 public with sharing class Controller_Multicultural  extends Controller_Base {
 
     // ******************
@@ -97,6 +103,9 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
             } else {
                 span = 1;
             }
+            //Start : changes for DE731 --Geeta Kumawat
+            calendarForView = new Service_Calendar();
+            //End : changes for DE731 --Geeta Kumawat
             calendarForView.initDateRange(timePeriod, calendarForView.startDate);
         }
     }    
@@ -1121,7 +1130,18 @@ public with sharing class Controller_Multicultural  extends Controller_Base {
     
     private void populateData(){
         calendarData.clear();
-        List<Calendar__c> cRecords = Service_API.getMulticulturalCalendarItems(calendarForView.startDate, calendarForView.endDate, salesDriver, selectedThemes());
+        // Start : Changes for US553/DE797 : Vikash Goyal
+        Set<String> thmOpts = new Set<String>();
+        if(themeOptionsString != null && !themeOptionsString.trim().equals('')){
+	        for(String thm : themeOptionsString.split(',')){
+	        	thmOpts.add(thm.trim());
+	        }
+        }
+        if(thmOpts.size() == 0){
+        	thmOpts.addAll(selectedThemes());
+        }
+        List<Calendar__c> cRecords = Service_API.getMulticulturalCalendarItems(calendarForView.startDate, calendarForView.endDate, salesDriver, thmOpts);
+        // End : Changes for US553/DE797 : Vikash Goyal
         List<Calendar__c> cRecordsOrderCurrent = new List<Calendar__c>();
         List<Calendar__c> cRecordsOrderMixed = new List<Calendar__c>();
         List<Calendar__c> cRecordsOrderOther = new List<Calendar__c>();
