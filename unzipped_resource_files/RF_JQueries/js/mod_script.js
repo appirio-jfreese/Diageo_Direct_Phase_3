@@ -37,7 +37,7 @@ $j(document).ready(function() {
 
 
     //New jQuery for the breadcrumb
-    $j(".breadcrumb .site-nav-wrapper").click(function() {
+    $j(".breadcrumb .site-nav-wrapper").live('click', function() {
         var w = $j(this);
         var d = $j(".dropdown", w);
         var s = $j("span.nav", w);

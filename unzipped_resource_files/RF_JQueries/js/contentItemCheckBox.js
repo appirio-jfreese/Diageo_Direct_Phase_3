@@ -249,8 +249,7 @@ function responsiveDownloadOnly(lineClass){
 					  //iframe.target						=	'_blank';
 					  iframe.src              = '/sfc/servlet.shepherd/version/download/' + tStringId;
 					  jQuery(document.body).append(iframe);*/		
-// RKW 8-2-13					  window.open('https://c.cs10.visual.force.com/sfc/servlet.shepherd/version/download/' + tStringId, '_blank');
-					  window.open('/sfc/servlet.shepherd/version/download/' + tStringId, '_blank');
+					  window.open('https://c.cs10.visual.force.com/sfc/servlet.shepherd/version/download/' + tStringId, '_blank');
 				}
 			}
 			  
