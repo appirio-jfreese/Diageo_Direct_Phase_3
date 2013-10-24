@@ -191,22 +191,6 @@ div.home-page-box-news-article {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e1e1e1',GradientType=0 ); /* IE6-9 */
 	border: 1px solid #bcbcbc;
 }
-/* Added by Rahul Chitkara case 00006383 */ 
-div.home-page-box-news-article_access{
-    float:       left;
-    height:      171px;
-	width: 308px;
-    text-align:  left;
-	background: #ffffff; /* Old browsers */
-	background: -moz-linear-gradient(top,  #ffffff 1%, #e1e1e1 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#ffffff), color-stop(100%,#e1e1e1)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top,  #070707 1%,#e1e1e1 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top,  #ffffff 1%,#e1e1e1 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top,  #070707 1%,#e1e1e1 100%); /* IE10+ */
-	background: linear-gradient(top,  #ffffff 1%,#e1e1e1 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e1e1e1',GradientType=0 ); /* IE6-9 */
-	border: 1px solid #bcbcbc;
-}
 
 div.home-page-box-news-article span {
     color:       #5b5b5b;
@@ -454,7 +438,7 @@ div.home-page-box-title-mult{
 	padding: 0px 20px;
 }
 .home-page-box-menu-items ul li{
-	padding: 7px 0px;
+	padding: 2px 0px;
 	border-bottom: 1px solid #EC8040;
 }
 
