@@ -52,6 +52,14 @@ Story/Task  : DE725
 Updated By  : Basant Verma (Appirio JDC)
 Date        : 8/8/13
 Story/Task  : US549/TA1096
+
+Updated By  : Basant Verma (Appirio JDC)
+Date        : 10/23/13
+Story/Task  : US853/TA1560
+
+Updated By  : Basant Verma (Appirio JDC)
+Date        : 10/28/13
+Story/Task  : US853/DE812
 *******************************************************************************************************************/
 
 global public without sharing virtual class Controller_Base {
@@ -424,7 +432,32 @@ global public without sharing virtual class Controller_Base {
         options.add(lastOpt);
         return options;
     }
-    
+    // START : New method Added for US853/DE812 - Basant Verma
+    public String allThemesDelimited {
+    	get{
+    		if(allThemesDelimited == null){
+    			String glue = '';
+    			for(SelectOption so : allSiteThemes){
+    				allThemesDelimited += glue + so.getLabel();
+    				glue = ',';
+    			}
+    		}
+    		return allThemesDelimited;
+    	}
+    	protected set;
+    }
+    // START : New method Added for US853/DE812 - Basant Verma
+    // START : New method Added for US853/TA1560 - Basant Verma
+    public List<SelectOption> allSiteThemes {
+    		get{
+    			if(allSiteThemes == null){
+        		allSiteThemes = Service_UserInput.getSiteThemes();
+    			}
+        	return allSiteThemes;
+    		}
+    		private set;
+    }
+    // END : New method Added for US853/TA1560 - Basant Verma
     public String themeOptionsString { get {
         String resultStr = '';
         map<String,String> urlPrm = ApexPages.currentPage().getParameters();
@@ -652,14 +685,20 @@ global public without sharing virtual class Controller_Base {
         }
         if(isInternalUser && !isResponsive){
             pageLink planningPageLink = new PageLink('#',Constant.PLANNING, 'menu-plan');
-            pageLink[] planningSubPageLinks = new pageLink[] {
-                new PageLink(Page.SpiritsPlanning.getUrl(), 'Spirits Planning', 'menu-plan'),
-                new PageLink(Page.NationalAccounts.getUrl(), 'National Accounts', 'menu-plan'),
-                new PageLink(Page.WinePlanning.getUrl(), 'Wine Planning', 'menu-plan'),
-                //Start: Changes for US570/TA1124 -Geeta Kumawat
-            	new PageLink(Page.BeerPlanning.getUrl(), 'Beer Planning', 'menu-plan')
-            	//End: Changes for US570/TA1124 -Geeta Kumawat
-            };
+            // START : New method Added for US853/DE812 - Basant Verma
+            pageLink[] planningSubPageLinks = new pageLink[allThemesDelimited.split(',').size()+1];
+            Integer pIndex = 0;
+            if(allThemesDelimited.contains('Spirits')){
+            	planningSubPageLinks[pIndex++] =  new PageLink(Page.SpiritsPlanning.getUrl(), 'Spirits Planning', 'menu-plan');
+            }
+						if(allThemesDelimited.contains('Wine')){
+            	planningSubPageLinks[pIndex++] =  new PageLink(Page.WinePlanning.getUrl(), 'Wine Planning', 'menu-plan');
+            }
+            planningSubPageLinks[pIndex++] =  new PageLink(Page.NationalAccounts.getUrl(), 'National Accounts', 'menu-plan');
+            if(allThemesDelimited.contains('Beer')){
+            	planningSubPageLinks[pIndex++] =  new PageLink(Page.BeerPlanning.getUrl(), 'Beer Planning', 'menu-plan');
+            }
+            // END : New method Added for US853/DE812 - Basant Verma
             planningPageLink.addSubLinks(planningSubPageLinks);
             menuLinks.add(planningPageLink);
         }

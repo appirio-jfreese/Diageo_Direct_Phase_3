@@ -499,4 +499,21 @@ private class Test_ControllerBase {
 	     Test.StopTest();
     }
     // End : Code Covergae For Controller Base : Toggle Functionality
+    
+    static testMethod void testThemeAvailability() {
+
+        Test.StartTest();
+        
+        PageReference pageRef = Page.HomePage;
+        Test.setCurrentPage(pageRef);
+
+        Controller_Base bController = new Controller_Base();
+        Integer actualPage = bController.numberOfCurrentPage;
+        bController.showPageRequested();
+        System.assert(bController.numberOfCurrentPage <= bController.numberOfPages);
+        System.assert(bController.numberOfCurrentPage >= 1);        
+        System.assert(bController.allSiteThemes.size() > 0);
+        System.assertEquals(bController.allThemesDelimited.split(',').size(), bController.allSiteThemes.size());
+        Test.StopTest();
+    }
 }

@@ -20,6 +20,10 @@ Story/Task  : US645/DE675, US646/DE674
 Updated By  : Basant Verma (Appirio JDC)
 Date        : 8/8/13
 Story/Task  : US549/TA1096
+
+Updated By  : Basant Verma (Appirio JDC)
+Date        : 10/23/13
+Story/Task  : US853/TA1560
 ------------------------------------------------------------------------------------------------------------------->
 <apex:component controller="Controller_Base" extensions="Controller_BaseRemote" allowDML="true"> 
 	<!-- Start : Changes by Basant for Responsive Behavior : US585/TA1082 -->
@@ -303,27 +307,18 @@ Story/Task  : US549/TA1096
                  <apex:actionFunction status="ajax-status" name="toggleToBeer" action="{!toggleToBeer}"/>
                  <!-- END : Changed for US549/TA1096 - Basant Verma -->
                  <apex:outputPanel id="sTheme" >
-                         <apex:outputPanel rendered="{!siteTheme == 'Spirits'}">
-                            <a href="javascript:;" class="active btn" style="width: 90px;">Spirits</a>
-                            <a href="javascript:;" class="btn" onclick="toggleToWine()" style="width: 90px;">Wine</a>
-                            <!-- START : Changed for US549/TA1096 - Basant Verma -->
-                            <a href="javascript:;" class="btn last" onclick="toggleToBeer()" style="width: 90px;">Beer</a>
-                            <!-- END : Changed for US549/TA1096 - Basant Verma -->
-                        </apex:outputPanel>
-                        <apex:outputPanel rendered="{!siteTheme == 'Wine'}">
-                            <a href="javascript:;" class="btn" onclick="toggleToSpirits()" style="width: 90px;">Spirits</a>
-                            <a href="javascript:;" class="active btn" style="width: 90px;">Wine</a>
-                            <!-- START : Changed for US549/TA1096 - Basant Verma -->
-                            <a href="javascript:;" class="btn last" onclick="toggleToBeer()" style="width: 90px;">Beer</a>
-                            <!-- END : Changed for US549/TA1096 - Basant Verma -->
-                        </apex:outputPanel>
-                        <!-- START : Changed for US549/TA1096 - Basant Verma -->
-                        <apex:outputPanel rendered="{!siteTheme == 'Beer'}">
-                            <a href="javascript:;" class="btn" onclick="toggleToSpirits()" style="width: 90px;">Spirits</a>
-                            <a href="javascript:;" class="btn" onclick="toggleToWine()" style="width: 90px;">Wine</a>
-                            <a href="javascript:;" class="btn last active" style="width: 90px;">Beer</a>
-                        </apex:outputPanel>
-                        <!-- END : Changed for US549/TA1096 - Basant Verma -->
+                 		<!-- START : Changed for US853/TA1560 - Basant Verma -->
+                 		<apex:variable var="counter" value="{!1}"/>
+                    <apex:repeat value="{!allSiteThemes}" var="theme">
+                        <apex:outputPanel rendered="{!siteTheme == theme['label']}">
+													<a href="javascript:;" class="active btn {!IF(counter == SiteThemes.size, 'last', '')}" style="width: 90px;">{!theme["label"]}</a>
+												</apex:outputPanel>
+												<apex:outputPanel rendered="{!siteTheme != theme['label']}">
+													<a href="javascript:;" class="btn {!IF(counter == SiteThemes.size, 'last', '')}" onclick="toggleTo{!theme['label']}()" style="width: 90px;">{!theme["label"]}</a>
+												</apex:outputPanel>
+												<apex:variable var="counter" value="{!counter + 1}"/>
+                    </apex:repeat>
+                    <!-- END : Changed for US853/TA1560 - Basant Verma -->
                  </apex:outputPanel>
              </apex:form>
             </div>

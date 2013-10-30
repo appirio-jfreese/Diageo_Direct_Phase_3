@@ -279,7 +279,29 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Distributor_Address_copy__c</fullName>
+        <externalId>false</externalId>
+        <label>Distributor Address</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Distributor_City__c</fullName>
+        <externalId>false</externalId>
+        <label>Distributor City</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Distributor_City_copy__c</fullName>
         <externalId>false</externalId>
         <label>Distributor City</label>
         <length>255</length>
@@ -301,7 +323,29 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Distributor_Name_copy__c</fullName>
+        <externalId>false</externalId>
+        <label>Distributor Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Distributor_Postal_Code__c</fullName>
+        <externalId>false</externalId>
+        <label>Distributor Postal Code</label>
+        <length>10</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Distributor_Postal_Code_copy__c</fullName>
         <externalId>false</externalId>
         <label>Distributor Postal Code</label>
         <length>10</length>
@@ -523,6 +567,249 @@
         <type>Picklist</type>
     </fields>
     <fields>
+        <fullName>Distributor_State_copy__c</fullName>
+        <externalId>false</externalId>
+        <label>Distributor State</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Alabama</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Alaska</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Arizona</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Arkansas</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>California</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Colorado</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Connecticut</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Delaware</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Florida</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Georgia</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Hawaii</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Idaho</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Illinois</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Indiana</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Iowa</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Kansas</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Kentucky</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Louisiana</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Maine</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Maryland</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Massachusetts</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Michigan</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Minnesota</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Mississippi</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Missouri</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Montana</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Nebraska</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Nevada</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>New Hampshire</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>New Jersey</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>New Mexico</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>New York</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>North Carolina</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>North Dakota</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Ohio</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Oklahoma</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Oregon</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Pennsylvania</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Rhode Island</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>South Carolina</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>South Dakota</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Tennessee</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Texas</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Utah</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Vermont</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Virginia</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Washington</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>West Virginia</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Wisconsin</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Wyoming</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Email_copy__c</fullName>
+        <externalId>false</externalId>
+        <label>Email</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Email</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>First_Name_copy__c</fullName>
+        <externalId>false</externalId>
+        <label>First Name</label>
+        <length>40</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Last_Name_copy__c</fullName>
+        <externalId>false</externalId>
+        <label>Last Name</label>
+        <length>80</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>LeadSource</fullName>
         <picklist>
             <picklistValues>
@@ -621,6 +908,15 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>Phone_copy__c</fullName>
+        <externalId>false</externalId>
+        <label>Phone</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Phone</type>
+    </fields>
+    <fields>
         <fullName>Primary_Contact__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
@@ -658,7 +954,51 @@
         <visibleLines>4</visibleLines>
     </fields>
     <fields>
+        <fullName>Subscribe_Interested_In_copy__c</fullName>
+        <externalId>false</externalId>
+        <label>Beverage Alcohol Category</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Beer</fullName>
+                <default>true</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Spirits</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Wine</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>MultiselectPicklist</type>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
         <fullName>Subscribe_Premise__c</fullName>
+        <externalId>false</externalId>
+        <label>On or Off Premise</label>
+        <picklist>
+            <picklistValues>
+                <fullName>On Premise</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Off Premise</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>MultiselectPicklist</type>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Subscribe_Premise_copy__c</fullName>
         <externalId>false</externalId>
         <label>On or Off Premise</label>
         <picklist>
@@ -681,6 +1021,49 @@
         <fullName>Subscribe_Status__c</fullName>
         <externalId>false</externalId>
         <label>Subscribe Status</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Submitted</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Approved</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Denied</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Title_copy__c</fullName>
+        <externalId>false</externalId>
+        <label>Title</label>
+        <length>128</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Unsubscribe__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Unsubscribe</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Update_Request_Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Update Request Status</label>
         <picklist>
             <picklistValues>
                 <fullName>Submitted</fullName>
@@ -893,12 +1276,13 @@
     <listViews>
         <fullName>Distributor_Contact_Submissions</fullName>
         <columns>FULL_NAME</columns>
-        <columns>Subscribe_Status__c</columns>
-        <columns>ACCOUNT.NAME</columns>
         <columns>CONTACT.TITLE</columns>
-        <columns>CONTACT.PHONE1</columns>
+        <columns>Distributor_Name__c</columns>
+        <columns>Distributor_City__c</columns>
+        <columns>Distributor_State__c</columns>
         <columns>CONTACT.EMAIL</columns>
-        <columns>CORE.USERS.ALIAS</columns>
+        <columns>CONTACT.PHONE1</columns>
+        <columns>CONTACT.CREATED_DATE</columns>
         <filterScope>Everything</filterScope>
         <filters>
             <field>Subscribe_Status__c</field>
@@ -939,6 +1323,7 @@
         <customTabListAdditionalFields>ACCOUNT.NAME</customTabListAdditionalFields>
         <customTabListAdditionalFields>CONTACT.PHONE1</customTabListAdditionalFields>
         <listViewButtons>Review_Subcribe_Requests</listViewButtons>
+        <listViewButtons>Email_Contacts</listViewButtons>
         <lookupDialogsAdditionalFields>FULL_NAME</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>ACCOUNT.NAME</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>ACCOUNT.SITE</lookupDialogsAdditionalFields>
@@ -950,6 +1335,7 @@
         <lookupPhoneDialogsAdditionalFields>CONTACT.PHONE4</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>CONTACT.PHONE5</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>CONTACT.PHONE6</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>00NJ00000015AAF</lookupPhoneDialogsAdditionalFields>
         <searchResultsAdditionalFields>FULL_NAME</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>ACCOUNT.NAME</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>ACCOUNT.SITE</searchResultsAdditionalFields>
@@ -957,6 +1343,32 @@
         <searchResultsAdditionalFields>CONTACT.EMAIL</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CORE.USERS.ALIAS</searchResultsAdditionalFields>
     </searchLayouts>
+    <webLinks>
+        <fullName>Email_Contacts</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Email Contacts</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <requireRowSelection>true</requireRowSelection>
+        <url>{!REQUIRESCRIPT(&quot;/soap/ajax/28.0/connection.js&quot;)}
+{!REQUIRESCRIPT(&quot;/soap/ajax/28.0/apex.js&quot;)}
+
+var selectedRecords = {!GETRECORDIDS($ObjectType.Contact)}
+
+if(selectedRecords.length&lt;1) {
+  alert(&quot;Please choose at least one contact.&quot;);
+} else {
+  var result = sforce.apex.execute(&quot;Utility&quot;, &quot;sendQuarterlyRequestEmail&quot;, {contactIds : selectedRecords});
+ if(result == &apos;success&apos;){
+  alert(&apos;Email has been sent successfully.&apos;);
+ }
+ else{
+  alert(&apos;Email has been not sent.&apos;);
+ }
+}</url>
+    </webLinks>
     <webLinks>
         <fullName>GoogleMaps</fullName>
         <availability>online</availability>

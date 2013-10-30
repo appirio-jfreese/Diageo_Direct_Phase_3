@@ -225,7 +225,7 @@
         <description>Product ref data</description>
         <externalId>false</externalId>
         <inlineHelpText>Product ref data</inlineHelpText>
-        <label>Nielson Product</label>
+        <label>Nielsen Product</label>
         <referenceTo>DMS_Nielson_Product__c</referenceTo>
         <relationshipLabel>DMS Survey Result</relationshipLabel>
         <relationshipName>DMS_Survey_Result</relationshipName>

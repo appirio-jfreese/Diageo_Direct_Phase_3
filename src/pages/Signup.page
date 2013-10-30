@@ -60,6 +60,8 @@
                 <div class="errorMsg" style="{!IF(isSuccess, 'padding:20%;color:BLACK;', '')}">
                     <apex:pageMessages />
                 </div>
+                
+                <apex:outputText rendered="{!isSubscribe}">
                 <apex:pageBlock id="newContact" rendered="{!NOT(isSuccess)}">
                     <div class="cases-title">{!$Label.DistributorContactPageTitle}</div>
                     <apex:form styleClass="newContactSubscription">
@@ -165,7 +167,125 @@
                         <apex:commandButton styleClass="green addNewContSubmitButton" action="{!subscribe}" value="Subscribe" onclick="showDialog('ajaxLoader');"/>           
                     </div>
                 </apex:form>                
-            </apex:pageBlock>
+              </apex:pageBlock>
+            </apex:outputText>
+            
+            <!-- START : Update/Unsubscribe Form -->
+            <apex:outputText rendered="{!NOT(isSubscribe)}">
+              <apex:pageBlock id="updateContact" rendered="{!AND(isValidKey, NOT(isSuccess))}">
+                    <div class="cases-title">{!$Label.DistributorUnSubscribeContactPageTitle}</div>
+                    <apex:form styleClass="updateContactSubscription">
+                        <div class="form-header"><span class="bold">Contact Information</span></div>
+                        <div class="left new-case-label">
+                            <div class="float-left form-section">
+                                {!$Label.SignUpPage_FirstName} <span class="required">*</span>
+                                <div class="input-holder">
+                                    <apex:inputField id="contNameF_copy" value="{!distribuorConDummy.First_Name_copy__c}" required="true"/><br/>
+                                </div>
+                            </div>
+                            <div class="float-left form-section">
+                                {!$Label.SignUpPage_LastName} <span class="required">*</span>
+                                <div class="input-holder">
+                                    <apex:inputField id="contNameL_copy" value="{!distribuorConDummy.Last_Name_copy__c}" required="true"/><br/>
+                                </div>
+                            </div>
+                            <div class="clear-float"></div>
+                        </div>
+                        <div class="left new-case-label">
+                            <div class="float-left form-section">
+                                {!$Label.SignUpPage_Title} <span class="required">*</span>
+                                <div class="input-holder">
+                                    <apex:inputField id="contTitle_copy" value="{!distribuorConDummy.Title_copy__c}" required="true"/><br/>
+                                </div>
+                            </div>
+                            <div class="float-left form-section">  
+                                {!$Label.SignUpPage_DistName} <span class="required">*</span>
+                                <div class="input-holder">
+                                    <apex:inputField id="contDistributorName_copy" value="{!distribuorConDummy.Distributor_Name_copy__c}" required="true"/><br/>
+                                </div>
+                            </div>
+                            <div class="clear-float"></div>
+                        </div>
+                        <div class="left new-case-label">
+                            <div class="float-left form-section">  
+                                {!$Label.SignUpPage_Email} <span class="required">*</span>
+                                <div class="input-holder">
+                                <apex:inputField id="contEmail_copy" value="{!distribuorConDummy.Email_copy__c}" required="true"/><br/>
+                            </div>
+                        </div>
+                        <div class="float-left form-section">
+                            {!$Label.SignUpPage_Phone} <span class="required">*</span>
+                            <div class="input-holder">
+                                <apex:inputField id="contPhone_copy" value="{!distribuorConDummy.Phone_copy__c}" required="true" onBlur="javascript:format_phone(this, event)"
+                                onFocus="if(this.value==this.defaultValue)this.value='';" onkeydown="javascript:format_phone(this, event)"/><br/>
+                            </div>
+                        </div>
+                        <div class="clear-float"></div>
+                    </div>
+                    <div class="left new-case-label">
+                        <div class="float-left form-section">  
+                            {!$Label.SignUpPage_DistAddress} <span class="required">*</span>
+                            <div class="input-holder">
+                                <apex:inputField id="contDistributorAdd_copy" value="{!distribuorConDummy.Distributor_Address_copy__c}" required="true"/><br/>
+                            </div>
+                        </div>
+                        <div class="float-left form-section">
+                            {!$Label.SignUpPage_DistCity} <span class="required">*</span>
+                            <div class="input-holder">
+                                <apex:inputField id="contAddCity_copy" value="{!distribuorConDummy.Distributor_City_copy__c}" required="true"/><br/>
+                            </div>
+                        </div>
+                        <div class="clear-float"></div>
+                    </div> 
+                    <div class="left new-case-label">
+                        <div class="float-left form-section">  
+                            {!$Label.SignUpPage_DistState} <span class="required">*</span>
+                            <div class="input-holder">
+                                <apex:inputField id="contAddState_copy" value="{!distribuorConDummy.Distributor_State_copy__c}" required="true" style="width:100%;"/><br/>
+                            </div>
+                        </div>
+                        <div class="float-left form-section">
+                            {!$Label.SignUpPage_DistZip} <span class="required">*</span>
+                            <div class="input-holder">
+                                <apex:inputField id="contAddZip_copy" value="{!distribuorConDummy.Distributor_Postal_Code_copy__c}" required="true"/><br/>
+                            </div>
+                        </div>
+                        <div class="clear-float"></div>
+                    </div>
+                    <div class="left new-case-label">  
+                        <div class="float-left form-section caseType" style="height: 100px; vertical-align: top;">  
+                            {!$Label.SignUpPage_BeverageCategory} <span class="required">*</span>
+                            <div class="select-type-wappper">
+                                <div class="select-type-holder">  
+                                    <apex:inputField id="SubscribeInterestedIn_copy" value="{!distribuorConDummy.Subscribe_Interested_In_copy__c}" required="true"/><br/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="float-left form-section caseType" style="height: 100px; vertical-align: top;">  
+                            {!$Label.SignUpPage_On_OffPremise} <span class="required">*</span>
+                            <div class="select-type-wappper">
+                                <div class="select-type-holder">
+                                    <apex:inputField id="SubscribePremise_copy" value="{!distribuorConDummy.Subscribe_Premise_copy__c}" required="true"/><br/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear-float"></div>
+                    <br/>
+                    <div class="case-buttons"> 
+                        <apex:commandButton styleClass="green addNewContSubmitButton" action="{!save}" value="Save" onclick="showDialog('ajaxLoader');"/>
+                    </div>
+                    <div class="left new-case-label">{!$Label.unsubscribe_Text}</div>
+                    <div class="clear-float"></div>
+                    <div class="case-buttons"> 
+<!--                        <apex:commandButton styleClass="green addNewContSubmitButton" action="{!save}" value="Save" onclick="showDialog('ajaxLoader');"/>           -->
+                        <apex:commandButton styleClass="green addNewContSubmitButton" action="{!unSubscribe}" value="UnSubscribe" onclick="showDialog('ajaxLoader');"/>           
+                    </div>
+                </apex:form>                
+              </apex:pageBlock>
+            </apex:outputText>
+            <!-- END : Update/Unsubscribe Form -->
             </div>
         </div>  
         <div class="login-footer">
@@ -178,7 +298,6 @@
         function format_phone(m, evt){
             var charCode = (evt.which) ? evt.which : event.keyCode;
             if(m.value.length > 14){
-                alert(m.value);
                 m.value=m.value.substring(0,14);
             }
             if(charCode != 8 && charCode != 46){

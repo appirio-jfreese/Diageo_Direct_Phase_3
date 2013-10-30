@@ -27,6 +27,10 @@ Story/Task  : DE557
 
 Date        : 8/8/13
 Story/Task  : US549/TA1096
+
+Updated By  : Basant Verma (Appirio JDC)
+Date        : 10/23/13
+Story/Task  : US853/TA1560
 ------------------------------------------------------------------------------------------------------------------->
 <apex:component controller="Controller_Base" extensions="Controller_BaseRemote" allowDML="true"> 
     <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.js')}"></script>
@@ -112,8 +116,17 @@ Story/Task  : US549/TA1096
         div.theme-page-box-Beer {
 					background: url({!URLFOR($Resource.CommonPage, 'images/beertheme.png')}) repeat scroll 0 0 #DAA0F5;
 				}
-				div.themeSelectorContentWrapper {
-					height: 560px;
+				div.themeSelector1 {
+					height: 300px;
+				}
+				div.themeSelector2 {
+					height: 300px;
+				}
+				div.themeSelector3 {
+					height: 550px;
+				}
+				div.themeSelector4 {
+					height: 550px;
 				}
     </style>
          
@@ -1193,27 +1206,18 @@ Story/Task  : US549/TA1096
                     <!-- END : Changed for US549/TA1096 - Basant Verma -->
                     <apex:outputPanel id="sTheme" rendered="{!showThemeSelector}">
                         <div class="btns">
-                            <apex:outputPanel rendered="{!siteTheme == 'Spirits'}">
-                                <a href="javascript:;" class="active btn">Spirits</a>
-                                <!-- START : Changed for US549/TA1096 - Basant Verma -->
-                                <a href="javascript:;" class="btn last" styleClass="pointer" onclick="toggleToWine()">Wine</a>
-                                <a href="javascript:;" class="btn last" styleClass="pointer" onclick="toggleToBeer()">Beer</a>
-                                <!-- END : Changed for US549/TA1096 - Basant Verma -->
-                            </apex:outputPanel>
-                            <apex:outputPanel rendered="{!siteTheme == 'Wine'}">
-                                <a href="javascript:;" class="btn"  styleClass="pointer" onclick="toggleToSpirits()">Spirits</a>
-                                <!-- START : Changed for US549/TA1096 - Basant Verma -->
-                                <a href="javascript:;" class="active btn last">Wine</a>
-                                <a href="javascript:;" class="btn last" styleClass="pointer" onclick="toggleToBeer()">Beer</a>
-                                <!-- END : Changed for US549/TA1096 - Basant Verma -->
-                            </apex:outputPanel>
-                            <!-- START : Changed for US549/TA1096 - Basant Verma -->
-                            <apex:outputPanel rendered="{!siteTheme == 'Beer'}">
-                                <a href="javascript:;" class="btn"  styleClass="pointer" onclick="toggleToSpirits()">Spirits</a>
-                                <a href="javascript:;" class="btn" styleClass="pointer" onclick="toggleToWine()">Wine</a>
-                                <a href="javascript:;" class="active btn last">Beer</a>
-                            </apex:outputPanel>
-                            <!-- END : Changed for US549/TA1096 - Basant Verma -->
+                            <!-- START : Changed for US853/TA1560 - Basant Verma -->
+                        		<apex:variable var="counter" value="{!1}"/>
+                            <apex:repeat value="{!allSiteThemes}" var="theme">
+                                <apex:outputPanel rendered="{!siteTheme == theme['label']}">
+																	<a href="javascript:;" class="active btn {!IF(counter == SiteThemes.size, 'last', '')}">{!theme["label"]}</a>
+																</apex:outputPanel>
+																<apex:outputPanel rendered="{!siteTheme != theme['label']}">
+																	<a href="javascript:;" class="btn {!IF(counter == SiteThemes.size, 'last', '')}" styleClass="pointer" onclick="toggleTo{!theme['label']}()">{!theme["label"]}</a>
+																</apex:outputPanel>
+																<apex:variable var="counter" value="{!counter + 1}"/>
+                            </apex:repeat>
+                            <!-- END : Changed for US853/TA1560 - Basant Verma -->
                         </div>
                     </apex:outputPanel>
                 </apex:form>
@@ -1249,8 +1253,10 @@ Story/Task  : US549/TA1096
                         <apex:outputPanel id="moreInfoError">
                             <apex:messages styleClass="errorMessagesList" />
                         </apex:outputPanel>
-                    </div>        
-                    <div class="themeSelectorContentWrapper">
+                    </div>
+                    <!-- START : Changed for US853/TA1560 - Basant Verma -->
+                    <div class="themeSelectorContentWrapper themeSelector{!SiteThemes.size}">
+                    <!-- END : Changed for US853/TA1560 - Basant Verma -->
                         <apex:form >
                             <apex:actionFunction status="ajax-status" name="changeSiteTheme" action="{!changeSiteTheme}" rerender="moreInfoError, selectThemeHolder"/>
                             <apex:inputText value="{!siteTheme}" id="themeWrapperSelector" styleClass="themeWrapperSelector hidden"/>

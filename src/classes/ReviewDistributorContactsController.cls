@@ -186,7 +186,7 @@ public with sharing class ReviewDistributorContactsController {
 	 	  return null;
 		}
 		List<Approval.ProcessWorkitemRequest> lstWorkItems = new List<Approval.ProcessWorkitemRequest>();
-		for(String conId : mapSelectedContactToProcess.values()){
+		for(String conId : mapSelectedContactToProcess.keyset()){
 			Approval.ProcessWorkitemRequest workItemReq = prepareProcessItem('Approve', mapSelectedContactToProcess.get(conId));
 			lstWorkItems.add(workItemReq);
 		}
@@ -210,7 +210,7 @@ public with sharing class ReviewDistributorContactsController {
 	 	  return null;
 		}
 		List<Approval.ProcessWorkitemRequest> lstWorkItems = new List<Approval.ProcessWorkitemRequest>();
-		for(String conId : mapSelectedContactToProcess.values()){
+		for(String conId : mapSelectedContactToProcess.keyset()){
 			Approval.ProcessWorkitemRequest workItemReq = prepareProcessItem('Reject', mapSelectedContactToProcess.get(conId));
 			lstWorkItems.add(workItemReq);
 		}

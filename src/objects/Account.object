@@ -4486,11 +4486,17 @@ IF(ISBLANK(Wine_Hierarchy__r.Parent__c), &quot;&quot;, IF(TEXT(Wine_Hierarchy__r
     <namedFilters>
         <fullName>Account_00NK0000001CpHBMA0</fullName>
         <active>true</active>
+        <booleanFilter>1 OR 2</booleanFilter>
         <field>Account.TDLinx_Account_Level_A__c</field>
         <filterItems>
             <field>Account.RecordType.Name</field>
             <operation>equals</operation>
             <value>Outlet - Division</value>
+        </filterItems>
+        <filterItems>
+            <field>Account.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>Outlet - Headquarters</value>
         </filterItems>
         <isOptional>false</isOptional>
         <name>Account_Account Level A</name>
@@ -4498,11 +4504,17 @@ IF(ISBLANK(Wine_Hierarchy__r.Parent__c), &quot;&quot;, IF(TEXT(Wine_Hierarchy__r
     <namedFilters>
         <fullName>Account_00NK0000001CpHGMA0</fullName>
         <active>true</active>
+        <booleanFilter>1 OR 2</booleanFilter>
         <field>Account.TDLinx_Account_Level_B__c</field>
         <filterItems>
             <field>Account.RecordType.Name</field>
             <operation>equals</operation>
             <value>Outlet - Division</value>
+        </filterItems>
+        <filterItems>
+            <field>Account.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>Outlet - Headquarters</value>
         </filterItems>
         <isOptional>false</isOptional>
         <name>Account_Account Level B</name>
@@ -4510,11 +4522,17 @@ IF(ISBLANK(Wine_Hierarchy__r.Parent__c), &quot;&quot;, IF(TEXT(Wine_Hierarchy__r
     <namedFilters>
         <fullName>Account_00NK0000001CpHLMA0</fullName>
         <active>true</active>
+        <booleanFilter>1 OR 2</booleanFilter>
         <field>Account.TDLinx_Account_Level_C__c</field>
         <filterItems>
             <field>Account.RecordType.Name</field>
             <operation>equals</operation>
             <value>Outlet - Division</value>
+        </filterItems>
+        <filterItems>
+            <field>Account.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>Outlet - Headquarters</value>
         </filterItems>
         <isOptional>false</isOptional>
         <name>Account_Account Level C</name>
@@ -4522,11 +4540,17 @@ IF(ISBLANK(Wine_Hierarchy__r.Parent__c), &quot;&quot;, IF(TEXT(Wine_Hierarchy__r
     <namedFilters>
         <fullName>Account_00NK0000001CpHQMA0</fullName>
         <active>true</active>
+        <booleanFilter>1 OR 2</booleanFilter>
         <field>Account.TDLinx_Account_Level_D__c</field>
         <filterItems>
             <field>Account.RecordType.Name</field>
             <operation>equals</operation>
             <value>Outlet - Division</value>
+        </filterItems>
+        <filterItems>
+            <field>Account.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>Outlet - Headquarters</value>
         </filterItems>
         <isOptional>false</isOptional>
         <name>Account_Account Level D</name>
@@ -22659,6 +22683,12 @@ IF(ISBLANK(Wine_Hierarchy__r.Parent__c), &quot;&quot;, IF(TEXT(Wine_Hierarchy__r
         <lookupDialogsAdditionalFields>CORE.USERS.ALIAS</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>CORE.USERS.LAST_NAME</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>ACCOUNT.TYPE</lookupDialogsAdditionalFields>
+        <lookupFilterFields>ACCOUNT.NAME</lookupFilterFields>
+        <lookupFilterFields>ACCOUNT.RECORDTYPE</lookupFilterFields>
+        <lookupFilterFields>Channel_Type__c</lookupFilterFields>
+        <lookupFilterFields>ACCOUNT.ADDRESS1_CITY</lookupFilterFields>
+        <lookupFilterFields>ACCOUNT.ADDRESS1_STATE</lookupFilterFields>
+        <lookupFilterFields>ACCOUNT.ADDRESS1_ZIP</lookupFilterFields>
         <lookupPhoneDialogsAdditionalFields>ACCOUNT.NAME</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>ACCOUNT.SITE</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>CORE.USERS.ALIAS</lookupPhoneDialogsAdditionalFields>
@@ -22666,6 +22696,12 @@ IF(ISBLANK(Wine_Hierarchy__r.Parent__c), &quot;&quot;, IF(TEXT(Wine_Hierarchy__r
         <lookupPhoneDialogsAdditionalFields>ACCOUNT.PHONE1</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>00NA0000009Yt3m</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>00NA0000009Z7Ra</lookupPhoneDialogsAdditionalFields>
+        <searchFilterFields>ACCOUNT.NAME</searchFilterFields>
+        <searchFilterFields>ACCOUNT.RECORDTYPE</searchFilterFields>
+        <searchFilterFields>Channel_Type__c</searchFilterFields>
+        <searchFilterFields>ACCOUNT.ADDRESS1_CITY</searchFilterFields>
+        <searchFilterFields>ACCOUNT.ADDRESS1_STATE</searchFilterFields>
+        <searchFilterFields>ACCOUNT.ADDRESS1_ZIP</searchFilterFields>
         <searchResultsAdditionalFields>ACCOUNT.NAME</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>ACCOUNT.SITE</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>ACCOUNT.PHONE1</searchResultsAdditionalFields>

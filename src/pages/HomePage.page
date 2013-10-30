@@ -12,6 +12,10 @@ Story/Task  : US491/TA920
 Updated By  : Basant Verma (Appirio OffShore)
 Date        : 6/3/13
 Story/Task  : US503/TA907 
+
+Updated By  : Basant Verma (Appirio OffShore)
+Date        : 10/28/13
+Story/Task  : US853/DE812
 ------------------------------------------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_Home">
     <apex:stylesheet value="{!URLFOR($Resource.CommonPage, 'style'+siteTheme+'.css')}"/>
@@ -211,18 +215,26 @@ Story/Task  : US503/TA907
                      </div>
                      <div class="home-page-box-menu-items">
                         <ul>
-                                <!-- Start changes for DE550 : Basant -->
+                            <!-- Start changes for DE550 : Basant -->
+                            <!-- Start changes for US853/DE812 : Basant -->
                             <!-- <li><a href="{!$Page.SpiritsPlanning}" onclick="pageViewed('Home Page - Spirits Planning');">Spirits Planning</a></li> -->
-                            <li><apex:outputLabel value="Spirits Planning" onclick="openSpiritsPlanningPage();" style="text-decoration: none; cursor: pointer;"/></li>
+                            <apex:outputPanel rendered="{!CONTAINS(allThemesDelimited, 'Spirits')}">
+                            	<li><apex:outputLabel value="Spirits Planning" onclick="openSpiritsPlanningPage();" style="text-decoration: none; cursor: pointer;"/></li>
+                            </apex:outputPanel>
                             <!-- End changes for DE550 : Basant -->
                             <!--Start: Changes for US570/TA1123 -Geeta Kumawat-->
-            				<li><apex:outputLabel value="Beer Planning" onclick="openBeerPlanningPage();" style="text-decoration: none; cursor: pointer;"/></li>
+                            <apex:outputPanel rendered="{!CONTAINS(allThemesDelimited, 'Beer')}">
+            									<li><apex:outputLabel value="Beer Planning" onclick="openBeerPlanningPage();" style="text-decoration: none; cursor: pointer;"/></li>
+            								</apex:outputPanel>
                             <!--End: Changes for US570/TA1123 -Geeta Kumawat-->
-            				<li><a href="{!$Page.NationalAccounts}" onclick="pageViewed('Home Page - National Accounts');">National Accounts</a></li>
+            								<li class="{!IF(CONTAINS(allThemesDelimited, 'Wine'), '', 'last')}"><a href="{!$Page.NationalAccounts}" onclick="pageViewed('Home Page - National Accounts');">National Accounts</a></li>
                             <!-- End changes for DE550 : Basant -->
                             <!-- Start changes for DE550 : Basant -->
                             <!-- <li class="last"><a href="{!$Page.WinePlanning}" onclick="pageViewed('Home Page - Wine Planning'); openPlanningPage('Wine')">Wine Planning</a></li> -->
-                            <li class="last"><apex:outputLabel value="Wine Planning" onclick="openWinePlanningPage();" style="text-decoration: none; cursor: pointer;"/></li>
+                            <apex:outputPanel rendered="{!CONTAINS(allThemesDelimited, 'Wine')}">
+                            	<li class="last"><apex:outputLabel value="Wine Planning" onclick="openWinePlanningPage();" style="text-decoration: none; cursor: pointer;"/></li>
+                            </apex:outputPanel>
+                            <!-- Start changes for US853/DE812 : Basant -->
                             <!-- End changes for DE550 : Basant --> 
                         </ul>
                      </div>

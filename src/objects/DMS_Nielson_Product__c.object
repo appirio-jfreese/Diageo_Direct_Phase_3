@@ -329,6 +329,7 @@
             <picklistValues>
                 <fullName>RUM</fullName>
                 <controllingFieldValues>CORDIALS</controllingFieldValues>
+                <controllingFieldValues>RUM</controllingFieldValues>
                 <default>false</default>
             </picklistValues>
             <picklistValues>
