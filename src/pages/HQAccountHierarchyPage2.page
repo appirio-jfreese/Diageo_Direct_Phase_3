@@ -1,0 +1,30 @@
+<apex:page standardController="Campaign" extensions="HQAccountHierarchyController2" id="subPg">
+  <script type="text/javascript" src="{!URLFOR($Resource.jquery, 'jquery.js')}"></script>
+    
+  <apex:form id="frm">
+    <apex:pageBlock id="pb">
+      <apex:pageMessages />
+      <apex:pageBlockSection columns="3">
+        <apex:inputField value="{!hqAcc.National_Account_Group__c}"/>
+        <apex:inputField value="{!hqAcc.Marketing_Group__c}"/>
+        <apex:inputField value="{!hqAcc.Key_Account_Group__c}"/>
+      </apex:pageBlockSection>
+      
+      <apex:outputPanel rendered="false">
+        <div style="width: 800px; height: 500px;">
+      		<table style="width:100%;overflow:auto;" cellpadding="5">
+		       <tr>
+		        <td width="500px">
+		         <apex:outputLabel value="Related accounts" style="text-align: left;font-weight: bold;
+		             white-space: nowrap;font-size: 15px;font-family: Arial,Helvetica,sans-serif;"/>
+		         <c:AccountHierarchyTree currentId="{!hqAcc.id}" displayFor="OutletHQ"/>
+		        </td>
+		       </tr>
+		      </table>
+		    </div>
+        
+      </apex:outputPanel>
+    </apex:pageBlock>
+  </apex:form>      
+            
+</apex:page>
