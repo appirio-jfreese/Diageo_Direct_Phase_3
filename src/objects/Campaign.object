@@ -288,6 +288,21 @@
         <label>All Active Campaigns</label>
     </listViews>
     <listViews>
+        <fullName>AllCampaigns</fullName>
+        <columns>CAMPAIGN.NAME</columns>
+        <columns>CAMPAIGN.START_DATE</columns>
+        <columns>CAMPAIGN.END_DATE</columns>
+        <columns>CAMPAIGN.CAMPAIGN_TYPE</columns>
+        <columns>CAMPAIGN.STATUS</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>CAMPAIGN.ACTIVE</field>
+            <operation>equals</operation>
+            <value>1</value>
+        </filters>
+        <label>All Campaigns</label>
+    </listViews>
+    <listViews>
         <fullName>MyActiveCampaigns</fullName>
         <columns>CAMPAIGN.NAME</columns>
         <columns>CAMPAIGN.START_DATE</columns>

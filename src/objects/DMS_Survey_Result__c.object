@@ -319,6 +319,8 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>DMS Survey Result</pluralLabel>
-    <searchLayouts/>
+    <searchLayouts>
+        <lookupPhoneDialogsAdditionalFields>Answer_Text__c</lookupPhoneDialogsAdditionalFields>
+    </searchLayouts>
     <sharingModel>Read</sharingModel>
 </CustomObject>

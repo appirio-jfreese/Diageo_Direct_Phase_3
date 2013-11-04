@@ -47,8 +47,14 @@ public with sharing class SignupController{
 				Phone_copy__c, Distributor_Name_copy__c, Distributor_City_copy__c, 
 				Distributor_State_copy__c, Distributor_Postal_Code_copy__c, 
 				Subscribe_Interested_In_copy__c,Subscribe_Premise_copy__c, 
-				Update_Request_Status__c,Distributor_Address_copy__c
+				Update_Request_Status__c,Distributor_Address_copy__c,Unsubscribe__c
 				From Contact Where Id = :contId Limit 1].get(0);
+				
+				if(distribuorCon.Update_Request_Status__c != null  || distribuorCon.Unsubscribe__c){
+	  		  Apexpages.addMessage(new Apexpages.Message(Apexpages.Severity.INFO, 'This link has expired. To make additional changes, please direct inquiries to:  NAC.admin@diageo.com'));
+			    isSuccess = true;
+			    return;
+	  	  }
 		}else{
 			distribuorCon = new Contact(AccountId = Label.DistributorPlaceHolderAccount);
 			distribuorCon.Subscribe_Status__c = DistributorSubmitedState;			

@@ -281,7 +281,7 @@
     <fields>
         <fullName>Distributor_Address_copy__c</fullName>
         <externalId>false</externalId>
-        <label>Distributor Address</label>
+        <label>Distributor Address_</label>
         <length>255</length>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
@@ -303,7 +303,7 @@
     <fields>
         <fullName>Distributor_City_copy__c</fullName>
         <externalId>false</externalId>
-        <label>Distributor City</label>
+        <label>Distributor City_</label>
         <length>255</length>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
@@ -325,7 +325,7 @@
     <fields>
         <fullName>Distributor_Name_copy__c</fullName>
         <externalId>false</externalId>
-        <label>Distributor Name</label>
+        <label>Distributor Name_</label>
         <length>255</length>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
@@ -347,7 +347,7 @@
     <fields>
         <fullName>Distributor_Postal_Code_copy__c</fullName>
         <externalId>false</externalId>
-        <label>Distributor Postal Code</label>
+        <label>Distributor Postal Code_</label>
         <length>10</length>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
@@ -569,7 +569,7 @@
     <fields>
         <fullName>Distributor_State_copy__c</fullName>
         <externalId>false</externalId>
-        <label>Distributor State</label>
+        <label>Distributor State_</label>
         <picklist>
             <picklistValues>
                 <fullName>Alabama</fullName>
@@ -780,7 +780,7 @@
     <fields>
         <fullName>Email_copy__c</fullName>
         <externalId>false</externalId>
-        <label>Email</label>
+        <label>Email_</label>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
@@ -790,7 +790,7 @@
     <fields>
         <fullName>First_Name_copy__c</fullName>
         <externalId>false</externalId>
-        <label>First Name</label>
+        <label>First Name_</label>
         <length>40</length>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
@@ -801,7 +801,7 @@
     <fields>
         <fullName>Last_Name_copy__c</fullName>
         <externalId>false</externalId>
-        <label>Last Name</label>
+        <label>Last Name_</label>
         <length>80</length>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
@@ -910,7 +910,7 @@
     <fields>
         <fullName>Phone_copy__c</fullName>
         <externalId>false</externalId>
-        <label>Phone</label>
+        <label>Phone_</label>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
@@ -956,7 +956,7 @@
     <fields>
         <fullName>Subscribe_Interested_In_copy__c</fullName>
         <externalId>false</externalId>
-        <label>Beverage Alcohol Category</label>
+        <label>Beverage Alcohol Category_</label>
         <picklist>
             <picklistValues>
                 <fullName>Beer</fullName>
@@ -1000,7 +1000,7 @@
     <fields>
         <fullName>Subscribe_Premise_copy__c</fullName>
         <externalId>false</externalId>
-        <label>On or Off Premise</label>
+        <label>On or Off Premise_</label>
         <picklist>
             <picklistValues>
                 <fullName>On Premise</fullName>
@@ -1043,7 +1043,7 @@
     <fields>
         <fullName>Title_copy__c</fullName>
         <externalId>false</externalId>
-        <label>Title</label>
+        <label>Title_</label>
         <length>128</length>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
@@ -1240,23 +1240,6 @@
         </sharedTo>
     </listViews>
     <listViews>
-        <fullName>Approved_Distributor_Contacts</fullName>
-        <columns>FULL_NAME</columns>
-        <columns>CONTACT.TITLE</columns>
-        <columns>Distributor_Name__c</columns>
-        <columns>Distributor_City__c</columns>
-        <columns>Distributor_State__c</columns>
-        <columns>CONTACT.EMAIL</columns>
-        <columns>CONTACT.PHONE1</columns>
-        <filterScope>Everything</filterScope>
-        <filters>
-            <field>Subscribe_Status__c</field>
-            <operation>equals</operation>
-            <value>Approved</value>
-        </filters>
-        <label>Distributor Contacts Approved</label>
-    </listViews>
-    <listViews>
         <fullName>BirthdaysThisMonth</fullName>
         <columns>FULL_NAME</columns>
         <columns>ACCOUNT.NAME</columns>
@@ -1274,7 +1257,7 @@
         <label>Birthdays This Month</label>
     </listViews>
     <listViews>
-        <fullName>Distributor_Contact_Submissions</fullName>
+        <fullName>Dist_Contacts_New_Submissions</fullName>
         <columns>FULL_NAME</columns>
         <columns>CONTACT.TITLE</columns>
         <columns>Distributor_Name__c</columns>
@@ -1283,13 +1266,90 @@
         <columns>CONTACT.EMAIL</columns>
         <columns>CONTACT.PHONE1</columns>
         <columns>CONTACT.CREATED_DATE</columns>
+        <columns>Subscribe_Status__c</columns>
+        <columns>Update_Request_Status__c</columns>
+        <columns>Unsubscribe__c</columns>
         <filterScope>Everything</filterScope>
         <filters>
             <field>Subscribe_Status__c</field>
             <operation>equals</operation>
             <value>Submitted</value>
         </filters>
-        <label>Distributor Contact Submissions</label>
+        <label>Dist Contacts - New Submissions</label>
+    </listViews>
+    <listViews>
+        <fullName>Dist_Contacts_Quart_Update_Submissions</fullName>
+        <columns>FULL_NAME</columns>
+        <columns>CONTACT.TITLE</columns>
+        <columns>Distributor_Name__c</columns>
+        <columns>Distributor_City__c</columns>
+        <columns>Distributor_State__c</columns>
+        <columns>CONTACT.EMAIL</columns>
+        <columns>CONTACT.PHONE1</columns>
+        <columns>Subscribe_Status__c</columns>
+        <columns>Update_Request_Status__c</columns>
+        <columns>Unsubscribe__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Update_Request_Status__c</field>
+            <operation>equals</operation>
+            <value>Submitted</value>
+        </filters>
+        <filters>
+            <field>Unsubscribe__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <label>Dist Contacts - Quart Update Submissions</label>
+    </listViews>
+    <listViews>
+        <fullName>Dist_Contacts_Send_Quarterly_Update</fullName>
+        <columns>FULL_NAME</columns>
+        <columns>CONTACT.TITLE</columns>
+        <columns>Distributor_Name__c</columns>
+        <columns>Distributor_City__c</columns>
+        <columns>Distributor_State__c</columns>
+        <columns>CONTACT.EMAIL</columns>
+        <columns>CONTACT.PHONE1</columns>
+        <columns>Subscribe_Status__c</columns>
+        <columns>Update_Request_Status__c</columns>
+        <columns>Unsubscribe__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Subscribe_Status__c</field>
+            <operation>equals</operation>
+            <value>Approved</value>
+        </filters>
+        <filters>
+            <field>Update_Request_Status__c</field>
+            <operation>equals</operation>
+        </filters>
+        <filters>
+            <field>Unsubscribe__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <label>Dist Contacts - Send Quarterly Update</label>
+    </listViews>
+    <listViews>
+        <fullName>Dist_Contacts_Unsubscribed</fullName>
+        <columns>FULL_NAME</columns>
+        <columns>CONTACT.TITLE</columns>
+        <columns>Distributor_Name__c</columns>
+        <columns>Distributor_City__c</columns>
+        <columns>Distributor_State__c</columns>
+        <columns>CONTACT.EMAIL</columns>
+        <columns>CONTACT.PHONE1</columns>
+        <columns>Subscribe_Status__c</columns>
+        <columns>Update_Request_Status__c</columns>
+        <columns>Unsubscribe__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Unsubscribe__c</field>
+            <operation>equals</operation>
+            <value>1</value>
+        </filters>
+        <label>Dist Contacts - Unsubscribed</label>
     </listViews>
     <listViews>
         <fullName>My_Contacts</fullName>
@@ -1324,6 +1384,7 @@
         <customTabListAdditionalFields>CONTACT.PHONE1</customTabListAdditionalFields>
         <listViewButtons>Review_Subcribe_Requests</listViewButtons>
         <listViewButtons>Email_Contacts</listViewButtons>
+        <listViewButtons>Review_Update_Submissions</listViewButtons>
         <lookupDialogsAdditionalFields>FULL_NAME</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>ACCOUNT.NAME</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>ACCOUNT.SITE</lookupDialogsAdditionalFields>
@@ -1348,7 +1409,7 @@
         <availability>online</availability>
         <displayType>massActionButton</displayType>
         <linkType>javascript</linkType>
-        <masterLabel>Email Contacts</masterLabel>
+        <masterLabel>Send Quarterly Update</masterLabel>
         <openType>onClickJavaScript</openType>
         <protected>false</protected>
         <requireRowSelection>true</requireRowSelection>
@@ -1418,6 +1479,19 @@ if(selectedRecords.length&lt;1) {
         <page>ReviewDistributorContacts</page>
         <protected>false</protected>
         <requireRowSelection>false</requireRowSelection>
+    </webLinks>
+    <webLinks>
+        <fullName>Review_Update_Submissions</fullName>
+        <availability>online</availability>
+        <description>Review quarterly update submissions</description>
+        <displayType>massActionButton</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Review Update Submissions</masterLabel>
+        <openType>sidebar</openType>
+        <page>ReviewDistributorChangeRequest</page>
+        <protected>false</protected>
+        <requireRowSelection>true</requireRowSelection>
     </webLinks>
     <webLinks>
         <fullName>SendGmail</fullName>

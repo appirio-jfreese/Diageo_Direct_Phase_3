@@ -88,6 +88,18 @@ public with sharing class POS_MagentoIntegrationUtil {
     
     // to be used for asynchronous service callouts    
     public static Dom.Document postMagentoCallDocument(String apiPath, String optionalArguments, String sObjId, String sObjTypeName) {
+
+        /*Start: changes for DE759 jfreese*/
+        System.debug('DE759 POS_MagentoIntegrationUtil.cls postMagentoCallDocument apiPath='+apiPath+', sObjId='+sObjId+', sObjTypeName='+sObjTypeName);
+        if(sObjTypeName == 'Item__c'){
+            try {
+                Item__c itm=[select id, name, Agency_Item_ID__c from item__c where id=:sObjId];
+                System.debug('DE759 POS_MagentoIntegrationUtil.cls postMagentoCallDocument: Item ID - '+ itm.ID +', Item Name - ' + itm.name + ', Agency_Item_ID - ' + itm.Agency_Item_ID__c);
+            } catch(Exception e) {          
+                System.debug('DE759 POS_MagentoIntegrationUtil.cls postMagentoCallDocument Exception while querying item - ' + e.getStackTraceString());
+            }
+        }
+        /*End: changes for DE759 jfreese*/
         
         try {
             String msessionId = getMagentoSessionId();
@@ -96,16 +108,15 @@ public with sharing class POS_MagentoIntegrationUtil {
             if(resp != null && sObjTypeName != null && sObjTypeName!='') {
                 updateRecordWithMagentoId(msessionId, resp, sObjId, sObjTypeName);
             }
-            
             return resp;
         
         } catch(POS_MagentoIntegrationException me) {           
-            System.debug('POS_MagentoIntegrationException while postMagentoCallDocument -' + me.getStackTraceString());
+            System.debug('POS_MagentoIntegrationUtil.cls POS_MagentoIntegrationException while postMagentoCallDocument -' + me.getStackTraceString());
             saveMagentoCallToQueue(apiPath, optionalArguments, sObjId, sObjTypeName);
             return null;
             
         } catch(Exception e) {          
-            System.debug('Exception while postMagentoCallDocument -' + e.getStackTraceString());
+            System.debug('POS_MagentoIntegrationUtil.cls Exception while postMagentoCallDocument -' + e.getStackTraceString());
             return null;
         }
         
@@ -117,6 +128,7 @@ public with sharing class POS_MagentoIntegrationUtil {
         HttpRequest req = new HttpRequest();
         HttpResponse res = new HttpResponse();
         // End for case 00043236
+        System.debug('DE759 POS_MagentoIntegrationUtil.cls getMagentoCallDocument apiPath='+apiPath+', aSync='+aSync);
         try {        
             String METHOD_NAME = 'method=call';
             String SESSION_ID = '&sessionId=' + magentoSessionId;
@@ -133,7 +145,7 @@ public with sharing class POS_MagentoIntegrationUtil {
             req.setTimeout(60000); // 60 secs max allowed, default is 10 sec
             req.setBody(METHOD_NAME + SESSION_ID + API_PATH + API_ARGUMENTS);
             
-            System.debug('req -' + req.getBody());
+            System.debug('POS_MagentoIntegrationUtil.cls req -' + req.getBody());
             
             Http http = new Http();
             Dom.Document doc = new Dom.Document();
@@ -148,7 +160,7 @@ public with sharing class POS_MagentoIntegrationUtil {
                     doc.load(xmlString);
             }
             
-            System.debug('resp-doc -' + doc.toXmlString());
+            System.debug('POS_MagentoIntegrationUtil.cls resp-doc -' + doc.toXmlString());
         
 
             String status = getMagentoResponseElement(doc, 'status');
@@ -156,10 +168,15 @@ public with sharing class POS_MagentoIntegrationUtil {
             if(aSync && status != 'success') { 
                 throw new POS_MagentoIntegrationException('FAILED_MAGENTO_RESPONSE_STATUS');
             }
+            else
+            {
+                String response = getMagentoResponseElement(doc, 'response');
+                System.debug('DE759 POS_MagentoIntegrationUtil.cls getMagentoCallDocument response='+response);
+            }
             return doc;
             
         } catch(Exception e) { // cathc any exception that may occur during REST callout and save the request in Queue for batch processing
-            System.debug('Exception while createMagentoCategory -' + e);
+            System.debug('POS_MagentoIntegrationUtil.cls Exception while createMagentoCategory -' + e);
             // Changes done for case 00043236 By Jai Gupta [Appirio Jaipur] on Mar 29,2013
             // Sending main cause for excpetion "FAILED_MAGENTO_SERVIVE_CALL"
             // Changes done by Jai Gupta for case 00043236 to get the additional details for HTTPRequest and HTTPResponse on May 17,2013
@@ -178,18 +195,23 @@ public with sharing class POS_MagentoIntegrationUtil {
     public static void updateRecordWithMagentoId(String msessionId, Dom.Document resp, String sObjId, String sObjTypeName) {
         
         Schema.SObjectType t = Schema.getGlobalDescribe().get(sObjTypeName);
-        System.debug('sObjTypeName -' + sObjTypeName + ' Type -' + t);
+        System.debug('POS_MagentoIntegrationUtil.cls sObjTypeName -' + sObjTypeName + ' Type -' + t);
         sObject newObj = (sObject)t.newSObject();
         
         String responseId = getMagentoResponseElement(resp, 'response');
-        System.debug('responseId -' + responseId);
+        System.debug('POS_MagentoIntegrationUtil.cls responseId -' + responseId);
+        
+        /*Start: changes for DE759 jfreese*/
+        Item__c itm=[select id, name, Agency_Item_ID__c from item__c where id=:sObjId];
+        System.debug('DE759 POS_MagentoIntegrationUtil.cls updateRecordWithMagentoId: Item ID - '+ itm.ID +', Item Name - ' + itm.name + ', Agency_Item_ID - ' + itm.Agency_Item_ID__c);
+        /*End: changes for DE759 jfreese*/
         
         if(newObj instanceof Item__c) {
             if(responseId != null && responseId != '1') { // updates should not be passing sObjTypeName, but this is double check
                 Item__c o = new Item__c(id=sObjId, Magento_Id__c = responseId);
                 update o;
-                System.debug('Item MagentoId after update - ' + o.Magento_ID__c);
-                System.debug('DE759 POS_MagentoIntegrationUtil.cls Item after update MagentoId: Item Name - ' + o.name + ', Item_ID - ' + o.Item_ID__c + ', Agency_Item_ID - ' + o.Agency_Item_ID__c + ', Magento_ID - ' + o.Magento_ID__c);
+                System.debug('POS_MagentoIntegrationUtil.cls Item MagentoId after update - ' + o.Magento_ID__c);
+                System.debug('DE759 POS_MagentoIntegrationUtil.cls Item after update MagentoId: Item ID - '+ o.ID +', Item Name - ' + o.name + ', Item_ID - ' + o.Item_ID__c + ', Agency_Item_ID - ' + o.Agency_Item_ID__c + ', Magento_ID - ' + o.Magento_ID__c);
             }
             
         } else if(newObj instanceof Item_Customization__c) { // IMP: Special Handling for this as product_custom_option.add always returns 1 as magentoId.
@@ -201,7 +223,7 @@ public with sharing class POS_MagentoIntegrationUtil {
             String option_id = getOptionFromRollupSelection(resp, sObjId); // sObjId is passed as chlItem.Id+'-'+chlItem.Name
             String itmId = sObjId.substring(0, sObjId.indexOf('-'));
             
-            System.debug('itmId - ' + itmId + '  option_id - ' + option_id);
+            System.debug('POS_MagentoIntegrationUtil.cls itmId - ' + itmId + '  option_id - ' + option_id);
             Item__c o = new Item__c(id=itmId, Magento_Option_Id__c = option_id);
             update o;
             
@@ -223,36 +245,36 @@ public with sharing class POS_MagentoIntegrationUtil {
     private static String getOptionFromRollupSelection(Dom.Document doc, String sObjId) {
 
         if (doc == null)   {
-            System.debug('parameter doc is null');
+            System.debug('POS_MagentoIntegrationUtil.cls parameter doc is null');
             return '';
         }
-        System.debug('getOptionFromRollupSelection doc = ' + doc.toXmlString());
+        System.debug('POS_MagentoIntegrationUtil.cls getOptionFromRollupSelection doc = ' + doc.toXmlString());
         System.debug( '*** sObjId-' + sObjId);
         
         Integer dividerPos = sObjId.indexOf('-');
-        System.debug('***** dividerPos-' + dividerPos);
+        System.debug('POS_MagentoIntegrationUtil.cls ***** dividerPos-' + dividerPos);
         
         String itmId = sObjId.substring(0, dividerPos);
         String itmName = sObjId.substring(itmId.length()+1);   
     
-        System.debug('doc.toXmlString() - ' + doc.toXmlString());
+        System.debug('POS_MagentoIntegrationUtil.cls doc.toXmlString() - ' + doc.toXmlString());
         Dom.XMLNode root = doc.getRootElement();
         Dom.XMLNode call = root.getChildElements()[0];
         
-        System.debug('call.getChildElements().size() - ' + call.getChildElements().size());
+        System.debug('POS_MagentoIntegrationUtil.cls call.getChildElements().size() - ' + call.getChildElements().size());
         for(Dom.XMLNode keyNode : call.getChildElements()) {
             
             Dom.XMLNode labelNode = keyNode.getChildElement('label', null); 
-            System.debug('labelNode - ' + labelNode);
+            System.debug('POS_MagentoIntegrationUtil.cls labelNode - ' + labelNode);
             
             if(labelNode != null) {
-                System.debug('labelNode.getText().trim() -' + labelNode.getText().trim() + '-');
-                System.debug('itmName.trim() -' + itmName.trim() + '-');
+                System.debug('POS_MagentoIntegrationUtil.cls labelNode.getText().trim() -' + labelNode.getText().trim() + '-');
+                System.debug('POS_MagentoIntegrationUtil.cls itmName.trim() -' + itmName.trim() + '-');
             }
             
             if(labelNode != null && labelNode.getText().trim() == itmName.trim()) {
                 Dom.XMLNode valueNode = keyNode.getChildElement('value', null); 
-                System.debug('valueNode - ' + valueNode);
+                System.debug('POS_MagentoIntegrationUtil.cls valueNode - ' + valueNode);
                 if(valueNode != null && valueNode.getText() != '') {
                     return valueNode.getText().trim();
                 }
@@ -266,9 +288,9 @@ public with sharing class POS_MagentoIntegrationUtil {
     private static String getCustomOptionId(Dom.Document doc, String iCustId) {
         Item_Customization__c iCust = [SELECT id, Name, Item__c from Item_Customization__c where id=:iCustId];
     
-        System.debug('getCustomOptionId doc = ' + doc);
+        System.debug('POS_MagentoIntegrationUtil.cls getCustomOptionId doc = ' + doc);
         if (doc == null)   {
-            System.debug('parameter doc is null');
+            System.debug('POS_MagentoIntegrationUtil.cls parameter doc is null');
             return '';
         }
         
@@ -300,7 +322,7 @@ public with sharing class POS_MagentoIntegrationUtil {
     //parse magento response and return value corresponding to the requested child element    
     public static String getMagentoResponseElement(Dom.Document doc, String element) { 
         if (doc == null)   {
-            System.debug('parameter doc is null');
+            System.debug('POS_MagentoIntegrationUtil.cls parameter doc is null');
             return '';
         }
         
@@ -324,30 +346,30 @@ public with sharing class POS_MagentoIntegrationUtil {
         //Need to cut ID down to the 15 character version as that's what's passed in SSO 
         sfdcUserId=sfdcUserId.substring(0,15);
         
-        System.debug('Sending SFDC ID: '+sfdcUserId);
+        System.debug('POS_MagentoIntegrationUtil.cls Sending SFDC ID: '+sfdcUserId);
         String API_ARGUMENTS = '&arg2[customer][diageo_id]='+ sfdcUserId;
         
         Dom.Document doc = POS_MagentoIntegrationUtil.getMagentoCallDocument('customer.list', API_ARGUMENTS);
         
-        System.debug('Returned XML: '+doc.toXmlString());
+        System.debug('POS_MagentoIntegrationUtil.cls Returned XML: '+doc.toXmlString());
         String customerId;
         String status = getMagentoResponseElement(doc, 'status');
-        System.debug('Status of magento response: '+status);
+        System.debug('POS_MagentoIntegrationUtil.cls Status of magento response: '+status);
         
         if (status=='success') {
             //A result was found so parse the DOM tree to get it
-            System.debug('Parsing dom tree...');
+            System.debug('POS_MagentoIntegrationUtil.cls Parsing dom tree...');
             try {
                 Dom.XmlNode path = doc.getRootElement().getChildElement('call',null).getChildElement('key_0',null);
                 Dom.XmlNode customerIdNode = path.getChildElement('customer_id', null);
-                System.debug('Customer ID node: '+customerIdNode);
+                System.debug('POS_MagentoIntegrationUtil.cls Customer ID node: '+customerIdNode);
                 customerId = customerIdNode.getText();
             }
             catch (Exception e) {
-                System.debug('No matching salesforce Id.  Improperly setup user');
+                System.debug('POS_MagentoIntegrationUtil.cls No matching salesforce Id.  Improperly setup user');
             }
         }
-        System.debug('Magento customer Id: '+customerId);
+        System.debug('POS_MagentoIntegrationUtil.cls Magento customer Id: '+customerId);
         return customerId;
     }
     

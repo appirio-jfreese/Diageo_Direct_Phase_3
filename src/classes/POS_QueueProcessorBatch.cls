@@ -45,8 +45,8 @@ global class POS_QueueProcessorBatch implements Database.Batchable<SObject>, Dat
         String msessionId = POS_MagentoIntegrationUtil.getMagentoSessionId();
         for(SObject sObj : scope) {         
             REST_Queue_Message__c msg = (REST_Queue_Message__c)sobj;
-            System.debug('**** Name -'+ msg.Name + ' msg.Request_apiPath__c -'+ msg.Request_apiPath__c + ' msg.Status__c -' 
-                    + msg.Status__c + ' msg.ObjectName__c' + msg.ObjectName__c );
+            System.debug('POS_QueueProcessorBatch.cls **** Name -'+ msg.Name + ' msg.Request_apiPath__c -'+ msg.Request_apiPath__c + ' msg.Status__c -' 
+                    + msg.Status__c + ' msg.ObjectName__c -' + msg.ObjectName__c );
 
                 // synchronous callout to Magento
                 Dom.Document resp = POS_MagentoIntegrationUtil.getMagentoCallDocument(msessionId, msg.Request_apiPath__c, msg.Request_apiArguments__c); 
@@ -92,7 +92,7 @@ global class POS_QueueProcessorBatch implements Database.Batchable<SObject>, Dat
                 
                 for (String objName : m2.keySet()){ // will contain only one entry in the Map
                     
-                    System.debug('idStr ' + idStr + ' objName ' + objName);
+                    System.debug('POS_QueueProcessorBatch.cls idStr ' + idStr + ' objName ' + objName);
                     try {
                         POS_MagentoIntegrationUtil.updateRecordWithMagentoId(msessionId, m2.get(objName), idStr, objName);
                     } catch(DMLException de) {
@@ -105,7 +105,7 @@ global class POS_QueueProcessorBatch implements Database.Batchable<SObject>, Dat
                 }
              }
         
-         System.debug('**** queueMsgsForUpdate.size() -'+ queueMsgsForUpdate.size() + ' ** queueErrorForInsert.size() -'+ queueErrorForInsert.size());
+         System.debug('POS_QueueProcessorBatch.cls **** queueMsgsForUpdate.size() -'+ queueMsgsForUpdate.size() + ' ** queueErrorForInsert.size() -'+ queueErrorForInsert.size());
         
          update(queueMsgsForUpdate);
          insert(queueErrorForInsert);
@@ -163,7 +163,7 @@ global class POS_QueueProcessorBatch implements Database.Batchable<SObject>, Dat
             Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{mail});
         }
         catch (Exception ex) {
-            System.debug('FAILURE TO SEND EMAIL: '+ex.getMessage());
+            System.debug('POS_QueueProcessorBatch.cls FAILURE TO SEND EMAIL: '+ex.getMessage());
         }
     }
 	
@@ -172,7 +172,7 @@ global class POS_QueueProcessorBatch implements Database.Batchable<SObject>, Dat
      * @param       Database.BatchableContext bc - the context of the batch.
      */
     global void finish(Database.BatchableContext bc) {
-        System.debug('Batch POS_QueueProcessorBatch Finished');
+        System.debug('POS_QueueProcessorBatch.cls Batch POS_QueueProcessorBatch Finished');
         //Build the system time of now + 10 minutes to schedule the batch apex.
         Datetime sysTime = System.now();
         sysTime = sysTime.addMinutes(5);

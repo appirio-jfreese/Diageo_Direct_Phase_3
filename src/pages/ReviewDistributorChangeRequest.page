@@ -1,4 +1,4 @@
-<apex:page StandardController="Contact" recordSetVar="Contacts" title="Review Distributors" extensions="ReviewDistributorChangeRqstCtrl">
+<apex:page StandardController="Contact" recordSetVar="Contacts" title="Distributor Contact Quarterly Update Submissions" extensions="ReviewDistributorChangeRqstCtrl">
 <script>
         function checkAll(cb)
         {
@@ -29,6 +29,7 @@
             updateSelectList();
         }
     </script>
+    
 <c:ajaxLoader />
   <apex:form id="frm">
     <apex:pageMessages />    
@@ -43,7 +44,7 @@
       <apex:param name="secParam" value="" assignTo="{!selectedContactId}"/>
     </apex:actionFunction>
      
-    <apex:pageBlock id="pBlock" title="Distributor Contact Update Requests">
+    <apex:pageBlock id="pBlock" title="Distributor Contact Quarterly Update Submissions">
       <apex:outputPanel rendered="{!(lstContacts.size == 0)}">
         No records available.
       </apex:outputPanel>
@@ -73,9 +74,10 @@
               <img src="{!IF(sortField = 'Name', IF(isAsc = true, '/img/sort_asc_arrow.gif','/img/sort_desc_arrow.gif'),'/s.gif')}" />
             </apex:outputLink>
           </apex:facet> 
-          <apex:outputLink value="/{!con.contact.Id}"> {!con.contact.Name}</apex:outputLink>
+          <apex:outputLink value="/{!con.contact.Id}" style="{!IF(OR(con.contact.FirstName != con.contact.First_Name_copy__c, con.contact.LastName != con.contact.Last_Name_copy__c), 
+        													'color:red;font-weight:bold;', '')}">{!con.contact.First_Name_copy__c} {!con.contact.Last_Name_copy__c}</apex:outputLink>
         </apex:column>
-        <apex:column value="{!con.contact.Title_copy__c}">
+        <apex:column value="{!con.contact.Title_copy__c}" style="{!IF((con.contact.Title != con.contact.Title_copy__c),'color:red;font-weight:bold;', '')}">
           <apex:facet name="header">
             <apex:outputLink value="javascript:void(0);" onclick="sortRecords('Title_copy__c')">
               Title
@@ -83,7 +85,7 @@
             </apex:outputLink>
           </apex:facet>
         </apex:column>
-        <apex:column value="{!con.contact.Distributor_Name_copy__c}">
+        <apex:column value="{!con.contact.Distributor_Name_copy__c}" style="{!IF((con.contact.Distributor_Name__c != con.contact.Distributor_Name_copy__c),'color:red;font-weight:bold;', '')}">
           <apex:facet name="header">
             <apex:outputLink value="javascript:void(0);" onclick="sortRecords('Distributor_Name_copy__c')">
               Distributor Name
@@ -91,7 +93,15 @@
             </apex:outputLink>
           </apex:facet>
         </apex:column>
-        <apex:column value="{!con.contact.Distributor_City_copy__c}">
+        <apex:column value="{!con.contact.Distributor_Address_copy__c}" style="{!IF((con.contact.Distributor_Address__c != con.contact.Distributor_Address_copy__c),'color:red;font-weight:bold;', '')}">
+          <apex:facet name="header">
+            <apex:outputLink value="javascript:void(0);" onclick="sortRecords('Distributor_Address_copy__c')">
+              Distributor Address
+              <img src="{!IF(sortField = 'Distributor_Address_copy__c', IF(isAsc = true, '/img/sort_asc_arrow.gif','/img/sort_desc_arrow.gif'),'/s.gif')}" />
+            </apex:outputLink>
+          </apex:facet>
+        </apex:column>
+        <apex:column value="{!con.contact.Distributor_City_copy__c}" style="{!IF((con.contact.Distributor_City__c != con.contact.Distributor_City_copy__c),'color:red;font-weight:bold;', '')}">
           <apex:facet name="header">
             <apex:outputLink value="javascript:void(0);" onclick="sortRecords('Distributor_City_copy__c')">
               Distributor City
@@ -99,7 +109,7 @@
             </apex:outputLink>
           </apex:facet>
         </apex:column>
-        <apex:column value="{!con.contact.Distributor_State_copy__c}">
+        <apex:column value="{!con.contact.Distributor_State_copy__c}" style="{!IF((con.contact.Distributor_State__c != con.contact.Distributor_State_copy__c),'color:red;font-weight:bold;', '')}">
           <apex:facet name="header">
             <apex:outputLink value="javascript:void(0);" onclick="sortRecords('Distributor_State_copy__c')">
               Distributor State
@@ -107,15 +117,16 @@
             </apex:outputLink>
           </apex:facet>
         </apex:column>
-        <apex:column value="{!con.contact.Email_copy__c}">
+        <apex:column >
           <apex:facet name="header">
             <apex:outputLink value="javascript:void(0);" onclick="sortRecords('Email_copy__c')">
               Email
               <img src="{!IF(sortField = 'Email_copy__c', IF(isAsc = true, '/img/sort_asc_arrow.gif','/img/sort_desc_arrow.gif'),'/s.gif')}" />
             </apex:outputLink>
           </apex:facet>
+          <apex:outputField style="{!IF((con.contact.Email != con.contact.Email_copy__c),'color:red;font-weight:bold;', '')}" value="{!con.contact.Email_copy__c}"/>
         </apex:column>
-        <apex:column value="{!con.contact.Phone_copy__c}">
+        <apex:column value="{!con.contact.Phone_copy__c}" style="{!IF((con.contact.Phone != con.contact.Phone_copy__c),'color:red;font-weight:bold;', '')}">
           <apex:facet name="header">
             <apex:outputLink value="javascript:void(0);" onclick="sortRecords('Phone_copy__c')">
               Phone
@@ -123,8 +134,8 @@
             </apex:outputLink>
           </apex:facet>
         </apex:column>
-        <apex:column headerValue="Interested In" value="{!con.contact.Subscribe_Interested_In_copy__c}"/>
-        <apex:column headerValue="On/Off Premise" value="{!con.contact.Subscribe_Premise_copy__c}"/>
+        <apex:column headerValue="Interested In" value="{!con.contact.Subscribe_Interested_In_copy__c}" style="{!IF((con.contact.Subscribe_Interested_In__c != con.contact.Subscribe_Interested_In_copy__c),'color:red;font-weight:bold;', '')}"/>
+        <apex:column headerValue="On/Off Premise" value="{!con.contact.Subscribe_Premise_copy__c}" style="{!IF((con.contact.Subscribe_Premise__c != con.contact.Subscribe_Premise_copy__c),'color:red;font-weight:bold;', '')}"/>
         <apex:column >
           <apex:facet name="header">
             <apex:outputLink value="javascript:void(0);" onclick="sortRecords('Date_Submitted')">

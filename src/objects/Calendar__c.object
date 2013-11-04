@@ -69,6 +69,15 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Call_to_Action__c</fullName>
+        <externalId>false</externalId>
+        <label>Call to Action</label>
+        <length>140</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Classification__c</fullName>
         <externalId>false</externalId>
         <label>Classification</label>
@@ -793,13 +802,30 @@
         <label>Multicultural</label>
     </listViews>
     <listViews>
+        <fullName>My_National_Account_Programs</fullName>
+        <columns>RECORDTYPE</columns>
+        <columns>NAME</columns>
+        <columns>Sales_Channel__c</columns>
+        <columns>Sub_Channel__c</columns>
+        <columns>Start_Date__c</columns>
+        <columns>End_Date__c</columns>
+        <columns>OWNER.ALIAS</columns>
+        <filterScope>Mine</filterScope>
+        <filters>
+            <field>RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Calendar__c.National_Accounts</value>
+        </filters>
+        <label>My National Account Programs</label>
+    </listViews>
+    <listViews>
         <fullName>National_Account_Programs</fullName>
         <columns>RECORDTYPE</columns>
         <columns>NAME</columns>
         <columns>Sales_Channel__c</columns>
         <columns>Sub_Channel__c</columns>
-        <columns>Programs__c</columns>
-        <columns>Segment__c</columns>
+        <columns>Start_Date__c</columns>
+        <columns>End_Date__c</columns>
         <filterScope>Everything</filterScope>
         <filters>
             <field>RECORDTYPE</field>

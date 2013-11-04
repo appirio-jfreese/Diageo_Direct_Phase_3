@@ -79,15 +79,15 @@ public with sharing class ReviewDistributorChangeRqstCtrl {
 			mapContactToProcess.put(processInstance.TargetObjectId, processInstance.Id);
 		}
 		
-		String queryString = 'SELECT Id, Name, Title, Email, Phone, Subscribe_Status__c, Distributor_Name__c, ' +
-		  					'Distributor_City__c, Distributor_State__c, Distributor_Postal_Code__c, ' +
+		String queryString = 'SELECT Id, Name, FirstName, LastName, Title, Email, Phone, Subscribe_Status__c, Distributor_Name__c, ' +
+		  					'Distributor_City__c, Distributor_State__c, Distributor_Postal_Code__c, Distributor_Address__c, ' +
 		  					'Subscribe_Premise__c, Subscribe_Interested_In__c, ' +
 		  					'First_Name_copy__c, Last_Name_copy__c, Title_copy__c, Email_copy__c, ' +
 							'Phone_copy__c, Distributor_Name_copy__c, Distributor_City_copy__c,  ' +
 							'Distributor_State_copy__c, Distributor_Postal_Code_copy__c,  ' +
 							'Subscribe_Interested_In_copy__c,Subscribe_Premise_copy__c,  ' +
 							'Update_Request_Status__c,Distributor_Address_copy__c FROM Contact ' +
-							'WHERE Update_Request_Status__c = \'Submitted\' ' +
+							'WHERE Update_Request_Status__c = \'Submitted\' AND Unsubscribe__c = false ' +
 		  					'Order by '  + sortField + sortOrder + ' NULLS LAST'; 
 		
 		for(Contact con : (List<Contact>)Database.query(queryString)){
