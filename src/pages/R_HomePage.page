@@ -15,6 +15,7 @@ Story/Task  : US584/DE706
 ------------------------------------------------------------------------------------------------------------------->
 <apex:page showheader="false" standardStylesheets="false" sidebar="false" title="Diageo" controller="Controller_Home">
 <!--  RKW 10/25/2013 - Testing Git Commit process -->
+<!--  RKW 11/5/2013 - Testing Git Commit process 1234 XX -->
  <head>
  	<link rel="stylesheet" href="{!URLFOR($Resource.HomePage, 'add2home.css')}" />
 	<script type="application/javascript" src="{!URLFOR($Resource.HomePage, 'add2home.js')}"></script>
